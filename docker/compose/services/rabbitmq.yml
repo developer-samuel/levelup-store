@@ -1,0 +1,26 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🐇 Message Broker - RabbitMQ 3
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: levelup_store_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
+    ports:
+      - '${RABBITMQ_PORT}:5672'
+      - '15672:15672'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app-network
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s

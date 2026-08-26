@@ -1,0 +1,20 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🟩 Web Server - Nginx
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  webserver:
+    container_name: levelup_store_nginx
+    build:
+      context: ${PWD}/docker/config/nginx
+      dockerfile: Dockerfile.nginx
+    volumes:
+      - ${PWD}:/var/www:delegated
+      - ${PWD}/docker/config/nginx/config:/etc/nginx/conf.d
+    ports:
+      - '8000:80'
+    dns: 8.8.8.8
+    networks:
+      - app-network
+    depends_on:
+      - app

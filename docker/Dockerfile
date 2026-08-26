@@ -9,13 +9,13 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 # ──────────────────────────────────
 # 🟦 PHP configuration
 # ──────────────────────────────────
-COPY php/php.ini /usr/local/etc/php/conf.d/opcache.ini
-COPY php/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY config/php/php.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY config/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # ──────────────────────────────────
 # 🧰 Redis configuration
 # ──────────────────────────────────
-COPY redis/redis.conf /usr/local/etc/redis/redis.conf
+COPY config/redis/config/redis.conf /usr/local/etc/redis/redis.conf
 
 # ──────────────────────────────────
 # 📦 Install dependencies & fix permissions

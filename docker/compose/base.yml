@@ -1,0 +1,45 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🧩 App Base Template
+#
+# Used via extends: in application service files - never run directly.
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  app-base:
+    build:
+      context: ${PWD}/docker
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes:
+      - ${PWD}:/var/www:delegated
+      - ${PWD}/var:/var/www/var:cached
+      - ${PWD}/vendor:/var/www/vendor:cached
+      - ${PWD}/node_modules:/var/www/node_modules:cached
+    networks:
+      - app-network
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+    environment:
+      APP_ENV: local
+      APP_URL: ${APP_URL:-http://localhost:8000}
+      TZ: Europe/Bratislava
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      ELASTICSEARCH_ENABLED: ${ELASTICSEARCH_ENABLED}
+      ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+      ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
+      REDIS_ENABLED: ${REDIS_ENABLED}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      RABBITMQ_ENABLED: ${RABBITMQ_ENABLED}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASS: ${RABBITMQ_PASS}
+      RABBITMQ_VHOST: ${RABBITMQ_VHOST}

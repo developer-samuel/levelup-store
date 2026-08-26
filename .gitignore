@@ -31,8 +31,8 @@ public/build/
 public/bundles/
 public/uploads/
 
-# Generated Diagrams
-docs/uml/
+# Generated UML
+.uml/
 
 # PHP Tools
 phpunit.xml

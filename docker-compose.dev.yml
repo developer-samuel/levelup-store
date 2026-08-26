@@ -8,65 +8,10 @@
 #   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
-services:
-  # Vite (frontend builder)
-  vite:
-    container_name: levelup_store_vite
-    build:
-      context: ./docker/vite
-      dockerfile: Dockerfile.vite
-    working_dir: /var/www
-    command: sh -c "npm install && npm run dev"
-    volumes:
-      - ./:/var/www
-    ports:
-      - '5173:5173'
-    networks:
-      - app-network
-    depends_on:
-      - app
-
-  # pgAdmin (PostgreSQL GUI)
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: levelup_store_pgadmin
-    restart: unless-stopped
-    entrypoint: ['/bin/sh', '/pgadmin4/config/entrypoint.sh']
-    ports:
-      - '8080:80'
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
-      SERVER_VERSION: ${SERVER_VERSION}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-      - ./docker/pgadmin:/pgadmin4/config:ro
-    networks:
-      - app-network
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-  # Elasticvue (Elasticsearch GUI)
-  elasticvue:
-    image: cars10/elasticvue:latest
-    container_name: levelup_store_elasticvue
-    restart: unless-stopped
-    environment:
-      ELASTICVUE_CLUSTERS: '[{"name":"levelup_store","uri":"http://localhost:9200"}]'
-    ports:
-      - '8090:8080'
-    networks:
-      - app-network
-    depends_on:
-      - elasticsearch
+include:
+  - docker/compose/services/_dev/pgAdmin.yml
+  - docker/compose/services/_dev/elasticvue.yml
+  - docker/compose/services/_dev/vite.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes

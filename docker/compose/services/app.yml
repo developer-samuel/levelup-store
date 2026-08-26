@@ -1,0 +1,37 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🟪 Application - PHP App + Setup
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  app:
+    extends:
+      file: ../base.yml
+      service: app-base
+    container_name: levelup_store_app
+    command: []
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  app_setup:
+    extends:
+      file: ../base.yml
+      service: app-base
+    container_name: levelup_store_app_setup
+    profiles: ['setup']
+    command: ['setup']
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy

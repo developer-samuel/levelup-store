@@ -1,0 +1,21 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# ⏱️ Scheduler - Cron / Symfony Scheduler
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  cron:
+    extends:
+      file: ../base.yml
+      service: app-base
+    container_name: levelup_store_cron
+    restart: unless-stopped
+    entrypoint: ['/usr/local/bin/scripts/entrypoints/app/cron/run-cron.sh']
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy

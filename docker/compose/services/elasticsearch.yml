@@ -1,0 +1,28 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🔍 Search - Elasticsearch 8
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.17.0
+    container_name: levelup_store_elasticsearch
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      http.cors.enabled: "true"
+      http.cors.allow-origin: "'*'"
+      http.cors.allow-headers: "Authorization,X-Requested-With,Content-Type,Content-Length"
+    ports:
+      - '${ELASTICSEARCH_PORT}:9200'
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
