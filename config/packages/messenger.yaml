@@ -6,14 +6,14 @@ framework:
       async:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
 
-        #options:
+        options:
           # RabbitMQ/AMQP options - uncomment when using AMQP transport
           #exchange:
-            #name: levelup_store
-            #type: direct
+          #  name: levelup_store
+          #  type: direct
           #queues:
-            #levelup_store_emails:
-            #binding_keys: [emails]
+          #  levelup_store_emails:
+          #    binding_keys: [emails]
 
           # Doctrine transport options - uncomment when using Doctrine transport
           #use_notify: true
@@ -32,6 +32,27 @@ framework:
       messenger.bus.default: []
 
     routing:
+      # Symfony built-in
       Symfony\Component\Mailer\Messenger\SendEmailMessage: async
       Symfony\Component\Notifier\Message\ChatMessage: async
       Symfony\Component\Notifier\Message\SmsMessage: async
+
+      # Scheduler messages (time-driven)
+      App\Scheduler\Message\Cart\CartCleanupMessage: async
+      App\Scheduler\Message\Cart\CartReminderMessage: async
+      App\Scheduler\Message\Cart\CartStockCleanupMessage: async
+      App\Scheduler\Message\Country\CountrySyncMessage: async
+      App\Scheduler\Message\Product\ProductEanSyncMessage: async
+      App\Scheduler\Message\Product\ProductRecommendedSyncMessage: async
+      App\Scheduler\Message\Product\ProductStockSyncMessage: async
+      App\Scheduler\Message\Token\TokenCleanupMessage: async
+
+      # Domain messages (event-driven ES indexing)
+      App\Core\Domain\Segment\Product\Message\ProductVariantIndexMessage: async
+      App\Core\Domain\Segment\Product\Message\ProductVariantRemoveMessage: async
+      App\Core\Domain\Segment\Order\Message\OrderIndexMessage: async
+      App\Core\Domain\Segment\Order\Message\OrderRemoveMessage: async
+      App\Core\Domain\Segment\Review\Message\ReviewIndexMessage: async
+      App\Core\Domain\Segment\Review\Message\ReviewRemoveMessage: async
+      App\Core\Domain\Segment\User\Message\UserIndexMessage: async
+      App\Core\Domain\Segment\User\Message\UserRemoveMessage: async

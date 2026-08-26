@@ -24,7 +24,6 @@ x-app-base: &app-base
 # 🛢️ Database & Cache Environment Settings
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
-# Database Settings
 x-env-database: &env-database
   DB_HOST: ${DB_HOST}
   DB_PORT: ${DB_PORT}
@@ -32,19 +31,18 @@ x-env-database: &env-database
   DB_USERNAME: ${DB_USERNAME}
   DB_PASSWORD: ${DB_PASSWORD}
 
-# Postgres Database Settings
-x-postgres-database: &env-postgres-database
-  POSTGRES_DB: ${DB_DATABASE}
-  POSTGRES_USER: ${DB_USERNAME}
-  POSTGRES_PASSWORD: ${DB_PASSWORD}
+x-env-elasticsearch: &env-elasticsearch
+  ELASTICSEARCH_ENABLED: ${ELASTICSEARCH_ENABLED}
+  ELASTICSEARCH_HOST: ${ELASTICSEARCH_HOST}
+  ELASTICSEARCH_PORT: ${ELASTICSEARCH_PORT}
 
-# Redis Settings
 x-env-redis: &env-redis
+  REDIS_ENABLED: ${REDIS_ENABLED}
   REDIS_HOST: ${REDIS_HOST}
   REDIS_PORT: ${REDIS_PORT}
 
-# RabbitMQ Settings
 x-env-rabbitmq: &env-rabbitmq
+  RABBITMQ_ENABLED: ${RABBITMQ_ENABLED}
   RABBITMQ_HOST: ${RABBITMQ_HOST}
   RABBITMQ_PORT: ${RABBITMQ_PORT}
   RABBITMQ_USER: ${RABBITMQ_USER}
@@ -55,12 +53,12 @@ x-env-rabbitmq: &env-rabbitmq
 # 🌍 Application-Wide Environment
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
-# Application environment settings
 x-app-environment: &app-environment
   APP_ENV: local
   TZ: Europe/Bratislava
   <<:
     - *env-database
+    - *env-elasticsearch
     - *env-redis
     - *env-rabbitmq
 
@@ -68,26 +66,11 @@ x-app-environment: &app-environment
 # ⚙️ Health Check Configuration
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
-# 🩺 App health check
 x-healthcheck: &app-healthcheck
   interval: 10s
   timeout: 5s
   retries: 5
   start_period: 5s
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🚦 Resource Allocation per App Container
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-
-# 🛢️ App deploy
-x-app-deploy: &app-deploy
-  resources:
-    limits:
-      cpus: '4.0'
-      memory: 4G
-    reservations:
-      cpus: '1.0'
-      memory: 1G
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🔧 Service Blueprints (for Actual Deployables)
@@ -98,7 +81,9 @@ x-service-postgres: &service-postgres
   image: postgres:17
   container_name: levelup_store_postgres
   environment:
-    <<: *env-postgres-database
+    POSTGRES_DB: ${DB_DATABASE}
+    POSTGRES_USER: ${DB_USERNAME}
+    POSTGRES_PASSWORD: ${DB_PASSWORD}
   volumes:
     - pg_data:/var/lib/postgresql/data
   ports:
@@ -135,14 +120,14 @@ x-service-app: &service-app
   depends_on:
     postgres:
       condition: service_healthy
+    elasticsearch:
+      condition: service_healthy
     redis:
       condition: service_healthy
     rabbitmq:
       condition: service_healthy
   environment:
     <<: *app-environment
-  deploy:
-    <<: *app-deploy
 
 # Setup container (dependencies install, tests, migrations, seeds, etc.)
 x-service-app-setup: &service-app-setup
@@ -153,14 +138,14 @@ x-service-app-setup: &service-app-setup
   depends_on:
     postgres:
       condition: service_healthy
+    elasticsearch:
+      condition: service_healthy
     redis:
       condition: service_healthy
     rabbitmq:
       condition: service_healthy
   environment:
     <<: *app-environment
-  deploy:
-    <<: *app-deploy
 
 # Cron / Scheduler Service
 x-service-cron: &service-cron
@@ -169,6 +154,8 @@ x-service-cron: &service-cron
   restart: unless-stopped
   depends_on:
     postgres:
+      condition: service_healthy
+    elasticsearch:
       condition: service_healthy
     redis:
       condition: service_healthy
@@ -185,6 +172,8 @@ x-service-worker: &service-worker
   restart: unless-stopped
   depends_on:
     postgres:
+      condition: service_healthy
+    elasticsearch:
       condition: service_healthy
     redis:
       condition: service_healthy
@@ -228,6 +217,28 @@ x-service-vite: &service-vite
   depends_on:
     - app
 
+# Elasticsearch Blueprint
+x-service-elasticsearch: &service-elasticsearch
+  image: elasticsearch:8.17.0
+  container_name: levelup_store_elasticsearch
+  restart: unless-stopped
+  environment:
+    discovery.type: single-node
+    xpack.security.enabled: "false"
+    ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    http.cors.enabled: "true"
+    http.cors.allow-origin: "'*'"
+    http.cors.allow-headers: "Authorization,X-Requested-With,Content-Type,Content-Length"
+  ports:
+    - '${ELASTICSEARCH_PORT}:9200'
+  volumes:
+    - elasticsearch_data:/usr/share/elasticsearch/data
+  networks:
+    - app-network
+  healthcheck:
+    test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
+    <<: *app-healthcheck
+
 # RabbitMQ Blueprint
 x-service-rabbitmq: &service-rabbitmq
   image: rabbitmq:3-management
@@ -259,6 +270,20 @@ x-service-adminer: &service-adminer
     ADMINER_DEFAULT_DB_DRIVER: pgsql
   networks:
     - app-network
+
+# Elasticvue Blueprint
+x-service-elasticvue: &service-elasticvue
+  image: cars10/elasticvue:latest
+  container_name: levelup_store_elasticvue
+  restart: unless-stopped
+  environment:
+    ELASTICVUE_CLUSTERS: '[{"name":"levelup_store","uri":"http://localhost:9200"}]'
+  ports:
+    - '8090:8080'
+  networks:
+    - app-network
+  depends_on:
+    - elasticsearch
 
 # Prometheus (latest) Blueprint
 x-service-prometheus: &service-prometheus
@@ -300,6 +325,10 @@ services:
   postgres:
     <<: *service-postgres
 
+  # Elasticsearch Service
+  elasticsearch:
+    <<: *service-elasticsearch
+
   # Redis Service
   redis:
     <<: *service-redis
@@ -336,6 +365,10 @@ services:
   adminer:
     <<: *service-adminer
 
+  # Elasticvue Service
+  elasticvue:
+    <<: *service-elasticvue
+
   # Prometheus Service
   prometheus:
     <<: *service-prometheus
@@ -355,13 +388,13 @@ networks:
 volumes:
   pg_data:
     driver: local
-  #mysql_data:
-  #driver: local
+  elasticsearch_data:
+    driver: local
   redis_data:
+    driver: local
+  rabbitmq_data:
     driver: local
   prometheus_data:
     driver: local
   grafana_data:
-    driver: local
-  rabbitmq_data:
     driver: local

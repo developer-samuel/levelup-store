@@ -104,6 +104,21 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+      elasticsearch:
+        image: elasticsearch:8.17.0
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: false
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports:
+          - 9200:9200
+        options: >-
+          --health-cmd "curl -s http://localhost:9200/_cluster/health | grep -q status"
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 10
+
       redis:
         image: redis:7
         ports:
@@ -113,6 +128,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
       rabbitmq:
         image: rabbitmq:3-management
         ports:
@@ -132,6 +148,10 @@ jobs:
           db-port: '5432'
           db-password: secret
 
+      - uses: ./.github/actions/elasticsearch
+        with:
+          elasticsearch-port: '9200'
+
       - uses: ./.github/actions/redis
         with:
           redis-port: '6379'
@@ -147,8 +167,8 @@ jobs:
       - uses: ./.github/actions/php
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: pdo_pgsql, redis, xdebug
-          coverage: xdebug
+          extensions: pdo_pgsql, redis, pcov
+          coverage: pcov
 
       - name: Database warmup
         run: |
@@ -208,6 +228,21 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          
+      elasticsearch:
+        image: elasticsearch:8.17.0
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: false
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports:
+          - 9200:9200
+        options: >-
+          --health-cmd "curl -s http://localhost:9200/_cluster/health | grep -q status"
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 10
+
       redis:
         image: redis:7
         ports:
@@ -217,6 +252,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
       rabbitmq:
         image: rabbitmq:3-management
         ports:
@@ -235,6 +271,10 @@ jobs:
           db-name: levelup_store
           db-port: '5432'
           db-password: secret
+
+      - uses: ./.github/actions/elasticsearch
+        with:
+          elasticsearch-port: '9200'
 
       - uses: ./.github/actions/redis
         with:

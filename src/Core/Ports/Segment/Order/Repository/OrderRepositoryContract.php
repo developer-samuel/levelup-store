@@ -13,6 +13,11 @@ use App\Core\Domain\{
 interface OrderRepositoryContract
 {
     /**
+     * @return Order[]
+    */
+    public function findAll(): array;
+
+    /**
      * @param int $orderId
      *
      * @return Order|null

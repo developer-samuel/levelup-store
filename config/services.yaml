@@ -55,7 +55,7 @@ services:
       $redisEnabled: '%env(bool:REDIS_ENABLED)%'
       $redisUrl: '%env(REDIS_URL)%'
 
-  App\Adapters\External\MessageBroker\RabbitMQ\RabbitMQAdapter:
+  App\Adapters\External\MessageBroker\RabbitMQAdapter:
     arguments:
       $enabled: '%env(bool:RABBITMQ_ENABLED)%'
       $host: '%env(RABBITMQ_HOST)%'
@@ -63,6 +63,15 @@ services:
       $user: '%env(RABBITMQ_USER)%'
       $pass: '%env(RABBITMQ_PASS)%'
       $vhost: '%env(RABBITMQ_VHOST)%'
+
+  App\Adapters\External\Search\ElasticsearchAdapter:
+    arguments:
+      $enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
+      $host: '%env(ELASTICSEARCH_HOST)%'
+      $port: '%env(int:ELASTICSEARCH_PORT)%'
+
+  Elastic\Elasticsearch\Client:
+    factory: ['@App\Adapters\External\Search\ElasticsearchAdapter', 'getClient']
 
   App\Adapters\External\Pdf\SnappyPdfGeneratorAdapter:
     arguments:
@@ -89,10 +98,21 @@ services:
     arguments:
       $enabled: '%env(bool:AUDIT_LOGS_ENABLED)%'
 
-  App\Infrastructure\Shared\Subscriber\:
-    resource: '../src/Infrastructure/Shared/Subscriber/'
+  App\Infrastructure\Segment\Product\Projection\ProductVariantProjector:
     tags:
-      - { name: kernel.event_subscriber }
+      - { name: app.elasticsearch.reindexable }
+
+  App\Infrastructure\Segment\Order\Projection\OrderProjector:
+    tags:
+      - { name: app.elasticsearch.reindexable }
+
+  App\Infrastructure\Segment\Review\Projection\ReviewProjector:
+    tags:
+      - { name: app.elasticsearch.reindexable }
+
+  App\Infrastructure\Segment\User\Projection\UserProjector:
+    tags:
+      - { name: app.elasticsearch.reindexable }
 
   # Presentation
   App\Presentation\:

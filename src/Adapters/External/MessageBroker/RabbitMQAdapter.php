@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Adapters\External\MessageBroker\RabbitMQ;
+namespace App\Adapters\External\MessageBroker;
 
 use App\Core\Ports\Gateways\External\MessageBroker\RabbitMQGatewayContract;
 

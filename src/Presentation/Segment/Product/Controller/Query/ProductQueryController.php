@@ -153,7 +153,9 @@ class ProductQueryController extends AbstractQueryController
     {
         $sanitizedString = DataSanitizer::sanitizeString($raw);
 
-        return DataSanitizer::sanitizeStringArray(explode(',', $sanitizedString));
+        return array_values(array_filter(
+            DataSanitizer::sanitizeStringArray(explode(',', $sanitizedString)),
+        ));
     }
 
     /**

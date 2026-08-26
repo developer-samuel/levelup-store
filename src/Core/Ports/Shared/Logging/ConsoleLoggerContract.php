@@ -25,5 +25,12 @@ interface ConsoleLoggerContract
      *
      * @return void
     */
+    public function logWarning(string $message): void;
+
+    /**
+     * @param string $message
+     *
+     * @return void
+    */
     public function logError(string $message): void;
 }

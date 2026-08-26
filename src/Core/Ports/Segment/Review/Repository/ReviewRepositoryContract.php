@@ -21,6 +21,11 @@ use App\Core\Domain\{
 interface ReviewRepositoryContract
 {
     /**
+     * @return Review[]
+    */
+    public function findAll(): array;
+
+    /**
      * @param int $variantId
      * @param int|null $authUserId
      *
@@ -56,4 +61,11 @@ interface ReviewRepositoryContract
      * @return ReviewsSummary
     */
     public function getReviewsAndAverageByVariant(int $variantId): array;
+
+    /**
+     * @param list<int> $variantIds
+     *
+     * @return array<int, float> [variantId => averageRating]
+    */
+    public function getAverageRatingsByVariantIds(array $variantIds): array;
 }

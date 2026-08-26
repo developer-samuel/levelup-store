@@ -33,6 +33,16 @@ final class ConsoleLogger implements ConsoleLoggerContract
      *
      * @return void
     */
+    public function logWarning(string $message): void
+    {
+        echo "⚠️\u{00A0} " . $message . PHP_EOL;
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return void
+    */
     public function logError(string $message): void
     {
         echo "❌\u{00A0} " . $message . PHP_EOL;

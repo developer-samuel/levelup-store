@@ -147,6 +147,35 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     }
 
     /**
+     * @param list<int> $variantIds
+     *
+     * @return array<int, float> [variantId => averageRating]
+    */
+    public function getAverageRatingsByVariantIds(array $variantIds): array
+    {
+        if (empty($variantIds)) {
+            return [];
+        }
+
+        $rows = $this->createQueryBuilder('r')
+            ->select('IDENTITY(r.variant) AS variantId, AVG(r.value) AS avgRating')
+            ->where('r.variant IN (:variantIds)')
+            ->setParameter('variantIds', $variantIds)
+            ->groupBy('r.variant')
+            ->getQuery()
+            ->getScalarResult();
+
+        $ratings = array_fill_keys($variantIds, 0.0);
+
+        foreach ($rows as $row) {
+            /** @var array{variantId: string, avgRating: string|null} $row */
+            $ratings[(int) $row['variantId']] = round((float) $row['avgRating'], 2);
+        }
+
+        return $ratings;
+    }
+
+    /**
      * @param int $variantId
      *
      * @return QueryBuilder

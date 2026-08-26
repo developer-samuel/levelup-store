@@ -13,6 +13,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.4",
     "doctrine/orm": "^3.6",
     "dragonmantank/cron-expression": "^3.6",
+    "elasticsearch/elasticsearch": "^8",
     "knplabs/knp-snappy-bundle": "^1.10",
     "lexik/jwt-authentication-bundle": "^3.2",
     "nelmio/cors-bundle": "^2.5",
@@ -117,12 +118,17 @@
       "php scripts/symfony/env/generate/launcher.php",
       "php scripts/symfony/env/secret/launcher.php",
       "php scripts/symfony/jwt/generate/launcher.php",
+      "php scripts/tasks/prepare-var/launcher.php",
+      "php scripts/tasks/prepare-permissions/launcher.php",
       "@auto-scripts",
       "php scripts/tasks/prepare-temp/launcher.php",
-      "php scripts/tasks/prepare-assets/launcher.php"
+      "php scripts/tasks/prepare-assets/launcher.php",
+      "php scripts/tasks/generate-uml/launcher.php"
     ],
     "post-update-cmd": [
       "Composer\\Config::disableProcessTimeout",
+      "php scripts/tasks/prepare-var/launcher.php",
+      "php scripts/tasks/prepare-permissions/launcher.php",
       "@auto-scripts",
       "php scripts/tasks/prepare-temp/launcher.php",
       "php scripts/tasks/prepare-assets/launcher.php"
@@ -143,6 +149,14 @@
       "Composer\\Config::disableProcessTimeout",
       "php scripts/symfony/jwt/generate/launcher.php"
     ],
+    "var:prepare": [
+      "Composer\\Config::disableProcessTimeout",
+      "php scripts/tasks/prepare-var/launcher.php"
+    ],
+    "permissions:set": [
+      "Composer\\Config::disableProcessTimeout",
+      "php scripts/tasks/prepare-permissions/launcher.php"
+    ],
     "temp:prepare": [
       "Composer\\Config::disableProcessTimeout",
       "php scripts/tasks/prepare-temp/launcher.php"
@@ -150,6 +164,10 @@
     "assets:prepare": [
       "Composer\\Config::disableProcessTimeout",
       "php scripts/tasks/prepare-assets/launcher.php"
+    ],
+    "uml:generate": [
+      "Composer\\Config::disableProcessTimeout",
+      "php scripts/tasks/generate-uml/launcher.php"
     ],
     "cache:clear": [
       "Composer\\Config::disableProcessTimeout",
@@ -162,6 +180,10 @@
     "db-setup": [
       "Composer\\Config::disableProcessTimeout",
       "php scripts/symfony/database/launcher.php"
+    ],
+    "elasticsearch:reindex": [
+      "Composer\\Config::disableProcessTimeout",
+      "php bin/console app:elasticsearch:reindex"
     ],
     "scheduler:run": [
       "Composer\\Config::disableProcessTimeout",

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Infrastructure\Segment\Product\Repository\Variant;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\{
+    ORM\EntityManagerInterface,
+    Persistence\ManagerRegistry
+};
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -20,7 +23,11 @@ use App\Core\Domain\{
     Segment\Type\Entity\Type
 };
 
-use App\Core\Ports\Segment\Product\Repository\Variant\ProductVariantRepositoryContract;
+use App\Core\Ports\{
+    Gateways\External\Search\ElasticsearchGatewayContract,
+    Segment\Product\Projection\ProductVariantProjectionQueryContract,
+    Segment\Product\Repository\Variant\ProductVariantRepositoryContract
+};
 
 use App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository;
 
@@ -41,7 +48,16 @@ class ProductVariantRepositoryTest extends KernelTestCase
         self::bootKernel();
 
         $this->em = $this->getEntityManager();
-        $this->repository = $this->getRepository();
+
+        $elasticsearch = $this->createMock(ElasticsearchGatewayContract::class);
+        $elasticsearch->method('isEnabled')->willReturn(false);
+
+        $projectionQuery = $this->createMock(ProductVariantProjectionQueryContract::class);
+
+        /** @var ManagerRegistry $registry */
+        $registry = static::getContainer()->get('doctrine');
+
+        $this->repository = new ProductVariantRepository($elasticsearch, $projectionQuery, $registry);
 
         $this->em->beginTransaction();
     }
@@ -395,6 +411,82 @@ class ProductVariantRepositoryTest extends KernelTestCase
         $this->assertNull($result);
     }
 
+    public function testFindAvailableVariantsPaginatedUsesElasticsearchWhenEnabled(): void
+    {
+        $variant = $this->createAndPersistVariant('SKU-ES-PAG-001', 'ES Paginated Variant', 'es-paginated-001');
+        $filter  = $this->defaultFilter();
+
+        $repository = $this->getRepositoryWithElasticsearch(
+            filterResult: ['ids' => [$variant->getId()], 'total' => 1],
+            searchResult: ['ids' => []],
+        );
+
+        $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
+
+        $this->assertArrayHasKey('items', $result);
+        $this->assertArrayHasKey('total', $result);
+        $this->assertCount(1, $result['items']);
+        $this->assertSame(1, $result['total']);
+    }
+
+    public function testFindAvailableVariantsPaginatedReturnsEmptyWhenElasticsearchReturnsNoIds(): void
+    {
+        $filter = $this->defaultFilter();
+
+        $repository = $this->getRepositoryWithElasticsearch(
+            filterResult: ['ids' => [], 'total' => 0],
+            searchResult: ['ids' => []],
+        );
+
+        $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
+
+        $this->assertSame([], $result['items']);
+        $this->assertSame(0, $result['total']);
+    }
+
+    public function testSearchByNameUsesElasticsearchWhenEnabled(): void
+    {
+        $variant = $this->createAndPersistVariant('SKU-ES-SEARCH-001', 'ES Search Variant', 'es-search-001');
+
+        $repository = $this->getRepositoryWithElasticsearch(
+            filterResult: ['ids' => [], 'total' => 0],
+            searchResult: ['ids' => [$variant->getId()]],
+        );
+
+        $results = $repository->searchByName('ES Search');
+
+        $this->assertNotEmpty($results);
+        $this->assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+    }
+
+    public function testSearchByNameReturnsEmptyWhenElasticsearchReturnsNoIds(): void
+    {
+        $repository = $this->getRepositoryWithElasticsearch(
+            filterResult: ['ids' => [], 'total' => 0],
+            searchResult: ['ids' => []],
+        );
+
+        $results = $repository->searchByName('anything');
+
+        $this->assertSame([], $results);
+    }
+
+    public function testFindAvailableVariantsPaginatedSkipsNonExistentIdsFromElasticsearch(): void
+    {
+        $variant = $this->createAndPersistVariant('SKU-ES-SKIP-001', 'ES Skip Variant', 'es-skip-001');
+        $filter  = $this->defaultFilter();
+
+        $repository = $this->getRepositoryWithElasticsearch(
+            filterResult: ['ids' => [999999, $variant->getId()], 'total' => 2],
+            searchResult: ['ids' => []],
+        );
+
+        $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
+
+        $this->assertCount(1, $result['items']);
+        $this->assertSame($variant->getId(), $result['items'][0]->getId());
+    }
+
     public function testFindRandomAvailableExcludingRespectsExcludedIds(): void
     {
         $this->createAndPersistVariant('SKU-RAND-A', 'Random A', 'random-a');
@@ -537,11 +629,22 @@ class ProductVariantRepositoryTest extends KernelTestCase
         return $product;
     }
 
-    private function getRepository(): ProductVariantRepository
+    /**
+     * @param array{ids: int[], total: int} $filterResult
+     * @param array{ids: int[]} $searchResult
+    */
+    private function getRepositoryWithElasticsearch(array $filterResult, array $searchResult): ProductVariantRepository
     {
-        $repository = static::getContainer()->get(ProductVariantRepository::class);
-        assert($repository instanceof ProductVariantRepository);
+        $elasticsearch = $this->createMock(ElasticsearchGatewayContract::class);
+        $elasticsearch->method('isEnabled')->willReturn(true);
 
-        return $repository;
+        $projectionQuery = $this->createMock(ProductVariantProjectionQueryContract::class);
+        $projectionQuery->method('filter')->willReturn($filterResult);
+        $projectionQuery->method('search')->willReturn($searchResult);
+
+        /** @var ManagerRegistry $registry */
+        $registry = static::getContainer()->get('doctrine');
+
+        return new ProductVariantRepository($elasticsearch, $projectionQuery, $registry);
     }
 }

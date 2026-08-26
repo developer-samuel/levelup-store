@@ -21,11 +21,11 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
 {
     /**
      * @param ProductVariantRecommendedRepositoryContract $productRecommendedRepository
-     * @param ReviewQueryContract $reviewQueryService
+     * @param ReviewQueryContract $reviewQuery
     */
     public function __construct(
         private ProductVariantRecommendedRepositoryContract $productRecommendedRepository,
-        private ReviewQueryContract $reviewQueryService,
+        private ReviewQueryContract $reviewQuery,
     ) {}
 
     /**
@@ -74,7 +74,7 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
     */
     private function fetchRatings(array $variantIds): array
     {
-        return $this->reviewQueryService->getAverageRatingsForVariants($variantIds);
+        return $this->reviewQuery->getAverageRatingsForVariants($variantIds);
     }
 
     /**

@@ -54,13 +54,11 @@ final readonly class ReviewQueryService implements ReviewQueryContract
     */
     public function getAverageRatingsForVariants(array $variantIds): array
     {
-        $ratings = [];
-
-        foreach ($variantIds as $variantId) {
-            $ratings[$variantId] = $this->getAverageRatingByVariant($variantId);
+        if (empty($variantIds)) {
+            return [];
         }
 
-        return $ratings;
+        return $this->reviewRepository->getAverageRatingsByVariantIds($variantIds);
     }
 
     /**

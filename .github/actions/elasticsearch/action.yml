@@ -1,0 +1,27 @@
+name: Setup Elasticsearch
+description: Setup dynamic Elasticsearch host and wait for it to be ready
+
+inputs:
+  elasticsearch-port:
+    description: Host port mapped to Elasticsearch 9200
+    required: false
+    default: '9200'
+
+runs:
+  using: composite
+  steps:
+    - name: Setup dynamic Elasticsearch host
+      shell: bash
+      run: |
+        echo "ELASTICSEARCH_HOST=127.0.0.1" >> $GITHUB_ENV
+        echo "ELASTICSEARCH_PORT=${{ inputs.elasticsearch-port }}" >> $GITHUB_ENV
+
+    - name: Wait for Elasticsearch
+      shell: bash
+      run: |
+        echo "Waiting for Elasticsearch to be ready..."
+        until curl -s http://127.0.0.1:${{ inputs.elasticsearch-port }}/_cluster/health | grep -q '"status"'; do
+          echo "Elasticsearch is not ready yet..."
+          sleep 3
+        done
+        echo "Elasticsearch is ready on port ${{ inputs.elasticsearch-port }}."
