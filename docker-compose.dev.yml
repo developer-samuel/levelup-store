@@ -12,6 +12,7 @@ include:
   - docker/compose/services/_dev/pgAdmin.yml
   - docker/compose/services/_dev/elasticvue.yml
   - docker/compose/services/_dev/mailpit.yml
+  - docker/compose/services/_dev/dozzle.yml
   - docker/compose/services/_dev/vite.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
