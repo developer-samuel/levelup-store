@@ -17,4 +17,7 @@ find bin/ -type f -exec chmod +x {} \;
 echo "Making vendor binaries executable..."
 find vendor/bin/ -type f -exec chmod +x {} \;
 
+echo "Making node_modules binaries executable..."
+find node_modules/.bin/ -type f -exec chmod +x {} \;
+
 echo "Done."

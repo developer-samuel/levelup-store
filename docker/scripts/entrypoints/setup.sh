@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-TOTAL=7
+TOTAL=6
 source /usr/local/bin/scripts/helpers/step.sh
 
 echo ""
@@ -18,9 +18,6 @@ step "Checking Composer..."
 step "Preparing environment file (.env.example -> .env)"
 /usr/local/bin/scripts/bootstrap/prepare-env.sh
 
-step "Checking node dependencies..."
-/usr/local/bin/scripts/bootstrap/node-setup.sh
-
 step "Clearing caches and optimizing configuration..."
 /usr/local/bin/scripts/bootstrap/optimize.sh
 
@@ -30,11 +27,9 @@ step "Clearing Redis cache..."
 step "Running migrations and seeding database..."
 /usr/local/bin/scripts/entrypoints/app/db-setup.sh
 
-echo   ""
-echo   "╔═════════════════════════════════════════════════╗"
-echo   "║                                                 ║"
-echo   "║   ✅ SETUP COMPLETE                             ║"
-printf "║   🌐 App is ready at %s\n" "${APP_URL:-http://localhost:8000}      |"
-echo   "║                                                 ║"
-echo   "╚═════════════════════════════════════════════════╝"
-echo   ""
+echo ""
+echo "╔═════════════════════════════════════════════════╗"
+echo "║            LEVELUP STORE - RUNNING              ║"
+echo "╚═════════════════════════════════════════════════╝"
+echo "🌐  ${APP_URL:-http://localhost:8000}"
+echo ""

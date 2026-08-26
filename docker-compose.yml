@@ -55,6 +55,7 @@ x-env-rabbitmq: &env-rabbitmq
 
 x-app-environment: &app-environment
   APP_ENV: local
+  APP_URL: ${APP_URL:-http://localhost:8000}
   TZ: Europe/Bratislava
   <<:
     - *env-database
@@ -73,7 +74,7 @@ x-healthcheck: &app-healthcheck
   start_period: 5s
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🔧 Service Blueprints (for Actual Deployables)
+# 🔧 Service Blueprints
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 # PostgreSQL 17 Blueprint
@@ -94,128 +95,6 @@ x-service-postgres: &service-postgres
   healthcheck:
     test: ['CMD-SHELL', 'pg_isready -h localhost -U postgres']
     <<: *app-healthcheck
-
-# Redis (latest) Blueprint
-x-service-redis: &service-redis
-  image: redis:latest
-  container_name: levelup_store_redis
-  ports:
-    - '${REDIS_PORT}:6379'
-  volumes:
-    - redis_data:/data
-    - ./docker/redis/config/redis.conf:/usr/local/etc/redis/config/redis.conf
-  restart: unless-stopped
-  networks:
-    - app-network
-  command: ['redis-server', '/usr/local/etc/redis/config/redis.conf']
-  healthcheck:
-    test: ['CMD', 'redis-cli', 'ping']
-    <<: *app-healthcheck
-
-# PHP main container
-x-service-app: &service-app
-  container_name: levelup_store_app
-  command: []
-  <<: *app-base
-  depends_on:
-    postgres:
-      condition: service_healthy
-    elasticsearch:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-
-# Setup container (dependencies install, tests, migrations, seeds, etc.)
-x-service-app-setup: &service-app-setup
-  container_name: levelup_store_app_setup
-  profiles: ['setup']
-  command: ['setup']
-  <<: *app-base
-  depends_on:
-    postgres:
-      condition: service_healthy
-    elasticsearch:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-
-# Cron / Scheduler Service
-x-service-cron: &service-cron
-  <<: *app-base
-  container_name: levelup_store_cron
-  restart: unless-stopped
-  depends_on:
-    postgres:
-      condition: service_healthy
-    elasticsearch:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-  entrypoint: ["/usr/local/bin/scripts/entrypoints/app/cron/run-cron.sh"]
-
-# Messenger Worker Service (consumes async queue)
-x-service-worker: &service-worker
-  <<: *app-base
-  container_name: levelup_store_worker
-  restart: unless-stopped
-  depends_on:
-    postgres:
-      condition: service_healthy
-    elasticsearch:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-  entrypoint: ["/usr/local/bin/scripts/entrypoints/app/worker/run-worker.sh"]
-
-# Nginx as a webserver proxy for the app
-x-service-webserver: &service-webserver
-  container_name: levelup_store_nginx
-  volumes:
-    - .:/var/www:delegated
-    - ./docker/nginx/config:/etc/nginx/conf.d
-  ports:
-    - '8000:80'
-  dns: 8.8.8.8
-  build:
-    context: ./docker/nginx
-    dockerfile: Dockerfile.nginx
-  depends_on:
-    - app
-  networks:
-    - app-network
-
-# Vite (frontend builder)
-x-service-vite: &service-vite
-  container_name: levelup_store_vite
-  profiles: ['dev']
-  build:
-    context: ./docker/vite
-    dockerfile: Dockerfile.vite
-  working_dir: /var/www
-  volumes:
-    - ./:/var/www
-  ports:
-    - '5173:5173'
-  networks:
-    - app-network
-  depends_on:
-    - app
 
 # Elasticsearch Blueprint
 x-service-elasticsearch: &service-elasticsearch
@@ -239,6 +118,23 @@ x-service-elasticsearch: &service-elasticsearch
     test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
     <<: *app-healthcheck
 
+# Redis Blueprint
+x-service-redis: &service-redis
+  image: redis:latest
+  container_name: levelup_store_redis
+  ports:
+    - '${REDIS_PORT}:6379'
+  volumes:
+    - redis_data:/data
+    - ./docker/redis/config/redis.conf:/usr/local/etc/redis/config/redis.conf
+  restart: unless-stopped
+  networks:
+    - app-network
+  command: ['redis-server', '/usr/local/etc/redis/config/redis.conf']
+  healthcheck:
+    test: ['CMD', 'redis-cli', 'ping']
+    <<: *app-healthcheck
+
 # RabbitMQ Blueprint
 x-service-rabbitmq: &service-rabbitmq
   image: rabbitmq:3-management
@@ -259,49 +155,7 @@ x-service-rabbitmq: &service-rabbitmq
     test: ['CMD', 'rabbitmq-diagnostics', 'ping']
     <<: *app-healthcheck
 
-# pgAdmin Blueprint
-x-service-pgadmin: &service-pgadmin
-  image: dpage/pgadmin4:latest
-  container_name: levelup_store_pgadmin
-  restart: unless-stopped
-  entrypoint: ['/bin/sh', '/pgadmin4/config/entrypoint.sh']
-  ports:
-    - '8080:80'
-  environment:
-    PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
-    PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
-    PGADMIN_CONFIG_SERVER_MODE: 'False'
-    PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
-    SERVER_VERSION: ${SERVER_VERSION}
-    DB_HOST: ${DB_HOST}
-    DB_PORT: ${DB_PORT}
-    DB_DATABASE: ${DB_DATABASE}
-    DB_USERNAME: ${DB_USERNAME}
-    DB_PASSWORD: ${DB_PASSWORD}
-  volumes:
-    - pgadmin_data:/var/lib/pgadmin
-    - ./docker/pgadmin:/pgadmin4/config:ro
-  networks:
-    - app-network
-  depends_on:
-    postgres:
-      condition: service_healthy
-
-# Elasticvue Blueprint
-x-service-elasticvue: &service-elasticvue
-  image: cars10/elasticvue:latest
-  container_name: levelup_store_elasticvue
-  restart: unless-stopped
-  environment:
-    ELASTICVUE_CLUSTERS: '[{"name":"levelup_store","uri":"http://localhost:9200"}]'
-  ports:
-    - '8090:8080'
-  networks:
-    - app-network
-  depends_on:
-    - elasticsearch
-
-# Prometheus (latest) Blueprint
+# Prometheus Blueprint
 x-service-prometheus: &service-prometheus
   image: prom/prometheus:latest
   container_name: levelup_store_prometheus
@@ -314,7 +168,7 @@ x-service-prometheus: &service-prometheus
   networks:
     - app-network
 
-# Grafana (latest) Blueprint
+# Grafana Blueprint
 x-service-grafana: &service-grafana
   image: grafana/grafana:latest
   container_name: levelup_store_grafana
@@ -332,8 +186,96 @@ x-service-grafana: &service-grafana
   depends_on:
     - prometheus
 
+# PHP App Blueprint
+x-service-app: &service-app
+  container_name: levelup_store_app
+  command: []
+  <<: *app-base
+  depends_on:
+    postgres:
+      condition: service_healthy
+    elasticsearch:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+  environment:
+    <<: *app-environment
+
+# Setup Container Blueprint
+x-service-app-setup: &service-app-setup
+  container_name: levelup_store_app_setup
+  profiles: ['setup']
+  command: ['setup']
+  <<: *app-base
+  depends_on:
+    postgres:
+      condition: service_healthy
+    elasticsearch:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+  environment:
+    <<: *app-environment
+
+# Cron / Scheduler Blueprint
+x-service-cron: &service-cron
+  <<: *app-base
+  container_name: levelup_store_cron
+  restart: unless-stopped
+  depends_on:
+    postgres:
+      condition: service_healthy
+    elasticsearch:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+  environment:
+    <<: *app-environment
+  entrypoint: ["/usr/local/bin/scripts/entrypoints/app/cron/run-cron.sh"]
+
+# Messenger Worker Blueprint
+x-service-worker: &service-worker
+  <<: *app-base
+  container_name: levelup_store_worker
+  restart: unless-stopped
+  depends_on:
+    postgres:
+      condition: service_healthy
+    elasticsearch:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+    rabbitmq:
+      condition: service_healthy
+  environment:
+    <<: *app-environment
+  entrypoint: ["/usr/local/bin/scripts/entrypoints/app/worker/run-worker.sh"]
+
+# Nginx Blueprint
+x-service-webserver: &service-webserver
+  container_name: levelup_store_nginx
+  volumes:
+    - .:/var/www:delegated
+    - ./docker/nginx/config:/etc/nginx/conf.d
+  ports:
+    - '8000:80'
+  dns: 8.8.8.8
+  build:
+    context: ./docker/nginx
+    dockerfile: Dockerfile.nginx
+  depends_on:
+    - app
+  networks:
+    - app-network
+
 # ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🚀 Final Service Wiring (The Actual Boot Order)
+# 🚀 Services
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 services:
@@ -353,11 +295,19 @@ services:
   rabbitmq:
     <<: *service-rabbitmq
 
-  # PHP Service
+  # Prometheus Service
+  prometheus:
+    <<: *service-prometheus
+
+  # Grafana Service
+  grafana:
+    <<: *service-grafana
+
+  # PHP App Service
   app:
     <<: *service-app
 
-  # PHP Setup Service (runs dependencies install, tests, migrations, seeds, etc.)
+  # PHP Setup Service
   app_setup:
     <<: *service-app-setup
 
@@ -372,26 +322,6 @@ services:
   # Nginx Service
   webserver:
     <<: *service-webserver
-
-  # Vite Service
-  vite:
-    <<: *service-vite
-
-  # pgAdmin Service
-  pgadmin:
-    <<: *service-pgadmin
-
-  # Elasticvue Service
-  elasticvue:
-    <<: *service-elasticvue
-
-  # Prometheus Service
-  prometheus:
-    <<: *service-prometheus
-
-  # Grafana Service
-  grafana:
-    <<: *service-grafana
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes
@@ -413,6 +343,4 @@ volumes:
   prometheus_data:
     driver: local
   grafana_data:
-    driver: local
-  pgadmin_data:
     driver: local

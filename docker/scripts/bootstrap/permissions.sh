@@ -56,4 +56,9 @@ if [ -d /var/www/vendor/bin ]; then
   find /var/www/vendor/bin -type f -exec chmod +x {} \;
 fi
 
+# 📦 Node modules binaries
+if [ -d /var/www/node_modules/.bin ]; then
+  find /var/www/node_modules/.bin -type f -exec chmod +x {} \;
+fi
+
 echo "✅ Permissions and logging setup complete."

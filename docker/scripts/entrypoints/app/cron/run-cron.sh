@@ -12,8 +12,5 @@ done
 
 echo "✅ Database ready. Starting scheduler..." >> "$LOG_FILE" 2>&1
 
-while true; do
-    echo "🕒 $(date '+%Y-%m-%d %H:%M:%S') Running scheduler..." >> "$LOG_FILE" 2>&1
-    php /var/www/bin/console scheduler:run >> "$LOG_FILE" 2>&1
-    sleep 900
-done
+echo "🕒 $(date '+%Y-%m-%d %H:%M:%S') Starting scheduler..." >> "$LOG_FILE" 2>&1
+exec php /var/www/bin/console messenger:consume scheduler_default >> "$LOG_FILE" 2>&1
