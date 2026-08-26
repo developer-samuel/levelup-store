@@ -41,6 +41,8 @@ volumes:
     driver: local
   prometheus_data:
     driver: local
+  alertmanager_data:
+    driver: local
   loki_data:
     driver: local
   grafana_data:

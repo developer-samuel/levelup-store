@@ -8,19 +8,34 @@ services:
     container_name: levelup_store_prometheus
     restart: unless-stopped
     volumes:
-      - ${PWD}/docker/config/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - ${PWD}/docker/config/prometheus:/etc/prometheus:ro
       - prometheus_data:/prometheus
     ports:
       - '${PROMETHEUS_PORT}:9090'
     networks:
       - app-network
 
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: levelup_store_alertmanager
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/docker/config/alertmanager:/etc/alertmanager:ro
+      - alertmanager_data:/alertmanager
+    ports:
+      - '9093:9093'
+    command: --config.file=/etc/alertmanager/alertmanager.yml
+    networks:
+      - app-network
+    depends_on:
+      - prometheus
+
   loki:
     image: grafana/loki:latest
     container_name: levelup_store_loki
     restart: unless-stopped
     volumes:
-      - ${PWD}/docker/config/loki/loki.yaml:/etc/loki/loki.yaml:ro
+      - ${PWD}/docker/config/loki:/etc/loki:ro
       - loki_data:/loki
     ports:
       - '3100:3100'
@@ -33,7 +48,7 @@ services:
     container_name: levelup_store_alloy
     restart: unless-stopped
     volumes:
-      - ${PWD}/docker/config/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - ${PWD}/docker/config/alloy:/etc/alloy:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command: run /etc/alloy/config.alloy
     networks:
@@ -57,4 +72,5 @@ services:
       - app-network
     depends_on:
       - prometheus
+      - alertmanager
       - loki
