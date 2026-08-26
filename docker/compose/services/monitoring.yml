@@ -23,7 +23,7 @@ services:
     volumes:
       - ${PWD}/docker/config/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ${PWD}/docker/config/grafana/provisioning:/etc/grafana/provisioning:ro
-      - ${PWD}/docker/config/grafana/provisioning/dashboards:/var/lib/grafana/dashboards:ro
+      - ${PWD}/docker/config/grafana/dashboards:/var/lib/grafana/dashboards:ro
       - grafana_data:/var/lib/grafana
     ports:
       - '${GRAFANA_PORT}:3000'
