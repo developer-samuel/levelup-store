@@ -13,9 +13,10 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Authentication:** JWT (LexikJWTAuthenticationBundle)
 - **Database Abstraction:** Doctrine ORM
 - **Migration Tool:** Doctrine Migrations
-- **Emailing:** Symfony Mailer (SMTP)
-- **Task Scheduling:** Symfony Scheduler & Cron
+- **Search:** Elasticsearch (product search and filtering)
 - **Async Messaging:** Symfony Messenger (AMQP via RabbitMQ / Doctrine fallback)
+- **Task Scheduling:** Symfony Scheduler & Cron
+- **Emailing:** Symfony Mailer (SMTP)
 
 ---
 
@@ -36,6 +37,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Web Server:** Nginx (Primary) / Apache (Support)
 - **Version Control:** Git
 - **Database:** PostgreSQL (Primary) / MySQL (Secondary)
+- **Search Engine:** Elasticsearch (full-text product search and filtering)
 - **Caching & Storage:** Redis (cache, sessions, rate limiting)
 - **Message Broker:** RabbitMQ (async email queue via Symfony Messenger)
 - **External API**: REST API [apicountries.com](https://www.apicountries.com/countries) for country data ingestion

@@ -6,7 +6,7 @@ Each link below points to a dedicated file with detailed descriptions, commands,
 ---
 
 ### ⚙️ Setup Scripts
-- Environment generation, secrets, JWT keys, and directory preparation.
+- Environment generation, secrets, JWT keys, directory preparation, and UML diagram generation.
 - See: [SETUP.md](scripts/SETUP.md)
 
 ### 📦 Cache Scripts

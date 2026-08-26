@@ -38,6 +38,22 @@ This file documents environment and setup Composer scripts defined in `composer.
 
 ---
 
+### var:prepare
+
+- **Command**: `php scripts/tasks/prepare-var/launcher.php`
+- **Purpose**: Cleans stale `var/` directories and recreates required ones (`cache`, `log`, `sessions`, `tmp`, `tools`).
+- **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
+
+---
+
+### permissions:set
+
+- **Command**: `php scripts/tasks/prepare-permissions/launcher.php`
+- **Purpose**: Sets correct file and directory permissions for the project (e.g. `var/`, scripts).
+- **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
+
+---
+
 ### temp:prepare
 
 - **Command**: `php scripts/tasks/prepare-temp/launcher.php`
@@ -50,4 +66,12 @@ This file documents environment and setup Composer scripts defined in `composer.
 
 - **Command**: `php scripts/tasks/prepare-assets/launcher.php`
 - **Purpose**: Creates `assets/controllers` directory if it does not exist.
+- **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
+
+---
+
+### uml:generate
+
+- **Command**: `php scripts/tasks/generate-uml/launcher.php`
+- **Purpose**: Generates SVG diagrams from all `.mmd` source files in `docs/diagrams/` into `docs/uml/`. Clears existing SVGs before each run.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.

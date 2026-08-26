@@ -21,8 +21,9 @@ graph TD
     %% ----------------------------------------
 
     %% Databases
-    subgraph DatabaseCache["Database & Cache"]
+    subgraph DatabaseCache["Database, Search, Cache"]
         Postgres[🟦 PostgreSQL 17]
+        Elasticsearch[🔍 Elasticsearch]
         Redis[🟧 Redis]
     end
 
@@ -53,7 +54,7 @@ graph TD
     end
 
     %% Classes
-    class Postgres,Redis database_cache;
+    class Postgres,Elasticsearch,Redis database_cache;
     class AppMain,AppSetup,Cron,Worker app;
     class Nginx,Vite web;
     class Adminer,Prometheus,Grafana monitoring;
@@ -65,11 +66,23 @@ graph TD
     Docker --> Web
     Docker --> Monitoring
 
+    %% App reads from data stores
     Postgres --> AppMain
+    Elasticsearch --> AppMain
     Redis --> AppMain
-    RabbitMQ --> AppMain
+
+    %% App publishes messages to broker
+    AppMain --> RabbitMQ
+
+    %% Worker consumes from broker and indexes to Elasticsearch
     RabbitMQ --> Worker
+    Worker --> Elasticsearch
+
+    %% Setup & web
     AppSetup --> Postgres
     AppMain --> Cron
     Nginx --> AppMain
+
+    %% Admin & monitoring
+    Adminer --> Postgres
     Prometheus --> Grafana

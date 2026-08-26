@@ -31,8 +31,10 @@ public/build/
 public/bundles/
 public/uploads/
 
+# Generated Diagrams
+docs/uml/
+
 # PHP Tools
-.php-cs-fixer.php
 phpunit.xml
 
 # Editor

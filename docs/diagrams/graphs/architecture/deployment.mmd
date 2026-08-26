@@ -22,9 +22,10 @@ graph TD
         Cron[⏱️ Cron Scheduler]:::entrypoint
     end
 
-    %% Database & Cache
-    subgraph DBCache["Database & Cache"]
+    %% Database, Search, Cache
+    subgraph DBCache["Database, Search, Cache"]
         DB[🗄️ Database]:::db_cache
+        Search[🔍 Elasticsearch]:::db_cache
         Cache[⚡ Redis Cache]:::db_cache
     end
 
@@ -51,8 +52,10 @@ graph TD
     App --> Cron
 
     App --> DB
+    App --> Search
     App --> Cache
     App --> Queue
+    Queue --> App
 
     App --> API
     App --> Stripe
