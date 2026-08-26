@@ -259,17 +259,33 @@ x-service-rabbitmq: &service-rabbitmq
     test: ['CMD', 'rabbitmq-diagnostics', 'ping']
     <<: *app-healthcheck
 
-# Adminer (latest) Blueprint
-x-service-adminer: &service-adminer
-  image: adminer:latest
-  container_name: levelup_store_adminer
+# pgAdmin Blueprint
+x-service-pgadmin: &service-pgadmin
+  image: dpage/pgadmin4:latest
+  container_name: levelup_store_pgadmin
   restart: unless-stopped
+  entrypoint: ['/bin/sh', '/pgadmin4/config/entrypoint.sh']
   ports:
-    - '8080:8080'
+    - '8080:80'
   environment:
-    ADMINER_DEFAULT_DB_DRIVER: pgsql
+    PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+    PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    PGADMIN_CONFIG_SERVER_MODE: 'False'
+    PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    SERVER_VERSION: ${SERVER_VERSION}
+    DB_HOST: ${DB_HOST}
+    DB_PORT: ${DB_PORT}
+    DB_DATABASE: ${DB_DATABASE}
+    DB_USERNAME: ${DB_USERNAME}
+    DB_PASSWORD: ${DB_PASSWORD}
+  volumes:
+    - pgadmin_data:/var/lib/pgadmin
+    - ./docker/pgadmin:/pgadmin4/config:ro
   networks:
     - app-network
+  depends_on:
+    postgres:
+      condition: service_healthy
 
 # Elasticvue Blueprint
 x-service-elasticvue: &service-elasticvue
@@ -361,9 +377,9 @@ services:
   vite:
     <<: *service-vite
 
-  # Adminer Service
-  adminer:
-    <<: *service-adminer
+  # pgAdmin Service
+  pgadmin:
+    <<: *service-pgadmin
 
   # Elasticvue Service
   elasticvue:
@@ -397,4 +413,6 @@ volumes:
   prometheus_data:
     driver: local
   grafana_data:
+    driver: local
+  pgadmin_data:
     driver: local

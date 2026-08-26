@@ -48,7 +48,8 @@ graph TD
 
     %% Admin / Monitoring
     subgraph Monitoring["Monitoring & Admin"]
-        Adminer[📘 Adminer]
+        PgAdmin[📘 pgAdmin]
+        Elasticvue[🔎 Elasticvue]
         Prometheus[📊 Prometheus]
         Grafana[📊 Grafana]
     end
@@ -57,7 +58,7 @@ graph TD
     class Postgres,Elasticsearch,Redis database_cache;
     class AppMain,AppSetup,Cron,Worker app;
     class Nginx,Vite web;
-    class Adminer,Prometheus,Grafana monitoring;
+    class PgAdmin,Prometheus,Grafana,Elasticvue monitoring;
 
     %% Connections
     Docker --> DatabaseCache
@@ -84,5 +85,6 @@ graph TD
     Nginx --> AppMain
 
     %% Admin & monitoring
-    Adminer --> Postgres
+    PgAdmin --> Postgres
+    Elasticvue --> Elasticsearch
     Prometheus --> Grafana

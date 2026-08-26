@@ -40,7 +40,7 @@ These improve developer experience, monitoring, or enable optional features. Not
 - **Elasticsearch** for full-text product search and filtering
 - **Redis** for caching, sessions, rate limiting
 - **RabbitMQ** for async message queue (email delivery, background tasks)
-- **Adminer** lightweight DB management tool
+- **pgAdmin** lightweight DB management tool
 - **Prometheus** metrics collection
 - **Grafana** dashboards & monitoring
 
@@ -50,6 +50,6 @@ These improve developer experience, monitoring, or enable optional features. Not
 
 - `Docker` is optional; all services can run locally if preferred
 - `wkhtmltopdf` must be installed either locally or in Docker for PDF generation
-- Optional services (Elasticsearch, Redis, RabbitMQ, Adminer, Prometheus, Grafana) improve developer experience or monitoring but are not required to run the app - when disabled, Elasticsearch falls back to database queries and Symfony Messenger falls back to a Doctrine-based queue
+- Optional services (Elasticsearch, Redis, RabbitMQ, pgAdmin, Prometheus, Grafana) improve developer experience or monitoring but are not required to run the app - when disabled, Elasticsearch falls back to database queries and Symfony Messenger falls back to a Doctrine-based queue
 - SMTP and Stripe can be sandbox/test accounts for development
 - **For a comprehensive overview of the full [Tech Stack](docs/TECHSTACK.md), architecture, and all Quality Assurance tools, please refer to the documentation.**

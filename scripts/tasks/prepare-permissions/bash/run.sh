@@ -9,6 +9,7 @@ find var/ -user "$(id -u)" -exec chmod 775 {} \;
 
 echo "Making project scripts executable..."
 find scripts/ -type f -name "*.sh" -exec chmod +x {} \;
+find docker/ -type f -name "*.sh" -exec chmod +x {} \;
 
 echo "Making bin/ executables executable..."
 find bin/ -type f -exec chmod +x {} \;
