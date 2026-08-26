@@ -1,0 +1,14 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 📩 Dev Tool - Mailpit (Email Testing)
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: levelup_store_mailpit
+    restart: unless-stopped
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+    networks:
+      - app-network
