@@ -13,8 +13,8 @@ include:
   - docker/compose/services/redis.yml
   - docker/compose/services/rabbitmq.yml
 
-  # Monitoring
-  - docker/compose/services/monitoring.yml
+  # Observability
+  - docker/compose/services/observability.yml
 
   # Application
   - docker/compose/services/app.yml
@@ -40,6 +40,8 @@ volumes:
   rabbitmq_data:
     driver: local
   prometheus_data:
+    driver: local
+  loki_data:
     driver: local
   grafana_data:
     driver: local

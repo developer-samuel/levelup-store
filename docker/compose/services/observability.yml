@@ -1,5 +1,5 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
-# 📊 Monitoring - Prometheus + Grafana
+# 📊 Observability - Prometheus + Loki + Alloy + Grafana
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 services:
@@ -14,6 +14,32 @@ services:
       - '${PROMETHEUS_PORT}:9090'
     networks:
       - app-network
+
+  loki:
+    image: grafana/loki:latest
+    container_name: levelup_store_loki
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/docker/config/loki/loki.yaml:/etc/loki/loki.yaml:ro
+      - loki_data:/loki
+    ports:
+      - '3100:3100'
+    command: -config.file=/etc/loki/loki.yaml
+    networks:
+      - app-network
+
+  alloy:
+    image: grafana/alloy:latest
+    container_name: levelup_store_alloy
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/docker/config/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: run /etc/alloy/config.alloy
+    networks:
+      - app-network
+    depends_on:
+      - loki
 
   grafana:
     image: grafana/grafana:latest
@@ -31,3 +57,4 @@ services:
       - app-network
     depends_on:
       - prometheus
+      - loki
