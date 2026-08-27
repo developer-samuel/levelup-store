@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kit\Constants\Shared;
+namespace Kit\Constants;
 
 final class CharacterConstants
 {

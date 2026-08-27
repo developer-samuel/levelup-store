@@ -6,7 +6,7 @@
             <div class="product-item__box-top">
                 <div class="product-item__box-image">
                     <img
-                        src="{{ asset(item.imagePath ?: 'img/misc/image/no-image.webp') }}"
+                        src="{{ storage_url(item.imagePath) }}"
                         alt="{{ item.imagePath ?: 'Image not found' }}"
                     >
                 </div>

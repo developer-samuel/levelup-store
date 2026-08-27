@@ -1,7 +1,7 @@
 {% macro render(item) %}
     <tr>
         <td>
-            <img src="{{ asset(item.imagePath) }}" alt="{{ item.variant.name }}">
+            <img src="{{ storage_url(item.imagePath) }}" alt="{{ item.variant.name }}">
         </td>
         <td>{{ item.variant.name }}</td>
         <td>{{ item.price }}</td>

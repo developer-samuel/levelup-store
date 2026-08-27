@@ -1,9 +1,5 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🧱 Base Stack (prod-ready)
-#
-# Run with:
-#   make up
-#   docker compose up
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 include:
@@ -12,6 +8,7 @@ include:
   - docker/compose/services/elasticsearch.yml
   - docker/compose/services/redis.yml
   - docker/compose/services/rabbitmq.yml
+  - docker/compose/services/minio.yml
 
   # Observability
   - docker/compose/services/observability.yml
@@ -46,4 +43,6 @@ volumes:
   loki_data:
     driver: local
   grafana_data:
+    driver: local
+  minio_data:
     driver: local

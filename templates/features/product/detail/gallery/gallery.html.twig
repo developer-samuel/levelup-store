@@ -21,7 +21,7 @@
                 {% for image in variant.images %}
                     <div class="product-detail__gallery-image-track-item">
                         <img
-                            src="{{ asset('uploads/' ~ image.path) }}"
+                            src="{{ storage_url(image.path) }}"
                             alt="{{ image.path }}"
                         >
                     </div>
@@ -42,7 +42,7 @@
                     {% for image in variant.images %}
                         <div class="product-detail__gallery-item{% if loop.first %} product-detail__gallery-item--active{% endif %}">
                             <img
-                                src="{{ asset('uploads/' ~ image.path) }}"
+                                src="{{ storage_url(image.path) }}"
                                 alt="{{ image.path }}"
                             >
                         </div>

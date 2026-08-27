@@ -5,7 +5,7 @@
         <a href="/product/show/{{ result.url }}" class="search-panel__list-item">
             <div class="search-panel__list-image">
                 <img
-                    src="{{ result.image ? result.image : '/img/misc/image/no-image.webp' }}"
+                    src="{{ storage_url(result.image) }}"
                     alt="{{ result.image ? 'Image: ' ~ result.image : 'Image not found' }}"
                 >
             </div>

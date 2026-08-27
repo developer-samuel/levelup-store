@@ -14,7 +14,7 @@
         </div>
         <div class="cart__content-image">
             <img
-                src="{{ asset(item.imagePath ?: 'img/no-image.png') }}"
+                src="{{ storage_url(item.imagePath) }}"
                 alt="{{ item.imagePath ? 'Image: ' ~ item.imagePath : 'Image not found' }}"
             >
         </div>

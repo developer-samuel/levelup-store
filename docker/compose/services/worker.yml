@@ -5,7 +5,7 @@
 services:
   worker:
     extends:
-      file: ../base.yml
+      file: ${PWD}/docker/compose/base.yml
       service: app-base
     container_name: levelup_store_worker
     restart: unless-stopped

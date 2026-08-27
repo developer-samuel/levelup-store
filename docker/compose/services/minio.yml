@@ -1,21 +1,26 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
-# ⏱️ Scheduler - Cron / Symfony Scheduler
+# 🗄️ Storage - MinIO (S3-compatible Object Storage)
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 services:
-  cron:
-    extends:
-      file: ${PWD}/docker/compose/base.yml
-      service: app-base
-    container_name: levelup_store_cron
+  minio:
+    image: minio/minio:latest
+    container_name: levelup_store_minio
     restart: unless-stopped
-    entrypoint: ['/usr/local/bin/scripts/entrypoints/app/cron/run-cron.sh']
-    depends_on:
-      postgres:
-        condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    networks:
+      - app-network
+    healthcheck:
+      test: ['CMD', 'mc', 'ready', 'local']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

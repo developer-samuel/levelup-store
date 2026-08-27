@@ -5,7 +5,7 @@
 services:
   app:
     extends:
-      file: ../base.yml
+      file: ${PWD}/docker/compose/base.yml
       service: app-base
     container_name: levelup_store_app
     command: []
@@ -21,7 +21,7 @@ services:
 
   app_setup:
     extends:
-      file: ../base.yml
+      file: ${PWD}/docker/compose/base.yml
       service: app-base
     container_name: levelup_store_app_setup
     profiles: ['setup']
@@ -34,4 +34,6 @@ services:
       redis:
         condition: service_healthy
       rabbitmq:
+        condition: service_healthy
+      minio:
         condition: service_healthy

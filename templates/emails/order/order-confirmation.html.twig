@@ -82,7 +82,7 @@
                     {% for item in items %}
                         <tr>
                             {% if item.imagePath %}
-                                <td><img src="{{ asset(item.imagePath) }}" alt="{{ item.variant.name }}" width="50"></td>
+                                <td><img src="{{ storage_url(item.imagePath) }}" alt="{{ item.variant.name }}" width="50"></td>
                             {%  endif %}
 
                             <td>{{ item.variant.name }}</td>

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-TOTAL=6
+TOTAL=7
 source /usr/local/bin/scripts/helpers/step.sh
 
 echo ""
@@ -27,9 +27,12 @@ step "Clearing Redis cache..."
 step "Running migrations and seeding database..."
 /usr/local/bin/scripts/entrypoints/app/db-setup.sh
 
+step "Setting up uploads..."
+/usr/local/bin/scripts/bootstrap/uploads-setup.sh
+
 echo ""
 echo "╔═════════════════════════════════════════════════╗"
-echo "║            LEVELUP STORE - RUNNING              ║"
+echo "║           LEVELUP STORE - SETUP DONE            ║"
 echo "╚═════════════════════════════════════════════════╝"
 echo "🌐  ${APP_URL:-http://localhost:8000}"
 echo ""

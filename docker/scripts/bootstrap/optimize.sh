@@ -9,6 +9,6 @@ echo "📁 Ensuring cache directories exist..."
 mkdir -p var/cache/local
 echo "✅ Cache directories ready."
 
-echo "⚡ Warming up Composer cache..."
-composer cache:warmup
-echo "✅ Composer cache warmed up."
+echo "⚡ Warming up Symfony cache..."
+php bin/console cache:warmup
+echo "✅ Symfony cache warmed up."

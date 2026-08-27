@@ -6,6 +6,9 @@ if [ -f public/hot ] && ! docker ps --filter "name=levelup_store_vite" --filter 
   rm public/hot
 fi
 
+echo "⚙️ Rebuilding native modules for container platform..."
+npm rebuild esbuild --silent
+
 echo "⚙️ Building assets..."
 npm run build
 echo "✅ Assets built."

@@ -9,7 +9,7 @@ services:
       context: ${PWD}/docker/config/_dev/vite
       dockerfile: Dockerfile.vite
     working_dir: /var/www
-    command: sh -c "npm install && npm run dev"
+    command: sh -c "npm approve-scripts esbuild @parcel/watcher && npm rebuild esbuild @parcel/watcher && npm run dev"
     volumes:
       - ${PWD}:/var/www
     ports:

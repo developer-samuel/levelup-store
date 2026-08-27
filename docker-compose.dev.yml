@@ -4,8 +4,8 @@
 # Extends docker-compose.yml with local development tools.
 #
 # Run with:
-#   make dev
-#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+#   First time: make dev-setup-build
+#   After:      make dev
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 include:

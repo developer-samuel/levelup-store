@@ -64,6 +64,16 @@ services:
       $pass: '%env(RABBITMQ_PASS)%'
       $vhost: '%env(RABBITMQ_VHOST)%'
 
+  App\Adapters\External\Storage\StorageAdapter:
+    arguments:
+      $minioEnabled: '%env(bool:MINIO_ENABLED)%'
+      $publicUrl: '%env(MINIO_PUBLIC_URL)%'
+      $bucket: '%env(MINIO_BUCKET)%'
+      $endpoint: '%env(MINIO_ENDPOINT)%'
+      $rootUser: '%env(MINIO_ROOT_USER)%'
+      $rootPassword: '%env(MINIO_ROOT_PASSWORD)%'
+      $uploadsPath: '%kernel.project_dir%/public/uploads'
+
   App\Adapters\External\Search\ElasticsearchAdapter:
     arguments:
       $enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'

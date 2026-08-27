@@ -4,7 +4,7 @@
             <a href="{{ path('discounts') }}" class="home-page__discount-item">
                 <img
                     id="discount-banner"
-                    src="{{ asset('uploads/' ~ (banner.image ?: 'img/misc/image/no-image.webp')) }}"
+                    src="{{ banner.image ? storage_url(banner.image) : asset('img/misc/image/no-image.webp') }}"
                     alt="Banner"
                     fetchpriority="high"
                 >

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Kit\Utils\Shared\Generator;
 
-use Kit\Constants\Shared\CharacterConstants;
+use Kit\Constants\CharacterConstants;
 
 final class IdentifierGenerator
 {
