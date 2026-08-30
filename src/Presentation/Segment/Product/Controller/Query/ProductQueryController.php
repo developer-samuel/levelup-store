@@ -180,9 +180,7 @@ class ProductQueryController extends AbstractQueryController
     */
     private function normalizeItem(string $item): string
     {
-        return StringNormalizer::toLowerCase(
-            StringNormalizer::replaceSpacesWithDash($item),
-        );
+        return StringNormalizer::normalize($item);
     }
 
     /**
@@ -255,9 +253,11 @@ class ProductQueryController extends AbstractQueryController
     */
     private function resolveSort(array $query): ProductSortOption
     {
-        return isset($query['sort']) && is_string($query['sort']) ?
-            ProductSortOption::from($query['sort']) :
-            ProductSortOption::TOP_RATED;
+        if (!isset($query['sort']) || !is_string($query['sort'])) {
+            return ProductSortOption::TOP_RATED;
+        }
+
+        return ProductSortOption::tryFrom($query['sort']) ?? ProductSortOption::TOP_RATED;
     }
 
     /**

@@ -12,13 +12,16 @@ use App\Core\Application\{
 
 trait NameFields
 {
-    #[NotBlankConstraint('First name')]
-    #[MinLengthConstraint('First name', 2)]
-    #[MaxLengthConstraint('First name', 100)]
+    private const FIRST_NAME = 'First name';
+    private const LAST_NAME = 'Last name';
+
+    #[NotBlankConstraint(self::FIRST_NAME)]
+    #[MinLengthConstraint(self::FIRST_NAME, 2)]
+    #[MaxLengthConstraint(self::FIRST_NAME, 100)]
     public string $first_name;
 
-    #[NotBlankConstraint('Last name')]
-    #[MinLengthConstraint('Last name', 2)]
-    #[MaxLengthConstraint('Last name', 100)]
+    #[NotBlankConstraint(self::LAST_NAME)]
+    #[MinLengthConstraint(self::LAST_NAME, 2)]
+    #[MaxLengthConstraint(self::LAST_NAME, 100)]
     public string $last_name;
 }

@@ -4,30 +4,24 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Segment\Review\Projection;
 
-final class ReviewProjection
+use App\Infrastructure\Abstract\Projection\AbstractProjection;
+
+class ReviewProjection extends AbstractProjection
 {
     public const NAME = 'reviews';
 
     /**
      * @return array<string, mixed>
     */
-    public static function mapping(): array
+    protected static function properties(): array
     {
         return [
-            'settings' => [
-                'number_of_shards'   => 1,
-                'number_of_replicas' => 0,
-            ],
-            'mappings' => [
-                'properties' => [
-                    'body'       => ['type' => 'text'],
-                    'value'      => ['type' => 'float'],
-                    'type'       => ['type' => 'keyword'],
-                    'user_id'    => ['type' => 'integer'],
-                    'variant_id' => ['type' => 'integer'],
-                    'created_at' => ['type' => 'date'],
-                ],
-            ],
+            'body'       => self::TEXT,
+            'value'      => self::FLOAT,
+            'type'       => self::KEYWORD,
+            'user_id'    => self::INTEGER,
+            'variant_id' => self::INTEGER,
+            'created_at' => self::DATE,
         ];
     }
 }

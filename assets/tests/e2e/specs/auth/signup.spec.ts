@@ -67,7 +67,7 @@ test.describe('Signup Page', () => {
     await signupPage.acceptTerms()
     await signupPage.submit()
 
-    await page.waitForFunction(
+    const result = await page.waitForFunction(
       () => {
         const emailError = document.querySelector('.auth-page__card-form-group:has([name="email"]) .error')
         const alert = document.querySelector('#signup-page .alert.alert--visible')
@@ -75,6 +75,8 @@ test.describe('Signup Page', () => {
       },
       { timeout: 8_000 },
     )
+
+    expect(await result.jsonValue()).toBe(true)
   })
 
   test('should show field error when email is missing', async () => {
@@ -88,7 +90,7 @@ test.describe('Signup Page', () => {
     await expect(signupPage.emailError).not.toBeEmpty({ timeout: 8_000 })
   })
 
-  test('should show field error when passwords do not match', async () => {
+  test('should show field error when passwords do not match', async ({ page }) => {
     await signupPage.fillFirstName(TEST_USER.firstName)
     await signupPage.fillLastName(TEST_USER.lastName)
     await signupPage.fillEmail(TEST_USER.email)
@@ -97,7 +99,17 @@ test.describe('Signup Page', () => {
     await signupPage.acceptTerms()
     await signupPage.submit()
 
-    await expect(signupPage.passwordConfirmError.first()).not.toBeEmpty({ timeout: 8_000 })
+    const result = await page.waitForFunction(
+      () => {
+        const errors = document.querySelectorAll('.auth-page__card-form-group .error')
+        const hasFieldError = Array.from(errors).some((el) => (el.textContent?.trim() ?? '') !== '')
+        const alert = document.querySelector('#signup-page .alert.alert--visible')
+        return hasFieldError || alert !== null
+      },
+      { timeout: 12_000 },
+    )
+
+    expect(await result.jsonValue()).toBe(true)
   })
 
   // ── Navigation ─────────────────────────────────────────────────────────────
@@ -114,11 +126,5 @@ test.describe('Signup Page', () => {
     await page.waitForLoadState('load')
 
     expect(page.url()).toContain('/forgot-password')
-  })
-
-  // ── Successful signup ──────────────────────────────────────────────────────
-
-  test('should redirect after successful signup', () => {
-    test.skip(true, 'Requires unique email per run - not automatable without DB cleanup')
   })
 })

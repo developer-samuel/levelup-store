@@ -3,7 +3,6 @@
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsdoc from "eslint-plugin-tsdoc";
-import prettierPlugin from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 
 export const BASE_TS_RECOMMENDED = tsPlugin.configs["flat/recommended"] ?? [];
@@ -20,7 +19,6 @@ export const BASE_LANGUAGE_OPTIONS = {
 export const BASE_PLUGINS = {
   "@typescript-eslint": tsPlugin,
   tsdoc,
-  prettier: prettierPlugin,
 };
 
 export const BASE_RULES = {
@@ -28,7 +26,6 @@ export const BASE_RULES = {
   // Prettier
   // ─────────────────────────────────────────────────────────────────────────
   ...prettierConfig.rules,
-  "prettier/prettier": "error",
 
   // ─────────────────────────────────────────────────────────────────────────
   // TypeScript

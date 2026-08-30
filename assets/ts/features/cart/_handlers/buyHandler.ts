@@ -40,7 +40,7 @@ export function handleBuy(event: MouseEvent, cart: CartInstance): boolean {
 
   event.preventDefault()
 
-  void debouncedPerformBuy(buyButton, cart)
+  debouncedPerformBuy(buyButton, cart)
 
   return true
 }

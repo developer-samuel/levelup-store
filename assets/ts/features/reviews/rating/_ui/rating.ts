@@ -12,6 +12,17 @@ function updateRatingCount(el: HTMLElement | null, delta: number): void {
   text.textContent = String(Math.max(0, current + delta))
 }
 
+function applyRatingChange(
+  clicked: HTMLElement | null,
+  other: HTMLElement | null,
+  otherActive: boolean,
+  clickedIsActive: boolean,
+): void {
+  if (!clickedIsActive) updateRatingCount(clicked, 1)
+  if (otherActive) updateRatingCount(other, -1)
+  clicked?.classList.add(ACTIVE_CLASS)
+}
+
 /** Updates the like/dislike button states and counters */
 export function updateReviewRating(
   like: HTMLElement | null,
@@ -31,15 +42,8 @@ export function updateReviewRating(
     return
   }
 
-  if (typeToSend === 'like') {
-    if (!clickedIsActive) updateRatingCount(like, 1)
-    if (dislikeActive) updateRatingCount(dislike, -1)
-    like?.classList.add(ACTIVE_CLASS)
-  } else if (typeToSend === 'dislike') {
-    if (!clickedIsActive) updateRatingCount(dislike, 1)
-    if (likeActive) updateRatingCount(like, -1)
-    dislike?.classList.add(ACTIVE_CLASS)
-  }
+  if (typeToSend === 'like') applyRatingChange(like, dislike, dislikeActive, clickedIsActive)
+  else if (typeToSend === 'dislike') applyRatingChange(dislike, like, likeActive, clickedIsActive)
 }
 
 /** Reads rating type from dataset and highlights the active button */

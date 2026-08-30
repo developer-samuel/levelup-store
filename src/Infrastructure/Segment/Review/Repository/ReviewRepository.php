@@ -35,6 +35,8 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     use SingleResult;
     use IterableQuery;
 
+    private const VARIANT_CONDITION = 'r.variant = :variantId';
+
     /**
      * @param ManagerRegistry $registry
     */
@@ -183,7 +185,7 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     private function createBaseQueryForVariantAndType(int $variantId): QueryBuilder
     {
         return $this->createQueryBuilder('r')
-            ->where('r.variant = :variantId')
+            ->where(self::VARIANT_CONDITION)
             ->andWhere('r.type = :type')
             ->setParameter('variantId', $variantId)
             ->setParameter('type', ReviewType::FEEDBACK->value);
@@ -213,7 +215,7 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     {
         return $this->createQueryBuilder('r')
             ->select('1')
-            ->where('r.variant = :variantId')
+            ->where(self::VARIANT_CONDITION)
             ->andWhere('r.user = :user')
             ->setParameter('variantId', $variantId)
             ->setParameter('user', $user)
@@ -228,7 +230,7 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     private function fetchReviewsByVariant(int $variantId): array
     {
         $qb = $this->createQueryBuilder('r')
-            ->where('r.variant = :variantId')
+            ->where(self::VARIANT_CONDITION)
             ->setParameter('variantId', $variantId);
 
         $results = $this->getIterableResult($qb);

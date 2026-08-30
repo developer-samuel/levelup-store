@@ -6,9 +6,12 @@ namespace App\Infrastructure\Segment\Product\Projection;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
+use Kit\Utils\Shared\Normalizer\StringNormalizer;
+
 use App\Core\Ports\{
     Gateways\External\Search\ElasticsearchGatewayContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
+    Segment\Review\Repository\ReviewRepositoryContract,
     Shared\ReindexableInterface
 };
 
@@ -17,10 +20,12 @@ final readonly class ProductVariantProjector implements ReindexableInterface
     /**
      * @param ElasticsearchGatewayContract $elasticsearch
      * @param ProductVariantRepositoryContract $variantRepository
+     * @param ReviewRepositoryContract $reviewRepository
     */
     public function __construct(
         private ElasticsearchGatewayContract $elasticsearch,
         private ProductVariantRepositoryContract $variantRepository,
+        private ReviewRepositoryContract $reviewRepository,
     ) {}
 
     /**
@@ -60,10 +65,14 @@ final readonly class ProductVariantProjector implements ReindexableInterface
         $this->elasticsearch->ensureIndexExists(ProductVariantProjection::NAME, ProductVariantProjection::mapping());
 
         $variants = $this->variantRepository->findAll();
-        $indexed  = 0;
+
+        $variantIds = array_values(array_map(static fn(ProductVariant $v): int => $v->getId(), $variants));
+        $ratings    = $this->reviewRepository->getAverageRatingsByVariantIds($variantIds);
+
+        $indexed = 0;
 
         foreach ($variants as $variant) {
-            $this->index($variant);
+            $this->index($variant, $ratings[$variant->getId()] ?? 0.0);
             ++$indexed;
         }
 
@@ -92,9 +101,7 @@ final readonly class ProductVariantProjector implements ReindexableInterface
 
         $subtypes = [];
         foreach ($product->getSubtypes() as $productSubtype) {
-            $subtypes[] = mb_strtolower(
-                str_replace(' ', '-', $productSubtype->getSubtype()->getName()),
-            );
+            $subtypes[] = StringNormalizer::normalize($productSubtype->getSubtype()->getName());
         }
 
         return [
@@ -102,9 +109,9 @@ final readonly class ProductVariantProjector implements ReindexableInterface
             'effective_price' => round($variant->getPrice() - ($discount?->getPrice() ?? 0.0), 2),
             'has_discount'    => $discount !== null,
             'is_available'    => $stock !== null && $stock->isAvailable(),
-            'brand'           => mb_strtolower(str_replace(' ', '-', $product->getBrand()->getName())),
-            'category'        => mb_strtolower(str_replace(' ', '-', $product->getCategory()->getName())),
-            'type'            => mb_strtolower(str_replace(' ', '-', $product->getType()->getName())),
+            'brand'           => StringNormalizer::normalize($product->getBrand()->getName()),
+            'category'        => StringNormalizer::normalize($product->getCategory()->getName()),
+            'type'            => StringNormalizer::normalize($product->getType()->getName()),
             'subtypes'        => $subtypes,
             'avg_rating'      => $avgRating,
             'created_at'      => $variant->getCreatedAt()->format(\DateTimeInterface::ATOM),

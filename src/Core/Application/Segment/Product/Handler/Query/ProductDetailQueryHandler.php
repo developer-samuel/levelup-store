@@ -48,13 +48,19 @@ final readonly class ProductDetailQueryHandler implements ProductDetailQueryHand
     public function handle(string $url): ?ProductDetailObject
     {
         $variant = $this->productVariantQuery->getVariantOrNull($url);
-        if (!$variant) return null;
+        if (!$variant) {
+            return null;
+        }
 
         $variants = $this->productVariantQuery->getAllVariantsOrNull($variant);
-        if (empty($variants)) return null;
+        if (empty($variants)) {
+            return null;
+        }
 
         $stock = $variant->getInStock();
-        if ($stock === null) return null;
+        if ($stock === null) {
+            return null;
+        }
         
         return $this->createFormattedDetail($variant, $variants, $stock);
     }

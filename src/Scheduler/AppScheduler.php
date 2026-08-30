@@ -26,6 +26,7 @@ use App\Scheduler\{
 #[AsSchedule]
 class AppScheduler implements ScheduleProviderInterface
 {
+    private const EVERY_15_MINUTES = '15 minutes';
     /**
      * @param CacheInterface $cache
     */
@@ -52,13 +53,13 @@ class AppScheduler implements ScheduleProviderInterface
         return [
             // Cart
             RecurringMessage::cron('0 0 * * *', new CartCleanupMessage()),
-            RecurringMessage::every('15 minutes', new CartStockCleanupMessage()),
-            RecurringMessage::every('15 minutes', new CartReminderMessage()),
+            RecurringMessage::every(self::EVERY_15_MINUTES, new CartStockCleanupMessage()),
+            RecurringMessage::every(self::EVERY_15_MINUTES, new CartReminderMessage()),
 
             // Product
-            RecurringMessage::every('15 minutes', new ProductEanSyncMessage()),
-            RecurringMessage::every('15 minutes', new ProductStockSyncMessage()),
-            RecurringMessage::every('15 minutes', new ProductRecommendedSyncMessage()),
+            RecurringMessage::every(self::EVERY_15_MINUTES, new ProductEanSyncMessage()),
+            RecurringMessage::every(self::EVERY_15_MINUTES, new ProductStockSyncMessage()),
+            RecurringMessage::every(self::EVERY_15_MINUTES, new ProductRecommendedSyncMessage()),
 
             // Token
             RecurringMessage::every('1 hours', new TokenCleanupMessage()),

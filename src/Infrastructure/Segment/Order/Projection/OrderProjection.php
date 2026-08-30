@@ -4,32 +4,26 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Segment\Order\Projection;
 
-final class OrderProjection
+use App\Infrastructure\Abstract\Projection\AbstractProjection;
+
+class OrderProjection extends AbstractProjection
 {
     public const NAME = 'orders';
 
     /**
      * @return array<string, mixed>
     */
-    public static function mapping(): array
+    protected static function properties(): array
     {
         return [
-            'settings' => [
-                'number_of_shards'   => 1,
-                'number_of_replicas' => 0,
-            ],
-            'mappings' => [
-                'properties' => [
-                    'code'           => ['type' => 'keyword'],
-                    'status'         => ['type' => 'keyword'],
-                    'payment_method' => ['type' => 'keyword'],
-                    'price'          => ['type' => 'float'],
-                    'has_payment'    => ['type' => 'boolean'],
-                    'send_shipping'  => ['type' => 'boolean'],
-                    'user_id'        => ['type' => 'integer'],
-                    'created_at'     => ['type' => 'date'],
-                ],
-            ],
+            'code'           => self::KEYWORD,
+            'status'         => self::KEYWORD,
+            'payment_method' => self::KEYWORD,
+            'price'          => self::FLOAT,
+            'has_payment'    => self::BOOLEAN,
+            'send_shipping'  => self::BOOLEAN,
+            'user_id'        => self::INTEGER,
+            'created_at'     => self::DATE,
         ];
     }
 }

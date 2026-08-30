@@ -14,7 +14,7 @@ function insertItemsBeforeNode(returnedWrapper: HTMLElement, beforeNode: Node | 
     const el = n
     if (el.matches(LOAD_MORE_SELECTORS)) return
 
-    if (beforeNode) wrapper.insertBefore(el, beforeNode)
+    if (beforeNode) beforeNode.before(el)
     else wrapper.appendChild(el)
   })
 }

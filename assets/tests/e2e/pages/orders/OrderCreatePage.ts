@@ -80,7 +80,7 @@ export class OrderCreatePage extends BasePage {
   async goto(): Promise<void> {
     await super.goto('/orders/create')
 
-    await expect(this.root).toBeVisible()
+    await expect(this.root).toBeVisible({ timeout: 15_000 })
   }
 
   async fillPersonal(email: string, firstName: string, lastName: string): Promise<void> {

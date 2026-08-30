@@ -4,34 +4,28 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Segment\Product\Projection;
 
-final class ProductVariantProjection
+use App\Infrastructure\Abstract\Projection\AbstractProjection;
+
+class ProductVariantProjection extends AbstractProjection
 {
     public const NAME = 'product_variants';
 
     /**
      * @return array<string, mixed>
     */
-    public static function mapping(): array
+    protected static function properties(): array
     {
         return [
-            'settings' => [
-                'number_of_shards'   => 1,
-                'number_of_replicas' => 0,
-            ],
-            'mappings' => [
-                'properties' => [
-                    'name'            => ['type' => 'text', 'fields' => ['keyword' => ['type' => 'keyword']]],
-                    'effective_price' => ['type' => 'float'],
-                    'has_discount'    => ['type' => 'boolean'],
-                    'is_available'    => ['type' => 'boolean'],
-                    'brand'           => ['type' => 'keyword'],
-                    'category'        => ['type' => 'keyword'],
-                    'type'            => ['type' => 'keyword'],
-                    'subtypes'        => ['type' => 'keyword'],
-                    'avg_rating'      => ['type' => 'float'],
-                    'created_at'      => ['type' => 'date'],
-                ],
-            ],
+            'name'            => self::TEXT_WITH_KEYWORD,
+            'effective_price' => self::FLOAT,
+            'has_discount'    => self::BOOLEAN,
+            'is_available'    => self::BOOLEAN,
+            'brand'           => self::KEYWORD,
+            'category'        => self::KEYWORD,
+            'type'            => self::KEYWORD,
+            'subtypes'        => self::KEYWORD,
+            'avg_rating'      => self::FLOAT,
+            'created_at'      => self::DATE,
         ];
     }
 }

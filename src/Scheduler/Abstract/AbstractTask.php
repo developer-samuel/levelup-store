@@ -32,11 +32,36 @@ abstract class AbstractTask
     abstract protected function fetchItems(): iterable;
 
     /**
+     * @param mixed $item
+     *
+     * @return bool
+    */
+    protected function processSingleItem(mixed $item): bool
+    {
+        throw new \LogicException(static::class . ' must implement processSingleItem() or override processItems()');
+    }
+
+    /**
      * @param iterable<mixed> $items
      *
      * @return int
     */
-    abstract protected function processItems(iterable $items): int;
+    protected function processItems(iterable $items): int
+    {
+        $updatedCount = 0;
+
+        foreach ($items as $item) {
+            if ($this->processSingleItem($item)) {
+                $updatedCount++;
+            }
+        }
+
+        if ($updatedCount > 0) {
+            $this->entityManager->flush();
+        }
+
+        return $updatedCount;
+    }
 
     /**
      * @param int $total
