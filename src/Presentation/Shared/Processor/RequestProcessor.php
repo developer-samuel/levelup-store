@@ -37,7 +37,7 @@ final class RequestProcessor
         $errors = self::sanitizeErrors($errorsRaw);
 
         if (!empty($errors)) {
-            return HttpResponder::badRequest($errors);
+            return HttpResponder::unprocessableEntity($errors);
         }
 
         return null;

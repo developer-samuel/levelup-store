@@ -71,7 +71,7 @@ final class AuthApiCommandController extends AbstractCrudCommandController
 
             $errors = $loginRequest->errors($this->validator);
             if ($errors !== []) {
-                return HttpResponder::badRequest($errors);
+                return HttpResponder::unprocessableEntity($errors);
             }
 
             $result = $this->handleLogin($loginRequest);

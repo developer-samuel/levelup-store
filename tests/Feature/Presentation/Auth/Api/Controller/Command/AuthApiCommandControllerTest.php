@@ -74,11 +74,11 @@ class AuthApiCommandControllerTest extends WebTestCase
         $this->assertArrayNotHasKey('refresh_token', $this->decodeJson());
     }
 
-    public function testLoginReturnsBadRequestOnInvalidPayload(): void
+    public function testLoginReturnsUnprocessableOnInvalidPayload(): void
     {
         $this->postJson('/api/auth/login', ['email' => 'not-an-email', 'password' => '']);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
 
         $data = $this->decodeJson();
 

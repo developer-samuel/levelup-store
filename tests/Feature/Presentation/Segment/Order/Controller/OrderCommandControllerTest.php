@@ -89,13 +89,13 @@ class OrderCommandControllerTest extends WebTestCase
         $this->assertResponseHeaderSame('Content-Type', 'application/json');
     }
 
-    public function testStoreReturnsBadRequestOnValidationErrors(): void
+    public function testStoreReturnsUnprocessableOnValidationErrors(): void
     {
         $this->client->loginUser($this->user);
 
         $this->client->request('POST', '/orders/store', []);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
 
         $data = $this->decodeJson();
 

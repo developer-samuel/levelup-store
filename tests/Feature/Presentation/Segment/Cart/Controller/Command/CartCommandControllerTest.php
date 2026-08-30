@@ -51,16 +51,16 @@ class CartCommandControllerTest extends TestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    public function testStoreReturns400WhenVariantIdIsZero(): void
+    public function testStoreReturns422WhenVariantIdIsZero(): void
     {
         $request = $this->buildRequest(['variant_id' => 0]);
 
         $response = $this->controller->store($request);
 
-        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
-    public function testStoreReturns400WhenAddToCartReturnsFailure(): void
+    public function testStoreReturns422WhenAddToCartReturnsFailure(): void
     {
         $this->cartMutationCommand
             ->method('addToCart')
@@ -70,7 +70,7 @@ class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->store($request);
 
-        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     public function testStoreCallsAddToCartWithVariantId(): void
@@ -114,13 +114,13 @@ class CartCommandControllerTest extends TestCase
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    public function testDestroyReturns400WhenItemIdIsZero(): void
+    public function testDestroyReturns422WhenItemIdIsZero(): void
     {
         $request = $this->buildRequest(['item_id' => 0]);
 
         $response = $this->controller->destroy($request);
 
-        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     public function testDestroyCallsRemoveFromCartWithItemId(): void
@@ -136,7 +136,7 @@ class CartCommandControllerTest extends TestCase
         $this->controller->destroy($request);
     }
 
-    public function testDestroyReturns400WhenRemoveFromCartReturnsFailure(): void
+    public function testDestroyReturns422WhenRemoveFromCartReturnsFailure(): void
     {
         $this->cartMutationCommand
             ->method('removeFromCart')
@@ -146,7 +146,7 @@ class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->destroy($request);
 
-        $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     public function testDestroyReturns500WhenExceptionThrown(): void

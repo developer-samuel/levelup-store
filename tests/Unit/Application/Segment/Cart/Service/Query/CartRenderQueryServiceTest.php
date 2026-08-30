@@ -86,20 +86,20 @@ class CartRenderQueryServiceTest extends TestCase
         $this->cartRenderer->method('renderCart')->willReturn('<div></div>');
         $this->cartSummaryQuery
             ->method('buildErrorResponse')
-            ->with('Error.', '<div></div>', $summary, 400)
+            ->with('Error.', '<div></div>', $summary, 422)
             ->willReturn([
                 'html'       => '<div></div>',
                 'totalItems' => 0,
                 'totalPrice' => '0 €',
                 'message'    => 'Error.',
                 'success'    => false,
-                'status'     => 400,
+                'status'     => 422,
             ]);
 
         $result = $this->service->buildCartResponse($this->user, 'Error.', true);
 
         $this->assertFalse($result['success']);
-        $this->assertSame(400, $result['status']);
+        $this->assertSame(422, $result['status']);
     }
 
     public function testBuildCartResponseCallsRenderCartWithTransformedItems(): void

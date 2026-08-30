@@ -158,7 +158,7 @@ class SignupHandlerTest extends TestCase
         $result = $this->handler->handle($this->buildPayload());
 
         $this->assertSame('error', $result['status']);
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(422, $result['code']);
     }
 
     private function initMocks(): void

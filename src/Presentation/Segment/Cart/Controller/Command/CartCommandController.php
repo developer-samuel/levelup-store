@@ -82,7 +82,7 @@ class CartCommandController extends AbstractCommandController
 
             $id = $this->getCartRequestId($cartRequest);
             if ($id <= 0) {
-                return HttpResponder::badRequest([], 'Please select a valid item.');
+                return HttpResponder::unprocessableEntity([], 'Please select a valid item.');
             }
 
             $result = $add
@@ -119,6 +119,6 @@ class CartCommandController extends AbstractCommandController
 
         return $success
             ? HttpResponder::success($result, $message)
-            : HttpResponder::badRequest([], $message);
+            : HttpResponder::unprocessableEntity([], $message);
     }
 }

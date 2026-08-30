@@ -127,12 +127,12 @@ class CartSummaryQueryServiceTest extends TestCase
 
     public function testBuildErrorResponseReturnsCorrectStructure(): void
     {
-        $result = $this->service->buildErrorResponse('Error.', '<div>', self::EMPTY_SUMMARY, 400);
+        $result = $this->service->buildErrorResponse('Error.', '<div>', self::EMPTY_SUMMARY, 422);
 
         $this->assertSame('<div>', $result['html']);
         $this->assertSame('Error.', $result['message']);
         $this->assertFalse($result['success']);
-        $this->assertSame(400, $result['status']);
+        $this->assertSame(422, $result['status']);
     }
 
     public function testBuildSuccessResponseSuccessIsTrue(): void
@@ -144,7 +144,7 @@ class CartSummaryQueryServiceTest extends TestCase
 
     public function testBuildErrorResponseSuccessIsFalse(): void
     {
-        $result = $this->service->buildErrorResponse('fail', '', self::EMPTY_SUMMARY, 400);
+        $result = $this->service->buildErrorResponse('fail', '', self::EMPTY_SUMMARY, 422);
 
         $this->assertFalse($result['success']);
     }

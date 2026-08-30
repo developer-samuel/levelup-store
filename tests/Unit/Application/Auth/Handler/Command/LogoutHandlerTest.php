@@ -82,7 +82,7 @@ class LogoutHandlerTest extends TestCase
         $result = $this->handler->handle(self::TOKEN);
 
         $this->assertSame('error', $result['status']);
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(422, $result['code']);
     }
 
     private function initMocks(): void

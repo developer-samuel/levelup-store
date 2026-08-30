@@ -95,7 +95,7 @@ class RefreshTokenHandlerTest extends TestCase
         $result = $this->handler->handle('expired-token');
 
         $this->assertSame('error', $result['status']);
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(422, $result['code']);
     }
 
     private function initMocks(): void

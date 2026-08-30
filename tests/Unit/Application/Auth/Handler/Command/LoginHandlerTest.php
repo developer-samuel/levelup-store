@@ -196,7 +196,7 @@ class LoginHandlerTest extends TestCase
     private function assertInvalidCredentials(array $result): void
     {
         $this->assertSame('error', $result['status']);
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(422, $result['code']);
         $this->assertSame('Invalid credentials.', $result['message']);
     }
 }

@@ -40,17 +40,17 @@ describe('handleHttpError()', () => {
     expect(errors.show).not.toHaveBeenCalled()
   })
 
-  it('should call errors.show on status 400 with validation errors', () => {
+  it('should call errors.show on status 422 with validation errors', () => {
     const alert = makeFormAlert()
     const errors = makeFormErrorsHandler()
     const validationErrors = { email: ['Required.'] }
 
-    handleHttpError(makeError(400, { errors: validationErrors }), { alert, errors })
+    handleHttpError(makeError(422, { errors: validationErrors }), { alert, errors })
 
     expect(errors.show).toHaveBeenCalledWith(validationErrors)
   })
 
-  it('should scroll to first error field on status 400 by default', () => {
+  it('should scroll to first error field on status 422 by default', () => {
     const el = document.createElement('input')
     el.name = 'email'
     mockedQuery.mockReturnValueOnce(el)
@@ -59,7 +59,7 @@ describe('handleHttpError()', () => {
     const scrollSpy = vi.spyOn(el, 'scrollIntoView')
     const focusSpy = vi.spyOn(el, 'focus').mockImplementation(() => {})
 
-    handleHttpError(makeError(400, { errors: { email: ['Required.'] } }), {
+    handleHttpError(makeError(422, { errors: { email: ['Required.'] } }), {
       alert: makeFormAlert(),
       errors: makeFormErrorsHandler(),
     })
@@ -75,7 +75,7 @@ describe('handleHttpError()', () => {
     const scrollSpy = vi.spyOn(el, 'scrollIntoView')
 
     handleHttpError(
-      makeError(400, { errors: { email: ['Required.'] } }),
+      makeError(422, { errors: { email: ['Required.'] } }),
       { alert: makeFormAlert(), errors: makeFormErrorsHandler() },
       false,
     )
@@ -83,15 +83,15 @@ describe('handleHttpError()', () => {
     expect(scrollSpy).not.toHaveBeenCalled()
   })
 
-  it('should not call errors.show when status 400 but errors handler is missing', () => {
+  it('should not call errors.show when status 422 but errors handler is missing', () => {
     const alert = makeFormAlert()
 
-    handleHttpError(makeError(400, { errors: { email: ['Required.'] } }), { alert })
+    handleHttpError(makeError(422, { errors: { email: ['Required.'] } }), { alert })
 
     expect(alert.display).toHaveBeenCalled()
   })
 
-  it('should call alert.display with server message on non-400 status', () => {
+  it('should call alert.display with server message on non-422 status', () => {
     const alert = makeFormAlert()
 
     handleHttpError(makeError(500, { message: 'Server error.' }), { alert })
@@ -107,13 +107,13 @@ describe('handleHttpError()', () => {
     expect(alert.display).toHaveBeenCalledWith(false, 'An error occurred.')
   })
 
-  it('should call scrollToTop on non-400 status by default', () => {
+  it('should call scrollToTop on non-422 status by default', () => {
     handleHttpError(makeError(422, { message: 'Unprocessable.' }), { alert: makeFormAlert() })
 
     expect(mockedScrollToContainer).toHaveBeenCalledTimes(1)
   })
 
-  it('should not call scrollToTop on non-400 when shouldScroll=false', () => {
+  it('should not call scrollToTop on non-422 when shouldScroll=false', () => {
     handleHttpError(makeError(422, { message: 'Unprocessable.' }), { alert: makeFormAlert() }, false)
 
     expect(mockedScrollToContainer).not.toHaveBeenCalled()
@@ -125,7 +125,7 @@ describe('handleHttpError()', () => {
     el.scrollIntoView = vi.fn()
     const scrollSpy = vi.spyOn(el, 'scrollIntoView')
 
-    handleHttpError(makeError(400, { errors: {} }), {
+    handleHttpError(makeError(422, { errors: {} }), {
       alert: makeFormAlert(),
       errors: makeFormErrorsHandler(),
     })
@@ -138,7 +138,7 @@ describe('handleHttpError()', () => {
     vi.spyOn(document, 'getElementById').mockReturnValueOnce(null)
 
     expect(() =>
-      handleHttpError(makeError(400, { errors: { email: ['Required.'] } }), {
+      handleHttpError(makeError(422, { errors: { email: ['Required.'] } }), {
         alert: makeFormAlert(),
         errors: makeFormErrorsHandler(),
       }),

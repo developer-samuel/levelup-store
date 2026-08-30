@@ -61,7 +61,7 @@ final readonly class CartRenderQueryService implements CartRenderQueryContract
         $summary = CartSummaryResource::toArray($items, $totalPrice);
 
         if ($isError) {
-            return $this->cartSummaryQuery->buildErrorResponse($message, $html, $summary, 400);
+            return $this->cartSummaryQuery->buildErrorResponse($message, $html, $summary, 422);
         }
 
         return $this->cartSummaryQuery->buildSuccessResponse($message, $html, $summary);

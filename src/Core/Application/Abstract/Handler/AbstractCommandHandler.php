@@ -61,7 +61,7 @@ abstract class AbstractCommandHandler
             $throwable instanceof NotFoundException        => ApiResultFormatter::error(404, $throwable->getMessage()),
             $throwable instanceof ConflictException        => ApiResultFormatter::error(409, $throwable->getMessage()),
             $throwable instanceof TooManyRequestsException => ApiResultFormatter::error(429, $throwable->getMessage()),
-            $throwable instanceof \DomainException         => ApiResultFormatter::error(400, $throwable->getMessage()),
+            $throwable instanceof \DomainException         => ApiResultFormatter::error(422, $throwable->getMessage()),
             default                                        => ApiResultFormatter::error(
                 500,
                 'Unexpected error occurred. Please check your internet connection and try again.',

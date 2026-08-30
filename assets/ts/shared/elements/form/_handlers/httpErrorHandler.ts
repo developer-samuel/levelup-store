@@ -36,7 +36,7 @@ export function handleHttpError(
 
   const { status, data } = error.response
 
-  if (status === 400 && data.errors && errors) {
+  if (status === 422 && data.errors && errors) {
     errors.show(data.errors)
     if (shouldScroll) scrollToError(data.errors)
   } else {

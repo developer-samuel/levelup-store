@@ -69,7 +69,7 @@ class CartItemCommandServiceTest extends TestCase
             'totalPrice' => '0,00 €',
             'message'    => 'This product is no longer in stock.',
             'success'    => false,
-            'status'     => 400,
+            'status'     => 422,
         ];
 
         $this->cartRenderQuery
