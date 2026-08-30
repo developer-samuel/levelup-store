@@ -11,13 +11,17 @@
     "lint:fix": "eslint assets/ts/**/*.ts --fix",
     "lint:all": "eslint assets/ts/**/*.ts assets/tests/**/*.ts",
     "lint:all:fix": "eslint assets/ts/**/*.ts assets/tests/**/*.ts --fix",
+    "lint:report": "eslint assets/ts/**/*.ts assets/tests/**/*.ts --format json --output-file var/tools/eslint/report.json || true",
     "lint-scss": "stylelint assets/scss/**/*.scss",
     "lint-scss:fix": "stylelint assets/scss/**/*.scss --fix",
+    "prettier:fix": "prettier --write \"assets/ts/**/*.ts\"",
+    "prettier:all:fix": "prettier --write \"assets/ts/**/*.ts\" \"assets/tests/**/*.ts\"",
     "vitest": "vitest run --coverage",
     "vitest:watch": "vitest --watch",
     "vitest:ui": "vitest --ui --coverage",
-    "e2e": "playwright test",
-    "e2e:ui": "playwright test --ui",
+    "e2e": "pnpm build && playwright test",
+    "e2e:fast": "playwright test",
+    "e2e:ui": "pnpm build && playwright test --ui",
     "e2e:debug": "playwright test --debug",
     "e2e:report": "playwright show-report var/tools/playwright/html"
   },
@@ -59,5 +63,10 @@
     "tinyexec": "^1.2.4",
     "typescript": "^5.2.2",
     "vitest": "^4.1.9"
+  },
+  "allowScripts": {
+    "file:.pnpm/esbuild@0.28.2/node_modules/esbuild": true,
+    "file:../../esbuild@0.27.4/node_modules/esbuild": true,
+    "file:../../../@parcel+watcher@2.5.6/node_modules/@parcel/watcher": true
   }
 }

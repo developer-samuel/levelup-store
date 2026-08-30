@@ -4,7 +4,7 @@ REM ================================
 REM Generate UML diagrams from .mmd
 REM ================================
 
-set OUTPUT_DIR=docs\uml
+set OUTPUT_DIR=.uml
 set IMAGE=ghcr.io/mermaid-js/mermaid-cli/mermaid-cli:latest
 set MMDC=/home/mermaidcli/node_modules/.bin/mmdc
 

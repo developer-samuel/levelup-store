@@ -137,15 +137,20 @@ make dev-build-force
 docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --force-recreate
 
-# Stop all services (base + dev) and remove volumes
+# Stop all services (base + dev)
 make dev-down
+# or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+
+# Stop and clean all services including volumes and orphan containers (base + dev)
+make dev-down-clean
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
 
 # Restart all services (base + dev)
 make dev-restart
 # or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
@@ -179,7 +184,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache
 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
-# Restart setup containers + dev services
+# Restart setup containers + dev services (⚠️ removes volumes)
 make dev-setup-restart
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans

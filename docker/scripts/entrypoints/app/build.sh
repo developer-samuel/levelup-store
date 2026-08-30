@@ -12,3 +12,8 @@ npm rebuild esbuild --silent
 echo "⚙️ Building assets..."
 npm run build
 echo "✅ Assets built."
+
+echo "⚙️ Generating ESLint report..."
+mkdir -p var/tools/eslint
+npm run lint:report
+echo "✅ ESLint report generated."

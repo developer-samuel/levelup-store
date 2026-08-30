@@ -1,23 +1,50 @@
 #!/bin/bash
 set -euo pipefail
 
-echo "Setting permissions for required var/ directories..."
-chmod 775 var/cache var/log var/sessions var/tmp var/tools 2>/dev/null || true
+# ─── var/ ─────────────────────────────────────────────────────────────────────
 
-echo "Setting permissions for var/..."
-find var/ -user "$(id -u)" -exec chmod 775 {} \;
+echo "Creating required var/ directories..."
+mkdir -p \
+    var/cache \
+    var/log \
+    var/sessions \
+    var/tmp \
+    var/tools
+
+sudo -n chown -R "$(id -u):$(id -g)" var/ 2>/dev/null || true
+chmod -R 775 var/ 2>/dev/null || true
+
+# ─── Shell scripts ────────────────────────────────────────────────────────────
 
 echo "Making project scripts executable..."
-find scripts/ -type f -name "*.sh" -exec chmod +x {} \;
-find docker/ -type f -name "*.sh" -exec chmod +x {} \;
+if [ -d "scripts/" ]; then
+    find scripts/ -type f -name "*.sh" -exec chmod +x {} +
+fi
+if [ -d "docker/" ]; then
+    find docker/ -type f -name "*.sh" -exec chmod +x {} +
+fi
+
+# ─── bin/ ─────────────────────────────────────────────────────────────────────
 
 echo "Making bin/ executables executable..."
-find bin/ -type f -exec chmod +x {} \;
+if [ -d "bin/" ]; then
+    find bin/ -type f -exec chmod +x {} +
+fi
+
+# ─── vendor/bin/ ──────────────────────────────────────────────────────────────
 
 echo "Making vendor binaries executable..."
-find vendor/bin/ -type f -exec chmod +x {} \;
+if [ -d "vendor/bin/" ]; then
+    find vendor/bin/ -type f -exec chmod +x {} +
+fi
+
+# ─── node_modules/.bin/ ───────────────────────────────────────────────────────
+# Use glob instead of recursive find — .bin/ contains only flat symlinks,
+# no subdirectories. Avoids processing thousands of entries one-by-one.
 
 echo "Making node_modules binaries executable..."
-find node_modules/.bin/ -type f -exec chmod +x {} \;
+if [ -d "node_modules/.bin/" ]; then
+    chmod +x node_modules/.bin/* 2>/dev/null || true
+fi
 
 echo "Done."

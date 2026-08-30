@@ -232,6 +232,10 @@
       "Composer\\Config::disableProcessTimeout",
       "php scripts/tools/php-unit/launcher.php"
     ],
+    "sonar": [
+      "Composer\\Config::disableProcessTimeout",
+      "php scripts/tools/sonar/launcher.php"
+    ],
     "lint:twig": [
       "Composer\\Config::disableProcessTimeout",
       "php bin/console lint:twig templates/"

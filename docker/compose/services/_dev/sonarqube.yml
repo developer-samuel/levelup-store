@@ -1,0 +1,22 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🔍 Dev Tool - SonarQube (Code Quality Analysis)
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  sonarqube:
+    image: sonarqube:community
+    container_name: levelup_store_sonarqube
+    restart: unless-stopped
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: 'true'
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+    ports:
+      - '9100:9000'
+    networks:
+      - app-network
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536

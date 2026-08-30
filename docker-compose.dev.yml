@@ -14,6 +14,7 @@ include:
   - docker/compose/services/_dev/elasticvue.yml
   - docker/compose/services/_dev/mailpit.yml
   - docker/compose/services/_dev/vite.yml
+  - docker/compose/services/_dev/sonarqube.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes
@@ -25,4 +26,8 @@ networks:
 
 volumes:
   pgadmin_data:
+    driver: local
+  sonarqube_data:
+    driver: local
+  sonarqube_logs:
     driver: local

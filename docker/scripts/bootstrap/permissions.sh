@@ -20,10 +20,10 @@ for dir in cache log sessions tmp; do
   find /var/www/var/${dir} -type f -exec chmod 664 {} \;
 done
 
-# tools: dirs writable, executable files keep +x
-find /var/www/var/tools -type d -exec chmod 775 {} \;
-find /var/www/var/tools -type f -executable -exec chmod 775 {} \;
-find /var/www/var/tools -type f ! -executable -exec chmod 664 {} \;
+# tools: world-writable so both Docker (www-data) and host user can write
+find /var/www/var/tools -type d -exec chmod 777 {} \;
+find /var/www/var/tools -type f -executable -exec chmod 777 {} \;
+find /var/www/var/tools -type f ! -executable -exec chmod 666 {} \;
 chmod g+s /var/www/var/log
 
 # 🔑 JWT keys - www-data needs read access

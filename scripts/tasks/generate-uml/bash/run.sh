@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ────────────── Config ──────────────
-OUTPUT_DIR="docs/uml"
+OUTPUT_DIR=".uml"
 IMAGE="ghcr.io/mermaid-js/mermaid-cli/mermaid-cli:latest"
 MMDC="/home/mermaidcli/node_modules/.bin/mmdc"
 

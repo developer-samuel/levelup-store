@@ -20,7 +20,7 @@ if [ "${MINIO_ENABLED}" = "true" ]; then
 else
     FILE_COUNT=$(find "$UPLOADS_DIR" -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
     if [ "$FILE_COUNT" -gt 0 ]; then
-        echo "  ⏭  Local uploads already exist (${FILE_COUNT} files) — skipping"
+        echo "  ⏭  Local uploads already exist (${FILE_COUNT} files) - skipping"
         rm -rf "$TMP_DIR"
         exit 0
     fi

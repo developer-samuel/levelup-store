@@ -5,7 +5,7 @@
 .PHONY: install cache-clear serve setup \
 		up up-detached down down-clean clean-all build force build-force build-cache restart \
         setup-build setup-up setup-restart-build setup-restart-build-without-cache setup-restart \
-        dev dev-detached dev-build dev-build-force dev-down dev-restart \
+        dev dev-detached dev-build dev-build-force dev-down dev-down-clean dev-restart \
         dev-setup-build dev-setup-up dev-setup-restart dev-setup-restart-build dev-setup-restart-build-without-cache \
 		logs logs-dev
 
@@ -173,6 +173,11 @@ dev-build-force:
 # Stop all services (base + dev)
 dev-down:
 	@echo "⏹ Stopping all services (base + dev)..."
+	$(DC_DEV) down
+
+# Stop and clean all services including volumes and orphan containers (base + dev)
+dev-down-clean:
+	@echo "⏹ Cleaning all services and volumes (base + dev)..."
 	$(DC_DEV) down --volumes --remove-orphans
 
 # Restart all services (base + dev)
@@ -198,20 +203,20 @@ dev-setup-up:
 # Clean and rebuild setup containers + dev services (with cache)
 dev-setup-restart-build:
 	@echo "🔄 Dev setup: Restarting and rebuilding setup containers + dev services (with cache)..."
-	$(MAKE) dev-down
+	$(MAKE) dev-down-clean
 	$(MAKE) dev-setup-build
 
 # Clean and rebuild setup containers + dev services (without cache)
 dev-setup-restart-build-without-cache:
 	@echo "🧹 Dev setup: Restarting setup containers + dev services without cache..."
-	$(MAKE) dev-down
+	$(MAKE) dev-down-clean
 	$(DC_DEV) build --no-cache
 	$(MAKE) dev-setup-build
 
 # Restart setup containers + dev services
 dev-setup-restart:
 	@echo "🔄 Dev setup: Restarting setup containers + dev services..."
-	$(MAKE) dev-down
+	$(MAKE) dev-down-clean
 	$(MAKE) dev-setup-up
 
 # ── 🔍 Utility ───────────────────────────────────────────────────────────────
