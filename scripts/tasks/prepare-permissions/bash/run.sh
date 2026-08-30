@@ -38,12 +38,11 @@ if [ -d "vendor/bin/" ]; then
     find vendor/bin/ -type f -exec chmod +x {} +
 fi
 
-# ─── node_modules/.bin/ ───────────────────────────────────────────────────────
-# Use glob instead of recursive find — .bin/ contains only flat symlinks,
-# no subdirectories. Avoids processing thousands of entries one-by-one.
+# ─── node_modules/ ────────────────────────────────────────────────────────────
 
-echo "Making node_modules binaries executable..."
-if [ -d "node_modules/.bin/" ]; then
+echo "Fixing node_modules ownership and permissions..."
+if [ -d "node_modules/" ]; then
+    sudo -n chown -R "$(id -u):$(id -g)" node_modules/ 2>/dev/null || true
     chmod +x node_modules/.bin/* 2>/dev/null || true
 fi
 

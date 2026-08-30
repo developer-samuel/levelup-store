@@ -23,6 +23,6 @@ docker run --rm ^
     -v "%CD%\docs:/data" ^
     --entrypoint sh ^
     %IMAGE% ^
-    -c "MMDC=%MMDC%; for f in $(find /data/diagrams -name '*.mmd'); do rel=\"${f#/data/diagrams/}\"; dir=$(dirname \"$rel\"); name=$(basename \"$f\" .mmd); mkdir -p \"/data/uml/$dir\"; echo \"  -> $dir/$name\"; $MMDC -p /puppeteer-config.json -i \"$f\" -o \"/data/uml/$dir/${name}.svg\"; done"
+    -c "MMDC=%MMDC%; for f in $(find /data/diagrams -name '*.mmd'); do rel=\"${f#/data/diagrams/}\"; dir=$(dirname \"$rel\"); name=$(basename \"$f\" .mmd); mkdir -p \"/.uml/$dir\"; echo \"  -> $dir/$name\"; $MMDC -p /puppeteer-config.json -i \"$f\" -o \"/.uml/$dir/${name}.svg\"; done"
 
 echo Done! UML diagrams generated in %OUTPUT_DIR%\

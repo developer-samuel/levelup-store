@@ -18,18 +18,20 @@ echo "🟢 Generating UML diagrams..."
 
 docker run --rm \
     -v "$(pwd)/docs:/data" \
+    -v "$(pwd)/.uml:/.uml" \
+    --user "$(id -u):$(id -g)" \
     --entrypoint sh \
     "$IMAGE" \
     -c "
         MMDC=$MMDC
-        find /data/uml -mindepth 1 -delete 2>/dev/null || true
+        find /.uml -mindepth 1 -delete 2>/dev/null || true
         for f in \$(find /data/diagrams -name '*.mmd'); do
             rel=\"\${f#/data/diagrams/}\"
             dir=\$(dirname \"\$rel\")
             name=\$(basename \"\$f\" .mmd)
-            mkdir -p \"/data/uml/\$dir\"
+            mkdir -p \"/.uml/\$dir\"
             echo \"  → \$dir/\$name\"
-            \$MMDC -p /puppeteer-config.json -i \"\$f\" -o \"/data/uml/\$dir/\${name}.svg\"
+            \$MMDC -p /puppeteer-config.json -i \"\$f\" -o \"/.uml/\$dir/\${name}.svg\"
         done
     "
 

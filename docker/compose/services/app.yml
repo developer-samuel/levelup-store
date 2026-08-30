@@ -18,6 +18,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      mercure:
+        condition: service_healthy
 
   app_setup:
     extends:
@@ -36,4 +38,6 @@ services:
       rabbitmq:
         condition: service_healthy
       minio:
+        condition: service_healthy
+      mercure:
         condition: service_healthy

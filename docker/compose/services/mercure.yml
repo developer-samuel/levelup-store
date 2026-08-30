@@ -1,0 +1,30 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 📡 Real-time - Mercure (Server-Sent Events hub)
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  mercure:
+    image: dunglas/mercure:latest
+    container_name: levelup_store_mercure
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      MERCURE_EXTRA_DIRECTIVES: |
+        anonymous
+        cors_origins ${MERCURE_CORS_ORIGINS}
+    command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
+    ports:
+      - '9300:80'
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+    networks:
+      - app-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost/healthz']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

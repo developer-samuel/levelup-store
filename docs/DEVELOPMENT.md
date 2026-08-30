@@ -23,26 +23,6 @@ If you have a `Makefile` or want to manage Docker manually, these commands cover
 ### Core Commands
 
 ```bash
-# Start base services in foreground
-make up
-# or
-docker compose up
-
-# Start base services in background (detached)
-make up-detached
-# or
-docker compose up -d
-
-# Stop all services (base + dev)
-make down
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down
-
-# Stop and clean all services including volumes and orphan containers
-make down-clean
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
-
 # Clean ALL containers and images (⚠️ destructive!)
 make clean-all
 # or
@@ -50,32 +30,10 @@ docker ps -q | xargs -r docker stop
 docker ps -aq | xargs -r docker rm -f
 docker images -aq | xargs -r docker rmi -f
 
-# Build/rebuild base images
-make build
-# or
-docker compose build
-
-# Force recreate base services detached
-make force
-# or
-docker compose up -d --force-recreate
-
-# Force rebuild base images and recreate services
-make build-force
-# or
-docker compose build
-docker compose up -d --force-recreate
-
 # Build/rebuild base images without cache
 make build-cache
 # or
 docker compose build --no-cache
-
-# Restart base services (down-clean + up)
-make restart
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
-docker compose up
 ```
 
 ### Setup Commands
@@ -85,30 +43,6 @@ docker compose up
 make setup-build
 # or
 docker compose --profile setup up --build
-
-# Start setup containers without rebuilding
-make setup-up
-# or
-docker compose --profile setup up
-
-# Clean and rebuild setup containers (with cache)
-make setup-restart-build
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
-docker compose --profile setup up --build
-
-# Clean and rebuild setup containers (without cache)
-make setup-restart-build-without-cache
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
-docker compose build --no-cache
-docker compose --profile setup up --build
-
-# Restart setup containers (clean + start without rebuild)
-make setup-restart
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
-docker compose --profile setup up
 ```
 
 ### Development Commands
@@ -120,16 +54,6 @@ All services including dev tools - vite, pgAdmin, Elasticvue, and more.
 make dev
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up
-
-# Start all services (base + dev) in background
-make dev-detached
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-
-# Build and start all services (base + dev)
-make dev-build
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 # Force rebuild all services (base + dev)
 make dev-build-force
@@ -163,12 +87,6 @@ make dev-setup-build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
-# Start setup containers + all dev services without rebuilding
-make dev-setup-up
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-
 # Clean and rebuild setup containers + dev services (with cache)
 make dev-setup-restart-build
 # or
@@ -182,13 +100,6 @@ make dev-setup-restart-build-without-cache
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
 docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache
 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-
-# Restart setup containers + dev services (⚠️ removes volumes)
-make dev-setup-restart
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
-docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 ```
 

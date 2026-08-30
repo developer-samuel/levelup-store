@@ -1,7 +1,11 @@
 {% macro render(stocks) %}
     {% import 'features/product/detail/info/bottom/stocks/snippets/item.html.twig' as Item %}
 
-    <div class="product-detail__details-stocks">
+    <div
+      data-variant-id="{{ stocks.variant.id }}"
+      data-mercure-hub="{{ mercure_public_url }}"
+      class="product-detail__details-stocks"
+    >
         {% if stocks %}
             {% if stocks.quantityAvailable >= 5 %}
                 {{

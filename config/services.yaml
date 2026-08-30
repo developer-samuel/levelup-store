@@ -74,6 +74,11 @@ services:
       $rootPassword: '%env(MINIO_ROOT_PASSWORD)%'
       $uploadsPath: '%kernel.project_dir%/public/uploads'
 
+  App\Adapters\External\Realtime\MercureHubAdapter:
+    arguments:
+      $hub: '@mercure.hub.default'
+      $enabled: '%env(bool:MERCURE_ENABLED)%'
+
   App\Adapters\External\Search\ElasticsearchAdapter:
     arguments:
       $enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'

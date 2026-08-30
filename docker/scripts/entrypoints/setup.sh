@@ -18,17 +18,17 @@ step "Checking Composer..."
 step "Preparing environment file (.env.example -> .env)"
 /usr/local/bin/scripts/bootstrap/prepare-env.sh
 
-step "Clearing caches and optimizing configuration..."
-/usr/local/bin/scripts/bootstrap/optimize.sh
-
-step "Clearing Redis cache..."
-/usr/local/bin/scripts/entrypoints/app/clear-cache.sh
-
 step "Running migrations and seeding database..."
 /usr/local/bin/scripts/entrypoints/app/db-setup.sh
 
 step "Setting up uploads..."
 /usr/local/bin/scripts/bootstrap/uploads-setup.sh
+
+step "Clearing caches and optimizing configuration..."
+/usr/local/bin/scripts/bootstrap/optimize.sh
+
+step "Clearing Redis cache..."
+/usr/local/bin/scripts/entrypoints/app/clear-cache.sh
 
 echo ""
 echo "╔═════════════════════════════════════════════════╗"

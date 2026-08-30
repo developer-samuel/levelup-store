@@ -17,7 +17,11 @@
     {% import 'features/review/snippets/open-create-modal.html.twig' as OpenCreateModal %}
     {% import 'features/review/blocks/total.html.twig' as Total %}
 
-    <div class="reviews" data-variant-id="{{ variant.id }}">
+    <div
+      data-variant-id="{{ variant.id }}"
+      data-mercure-hub="{{ mercure_public_url }}"
+      class="reviews"
+    >
         <div class="reviews__back">
             <a class="reviews__back-btn" href="{{ path('product_show', {'url': variant.url}) }}">
                 Back

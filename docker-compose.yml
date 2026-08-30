@@ -18,6 +18,7 @@ include:
   - docker/compose/services/cron.yml
   - docker/compose/services/worker.yml
   - docker/compose/services/webserver.yml
+  - docker/compose/services/mercure.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes
@@ -45,4 +46,8 @@ volumes:
   grafana_data:
     driver: local
   minio_data:
+    driver: local
+  mercure_data:
+    driver: local
+  mercure_config:
     driver: local
