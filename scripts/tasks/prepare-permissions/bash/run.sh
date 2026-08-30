@@ -46,4 +46,12 @@ if [ -d "node_modules/" ]; then
     chmod +x node_modules/.bin/* 2>/dev/null || true
 fi
 
+# ─── public/build/ ────────────────────────────────────────────────────────────
+
+echo "Fixing public/build ownership and permissions..."
+if [ -d "public/build/" ]; then
+    sudo -n chown -R "$(id -u):$(id -g)" public/build/ 2>/dev/null || true
+    chmod -R 775 public/build/ 2>/dev/null || true
+fi
+
 echo "Done."
