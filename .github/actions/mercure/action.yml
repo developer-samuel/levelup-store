@@ -1,0 +1,33 @@
+name: Setup Mercure
+description: Inject Mercure environment variables and wait for the hub to be ready
+
+inputs:
+  mercure-port:
+    description: Host port mapped to Mercure hub
+    required: false
+    default: '3000'
+  mercure-jwt-secret:
+    description: JWT secret shared between app and Mercure hub
+    required: false
+    default: 'mercure-test-jwt-secret'
+
+runs:
+  using: composite
+  steps:
+    - name: Inject Mercure environment
+      shell: bash
+      run: |
+        echo "MERCURE_ENABLED=true" >> $GITHUB_ENV
+        echo "MERCURE_JWT_SECRET=${{ inputs.mercure-jwt-secret }}" >> $GITHUB_ENV
+        echo "MERCURE_URL=http://127.0.0.1:${{ inputs.mercure-port }}/.well-known/mercure" >> $GITHUB_ENV
+        echo "MERCURE_PUBLIC_URL=http://127.0.0.1:${{ inputs.mercure-port }}/.well-known/mercure" >> $GITHUB_ENV
+
+    - name: Wait for Mercure
+      shell: bash
+      run: |
+        echo "Waiting for Mercure to be ready..."
+        until nc -z 127.0.0.1 ${{ inputs.mercure-port }}; do
+          echo "Mercure not ready, retrying..."
+          sleep 2
+        done
+        echo "Mercure is ready on port ${{ inputs.mercure-port }}."
