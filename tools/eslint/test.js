@@ -1,8 +1,16 @@
-// 🧰 tools/eslint/constants/test/globals.js
-
 import globals from "globals";
 
-import { TEST_NAMES } from "./names.js";
+const TEST_NAMES = [
+  "vi",
+  "describe",
+  "it",
+  "test",
+  "beforeEach",
+  "afterEach",
+  "beforeAll",
+  "afterAll",
+  "expect",
+];
 
 export const TEST_GLOBALS = {
   ...globals.browser,

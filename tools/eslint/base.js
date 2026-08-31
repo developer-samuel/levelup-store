@@ -1,5 +1,3 @@
-// 🧰 tools/eslint/constants/base.js
-
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsdoc from "eslint-plugin-tsdoc";
