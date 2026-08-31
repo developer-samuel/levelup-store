@@ -7,7 +7,7 @@ namespace App\Core\Domain\Segment\Order\Fields;
 use App\Core\Domain\Segment\Order\Enum\OrderPersonalFields;
 
 use App\Shared\{
-    Enum\Address\AddressType,
+    Enum\AddressType,
     Utils\Resolver\AddressResolver
 };
 

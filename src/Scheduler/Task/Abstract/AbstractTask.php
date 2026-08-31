@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Abstract;
+namespace App\Scheduler\Task\Abstract;
 
 use Doctrine\ORM\EntityManagerInterface;
 

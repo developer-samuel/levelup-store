@@ -12,13 +12,12 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\Variant\AdminApiVariantEanListQueryHandlerContract,
     Segment\Product\Repository\Variant\ProductVariantEanRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiVariantEanListQueryHandler extends AbstractAdminApiVariantQueryHandler implements AdminApiVariantEanListQueryHandlerContract
+class AdminApiVariantEanListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
     /**
      * @param ProductVariantEanRepositoryContract $eanRepository

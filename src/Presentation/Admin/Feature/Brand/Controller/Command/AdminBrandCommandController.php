@@ -18,8 +18,9 @@ use Kit\{
 
 use App\Core\Domain\Admin\Segment\Brand\Payload\AdminBrandPayload;
 
+use App\Core\Application\Admin\Segment\Brand\Handler\Command\AdminBrandCommandHandler;
+
 use App\Core\Ports\{
-    Admin\Segment\Brand\Handler\Command\AdminBrandCommandHandlerContract,
     Shared\Encryption\HmacFieldDecoderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -34,14 +35,14 @@ class AdminBrandCommandController extends AbstractCrudCommandController
 {
     /**
      * @param HmacFieldDecoderContract $hmacFieldDecoder
-     * @param AdminBrandCommandHandlerContract $adminBrandHandler
+     * @param AdminBrandCommandHandler $adminBrandHandler
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param AppLoggerContract $logger
      * @param ValidatorInterface $validator
     */
     public function __construct(
         private readonly HmacFieldDecoderContract $hmacFieldDecoder,
-        private readonly AdminBrandCommandHandlerContract $adminBrandHandler,
+        private readonly AdminBrandCommandHandler $adminBrandHandler,
         CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,
         ValidatorInterface $validator,

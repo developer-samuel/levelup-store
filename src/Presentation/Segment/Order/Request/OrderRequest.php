@@ -30,7 +30,7 @@ use App\Presentation\{
 };
 
 use App\Shared\{
-    Enum\Address\AddressType,
+    Enum\AddressType,
     Utils\Resolver\AddressResolver
 };
 

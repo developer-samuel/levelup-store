@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Ports\Gateways\External\Api\Country;
+namespace App\Core\Ports\Gateways\External\Api;
 
 use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 

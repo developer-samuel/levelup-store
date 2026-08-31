@@ -7,17 +7,16 @@ namespace App\Core\Application\Admin\Api\Brand\Handler\Query;
 use App\Core\Domain\Segment\Brand\Entity\Brand;
 
 use App\Core\Application\{
-    Admin\Abstract\Handler\AbstractAdminApiListQueryHandler,
+    Admin\Abstract\AbstractAdminApiListQueryHandler,
     Admin\Api\Brand\Resource\AdminApiBrandResource
 };
 
 use App\Core\Ports\{
-    Admin\Api\Brand\Handler\Query\AdminApiBrandListQueryHandlerContract,
     Segment\Brand\Repository\BrandRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandler implements AdminApiBrandListQueryHandlerContract
+class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandler
 {
     /**
      * @param BrandRepositoryContract $brandRepository

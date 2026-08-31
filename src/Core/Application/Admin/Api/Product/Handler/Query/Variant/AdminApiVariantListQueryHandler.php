@@ -15,12 +15,11 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\Variant\AdminApiVariantListQueryHandlerContract,
     Segment\Product\Repository\ProductRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract
 };
 
-final readonly class AdminApiVariantListQueryHandler implements AdminApiVariantListQueryHandlerContract
+final readonly class AdminApiVariantListQueryHandler
 {
     /**
      * @param ProductRepositoryContract $productRepository

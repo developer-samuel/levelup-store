@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Api\Feature\Brand\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Core\Application\Admin\Api\Brand\Handler\Query\AdminApiBrandListQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Api\Brand\Handler\Query\AdminApiBrandListQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminApiBrandQueryController extends AbstractAdminApiQueryController
 {
     /**
-     * @param AdminApiBrandListQueryHandlerContract $brandListQueryHandler
+     * @param AdminApiBrandListQueryHandler $brandListQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private readonly AdminApiBrandListQueryHandlerContract $brandListQueryHandler,
+        private readonly AdminApiBrandListQueryHandler $brandListQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,

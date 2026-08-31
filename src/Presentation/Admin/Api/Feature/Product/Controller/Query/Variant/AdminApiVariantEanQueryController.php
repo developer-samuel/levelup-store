@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Api\Feature\Product\Controller\Query\Variant;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Core\Application\Admin\Api\Product\Handler\Query\Variant\AdminApiVariantEanListQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\Variant\AdminApiVariantEanListQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminApiVariantEanQueryController extends AbstractAdminApiQueryController
 {
     /**
-     * @param AdminApiVariantEanListQueryHandlerContract $eanListQueryHandler
+     * @param AdminApiVariantEanListQueryHandler $eanListQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private readonly AdminApiVariantEanListQueryHandlerContract $eanListQueryHandler,
+        private readonly AdminApiVariantEanListQueryHandler $eanListQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,

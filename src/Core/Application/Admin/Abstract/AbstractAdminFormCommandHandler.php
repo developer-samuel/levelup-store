@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Application\Admin\Abstract\Handler;
+namespace App\Core\Application\Admin\Abstract;
 
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 

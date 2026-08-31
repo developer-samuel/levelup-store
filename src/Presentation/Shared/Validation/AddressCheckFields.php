@@ -11,8 +11,8 @@ use Kit\Utils\Shared\Normalizer\StringNormalizer;
 use App\Core\Domain\Shared\ValueObject\AddressObject;
 
 use App\Shared\{
-    Enum\Address\AddressFields,
-    Enum\Address\AddressType
+    Enum\AddressFields,
+    Enum\AddressType
 };
 
 /**

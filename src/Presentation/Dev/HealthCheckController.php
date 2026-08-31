@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Presentation\Dev\Api\Controller;
+namespace App\Presentation\Dev;
 
 use Doctrine\DBAL\Connection;
 

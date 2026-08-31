@@ -20,8 +20,8 @@ use App\Core\Ports\{
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Product\ProductRecommendedSyncMessage
+    Message\Product\ProductRecommendedSyncMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]

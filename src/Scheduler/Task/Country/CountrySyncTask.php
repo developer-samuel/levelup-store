@@ -14,13 +14,13 @@ use App\Core\Domain\{
 };
 
 use App\Core\Ports\{
-    Gateways\External\Api\Country\CountryApiGatewayContract,
+    Gateways\External\Api\CountryApiGatewayContract,
     Shared\Logging\ConsoleLoggerContract
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Country\CountrySyncMessage
+    Message\Country\CountrySyncMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]

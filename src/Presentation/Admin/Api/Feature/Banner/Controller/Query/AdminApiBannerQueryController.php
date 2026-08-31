@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Api\Feature\Banner\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Core\Application\Admin\Api\Banner\Handler\Query\AdminApiBannerListQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Api\Banner\Handler\Query\AdminApiBannerListQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminApiBannerQueryController extends AbstractAdminApiQueryController
 {
     /**
-     * @param AdminApiBannerListQueryHandlerContract $bannerListQueryHandler
+     * @param AdminApiBannerListQueryHandler $bannerListQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private readonly AdminApiBannerListQueryHandlerContract $bannerListQueryHandler,
+        private readonly AdminApiBannerListQueryHandler $bannerListQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,

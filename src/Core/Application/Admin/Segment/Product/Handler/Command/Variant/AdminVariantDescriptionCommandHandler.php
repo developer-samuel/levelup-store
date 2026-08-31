@@ -14,7 +14,6 @@ use App\Core\Domain\{
 use App\Core\Application\Admin\Segment\Product\Handler\Command\Variant\Abstract\AbstractAdminVariantCommandHandler;
 
 use App\Core\Ports\{
-    Admin\Segment\Product\Handler\Command\Variant\AdminVariantDescriptionCommandHandlerContract,
     Admin\Segment\Product\Service\Command\Variant\AdminVariantDescriptionCommandContract,
     Admin\Segment\Product\Service\Command\Variant\AdminVariantValidationCommandContract,
     Security\Policy\SecurityPolicyContract,
@@ -22,7 +21,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCommandHandler implements AdminVariantDescriptionCommandHandlerContract
+class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCommandHandler
 {
     /**
      * @param ProductVariantDescriptionRepositoryContract $variantDescriptionRepository

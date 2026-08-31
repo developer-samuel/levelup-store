@@ -10,7 +10,7 @@ use App\Core\Domain\{
 };
 
 use App\Core\Ports\{
-    Gateways\External\Api\Country\CountryApiGatewayContract,
+    Gateways\External\Api\CountryApiGatewayContract,
     Segment\Country\Service\Command\CountryCommandContract,
     Shared\Logging\AppLoggerContract,
     Shared\Persistence\EntityPersistenceContract

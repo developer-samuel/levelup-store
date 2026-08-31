@@ -7,17 +7,16 @@ namespace App\Core\Application\Admin\Api\User\Handler\Query;
 use App\Core\Domain\Segment\User\Entity\User;
 
 use App\Core\Application\{
-    Admin\Abstract\Handler\AbstractAdminApiListQueryHandler,
+    Admin\Abstract\AbstractAdminApiListQueryHandler,
     Admin\Api\User\Resource\AdminApiUserResource
 };
 
 use App\Core\Ports\{
-    Admin\Api\User\Handler\Query\AdminApiUserListQueryHandlerContract,
     Segment\User\Repository\UserRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandler implements AdminApiUserListQueryHandlerContract
+class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandler
 {
     /**
      * @param UserRepositoryContract $userRepository

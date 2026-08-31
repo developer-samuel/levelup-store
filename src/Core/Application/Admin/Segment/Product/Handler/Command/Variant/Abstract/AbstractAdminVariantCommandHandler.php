@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Product\Handler\Command\Variant\Abstract;
 
-use App\Core\Application\Admin\Abstract\Handler\AbstractAdminFormCommandHandler;
+use App\Core\Application\Admin\Abstract\AbstractAdminFormCommandHandler;
 
 use App\Core\Ports\{
     Admin\Segment\Product\Service\Command\Variant\AdminVariantValidationCommandContract,

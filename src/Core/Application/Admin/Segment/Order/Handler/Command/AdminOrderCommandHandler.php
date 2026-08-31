@@ -10,10 +10,9 @@ use App\Core\Domain\{
     Segment\Order\Entity\Order
 };
 
-use App\Core\Application\Admin\Abstract\Handler\AbstractAdminFormCommandHandler;
+use App\Core\Application\Admin\Abstract\AbstractAdminFormCommandHandler;
 
 use App\Core\Ports\{
-    Admin\Segment\Order\Handler\Command\AdminOrderCommandHandlerContract,
     Admin\Segment\Order\Service\Command\AdminOrderCommandContract,
     Admin\Segment\Order\Service\Query\AdminOrderValidationQueryContract,
     Security\Policy\SecurityPolicyContract,
@@ -24,7 +23,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler implements AdminOrderCommandHandlerContract
+class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler
 {
     /**
      * @param OrderFetchQueryContract $orderFetchQuery

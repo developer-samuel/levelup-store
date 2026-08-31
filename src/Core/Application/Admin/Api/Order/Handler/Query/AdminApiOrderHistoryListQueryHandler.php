@@ -12,12 +12,11 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Admin\Api\Order\Handler\Query\AdminApiOrderHistoryListQueryHandlerContract,
     Segment\Order\Repository\OrderRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-final class AdminApiOrderHistoryListQueryHandler extends AbstractApiOrderListQueryHandler implements AdminApiOrderHistoryListQueryHandlerContract
+final class AdminApiOrderHistoryListQueryHandler extends AbstractApiOrderListQueryHandler
 {
     /**
      * @param OrderRepositoryContract $orderRepository

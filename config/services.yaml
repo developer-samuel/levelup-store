@@ -92,7 +92,7 @@ services:
     arguments:
       $wkhtmltopdfEnabled: '%env(bool:WKHTMLTOPDF_ENABLED)%'
 
-  App\Adapters\External\Api\Country\CountryApiAdapter:
+  App\Adapters\External\Api\CountryApiAdapter:
     arguments:
       $countryUrl: '%env(API_COUNTRY_URL)%'
 
@@ -134,7 +134,7 @@ services:
     resource: '../src/Presentation/'
     tags: ['controller.service_arguments']
 
-  App\Presentation\Dev\Api\Controller\HealthCheckController:
+  App\Presentation\Dev\HealthCheckController:
     arguments:
       $stripeSecretKey: '%env(STRIPE_SECRET)%'
       $mailerUser: '%env(MAILER_USER)%'

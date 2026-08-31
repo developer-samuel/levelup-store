@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Api\Feature\Product\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Core\Application\Admin\Api\Product\Handler\Query\AdminApiProductListQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\AdminApiProductListQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminApiProductQueryController extends AbstractAdminApiQueryController
 {
     /**
-     * @param AdminApiProductListQueryHandlerContract $productListQueryHandler
+     * @param AdminApiProductListQueryHandler $productListQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private readonly AdminApiProductListQueryHandlerContract $productListQueryHandler,
+        private readonly AdminApiProductListQueryHandler $productListQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,

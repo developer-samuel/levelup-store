@@ -21,8 +21,8 @@ use App\Core\Ports\{
 use App\Core\Ports\Segment\Cart\Email\CartReminderEmailContract;
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Cart\CartReminderMessage
+    Message\Cart\CartReminderMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]

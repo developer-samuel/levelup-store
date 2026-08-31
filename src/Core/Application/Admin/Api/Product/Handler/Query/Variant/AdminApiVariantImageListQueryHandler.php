@@ -12,13 +12,12 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\Variant\AdminApiVariantImageListQueryHandlerContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantImageRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiVariantImageListQueryHandler extends AbstractAdminApiVariantQueryHandler implements AdminApiVariantImageListQueryHandlerContract
+class AdminApiVariantImageListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
     /**
      * @param ProductVariantImageRepositoryContract $imageRepository

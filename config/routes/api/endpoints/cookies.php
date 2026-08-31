@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-use App\Presentation\Cookie\Api\Controller\Command\CookieApiCommandController;
+use App\Presentation\Cookie\Controller\Command\CookieApiCommandController;
 
 return function (RoutingConfigurator $routes) {
     // Route for storing cookie preferences

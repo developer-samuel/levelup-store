@@ -17,8 +17,8 @@ use App\Core\Ports\{
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Token\TokenCleanupMessage
+    Message\Token\TokenCleanupMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]

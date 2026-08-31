@@ -7,17 +7,16 @@ namespace App\Core\Application\Admin\Api\Product\Handler\Query;
 use App\Core\Domain\Segment\Product\Entity\Product;
 
 use App\Core\Application\{
-    Admin\Abstract\Handler\AbstractAdminApiListQueryHandler,
+    Admin\Abstract\AbstractAdminApiListQueryHandler,
     Admin\Api\Product\Resource\AdminApiProductResource
 };
 
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\AdminApiProductListQueryHandlerContract,
     Segment\Product\Repository\ProductRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-final class AdminApiProductListQueryHandler extends AbstractAdminApiListQueryHandler implements AdminApiProductListQueryHandlerContract
+final class AdminApiProductListQueryHandler extends AbstractAdminApiListQueryHandler
 {
     /**
      * @param ProductRepositoryContract $productRepository

@@ -13,10 +13,9 @@ use Symfony\{
 
 use App\Core\Domain\Admin\Segment\Order\Payload\AdminOrderStatusPayload;
 
-use App\Core\Ports\{
-    Admin\Segment\Order\Handler\Command\AdminOrderCommandHandlerContract,
-    Shared\Logging\AppLoggerContract
-};
+use App\Core\Application\Admin\Segment\Order\Handler\Command\AdminOrderCommandHandler;
+
+use App\Core\Ports\Shared\Logging\AppLoggerContract;
 
 use App\Presentation\{
     Abstract\Controller\Command\AbstractCrudCommandController,
@@ -26,13 +25,13 @@ use App\Presentation\{
 class AdminOrderStatusCommandController extends AbstractCrudCommandController
 {
     /**
-     * @param AdminOrderCommandHandlerContract $updateOrderHandler
+     * @param AdminOrderCommandHandler $updateOrderHandler
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param AppLoggerContract $logger
      * @param ValidatorInterface $validator
     */
     public function __construct(
-        private readonly AdminOrderCommandHandlerContract $updateOrderHandler,
+        private readonly AdminOrderCommandHandler $updateOrderHandler,
         CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,
         ValidatorInterface $validator,

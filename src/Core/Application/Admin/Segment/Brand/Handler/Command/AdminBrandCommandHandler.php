@@ -6,10 +6,9 @@ namespace App\Core\Application\Admin\Segment\Brand\Handler\Command;
 
 use App\Core\Domain\Admin\Segment\Brand\Payload\AdminBrandPayload;
 
-use App\Core\Application\Admin\Abstract\Handler\AbstractAdminFormCommandHandler;
+use App\Core\Application\Admin\Abstract\AbstractAdminFormCommandHandler;
 
 use App\Core\Ports\{
-    Admin\Segment\Brand\Handler\Command\AdminBrandCommandHandlerContract,
     Admin\Segment\Brand\Service\Command\AdminBrandCommandContract,
     Security\Policy\SecurityPolicyContract,
     Segment\Brand\Service\Query\BrandQueryContract,
@@ -18,7 +17,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler implements AdminBrandCommandHandlerContract
+class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
 {
     /**
      * @param BrandQueryContract $brandQuery

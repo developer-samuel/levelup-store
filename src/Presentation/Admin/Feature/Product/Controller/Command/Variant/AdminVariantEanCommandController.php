@@ -13,8 +13,9 @@ use Symfony\{
 
 use App\Core\Domain\Admin\Segment\Product\Payload\Variant\AdminVariantEanPayload;
 
+use App\Core\Application\Admin\Segment\Product\Handler\Command\Variant\AdminVariantEanCommandHandler;
+
 use App\Core\Ports\{
-    Admin\Segment\Product\Handler\Command\Variant\AdminVariantEanCommandHandlerContract,
     Shared\Encryption\HmacFieldDecoderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -28,14 +29,14 @@ use App\Presentation\{
 class AdminVariantEanCommandController extends AbstractAdminVariantCommandController
 {
     /**
-     * @param AdminVariantEanCommandHandlerContract $adminVariantEanHandler
+     * @param AdminVariantEanCommandHandler $adminVariantEanHandler
      * @param HmacFieldDecoderContract $hmacFieldDecoder
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param AppLoggerContract $logger
      * @param ValidatorInterface $validator
     */
     public function __construct(
-        private readonly AdminVariantEanCommandHandlerContract $adminVariantEanHandler,
+        private readonly AdminVariantEanCommandHandler $adminVariantEanHandler,
         HmacFieldDecoderContract $hmacFieldDecoder,
         CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,

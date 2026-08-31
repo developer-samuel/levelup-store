@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Presentation\Cookie\Api\Controller\Command;
+namespace App\Presentation\Cookie\Controller\Command;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 

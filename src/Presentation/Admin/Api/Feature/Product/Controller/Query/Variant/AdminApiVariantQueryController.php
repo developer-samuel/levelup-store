@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Api\Feature\Product\Controller\Query\Variant;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Core\Application\Admin\Api\Product\Handler\Query\Variant\AdminApiVariantListQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\Variant\AdminApiVariantListQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminApiVariantQueryController extends AbstractAdminApiQueryController
 {
     /**
-     * @param AdminApiVariantListQueryHandlerContract $variantListQueryHandler
+     * @param AdminApiVariantListQueryHandler $variantListQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private readonly AdminApiVariantListQueryHandlerContract $variantListQueryHandler,
+        private readonly AdminApiVariantListQueryHandler $variantListQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,

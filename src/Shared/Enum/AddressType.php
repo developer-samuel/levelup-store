@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Enum\Address;
+namespace App\Shared\Enum;
 
 use App\Shared\Traits\Enum\HasEnumLabel;
 

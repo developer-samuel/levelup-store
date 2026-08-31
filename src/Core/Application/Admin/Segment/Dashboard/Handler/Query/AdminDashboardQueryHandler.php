@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Dashboard\Handler\Query;
 
-use App\Core\Ports\{
-    Admin\Segment\Dashboard\Handler\Query\AdminDashboardQueryHandlerContract,
-    Admin\Segment\Dashboard\Service\Query\AdminDashboardQueryContract
-};
+use App\Core\Ports\Admin\Segment\Dashboard\Service\Query\AdminDashboardQueryContract;
 
-final readonly class AdminDashboardQueryHandler implements AdminDashboardQueryHandlerContract
+final readonly class AdminDashboardQueryHandler
 {
     /**
      * @param AdminDashboardQueryContract $adminDashboardQuery

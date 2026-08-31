@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Feature\Dashboard\Controller\Query;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Core\Application\Admin\Segment\Dashboard\Handler\Query\AdminDashboardQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Segment\Dashboard\Handler\Query\AdminDashboardQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminDashboardQueryController extends AbstractQueryController
 {
     /**
-     * @param AdminDashboardQueryHandlerContract $adminDashboardQueryHandler
+     * @param AdminDashboardQueryHandler $adminDashboardQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private AdminDashboardQueryHandlerContract $adminDashboardQueryHandler,
+        private AdminDashboardQueryHandler $adminDashboardQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,

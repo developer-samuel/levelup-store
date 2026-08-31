@@ -22,10 +22,10 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-use App\Adapters\External\Api\Country\CountryApiAdapter;
+use App\Adapters\External\Api\CountryApiAdapter;
 
 /**
- * @coversDefaultClass \App\Adapters\External\Api\Country\CountryApiAdapter
+ * @coversDefaultClass \App\Adapters\External\Api\CountryApiAdapter
 */
 class CountryApiAdapterTest extends TestCase
 {

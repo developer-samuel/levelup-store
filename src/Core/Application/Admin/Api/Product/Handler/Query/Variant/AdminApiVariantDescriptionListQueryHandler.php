@@ -12,13 +12,12 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\Variant\AdminApiVariantDescriptionListQueryHandlerContract,
     Segment\Product\Repository\Variant\ProductVariantDescriptionRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiVariantQueryHandler implements AdminApiVariantDescriptionListQueryHandlerContract
+class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
     /**
      * @param ProductVariantDescriptionRepositoryContract $descriptionRepository

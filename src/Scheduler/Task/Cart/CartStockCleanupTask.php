@@ -20,8 +20,8 @@ use App\Core\Ports\{
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Cart\CartStockCleanupMessage
+    Message\Cart\CartStockCleanupMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]

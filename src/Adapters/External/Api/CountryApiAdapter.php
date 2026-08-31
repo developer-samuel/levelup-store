@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Adapters\External\Api\Country;
+namespace App\Adapters\External\Api;
 
 use Symfony\{
     Component\HttpFoundation\Response,
@@ -18,7 +18,7 @@ use Kit\{
 use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 
 use App\Core\Ports\{
-    Gateways\External\Api\Country\CountryApiGatewayContract,
+    Gateways\External\Api\CountryApiGatewayContract,
     Segment\Country\Repository\CountryRepositoryContract,
     Shared\Logging\AppLoggerContract
 };

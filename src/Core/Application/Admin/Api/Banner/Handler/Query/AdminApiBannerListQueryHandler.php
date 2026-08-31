@@ -7,17 +7,16 @@ namespace App\Core\Application\Admin\Api\Banner\Handler\Query;
 use App\Core\Domain\Segment\Banner\Entity\Banner;
 
 use App\Core\Application\{
-    Admin\Abstract\Handler\AbstractAdminApiListQueryHandler,
+    Admin\Abstract\AbstractAdminApiListQueryHandler,
     Admin\Api\Banner\Resource\AdminApiBannerResource
 };
 
 use App\Core\Ports\{
-    Admin\Api\Banner\Handler\Query\AdminApiBannerListQueryHandlerContract,
     Segment\Banner\Repository\BannerRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiBannerListQueryHandler extends AbstractAdminApiListQueryHandler implements AdminApiBannerListQueryHandlerContract
+class AdminApiBannerListQueryHandler extends AbstractAdminApiListQueryHandler
 {
     /**
      * @param BannerRepositoryContract $bannerRepository

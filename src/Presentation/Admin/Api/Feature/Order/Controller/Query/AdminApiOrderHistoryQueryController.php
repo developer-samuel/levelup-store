@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Api\Feature\Order\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Core\Application\Admin\Api\Order\Handler\Query\AdminApiOrderHistoryListQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Api\Order\Handler\Query\AdminApiOrderHistoryListQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminApiOrderHistoryQueryController extends AbstractAdminApiQueryController
 {
     /**
-     * @param AdminApiOrderHistoryListQueryHandlerContract $orderHistoryListQueryHandler
+     * @param AdminApiOrderHistoryListQueryHandler $orderHistoryListQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private readonly AdminApiOrderHistoryListQueryHandlerContract $orderHistoryListQueryHandler,
+        private readonly AdminApiOrderHistoryListQueryHandler $orderHistoryListQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,

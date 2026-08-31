@@ -6,8 +6,9 @@ namespace App\Presentation\Admin\Api\Feature\User\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Core\Application\Admin\Api\User\Handler\Query\AdminApiUserListQueryHandler;
+
 use App\Core\Ports\{
-    Admin\Api\User\Handler\Query\AdminApiUserListQueryHandlerContract,
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -20,13 +21,13 @@ use App\Presentation\{
 class AdminApiUserQueryController extends AbstractAdminApiQueryController
 {
     /**
-     * @param AdminApiUserListQueryHandlerContract $userListQueryHandler
+     * @param AdminApiUserListQueryHandler $userListQueryHandler
      * @param SecurityProviderContract $securityProvider
      * @param ExceptionResponder $exceptionResponder
      * @param AppLoggerContract $logger
     */
     public function __construct(
-        private readonly AdminApiUserListQueryHandlerContract $userListQueryHandler,
+        private readonly AdminApiUserListQueryHandler $userListQueryHandler,
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
         AppLoggerContract $logger,
