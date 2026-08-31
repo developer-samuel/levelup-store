@@ -17,6 +17,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Async Messaging:** Symfony Messenger (AMQP via RabbitMQ / Doctrine fallback)
 - **Task Scheduling:** Symfony Scheduler & Cron
 - **Emailing:** Symfony Mailer (SMTP)
+- **Real-time:** Mercure (SSE hub for server-sent events)
 
 ---
 
@@ -44,7 +45,10 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Payment Gateway:** Stripe API
 - **PDF Generation:** wkhtmltopdf
 - **Error Monitoring:** Sentry
-- **Monitoring:** Prometheus & Grafana
+- **Object Storage:** MinIO (S3-compatible, pluggable via Flysystem)
+- **Real-time Hub:** Mercure (server-sent events for stock and review updates)
+- **Monitoring:** Prometheus, Grafana, Loki, Alloy, AlertManager
+- **Dev Tools:** Mailpit (local email), Dozzle (container logs), SonarQube (static analysis), Elasticvue (Elasticsearch UI), pgAdmin (PostgreSQL UI)
 - **CI/CD:** GitHub Actions (configured via `act`)
 
 ---
@@ -85,7 +89,6 @@ We maintain 100% focus on code quality using these tools:
 
 | Tool         | Purpose                                        | Execution (via Composer)  |
 |--------------|------------------------------------------------|---------------------------|
-| PHPUnit      | Unit, Integration and Feature testing          | composer php-unit         |
 | Deptrac      | Architectural dependency enforcement           | composer deptrac          |
 | PHPMD        | PHP Mess Detector (using `phpmd.xml`)          | composer php-md           |
 | PHPStan      | Static analysis (Level 10+)                    | composer php-stan         |
@@ -95,14 +98,16 @@ We maintain 100% focus on code quality using these tools:
 | PDepend      | Design metrics and software artifacts          | composer pdepend          |
 | PHP CS Fixer | Coding standards enforcement                   | composer php-cs-fixer:fix |
 | Rector       | Automated refactoring and upgrades             | composer rector:fix       |
+| PHPUnit      | Unit, Integration and Feature testing          | composer php-unit         |
+| SonarQube    | Static analysis with issue tracking dashboard  | composer sonar            |
 
 ### Frontend QA
 
 | Tool              | Purpose                                   | Execution                              |
 |-------------------|-------------------------------------------|----------------------------------------|
-| Vitest            | Unit, Integration and Functional testing  | npm run vitest / pnpm vitest           |
-| Playwright        | End-to-end testing                        | npm run e2e / pnpm e2e                 |
-| TypeScript        | Static type checking                      | npm run type-check / pnpm type-check   |
-| ESLint + Prettier | TS linting and automated code formatting  | npm run lint / pnpm lint               |
-| Stylelint SCSS    | Stylesheet quality control                | npm run lint-scss / pnpm lint-scss     |
+| Vitest            | Unit, Integration and Functional testing  | pnpm vitest / npm run vitest           |
+| Playwright        | End-to-end testing                        | pnpm e2e / npm run e2e                 |
+| TypeScript        | Static type checking                      | pnpm type-check / npm run type-check   |
+| ESLint + Prettier | TS linting and automated code formatting  | pnpm lint / npm run lint               |
+| Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss / npm run lint-scss     |
 | SLOC              | Source Lines of Code analysis (TS & SCSS) | npx sloc assets/ts assets/scss         |

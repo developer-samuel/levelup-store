@@ -47,7 +47,7 @@ docker compose --profile setup up --build
 
 ### Development Commands
 
-All services including dev tools - vite, pgAdmin, Elasticvue, and more.
+All services including dev tools - Vite, pgAdmin, Elasticvue, Mailpit, Dozzle, SonarQube.
 
 ```bash
 # Start all services (base + dev) in foreground

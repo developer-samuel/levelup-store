@@ -24,6 +24,12 @@ This file documents all custom Composer scripts related to static analysis, metr
 - **Purpose**: Static analysis tool for catching type errors, invalid code, and potential bugs (Level 10, maximum strictness).
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running analysis.
 
+### sonar
+
+- **Command**: `php scripts/tools/sonar/launcher.php`
+- **Purpose**: Runs SonarQube static analysis scan against the configured SonarQube server. Requires `SONAR_HOST` and `SONAR_TOKEN` in `.env`.
+- **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
+
 ---
 
 ## 📊 Metrics / Statistics

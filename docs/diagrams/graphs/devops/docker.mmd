@@ -1,17 +1,24 @@
 graph TD
     %% Subgraph styles
-    style DatabaseCache fill:#eceff1, stroke:#000, stroke-width:2px;
-    style MessageBroker fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Database fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Cache fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Messaging fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Storage fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Realtime fill:#eceff1, stroke:#000, stroke-width:2px;
     style App fill:#eceff1, stroke:#000, stroke-width:2px;
-    style Web fill:#eceff1, stroke:#000, stroke-width:2px;
-    style Monitoring fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Observability fill:#eceff1, stroke:#000, stroke-width:2px;
+    style DevTools fill:#eceff1, stroke:#000, stroke-width:2px;
 
     %% Class Styles
     classDef docker fill:#000, color:#fff;
-    classDef database_cache fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef database fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef cache fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef messaging fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef storage fill:#16a085, color:#fff, stroke:#000, stroke-width:2px;
+    classDef realtime fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
     classDef app fill:#e90d0d, color:#fff, stroke:#000, stroke-width:2px;
-    classDef web fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
-    classDef monitoring fill:#27ae60, color:#fff, stroke:#000, stroke-width:2px;
+    classDef observability fill:#27ae60, color:#fff, stroke:#000, stroke-width:2px;
+    classDef devtools fill:#7f8c8d, color:#fff, stroke:#000, stroke-width:2px;
 
     %% Root
     Docker[🐳 Docker Containers]:::docker
@@ -20,71 +27,99 @@ graph TD
     %% Subgraphs
     %% ----------------------------------------
 
-    %% Databases
-    subgraph DatabaseCache["Database, Search, Cache"]
+    subgraph Database["database"]
         Postgres[🟦 PostgreSQL 17]
         Elasticsearch[🔍 Elasticsearch]
+    end
+
+    subgraph Cache["cache"]
         Redis[🟧 Redis]
     end
 
-    %% Message Broker
-    subgraph MessageBroker["Message Broker"]
+    subgraph Messaging["messaging"]
         RabbitMQ[🐇 RabbitMQ]
     end
 
-    %% App Layer
-    subgraph App["Application"]
+    subgraph Storage["storage"]
+        MinIO[🗄️ MinIO]
+    end
+
+    subgraph Realtime["realtime"]
+        Mercure[📡 Mercure]
+    end
+
+    subgraph App["app"]
         AppMain[🟪 PHP App]
         AppSetup[🟪 App Setup]
         Cron[⏱️ Cron/Scheduler]
         Worker[⚙️ Messenger Worker]
-    end
-
-    %% Web Layer
-    subgraph Web["Web & Frontend"]
         Nginx[🟩 Nginx]
-        Vite[🟨 Vite Frontend Builder]
     end
 
-    %% Admin / Monitoring
-    subgraph Monitoring["Monitoring & Admin"]
-        PgAdmin[📘 pgAdmin]
-        Elasticvue[🔎 Elasticvue]
+    subgraph Observability["observability"]
         Prometheus[📊 Prometheus]
+        AlertManager[🔔 AlertManager]
+        Loki[📋 Loki]
+        Alloy[🔄 Alloy]
         Grafana[📊 Grafana]
     end
 
+    subgraph DevTools["_dev"]
+        Vite[🟨 Vite]
+        PgAdmin[📘 pgAdmin]
+        Elasticvue[🔎 Elasticvue]
+        Mailpit[📧 Mailpit]
+        Dozzle[🪵 Dozzle]
+        SonarQube[🔬 SonarQube]
+    end
+
     %% Classes
-    class Postgres,Elasticsearch,Redis database_cache;
-    class AppMain,AppSetup,Cron,Worker app;
-    class Nginx,Vite web;
-    class PgAdmin,Prometheus,Grafana,Elasticvue monitoring;
+    class Postgres,Elasticsearch database;
+    class Redis cache;
+    class RabbitMQ messaging;
+    class MinIO storage;
+    class Mercure realtime;
+    class AppMain,AppSetup,Cron,Worker,Nginx app;
+    class Prometheus,AlertManager,Loki,Alloy,Grafana observability;
+    class Vite,PgAdmin,Elasticvue,Mailpit,Dozzle,SonarQube devtools;
 
     %% Connections
-    Docker --> DatabaseCache
-    Docker --> MessageBroker
+    Docker --> Database
+    Docker --> Cache
+    Docker --> Messaging
+    Docker --> Storage
+    Docker --> Realtime
     Docker --> App
-    Docker --> Web
-    Docker --> Monitoring
+    Docker --> Observability
+    Docker --> DevTools
 
     %% App reads from data stores
     Postgres --> AppMain
     Elasticsearch --> AppMain
     Redis --> AppMain
+    MinIO --> AppMain
 
-    %% App publishes messages to broker
+    %% App publishes messages
     AppMain --> RabbitMQ
+    AppMain --> Mercure
 
-    %% Worker consumes from broker and indexes to Elasticsearch
+    %% Worker consumes and indexes
     RabbitMQ --> Worker
     Worker --> Elasticsearch
 
-    %% Setup & web
+    %% Setup
     AppSetup --> Postgres
-    AppMain --> Cron
+    AppSetup --> MinIO
+
+    %% Web
     Nginx --> AppMain
 
-    %% Admin & monitoring
+    %% Observability
+    Alloy --> Loki
+    Prometheus --> AlertManager
+    Prometheus --> Grafana
+    Loki --> Grafana
+
+    %% Dev tools
     PgAdmin --> Postgres
     Elasticvue --> Elasticsearch
-    Prometheus --> Grafana

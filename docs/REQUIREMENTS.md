@@ -18,7 +18,7 @@
   - Apache
 - **Cron / Scheduler** required for Symfony scheduled tasks
 - **wkhtmltopdf** required for PDF generation
-- **SMTP account** custom or test (MailHog / Mailtrap)
+- **SMTP account** custom or test (Mailpit / Mailtrap)
 - **Stripe account** test keys for payment workflows
 - **External API Access** connectivity to [apicountries.com](https://www.apicountries.com/countries) for data ingestion
 
@@ -43,6 +43,13 @@ These improve developer experience, monitoring, or enable optional features. Not
 - **pgAdmin** lightweight DB management tool
 - **Prometheus** metrics collection
 - **Grafana** dashboards & monitoring
+- **Mercure** for real-time server-sent events (product stock updates, review rating updates)
+- **MinIO** for S3-compatible object storage (product image uploads)
+- **Mailpit** for local email testing
+- **Loki + Alloy** for log aggregation and collection
+- **AlertManager** for Prometheus alert routing and notifications
+- **Dozzle** for real-time container log viewing
+- **SonarQube** for advanced static analysis and quality gate enforcement
 
 ---
 
@@ -50,6 +57,6 @@ These improve developer experience, monitoring, or enable optional features. Not
 
 - `Docker` is optional; all services can run locally if preferred
 - `wkhtmltopdf` must be installed either locally or in Docker for PDF generation
-- Optional services (Elasticsearch, Redis, RabbitMQ, pgAdmin, Prometheus, Grafana) improve developer experience or monitoring but are not required to run the app - when disabled, Elasticsearch falls back to database queries and Symfony Messenger falls back to a Doctrine-based queue
+- Optional services (Elasticsearch, Redis, RabbitMQ, pgAdmin, Prometheus, Grafana, Mercure, MinIO, Loki, AlertManager, Dozzle, SonarQube, Mailpit) improve developer experience or monitoring but are not required to run the app - when disabled, Elasticsearch falls back to database queries, Symfony Messenger falls back to a Doctrine-based queue, Mercure disables real-time push updates, and MinIO falls back to local filesystem storage
 - SMTP and Stripe can be sandbox/test accounts for development
 - **For a comprehensive overview of the full [Tech Stack](docs/TECHSTACK.md), architecture, and all Quality Assurance tools, please refer to the documentation.**

@@ -14,6 +14,7 @@ These tools enforce architecture rules, detect issues early, and keep codebases 
 - **Deptrac** - Ensures proper layer dependencies and prevents forbidden coupling.
 - **PHP MD (PHP Mess Detector)** - Detects potential problems, unused code, and complexity issues.
 - **PHPStan (Level 10)** - Static analysis tool for catching type errors, invalid code, and potential bugs.
+- **SonarQube** - Web dashboard for static analysis with persistent issue tracking, code smell detection, and quality gate enforcement. Run via `composer sonar`.
 
 ---
 
@@ -50,16 +51,16 @@ These tools provide insights into code size, complexity, duplication, and overal
 
 ### 🔍 Type Checking
 
-- **TypeScript Type Check** - Static type checking via `npm run type-check` / `pnpm type-check`.  
+- **TypeScript Type Check** - Static type checking via `pnpm type-check` / `npm run type-check`.  
   Runs `tsc --noEmit` - catches type errors without emitting output files.  
   Use `type-check:all` to also check test files.
 
 ### ✨ Linting & Formatting
 
 - **ESLint + Prettier** - Linting and static analysis for TypeScript with Prettier formatting rules.  
-  Run via `npm run lint` / `pnpm lint`. Use `lint:all` to include test files.
+  Run via `pnpm lint` / `npm run lint`. Use `lint:all` to include test files.
 - **Stylelint** - Quality and style checks for SCSS stylesheets.  
-  Run via `npm run lint-scss` / `pnpm lint-scss`.
+  Run via `pnpm lint-scss` / `npm run lint-scss`.
 
 ### 📊 Metrics
 

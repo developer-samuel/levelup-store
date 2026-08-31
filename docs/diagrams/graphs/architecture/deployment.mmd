@@ -1,65 +1,108 @@
 graph TD
     %% Subgraph styles
-    style Entrypoints fill:#eceff1, stroke:#000, stroke-width:2px;
-    style DBCache fill:#eceff1, stroke:#000, stroke-width:2px;
-    style Broker fill:#eceff1, stroke:#000, stroke-width:2px;
-    style ApiServices fill:#eceff1, stroke:#000, stroke-width:2px;
-    style MonitoringLayer fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Runtime fill:#eceff1, stroke:#000, stroke-width:2px;
+    style DataStores fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Messaging fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Storage fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Realtime fill:#eceff1, stroke:#000, stroke-width:2px;
+    style ExternalServices fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Observability fill:#eceff1, stroke:#000, stroke-width:2px;
 
     %% Class Styles
     classDef app fill:#000, color:#fff;
-    classDef entrypoint fill:#696969, color:#fff, stroke:#000, stroke-width:2px;
-    classDef db_cache fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
-    classDef api_service fill:#e7d62f, color:#000, stroke:#000, stroke-width:2px;
+    classDef runtime fill:#696969, color:#fff, stroke:#000, stroke-width:2px;
+    classDef database fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef cache fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef messaging fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef storage fill:#16a085, color:#fff, stroke:#000, stroke-width:2px;
+    classDef realtime fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
+    classDef client fill:#2c3e50, color:#fff, stroke:#000, stroke-width:2px;
+    classDef external fill:#e7d62f, color:#000, stroke:#000, stroke-width:2px;
     classDef monitoring fill:#27ae60, color:#fff, stroke:#000, stroke-width:2px;
 
     %% Root
     App[⚙️ Application]:::app
 
-    %% Entrypoints / Core runtime
-    subgraph Entrypoints["Core EntryPoints"]
-        WebServer[🌐 Web Server]:::entrypoint
-        Cron[⏱️ Cron Scheduler]:::entrypoint
+    %% Runtime / Entrypoints
+    subgraph Runtime["Runtime"]
+        Nginx[🌐 Nginx]:::runtime
+        Worker[⚙️ Messenger Worker]:::runtime
+        Cron[⏱️ Cron Scheduler]:::runtime
     end
 
-    %% Database, Search, Cache
-    subgraph DBCache["Database, Search, Cache"]
-        DB[🗄️ Database]:::db_cache
-        Search[🔍 Elasticsearch]:::db_cache
-        Cache[⚡ Redis Cache]:::db_cache
+    %% Data Stores
+    subgraph DataStores["Data"]
+        DB[🟦 PostgreSQL]:::database
+        Search[🔍 Elasticsearch]:::database
+        Cache[🟧 Redis]:::cache
     end
 
     %% Message Broker
-    subgraph Broker["Message Broker"]
-        Queue[🐇 RabbitMQ]:::api_service
+    subgraph Messaging["Messaging"]
+        Queue[🐇 RabbitMQ]:::messaging
     end
 
-    %% External APIs / Services
-    subgraph ApiServices["External APIs & Services"]
-        API[🌍 External API]:::api_service
-        Stripe[💳 Payment Gateway]:::api_service
-        SMTP[✉️ Email Service]:::api_service
+    %% Object Storage
+    subgraph Storage["Storage"]
+        MinIO[🗄️ MinIO]:::storage
     end
 
-    %% Monitoring
-    subgraph MonitoringLayer["Monitoring & Observability"]
+    %% Real-time
+    subgraph Realtime["Real-time"]
+        Mercure[📡 Mercure]:::realtime
+        Browser[🌐 Browser Client]:::client
+    end
+
+    %% External Services
+    subgraph ExternalServices["External Services"]
+        Stripe[💳 Stripe]:::external
+        SMTP[✉️ SMTP]:::external
+        CountryAPI[🌍 Country API]:::external
+        Sentry[🔴 Sentry]:::external
+    end
+
+    %% Observability
+    subgraph Observability["Observability"]
         Prometheus[📊 Prometheus]:::monitoring
+        Loki[📋 Loki]:::monitoring
+        Alloy[🔄 Alloy]:::monitoring
+        AlertManager[🔔 AlertManager]:::monitoring
         Grafana[📈 Grafana]:::monitoring
     end
 
-    %% Connections
-    App --> WebServer
-    App --> Cron
+    %% HTTP request flow
+    Browser --> Nginx
+    Nginx --> App
 
+    %% App → Data
     App --> DB
     App --> Search
     App --> Cache
-    App --> Queue
-    Queue --> App
+    App --> MinIO
 
-    App --> API
+    %% App → Messaging
+    App --> Queue
+
+    %% Worker: consumes queue, indexes into Elasticsearch
+    Queue --> Worker
+    Worker --> Search
+
+    %% Real-time: App publishes, browser subscribes
+    App --> Mercure
+    Mercure --> Browser
+
+    %% Scheduled tasks
+    Cron --> App
+
+    %% External APIs
     App --> Stripe
     App --> SMTP
+    App --> CountryAPI
+    App --> Sentry
 
+    %% Observability pipeline
     App --> Prometheus
+    Alloy --> Loki
+    Prometheus --> AlertManager
     Prometheus --> Grafana
+    Loki --> Grafana
