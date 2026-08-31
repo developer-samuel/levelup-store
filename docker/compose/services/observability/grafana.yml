@@ -1,0 +1,23 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 📊 Observability - Grafana
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: levelup_store_grafana
+    restart: unless-stopped
+    user: '472'
+    volumes:
+      - ${PWD}/docker/config/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ${PWD}/docker/config/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ${PWD}/docker/config/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    ports:
+      - '${GRAFANA_PORT}:3000'
+    networks:
+      - app-network
+    depends_on:
+      - prometheus
+      - alertmanager
+      - loki

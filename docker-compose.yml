@@ -3,22 +3,34 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 include:
-  # Infrastructure
-  - docker/compose/services/postgres.yml
-  - docker/compose/services/elasticsearch.yml
-  - docker/compose/services/redis.yml
-  - docker/compose/services/rabbitmq.yml
-  - docker/compose/services/minio.yml
+  # Database
+  - docker/compose/services/database/postgres.yml
+  - docker/compose/services/database/elasticsearch.yml
+
+  # Cache
+  - docker/compose/services/cache/redis.yml
+
+  # Messaging
+  - docker/compose/services/messaging/rabbitmq.yml
+
+  # Storage
+  - docker/compose/services/storage/minio.yml
+
+  # Realtime
+  - docker/compose/services/realtime/mercure.yml
 
   # Observability
-  - docker/compose/services/observability.yml
+  - docker/compose/services/observability/prometheus.yml
+  - docker/compose/services/observability/alerts.yml
+  - docker/compose/services/observability/loki.yml
+  - docker/compose/services/observability/alloy.yml
+  - docker/compose/services/observability/grafana.yml
 
-  # Application
-  - docker/compose/services/app.yml
-  - docker/compose/services/cron.yml
-  - docker/compose/services/worker.yml
-  - docker/compose/services/webserver.yml
-  - docker/compose/services/mercure.yml
+  # App
+  - docker/compose/services/app/app.yml
+  - docker/compose/services/app/cron.yml
+  - docker/compose/services/app/worker.yml
+  - docker/compose/services/app/webserver.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes
