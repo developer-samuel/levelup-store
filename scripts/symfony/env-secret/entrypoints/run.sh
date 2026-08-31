@@ -48,7 +48,7 @@ MERCURE_JWT_SECRET_VAL=$(grep '^MERCURE_JWT_SECRET=' .env | cut -d '=' -f2-)
 if [ -n "$MERCURE_JWT_SECRET_VAL" ]; then
     echo "MERCURE_JWT_SECRET already exists, skipping generation"
 else
-    MERCURE_JWT_SECRET=$(openssl rand -base64 32)
+    MERCURE_JWT_SECRET=$(openssl rand -hex 32)
     sed -i "s/^MERCURE_JWT_SECRET=$/MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET/" .env
     echo "MERCURE_JWT_SECRET generated and added to .env"
 fi

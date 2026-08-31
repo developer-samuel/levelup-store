@@ -8,7 +8,7 @@ function appendNewItems(oldList: HTMLElement, newList: HTMLElement): void {
     .forEach((item) => oldList.appendChild(item))
 }
 
-function insertItemsBeforeNode(returnedWrapper: HTMLElement, beforeNode: Node | null, wrapper: HTMLElement): void {
+function insertItemsBeforeNode(returnedWrapper: HTMLElement, beforeNode: Element | null, wrapper: HTMLElement): void {
   Array.from(returnedWrapper.childNodes).forEach((n) => {
     if (!(n instanceof Element)) return
     const el = n
