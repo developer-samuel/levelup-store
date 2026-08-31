@@ -72,7 +72,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## 6. Automation & Tooling
 
 - **Command Runner:** Makefile
-- **Scripts:** Bash, Batch, PHP, Tools
+- **Scripts:** Bash, PHP, Tools
 - **Code Statistics:** Custom PHP tools for files, rows, and characters counting
 
 ---

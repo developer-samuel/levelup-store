@@ -6,7 +6,7 @@ This file documents environment and setup Composer scripts defined in `composer.
 
 ### env:generate
 
-- **Command**: `php scripts/symfony/env/generate/launcher.php`
+- **Command**: `php scripts/symfony/env-generate/launcher.php`
 - **Purpose**: Generates `.env` file from `.env.example` if it does not exist.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
@@ -14,7 +14,7 @@ This file documents environment and setup Composer scripts defined in `composer.
 
 ### env:secret
 
-- **Command**: `php scripts/symfony/env/secret/launcher.php`
+- **Command**: `php scripts/symfony/env-secret/launcher.php`
 - **Purpose**: Generates `APP_SECRET`, `HMAC_SECRET` and `JWT_PASSPHRASE` into `.env` if they are empty.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
@@ -31,7 +31,7 @@ This file documents environment and setup Composer scripts defined in `composer.
 
 ### jwt:generate
 
-- **Command**: `php scripts/symfony/jwt/generate/launcher.php`
+- **Command**: `php scripts/symfony/jwt-generate/launcher.php`
 - **Purpose**: Generates JWT RSA keypair (`private.pem`, `public.pem`) into `config/jwt/` using `JWT_PASSPHRASE` from `.env`. Always regenerates - old keys are removed first.
 - **Note**: Requires `JWT_PASSPHRASE` to be set in `.env`. Run after `env:secret`.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.

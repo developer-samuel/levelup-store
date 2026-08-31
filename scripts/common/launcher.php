@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-function launch(string $windowsCmd, string $unixCmd): int
+function launch(string $unixCmd): never
 {
-    $os = PHP_OS_FAMILY;
-    $isBash = getenv('SHELL') !== false && strpos(getenv('SHELL'), 'bash') !== false;
-
-    if ($os === 'Windows' && !$isBash) {
-        echo "Detected Windows CMD/PowerShell, running $windowsCmd\n";
-        passthru($windowsCmd, $returnVar);
-    } else {
-        echo "Detected Bash or Unix, running $unixCmd\n";
-        passthru("bash $unixCmd", $returnVar);
+    if (PHP_OS_FAMILY === 'Windows' && getenv('SHELL') === false) {
+        echo "Error: Windows CMD/PowerShell is not supported. Use WSL to run this script.\n";
+        exit(1);
     }
 
-    return $returnVar;
+    passthru("bash $unixCmd", $returnVar);
+
+    exit($returnVar);
 }

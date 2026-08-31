@@ -4,4 +4,4 @@ declare(strict_types=1);
 
 require_once 'scripts/common/launcher.php';
 
-launch('scripts/tools/php-metrics/entrypoints/run.sh');
+launch('scripts/symfony/env-secret/entrypoints/run.sh');

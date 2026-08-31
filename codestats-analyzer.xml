@@ -7,7 +7,6 @@
         <ext>twig</ext>
         <ext>yaml</ext>
         <ext>sh</ext>
-        <ext>cmd</ext>
     </file_extensions>
     <ignored_dirs>
         <dir>public</dir>

@@ -119,9 +119,9 @@
     },
     "post-install-cmd": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/env/generate/launcher.php",
-      "php scripts/symfony/env/secret/launcher.php",
-      "php scripts/symfony/jwt/generate/launcher.php",
+      "php scripts/symfony/env-generate/launcher.php",
+      "php scripts/symfony/env-secret/launcher.php",
+      "php scripts/symfony/jwt-generate/launcher.php",
       "php scripts/tasks/prepare-var/launcher.php",
       "php scripts/tasks/prepare-permissions/launcher.php",
       "@auto-scripts",
@@ -139,11 +139,11 @@
     ],
     "env:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/env/generate/launcher.php"
+      "php scripts/symfony/env-generate/launcher.php"
     ],
     "env:secret": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/env/secret/launcher.php"
+      "php scripts/symfony/env-secret/launcher.php"
     ],
     "secrets:generate": [
       "Composer\\Config::disableProcessTimeout",
@@ -151,7 +151,7 @@
     ],
     "jwt:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/jwt/generate/launcher.php"
+      "php scripts/symfony/jwt-generate/launcher.php"
     ],
     "var:prepare": [
       "Composer\\Config::disableProcessTimeout",
