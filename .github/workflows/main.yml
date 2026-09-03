@@ -143,8 +143,8 @@ jobs:
         image: dunglas/mercure:latest
         env:
           SERVER_NAME: ':3000 http, :3001 http'
-          MERCURE_PUBLISHER_JWT_KEY: 'mercure-test-jwt-secret'
-          MERCURE_SUBSCRIBER_JWT_KEY: 'mercure-test-jwt-secret'
+          MERCURE_PUBLISHER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
+          MERCURE_SUBSCRIBER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
           MERCURE_EXTRA_DIRECTIVES: "cors_origins *\nanonymous\n"
         ports:
           - 3000:3000
@@ -182,7 +182,7 @@ jobs:
       - uses: ./.github/actions/mercure
         with:
           mercure-port: '3000'
-          mercure-jwt-secret: 'mercure-test-jwt-secret'
+          mercure-jwt-secret: 'test-mercure-jwt-secret-256bit-ok'
 
       - uses: ./.github/actions/env
         with:

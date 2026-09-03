@@ -9,7 +9,7 @@ inputs:
   mercure-jwt-secret:
     description: JWT secret shared between app and Mercure hub
     required: false
-    default: 'mercure-test-jwt-secret'
+    default: 'test-mercure-jwt-secret-256bit-ok'
 
 runs:
   using: composite
