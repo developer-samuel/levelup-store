@@ -18,14 +18,25 @@ use Symfony\{
     Contracts\Cache\ItemInterface
 };
 
+use App\Core\Ports\{
+    Gateways\External\MessageBroker\RabbitMQGatewayContract,
+    Gateways\External\Realtime\MercureHubGatewayContract,
+    Gateways\External\Search\ElasticsearchGatewayContract,
+    Gateways\External\Storage\StorageGatewayContract
+};
+
 class HealthCheckController extends AbstractController
 {
     private const DISK_MIN_FREE_BYTES = 1024 * 1024 * 1024;
-    private const MAILER_TIMEOUT = 3;
+    private const MAILER_TIMEOUT      = 3;
 
     /**
      * @param Connection $connection
      * @param CacheInterface $cache
+     * @param RabbitMQGatewayContract $rabbitMQ
+     * @param ElasticsearchGatewayContract $elasticsearch
+     * @param StorageGatewayContract $storage
+     * @param MercureHubGatewayContract $mercure
      * @param string $stripeSecretKey
      * @param string $mailerUser
      * @param string $mailerPass
@@ -37,6 +48,10 @@ class HealthCheckController extends AbstractController
     public function __construct(
         private readonly Connection $connection,
         private readonly CacheInterface $cache,
+        private readonly RabbitMQGatewayContract $rabbitMQ,
+        private readonly ElasticsearchGatewayContract $elasticsearch,
+        private readonly StorageGatewayContract $storage,
+        private readonly MercureHubGatewayContract $mercure,
         private readonly string $stripeSecretKey,
         private readonly string $mailerUser,
         private readonly string $mailerPass,
@@ -52,11 +67,15 @@ class HealthCheckController extends AbstractController
     public function check(): JsonResponse
     {
         $checks = [
-            'database' => $this->checkDatabase(),
-            'cache'    => $this->checkCache(),
-            'disk'     => $this->checkDisk(),
-            'mailer'   => $this->checkMailer(),
-            'stripe'   => $this->checkStripe(),
+            'database'      => $this->checkDatabase(),
+            'cache'         => $this->checkCache(),
+            'disk'          => $this->checkDisk(),
+            'mailer'        => $this->checkMailer(),
+            'stripe'        => $this->checkStripe(),
+            'rabbitmq'      => $this->checkRabbitMQ(),
+            'elasticsearch' => $this->checkElasticsearch(),
+            'minio'         => $this->checkMinIO(),
+            'mercure'       => $this->checkMercure(),
         ];
 
         $status = in_array('error', $checks, true) ? 'error' : 'ok';
@@ -175,6 +194,54 @@ class HealthCheckController extends AbstractController
         } catch (\Throwable) {
             return 'error';
         }
+    }
+
+    /**
+     * @return string
+    */
+    private function checkRabbitMQ(): string
+    {
+        if (!$this->rabbitMQ->isEnabled()) {
+            return 'disabled';
+        }
+
+        return $this->rabbitMQ->isConnected() ? 'ok' : 'error';
+    }
+
+    /**
+     * @return string
+    */
+    private function checkElasticsearch(): string
+    {
+        if (!$this->elasticsearch->isEnabled()) {
+            return 'disabled';
+        }
+
+        return $this->elasticsearch->isConnected() ? 'ok' : 'error';
+    }
+
+    /**
+     * @return string
+    */
+    private function checkMinIO(): string
+    {
+        if (!$this->storage->isEnabled()) {
+            return 'disabled';
+        }
+
+        return $this->storage->isConnected() ? 'ok' : 'error';
+    }
+
+    /**
+     * @return string
+    */
+    private function checkMercure(): string
+    {
+        if (!$this->mercure->isEnabled()) {
+            return 'disabled';
+        }
+
+        return $this->mercure->isConnected() ? 'ok' : 'error';
     }
 
     /**

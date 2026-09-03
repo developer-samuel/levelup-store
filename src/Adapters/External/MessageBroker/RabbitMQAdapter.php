@@ -39,6 +39,14 @@ final readonly class RabbitMQAdapter implements RabbitMQGatewayContract
     }
 
     /**
+     * @return bool
+    */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
      * @return string
     */
     public function getMessengerDsn(): string

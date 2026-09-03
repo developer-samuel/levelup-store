@@ -1,16 +1,13 @@
 #!/bin/bash
 set -e
 
-TOTAL=7
+TOTAL=6
 source /usr/local/bin/scripts/helpers/step.sh
 
 echo ""
 echo "╔═════════════════════════════════════════════════╗"
 echo "║           LEVELUP STORE - APP SETUP             ║"
 echo "╚═════════════════════════════════════════════════╝"
-
-step "Setting permissions..."
-/usr/local/bin/scripts/bootstrap/permissions.sh
 
 step "Checking Composer..."
 /usr/local/bin/scripts/bootstrap/check-composer.sh

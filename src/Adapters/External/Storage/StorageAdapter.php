@@ -31,7 +31,7 @@ final class StorageAdapter implements StorageGatewayContract
         private readonly bool $minioEnabled,
         private readonly string $publicUrl,
         private readonly string $bucket,
-        string $endpoint,
+        private readonly string $endpoint,
         string $rootUser,
         string $rootPassword,
         string $uploadsPath,
@@ -42,7 +42,7 @@ final class StorageAdapter implements StorageGatewayContract
         }
 
         $client = new S3Client([
-            'endpoint'                => $endpoint,
+            'endpoint'                => $this->endpoint,
             'credentials'             => ['key' => $rootUser, 'secret' => $rootPassword],
             'region'                  => 'us-east-1',
             'version'                 => 'latest',
@@ -50,6 +50,44 @@ final class StorageAdapter implements StorageGatewayContract
         ]);
 
         $this->filesystem = new Filesystem(new AwsS3V3Adapter($client, $this->bucket));
+    }
+
+    /**
+     * @return bool
+    */
+    public function isEnabled(): bool
+    {
+        return $this->minioEnabled;
+    }
+
+    /**
+     * @return bool
+    */
+    public function isConnected(): bool
+    {
+        if (!$this->minioEnabled) {
+            return false;
+        }
+
+        $parsed = parse_url($this->endpoint);
+        $host   = $parsed['host'] ?? null;
+        $port   = $parsed['port'] ?? (($parsed['scheme'] ?? 'http') === 'https' ? 443 : 80);
+
+        if ($host === null) {
+            return false;
+        }
+
+        set_error_handler(static fn() => true);
+        $connection = fsockopen($host, $port, timeout: 3);
+        restore_error_handler();
+
+        if ($connection === false) {
+            return false;
+        }
+
+        fclose($connection);
+
+        return true;
     }
 
     /**

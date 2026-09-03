@@ -78,6 +78,7 @@ services:
     arguments:
       $hub: '@mercure.hub.default'
       $enabled: '%env(bool:MERCURE_ENABLED)%'
+      $hubUrl: '%env(MERCURE_URL)%'
 
   App\Adapters\External\Search\ElasticsearchAdapter:
     arguments:

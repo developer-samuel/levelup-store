@@ -7,6 +7,17 @@ namespace App\Core\Ports\Gateways\External\Storage;
 interface StorageGatewayContract
 {
     /**
+     * @return bool
+    */
+    public function isEnabled(): bool;
+
+    /**
+     * @return bool
+    */
+    public function isConnected(): bool;
+
+
+    /**
      * @param string $path
      * @param string $content
      *
