@@ -142,14 +142,14 @@ jobs:
       mercure:
         image: dunglas/mercure:latest
         env:
-          SERVER_NAME: ':3000 http, :3001 http'
+          SERVER_NAME: ':80'
           MERCURE_PUBLISHER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
           MERCURE_SUBSCRIBER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
           MERCURE_EXTRA_DIRECTIVES: "cors_origins *\nanonymous\n"
         ports:
-          - 3000:3000
+          - 9300:80
         options: >-
-          --health-cmd "nc -z localhost 3000 || exit 1"
+          --health-cmd "nc -z localhost 80 || exit 1"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
@@ -181,7 +181,7 @@ jobs:
 
       - uses: ./.github/actions/mercure
         with:
-          mercure-port: '3000'
+          mercure-port: '9300'
           mercure-jwt-secret: 'test-mercure-jwt-secret-256bit-ok'
 
       - uses: ./.github/actions/env

@@ -93,6 +93,12 @@ services:
     arguments:
       $wkhtmltopdfEnabled: '%env(bool:WKHTMLTOPDF_ENABLED)%'
 
+  App\Adapters\External\Turnstile\TurnstileAdapter:
+    arguments:
+      $enabled: '%env(bool:TURNSTILE_ENABLED)%'
+      $secretKey: '%env(TURNSTILE_SECRET_KEY)%'
+      $verifyUrl: '%env(TURNSTILE_VERIFY_URL)%'
+
   App\Adapters\External\Api\CountryApiAdapter:
     arguments:
       $countryUrl: '%env(API_COUNTRY_URL)%'
@@ -135,7 +141,7 @@ services:
     resource: '../src/Presentation/'
     tags: ['controller.service_arguments']
 
-  App\Presentation\Dev\HealthCheckController:
+  App\Presentation\Dev\HealthCheckConfig:
     arguments:
       $stripeSecretKey: '%env(STRIPE_SECRET)%'
       $mailerUser: '%env(MAILER_USER)%'

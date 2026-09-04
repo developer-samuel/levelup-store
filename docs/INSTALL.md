@@ -40,19 +40,22 @@ npm run dev
 
 ## 2. Run Application with Docker
 
-First time setup:
+First time setup (stops any running stack first, then runs DB/storage initialization, then starts all services):
 
 **Production:**
 ```bash
 make setup-build
 # or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose --profile setup up --build
+docker compose up -d
 ```
 
 **Development:**
 ```bash
 make dev-setup-build
 # or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 ```

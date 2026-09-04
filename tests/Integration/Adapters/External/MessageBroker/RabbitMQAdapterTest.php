@@ -37,7 +37,10 @@ class RabbitMQAdapterTest extends TestCase
         $this->vhost = is_string($vhost) ? $vhost : '/';
 
         $this->adapter = new RabbitMQAdapter(true, $this->host, $this->port, $this->user, $this->pass, $this->vhost);
+    }
 
+    private function skipIfNotConnected(): void
+    {
         if (!$this->adapter->isConnected()) {
             $this->markTestSkipped('RabbitMQ is not available.');
         }
@@ -48,8 +51,21 @@ class RabbitMQAdapterTest extends TestCase
         $this->assertInstanceOf(RabbitMQGatewayContract::class, $this->adapter);
     }
 
+    public function testIsEnabledReturnsTrueWhenEnabled(): void
+    {
+        $this->assertTrue($this->adapter->isEnabled());
+    }
+
+    public function testIsEnabledReturnsFalseWhenDisabled(): void
+    {
+        $adapter = new RabbitMQAdapter(false, $this->host, $this->port, $this->user, $this->pass, $this->vhost);
+
+        $this->assertFalse($adapter->isEnabled());
+    }
+
     public function testIsConnectedReturnsTrueWhenRunning(): void
     {
+        $this->skipIfNotConnected();
         $this->assertTrue($this->adapter->isConnected());
     }
 
@@ -62,6 +78,7 @@ class RabbitMQAdapterTest extends TestCase
 
     public function testGetMessengerDsnReturnsAmqpDsnWhenEnabled(): void
     {
+        $this->skipIfNotConnected();
         $this->assertStringStartsWith('amqp://', $this->adapter->getMessengerDsn());
     }
 
@@ -74,26 +91,31 @@ class RabbitMQAdapterTest extends TestCase
 
     public function testGetConnectionDsnReturnsAmqpDsn(): void
     {
+        $this->skipIfNotConnected();
         $this->assertStringStartsWith('amqp://', $this->adapter->getConnectionDsn());
     }
 
     public function testGetConnectionDsnContainsHost(): void
     {
+        $this->skipIfNotConnected();
         $this->assertStringContainsString($this->host, $this->adapter->getConnectionDsn());
     }
 
     public function testGetConnectionDsnContainsPort(): void
     {
+        $this->skipIfNotConnected();
         $this->assertStringContainsString((string) $this->port, $this->adapter->getConnectionDsn());
     }
 
     public function testGetConnectionDsnContainsCredentials(): void
     {
+        $this->skipIfNotConnected();
         $this->assertStringContainsString($this->user, $this->adapter->getConnectionDsn());
     }
 
     public function testGetMessengerDsnAndConnectionDsnAreConsistentWhenEnabled(): void
     {
+        $this->skipIfNotConnected();
         $this->assertSame($this->adapter->getConnectionDsn(), $this->adapter->getMessengerDsn());
     }
 }

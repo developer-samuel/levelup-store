@@ -15,24 +15,28 @@ use App\Core\Domain\Auth\Payload\ForgotPasswordPayload;
 
 use App\Core\Ports\{
     Auth\Handler\Command\ForgotPasswordCommandHandlerContract,
+    Gateways\External\Turnstile\TurnstileGatewayContract,
     Shared\Logging\AppLoggerContract
 };
 
 use App\Presentation\{
     Abstract\Controller\Command\AbstractCrudCommandController,
-    Auth\Request\ForgotPasswordRequest
+    Auth\Request\ForgotPasswordRequest,
+    Shared\Responder\HttpResponder
 };
 
 class ForgotPasswordCommandController extends AbstractCrudCommandController
 {
     /**
      * @param ForgotPasswordCommandHandlerContract $forgotPasswordCommandHandler
+     * @param TurnstileGatewayContract $turnstile
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param AppLoggerContract $logger
      * @param ValidatorInterface $validator
     */
     public function __construct(
         private readonly ForgotPasswordCommandHandlerContract $forgotPasswordCommandHandler,
+        private readonly TurnstileGatewayContract $turnstile,
         CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,
         ValidatorInterface $validator,
@@ -51,6 +55,12 @@ class ForgotPasswordCommandController extends AbstractCrudCommandController
     */
     public function store(Request $request): JsonResponse
     {
+        $turnstileToken = $request->request->getString('cf-turnstile-response');
+
+        if (!$this->turnstile->verify($turnstileToken, (string) $request->getClientIp())) {
+            return HttpResponder::unprocessableEntity(['turnstile' => 'Bot verification failed. Please try again.']);
+        }
+
         return $this->executeCommand(
             $request,
             ForgotPasswordRequest::class,

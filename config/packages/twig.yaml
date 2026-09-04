@@ -2,6 +2,8 @@ twig:
   file_name_pattern: '*.twig'
   globals:
     mercure_public_url: '%env(MERCURE_PUBLIC_URL)%'
+    turnstile_enabled: '%env(bool:TURNSTILE_ENABLED)%'
+    turnstile_site_key: '%env(TURNSTILE_SITE_KEY)%'
 
 when@test:
   twig:

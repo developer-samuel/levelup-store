@@ -31,6 +31,21 @@ Core variables to check / configure:
   `APP_SECRET`, `HMAC_SECRET`  
   Random secrets for framework encryption, CSRF, and HMAC signing. Generated automatically if empty.
 
+- **Cloudflare Turnstile (CAPTCHA)** ⚠️ *Must be set when enabled*  
+  `TURNSTILE_ENABLED`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`  
+  Bot-protection CAPTCHA widget shown on login, signup, and password reset forms.
+  - Set `TURNSTILE_ENABLED=true` and provide real keys for staging / production.    
+  - Set `TURNSTILE_ENABLED=false` to disable CAPTCHA entirely (useful in local development).  
+
+  **How to get keys:**
+  1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Application Security** → **Turnstile**
+  2. Click **Add widget**, enter a name (e.g. `levelup_store`), add your domain(s)
+  3. Copy **Site Key** → `TURNSTILE_SITE_KEY`
+  4. Copy **Secret Key** → `TURNSTILE_SECRET_KEY`
+
+  > Cloudflare provides official test keys that always pass - use them in `.env.test` or local overrides:  
+  > Site key: `1x00000000000000000000AA` / Secret key: `1x0000000000000000000000000000000AA`
+
 - **Database**  
   `DATABASE_URL`  
   Supports PostgreSQL or MySQL.
@@ -91,6 +106,19 @@ Core variables to check / configure:
 - **PDF Generation (wkhtmltopdf)**  
   `WKHTMLTOPDF_PATH`  
   Used for generating PDF invoices. Path to the `wkhtmltopdf` binary.
+
+- **Code Quality (SonarQube)** - *development / CI only*  
+  `SONAR_HOST`, `SONAR_HOST_INTERNAL`, `SONAR_PROJECT_KEY`, `SONAR_TOKEN`  
+  Used for static analysis - not required at runtime. `SONAR_TOKEN` is a personal access token, each developer generates their own.  
+
+  **How to get token:**
+  1. Start SonarQube locally (included in Docker Compose)
+  2. Open `http://localhost:9100` → default login: `admin` / `admin`
+  3. Go to **My Account** → **Security** → **Generate Token**
+  4. Copy the token → `SONAR_TOKEN`
+
+  > `SONAR_HOST` is the public URL (browser access).  
+  > `SONAR_HOST_INTERNAL` is the internal Docker service URL used by the scanner container.
 
 > ⚠️ Reminder:
 - `.env.example` is the primary source of documentation.

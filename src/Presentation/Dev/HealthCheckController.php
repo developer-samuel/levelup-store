@@ -37,13 +37,7 @@ class HealthCheckController extends AbstractController
      * @param ElasticsearchGatewayContract $elasticsearch
      * @param StorageGatewayContract $storage
      * @param MercureHubGatewayContract $mercure
-     * @param string $stripeSecretKey
-     * @param string $mailerUser
-     * @param string $mailerPass
-     * @param string $mailerHost
-     * @param int $mailerPort
-     * @param bool $wkhtmltopdfEnabled
-     * @param string $wkhtmltopdfPath
+     * @param HealthCheckConfig $config
     */
     public function __construct(
         private readonly Connection $connection,
@@ -52,13 +46,7 @@ class HealthCheckController extends AbstractController
         private readonly ElasticsearchGatewayContract $elasticsearch,
         private readonly StorageGatewayContract $storage,
         private readonly MercureHubGatewayContract $mercure,
-        private readonly string $stripeSecretKey,
-        private readonly string $mailerUser,
-        private readonly string $mailerPass,
-        private readonly string $mailerHost,
-        private readonly int $mailerPort,
-        private readonly bool $wkhtmltopdfEnabled,
-        private readonly string $wkhtmltopdfPath,
+        private readonly HealthCheckConfig $config,
     ) {}
 
     /**
@@ -139,8 +127,8 @@ class HealthCheckController extends AbstractController
     private function checkMailer(): string
     {
         $connection = fsockopen(
-            'ssl://' . $this->mailerHost,
-            $this->mailerPort,
+            'ssl://' . $this->config->mailerHost,
+            $this->config->mailerPort,
             timeout: self::MAILER_TIMEOUT,
         );
 
@@ -164,10 +152,10 @@ class HealthCheckController extends AbstractController
             fwrite($connection, "AUTH LOGIN\r\n");
             fgets($connection); // 334 username prompt
 
-            fwrite($connection, base64_encode($this->mailerUser) . "\r\n");
+            fwrite($connection, base64_encode($this->config->mailerUser) . "\r\n");
             fgets($connection); // 334 password prompt
 
-            fwrite($connection, base64_encode(urldecode($this->mailerPass)) . "\r\n");
+            fwrite($connection, base64_encode(urldecode($this->config->mailerPass)) . "\r\n");
             $authResponse = fgets($connection);
 
             // QUIT
@@ -185,9 +173,9 @@ class HealthCheckController extends AbstractController
     private function checkStripe(): string
     {
         try {
-            Stripe::setApiKey($this->stripeSecretKey);
+            Stripe::setApiKey($this->config->stripeSecretKey);
 
-            $client = new StripeClient($this->stripeSecretKey);
+            $client = new StripeClient($this->config->stripeSecretKey);
             $client->balance->retrieve();
 
             return 'ok';
@@ -249,10 +237,10 @@ class HealthCheckController extends AbstractController
     */
     private function checkWkhtmltopdf(): string
     {
-        if (!$this->wkhtmltopdfEnabled) {
+        if (!$this->config->wkhtmltopdfEnabled) {
             return 'disabled';
         }
 
-        return file_exists($this->wkhtmltopdfPath) ? 'ok' : 'error';
+        return file_exists($this->config->wkhtmltopdfPath) ? 'ok' : 'error';
     }
 }

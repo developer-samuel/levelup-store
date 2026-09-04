@@ -20,9 +20,8 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/data
     networks:
       - app-network
+    extends:
+      file: ../../_base/healthcheck.yml
+      service: healthcheck-base
     healthcheck:
       test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 5s

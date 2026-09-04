@@ -74,6 +74,10 @@ final readonly class MercureHubAdapter implements MercureHubGatewayContract
             return;
         }
 
-        $this->hub->publish(new Update($topic, $data));
+        try {
+            $this->hub->publish(new Update($topic, $data));
+        } catch (\Throwable) {
+            return;
+        }
     }
 }

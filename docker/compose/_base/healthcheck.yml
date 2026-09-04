@@ -1,25 +1,16 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🐇 Message Broker - RabbitMQ 3
+# 🏥 Base Health Check Template
+#
+# Used via extends: in service files - never run directly.
+# Each service overrides only the `test:` command.
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: levelup_store_rabbitmq
-    restart: unless-stopped
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
-      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
-    ports:
-      - '${RABBITMQ_PORT}:5672'
-      - '15672:15672'
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    networks:
-      - app-network
-    extends:
-      file: ../../_base/healthcheck.yml
-      service: healthcheck-base
+  healthcheck-base:
+    image: scratch
     healthcheck:
-      test: ['CMD', 'rabbitmq-diagnostics', 'ping']
+      test: ['NONE']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s

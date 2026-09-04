@@ -48,7 +48,7 @@ This file documents environment and setup Composer scripts defined in `composer.
 
 ### permissions:set
 
-- **Command**: `php scripts/tasks/prepare-permissions/launcher.php`
+- **Command**: `php scripts/tasks/set-permissions/launcher.php`
 - **Purpose**: Sets correct file and directory permissions for the project (e.g. `var/`, scripts).
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 

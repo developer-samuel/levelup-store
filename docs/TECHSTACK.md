@@ -42,6 +42,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Caching & Storage:** Redis (cache, sessions, rate limiting)
 - **Message Broker:** RabbitMQ (async email queue via Symfony Messenger)
 - **External API**: REST API [apicountries.com](https://www.apicountries.com/countries) for country data ingestion
+- **Bot Protection:** Cloudflare Turnstile (CAPTCHA for login, signup, and password reset)
 - **Payment Gateway:** Stripe API
 - **PDF Generation:** wkhtmltopdf
 - **Error Monitoring:** Sentry

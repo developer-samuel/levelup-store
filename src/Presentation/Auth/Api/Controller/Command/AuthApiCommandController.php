@@ -17,6 +17,7 @@ use App\Core\Ports\{
     Auth\Handler\Command\LoginHandlerContract,
     Auth\Handler\Command\LogoutHandlerContract,
     Auth\Handler\Command\RefreshTokenHandlerContract,
+    Gateways\External\Turnstile\TurnstileGatewayContract,
     Shared\Logging\AppLoggerContract
 };
 
@@ -36,6 +37,7 @@ final class AuthApiCommandController extends AbstractCrudCommandController
      * @param RefreshTokenHandlerContract $refreshTokenHandler
      * @param LogoutHandlerContract $logoutHandler
      * @param RefreshTokenCookieManager $refreshTokenCookieManager
+     * @param TurnstileGatewayContract $turnstile
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param AppLoggerContract $logger
      * @param ValidatorInterface $validator
@@ -45,6 +47,7 @@ final class AuthApiCommandController extends AbstractCrudCommandController
         private readonly RefreshTokenHandlerContract $refreshTokenHandler,
         private readonly LogoutHandlerContract $logoutHandler,
         private readonly RefreshTokenCookieManager $refreshTokenCookieManager,
+        private readonly TurnstileGatewayContract $turnstile,
         CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,
         ValidatorInterface $validator,
@@ -64,6 +67,14 @@ final class AuthApiCommandController extends AbstractCrudCommandController
     public function login(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {
+            $decoded = json_decode($request->getContent(), true);
+            $raw = is_array($decoded) ? ($decoded['cf_turnstile_response'] ?? '') : '';
+            $turnstileToken = is_string($raw) ? $raw : '';
+
+            if (!$this->turnstile->verify($turnstileToken, (string) $request->getClientIp())) {
+                return HttpResponder::unprocessableEntity(['turnstile' => 'Bot verification failed. Please try again.']);
+            }
+
             $loginRequest = LoginRequest::fromHttpRequest(
                 $request,
                 $this->csrfTokenManager,

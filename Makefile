@@ -5,7 +5,7 @@
 .PHONY: install cache-clear serve setup \
         clean-all build-cache \
         setup-build \
-        dev dev-build-force dev-down dev-down-clean dev-restart \
+        dev dev-build-force dev-down dev-down-clean \
         dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
         logs logs-dev
 
@@ -79,18 +79,22 @@ build-cache:
 # Build and start setup containers (first time or Dockerfile changes)
 setup-build:
 	@echo "🛠 Setup: Building and starting setup containers..."
+	$(MAKE) dev-down
 	$(DC) --profile setup up --build
+	$(DC) up -d
 
 # ── 💻 Development ───────────────────────────────────────────────────────────
 
 # Start all services (base + dev) in foreground
 dev:
 	@echo "▶ Starting all services (base + dev) in foreground..."
+	$(MAKE) dev-down
 	$(DC_DEV) up
 
 # Force rebuild all services (base + dev)
 dev-build-force:
 	@echo "🛠 Force rebuild of all services (base + dev)..."
+	$(MAKE) dev-down
 	$(DC_DEV) build --no-cache
 	$(DC_DEV) up -d --force-recreate
 
@@ -104,17 +108,12 @@ dev-down-clean:
 	@echo "⏹ Cleaning all services and volumes (base + dev)..."
 	$(DC_DEV) down --volumes --remove-orphans
 
-# Restart all services (base + dev)
-dev-restart:
-	@echo "🔄 Restarting all services (base + dev)..."
-	$(MAKE) dev-down
-	$(MAKE) dev
-
 # ── 🔧 Dev Setup ─────────────────────────────────────────────────────────────
 
 # Build and start setup containers + all dev services (first time or Dockerfile changes)
 dev-setup-build:
 	@echo "💻 Dev setup: Building and starting setup containers + dev services..."
+	$(MAKE) dev-down
 	$(DC_DEV) --profile setup up --build
 	$(DC_DEV) up -d
 

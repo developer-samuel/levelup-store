@@ -15,6 +15,7 @@ use App\Core\Domain\Auth\Payload\SignupPayload;
 
 use App\Core\Ports\{
     Auth\Handler\Command\SignupHandlerContract,
+    Gateways\External\Turnstile\TurnstileGatewayContract,
     Shared\Logging\AppLoggerContract
 };
 
@@ -31,6 +32,7 @@ class SignupCommandController extends AbstractCrudCommandController
     /**
      * @param SignupHandlerContract $signupHandler
      * @param RefreshTokenCookieManager $refreshTokenCookieManager
+     * @param TurnstileGatewayContract $turnstile
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param AppLoggerContract $logger
      * @param ValidatorInterface $validator
@@ -38,6 +40,7 @@ class SignupCommandController extends AbstractCrudCommandController
     public function __construct(
         private readonly SignupHandlerContract $signupHandler,
         private readonly RefreshTokenCookieManager $refreshTokenCookieManager,
+        private readonly TurnstileGatewayContract $turnstile,
         CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,
         ValidatorInterface $validator,
@@ -57,6 +60,12 @@ class SignupCommandController extends AbstractCrudCommandController
     public function store(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {
+            $turnstileToken = $request->request->getString('cf-turnstile-response');
+
+            if (!$this->turnstile->verify($turnstileToken, (string) $request->getClientIp())) {
+                return HttpResponder::unprocessableEntity(['turnstile' => 'Bot verification failed. Please try again.']);
+            }
+
             $signupRequest = SignupRequest::fromHttpRequest($request, $this->csrfTokenManager);
 
             $validationResponse = RequestProcessor::process($signupRequest, $this->validator);

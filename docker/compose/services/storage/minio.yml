@@ -18,9 +18,8 @@ services:
       - '9001:9001'
     networks:
       - app-network
+    extends:
+      file: ../../_base/healthcheck.yml
+      service: healthcheck-base
     healthcheck:
       test: ['CMD', 'mc', 'ready', 'local']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s

@@ -103,8 +103,8 @@ describe('loginSubmit()', () => {
 
     expect(mockedPost).toHaveBeenCalledWith(
       '/api/auth/login',
-      { email: 'user@example.com', password: 'secret' },
-      expect.objectContaining({ withCredentials: true }),
+      { email: 'user@example.com', password: 'secret', cf_turnstile_response: '' },
+      { withCredentials: true, persistLoading: true },
     )
   })
 })

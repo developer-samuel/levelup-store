@@ -22,9 +22,8 @@ services:
       - mercure_config:/config
     networks:
       - app-network
+    extends:
+      file: ../../_base/healthcheck.yml
+      service: healthcheck-base
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost/healthz']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s

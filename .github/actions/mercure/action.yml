@@ -5,7 +5,7 @@ inputs:
   mercure-port:
     description: Host port mapped to Mercure hub
     required: false
-    default: '3000'
+    default: '9300'
   mercure-jwt-secret:
     description: JWT secret shared between app and Mercure hub
     required: false

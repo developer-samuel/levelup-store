@@ -40,9 +40,12 @@ docker compose build --no-cache
 
 ```bash
 # Build and start setup containers (first time or Dockerfile changes)
+# Stops any running stack first to avoid stale unhealthy containers
 make setup-build
 # or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose --profile setup up --build
+docker compose up -d
 ```
 
 ### Development Commands
@@ -51,13 +54,16 @@ All services including dev tools - Vite, pgAdmin, Elasticvue, Mailpit, Dozzle, S
 
 ```bash
 # Start all services (base + dev) in foreground
+# Stops any running stack first to avoid stale unhealthy containers
 make dev
 # or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 
 # Force rebuild all services (base + dev)
 make dev-build-force
 # or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --force-recreate
 
@@ -70,20 +76,16 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 make dev-down-clean
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
-
-# Restart all services (base + dev)
-make dev-restart
-# or
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
 ### Dev Setup Commands
 
 ```bash
 # Build and start setup containers + all dev services (first time or Dockerfile changes)
+# Stops any running stack first to avoid stale unhealthy containers
 make dev-setup-build
 # or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
