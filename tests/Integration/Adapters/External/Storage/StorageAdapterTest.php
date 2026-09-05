@@ -49,13 +49,6 @@ class StorageAdapterTest extends TestCase
         );
     }
 
-    private function skipIfNotConnected(): void
-    {
-        if (!$this->adapter->isConnected()) {
-            $this->markTestSkipped('MinIO is not available.');
-        }
-    }
-
     public function testImplementsContract(): void
     {
         $this->assertInstanceOf(StorageGatewayContract::class, $this->adapter);
@@ -194,5 +187,12 @@ class StorageAdapterTest extends TestCase
     {
         $this->skipIfNotConnected();
         $this->assertFalse($this->adapter->exists('phpunit/nonexistent-' . uniqid() . '.txt'));
+    }
+
+    private function skipIfNotConnected(): void
+    {
+        if (!$this->adapter->isConnected()) {
+            $this->markTestSkipped('MinIO is not available.');
+        }
     }
 }

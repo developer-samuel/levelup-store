@@ -39,13 +39,6 @@ class RabbitMQAdapterTest extends TestCase
         $this->adapter = new RabbitMQAdapter(true, $this->host, $this->port, $this->user, $this->pass, $this->vhost);
     }
 
-    private function skipIfNotConnected(): void
-    {
-        if (!$this->adapter->isConnected()) {
-            $this->markTestSkipped('RabbitMQ is not available.');
-        }
-    }
-
     public function testImplementsContract(): void
     {
         $this->assertInstanceOf(RabbitMQGatewayContract::class, $this->adapter);
@@ -117,5 +110,12 @@ class RabbitMQAdapterTest extends TestCase
     {
         $this->skipIfNotConnected();
         $this->assertSame($this->adapter->getConnectionDsn(), $this->adapter->getMessengerDsn());
+    }
+
+    private function skipIfNotConnected(): void
+    {
+        if (!$this->adapter->isConnected()) {
+            $this->markTestSkipped('RabbitMQ is not available.');
+        }
     }
 }

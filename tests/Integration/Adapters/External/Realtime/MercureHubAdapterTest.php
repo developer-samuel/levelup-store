@@ -41,13 +41,6 @@ class MercureHubAdapterTest extends TestCase
         $this->adapter = new MercureHubAdapter($hub, true, $this->hubUrl);
     }
 
-    private function skipIfNotConnected(): void
-    {
-        if (!$this->adapter->isConnected()) {
-            $this->markTestSkipped('Mercure is not available.');
-        }
-    }
-
     public function testImplementsContract(): void
     {
         $this->assertInstanceOf(MercureHubGatewayContract::class, $this->adapter);
@@ -112,5 +105,12 @@ class MercureHubAdapterTest extends TestCase
         $this->expectNotToPerformAssertions();
 
         $this->adapter->publish('https://example.com/topic', '{"test":true}');
+    }
+
+    private function skipIfNotConnected(): void
+    {
+        if (!$this->adapter->isConnected()) {
+            $this->markTestSkipped('Mercure is not available.');
+        }
     }
 }

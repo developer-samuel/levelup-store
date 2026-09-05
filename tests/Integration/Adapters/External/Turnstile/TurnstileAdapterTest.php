@@ -68,7 +68,6 @@ class TurnstileAdapterTest extends TestCase
 
     public function testVerifyReturnsTrueWithTestSecretKey(): void
     {
-        // Cloudflare test secret — always returns {"success": true} for any token
         $adapter = new TurnstileAdapter(
             HttpClient::create(),
             true,
@@ -81,7 +80,6 @@ class TurnstileAdapterTest extends TestCase
 
     public function testVerifyReturnsFalseOnInvalidToken(): void
     {
-        // Use a fake secret key — Cloudflare rejects it regardless of token
         $adapter = new TurnstileAdapter(
             HttpClient::create(),
             true,
