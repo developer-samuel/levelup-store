@@ -98,7 +98,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "Tests\\": "tests/",
+      "Tools\\Rector\\Rules\\": "tools/rector/rules/"
     }
   },
   "replace": {
@@ -290,6 +291,7 @@
     "symfony/maker-bundle": "^1.0",
     "symfony/phpunit-bridge": "^7.4",
     "symfony/stopwatch": "7.4.*",
-    "symfony/web-profiler-bundle": "7.4.*"
+    "symfony/web-profiler-bundle": "7.4.*",
+    "symplify/rule-doc-generator-contracts": "*"
   }
 }
