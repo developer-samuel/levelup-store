@@ -6,7 +6,7 @@ This file documents CodeStats-related Composer scripts defined in `composer.json
 
 ### count-stats
 
-- **Command**: `php vendor/bin/count-stats`
+- **Command**: `bin/run php vendor/bin/count-stats`
 - **Purpose**: Runs all stats at once - files, lines, and characters combined.
 - **Timeout Disabled** via `Composer\Config::disableProcessTimeout`.
 
@@ -14,7 +14,7 @@ This file documents CodeStats-related Composer scripts defined in `composer.json
 
 ### count-files
 
-- **Command**: `php vendor/bin/count-files`
+- **Command**: `bin/run php vendor/bin/count-files`
 - **Purpose**: Counts total number of files in the project.
 - **Timeout Disabled** via `Composer\Config::disableProcessTimeout`.
 
@@ -22,7 +22,7 @@ This file documents CodeStats-related Composer scripts defined in `composer.json
 
 ### count-lines
 
-- **Command**: `php vendor/bin/count-lines`
+- **Command**: `bin/run php vendor/bin/count-lines`
 - **Purpose**: Counts total number of lines across project files.
 - **Timeout Disabled** via `Composer\Config::disableProcessTimeout`.
 
@@ -30,6 +30,6 @@ This file documents CodeStats-related Composer scripts defined in `composer.json
 
 ### count-chars
 
-- **Command**: `php vendor/bin/count-chars`
+- **Command**: `bin/run php vendor/bin/count-chars`
 - **Purpose**: Counts total number of characters across project files.
 - **Timeout Disabled** via `Composer\Config::disableProcessTimeout`.

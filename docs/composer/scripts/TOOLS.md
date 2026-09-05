@@ -8,25 +8,25 @@ This file documents all custom Composer scripts related to static analysis, metr
 
 ### deptrac
 
-- **Command**: `php scripts/tools/deptrac/launcher.php`
+- **Command**: `bin/run php scripts/tools/deptrac/launcher.php`
 - **Purpose**: Ensures proper layer dependencies and prevents forbidden coupling.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
 ### php-md
 
-- **Command**: `phpmd src kit xml phpmd.xml`
+- **Command**: `bin/run php vendor/bin/phpmd src kit xml phpmd.xml`
 - **Purpose**: Detects potential problems, unused code, and complexity issues.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running analysis.
 
 ### php-stan
 
-- **Command**: `phpstan analyse --memory-limit=1G`
+- **Command**: `bin/run php vendor/bin/phpstan analyse --memory-limit=1G`
 - **Purpose**: Static analysis tool for catching type errors, invalid code, and potential bugs (Level 10, maximum strictness).
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running analysis.
 
 ### sonar
 
-- **Command**: `php scripts/tools/sonar/launcher.php`
+- **Command**: `bin/run php scripts/tools/sonar/launcher.php`
 - **Purpose**: Runs SonarQube static analysis scan against the configured SonarQube server. Requires `SONAR_HOST` and `SONAR_TOKEN` in `.env`.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
@@ -36,25 +36,25 @@ This file documents all custom Composer scripts related to static analysis, metr
 
 ### php-cpd
 
-- **Command**: `phpcpd src database kit`
+- **Command**: `bin/run php vendor/bin/phpcpd src database kit`
 - **Purpose**: Detects copy-pasted code and duplicate blocks to improve maintainability.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
 ### php-loc
 
-- **Command**: `phploc src database kit`
+- **Command**: `bin/run php vendor/bin/phploc src database kit`
 - **Purpose**: Counts lines of PHP code, measures project size, structure, and complexity to track maintainability.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
 ### php-metrics
 
-- **Command**: `php scripts/tools/php-metrics/launcher.php`
+- **Command**: `bin/run php scripts/tools/php-metrics/launcher.php`
 - **Purpose**: Generates maintainability and complexity metrics for the codebase.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
 ### pdepend
 
-- **Command**: `php scripts/tools/pdepend/launcher.php`
+- **Command**: `bin/run php scripts/tools/pdepend/launcher.php`
 - **Purpose**: Analyzes dependencies and code metrics for better architecture understanding.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
@@ -64,7 +64,7 @@ This file documents all custom Composer scripts related to static analysis, metr
 
 ### php-cs-fixer:fix
 
-- **Command**: `php scripts/tools/php-cs-fixer/launcher.php`
+- **Command**: `bin/run php scripts/tools/php-cs-fixer/launcher.php`
 - **Purpose**: Automatically formats PHP code to comply with defined coding standards.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running formatting tasks.
 
@@ -74,7 +74,7 @@ This file documents all custom Composer scripts related to static analysis, metr
 
 ### rector:fix
 
-- **Command**: `rector process`
+- **Command**: `bin/run php vendor/bin/rector process`
 - **Purpose**: Performs automated code refactoring and modernization.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running refactoring tasks.
 
@@ -84,6 +84,6 @@ This file documents all custom Composer scripts related to static analysis, metr
 
 ### lint:twig
 
-- **Command**: `php bin/console lint:twig templates/`
+- **Command**: `bin/run php bin/console lint:twig templates/`
 - **Purpose**: Validates all Twig templates for syntax errors, unknown filters, and unknown functions. Does **not** verify that imported file paths exist.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.

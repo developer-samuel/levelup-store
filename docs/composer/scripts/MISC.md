@@ -14,7 +14,7 @@ This file documents general-purpose utility Composer scripts defined in `compose
 
 ### scheduler:run
 
-- **Command**: `php bin/console messenger:consume scheduler_default`
+- **Command**: `bin/run php bin/console messenger:consume scheduler_default`
 - **Purpose**: Runs all scheduled tasks via the Symfony Messenger scheduler transport.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
 
