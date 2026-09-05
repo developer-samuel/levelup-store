@@ -36,9 +36,7 @@ runs:
 
     - name: Make scripts executable
       shell: bash
-      run: |
-        find scripts -name "*.sh" -exec chmod +x {} +
-        find bin/ -type f -exec chmod +x {} +
+      run: find scripts -name "*.sh" -exec chmod +x {} +
 
     - name: Install PHP dependencies
       shell: bash
