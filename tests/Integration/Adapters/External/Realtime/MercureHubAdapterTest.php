@@ -28,8 +28,8 @@ class MercureHubAdapterTest extends TestCase
         $hubUrl    = $_ENV['MERCURE_URL']        ?? 'http://127.0.0.1:9300/.well-known/mercure';
         $jwtSecret = $_ENV['MERCURE_JWT_SECRET'] ?? 'test-secret';
 
-        $this->hubUrl = is_string($hubUrl) ? $hubUrl : 'http://127.0.0.1:9300/.well-known/mercure';
-        $jwtSecret    = is_string($jwtSecret) ? $jwtSecret : 'test-secret';
+        $this->hubUrl = is_string($hubUrl) && $hubUrl !== '' ? $hubUrl : 'http://127.0.0.1:9300/.well-known/mercure';
+        $jwtSecret    = is_string($jwtSecret) && $jwtSecret !== '' ? $jwtSecret : 'test-secret';
 
         $tokenProvider = new FactoryTokenProvider(
             new LcobucciFactory($jwtSecret),

@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Handler\Command;
 
-use App\Core\Domain\{
-    Segment\Audit\Enum\AuditAction,
-    Segment\Order\Payload\OrderCreatePayload
-};
+use App\Core\Domain\Segment\Order\Payload\OrderCreatePayload;
 
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
     Security\Policy\SecurityPolicyContract,
     Security\Provider\SecurityProviderContract,
-    Segment\Audit\AuditLoggerContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
     Segment\Order\Handler\Command\CreateOrderHandlerContract,
     Segment\Order\Service\Command\OrderMutationCommandContract,
@@ -28,7 +24,6 @@ class CreateOrderHandler extends AbstractCommandHandler implements CreateOrderHa
     /**
      * @param SecurityPolicyContract $securityPolicy
      * @param OrderMutationCommandContract $orderMutationCommand
-     * @param AuditLoggerContract $audit
      * @param AppLoggerContract $logger
     */
     public function __construct(
@@ -36,7 +31,6 @@ class CreateOrderHandler extends AbstractCommandHandler implements CreateOrderHa
         private readonly SecurityProviderContract $securityProvider,
         private readonly CartRenderQueryContract $cartRenderQuery,
         private readonly OrderMutationCommandContract $orderMutationCommand,
-        private readonly AuditLoggerContract $audit,
         AppLoggerContract $logger,
     ) {
         parent::__construct($logger);
@@ -55,9 +49,6 @@ class CreateOrderHandler extends AbstractCommandHandler implements CreateOrderHa
             $result = $this->orderMutationCommand->createOrder($payload);
 
             if ($result->order !== null) {
-                $order = $result->order;
-                $this->audit->log(AuditAction::ORDER_CREATED, 'Order', $order->getId(), [], $order->getUser());
-
                 return ApiResultFormatter::success('Order created successfully', null, 'success');
             }
 

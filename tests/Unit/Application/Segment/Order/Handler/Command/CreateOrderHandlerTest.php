@@ -26,7 +26,6 @@ use App\Core\Application\Segment\Order\Handler\Command\CreateOrderHandler;
 use App\Core\Ports\{
     Security\Policy\SecurityPolicyContract,
     Security\Provider\SecurityProviderContract,
-    Segment\Audit\AuditLoggerContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
     Segment\Order\Handler\Command\CreateOrderHandlerContract,
     Segment\Order\Service\Command\OrderMutationCommandContract,
@@ -42,7 +41,6 @@ class CreateOrderHandlerTest extends TestCase
     private SecurityProviderContract&MockObject $securityProvider;
     private CartRenderQueryContract&MockObject $cartRenderQuery;
     private OrderMutationCommandContract&MockObject $orderMutationCommand;
-    private AuditLoggerContract&MockObject $audit;
     private AppLoggerContract&MockObject $logger;
     private CreateOrderHandler $handler;
 
@@ -107,50 +105,6 @@ class CreateOrderHandlerTest extends TestCase
         $this->assertSame('error', $result['status']);
         $this->assertSame(403, $result['code']);
         $this->assertSame('Email not verified.', $result['message']);
-    }
-
-    public function testHandleLogsAuditForCashPayment(): void
-    {
-        $this->setupVerifiedUser();
-        $this->setupCashOrderResult(42);
-
-        $this->audit
-            ->expects($this->once())
-            ->method('log');
-
-        $this->handler->handle($this->buildPayload());
-    }
-
-    public function testHandleLogsAuditWithOrderId(): void
-    {
-        $this->setupVerifiedUser();
-        $this->setupCashOrderResult(42);
-
-        $this->audit
-            ->expects($this->once())
-            ->method('log')
-            ->with(
-                $this->anything(),
-                'Order',
-                42,
-            );
-
-        $this->handler->handle($this->buildPayload());
-    }
-
-    public function testHandleDoesNotLogAuditForCardPayment(): void
-    {
-        $this->setupVerifiedUser();
-
-        $this->orderMutationCommand
-            ->method('createOrder')
-            ->willReturn(new OrderResultObject(order: null, paymentUrl: 'https://stripe.com/pay/abc'));
-
-        $this->audit
-            ->expects($this->never())
-            ->method('log');
-
-        $this->handler->handle($this->buildPayload());
     }
 
     public function testHandleReturnsErrorWhenMutationCommandThrows(): void
@@ -219,7 +173,6 @@ class CreateOrderHandlerTest extends TestCase
         $this->securityProvider = $this->createMock(SecurityProviderContract::class);
         $this->cartRenderQuery = $this->createMock(CartRenderQueryContract::class);
         $this->orderMutationCommand = $this->createMock(OrderMutationCommandContract::class);
-        $this->audit = $this->createMock(AuditLoggerContract::class);
         $this->logger = $this->createMock(AppLoggerContract::class);
     }
 
@@ -230,7 +183,6 @@ class CreateOrderHandlerTest extends TestCase
             $this->securityProvider,
             $this->cartRenderQuery,
             $this->orderMutationCommand,
-            $this->audit,
             $this->logger,
         );
     }
@@ -264,7 +216,6 @@ class CreateOrderHandlerTest extends TestCase
     {
         $order = $this->createMock(Order::class);
         $order->method('getId')->willReturn($orderId);
-        $order->method('getUser')->willReturn($this->createMock(User::class));
 
         $this->orderMutationCommand
             ->method('createOrder')

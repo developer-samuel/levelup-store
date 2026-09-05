@@ -1,5 +1,5 @@
 {% macro render(order) %}
-    <a href="{{ path('orders_show', {'code': order.code}) }}" class="orders__card-box orders__card-box--{{ order.status.value|lower }}">
+    <a href="{{ path('orders_show', {'code': order.code}) }}" class="orders__card-box orders__card-box--{{ order.status.value|lower }}" data-order-code="{{ order.code }}">
         <div class="orders__card-box-payment">
             <div class="orders__card-box-payment-type">
                 {{ order.payment.value == 'card' ? '💳' : '💵' }}

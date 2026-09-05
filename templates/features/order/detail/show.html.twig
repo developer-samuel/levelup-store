@@ -18,7 +18,11 @@
                     )
                 }}
 
-                <div class="orders__card-detail">
+                <div
+                    class="orders__card-detail"
+                    data-mercure-hub="{{ mercure_public_url }}"
+                    data-order-code="{{ order.code }}"
+                >
                     {{
                         OrderData.render(
                             order,
