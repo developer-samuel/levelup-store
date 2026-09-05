@@ -24,4 +24,4 @@ services:
       file: ../../_base/healthcheck.yml
       service: healthcheck-base
     healthcheck:
-      test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
+      test: ['CMD-SHELL', 'curl -f "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s" || exit 1']
