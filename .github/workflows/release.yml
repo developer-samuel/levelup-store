@@ -23,11 +23,8 @@ jobs:
       - name: Prepend release notes to CHANGELOG.md
         env:
           BODY: ${{ github.event.release.body }}
-          TAG: ${{ github.event.release.tag_name }}
         run: |
-          DATE=$(date +%Y-%m-%d)
-          HEADER="## [${TAG}] - ${DATE}"
-          ENTRY="${HEADER}"$'\n\n'"${BODY}"
+          ENTRY="${BODY}"
           if [ -f CHANGELOG.md ]; then
             printf '%s\n\n%s' "$ENTRY" "$(cat CHANGELOG.md)" > CHANGELOG.md
           else
