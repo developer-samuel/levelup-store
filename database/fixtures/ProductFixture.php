@@ -75,7 +75,6 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
     */
     protected function getData(): iterable
     {
-        /** @var iterable<ProductRecordContract> $data */
         $data = [
             new ComputersRecord(),
             new SmartRecord(),
