@@ -25,7 +25,7 @@ trait ReviewBuilder
     use ReviewFactory;
     use ReviewRatingFactory;
 
-    private const LOREM_WORDS_FILE = __DIR__ . '/../../../resources/data/lorem_words.json';
+    private const LOREM_WORDS_FILE = __DIR__ . '/../../data/words/lorem_words.json';
     private const FEEDBACK_CHANCE = 70;
     private const RATING_CHANCE = 60;
 
