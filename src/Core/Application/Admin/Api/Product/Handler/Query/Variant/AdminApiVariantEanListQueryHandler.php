@@ -17,7 +17,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiVariantEanListQueryHandler extends AbstractAdminApiVariantQueryHandler
+final class AdminApiVariantEanListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
     /**
      * @param ProductVariantEanRepositoryContract $eanRepository

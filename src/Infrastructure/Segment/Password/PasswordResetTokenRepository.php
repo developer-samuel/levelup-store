@@ -15,7 +15,7 @@ use App\Infrastructure\Abstract\Repository\AbstractTokenRepository;
 /**
  * @extends AbstractTokenRepository<PasswordResetToken>
 */
-class PasswordResetTokenRepository extends AbstractTokenRepository implements PasswordResetTokenRepositoryContract
+final class PasswordResetTokenRepository extends AbstractTokenRepository implements PasswordResetTokenRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

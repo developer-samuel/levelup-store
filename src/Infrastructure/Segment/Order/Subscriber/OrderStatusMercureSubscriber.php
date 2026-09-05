@@ -55,20 +55,16 @@ final class OrderStatusMercureSubscriber
     }
 
     /**
-     * @param PostFlushEventArgs $args
-     *
      * @return void
-    */
-    public function postFlush(PostFlushEventArgs $args): void
+     */
+    public function postFlush(): void
     {
         if (empty($this->pendingOrders)) {
             return;
         }
-
         foreach ($this->pendingOrders as $order) {
             $this->eventDispatcher->dispatch(new OrderStatusUpdatedEvent($order));
         }
-
         $this->pendingOrders = [];
     }
 }

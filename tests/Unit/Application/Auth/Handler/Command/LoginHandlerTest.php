@@ -32,7 +32,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LoginHandler
 */
-class LoginHandlerTest extends TestCase
+final class LoginHandlerTest extends TestCase
 {
     private UserRepositoryContract&MockObject $userRepository;
     private PasswordHasherProviderContract&MockObject $passwordHasherProvider;

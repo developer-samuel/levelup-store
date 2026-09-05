@@ -27,7 +27,7 @@ use App\Presentation\{
     Shared\Responder\HttpResponder
 };
 
-class SignupCommandController extends AbstractCrudCommandController
+final class SignupCommandController extends AbstractCrudCommandController
 {
     /**
      * @param SignupHandlerContract $signupHandler

@@ -6,7 +6,7 @@ namespace Database\Schemas\Tables\Orders;
 
 use Database\Schemas\Abstract\AbstractAddressTable;
 
-class CreateOrderShippingsTable extends AbstractAddressTable
+final class CreateOrderShippingsTable extends AbstractAddressTable
 {
     /**
      * @return string

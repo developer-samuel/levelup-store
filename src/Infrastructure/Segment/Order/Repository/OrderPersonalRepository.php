@@ -19,7 +19,7 @@ use App\Core\Ports\Segment\Order\Repository\OrderPersonalRepositoryContract;
 /**
  * @extends ServiceEntityRepository<OrderPersonal>
 */
-class OrderPersonalRepository extends ServiceEntityRepository implements OrderPersonalRepositoryContract
+final class OrderPersonalRepository extends ServiceEntityRepository implements OrderPersonalRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

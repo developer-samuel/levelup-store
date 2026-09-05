@@ -15,7 +15,7 @@ use App\Core\Application\Admin\Segment\Product\Input\Ean\AdminVariantEanStoreInp
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class AdminVariantEanStoreRequest extends AbstractRequest
+final class AdminVariantEanStoreRequest extends AbstractRequest
 {
     use AdminVariantEanStoreInput;
 

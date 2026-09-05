@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminApiOrderHistoryQueryController extends AbstractAdminApiQueryController
+final class AdminApiOrderHistoryQueryController extends AbstractAdminApiQueryController
 {
     /**
      * @param AdminApiOrderHistoryListQueryHandler $orderHistoryListQueryHandler

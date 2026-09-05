@@ -19,7 +19,7 @@ use App\Adapters\External\Search\ElasticsearchAdapter;
 /**
  * @coversDefaultClass \App\Adapters\External\Search\ElasticsearchAdapter
 */
-class ElasticsearchAdapterTest extends TestCase
+final class ElasticsearchAdapterTest extends TestCase
 {
     private string $host;
     private int $port;
@@ -31,10 +31,10 @@ class ElasticsearchAdapterTest extends TestCase
         $host = $_ENV['ELASTICSEARCH_HOST'] ?? '127.0.0.1';
         $port = $_ENV['ELASTICSEARCH_PORT'] ?? 9200;
 
-        $this->host      = is_string($host) ? $host : '127.0.0.1';
-        $this->port      = is_numeric($port) ? (int) $port : 9200;
+        $this->host = is_string($host) ? $host : '127.0.0.1';
+        $this->port = is_numeric($port) ? (int) $port : 9200;
         $this->testIndex = 'test_integration_adapter_' . uniqid('', true);
-        $this->adapter   = new ElasticsearchAdapter(true, $this->host, $this->port);
+        $this->adapter = new ElasticsearchAdapter(true, $this->host, $this->port);
 
         if (!$this->adapter->isConnected()) {
             $this->markTestSkipped('Elasticsearch is not available.');

@@ -35,7 +35,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartSummaryQueryService
 */
-class CartSummaryQueryServiceTest extends TestCase
+final class CartSummaryQueryServiceTest extends TestCase
 {
     private const EMPTY_SUMMARY = ['totalItems' => 0, 'totalPrice' => '0,00 €'];
 

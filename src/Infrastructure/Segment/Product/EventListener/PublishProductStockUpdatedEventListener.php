@@ -28,8 +28,8 @@ final readonly class PublishProductStockUpdatedEventListener
     public function __invoke(ProductStockUpdatedEvent $event): void
     {
         $this->mercureHubGateway->publish(
-            "products/{$event->variantId}/stock",
-            (string) json_encode([
+            sprintf('products/%d/stock', $event->variantId),
+            json_encode([
                 'variantId'         => $event->variantId,
                 'quantityAvailable' => $event->quantityAvailable,
                 'inStock'           => $event->inStock,

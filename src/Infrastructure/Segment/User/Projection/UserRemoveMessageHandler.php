@@ -10,7 +10,6 @@ use App\Core\Domain\Segment\User\Message\UserRemoveMessage;
 
 use App\Core\Ports\Gateways\External\Search\ElasticsearchGatewayContract;
 
-use App\Infrastructure\Segment\User\Projection\UserProjection;
 
 #[AsMessageHandler]
 final readonly class UserRemoveMessageHandler

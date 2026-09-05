@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\FormatEmailValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class EmailFormat extends Constraint
+final class EmailFormat extends Constraint
 {
     public string $message = 'Invalid email format.';
 

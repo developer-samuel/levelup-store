@@ -13,7 +13,7 @@ use App\Core\Ports\{
 
 use App\Presentation\Abstract\Controller\Command\AbstractCommandController;
 
-class OrderInvoiceCommandController extends AbstractCommandController
+final class OrderInvoiceCommandController extends AbstractCommandController
 {
     /**
      * @param GenerateOrderInvoiceHandlerContract $generateOrderInvoiceHandler

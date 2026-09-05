@@ -26,7 +26,7 @@ use App\Presentation\{
 
 use App\Shared\Responder\ErrorResponder;
 
-class ProfileQueryController extends AbstractQueryController
+final class ProfileQueryController extends AbstractQueryController
 {
     /**
      * @param CountryCacheQueryContract $countryCacheQuery

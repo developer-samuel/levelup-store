@@ -31,7 +31,7 @@ use App\Shared\{
     Utils\Resolver\AddressResolver
 };
 
-class ProfileRequest extends AbstractRequest
+final class ProfileRequest extends AbstractRequest
 {
     use UserPersonalInput;
     use BillingAddressInput;

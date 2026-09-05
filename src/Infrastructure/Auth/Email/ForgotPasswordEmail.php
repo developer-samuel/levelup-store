@@ -12,7 +12,7 @@ use App\Core\Ports\Auth\Renderer\ForgotPasswordEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
-class ForgotPasswordEmail extends AbstractEmail
+final class ForgotPasswordEmail extends AbstractEmail
 {
     /**
      * @param ForgotPasswordEmailRendererContract $renderer

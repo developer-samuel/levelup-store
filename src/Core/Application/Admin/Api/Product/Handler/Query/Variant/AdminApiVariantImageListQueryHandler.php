@@ -17,7 +17,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiVariantImageListQueryHandler extends AbstractAdminApiVariantQueryHandler
+final class AdminApiVariantImageListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
     /**
      * @param ProductVariantImageRepositoryContract $imageRepository

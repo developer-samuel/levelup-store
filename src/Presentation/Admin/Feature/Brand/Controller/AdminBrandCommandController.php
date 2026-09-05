@@ -31,7 +31,7 @@ use App\Presentation\{
     Admin\Feature\Brand\Request\AdminBrandUpdateRequest
 };
 
-class AdminBrandCommandController extends AbstractCrudCommandController
+final class AdminBrandCommandController extends AbstractCrudCommandController
 {
     /**
      * @param HmacFieldDecoderContract $hmacFieldDecoder

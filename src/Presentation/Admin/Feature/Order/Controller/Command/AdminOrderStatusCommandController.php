@@ -22,7 +22,7 @@ use App\Presentation\{
     Admin\Feature\Order\Request\AdminOrderStatusRequest
 };
 
-class AdminOrderStatusCommandController extends AbstractCrudCommandController
+final class AdminOrderStatusCommandController extends AbstractCrudCommandController
 {
     /**
      * @param AdminOrderCommandHandler $updateOrderHandler

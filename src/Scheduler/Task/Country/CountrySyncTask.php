@@ -24,7 +24,7 @@ use App\Scheduler\{
 };
 
 #[AsMessageHandler]
-class CountrySyncTask extends AbstractTask
+final class CountrySyncTask extends AbstractTask
 {
     /**
      * @param CountryApiGatewayContract $countryApiAdapter

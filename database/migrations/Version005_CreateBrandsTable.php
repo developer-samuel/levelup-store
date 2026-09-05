@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Brands\CreateBrandsTable;
 
-class Version005_CreateBrandsTable extends AbstractMigration
+final class Version005_CreateBrandsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

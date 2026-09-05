@@ -18,7 +18,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class ReviewCommandHandler extends AbstractCommandHandler implements ReviewCommandHandlerContract
+final class ReviewCommandHandler extends AbstractCommandHandler implements ReviewCommandHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

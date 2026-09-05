@@ -24,7 +24,7 @@ use App\Scheduler\{
 };
 
 #[AsSchedule]
-class AppScheduler implements ScheduleProviderInterface
+final class AppScheduler implements ScheduleProviderInterface
 {
     private const EVERY_15_MINUTES = '15 minutes';
     /**

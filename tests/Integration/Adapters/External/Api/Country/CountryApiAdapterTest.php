@@ -27,7 +27,7 @@ use App\Adapters\External\Api\CountryApiAdapter;
 /**
  * @coversDefaultClass \App\Adapters\External\Api\CountryApiAdapter
 */
-class CountryApiAdapterTest extends TestCase
+final class CountryApiAdapterTest extends TestCase
 {
     private HttpClientInterface&MockObject $httpClient;
     private AppLoggerContract&MockObject $logger;

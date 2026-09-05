@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\HttpResponder
 };
 
-class WishlistQueryController extends AbstractQueryController
+final class WishlistQueryController extends AbstractQueryController
 {
     /**
      * @param WishlistQueryContract $wishlistQuery

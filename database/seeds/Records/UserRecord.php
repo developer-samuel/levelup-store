@@ -6,7 +6,7 @@ namespace Database\Seeds\Records;
 
 use Database\Seeds\Abstract\AbstractDataRecord;
 
-class UserRecord extends AbstractDataRecord
+final class UserRecord extends AbstractDataRecord
 {
     /**
      * @return string

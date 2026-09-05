@@ -25,7 +25,7 @@ use Tests\{
 /**
  * @coversDefaultClass \App\Infrastructure\Auth\Repository\RefreshTokenRepository
 */
-class RefreshTokenRepositoryTest extends KernelTestCase
+final class RefreshTokenRepositoryTest extends KernelTestCase
 {
     use Persistence;
     use UserFactory;

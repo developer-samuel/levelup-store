@@ -26,7 +26,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Service\Command\LoginCommandService
 */
-class LoginCommandServiceTest extends TestCase
+final class LoginCommandServiceTest extends TestCase
 {
     private JwtGatewayContract&MockObject $jwtGateway;
     private RefreshTokenRepositoryContract&MockObject $refreshTokenRepository;

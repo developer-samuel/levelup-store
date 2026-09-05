@@ -17,7 +17,7 @@ use App\Core\Application\Admin\Segment\Order\Input\AdminOrderStatusInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class AdminOrderStatusRequest extends AbstractRequest
+final class AdminOrderStatusRequest extends AbstractRequest
 {
     use AdminOrderStatusInput;
 
@@ -46,20 +46,6 @@ class AdminOrderStatusRequest extends AbstractRequest
     }
 
     /**
-     * @return OrderStatus[]
-    */
-    protected function getAllowedStatuses(?OrderStatus $currentStatus = null): array
-    {
-        $allowed = $this->getActiveStatuses();
-
-        if ($currentStatus === OrderStatus::COMPLETED) {
-            $allowed[] = OrderStatus::REFUNDED;
-        }
-
-        return $allowed;
-    }
-
-    /**
      * @param ExecutionContextInterface $context
      *
      * @return void
@@ -68,16 +54,5 @@ class AdminOrderStatusRequest extends AbstractRequest
     public function validateCsrf(ExecutionContextInterface $context): void
     {
         $this->validateCsrfToken('admin_orders_status_update', $context);
-    }
-
-    /**
-     * @return OrderStatus[]
-    */
-    private function getActiveStatuses(): array
-    {
-        return array_map(
-            static fn(string $status): OrderStatus => OrderStatus::from($status),
-            OrderStatus::activeStatuses(),
-        );
     }
 }

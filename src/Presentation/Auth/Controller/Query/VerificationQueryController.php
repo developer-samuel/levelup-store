@@ -18,7 +18,7 @@ use App\Presentation\{
 
 use App\Shared\Responder\ErrorResponder;
 
-class VerificationQueryController extends AbstractQueryController
+final class VerificationQueryController extends AbstractQueryController
 {
     /**
      * @param ErrorResponder $errorResponder

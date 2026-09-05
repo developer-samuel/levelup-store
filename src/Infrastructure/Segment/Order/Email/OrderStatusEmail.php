@@ -15,7 +15,7 @@ use App\Core\Ports\Segment\Order\Renderer\Email\OrderStatusEmailRendererContract
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
-class OrderStatusEmail extends AbstractEmail
+final class OrderStatusEmail extends AbstractEmail
 {
     /**
      * @param UrlGeneratorInterface $urlGenerator

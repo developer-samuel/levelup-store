@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Shared\Exception;
 
-class ConflictException extends \RuntimeException
+final class ConflictException extends \RuntimeException
 {
-    protected int $statusCode = 409;
+    private int $statusCode = 409;
 
     /**
      * @param string $message

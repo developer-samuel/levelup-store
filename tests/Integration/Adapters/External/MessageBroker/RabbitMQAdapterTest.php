@@ -13,7 +13,7 @@ use App\Adapters\External\MessageBroker\RabbitMQAdapter;
 /**
  * @coversDefaultClass \App\Adapters\External\MessageBroker\RabbitMQAdapter
 */
-class RabbitMQAdapterTest extends TestCase
+final class RabbitMQAdapterTest extends TestCase
 {
     private string $host;
     private int $port;
@@ -24,16 +24,16 @@ class RabbitMQAdapterTest extends TestCase
 
     protected function setUp(): void
     {
-        $host  = $_ENV['RABBITMQ_HOST']  ?? '127.0.0.1';
-        $port  = $_ENV['RABBITMQ_PORT']  ?? 5672;
-        $user  = $_ENV['RABBITMQ_USER']  ?? 'guest';
-        $pass  = $_ENV['RABBITMQ_PASS']  ?? 'guest';
+        $host = $_ENV['RABBITMQ_HOST'] ?? '127.0.0.1';
+        $port = $_ENV['RABBITMQ_PORT'] ?? 5672;
+        $user = $_ENV['RABBITMQ_USER'] ?? 'guest';
+        $pass = $_ENV['RABBITMQ_PASS'] ?? 'guest';
         $vhost = $_ENV['RABBITMQ_VHOST'] ?? '/';
 
-        $this->host  = is_string($host)  ? $host  : '127.0.0.1';
-        $this->port  = is_numeric($port) ? (int) $port : 5672;
-        $this->user  = is_string($user)  ? $user  : 'guest';
-        $this->pass  = is_string($pass)  ? $pass  : 'guest';
+        $this->host = is_string($host)  ? $host  : '127.0.0.1';
+        $this->port = is_numeric($port) ? (int) $port : 5672;
+        $this->user = is_string($user)  ? $user  : 'guest';
+        $this->pass = is_string($pass)  ? $pass  : 'guest';
         $this->vhost = is_string($vhost) ? $vhost : '/';
 
         $this->adapter = new RabbitMQAdapter(true, $this->host, $this->port, $this->user, $this->pass, $this->vhost);

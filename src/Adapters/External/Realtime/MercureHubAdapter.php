@@ -42,8 +42,8 @@ final readonly class MercureHubAdapter implements MercureHubGatewayContract
         }
 
         $parsed = parse_url($this->hubUrl);
-        $host   = $parsed['host'] ?? null;
-        $port   = $parsed['port'] ?? (($parsed['scheme'] ?? 'http') === 'https' ? 443 : 80);
+        $host = $parsed['host'] ?? null;
+        $port = $parsed['port'] ?? (($parsed['scheme'] ?? 'http') === 'https' ? 443 : 80);
 
         if ($host === null) {
             return false;

@@ -10,7 +10,6 @@ use App\Core\Domain\Segment\Review\Message\ReviewRemoveMessage;
 
 use App\Core\Ports\Gateways\External\Search\ElasticsearchGatewayContract;
 
-use App\Infrastructure\Segment\Review\Projection\ReviewProjection;
 
 #[AsMessageHandler]
 final readonly class ReviewRemoveMessageHandler

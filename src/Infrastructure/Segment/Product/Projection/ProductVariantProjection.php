@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Product\Projection;
 
 use App\Infrastructure\Abstract\Projection\AbstractProjection;
 
-class ProductVariantProjection extends AbstractProjection
+final class ProductVariantProjection extends AbstractProjection
 {
     public const NAME = 'product_variants';
 

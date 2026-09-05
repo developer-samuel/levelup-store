@@ -29,7 +29,7 @@ use Tests\{
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Order\Repository\OrderRepository
 */
-class OrderRepositoryTest extends KernelTestCase
+final class OrderRepositoryTest extends KernelTestCase
 {
     use Persistence;
     use DateRange;

@@ -35,7 +35,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class ProductQueryController extends AbstractQueryController
+final class ProductQueryController extends AbstractQueryController
 {
     /**
      * @param ProductQueryHandlerContract $productQueryHandler

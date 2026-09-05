@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\Length\AllMaxLengthConstraintValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class AllMaxLengthConstraint extends Constraint
+final class AllMaxLengthConstraint extends Constraint
 {
     public string $message;
     public int $max;

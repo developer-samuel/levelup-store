@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Order\Projection;
 
 use App\Infrastructure\Abstract\Projection\AbstractProjection;
 
-class OrderProjection extends AbstractProjection
+final class OrderProjection extends AbstractProjection
 {
     public const NAME = 'orders';
 

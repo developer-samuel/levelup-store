@@ -44,7 +44,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderBuildCommandService
 */
-class OrderBuildCommandServiceTest extends TestCase
+final class OrderBuildCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
     private OrderPreparationCommandContract&MockObject $orderPreparationCommand;

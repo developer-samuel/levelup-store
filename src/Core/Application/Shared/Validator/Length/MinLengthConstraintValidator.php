@@ -15,7 +15,7 @@ use App\Core\Application\{
 
 use App\Shared\Utils\Calculator\LengthCalculator;
 
-class MinLengthConstraintValidator extends AbstractConstraintValidator
+final class MinLengthConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

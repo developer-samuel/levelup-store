@@ -25,7 +25,7 @@ use App\Presentation\{
     Shared\Responder\HttpResponder
 };
 
-class ForgotPasswordCommandController extends AbstractCrudCommandController
+final class ForgotPasswordCommandController extends AbstractCrudCommandController
 {
     /**
      * @param ForgotPasswordCommandHandlerContract $forgotPasswordCommandHandler

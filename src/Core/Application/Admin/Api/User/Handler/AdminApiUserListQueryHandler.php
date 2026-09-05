@@ -16,7 +16,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandler
+final class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandler
 {
     /**
      * @param UserRepositoryContract $userRepository

@@ -45,7 +45,7 @@ use Tests\Support\Provides\AssertsPersisted;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderDataCommandService
 */
-class OrderDataCommandServiceTest extends TestCase
+final class OrderDataCommandServiceTest extends TestCase
 {
     use AssertsPersisted;
 

@@ -32,7 +32,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderInvoiceQueryService
 */
-class OrderInvoiceQueryServiceTest extends TestCase
+final class OrderInvoiceQueryServiceTest extends TestCase
 {
     private OrderRepositoryContract&MockObject $orderRepository;
     private OrderInvoiceQueryService $service;

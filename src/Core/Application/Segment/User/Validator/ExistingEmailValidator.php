@@ -13,7 +13,7 @@ use App\Core\Application\{
 
 use App\Core\Ports\Segment\User\Repository\UserRepositoryContract;
 
-class ExistingEmailValidator extends AbstractConstraintValidator
+final class ExistingEmailValidator extends AbstractConstraintValidator
 {
     /**
      * @param UserRepositoryContract $userRepository

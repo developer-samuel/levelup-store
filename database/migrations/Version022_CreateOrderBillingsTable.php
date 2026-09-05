@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Orders\CreateOrderBillingsTable;
 
-class Version022_CreateOrderBillingsTable extends AbstractMigration
+final class Version022_CreateOrderBillingsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

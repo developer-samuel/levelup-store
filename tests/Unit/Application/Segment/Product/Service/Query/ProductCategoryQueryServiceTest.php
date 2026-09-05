@@ -28,7 +28,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductCategoryQueryService
 */
-class ProductCategoryQueryServiceTest extends TestCase
+final class ProductCategoryQueryServiceTest extends TestCase
 {
     private CategoryRepositoryContract&MockObject $categoryRepository;
     private TypeRepositoryContract&MockObject $typeRepository;

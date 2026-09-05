@@ -21,7 +21,7 @@ use App\Scheduler\{
 };
 
 #[AsMessageHandler]
-class CartCleanupTask extends AbstractTask
+final class CartCleanupTask extends AbstractTask
 {
     private const INACTIVE_DAYS = 7;
 

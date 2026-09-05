@@ -17,7 +17,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class DestroyReviewHandler extends AbstractCommandHandler implements DestroyReviewHandlerContract
+final class DestroyReviewHandler extends AbstractCommandHandler implements DestroyReviewHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

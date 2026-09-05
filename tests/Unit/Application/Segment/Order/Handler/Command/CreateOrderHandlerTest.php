@@ -35,7 +35,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\CreateOrderHandler
 */
-class CreateOrderHandlerTest extends TestCase
+final class CreateOrderHandlerTest extends TestCase
 {
     private SecurityPolicyContract&MockObject $securityPolicy;
     private SecurityProviderContract&MockObject $securityProvider;

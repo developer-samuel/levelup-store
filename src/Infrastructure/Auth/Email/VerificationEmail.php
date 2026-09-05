@@ -12,7 +12,7 @@ use App\Core\Ports\Auth\Renderer\VerificationEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
-class VerificationEmail extends AbstractEmail
+final class VerificationEmail extends AbstractEmail
 {
     /**
      * @param VerificationEmailRendererContract $renderer

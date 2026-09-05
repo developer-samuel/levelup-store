@@ -52,7 +52,7 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
                             ]],
                         ],
                         'minimum_should_match' => 1,
-                        'filter' => [
+                        'filter'               => [
                             ['term' => ['is_available' => true]],
                         ],
                     ],
@@ -172,11 +172,11 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
     {
         /** @var array{hits: array<int, array<string, mixed>>, total: array{value: int}} $hitsWrapper */
         $hitsWrapper = $raw['hits'];
-        $hits        = $hitsWrapper['hits'];
+        $hits = $hitsWrapper['hits'];
 
         /** @var array{value: int} $totalData */
         $totalData = $hitsWrapper['total'];
-        $total     = $totalData['value'];
+        $total = $totalData['value'];
 
         $ids = array_map(
             static function (array $hit): int {

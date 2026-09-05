@@ -27,7 +27,7 @@ use App\Presentation\{
 
 use App\Shared\Enum\AddressType;
 
-class ProfileCommandController extends AbstractCrudCommandController
+final class ProfileCommandController extends AbstractCrudCommandController
 {
     /**
      * @param UpdateProfileHandlerContract $updateProfileHandler

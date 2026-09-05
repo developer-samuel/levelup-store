@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Segment\User\Validator\ExistingEmailValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class ExistingEmail extends Constraint
+final class ExistingEmail extends Constraint
 {
     public string $message = 'No user exists with the provided email.';
 

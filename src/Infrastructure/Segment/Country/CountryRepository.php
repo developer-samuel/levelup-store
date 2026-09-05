@@ -18,7 +18,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<Country>
 */
-class CountryRepository extends AbstractRepository implements CountryRepositoryContract
+final class CountryRepository extends AbstractRepository implements CountryRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

@@ -11,7 +11,7 @@ use App\Core\Application\{
     Shared\Constraint\UppercaseConstraint
 };
 
-class UppercaseConstraintValidator extends AbstractConstraintValidator
+final class UppercaseConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

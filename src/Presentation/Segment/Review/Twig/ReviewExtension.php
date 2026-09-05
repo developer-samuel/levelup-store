@@ -11,7 +11,7 @@ use Twig\{
 
 use App\Core\Domain\Segment\Review\Traits\ReviewCoreTrait;
 
-class ReviewExtension extends AbstractExtension
+final class ReviewExtension extends AbstractExtension
 {
     /**
      * @return TwigFunction[]

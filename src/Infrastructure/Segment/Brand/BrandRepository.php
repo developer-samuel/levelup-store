@@ -25,7 +25,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<Brand>
 */
-class BrandRepository extends AbstractRepository implements BrandRepositoryContract
+final class BrandRepository extends AbstractRepository implements BrandRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

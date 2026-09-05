@@ -29,7 +29,7 @@ use App\Core\Ports\Segment\Product\{
 /**
  * @coversDefaultClass \App\Presentation\Segment\Product\Controller\ProductQueryController
 */
-class ProductQueryControllerTest extends WebTestCase
+final class ProductQueryControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 

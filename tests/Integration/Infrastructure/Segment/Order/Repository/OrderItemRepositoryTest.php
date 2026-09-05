@@ -29,7 +29,7 @@ use Tests\{
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Order\Repository\OrderItemRepository
 */
-class OrderItemRepositoryTest extends KernelTestCase
+final class OrderItemRepositoryTest extends KernelTestCase
 {
     use Persistence;
     use UserFactory;

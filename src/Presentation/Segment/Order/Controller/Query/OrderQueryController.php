@@ -21,7 +21,7 @@ use App\Presentation\{
 
 use App\Shared\Responder\ErrorResponder;
 
-class OrderQueryController extends AbstractQueryController
+final class OrderQueryController extends AbstractQueryController
 {
     /**
      * @param GetOrderListQueryHandlerContract $getOrderListQueryHandler

@@ -26,7 +26,7 @@ use App\Presentation\{
     Admin\Feature\Product\Request\Variant\Description\AdminVariantDescriptionUpdateRequest
 };
 
-class AdminVariantDescriptionCommandController extends AbstractAdminVariantCommandController
+final class AdminVariantDescriptionCommandController extends AbstractAdminVariantCommandController
 {
     /**
      * @param AdminVariantDescriptionCommandHandler $adminVariantDescriptionHandler

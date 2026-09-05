@@ -13,7 +13,7 @@ use Symfony\{
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class DestroyProfileRequest extends AbstractRequest
+final class DestroyProfileRequest extends AbstractRequest
 {
     /**
      * @param CsrfTokenManagerInterface $csrfTokenManager

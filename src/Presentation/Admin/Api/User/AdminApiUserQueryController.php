@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminApiUserQueryController extends AbstractAdminApiQueryController
+final class AdminApiUserQueryController extends AbstractAdminApiQueryController
 {
     /**
      * @param AdminApiUserListQueryHandler $userListQueryHandler

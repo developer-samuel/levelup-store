@@ -75,16 +75,13 @@ final class ProductVariantStockMercureSubscriber
     }
 
     /**
-     * @param PostFlushEventArgs $args
-     *
      * @return void
-    */
-    public function postFlush(PostFlushEventArgs $args): void
+     */
+    public function postFlush(): void
     {
         if (empty($this->pendingStocks)) {
             return;
         }
-
         foreach ($this->pendingStocks as $variantId => $data) {
             $this->eventDispatcher->dispatch(new ProductStockUpdatedEvent(
                 $variantId,
@@ -92,7 +89,6 @@ final class ProductVariantStockMercureSubscriber
                 $data['inStock'],
             ));
         }
-
         $this->pendingStocks = [];
     }
 

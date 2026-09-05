@@ -16,7 +16,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminHomeQueryController extends AbstractQueryController
+final class AdminHomeQueryController extends AbstractQueryController
 {
     /**
      * @param SecurityProviderContract $securityProvider

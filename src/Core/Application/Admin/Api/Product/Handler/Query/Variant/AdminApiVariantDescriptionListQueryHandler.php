@@ -17,7 +17,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiVariantQueryHandler
+final class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
     /**
      * @param ProductVariantDescriptionRepositoryContract $descriptionRepository

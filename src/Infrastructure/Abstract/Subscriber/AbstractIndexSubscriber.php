@@ -71,7 +71,7 @@ abstract class AbstractIndexSubscriber
     public function postRemove(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
-        $class  = $this->getEntityClass();
+        $class = $this->getEntityClass();
 
         if (!$entity instanceof $class || !$this->elasticsearch->isEnabled()) {
             return;

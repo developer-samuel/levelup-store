@@ -6,9 +6,9 @@ namespace App\Core\Domain\Shared\Exception;
 
 use App\Shared\Utils\Formatter\DateTimeFormatter;
 
-class TooManyRequestsException extends \Exception
+final class TooManyRequestsException extends \Exception
 {
-    protected int $statusCode = 429;
+    private int $statusCode = 429;
 
     /**
      * @param int $retryAfterSeconds

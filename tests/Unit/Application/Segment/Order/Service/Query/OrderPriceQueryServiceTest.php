@@ -18,7 +18,7 @@ use App\Core\Ports\Segment\Order\Service\Query\OrderPriceQueryContract;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderPriceQueryService
 */
-class OrderPriceQueryServiceTest extends TestCase
+final class OrderPriceQueryServiceTest extends TestCase
 {
     private OrderPriceQueryService $service;
 

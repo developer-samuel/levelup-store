@@ -67,7 +67,7 @@ final readonly class ProductVariantProjector implements ReindexableInterface
         $variants = $this->variantRepository->findAll();
 
         $variantIds = array_values(array_map(static fn(ProductVariant $v): int => $v->getId(), $variants));
-        $ratings    = $this->reviewRepository->getAverageRatingsByVariantIds($variantIds);
+        $ratings = $this->reviewRepository->getAverageRatingsByVariantIds($variantIds);
 
         $indexed = 0;
 
@@ -95,9 +95,9 @@ final readonly class ProductVariantProjector implements ReindexableInterface
     */
     private function buildDocument(ProductVariant $variant, float $avgRating): array
     {
-        $product  = $variant->getProduct();
+        $product = $variant->getProduct();
         $discount = $variant->getDiscount();
-        $stock    = $variant->getStock();
+        $stock = $variant->getStock();
 
         $subtypes = [];
         foreach ($product->getSubtypes() as $productSubtype) {

@@ -26,7 +26,7 @@ use App\Presentation\{
     Admin\Feature\Product\Request\Variant\Ean\AdminVariantEanUpdateRequest
 };
 
-class AdminVariantEanCommandController extends AbstractAdminVariantCommandController
+final class AdminVariantEanCommandController extends AbstractAdminVariantCommandController
 {
     /**
      * @param AdminVariantEanCommandHandler $adminVariantEanHandler

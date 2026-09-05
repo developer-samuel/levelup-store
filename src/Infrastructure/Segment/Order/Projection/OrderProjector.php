@@ -58,7 +58,7 @@ final readonly class OrderProjector implements ReindexableInterface
     {
         $this->elasticsearch->ensureIndexExists(OrderProjection::NAME, OrderProjection::mapping());
 
-        $orders  = $this->orderRepository->findAll();
+        $orders = $this->orderRepository->findAll();
         $indexed = 0;
 
         foreach ($orders as $order) {

@@ -24,7 +24,7 @@ use App\Presentation\{
     Segment\Cart\Request\CartStoreRequest
 };
 
-class CartCommandController extends AbstractCommandController
+final class CartCommandController extends AbstractCommandController
 {
     /**
      * @param CsrfTokenManagerInterface $csrfTokenManager

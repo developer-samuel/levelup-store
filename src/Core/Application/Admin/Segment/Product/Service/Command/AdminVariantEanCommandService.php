@@ -26,7 +26,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-class AdminVariantEanCommandService extends AbstractAdminVariantCommandService implements AdminVariantEanCommandContract
+final class AdminVariantEanCommandService extends AbstractAdminVariantCommandService implements AdminVariantEanCommandContract
 {
     /**
      * @param ProductVariantEanRepositoryContract $variantEanRepository

@@ -30,7 +30,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderValidatorQueryService
 */
-class OrderValidatorQueryServiceTest extends TestCase
+final class OrderValidatorQueryServiceTest extends TestCase
 {
     private CartRepositoryContract&MockObject $cartRepository;
     private CountryRepositoryContract&MockObject $countryRepository;

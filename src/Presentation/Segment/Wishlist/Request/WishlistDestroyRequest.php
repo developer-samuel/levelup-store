@@ -13,7 +13,7 @@ use Symfony\{
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class WishlistDestroyRequest extends AbstractRequest
+final class WishlistDestroyRequest extends AbstractRequest
 {
     public int $variantId;
 

@@ -10,7 +10,6 @@ use App\Core\Domain\Segment\Order\Message\OrderRemoveMessage;
 
 use App\Core\Ports\Gateways\External\Search\ElasticsearchGatewayContract;
 
-use App\Infrastructure\Segment\Order\Projection\OrderProjection;
 
 #[AsMessageHandler]
 final readonly class OrderRemoveMessageHandler

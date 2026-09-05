@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminBannerQueryController extends AbstractQueryController
+final class AdminBannerQueryController extends AbstractQueryController
 {
     /**
      * @param SecurityProviderContract $securityProvider

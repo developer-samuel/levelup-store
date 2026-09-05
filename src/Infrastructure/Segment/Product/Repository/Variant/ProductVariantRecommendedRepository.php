@@ -18,7 +18,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<ProductVariantRecommended>
 */
-class ProductVariantRecommendedRepository extends AbstractRepository implements ProductVariantRecommendedRepositoryContract
+final class ProductVariantRecommendedRepository extends AbstractRepository implements ProductVariantRecommendedRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

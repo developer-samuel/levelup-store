@@ -20,7 +20,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class ResetPasswordQueryController extends AbstractQueryController
+final class ResetPasswordQueryController extends AbstractQueryController
 {
     /**
      * @param ResetPasswordQueryContract $resetPasswordQuery

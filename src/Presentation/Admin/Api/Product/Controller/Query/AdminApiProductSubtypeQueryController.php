@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminApiProductSubtypeQueryController extends AbstractAdminApiQueryController
+final class AdminApiProductSubtypeQueryController extends AbstractAdminApiQueryController
 {
     /**
      * @param AdminApiProductSubtypeListQueryHandler $subtypeListQueryHandler

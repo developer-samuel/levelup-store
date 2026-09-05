@@ -15,7 +15,7 @@ use App\Adapters\External\Turnstile\TurnstileAdapter;
 /**
  * @coversDefaultClass \App\Adapters\External\Turnstile\TurnstileAdapter
 */
-class TurnstileAdapterTest extends TestCase
+final class TurnstileAdapterTest extends TestCase
 {
     private string $secretKey;
     private string $verifyUrl;

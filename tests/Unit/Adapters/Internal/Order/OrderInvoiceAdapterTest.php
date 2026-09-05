@@ -20,7 +20,7 @@ use App\Adapters\Internal\Order\OrderInvoiceAdapter;
 /**
  * @coversDefaultClass \App\Adapters\Internal\Order\OrderInvoiceAdapter
 */
-class OrderInvoiceAdapterTest extends TestCase
+final class OrderInvoiceAdapterTest extends TestCase
 {
     private SnappyPdfGeneratorGatewayContract&MockObject $pdfGenerator;
     private OrderInvoicePdfRendererContract&MockObject $renderer;

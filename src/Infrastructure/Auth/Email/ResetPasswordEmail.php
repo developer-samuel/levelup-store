@@ -12,7 +12,7 @@ use App\Core\Ports\Auth\Renderer\ResetPasswordEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
-class ResetPasswordEmail extends AbstractEmail
+final class ResetPasswordEmail extends AbstractEmail
 {
     /**
      * @param ResetPasswordEmailRendererContract $renderer

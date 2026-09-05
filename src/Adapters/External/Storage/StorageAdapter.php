@@ -70,8 +70,8 @@ final class StorageAdapter implements StorageGatewayContract
         }
 
         $parsed = parse_url($this->endpoint);
-        $host   = $parsed['host'] ?? null;
-        $port   = $parsed['port'] ?? (($parsed['scheme'] ?? 'http') === 'https' ? 443 : 80);
+        $host = $parsed['host'] ?? null;
+        $port = $parsed['port'] ?? (($parsed['scheme'] ?? 'http') === 'https' ? 443 : 80);
 
         if ($host === null) {
             return false;

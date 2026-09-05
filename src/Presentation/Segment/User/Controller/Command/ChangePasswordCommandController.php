@@ -23,7 +23,7 @@ use App\Presentation\{
     Segment\User\Request\ChangePasswordRequest
 };
 
-class ChangePasswordCommandController extends AbstractCrudCommandController
+final class ChangePasswordCommandController extends AbstractCrudCommandController
 {
     /**
      * @param ChangePasswordCommandHandlerContract $changePasswordCommandHandler

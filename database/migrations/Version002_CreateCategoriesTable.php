@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Categories\CreateCategoriesTable;
 
-class Version002_CreateCategoriesTable extends AbstractMigration
+final class Version002_CreateCategoriesTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

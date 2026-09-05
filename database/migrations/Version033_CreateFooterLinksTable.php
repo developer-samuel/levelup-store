@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Footer\CreateFooterLinksTable;
 
-class Version033_CreateFooterLinksTable extends AbstractMigration
+final class Version033_CreateFooterLinksTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

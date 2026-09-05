@@ -17,7 +17,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
+final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
 {
     /**
      * @param BrandQueryContract $brandQuery

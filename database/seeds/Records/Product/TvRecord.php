@@ -9,7 +9,7 @@ use Database\{
     Seeds\Utils\Resolver\PathResolver
 };
 
-class TvRecord extends AbstractDataRecord
+final class TvRecord extends AbstractDataRecord
 {
     private const FOLDER = __DIR__ . '/../../../data/products/records/tv/';
     private const FILES = __DIR__ . '/../../../data/products/files/tv.json';

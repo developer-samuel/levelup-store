@@ -21,7 +21,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Service\Command\LogoutCommandService
 */
-class LogoutCommandServiceTest extends TestCase
+final class LogoutCommandServiceTest extends TestCase
 {
     private RefreshTokenRepositoryContract&MockObject $refreshTokenRepository;
     private LogoutCommandService $service;

@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\NotBlankConstraintValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NotBlankConstraint extends Constraint
+final class NotBlankConstraint extends Constraint
 {
     public string $message;
 

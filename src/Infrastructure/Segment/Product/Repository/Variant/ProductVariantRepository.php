@@ -36,7 +36,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<ProductVariant>
 */
-class ProductVariantRepository extends AbstractRepository implements ProductVariantRepositoryContract
+final class ProductVariantRepository extends AbstractRepository implements ProductVariantRepositoryContract
 {
     use OrderedQuery;
     use SingleResult;

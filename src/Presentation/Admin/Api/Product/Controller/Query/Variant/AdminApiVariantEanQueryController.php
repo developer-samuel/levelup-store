@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminApiVariantEanQueryController extends AbstractAdminApiQueryController
+final class AdminApiVariantEanQueryController extends AbstractAdminApiQueryController
 {
     /**
      * @param AdminApiVariantEanListQueryHandler $eanListQueryHandler

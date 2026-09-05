@@ -15,7 +15,7 @@ use App\Core\Application\Segment\Review\Input\ReviewDestroyInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class ReviewDestroyRequest extends AbstractRequest
+final class ReviewDestroyRequest extends AbstractRequest
 {
     use ReviewDestroyInput;
 

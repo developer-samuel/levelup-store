@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Products\CreateProductsTable;
 
-class Version006_CreateProductsTable extends AbstractMigration
+final class Version006_CreateProductsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

@@ -22,7 +22,7 @@ use App\Infrastructure\Segment\Order\EventListener\PublishOrderStatusEventListen
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Order\EventListener\PublishOrderStatusEventListener
 */
-class PublishOrderStatusEventListenerTest extends TestCase
+final class PublishOrderStatusEventListenerTest extends TestCase
 {
     private MercureHubGatewayContract&MockObject $mercureHubGateway;
     private PublishOrderStatusEventListener $listener;

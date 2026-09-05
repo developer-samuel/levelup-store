@@ -32,12 +32,12 @@ final readonly class PublishReviewRatingToggledEventListener
     */
     public function __invoke(ReviewRatingToggledEvent $event): void
     {
-        $likesCount    = $this->reviewRatingRepository->countByType($event->reviewId, 'like');
+        $likesCount = $this->reviewRatingRepository->countByType($event->reviewId, 'like');
         $dislikesCount = $this->reviewRatingRepository->countByType($event->reviewId, 'dislike');
 
         $this->mercureHubGateway->publish(
-            "reviews/{$event->variantId}/ratings",
-            (string) json_encode([
+            sprintf('reviews/%d/ratings', $event->variantId),
+            json_encode([
                 'reviewId'      => $event->reviewId,
                 'likesCount'    => $likesCount,
                 'dislikesCount' => $dislikesCount,

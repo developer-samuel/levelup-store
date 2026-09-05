@@ -19,7 +19,7 @@ use App\Core\Ports\Segment\Order\Repository\OrderBillingRepositoryContract;
 /**
  * @extends ServiceEntityRepository<OrderBilling>
 */
-class OrderBillingRepository extends ServiceEntityRepository implements OrderBillingRepositoryContract
+final class OrderBillingRepository extends ServiceEntityRepository implements OrderBillingRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Products\Variants\CreateProductVariantRecommendedTable;
 
-class Version026_CreateProductVariantRecommendedTable extends AbstractMigration
+final class Version026_CreateProductVariantRecommendedTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

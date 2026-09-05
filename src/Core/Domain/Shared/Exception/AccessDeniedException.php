@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Shared\Exception;
 
-class AccessDeniedException extends \Exception
+final class AccessDeniedException extends \Exception
 {
-    protected int $statusCode = 403;
+    private int $statusCode = 403;
 
     /**
      * @param string $message

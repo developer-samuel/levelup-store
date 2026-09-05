@@ -29,7 +29,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<Order>
 */
-class OrderRepository extends AbstractRepository implements OrderRepositoryContract
+final class OrderRepository extends AbstractRepository implements OrderRepositoryContract
 {
     use DateRange;
     use OrderedQuery;

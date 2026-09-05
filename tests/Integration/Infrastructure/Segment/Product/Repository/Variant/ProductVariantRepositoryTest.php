@@ -36,7 +36,7 @@ use Tests\Support\Provides\Persistence;
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository
 */
-class ProductVariantRepositoryTest extends KernelTestCase
+final class ProductVariantRepositoryTest extends KernelTestCase
 {
     use Persistence;
 
@@ -414,7 +414,7 @@ class ProductVariantRepositoryTest extends KernelTestCase
     public function testFindAvailableVariantsPaginatedUsesElasticsearchWhenEnabled(): void
     {
         $variant = $this->createAndPersistVariant('SKU-ES-PAG-001', 'ES Paginated Variant', 'es-paginated-001');
-        $filter  = $this->defaultFilter();
+        $filter = $this->defaultFilter();
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [$variant->getId()], 'total' => 1],
@@ -474,7 +474,7 @@ class ProductVariantRepositoryTest extends KernelTestCase
     public function testFindAvailableVariantsPaginatedSkipsNonExistentIdsFromElasticsearch(): void
     {
         $variant = $this->createAndPersistVariant('SKU-ES-SKIP-001', 'ES Skip Variant', 'es-skip-001');
-        $filter  = $this->defaultFilter();
+        $filter = $this->defaultFilter();
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [999999, $variant->getId()], 'total' => 2],

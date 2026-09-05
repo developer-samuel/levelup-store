@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Review\Projection;
 
 use App\Infrastructure\Abstract\Projection\AbstractProjection;
 
-class ReviewProjection extends AbstractProjection
+final class ReviewProjection extends AbstractProjection
 {
     public const NAME = 'reviews';
 

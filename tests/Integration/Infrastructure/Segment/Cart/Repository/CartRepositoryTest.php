@@ -24,7 +24,7 @@ use Tests\{
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Cart\Repository\CartRepository
 */
-class CartRepositoryTest extends KernelTestCase
+final class CartRepositoryTest extends KernelTestCase
 {
     use Persistence;
     use UserFactory;

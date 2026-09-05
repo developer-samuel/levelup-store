@@ -31,7 +31,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderPaymentQueryService
 */
-class OrderPaymentQueryServiceTest extends TestCase
+final class OrderPaymentQueryServiceTest extends TestCase
 {
     private CartRepositoryContract&MockObject $cartRepository;
     private StripePaymentGatewayContract&MockObject $stripePaymentAdapter;

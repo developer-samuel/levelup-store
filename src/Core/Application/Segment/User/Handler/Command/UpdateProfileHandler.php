@@ -21,7 +21,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class UpdateProfileHandler extends AbstractCommandHandler implements UpdateProfileHandlerContract
+final class UpdateProfileHandler extends AbstractCommandHandler implements UpdateProfileHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

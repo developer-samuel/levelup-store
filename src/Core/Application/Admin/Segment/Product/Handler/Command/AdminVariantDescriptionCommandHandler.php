@@ -21,7 +21,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCommandHandler
+final class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCommandHandler
 {
     /**
      * @param ProductVariantDescriptionRepositoryContract $variantDescriptionRepository

@@ -13,7 +13,7 @@ use App\Core\Application\{
 
 use App\Core\Ports\Segment\Brand\BrandRepositoryContract;
 
-class UniqueBrandNameValidator extends AbstractConstraintValidator
+final class UniqueBrandNameValidator extends AbstractConstraintValidator
 {
     /**
      * @param BrandRepositoryContract $brandRepository

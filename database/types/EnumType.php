@@ -9,7 +9,7 @@ use Doctrine\{
     DBAL\Types\Type
 };
 
-class EnumType extends Type
+final class EnumType extends Type
 {
     /**
      * Returns the name of this type.

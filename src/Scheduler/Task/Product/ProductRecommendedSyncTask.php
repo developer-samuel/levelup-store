@@ -25,7 +25,7 @@ use App\Scheduler\{
 };
 
 #[AsMessageHandler]
-class ProductRecommendedSyncTask extends AbstractTask
+final class ProductRecommendedSyncTask extends AbstractTask
 {
     /**
      * @param ProductVariantRecommendedRepositoryContract $recommendedRepository

@@ -13,7 +13,7 @@ use App\Core\Ports\Segment\Product\Service\Query\ProductTitleQueryContract;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductTitleQueryService
 */
-class ProductTitleQueryServiceTest extends TestCase
+final class ProductTitleQueryServiceTest extends TestCase
 {
     private ProductTitleQueryService $service;
 

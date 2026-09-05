@@ -32,7 +32,7 @@ final readonly class PublishOrderStatusEventListener
 
         $this->mercureHubGateway->publish(
             $topic,
-            (string) json_encode([
+            json_encode([
                 'orderCode' => $order->getCode(),
                 'status'    => $order->getStatus()->value,
             ], JSON_THROW_ON_ERROR),

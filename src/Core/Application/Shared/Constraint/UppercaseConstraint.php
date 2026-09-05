@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\UppercaseConstraintValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class UppercaseConstraint extends Constraint
+final class UppercaseConstraint extends Constraint
 {
     public string $message;
 

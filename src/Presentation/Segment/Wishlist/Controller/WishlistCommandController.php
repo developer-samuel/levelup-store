@@ -24,7 +24,7 @@ use App\Presentation\{
     Segment\Wishlist\Request\WishlistToggleRequest
 };
 
-class WishlistCommandController extends AbstractCrudCommandController
+final class WishlistCommandController extends AbstractCrudCommandController
 {
     /**
      * @param ToggleWishlistHandlerContract $toggleWishlistHandler

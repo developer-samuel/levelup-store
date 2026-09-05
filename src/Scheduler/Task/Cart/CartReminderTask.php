@@ -26,7 +26,7 @@ use App\Scheduler\{
 };
 
 #[AsMessageHandler]
-class CartReminderTask extends AbstractTask
+final class CartReminderTask extends AbstractTask
 {
     private const INACTIVE_HOURS = 24;
     private const EXPIRY_DAYS = 7;

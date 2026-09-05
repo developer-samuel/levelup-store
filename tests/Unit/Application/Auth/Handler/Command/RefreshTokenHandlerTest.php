@@ -22,7 +22,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\RefreshTokenHandler
 */
-class RefreshTokenHandlerTest extends TestCase
+final class RefreshTokenHandlerTest extends TestCase
 {
     private RefreshTokenCommandContract&MockObject $refreshTokenCommand;
     private AppLoggerContract&MockObject $logger;

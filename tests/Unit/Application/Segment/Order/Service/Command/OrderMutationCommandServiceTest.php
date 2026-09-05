@@ -50,7 +50,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderMutationCommandService
 */
-class OrderMutationCommandServiceTest extends TestCase
+final class OrderMutationCommandServiceTest extends TestCase
 {
     private SecurityProviderContract&MockObject $securityProvider;
     private OrderBuildCommandContract&MockObject $orderBuildCommand;

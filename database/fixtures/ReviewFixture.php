@@ -29,7 +29,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class ReviewFixture extends AbstractFixture implements DependentFixtureInterface
+final class ReviewFixture extends AbstractFixture implements DependentFixtureInterface
 {
     use ReviewBuilder;
 

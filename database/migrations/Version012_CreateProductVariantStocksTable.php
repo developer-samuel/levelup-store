@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Products\Variants\CreateProductVariantStocksTable;
 
-class Version012_CreateProductVariantStocksTable extends AbstractMigration
+final class Version012_CreateProductVariantStocksTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

@@ -19,7 +19,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class CreateOrderHandler extends AbstractCommandHandler implements CreateOrderHandlerContract
+final class CreateOrderHandler extends AbstractCommandHandler implements CreateOrderHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

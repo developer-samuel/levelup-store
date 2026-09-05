@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminDashboardQueryController extends AbstractQueryController
+final class AdminDashboardQueryController extends AbstractQueryController
 {
     /**
      * @param AdminDashboardQueryHandler $adminDashboardQueryHandler

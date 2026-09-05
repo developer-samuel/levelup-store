@@ -58,7 +58,7 @@ final readonly class UserProjector implements ReindexableInterface
     {
         $this->elasticsearch->ensureIndexExists(UserProjection::NAME, UserProjection::mapping());
 
-        $users   = $this->userRepository->findAll();
+        $users = $this->userRepository->findAll();
         $indexed = 0;
 
         foreach ($users as $user) {

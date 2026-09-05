@@ -24,7 +24,7 @@ use App\Scheduler\{
 };
 
 #[AsMessageHandler]
-class ProductStockSyncTask extends AbstractTask
+final class ProductStockSyncTask extends AbstractTask
 {
     /**
      * @param ProductVariantStockRepositoryContract $stockRepository

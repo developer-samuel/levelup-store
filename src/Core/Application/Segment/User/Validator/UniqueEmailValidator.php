@@ -18,7 +18,7 @@ use App\Core\Application\{
 
 use App\Core\Ports\Segment\User\Repository\UserRepositoryContract;
 
-class UniqueEmailValidator extends AbstractConstraintValidator
+final class UniqueEmailValidator extends AbstractConstraintValidator
 {
     /**
      * @param Security $security

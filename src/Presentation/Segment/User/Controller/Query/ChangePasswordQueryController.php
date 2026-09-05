@@ -16,7 +16,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class ChangePasswordQueryController extends AbstractQueryController
+final class ChangePasswordQueryController extends AbstractQueryController
 {
     /**
      * @param SecurityProviderContract $securityProvider

@@ -66,20 +66,16 @@ final class ReviewMercureSubscriber
     }
 
     /**
-     * @param PostFlushEventArgs $args
-     *
      * @return void
-    */
-    public function postFlush(PostFlushEventArgs $args): void
+     */
+    public function postFlush(): void
     {
         if (empty($this->pendingRatings)) {
             return;
         }
-
         foreach ($this->pendingRatings as ['variantId' => $variantId, 'reviewId' => $reviewId]) {
             $this->eventDispatcher->dispatch(new ReviewRatingToggledEvent($variantId, $reviewId));
         }
-
         $this->pendingRatings = [];
     }
 
@@ -94,9 +90,9 @@ final class ReviewMercureSubscriber
             return;
         }
 
-        $review    = $entity->getReview();
+        $review = $entity->getReview();
         $variantId = $review->getVariant()->getId();
-        $reviewId  = $review->getId();
+        $reviewId = $review->getId();
 
         $this->pendingRatings[$reviewId] = [
             'variantId' => $variantId,

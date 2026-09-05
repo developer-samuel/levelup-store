@@ -30,7 +30,7 @@ use App\Infrastructure\{
  *
  * @extends AbstractRepository<Review>
 */
-class ReviewRepository extends AbstractRepository implements ReviewRepositoryContract
+final class ReviewRepository extends AbstractRepository implements ReviewRepositoryContract
 {
     use SingleResult;
     use IterableQuery;

@@ -21,7 +21,7 @@ use Tests\Support\{
 /**
  * @coversDefaultClass \App\Presentation\Auth\Controller\Command\SignupCommandController
 */
-class SignupCommandControllerTest extends WebTestCase
+final class SignupCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
     use RateLimiterMockTrait;

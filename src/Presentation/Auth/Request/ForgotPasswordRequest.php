@@ -15,7 +15,7 @@ use App\Core\Application\Auth\Input\ForgotPasswordInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class ForgotPasswordRequest extends AbstractRequest
+final class ForgotPasswordRequest extends AbstractRequest
 {
     use ForgotPasswordInput;
 

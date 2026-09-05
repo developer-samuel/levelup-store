@@ -8,7 +8,7 @@ use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Ports\Admin\Segment\Product\Service\Command\AdminVariantValidationCommandContract;
 
-class AdminVariantValidationCommandService implements AdminVariantValidationCommandContract
+final class AdminVariantValidationCommandService implements AdminVariantValidationCommandContract
 {
     /**
      * @param object $payload

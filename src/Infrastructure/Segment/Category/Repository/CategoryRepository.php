@@ -18,7 +18,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<Category>
 */
-class CategoryRepository extends AbstractRepository implements CategoryRepositoryContract
+final class CategoryRepository extends AbstractRepository implements CategoryRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

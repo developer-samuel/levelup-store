@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Users\CreateUserShippingsTable;
 
-class Version025_CreateUserShippingsTable extends AbstractMigration
+final class Version025_CreateUserShippingsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

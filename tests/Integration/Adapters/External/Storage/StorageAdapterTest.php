@@ -13,7 +13,7 @@ use App\Adapters\External\Storage\StorageAdapter;
 /**
  * @coversDefaultClass \App\Adapters\External\Storage\StorageAdapter
 */
-class StorageAdapterTest extends TestCase
+final class StorageAdapterTest extends TestCase
 {
     private string $endpoint;
     private string $publicUrl;
@@ -25,18 +25,18 @@ class StorageAdapterTest extends TestCase
 
     protected function setUp(): void
     {
-        $endpoint     = $_ENV['MINIO_ENDPOINT']       ?? 'http://127.0.0.1:9000';
-        $publicUrl    = $_ENV['MINIO_PUBLIC_URL']     ?? 'http://127.0.0.1:9000';
-        $bucket       = $_ENV['MINIO_BUCKET']         ?? 'levelup-store';
-        $rootUser     = $_ENV['MINIO_ROOT_USER']      ?? 'minioadmin';
-        $rootPassword = $_ENV['MINIO_ROOT_PASSWORD']  ?? 'minioadmin';
+        $endpoint = $_ENV['MINIO_ENDPOINT'] ?? 'http://127.0.0.1:9000';
+        $publicUrl = $_ENV['MINIO_PUBLIC_URL'] ?? 'http://127.0.0.1:9000';
+        $bucket = $_ENV['MINIO_BUCKET'] ?? 'levelup-store';
+        $rootUser = $_ENV['MINIO_ROOT_USER'] ?? 'minioadmin';
+        $rootPassword = $_ENV['MINIO_ROOT_PASSWORD'] ?? 'minioadmin';
 
-        $this->endpoint     = is_string($endpoint)     ? $endpoint     : 'http://127.0.0.1:9000';
-        $this->publicUrl    = is_string($publicUrl)    ? $publicUrl    : 'http://127.0.0.1:9000';
-        $this->bucket       = is_string($bucket)       ? $bucket       : 'levelup-store';
-        $this->rootUser     = is_string($rootUser)     ? $rootUser     : 'minioadmin';
+        $this->endpoint = is_string($endpoint)     ? $endpoint     : 'http://127.0.0.1:9000';
+        $this->publicUrl = is_string($publicUrl)    ? $publicUrl    : 'http://127.0.0.1:9000';
+        $this->bucket = is_string($bucket)       ? $bucket       : 'levelup-store';
+        $this->rootUser = is_string($rootUser)     ? $rootUser     : 'minioadmin';
         $this->rootPassword = is_string($rootPassword) ? $rootPassword : 'minioadmin';
-        $this->uploadsPath  = sys_get_temp_dir() . '/levelup_test_uploads';
+        $this->uploadsPath = sys_get_temp_dir() . '/levelup_test_uploads';
 
         $this->adapter = new StorageAdapter(
             true,

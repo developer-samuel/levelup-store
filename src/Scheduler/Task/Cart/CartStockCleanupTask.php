@@ -25,7 +25,7 @@ use App\Scheduler\{
 };
 
 #[AsMessageHandler]
-class CartStockCleanupTask extends AbstractTask
+final class CartStockCleanupTask extends AbstractTask
 {
     /**
      * @param CartItemRepositoryContract $cartItemRepository

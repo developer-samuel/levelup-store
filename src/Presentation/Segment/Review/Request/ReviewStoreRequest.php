@@ -17,7 +17,7 @@ use App\Core\Application\Segment\Review\Input\ReviewStoreInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class ReviewStoreRequest extends AbstractRequest
+final class ReviewStoreRequest extends AbstractRequest
 {
     use ReviewStoreInput;
 

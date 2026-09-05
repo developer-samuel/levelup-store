@@ -23,7 +23,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class ChangePasswordCommandHandler extends AbstractCommandHandler implements ChangePasswordCommandHandlerContract
+final class ChangePasswordCommandHandler extends AbstractCommandHandler implements ChangePasswordCommandHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

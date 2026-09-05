@@ -21,7 +21,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class BrandFixture extends AbstractFixture implements FixtureGroupInterface
+final class BrandFixture extends AbstractFixture implements FixtureGroupInterface
 {
     use BrandFactory;
     use NameSanitizer;

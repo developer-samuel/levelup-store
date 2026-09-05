@@ -20,7 +20,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class CountryFixture extends AbstractFixture implements FixtureGroupInterface
+final class CountryFixture extends AbstractFixture implements FixtureGroupInterface
 {
     /**
      * @param CountryApiGatewayContract $countryApiAdapter

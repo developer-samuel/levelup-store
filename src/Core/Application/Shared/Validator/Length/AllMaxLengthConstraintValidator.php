@@ -13,7 +13,7 @@ use App\Core\Application\{
 
 use App\Shared\Utils\Calculator\LengthCalculator;
 
-class AllMaxLengthConstraintValidator extends AbstractConstraintValidator
+final class AllMaxLengthConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

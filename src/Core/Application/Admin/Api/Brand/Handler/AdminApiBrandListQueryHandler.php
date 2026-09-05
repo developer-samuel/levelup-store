@@ -16,7 +16,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandler
+final class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandler
 {
     /**
      * @param BrandRepositoryContract $brandRepository

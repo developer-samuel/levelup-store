@@ -25,10 +25,10 @@ use App\Core\Ports\{
     Gateways\External\Storage\StorageGatewayContract
 };
 
-class HealthCheckController extends AbstractController
+final class HealthCheckController extends AbstractController
 {
     private const DISK_MIN_FREE_BYTES = 1024 * 1024 * 1024;
-    private const MAILER_TIMEOUT      = 3;
+    private const MAILER_TIMEOUT = 3;
 
     /**
      * @param Connection $connection

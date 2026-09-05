@@ -40,5 +40,4 @@ interface ElasticsearchGatewayContract
      * @return void
     */
     public function ensureIndexExists(string $index, array $mapping): void;
-
 }

@@ -15,7 +15,7 @@ use App\Core\Application\Admin\Segment\Product\Input\Description\AdminVariantDes
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class AdminVariantDescriptionUpdateRequest extends AbstractRequest
+final class AdminVariantDescriptionUpdateRequest extends AbstractRequest
 {
     use AdminVariantDescriptionUpdateInput;
 

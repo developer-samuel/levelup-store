@@ -14,7 +14,7 @@ use App\Core\Application\{
     Shared\Constraint\TermsAcceptedConstraint
 };
 
-class TermsAcceptedConstraintValidator extends AbstractConstraintValidator
+final class TermsAcceptedConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

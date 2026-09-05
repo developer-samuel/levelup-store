@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\HttpResponder
 };
 
-class CookieApiCommandController extends AbstractCommandController
+final class CookieApiCommandController extends AbstractCommandController
 {
     /**
      * @param CookieGatewayContract $cookieGateway

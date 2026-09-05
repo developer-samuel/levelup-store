@@ -17,7 +17,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class ResetPasswordCommandHandler extends AbstractCommandHandler implements ResetPasswordCommandHandlerContract
+final class ResetPasswordCommandHandler extends AbstractCommandHandler implements ResetPasswordCommandHandlerContract
 {
     /**
      * @param ResetPasswordQueryContract $resetPasswordQuery

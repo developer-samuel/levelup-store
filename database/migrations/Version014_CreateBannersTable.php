@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Banners\CreateBannersTable;
 
-class Version014_CreateBannersTable extends AbstractMigration
+final class Version014_CreateBannersTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

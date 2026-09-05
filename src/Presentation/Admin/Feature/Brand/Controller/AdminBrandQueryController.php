@@ -17,7 +17,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminBrandQueryController extends AbstractFindQueryController
+final class AdminBrandQueryController extends AbstractFindQueryController
 {
     /**
      * @param BrandRepositoryContract $brandRepository

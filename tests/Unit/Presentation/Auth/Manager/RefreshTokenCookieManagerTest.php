@@ -24,7 +24,7 @@ use App\Presentation\Auth\Manager\RefreshTokenCookieManager;
 /**
  * @coversDefaultClass \App\Presentation\Auth\Manager\RefreshTokenCookieManager
 */
-class RefreshTokenCookieManagerTest extends TestCase
+final class RefreshTokenCookieManagerTest extends TestCase
 {
     private CookieGatewayContract&MockObject $cookieGateway;
     private RefreshTokenCookieManager $manager;

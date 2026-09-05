@@ -19,7 +19,7 @@ use App\Core\Ports\Segment\Order\Repository\OrderPaymentRepositoryContract;
 /**
  * @extends ServiceEntityRepository<OrderPayment>
 */
-class OrderPaymentRepository extends ServiceEntityRepository implements OrderPaymentRepositoryContract
+final class OrderPaymentRepository extends ServiceEntityRepository implements OrderPaymentRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

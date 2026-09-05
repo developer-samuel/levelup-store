@@ -50,7 +50,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderPaymentCommandService
 */
-class OrderPaymentCommandServiceTest extends TestCase
+final class OrderPaymentCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
     private SecurityPolicyContract&MockObject $securityPolicy;

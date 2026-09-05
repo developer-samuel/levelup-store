@@ -20,7 +20,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class StoreVerificationHandler extends AbstractCommandHandler implements StoreVerificationHandlerContract
+final class StoreVerificationHandler extends AbstractCommandHandler implements StoreVerificationHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

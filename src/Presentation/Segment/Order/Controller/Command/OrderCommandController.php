@@ -32,7 +32,7 @@ use App\Presentation\{
     Shared\Processor\RequestProcessor
 };
 
-class OrderCommandController extends AbstractCommandController
+final class OrderCommandController extends AbstractCommandController
 {
     /**
      * @param CsrfTokenManagerInterface $csrfTokenManager

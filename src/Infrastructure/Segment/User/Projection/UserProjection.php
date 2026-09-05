@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\User\Projection;
 
 use App\Infrastructure\Abstract\Projection\AbstractProjection;
 
-class UserProjection extends AbstractProjection
+final class UserProjection extends AbstractProjection
 {
     public const NAME = 'users';
 

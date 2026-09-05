@@ -17,7 +17,7 @@ use App\Core\Ports\{
 
 use App\Presentation\Shared\Responder\ExceptionResponder;
 
-class SearchApiQueryController extends AbstractController
+final class SearchApiQueryController extends AbstractController
 {
     /**
      * @param SearchRenderQueryHandlerContract $searchRenderQueryHandler

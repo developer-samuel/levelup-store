@@ -15,7 +15,7 @@ use App\Core\Ports\{
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
-class CartReminderEmail extends AbstractEmail implements CartReminderEmailContract
+final class CartReminderEmail extends AbstractEmail implements CartReminderEmailContract
 {
     /**
      * @param CartReminderEmailRendererContract $renderer

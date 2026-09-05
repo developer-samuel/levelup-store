@@ -11,7 +11,7 @@ use App\Core\Application\{
     Shared\Constraint\NotBlankConstraint
 };
 
-class NotBlankConstraintValidator extends AbstractConstraintValidator
+final class NotBlankConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

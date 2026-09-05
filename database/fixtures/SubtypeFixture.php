@@ -30,7 +30,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class SubtypeFixture extends AbstractFixture implements DependentFixtureInterface
+final class SubtypeFixture extends AbstractFixture implements DependentFixtureInterface
 {
     use HasCategory;
     use SubtypeFactory;

@@ -17,7 +17,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class HomeQueryController extends AbstractQueryController
+final class HomeQueryController extends AbstractQueryController
 {
     /**
      * @param HomeCacheQueryContract $homeCacheQuery

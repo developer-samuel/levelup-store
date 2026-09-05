@@ -21,7 +21,7 @@ use App\Infrastructure\Segment\Review\EventListener\PublishReviewRatingToggledEv
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Review\EventListener\PublishReviewRatingToggledEventListener
 */
-class PublishReviewRatingToggledEventListenerTest extends TestCase
+final class PublishReviewRatingToggledEventListenerTest extends TestCase
 {
     private MercureHubGatewayContract&MockObject $mercureHubGateway;
     private ReviewRatingRepositoryContract&MockObject $reviewRatingRepository;
@@ -110,7 +110,7 @@ class PublishReviewRatingToggledEventListenerTest extends TestCase
 
     private function initMocks(): void
     {
-        $this->mercureHubGateway      = $this->createMock(MercureHubGatewayContract::class);
+        $this->mercureHubGateway = $this->createMock(MercureHubGatewayContract::class);
         $this->reviewRatingRepository = $this->createMock(ReviewRatingRepositoryContract::class);
     }
 

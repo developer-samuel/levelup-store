@@ -13,7 +13,7 @@ use App\Core\Application\Segment\Product\Resource\ProductDescriptionResource;
 
 use App\Core\Ports\Segment\Product\Service\Query\ProductDescriptionQueryContract;
 
-class ProductDescriptionQueryService implements ProductDescriptionQueryContract
+final class ProductDescriptionQueryService implements ProductDescriptionQueryContract
 {
     /**
      * @param ProductVariant $variant

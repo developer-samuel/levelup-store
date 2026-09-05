@@ -20,7 +20,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LogoutHandler
 */
-class LogoutHandlerTest extends TestCase
+final class LogoutHandlerTest extends TestCase
 {
     private const TOKEN = 'some-token';
 

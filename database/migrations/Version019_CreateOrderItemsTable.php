@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Orders\CreateOrderItemsTable;
 
-class Version019_CreateOrderItemsTable extends AbstractMigration
+final class Version019_CreateOrderItemsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

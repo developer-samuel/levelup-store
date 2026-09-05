@@ -28,7 +28,7 @@ use Tests\{
 /**
  * @coversDefaultClass \App\Presentation\Segment\Order\Controller\Command\OrderCommandController
 */
-class OrderCommandControllerTest extends WebTestCase
+final class OrderCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
     use Persistence;

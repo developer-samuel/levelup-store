@@ -25,7 +25,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartPriceQueryService
 */
-class CartPriceQueryServiceTest extends TestCase
+final class CartPriceQueryServiceTest extends TestCase
 {
     private ProductPriceQueryContract&MockObject $productPriceQuery;
     private CartPriceQueryService $service;

@@ -20,7 +20,7 @@ use App\Core\Ports\Segment\Wishlist\WishlistRepositoryContract;
 /**
  * @extends ServiceEntityRepository<Wishlist>
 */
-class WishlistRepository extends ServiceEntityRepository implements WishlistRepositoryContract
+final class WishlistRepository extends ServiceEntityRepository implements WishlistRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

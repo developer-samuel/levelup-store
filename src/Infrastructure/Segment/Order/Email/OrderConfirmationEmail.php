@@ -18,7 +18,7 @@ use App\Core\Ports\Segment\Order\Renderer\Email\OrderConfirmationEmailRendererCo
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
-class OrderConfirmationEmail extends AbstractEmail
+final class OrderConfirmationEmail extends AbstractEmail
 {
     /**
      * @param OrderConfirmationEmailRendererContract $renderer

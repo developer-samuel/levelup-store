@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Subtypes\CreateSubtypesTable;
 
-class Version004_CreateSubtypesTable extends AbstractMigration
+final class Version004_CreateSubtypesTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

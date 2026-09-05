@@ -18,7 +18,7 @@ use App\Adapters\External\Cache\RedisCacheAdapter;
 /**
  * @coversDefaultClass \App\Adapters\External\Cache\RedisCacheAdapter
 */
-class RedisCacheAdapterTest extends TestCase
+final class RedisCacheAdapterTest extends TestCase
 {
     private const REDIS_URL = 'redis://localhost:6379';
 

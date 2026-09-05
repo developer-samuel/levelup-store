@@ -19,7 +19,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractVariantRepository<ProductVariantDescription>
 */
-class ProductVariantDescriptionRepository extends AbstractVariantRepository implements ProductVariantDescriptionRepositoryContract
+final class ProductVariantDescriptionRepository extends AbstractVariantRepository implements ProductVariantDescriptionRepositoryContract
 {
     use MaxValue;
 

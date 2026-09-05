@@ -17,7 +17,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-class ToggleReviewRatingHandler extends AbstractCommandHandler implements ToggleReviewRatingHandlerContract
+final class ToggleReviewRatingHandler extends AbstractCommandHandler implements ToggleReviewRatingHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

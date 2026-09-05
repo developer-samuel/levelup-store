@@ -25,7 +25,7 @@ use Tests\Support\Provides\Persistence;
 /**
  * @coversDefaultClass \App\Presentation\Segment\Order\Controller\Command\OrderInvoiceCommandController
 */
-class OrderInvoiceCommandControllerTest extends WebTestCase
+final class OrderInvoiceCommandControllerTest extends WebTestCase
 {
     use Persistence;
 

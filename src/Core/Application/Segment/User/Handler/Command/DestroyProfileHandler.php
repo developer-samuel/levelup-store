@@ -18,7 +18,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class DestroyProfileHandler extends AbstractCommandHandler implements DestroyProfileHandlerContract
+final class DestroyProfileHandler extends AbstractCommandHandler implements DestroyProfileHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

@@ -29,7 +29,7 @@ use Tests\{
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Cart\Repository\CartItemRepository
 */
-class CartItemRepositoryTest extends KernelTestCase
+final class CartItemRepositoryTest extends KernelTestCase
 {
     use Persistence;
     use UserFactory;

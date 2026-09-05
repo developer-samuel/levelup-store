@@ -33,7 +33,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class ProductFixture extends AbstractFixture implements DependentFixtureInterface
+final class ProductFixture extends AbstractFixture implements DependentFixtureInterface
 {
     use ProductBuilder;
 

@@ -22,7 +22,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class UserFixture extends AbstractFixture implements FixtureGroupInterface
+final class UserFixture extends AbstractFixture implements FixtureGroupInterface
 {
     use UserFactory;
 

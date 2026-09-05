@@ -20,7 +20,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<User>
 */
-class UserRepository extends AbstractRepository implements UserRepositoryContract
+final class UserRepository extends AbstractRepository implements UserRepositoryContract
 {
     use DateRange;
     use SingleResult;

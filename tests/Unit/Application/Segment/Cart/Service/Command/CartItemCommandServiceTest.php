@@ -31,7 +31,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Command\CartItemCommandService
 */
-class CartItemCommandServiceTest extends TestCase
+final class CartItemCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
     private CartItemAvailabilityPolicyContract&MockObject $cartItemPolicy;

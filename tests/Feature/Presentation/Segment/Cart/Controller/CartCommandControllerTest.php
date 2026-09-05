@@ -25,7 +25,7 @@ use App\Presentation\Segment\Cart\Controller\CartCommandController;
 /**
  * @coversDefaultClass \App\Presentation\Segment\Cart\Controller\CartCommandController
 */
-class CartCommandControllerTest extends TestCase
+final class CartCommandControllerTest extends TestCase
 {
     private CsrfTokenManagerInterface&MockObject $csrfTokenManager;
     private CartMutationCommandContract&MockObject $cartMutationCommand;

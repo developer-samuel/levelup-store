@@ -15,7 +15,7 @@ use App\Core\Application\Segment\Cart\Input\CartDestroyInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class CartDestroyRequest extends AbstractRequest
+final class CartDestroyRequest extends AbstractRequest
 {
     use CartDestroyInput;
 

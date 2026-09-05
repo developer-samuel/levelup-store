@@ -21,7 +21,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler
+final class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler
 {
     /**
      * @param OrderFetchQueryContract $orderFetchQuery

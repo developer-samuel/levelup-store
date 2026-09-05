@@ -15,7 +15,7 @@ use App\Core\Application\Admin\Segment\Brand\Input\AdminBrandStoreInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class AdminBrandStoreRequest extends AbstractRequest
+final class AdminBrandStoreRequest extends AbstractRequest
 {
     use AdminBrandStoreInput;
 

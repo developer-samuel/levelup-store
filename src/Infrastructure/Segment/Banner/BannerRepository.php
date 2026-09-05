@@ -23,7 +23,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<Banner>
 */
-class BannerRepository extends AbstractRepository implements BannerRepositoryContract
+final class BannerRepository extends AbstractRepository implements BannerRepositoryContract
 {
     use MaxValue;
     use IterableQuery;

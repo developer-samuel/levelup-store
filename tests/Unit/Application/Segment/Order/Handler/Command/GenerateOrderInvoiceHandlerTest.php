@@ -28,7 +28,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\GenerateOrderInvoiceHandler
 */
-class GenerateOrderInvoiceHandlerTest extends TestCase
+final class GenerateOrderInvoiceHandlerTest extends TestCase
 {
     private SecurityPolicyContract&MockObject $securityPolicy;
     private OrderInvoiceGatewayContract&MockObject $orderInvoiceAdapter;

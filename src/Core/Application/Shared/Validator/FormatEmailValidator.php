@@ -11,7 +11,7 @@ use App\Core\Application\{
     Shared\Constraint\EmailFormat,
 };
 
-class FormatEmailValidator extends AbstractConstraintValidator
+final class FormatEmailValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminApiVariantImageQueryController extends AbstractAdminApiQueryController
+final class AdminApiVariantImageQueryController extends AbstractAdminApiQueryController
 {
     /**
      * @param AdminApiVariantImageListQueryHandler $imageListQueryHandler

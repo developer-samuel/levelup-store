@@ -29,7 +29,7 @@ use Tests\Support\Stub\UserStub;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartRenderQueryService
 */
-class CartRenderQueryServiceTest extends TestCase
+final class CartRenderQueryServiceTest extends TestCase
 {
     use UserStub;
 

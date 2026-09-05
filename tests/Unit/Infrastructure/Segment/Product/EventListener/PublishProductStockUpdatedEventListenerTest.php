@@ -18,7 +18,7 @@ use App\Infrastructure\Segment\Product\EventListener\PublishProductStockUpdatedE
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\Product\EventListener\PublishProductStockUpdatedEventListener
 */
-class PublishProductStockUpdatedEventListenerTest extends TestCase
+final class PublishProductStockUpdatedEventListenerTest extends TestCase
 {
     private MercureHubGatewayContract&MockObject $mercureHubGateway;
     private PublishProductStockUpdatedEventListener $listener;

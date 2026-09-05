@@ -35,7 +35,7 @@ use Tests\Support\Stub\UserStub;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartItemQueryService
 */
-class CartItemQueryServiceTest extends TestCase
+final class CartItemQueryServiceTest extends TestCase
 {
     use UserStub;
 

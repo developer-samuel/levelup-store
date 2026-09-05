@@ -28,7 +28,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\OrderSuccessCleanupCommandHandler
 */
-class OrderSuccessCleanupCommandHandlerTest extends TestCase
+final class OrderSuccessCleanupCommandHandlerTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
     private CartControlQueryContract&MockObject $cartControlQuery;

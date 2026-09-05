@@ -22,7 +22,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<Type>
 */
-class TypeRepository extends AbstractRepository implements TypeRepositoryContract
+final class TypeRepository extends AbstractRepository implements TypeRepositoryContract
 {
     use SingleResult;
 

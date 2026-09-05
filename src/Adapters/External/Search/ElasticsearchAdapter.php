@@ -119,5 +119,4 @@ final readonly class ElasticsearchAdapter implements ElasticsearchGatewayContrac
             'body'  => $mapping,
         ]);
     }
-
 }

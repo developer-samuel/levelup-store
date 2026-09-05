@@ -25,7 +25,7 @@ use Tests\Support\{
 /**
  * @coversDefaultClass \App\Presentation\Auth\Controller\Command\AuthApiCommandController
 */
-class AuthApiCommandControllerTest extends WebTestCase
+final class AuthApiCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
     use RateLimiterMockTrait;

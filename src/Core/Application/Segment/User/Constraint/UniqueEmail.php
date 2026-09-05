@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Segment\User\Validator\UniqueEmailValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class UniqueEmail extends Constraint
+final class UniqueEmail extends Constraint
 {
     public string $message = 'Email "{{ value }}" is already taken.';
 

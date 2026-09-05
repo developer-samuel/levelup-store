@@ -22,7 +22,7 @@ use App\Scheduler\{
 };
 
 #[AsMessageHandler]
-class TokenCleanupTask extends AbstractTask
+final class TokenCleanupTask extends AbstractTask
 {
     /**
      * @param RefreshTokenRepositoryContract $refreshTokenRepository

@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminApiBannerQueryController extends AbstractAdminApiQueryController
+final class AdminApiBannerQueryController extends AbstractAdminApiQueryController
 {
     /**
      * @param AdminApiBannerListQueryHandler $bannerListQueryHandler
