@@ -38,7 +38,7 @@ runs:
       shell: bash
       run: |
         find scripts -name "*.sh" -exec chmod +x {} +
-        chmod +x bin/run
+        find bin/ -type f -exec chmod +x {} +
 
     - name: Install PHP dependencies
       shell: bash
