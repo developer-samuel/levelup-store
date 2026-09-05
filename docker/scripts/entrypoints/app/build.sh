@@ -7,13 +7,13 @@ if [ -f public/hot ] && ! docker ps --filter "name=levelup_store_vite" --filter 
 fi
 
 echo "⚙️ Rebuilding native modules for container platform..."
-npm rebuild esbuild --silent
+pnpm rebuild esbuild --silent
 
 echo "⚙️ Building assets..."
-npm run build
+pnpm build
 echo "✅ Assets built."
 
 echo "⚙️ Generating ESLint report..."
 mkdir -p var/tools/eslint
-npm run lint:report
+pnpm lint:report
 echo "✅ ESLint report generated."
