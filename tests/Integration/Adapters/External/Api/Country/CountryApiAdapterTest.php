@@ -18,7 +18,7 @@ use PHPUnit\{
 use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 
 use App\Core\Ports\{
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 

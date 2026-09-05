@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-use App\Presentation\Segment\Product\Controller\Query\ProductQueryController;
+use App\Presentation\Segment\Product\Controller\ProductQueryController;
 
 return function (RoutingConfigurator $routes) {
     // Route for displaying products based on category and type

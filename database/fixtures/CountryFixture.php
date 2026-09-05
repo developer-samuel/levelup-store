@@ -15,7 +15,7 @@ use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 
 use App\Core\Ports\{
     Gateways\External\Api\CountryApiGatewayContract,
-    Segment\Country\Service\Command\CountryCommandContract,
+    Segment\Country\Service\CountryCommandContract,
     Shared\Logging\AppLoggerContract,
     Shared\Logging\ConsoleLoggerContract
 };

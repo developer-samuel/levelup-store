@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Api\Brand\Resource;
 
-use App\Core\Domain\Segment\Brand\Entity\Brand;
+use App\Core\Domain\Segment\Brand\Brand;
 
 use App\Shared\Utils\Formatter\DateTimeFormatter;
 

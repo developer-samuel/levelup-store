@@ -10,7 +10,7 @@ use App\Core\Ports\{
     Auth\Notifier\ResetPasswordNotifierContract,
     Auth\Service\Command\ResetPasswordCommandContract,
     Security\Provider\PasswordHasherProviderContract,
-    Segment\Password\Repository\PasswordResetTokenRepositoryContract,
+    Segment\Password\PasswordResetTokenRepositoryContract,
     Shared\Persistence\EntityPersistenceContract
 };
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\User\Input;
 
-use App\Core\Domain\Segment\Password\Constants\PasswordConstants;
+use App\Core\Domain\Segment\Password\PasswordConstants;
 
 use App\Core\Application\{
     Shared\Constraint\Length\MaxLengthConstraint,

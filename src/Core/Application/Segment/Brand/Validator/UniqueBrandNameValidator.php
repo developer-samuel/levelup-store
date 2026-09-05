@@ -11,7 +11,7 @@ use App\Core\Application\{
     Segment\Brand\Constraint\UniqueBrandName
 };
 
-use App\Core\Ports\Segment\Brand\Repository\BrandRepositoryContract;
+use App\Core\Ports\Segment\Brand\BrandRepositoryContract;
 
 class UniqueBrandNameValidator extends AbstractConstraintValidator
 {

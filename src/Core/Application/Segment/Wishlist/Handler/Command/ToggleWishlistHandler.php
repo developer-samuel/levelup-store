@@ -9,9 +9,9 @@ use Kit\Assertion\Domain\User\UserAssertion;
 use App\Core\Domain\Segment\Wishlist\Payload\WishlistPayload;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Wishlist\Handler\Command\ToggleWishlistHandlerContract,
-    Segment\Wishlist\Service\Command\WishlistCommandContract
+    Segment\Wishlist\Service\WishlistCommandContract
 };
 
 final readonly class ToggleWishlistHandler implements ToggleWishlistHandlerContract

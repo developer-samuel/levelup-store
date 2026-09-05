@@ -17,8 +17,8 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Order\Handler\Command\GenerateOrderInvoiceHandler;
 
 use App\Core\Ports\{
-    Gateways\Internal\Segment\Order\OrderInvoiceGatewayContract,
-    Security\Policy\SecurityPolicyContract,
+    Gateways\Internal\Order\OrderInvoiceGatewayContract,
+    Security\SecurityPolicyContract,
     Segment\Order\Handler\Command\GenerateOrderInvoiceHandlerContract,
     Segment\Order\Service\Query\OrderInvoiceQueryContract,
     Shared\FileSystem\TempFileManagerContract,

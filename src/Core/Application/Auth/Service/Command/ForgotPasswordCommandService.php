@@ -9,12 +9,12 @@ use App\Core\Domain\{
     Segment\User\Entity\User
 };
 
-use App\Core\Application\Shared\Utils\Generator\CodeGenerator;
+use App\Core\Application\Shared\Utils\CodeGenerator;
 
 use App\Core\Ports\{
     Auth\Notifier\ForgotPasswordNotifierContract,
     Auth\Service\Command\ForgotPasswordCommandContract,
-    Segment\Password\Repository\PasswordResetTokenRepositoryContract,
+    Segment\Password\PasswordResetTokenRepositoryContract,
     Shared\Persistence\EntityPersistenceContract
 };
 

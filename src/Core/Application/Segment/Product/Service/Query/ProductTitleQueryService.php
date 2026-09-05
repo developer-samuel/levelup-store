@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Product\Service\Query;
 
-use Kit\Utils\Shared\Normalizer\StringNormalizer;
+use Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\Segment\Product\Enum\ProductTitleType;
 

@@ -11,9 +11,9 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use App\Core\Domain\Admin\Segment\Order\Payload\AdminOrderStatusPayload;
+use App\Core\Domain\Admin\Order\AdminOrderStatusPayload;
 
-use App\Core\Application\Admin\Segment\Order\Handler\Command\AdminOrderCommandHandler;
+use App\Core\Application\Admin\Segment\Order\Handler\AdminOrderCommandHandler;
 
 use App\Core\Ports\Shared\Logging\AppLoggerContract;
 

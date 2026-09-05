@@ -6,7 +6,7 @@ namespace App\Core\Application\Shared\Validator\Length;
 
 use Symfony\Component\Validator\Constraint;
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Application\{
     Abstract\Validator\AbstractConstraintValidator,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Application\Auth\Input;
 
 use App\Core\Application\{
-    Shared\Constraint\Email\EmailFormat,
+    Shared\Constraint\EmailFormat,
     Shared\Constraint\NotBlankConstraint
 };
 

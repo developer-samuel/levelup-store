@@ -24,7 +24,7 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Order\Handler\Command\CreateOrderHandler;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Security\Provider\SecurityProviderContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
     Segment\Order\Handler\Command\CreateOrderHandlerContract,

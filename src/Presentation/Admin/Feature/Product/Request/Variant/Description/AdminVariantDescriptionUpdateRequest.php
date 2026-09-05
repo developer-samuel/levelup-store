@@ -11,7 +11,7 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use App\Core\Application\Admin\Segment\Product\Input\Variant\Description\AdminVariantDescriptionUpdateInput;
+use App\Core\Application\Admin\Segment\Product\Input\Description\AdminVariantDescriptionUpdateInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 

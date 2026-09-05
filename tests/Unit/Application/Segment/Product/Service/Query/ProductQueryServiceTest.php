@@ -18,7 +18,7 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Product\Service\Query\ProductQueryService;
 
 use App\Core\Ports\{
-    Segment\Brand\Repository\BrandRepositoryContract,
+    Segment\Brand\BrandRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
     Segment\Product\Service\Query\ProductCategoryQueryContract,
     Segment\Product\Service\Query\ProductQueryContract,

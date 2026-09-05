@@ -8,8 +8,8 @@ use Doctrine\Persistence\ObjectManager;
 
 use Kit\{
     Utils\Product\ProductCatalogCodeGenerator,
-    Utils\Shared\Generator\IdentifierGenerator,
-    Utils\Shared\Normalizer\StringNormalizer
+    Utils\Shared\IdentifierGenerator,
+    Utils\Shared\StringNormalizer
 };
 
 use App\Core\Domain\{

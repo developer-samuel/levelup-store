@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Service\Command;
 
-use App\Core\Application\Segment\Order\Builder\Query\OrderQueryBuilder;
+use App\Core\Application\Segment\Order\Builder\OrderQueryBuilder;
 
 use App\Core\Domain\{
     Segment\Country\Entity\Country,
@@ -19,7 +19,7 @@ use App\Core\Domain\{
 };
 
 use App\Core\Ports\{
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Segment\Order\Service\Command\OrderDataCommandContract,
     Shared\Persistence\EntityPersistenceContract
 };

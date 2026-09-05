@@ -11,17 +11,17 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
+
+use App\Core\Domain\{
+    Segment\Order\Enum\OrderPersonalFields,
+    Shared\ValueObject\AddressObject
+};
 
 use App\Core\Application\{
     Segment\Order\Input\OrderInput,
     Shared\Input\Address\BillingAddressInput,
     Shared\Input\Address\ShippingAddressInput
-};
-
-use App\Core\Domain\{
-    Segment\Order\Fields\OrderFields,
-    Shared\ValueObject\AddressObject
 };
 
 use App\Presentation\{
@@ -58,7 +58,7 @@ final class OrderRequest extends AbstractRequest
         $data = $request->request;
 
         $fieldsToProcess = array_unique(array_merge(
-            OrderFields::required(),
+            self::required(),
             ['payment_method'],
         ));
 
@@ -106,6 +106,20 @@ final class OrderRequest extends AbstractRequest
                 AddressType::SHIPPING,
             );
         }
+    }
+
+    /**
+     * @return string[]
+    */
+    private static function required(): array
+    {
+        return [
+            ...array_map(
+                static fn(OrderPersonalFields $f): string => $f->value,
+                OrderPersonalFields::cases(),
+            ),
+            ...AddressResolver::for(AddressType::BILLING),
+        ];
     }
 
     /**

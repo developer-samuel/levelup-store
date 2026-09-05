@@ -23,12 +23,12 @@ use App\Core\Domain\{
 };
 
 use App\Core\Application\{
-    Segment\Order\Builder\Query\OrderQueryBuilder,
+    Segment\Order\Builder\OrderQueryBuilder,
     Segment\Order\Service\Command\OrderDataCommandService
 };
 
 use App\Core\Ports\{
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Segment\Order\Service\Command\OrderDataCommandContract,
     Segment\Order\Service\Query\OrderCacheQueryContract,
     Segment\Order\Service\Query\OrderCountryQueryContract,

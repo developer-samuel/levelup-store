@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Segment\Product\ValueObject\Catalog;
 
-use App\Core\Domain\Segment\Brand\Entity\Brand;
+use App\Core\Domain\Segment\Brand\Brand;
 
 final readonly class ProductCatalogFilterObject
 {

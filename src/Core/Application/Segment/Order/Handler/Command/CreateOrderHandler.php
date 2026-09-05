@@ -9,7 +9,7 @@ use App\Core\Domain\Segment\Order\Payload\OrderCreatePayload;
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Security\Provider\SecurityProviderContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
     Segment\Order\Handler\Command\CreateOrderHandlerContract,

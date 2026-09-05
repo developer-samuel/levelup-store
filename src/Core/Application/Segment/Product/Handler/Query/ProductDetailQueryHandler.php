@@ -18,7 +18,7 @@ use App\Core\Ports\{
     Segment\Product\Service\Query\ProductPriceQueryContract,
     Segment\Product\Service\Query\ProductVariantQueryContract,
     Segment\Review\Service\Query\ReviewQueryContract,
-    Segment\Wishlist\Service\Query\WishlistQueryContract
+    Segment\Wishlist\Service\WishlistQueryContract
 };
 
 final readonly class ProductDetailQueryHandler implements ProductDetailQueryHandlerContract
@@ -61,7 +61,7 @@ final readonly class ProductDetailQueryHandler implements ProductDetailQueryHand
         if ($stock === null) {
             return null;
         }
-        
+
         return $this->createFormattedDetail($variant, $variants, $stock);
     }
 

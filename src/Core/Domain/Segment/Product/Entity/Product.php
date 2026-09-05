@@ -11,7 +11,7 @@ use Doctrine\{
 };
 
 use App\Core\Domain\{
-    Segment\Brand\Entity\Brand,
+    Segment\Brand\Brand,
     Segment\Category\Entity\Category,
     Segment\Category\Traits\CategoryTrait,
     Segment\Product\Entity\Variant\ProductVariant,

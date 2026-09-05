@@ -22,7 +22,7 @@ use App\Core\Application\Segment\Product\Service\Query\ProductCategoryQueryServi
 use App\Core\Ports\{
     Segment\Category\Repository\CategoryRepositoryContract,
     Segment\Product\Service\Query\ProductCategoryQueryContract,
-    Segment\Type\Repository\TypeRepositoryContract
+    Segment\Type\TypeRepositoryContract
 };
 
 /**

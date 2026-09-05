@@ -12,7 +12,7 @@ use App\Core\Domain\{
     Segment\User\Entity\User
 };
 
-use App\Core\Application\Shared\Utils\Generator\CodeGenerator;
+use App\Core\Application\Shared\Utils\CodeGenerator;
 
 use App\Core\Ports\{
     Segment\Order\Service\Command\OrderPreparationCommandContract,

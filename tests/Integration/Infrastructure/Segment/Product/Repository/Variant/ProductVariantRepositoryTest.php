@@ -12,7 +12,7 @@ use Doctrine\{
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use App\Core\Domain\{
-    Segment\Brand\Entity\Brand,
+    Segment\Brand\Brand,
     Segment\Category\Entity\Category,
     Segment\Product\Entity\Product,
     Segment\Product\Entity\Variant\ProductVariant,

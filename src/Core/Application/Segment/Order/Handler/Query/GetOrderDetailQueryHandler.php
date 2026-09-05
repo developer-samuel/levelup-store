@@ -20,7 +20,7 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Order\Handler\Query\GetOrderDetailQueryHandlerContract,
     Segment\Order\Service\Query\OrderDetailQueryContract
 };

@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 use App\Presentation\{
-    Admin\Feature\Brand\Controller\Command\AdminBrandCommandController,
-    Admin\Feature\Brand\Controller\Query\AdminBrandQueryController
+    Admin\Feature\Brand\Controller\AdminBrandCommandController,
+    Admin\Feature\Brand\Controller\AdminBrandQueryController
 };
 
 return function (RoutingConfigurator $routes) {

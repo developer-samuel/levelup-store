@@ -10,7 +10,7 @@ use App\Core\Domain\{
 };
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Cart\Service\Command\CartControlCommandContract,
     Segment\Cart\Service\Command\CartItemCommandContract,
     Segment\Cart\Service\Command\CartMutationCommandContract,

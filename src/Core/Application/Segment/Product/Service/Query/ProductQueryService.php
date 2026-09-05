@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Product\Service\Query;
 
-use Kit\Utils\Shared\Normalizer\StringNormalizer;
+use Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Product\Enum\ProductSortOption,
@@ -21,7 +21,7 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Segment\Brand\Repository\BrandRepositoryContract,
+    Segment\Brand\BrandRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
     Segment\Product\Service\Query\ProductCategoryQueryContract,
     Segment\Product\Service\Query\ProductQueryContract,

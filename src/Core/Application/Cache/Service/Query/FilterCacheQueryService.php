@@ -6,10 +6,10 @@ namespace App\Core\Application\Cache\Service\Query;
 
 use Kit\{
     Assertion\Shared\CacheAssertion,
-    Utils\Shared\Normalizer\StringNormalizer
+    Utils\Shared\StringNormalizer
 };
 
-use App\Core\Domain\Cache\ValueObject\FilterCacheObject;
+use App\Core\Domain\Cache\FilterCacheObject;
 
 use App\Core\Application\Shared\Constants\CacheTTLConstants;
 

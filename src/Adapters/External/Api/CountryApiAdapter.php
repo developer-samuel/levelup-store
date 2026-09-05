@@ -12,14 +12,14 @@ use Symfony\{
 
 use Kit\{
     Assertion\Domain\Country\CountryAssertion,
-    Utils\Shared\Sanitizer\DataSanitizer
+    Utils\Shared\DataSanitizer
 };
 
 use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 
 use App\Core\Ports\{
     Gateways\External\Api\CountryApiGatewayContract,
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 

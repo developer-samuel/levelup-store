@@ -15,7 +15,7 @@ use App\Core\Domain\{
 
 use App\Core\Ports\{
     Security\Provider\SecurityProviderContract,
-    Segment\Country\Service\Query\CountryCacheQueryContract,
+    Segment\Country\Service\CountryCacheQueryContract,
     Shared\Logging\AppLoggerContract
 };
 

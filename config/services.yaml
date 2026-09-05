@@ -155,7 +155,7 @@ services:
     arguments:
       $refreshTokenTtl: '%env(int:JWT_REFRESH_TTL)%'
 
-  App\Presentation\Segment\Review\Twig\Extension\ReviewExtension:
+  App\Presentation\Segment\Review\Twig\ReviewExtension:
     tags:
       - { name: twig.extension }
 

@@ -16,7 +16,7 @@ use Database\{
     Seeds\Records\SubtypeRecord
 };
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\{
     Segment\Category\Entity\Category,
@@ -25,7 +25,7 @@ use App\Core\Domain\{
 
 use App\Core\Ports\{
     Segment\Category\Repository\CategoryRepositoryContract,
-    Segment\Type\Repository\TypeRepositoryContract,
+    Segment\Type\TypeRepositoryContract,
     Shared\Logging\AppLoggerContract,
     Shared\Logging\ConsoleLoggerContract
 };

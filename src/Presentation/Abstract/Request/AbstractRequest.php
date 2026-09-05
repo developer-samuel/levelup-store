@@ -10,7 +10,7 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Presentation\Shared\Traits\CsrfProtection;
 

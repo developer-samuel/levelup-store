@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-use App\Presentation\Search\Api\Controller\Query\SearchApiQueryController;
+use App\Presentation\Search\Controller\Query\SearchApiQueryController;
 
 return function (RoutingConfigurator $routes) {
     // Route for api finding products

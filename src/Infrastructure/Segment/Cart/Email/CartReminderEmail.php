@@ -10,7 +10,7 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 use App\Core\Ports\{
     Segment\Cart\Email\CartReminderEmailContract,
-    Segment\Cart\Renderer\Email\CartReminderEmailRendererContract
+    Segment\Cart\Renderer\CartReminderEmailRendererContract
 };
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;

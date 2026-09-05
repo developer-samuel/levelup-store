@@ -23,8 +23,8 @@ use App\Core\Domain\{
 };
 
 use App\Core\Application\{
-    Segment\Order\Builder\Command\OrderCommandBuilder,
-    Segment\Order\Builder\Query\OrderQueryBuilder,
+    Segment\Order\Builder\OrderCommandBuilder,
+    Segment\Order\Builder\OrderQueryBuilder,
     Segment\Order\Service\Command\OrderMutationCommandService
 };
 

@@ -17,7 +17,7 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Cart\Service\Command\CartMutationCommandService;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Cart\Service\Command\CartControlCommandContract,
     Segment\Cart\Service\Command\CartItemCommandContract,
     Segment\Cart\Service\Command\CartMutationCommandContract,

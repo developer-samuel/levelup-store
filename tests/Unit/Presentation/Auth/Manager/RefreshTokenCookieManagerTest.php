@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\{
     ResponseHeaderBag
 };
 
-use App\Core\Domain\Cookie\ValueObject\CookieObject;
+use App\Core\Domain\Cookie\CookieObject;
 
 use App\Core\Ports\Gateways\Internal\Cookie\CookieGatewayContract;
 
@@ -38,7 +38,7 @@ class RefreshTokenCookieManagerTest extends TestCase
     public function testCreateReturnsCookieFromGateway(): void
     {
         $cookie = $this->buildCookie();
-        
+
         $this->cookieGateway->method('apply')->willReturn($cookie);
 
         $result = $this->manager->create('token-value', false);

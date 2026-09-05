@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Product\Projection;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
-use Kit\Utils\Shared\Normalizer\StringNormalizer;
+use Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Ports\{
     Gateways\External\Search\ElasticsearchGatewayContract,

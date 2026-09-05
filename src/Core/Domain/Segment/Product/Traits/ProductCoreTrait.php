@@ -7,7 +7,7 @@ namespace App\Core\Domain\Segment\Product\Traits;
 use Doctrine\Common\Collections\Collection;
 
 use App\Core\Domain\{
-    Segment\Brand\Entity\Brand,
+    Segment\Brand\Brand,
     Segment\Product\Entity\Variant\ProductVariant
 };
 

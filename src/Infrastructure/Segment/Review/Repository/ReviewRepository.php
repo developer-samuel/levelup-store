@@ -10,9 +10,9 @@ use Doctrine\{
 };
 
 use App\Core\Domain\{
-    Segment\Review\Aggregate\ReviewStatistics,
     Segment\Review\Entity\Review,
     Segment\Review\Enum\ReviewType,
+    Segment\Review\Utils\ReviewStatistics,
     Segment\User\Entity\User
 };
 

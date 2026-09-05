@@ -26,9 +26,9 @@ use App\Core\Domain\{
 };
 
 use App\Core\Ports\{
-    Segment\Brand\Repository\BrandRepositoryContract,
+    Segment\Brand\BrandRepositoryContract,
     Segment\Category\Repository\CategoryRepositoryContract,
-    Segment\Type\Repository\TypeRepositoryContract,
+    Segment\Type\TypeRepositoryContract,
     Shared\Logging\AppLoggerContract,
     Shared\Logging\ConsoleLoggerContract
 };

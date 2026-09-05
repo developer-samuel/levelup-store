@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-use App\Presentation\Auth\Api\Controller\Command\AuthApiCommandController;
+use App\Presentation\Auth\Controller\Command\AuthApiCommandController;
 
 return function (RoutingConfigurator $routes): void {
     // JWT auth routes

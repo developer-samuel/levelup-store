@@ -11,7 +11,7 @@ use Twig\{
 
 use Doctrine\Common\Collections\Collection;
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 final class NavigationExtension extends AbstractExtension
 {

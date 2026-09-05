@@ -9,7 +9,7 @@ use Doctrine\{
     Persistence\ManagerRegistry
 };
 
-use Kit\Utils\Shared\Normalizer\StringNormalizer;
+use Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Product,

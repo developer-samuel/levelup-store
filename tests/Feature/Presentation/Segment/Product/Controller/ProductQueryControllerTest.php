@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Presentation\Segment\Product\Controller;
+namespace Tests\Feature\Presentation\Segment\Product\Controller\Query;
 
 use Symfony\{
     Bundle\FrameworkBundle\KernelBrowser,
@@ -27,7 +27,7 @@ use App\Core\Ports\Segment\Product\{
 };
 
 /**
- * @coversDefaultClass \App\Presentation\Segment\Product\Controller\Query\ProductQueryController
+ * @coversDefaultClass \App\Presentation\Segment\Product\Controller\ProductQueryController
 */
 class ProductQueryControllerTest extends WebTestCase
 {

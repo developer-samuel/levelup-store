@@ -8,7 +8,7 @@ use Symfony\Component\Mailer\MailerInterface;
 
 use App\Core\Domain\Segment\User\Entity\User;
 
-use App\Core\Ports\Auth\Renderer\Email\VerificationEmailRendererContract;
+use App\Core\Ports\Auth\Renderer\VerificationEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 

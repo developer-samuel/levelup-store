@@ -6,7 +6,7 @@ namespace App\Adapters\Internal\Cookie;
 
 use Symfony\Component\HttpFoundation\Cookie;
 
-use App\Core\Domain\Cookie\ValueObject\CookieObject;
+use App\Core\Domain\Cookie\CookieObject;
 
 use App\Core\Ports\Gateways\Internal\Cookie\CookieGatewayContract;
 

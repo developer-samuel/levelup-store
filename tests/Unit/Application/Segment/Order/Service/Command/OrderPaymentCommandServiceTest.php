@@ -22,13 +22,13 @@ use App\Core\Domain\{
 };
 
 use App\Core\Application\{
-    Segment\Order\Builder\Command\OrderCommandBuilder,
-    Segment\Order\Builder\Query\OrderQueryBuilder,
+    Segment\Order\Builder\OrderCommandBuilder,
+    Segment\Order\Builder\OrderQueryBuilder,
     Segment\Order\Service\Command\OrderPaymentCommandService
 };
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Order\Notifier\OrderConfirmationNotifierContract,
     Segment\Order\Service\Command\OrderBuildCommandContract,
     Segment\Order\Service\Command\OrderCacheCommandContract,

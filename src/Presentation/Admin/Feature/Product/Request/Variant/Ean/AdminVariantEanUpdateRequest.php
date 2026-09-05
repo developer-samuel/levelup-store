@@ -11,7 +11,7 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use App\Core\Application\Admin\Segment\Product\Input\Variant\Ean\AdminVariantEanUpdateInput;
+use App\Core\Application\Admin\Segment\Product\Input\Ean\AdminVariantEanUpdateInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 

@@ -7,7 +7,7 @@ namespace App\Core\Application\Admin\Abstract;
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Shared\Logging\AppLoggerContract
 };
 

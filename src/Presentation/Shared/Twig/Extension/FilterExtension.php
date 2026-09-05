@@ -9,7 +9,7 @@ use Twig\{
     TwigFilter
 };
 
-use Kit\Utils\Shared\Normalizer\StringNormalizer;
+use Kit\Utils\Shared\StringNormalizer;
 
 final class FilterExtension extends AbstractExtension
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Auth\Input;
 
-use App\Core\Domain\Segment\Password\Constants\PasswordConstants;
+use App\Core\Domain\Segment\Password\PasswordConstants;
 
 use App\Core\Application\{
-    Segment\User\Constraint\Email\UniqueEmail,
-    Shared\Constraint\Email\EmailFormat,
+    Segment\User\Constraint\UniqueEmail,
+    Shared\Constraint\EmailFormat,
     Shared\Constraint\Length\MaxLengthConstraint,
     Shared\Constraint\Length\MinLengthConstraint,
     Shared\Constraint\NumberConstraint,

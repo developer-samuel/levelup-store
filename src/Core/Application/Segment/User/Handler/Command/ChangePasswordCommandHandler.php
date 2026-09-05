@@ -13,7 +13,7 @@ use App\Core\Domain\{
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Audit\AuditLoggerContract,
     Segment\User\Handler\Command\ChangePasswordCommandHandlerContract,
     Segment\User\Service\Command\ChangePasswordCommandContract,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-use App\Presentation\Segment\Cart\Controller\Command\CartCommandController;
+use App\Presentation\Segment\Cart\Controller\CartCommandController;
 
 return function (RoutingConfigurator $routes) {
     // Route for storing items in the cart

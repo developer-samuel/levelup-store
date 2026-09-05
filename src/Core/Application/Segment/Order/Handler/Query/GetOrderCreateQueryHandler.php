@@ -18,7 +18,7 @@ use App\Core\Ports\{
     Security\Provider\SecurityProviderContract,
     Segment\Cart\Service\Command\CartControlCommandContract,
     Segment\Cart\Service\Query\CartControlQueryContract,
-    Segment\Country\Service\Query\CountryCacheQueryContract,
+    Segment\Country\Service\CountryCacheQueryContract,
     Segment\Order\Handler\Query\GetOrderCreateQueryHandlerContract,
     Shared\Persistence\EntityPersistenceContract
 };

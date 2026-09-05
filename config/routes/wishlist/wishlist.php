@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 use App\Presentation\{
-    Segment\Wishlist\Controller\Command\WishlistCommandController,
-    Segment\Wishlist\Controller\Query\WishlistQueryController
+    Segment\Wishlist\Controller\WishlistCommandController,
+    Segment\Wishlist\Controller\WishlistQueryController
 };
 
 return function (RoutingConfigurator $routes) {

@@ -6,7 +6,7 @@ namespace Kit\Assertion\Domain\Brand;
 
 use Kit\Assertion\Shared\EntityAssertion;
 
-use App\Core\Domain\Segment\Brand\Entity\Brand;
+use App\Core\Domain\Segment\Brand\Brand;
 
 final readonly class BrandAssertion
 {

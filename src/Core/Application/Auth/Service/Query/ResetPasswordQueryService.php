@@ -12,7 +12,7 @@ use App\Core\Domain\{
 
 use App\Core\Ports\{
     Auth\Service\Query\ResetPasswordQueryContract,
-    Segment\Password\Repository\PasswordResetTokenRepositoryContract
+    Segment\Password\PasswordResetTokenRepositoryContract
 };
 
 final readonly class ResetPasswordQueryService implements ResetPasswordQueryContract

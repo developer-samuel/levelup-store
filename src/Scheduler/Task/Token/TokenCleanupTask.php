@@ -10,7 +10,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 use App\Core\Ports\{
     Auth\Repository\RefreshTokenRepositoryContract,
-    Segment\Password\Repository\PasswordResetTokenRepositoryContract,
+    Segment\Password\PasswordResetTokenRepositoryContract,
     Segment\User\Repository\UserVerificationTokenRepositoryContract,
     Shared\Logging\ConsoleLoggerContract,
     Shared\Repository\CleanableTokenRepositoryContract

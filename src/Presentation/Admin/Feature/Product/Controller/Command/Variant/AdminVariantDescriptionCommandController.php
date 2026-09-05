@@ -11,9 +11,9 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use App\Core\Domain\Admin\Segment\Product\Payload\Variant\AdminVariantDescriptionPayload;
+use App\Core\Domain\Admin\Product\Payload\AdminVariantDescriptionPayload;
 
-use App\Core\Application\Admin\Segment\Product\Handler\Command\Variant\AdminVariantDescriptionCommandHandler;
+use App\Core\Application\Admin\Segment\Product\Handler\Command\AdminVariantDescriptionCommandHandler;
 
 use App\Core\Ports\{
     Shared\Encryption\HmacFieldDecoderContract,

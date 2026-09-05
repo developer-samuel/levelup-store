@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Cache\Service\Query;
 
-use App\Core\Domain\Cache\ValueObject\CoreCacheObject;
+use App\Core\Domain\Cache\CoreCacheObject;
 
 use App\Core\Application\{
     Shared\Constants\CacheTTLConstants
