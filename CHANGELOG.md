@@ -34,8 +34,6 @@
 - Implemented `ProductRecordContract` on all product record classes
 - Stabilised Playwright E2E suite
 
-## [v1.3.0] - 2026-08-17
-
 ## [1.3.0] - 2026-08-17
 
 ### 🚀 Features                                                                                                                                                                  
@@ -52,8 +50,6 @@
 - Resolve Deptrac architecture violation in CartReminderTask
 - Comment out transport-specific messenger options to support Doctrine fallback
 
-## [v1.2.0] - 2026-08-16
-
 ## [1.2.0] - 2026-08-16
 
 ### 🚀 Features
@@ -64,16 +60,12 @@
 - Reviews modal and zoom modal unified under common base
 - Zoom modal template moved to `components/modals/zoom` and rendered at body level via `app/init`
 
-## [v1.1.1] - 2026-08-16
-
 ## [1.1.1] - 2026-08-16
 
 ### 🐛 Fixes 
 - Product detail gallery height chain on mobile and tablet (responsive breakpoints)
 - Product detail swipe now correctly ignores vertical scroll via gesture direction detection
 - Search input no longer strips spaces while typing
-
-## [v1.1.0] - 2026-08-14
 
 ## [1.1.0] - 2026-08-14
 
