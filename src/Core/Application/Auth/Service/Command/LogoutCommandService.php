@@ -6,16 +6,19 @@ namespace App\Core\Application\Auth\Service\Command;
 
 use App\Core\Ports\{
     Auth\Repository\RefreshTokenRepositoryContract,
-    Auth\Service\Command\LogoutCommandContract
+    Auth\Service\Command\LogoutCommandContract,
+    Gateways\Internal\Auth\TokenBlacklistContract
 };
 
 final readonly class LogoutCommandService implements LogoutCommandContract
 {
     /**
      * @param RefreshTokenRepositoryContract $refreshTokenRepository
+     * @param TokenBlacklistContract $tokenBlacklist
     */
     public function __construct(
         private RefreshTokenRepositoryContract $refreshTokenRepository,
+        private TokenBlacklistContract $tokenBlacklist,
     ) {}
 
     /**
@@ -35,6 +38,9 @@ final readonly class LogoutCommandService implements LogoutCommandContract
             return;
         }
 
+        $expiresAt = $token->getExpiresAt();
+
         $this->refreshTokenRepository->revoke($token);
+        $this->tokenBlacklist->blacklist($refreshToken, $expiresAt);
     }
 }

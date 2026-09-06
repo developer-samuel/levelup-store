@@ -15,7 +15,8 @@ use App\Core\Application\Auth\Service\Command\LogoutCommandService;
 
 use App\Core\Ports\{
     Auth\Repository\RefreshTokenRepositoryContract,
-    Auth\Service\Command\LogoutCommandContract
+    Auth\Service\Command\LogoutCommandContract,
+    Gateways\Internal\Auth\TokenBlacklistContract
 };
 
 /**
@@ -24,6 +25,7 @@ use App\Core\Ports\{
 final class LogoutCommandServiceTest extends TestCase
 {
     private RefreshTokenRepositoryContract&MockObject $refreshTokenRepository;
+    private TokenBlacklistContract&MockObject $tokenBlacklist;
     private LogoutCommandService $service;
 
     protected function setUp(): void
@@ -74,6 +76,7 @@ final class LogoutCommandServiceTest extends TestCase
     public function testExecuteRevokesTokenWhenFound(): void
     {
         $token = $this->createMock(RefreshToken::class);
+        $token->method('getExpiresAt')->willReturn(new \DateTimeImmutable('+30 days'));
 
         $this->refreshTokenRepository
             ->method('findByToken')
@@ -87,15 +90,35 @@ final class LogoutCommandServiceTest extends TestCase
         $this->service->execute('valid-token');
     }
 
+    public function testExecuteBlacklistsTokenAfterRevoke(): void
+    {
+        $expiresAt = new \DateTimeImmutable('+30 days');
+        $token     = $this->createMock(RefreshToken::class);
+        $token->method('getExpiresAt')->willReturn($expiresAt);
+
+        $this->refreshTokenRepository
+            ->method('findByToken')
+            ->willReturn($token);
+
+        $this->tokenBlacklist
+            ->expects($this->once())
+            ->method('blacklist')
+            ->with('valid-token', $expiresAt);
+
+        $this->service->execute('valid-token');
+    }
+
     private function initMocks(): void
     {
         $this->refreshTokenRepository = $this->createMock(RefreshTokenRepositoryContract::class);
+        $this->tokenBlacklist         = $this->createMock(TokenBlacklistContract::class);
     }
 
     private function initService(): void
     {
         $this->service = new LogoutCommandService(
             $this->refreshTokenRepository,
+            $this->tokenBlacklist,
         );
     }
 
