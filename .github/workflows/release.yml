@@ -30,7 +30,7 @@ jobs:
           DATE_SHORT="${DATE:0:10}"
 
           # Skip if this version header already exists - prevents duplicate entries
-          if [ -f CHANGELOG.md ] && grep -qF "## [$TAG_CLEAN]" CHANGELOG.md; then
+          if [ -f CHANGELOG.md ] && grep -qF "[$TAG_CLEAN]" CHANGELOG.md; then
             echo "Version $TAG_CLEAN already exists in CHANGELOG.md - skipping."
             exit 0
           fi
