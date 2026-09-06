@@ -34,6 +34,42 @@
 - Implemented `ProductRecordContract` on all product record classes
 - Stabilised Playwright E2E suite
 
+## [1.4.0] - 2026-09-06
+
+### 🚀 Features
+- Mercure real-time integration with live order status, product stock and review rating updates
+- Pluggable object storage via MinIO S3
+- Cloudflare Turnstile CAPTCHA integration
+- Audit logging moved into event listeners for cleaner separation of concerns
+- SonarQube static analysis pipeline
+ 
+### 🏗️ Infrastructure
+- Reorganized Docker Compose into base/dev stacks with per-service includes
+- Added RabbitMQ, Elasticsearch, MinIO S3, Mercure, Mailpit, Dozzle services
+- Replaced Adminer with pgAdmin with auto-provisioned PostgreSQL connection
+- Added AlertManager + Prometheus alerting and Loki + Alloy observability stack
+- Switched Vite container from npm to pnpm
+- Health checks hardened across all major services
+- MinIO and Mercure services added to PHPUnit and E2E CI pipelines - Elasticsearch index seeded before PHPUnit runs to prevent 500 errors on fresh environments
+
+### ♻️ Architecture
+- Reorganized `src/` into clean hexagonal layers (Adapters, Core, Infrastructure, Presentation, Shared)
+- Removed redundant handler contracts and flattened directory structure 
+- Use 422 instead of 400 for validation errors
+
+### 🛠️ Tooling
+- Added custom Rector rule `FinalizeNonAbstractClassRector` for automatic class finalization
+- Fixed PHP CS Fixer CRLF line endings in shell scripts
+- Added `symplify/rule-doc-generator-contracts` dev dependency
+- Flattened ESLint config into `tools/eslint/`
+- Synchronized composer and frontend script documentation
+ 
+### 🐛 Fixes
+- Fixed product filter and sort bugs
+- Fixed ProfileRequest address field mapping (billing/shipping prefix)
+- Implemented `ProductRecordContract` on all product record classes
+- Stabilised Playwright E2E suite
+
 ## [1.3.0] - 2026-08-17
 
 ### 🚀 Features                                                                                                                                                                  
