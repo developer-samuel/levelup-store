@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Segment\Brand\Validator\UniqueBrandNameValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class UniqueBrandName extends Constraint
+final class UniqueBrandName extends Constraint
 {
     public string $message = 'This brand name is already taken.';
 

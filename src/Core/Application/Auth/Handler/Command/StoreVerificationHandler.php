@@ -14,13 +14,13 @@ use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 use App\Core\Ports\{
     Auth\Handler\Command\StoreVerificationHandlerContract,
     Auth\Service\Command\VerificationCommandContract,
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Shared\Logging\AppLoggerContract
 };
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class StoreVerificationHandler extends AbstractCommandHandler implements StoreVerificationHandlerContract
+final class StoreVerificationHandler extends AbstractCommandHandler implements StoreVerificationHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

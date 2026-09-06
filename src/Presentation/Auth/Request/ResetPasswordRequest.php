@@ -20,7 +20,7 @@ use App\Presentation\{
 
 use App\Shared\Traits\Identity\TokenTrait;
 
-class ResetPasswordRequest extends AbstractRequest
+final class ResetPasswordRequest extends AbstractRequest
 {
     use TokenTrait;
     use ResetPasswordInput;

@@ -4,14 +4,16 @@ import { config } from 'dotenv'
 
 config({ path: '.env.test' })
 
+type StorageState = Exclude<BrowserContextOptions['storageState'], string | undefined>
+
 const APP_URL = process.env['APP_URL'] ?? 'http://127.0.0.1:8000'
 const COOKIE_DOMAIN = new URL(APP_URL).hostname
 
 const projects: Project[] = [
   // Desktop
-  { name: 'chromium',      use: { ...devices['Desktop Chrome'] } },
-  { name: 'webkit',        use: { ...devices['Desktop Safari'] } },
-  { name: 'edge',          use: { ...devices['Desktop Edge'], channel: 'msedge' } },
+  { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  { name: 'edge', use: { ...devices['Desktop Edge'], channel: 'msedge' } },
   {
     name: 'firefox',
     use: {
@@ -28,8 +30,8 @@ const projects: Project[] = [
   },
 
   // Tablet
-  { name: 'tablet-chrome',  use: { ...devices['Galaxy Tab S9'] } },
-  { name: 'tablet-safari',  use: { ...devices['iPad Pro 11'] } },
+  { name: 'tablet-chrome', use: { ...devices['Galaxy Tab S9'] } },
+  { name: 'tablet-safari', use: { ...devices['iPad Pro 11'] } },
 
   // Mobile
   { name: 'mobile-chrome', use: { ...devices['Pixel 10'] } },
@@ -38,15 +40,11 @@ const projects: Project[] = [
 
 const webServer: PlaywrightTestConfig['webServer'] = {
   command: 'php -S 127.0.0.1:8000 -t public',
-  port: 8000,
+  url: 'http://127.0.0.1:8000',
   reuseExistingServer: true,
   timeout: 30_000,
-  env: {
-    PHP_CLI_SERVER_WORKERS: '4',
-  },
+  env: { PHP_CLI_SERVER_WORKERS: '4' },
 }
-
-type StorageState = Exclude<BrowserContextOptions['storageState'], string | undefined>
 
 const storageState: StorageState = {
   cookies: [

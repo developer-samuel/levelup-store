@@ -19,12 +19,12 @@ use App\Core\Ports\{
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Product\ProductStockSyncMessage
+    Message\Product\ProductStockSyncMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]
-class ProductStockSyncTask extends AbstractTask
+final class ProductStockSyncTask extends AbstractTask
 {
     /**
      * @param ProductVariantStockRepositoryContract $stockRepository
@@ -66,34 +66,14 @@ class ProductStockSyncTask extends AbstractTask
     }
 
     /**
-     * @param iterable<ProductVariantStock> $stocks
-     *
-     * @return int
-    */
-    protected function processItems(iterable $stocks): int
-    {
-        $updatedCount = 0;
-
-        foreach ($stocks as $stock) {
-            if ($this->processSingleStock($stock)) {
-                $updatedCount++;
-            }
-        }
-
-        if ($updatedCount > 0) {
-            $this->entityManager->flush();
-        }
-
-        return $updatedCount;
-    }
-
-    /**
      * @param ProductVariantStock $stock
      *
      * @return bool
     */
-    private function processSingleStock(ProductVariantStock $stock): bool
+    protected function processSingleItem(mixed $stock): bool
     {
+        assert($stock instanceof ProductVariantStock);
+
         if ($stock->getQuantityAvailable() === 0 && $stock->getStatus() !== ProductStockStatus::OUT_OF_STOCK) {
             $stock->setStatus(ProductStockStatus::OUT_OF_STOCK);
 

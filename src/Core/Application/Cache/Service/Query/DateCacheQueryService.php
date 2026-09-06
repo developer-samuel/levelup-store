@@ -6,7 +6,7 @@ namespace App\Core\Application\Cache\Service\Query;
 
 use Kit\Assertion\Shared\CacheAssertion;
 
-use App\Core\Domain\Cache\ValueObject\DateCacheObject;
+use App\Core\Domain\Cache\DateCacheObject;
 
 use App\Core\Application\Shared\Constants\CacheTTLConstants;
 

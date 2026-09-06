@@ -16,12 +16,12 @@ use App\Core\Ports\{
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Cart\CartCleanupMessage
+    Message\Cart\CartCleanupMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]
-class CartCleanupTask extends AbstractTask
+final class CartCleanupTask extends AbstractTask
 {
     private const INACTIVE_DAYS = 7;
 

@@ -6,10 +6,11 @@ namespace Database\Seeds\Records\Product;
 
 use Database\{
     Seeds\Abstract\AbstractDataRecord,
+    Seeds\Records\Contracts\ProductRecordContract,
     Seeds\Utils\Resolver\PathResolver
 };
 
-class AppliancesRecord extends AbstractDataRecord
+final class AppliancesRecord extends AbstractDataRecord implements ProductRecordContract
 {
     private const FOLDER = __DIR__ . '/../../../data/products/records/appliances/';
     private const FILES = __DIR__ . '/../../../data/products/files/appliances.json';

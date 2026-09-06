@@ -8,12 +8,14 @@ use Symfony\Component\Mailer\MailerInterface;
 
 use App\Core\Domain\Segment\User\Entity\User;
 
-use App\Core\Ports\Segment\Cart\Email\CartReminderEmailContract;
-use App\Core\Ports\Segment\Cart\Renderer\Email\CartReminderEmailRendererContract;
+use App\Core\Ports\{
+    Segment\Cart\Email\CartReminderEmailContract,
+    Segment\Cart\Renderer\CartReminderEmailRendererContract
+};
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
-class CartReminderEmail extends AbstractEmail implements CartReminderEmailContract
+final class CartReminderEmail extends AbstractEmail implements CartReminderEmailContract
 {
     /**
      * @param CartReminderEmailRendererContract $renderer

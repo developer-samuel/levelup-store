@@ -20,7 +20,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class SearchQueryController extends AbstractQueryController
+final class SearchQueryController extends AbstractQueryController
 {
     /**
      * @param SearchPageQueryHandlerContract $searchPageQueryHandler

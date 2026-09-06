@@ -19,10 +19,11 @@ use App\Core\Domain\{
 use App\Core\Ports\{
     Segment\Cart\Repository\CartRepositoryContract,
     Segment\Cart\Service\Query\CartItemQueryContract,
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Segment\Order\Service\Query\OrderValidatorQueryContract
 };
-use App\Shared\Enum\Address\AddressType;
+
+use App\Shared\Enum\AddressType;
 
 /**
  * @phpstan-import-type CartItemsResult from OrderValidatorQueryContract

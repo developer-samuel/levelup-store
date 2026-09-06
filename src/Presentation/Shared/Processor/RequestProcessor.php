@@ -9,7 +9,7 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Presentation\Shared\Responder\HttpResponder;
 
@@ -37,7 +37,7 @@ final class RequestProcessor
         $errors = self::sanitizeErrors($errorsRaw);
 
         if (!empty($errors)) {
-            return HttpResponder::badRequest($errors);
+            return HttpResponder::unprocessableEntity($errors);
         }
 
         return null;

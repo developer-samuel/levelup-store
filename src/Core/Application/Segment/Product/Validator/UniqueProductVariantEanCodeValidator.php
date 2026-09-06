@@ -13,7 +13,7 @@ use App\Core\Application\{
 
 use App\Core\Ports\Segment\Product\Repository\Variant\ProductVariantEanRepositoryContract;
 
-class UniqueProductVariantEanCodeValidator extends AbstractConstraintValidator
+final class UniqueProductVariantEanCodeValidator extends AbstractConstraintValidator
 {
     /**
      * @param ProductVariantEanRepositoryContract $variantRepository

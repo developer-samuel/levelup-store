@@ -15,7 +15,7 @@ use App\Infrastructure\Abstract\Repository\AbstractTokenRepository;
 /**
  * @extends AbstractTokenRepository<UserVerificationToken>
 */
-class UserVerificationTokenRepository extends AbstractTokenRepository implements UserVerificationTokenRepositoryContract
+final class UserVerificationTokenRepository extends AbstractTokenRepository implements UserVerificationTokenRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

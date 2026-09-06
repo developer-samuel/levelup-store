@@ -17,7 +17,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminVariantImageQueryController extends AbstractFindQueryController
+final class AdminVariantImageQueryController extends AbstractFindQueryController
 {
     /**
      * @param ProductVariantRepositoryContract $variantRepository

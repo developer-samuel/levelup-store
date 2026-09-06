@@ -6,7 +6,7 @@ namespace App\Core\Application\Shared\Validator\Length;
 
 use Symfony\Component\Validator\Constraint;
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Application\{
     Abstract\Validator\AbstractConstraintValidator,
@@ -15,7 +15,7 @@ use App\Core\Application\{
 
 use App\Shared\Utils\Calculator\LengthCalculator;
 
-class MaxLengthConstraintValidator extends AbstractConstraintValidator
+final class MaxLengthConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

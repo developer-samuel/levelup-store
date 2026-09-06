@@ -26,7 +26,7 @@ use App\Presentation\{
     Auth\Request\VerificationRequest
 };
 
-class VerificationCommandController extends AbstractCrudCommandController
+final class VerificationCommandController extends AbstractCrudCommandController
 {
     /**
      * @param StoreVerificationHandlerContract $storeVerificationHandler

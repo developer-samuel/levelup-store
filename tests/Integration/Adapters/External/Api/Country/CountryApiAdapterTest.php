@@ -18,16 +18,16 @@ use PHPUnit\{
 use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 
 use App\Core\Ports\{
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-use App\Adapters\External\Api\Country\CountryApiAdapter;
+use App\Adapters\External\Api\CountryApiAdapter;
 
 /**
- * @coversDefaultClass \App\Adapters\External\Api\Country\CountryApiAdapter
+ * @coversDefaultClass \App\Adapters\External\Api\CountryApiAdapter
 */
-class CountryApiAdapterTest extends TestCase
+final class CountryApiAdapterTest extends TestCase
 {
     private HttpClientInterface&MockObject $httpClient;
     private AppLoggerContract&MockObject $logger;

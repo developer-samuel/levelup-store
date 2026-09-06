@@ -52,11 +52,11 @@ final class HttpResponder
      *
      * @return JsonResponse
     */
-    public static function badRequest(array $errors = [], ?string $message = ''): JsonResponse
+    public static function unprocessableEntity(array $errors = [], ?string $message = ''): JsonResponse
     {
         return self::createResponse(
             ResponseFormatter::errors($message, $errors),
-            Response::HTTP_BAD_REQUEST,
+            Response::HTTP_UNPROCESSABLE_ENTITY,
         );
     }
 

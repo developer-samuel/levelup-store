@@ -23,7 +23,7 @@ use App\Presentation\{
     Shared\Twig\CartStateClearer
 };
 
-class OrderStatusQueryController extends AbstractQueryController
+final class OrderStatusQueryController extends AbstractQueryController
 {
     /**
      * @param OrderSuccessCleanupCommandHandlerContract $orderSuccessCleanupCommandHandler

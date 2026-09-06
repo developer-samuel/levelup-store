@@ -23,14 +23,14 @@ use App\Core\Application\Segment\Order\Service\Query\OrderValidatorQueryService;
 use App\Core\Ports\{
     Segment\Cart\Repository\CartRepositoryContract,
     Segment\Cart\Service\Query\CartItemQueryContract,
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Segment\Order\Service\Query\OrderValidatorQueryContract
 };
 
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderValidatorQueryService
 */
-class OrderValidatorQueryServiceTest extends TestCase
+final class OrderValidatorQueryServiceTest extends TestCase
 {
     private CartRepositoryContract&MockObject $cartRepository;
     private CountryRepositoryContract&MockObject $countryRepository;

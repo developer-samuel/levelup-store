@@ -21,7 +21,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class CategoryFixture extends AbstractFixture implements FixtureGroupInterface
+final class CategoryFixture extends AbstractFixture implements FixtureGroupInterface
 {
     use CategoryFactory;
     use NameSanitizer;

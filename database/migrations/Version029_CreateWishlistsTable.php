@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Wishlists\CreateWishlistsTable;
 
-class Version029_CreateWishlistsTable extends AbstractMigration
+final class Version029_CreateWishlistsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

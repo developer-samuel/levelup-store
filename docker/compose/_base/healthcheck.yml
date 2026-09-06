@@ -1,0 +1,16 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🏥 Base Health Check Template
+#
+# Used via extends: in service files - never run directly.
+# Each service overrides only the `test:` command.
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  healthcheck-base:
+    image: scratch
+    healthcheck:
+      test: ['NONE']
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 60s

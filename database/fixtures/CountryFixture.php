@@ -14,13 +14,13 @@ use Database\Seeds\Abstract\AbstractFixture;
 use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 
 use App\Core\Ports\{
-    Gateways\External\Api\Country\CountryApiGatewayContract,
-    Segment\Country\Service\Command\CountryCommandContract,
+    Gateways\External\Api\CountryApiGatewayContract,
+    Segment\Country\Service\CountryCommandContract,
     Shared\Logging\AppLoggerContract,
     Shared\Logging\ConsoleLoggerContract
 };
 
-class CountryFixture extends AbstractFixture implements FixtureGroupInterface
+final class CountryFixture extends AbstractFixture implements FixtureGroupInterface
 {
     /**
      * @param CountryApiGatewayContract $countryApiAdapter

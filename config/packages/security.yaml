@@ -25,14 +25,14 @@ security:
       stateless: true
       provider: users
       custom_authenticators:
-        - App\Infrastructure\Security\Authenticator\JwtCookieAuthenticator
+        - App\Infrastructure\Security\JwtCookieAuthenticator
 
     main:
       stateless: true
       provider: users
-      entry_point: App\Infrastructure\Security\Authenticator\JwtCookieAuthenticator
+      entry_point: App\Infrastructure\Security\JwtCookieAuthenticator
       custom_authenticators:
-        - App\Infrastructure\Security\Authenticator\JwtCookieAuthenticator
+        - App\Infrastructure\Security\JwtCookieAuthenticator
 
   access_control:
     - { path: ^/api/admin/, roles: ROLE_ADMIN }

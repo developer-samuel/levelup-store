@@ -23,7 +23,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<ProductVariantEan>
 */
-class ProductVariantEanRepository extends AbstractRepository implements ProductVariantEanRepositoryContract
+final class ProductVariantEanRepository extends AbstractRepository implements ProductVariantEanRepositoryContract
 {
     use IterableQuery;
 

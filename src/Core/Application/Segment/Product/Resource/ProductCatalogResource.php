@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Application\Segment\Product\Resource;
 
 use App\Core\Domain\{
-    Segment\Brand\Entity\Brand,
+    Segment\Brand\Brand,
     Segment\Product\ValueObject\Catalog\ProductCatalogObject,
     Segment\Product\ValueObject\ProductVariantObject
 };

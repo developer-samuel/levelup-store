@@ -8,6 +8,7 @@ Designed for security, scalability, robustness, observability, and maintainabili
 - JWT authentication - login, signup, password reset, email verification
 - Admin panel with dashboard analytics, CRUD for products, orders, and users
 - Wishlist, reviews with reactions, PDF invoices, Redis caching, and async email queue via RabbitMQ
+- Real-time product stock and review rating updates via Mercure (SSE)
 
 ---
 
@@ -21,7 +22,7 @@ Designed for security, scalability, robustness, observability, and maintainabili
 ```
 src/
 ├── Adapters/           # Gateways connecting Core to the outside world
-│   ├── External/       # Stripe, PDF, JWT, Country API, external cache
+│   ├── External/       # Stripe, PDF, JWT, Country API, Redis, RabbitMQ, Elasticsearch, Mercure, MinIO
 │   └── Internal/       # Cookie, security, internal cache, order segment
 ├── Core/               # Heart of the application - pure business logic
 │   ├── Application/    # Orchestration: services, handlers, inputs, policies
@@ -39,17 +40,17 @@ src/
 
 ## 🛠️ Tech Stack
 
-| Layer          | Stack                                      |
-|----------------|--------------------------------------------|
-| Backend        | PHP 8.2 / 8.3, Symfony 7.4                 |
-| Auth           | JWT (LexikJWTAuthenticationBundle)         |
-| Frontend       | Vanilla TypeScript, SCSS, Vite             |
-| Database       | PostgreSQL / MySQL                         |
-| Cache          | Redis (cache, sessions, rate limiting)     |
-| Queue          | RabbitMQ / Doctrine (Symfony Messenger)    |
-| Payments       | Stripe API (card), cash-on-delivery        |
-| Infrastructure | Docker, Nginx, Prometheus, Grafana, Sentry |
-| Testing        | PHPUnit, Vitest, Playwright                |
+| Layer          | Stack                                                            |
+|----------------|------------------------------------------------------------------|
+| Backend        | PHP 8.2 / 8.3, Symfony 7.4                                       |
+| Auth           | JWT (LexikJWTAuthenticationBundle)                               |
+| Frontend       | Vanilla TypeScript, SCSS, Vite                                   |
+| Database       | PostgreSQL / MySQL                                               |
+| Cache          | Redis (cache, sessions, rate limiting)                           |
+| Queue          | RabbitMQ / Doctrine (Symfony Messenger)                          |
+| Payments       | Stripe API (card), cash-on-delivery                              |
+| Infrastructure | Docker, Nginx, Prometheus, Grafana, Loki, Mercure, MinIO, Sentry |
+| Testing        | PHPUnit, Vitest, Playwright                                      |
 
 → Full tech stack: [docs/TECHSTACK.md](docs/TECHSTACK.md)
 

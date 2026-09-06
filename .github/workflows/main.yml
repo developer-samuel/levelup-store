@@ -104,6 +104,21 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+      elasticsearch:
+        image: elasticsearch:8.17.0
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: false
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports:
+          - 9200:9200
+        options: >-
+          --health-cmd "curl -s http://localhost:9200/_cluster/health | grep -q status"
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 10
+
       redis:
         image: redis:7
         ports:
@@ -113,6 +128,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
       rabbitmq:
         image: rabbitmq:3-management
         ports:
@@ -123,6 +139,21 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      mercure:
+        image: dunglas/mercure:latest
+        env:
+          SERVER_NAME: ':80'
+          MERCURE_PUBLISHER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
+          MERCURE_SUBSCRIBER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
+          MERCURE_EXTRA_DIRECTIVES: "cors_origins *\nanonymous\n"
+        ports:
+          - 9300:80
+        options: >-
+          --health-cmd "nc -z localhost 80 || exit 1"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       - uses: actions/checkout@v6
 
@@ -132,6 +163,10 @@ jobs:
           db-port: '5432'
           db-password: secret
 
+      - uses: ./.github/actions/elasticsearch
+        with:
+          elasticsearch-port: '9200'
+
       - uses: ./.github/actions/redis
         with:
           redis-port: '6379'
@@ -140,6 +175,15 @@ jobs:
         with:
           rabbitmq-port: '5672'
 
+      - uses: ./.github/actions/minio
+        with:
+          minio-port: '9000'
+
+      - uses: ./.github/actions/mercure
+        with:
+          mercure-port: '9300'
+          mercure-jwt-secret: 'test-mercure-jwt-secret-256bit-ok'
+
       - uses: ./.github/actions/env
         with:
           source: .env.test
@@ -147,13 +191,16 @@ jobs:
       - uses: ./.github/actions/php
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: pdo_pgsql, redis, xdebug
-          coverage: xdebug
+          extensions: pdo_pgsql, redis, pcov
+          coverage: pcov
 
       - name: Database warmup
         run: |
           php bin/console doctrine:database:create --if-not-exists --env=test
           php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Elasticsearch indexing
+        run: php bin/console app:elasticsearch:reindex --env=test
 
       - name: Run PHPUnit
         run: composer php-unit
@@ -208,6 +255,21 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
+      elasticsearch:
+        image: elasticsearch:8.17.0
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: false
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports:
+          - 9200:9200
+        options: >-
+          --health-cmd "curl -s http://localhost:9200/_cluster/health | grep -q status"
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 10
+
       redis:
         image: redis:7
         ports:
@@ -217,6 +279,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
       rabbitmq:
         image: rabbitmq:3-management
         ports:
@@ -235,6 +298,10 @@ jobs:
           db-name: levelup_store
           db-port: '5432'
           db-password: secret
+
+      - uses: ./.github/actions/elasticsearch
+        with:
+          elasticsearch-port: '9200'
 
       - uses: ./.github/actions/redis
         with:
@@ -276,6 +343,9 @@ jobs:
           php bin/console doctrine:database:create --if-not-exists
           php bin/console doctrine:migrations:migrate --no-interaction
           php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate
+
+      - name: Elasticsearch indexing
+        run: php bin/console app:elasticsearch:reindex
 
       - name: Cache warmup
         run: php bin/console cache:warmup

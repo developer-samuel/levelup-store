@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class ReviewQueryController extends AbstractQueryController
+final class ReviewQueryController extends AbstractQueryController
 {
     /**
      * @param ReviewListQueryHandlerContract $reviewListQueryHandler

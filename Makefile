@@ -1,12 +1,20 @@
 # ──────────────────────────────────────────────────────────────────────────────
 # 📝 Declare all phony targets to prevent conflicts with files
-# ────────────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────────
 
 .PHONY: install cache-clear serve setup \
-		up up-detached down down-clean clean-all build force build-force build-cache restart \
-        setup-build setup-up setup-restart-build setup-restart-build-without-cache setup-restart \
-        dev dev-detached \
-		logs
+        clean-all build-cache \
+        setup-build \
+        dev dev-build-force dev-down dev-down-clean \
+        dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
+        logs logs-dev
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 🐳 Docker Compose File References
+# ──────────────────────────────────────────────────────────────────────────────
+
+DC     = docker compose
+DC_DEV = docker compose -f docker-compose.yml -f docker-compose.dev.yml
 
 # ──────────────────────────────────────────────────────────────────────────────
 # 📦 App Commands
@@ -52,27 +60,7 @@ setup:
 # 🐳 Docker Commands
 # ──────────────────────────────────────────────────────────────────────────────
 
-# ── 🚀 Core ──────────────────────────────────────────────────────────────────
-
-# Start all services in foreground
-up:
-	@echo "▶ Starting all services in foreground..."
-	docker compose up
-
-# Start all services in background (detached)
-up-detached:
-	@echo "▶ Starting all services in detached mode..."
-	docker compose up -d
-
-# Stop all services
-down:
-	@echo "⏹ Stopping all services..."
-	docker compose down
-
-# Stop and clean all services including volumes and orphan containers
-down-clean:
-	@echo "⏹ Cleaning all services and volumes..."
-	docker compose down --volumes --remove-orphans
+# ── 🚀 Base (prod-like) ──────────────────────────────────────────────────────
 
 # Clean ALL containers and images (⚠️ destructive!)
 clean-all:
@@ -81,79 +69,75 @@ clean-all:
 	docker ps -aq | xargs -r docker rm -f
 	docker images -aq | xargs -r docker rmi -f
 
-# Build/rebuild images
-build:
-	@echo "🛠 Building all images (using cache)..."
-	docker compose build
-
-# Force recreate all services detached (stop old, remove conflicts)
-force:
-	@echo "⚡ Force recreation of all services in detached mode..."
-	docker compose up -d --force-recreate
-
-# Force rebuild all images and recreate all services
-build-force:
-	@echo "🛠 Force rebuild of all images and recreation of services..."
-	docker compose build
-	$(MAKE) force
-
-# Build/rebuild all Docker images without using cache
+# Build/rebuild base images without cache
 build-cache:
-	@echo "🧹 Building all images without using cache..."
-	docker compose build --no-cache
-
-# Restart all services (clean + up detached)
-restart:
-	@echo "🔄 Restarting all services..."
-	$(MAKE) down-clean
-	$(MAKE) up
+	@echo "🧹 Building base images without cache..."
+	$(DC) build --no-cache
 
 # ── 🛠️ Setup ─────────────────────────────────────────────────────────────────
 
 # Build and start setup containers (first time or Dockerfile changes)
 setup-build:
 	@echo "🛠 Setup: Building and starting setup containers..."
-	docker compose --profile setup up --build
-
-# Start setup containers without rebuilding
-setup-up:
-	@echo "▶ Setup: Starting setup containers without rebuild..."
-	docker compose --profile setup up
-
-# Clean and rebuild setup containers (with cache)
-setup-restart-build:
-	@echo "🔄 Setup: Restarting and rebuilding setup containers (with cache)..."
-	$(MAKE) down-clean
-	$(MAKE) setup-build
-
-# Clean and rebuild setup containers (without cache)
-setup-restart-build-without-cache:
-	@echo "🧹 Setup: Restarting setup containers without cache..."
-	$(MAKE) down-clean
-	$(MAKE) build-cache
-	$(MAKE) setup-build
-
-# Restart setup containers (clean + start without rebuild)
-setup-restart:
-	@echo "🔄 Setup: Restarting setup containers..."
-	$(MAKE) down-clean
-	$(MAKE) setup-up
+	$(MAKE) dev-down
+	$(DC) --profile setup up --build
+	$(DC) up -d
 
 # ── 💻 Development ───────────────────────────────────────────────────────────
 
-# Start dev profile services in foreground
+# Start all services (base + dev) in foreground
 dev:
-	@echo "▶ Starting dev profile services in foreground..."
-	docker compose --profile dev up
+	@echo "▶ Starting all services (base + dev) in foreground..."
+	$(MAKE) dev-down
+	$(DC_DEV) up
 
-# Start dev profile services detached
-dev-detached:
-	@echo "▶ Starting dev profile services detached..."
-	docker compose --profile dev up -d
+# Force rebuild all services (base + dev)
+dev-build-force:
+	@echo "🛠 Force rebuild of all services (base + dev)..."
+	$(MAKE) dev-down
+	$(DC_DEV) build --no-cache
+	$(DC_DEV) up -d --force-recreate
+
+# Stop all services (base + dev)
+dev-down:
+	@echo "⏹ Stopping all services (base + dev)..."
+	$(DC_DEV) down
+
+# Stop and clean all services including volumes and orphan containers (base + dev)
+dev-down-clean:
+	@echo "⏹ Cleaning all services and volumes (base + dev)..."
+	$(DC_DEV) down --volumes --remove-orphans
+
+# ── 🔧 Dev Setup ─────────────────────────────────────────────────────────────
+
+# Build and start setup containers + all dev services (first time or Dockerfile changes)
+dev-setup-build:
+	@echo "💻 Dev setup: Building and starting setup containers + dev services..."
+	$(MAKE) dev-down
+	$(DC_DEV) --profile setup up --build
+	$(DC_DEV) up -d
+
+# Clean and rebuild setup containers + dev services (with cache)
+dev-setup-restart-build:
+	@echo "🔄 Dev setup: Restarting and rebuilding setup containers + dev services (with cache)..."
+	$(MAKE) dev-down-clean
+	$(MAKE) dev-setup-build
+
+# Clean and rebuild setup containers + dev services (without cache)
+dev-setup-restart-build-without-cache:
+	@echo "🧹 Dev setup: Restarting setup containers + dev services without cache..."
+	$(MAKE) dev-down-clean
+	$(DC_DEV) build --no-cache
+	$(MAKE) dev-setup-build
 
 # ── 🔍 Utility ───────────────────────────────────────────────────────────────
 
-# Show logs of all services
+# Show logs of base services
 logs:
-	@echo "📜 Showing logs of all services..."
-	docker compose logs -f
+	@echo "📜 Showing logs of base services..."
+	$(DC) logs -f
+
+# Show logs of all services (base + dev)
+logs-dev:
+	@echo "📜 Showing logs of all services (base + dev)..."
+	$(DC_DEV) logs -f

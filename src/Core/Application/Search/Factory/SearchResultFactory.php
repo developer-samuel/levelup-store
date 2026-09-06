@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Application\Search\Factory;
 
 use App\Core\Domain\{
-    Search\ValueObject\SearchResultObject,
+    Search\SearchResultObject,
     Segment\Product\Entity\Variant\ProductVariant,
     Segment\Product\Utils\ProductToolkit,
 };

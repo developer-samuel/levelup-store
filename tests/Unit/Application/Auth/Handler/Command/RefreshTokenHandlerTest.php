@@ -22,7 +22,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\RefreshTokenHandler
 */
-class RefreshTokenHandlerTest extends TestCase
+final class RefreshTokenHandlerTest extends TestCase
 {
     private RefreshTokenCommandContract&MockObject $refreshTokenCommand;
     private AppLoggerContract&MockObject $logger;
@@ -95,7 +95,7 @@ class RefreshTokenHandlerTest extends TestCase
         $result = $this->handler->handle('expired-token');
 
         $this->assertSame('error', $result['status']);
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(422, $result['code']);
     }
 
     private function initMocks(): void

@@ -6,4 +6,5 @@ export const reviewsModules: AppModule[] = [
   { selector: '.reviews__card', module: () => import('@/ts/features/reviews/list/index') },
   { selector: '.reviews__card', module: () => import('@/ts/features/reviews/dropdown/index') },
   { selector: '.reviews__card', module: () => import('@/ts/features/reviews/rating/index') },
+  { selector: '.reviews[data-mercure-hub]', module: () => import('@/ts/features/reviews/_realtime/ratings') },
 ]

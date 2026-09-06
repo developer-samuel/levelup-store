@@ -9,7 +9,7 @@
             <div class="product-item__box-top">
                 <div class="product-item__box-image">
                     <img
-                        src="{{ asset(product.imagePath ?: 'img/misc/image/no-image.webp') }}"
+                        src="{{ storage_url(product.imagePath) }}"
                         alt="{{ product.imagePath ? 'Image: ' ~ product.imagePath : 'Image not found' }}"
                     >
                 </div>

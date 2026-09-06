@@ -9,17 +9,16 @@ use Kit\Assertion\Shared\IdAssertion;
 use App\Core\Domain\Segment\Product\Entity\ProductSubtype;
 
 use App\Core\Application\{
-    Admin\Abstract\Handler\AbstractAdminApiListQueryHandler,
+    Admin\Abstract\AbstractAdminApiListQueryHandler,
     Admin\Api\Product\Resource\AdminApiProductSubtypeResource
 };
 
 use App\Core\Ports\{
-    Admin\Api\Product\Handler\Query\AdminApiProductSubtypeListQueryHandlerContract,
     Segment\Product\Repository\ProductSubtypeRepositoryContract,
     Shared\Logging\AppLoggerContract
 };
 
-final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQueryHandler implements AdminApiProductSubtypeListQueryHandlerContract
+final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQueryHandler
 {
     /**
      * @param ProductSubtypeRepositoryContract $productSubtypeRepository

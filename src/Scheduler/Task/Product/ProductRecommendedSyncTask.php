@@ -20,12 +20,12 @@ use App\Core\Ports\{
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Product\ProductRecommendedSyncMessage
+    Message\Product\ProductRecommendedSyncMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]
-class ProductRecommendedSyncTask extends AbstractTask
+final class ProductRecommendedSyncTask extends AbstractTask
 {
     /**
      * @param ProductVariantRecommendedRepositoryContract $recommendedRepository

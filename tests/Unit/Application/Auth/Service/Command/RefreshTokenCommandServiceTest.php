@@ -26,7 +26,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Service\Command\RefreshTokenCommandService
 */
-class RefreshTokenCommandServiceTest extends TestCase
+final class RefreshTokenCommandServiceTest extends TestCase
 {
     private JwtGatewayContract&MockObject $jwtGateway;
     private RefreshTokenRepositoryContract&MockObject $refreshTokenRepository;

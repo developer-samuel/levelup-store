@@ -1,9 +1,22 @@
 when@dev:
   sentry:
-    dsn: '%env(SENTRY_DSN)%'
-    options:
+    dsn: &sentry-dsn '%env(SENTRY_DSN)%'
+    options: &sentry-debug-options
       traces_sample_rate: 1.0
       profiles_sample_rate: 1.0
+      enable_logs: true
+
+when@local:
+  sentry:
+    dsn: *sentry-dsn
+    options: *sentry-debug-options
+
+when@prod:
+  sentry:
+    dsn: *sentry-dsn
+    options:
+      traces_sample_rate: 0.1
+      profiles_sample_rate: 0.1
       enable_logs: true
 
 when@test:

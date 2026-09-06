@@ -24,7 +24,7 @@ use App\Core\Ports\Segment\Order\Service\Query\OrderItemQueryContract;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderItemQueryService
 */
-class OrderItemQueryServiceTest extends TestCase
+final class OrderItemQueryServiceTest extends TestCase
 {
     private OrderItemQueryService $service;
 

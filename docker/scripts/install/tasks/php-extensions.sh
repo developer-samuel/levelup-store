@@ -10,3 +10,6 @@ pecl install redis && docker-php-ext-enable redis
 echo "📦 Installing PHP AMQP extension..."
 apt-get install -y librabbitmq-dev
 pecl install amqp && docker-php-ext-enable amqp
+
+echo "📦 Installing PCOV (coverage driver)..."
+pecl install pcov && docker-php-ext-enable pcov

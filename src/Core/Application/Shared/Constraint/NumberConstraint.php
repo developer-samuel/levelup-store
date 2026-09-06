@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\NumberConstraintValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class NumberConstraint extends Constraint
+final class NumberConstraint extends Constraint
 {
     public string $message;
 

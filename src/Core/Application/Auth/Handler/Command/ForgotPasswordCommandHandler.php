@@ -18,7 +18,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class ForgotPasswordCommandHandler extends AbstractCommandHandler implements ForgotPasswordCommandHandlerContract
+final class ForgotPasswordCommandHandler extends AbstractCommandHandler implements ForgotPasswordCommandHandlerContract
 {
     /**
      * @param ForgotPasswordCommandContract $forgotPasswordCommand

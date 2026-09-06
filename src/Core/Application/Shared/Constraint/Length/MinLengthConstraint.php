@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\Length\MinLengthConstraintValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class MinLengthConstraint extends Constraint
+final class MinLengthConstraint extends Constraint
 {
     public string $message;
     public int $min;

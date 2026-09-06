@@ -7,7 +7,7 @@ namespace Database\Seeds\Factories\Product;
 use Kit\Utils\Product\ProductCatalogCodeGenerator;
 
 use App\Core\Domain\{
-    Segment\Brand\Entity\Brand,
+    Segment\Brand\Brand,
     Segment\Category\Entity\Category,
     Segment\Product\Entity\Product,
     Segment\Type\Entity\Type

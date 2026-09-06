@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Segment\Product\Validator\UniqueProductVariantEanCodeValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class UniqueProductVariantEanCode extends Constraint
+final class UniqueProductVariantEanCode extends Constraint
 {
     public string $message = 'This EAN code is already taken.';
 

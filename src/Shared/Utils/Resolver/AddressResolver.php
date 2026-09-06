@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Shared\Utils\Resolver;
 
 use App\Shared\{
-    Enum\Address\AddressFields,
-    Enum\Address\AddressType
+    Enum\AddressFields,
+    Enum\AddressType
 };
 
 final class AddressResolver

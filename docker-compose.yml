@@ -1,348 +1,36 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🧱 Build & Runtime Base Configuration
+# 🧱 Base Stack (prod-ready)
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
-x-app-base: &app-base
-  build:
-    context: ./docker
-    dockerfile: Dockerfile
-  working_dir: /var/www
-  volumes:
-    - .:/var/www:delegated
-    - ./var:/var/www/var:cached
-    - ./vendor:/var/www/vendor:cached
-    - ./node_modules:/var/www/node_modules:cached
-  networks:
-    - app-network
-  logging:
-    driver: 'json-file'
-    options:
-      max-size: '10m'
-      max-file: '3'
+include:
+  # Database
+  - docker/compose/services/database/postgres.yml
+  - docker/compose/services/database/elasticsearch.yml
 
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🛢️ Database & Cache Environment Settings
-# ──────────────────────────────────────────────────────────────────────────────────────────────
+  # Cache
+  - docker/compose/services/cache/redis.yml
 
-# Database Settings
-x-env-database: &env-database
-  DB_HOST: ${DB_HOST}
-  DB_PORT: ${DB_PORT}
-  DB_DATABASE: ${DB_DATABASE}
-  DB_USERNAME: ${DB_USERNAME}
-  DB_PASSWORD: ${DB_PASSWORD}
+  # Messaging
+  - docker/compose/services/messaging/rabbitmq.yml
 
-# Postgres Database Settings
-x-postgres-database: &env-postgres-database
-  POSTGRES_DB: ${DB_DATABASE}
-  POSTGRES_USER: ${DB_USERNAME}
-  POSTGRES_PASSWORD: ${DB_PASSWORD}
+  # Storage
+  - docker/compose/services/storage/minio.yml
 
-# Redis Settings
-x-env-redis: &env-redis
-  REDIS_HOST: ${REDIS_HOST}
-  REDIS_PORT: ${REDIS_PORT}
+  # Realtime
+  - docker/compose/services/realtime/mercure.yml
 
-# RabbitMQ Settings
-x-env-rabbitmq: &env-rabbitmq
-  RABBITMQ_HOST: ${RABBITMQ_HOST}
-  RABBITMQ_PORT: ${RABBITMQ_PORT}
-  RABBITMQ_USER: ${RABBITMQ_USER}
-  RABBITMQ_PASS: ${RABBITMQ_PASS}
-  RABBITMQ_VHOST: ${RABBITMQ_VHOST}
+  # Observability
+  - docker/compose/services/observability/prometheus.yml
+  - docker/compose/services/observability/alerts.yml
+  - docker/compose/services/observability/loki.yml
+  - docker/compose/services/observability/alloy.yml
+  - docker/compose/services/observability/grafana.yml
 
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🌍 Application-Wide Environment
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-
-# Application environment settings
-x-app-environment: &app-environment
-  APP_ENV: local
-  TZ: Europe/Bratislava
-  <<:
-    - *env-database
-    - *env-redis
-    - *env-rabbitmq
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-# ⚙️ Health Check Configuration
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-
-# 🩺 App health check
-x-healthcheck: &app-healthcheck
-  interval: 10s
-  timeout: 5s
-  retries: 5
-  start_period: 5s
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🚦 Resource Allocation per App Container
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-
-# 🛢️ App deploy
-x-app-deploy: &app-deploy
-  resources:
-    limits:
-      cpus: '4.0'
-      memory: 4G
-    reservations:
-      cpus: '1.0'
-      memory: 1G
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🔧 Service Blueprints (for Actual Deployables)
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-
-# PostgreSQL 17 Blueprint
-x-service-postgres: &service-postgres
-  image: postgres:17
-  container_name: levelup_store_postgres
-  environment:
-    <<: *env-postgres-database
-  volumes:
-    - pg_data:/var/lib/postgresql/data
-  ports:
-    - '${DB_PORT}:5432'
-  restart: unless-stopped
-  networks:
-    - app-network
-  healthcheck:
-    test: ['CMD-SHELL', 'pg_isready -h localhost -U postgres']
-    <<: *app-healthcheck
-
-# Redis (latest) Blueprint
-x-service-redis: &service-redis
-  image: redis:latest
-  container_name: levelup_store_redis
-  ports:
-    - '${REDIS_PORT}:6379'
-  volumes:
-    - redis_data:/data
-    - ./docker/redis/config/redis.conf:/usr/local/etc/redis/config/redis.conf
-  restart: unless-stopped
-  networks:
-    - app-network
-  command: ['redis-server', '/usr/local/etc/redis/config/redis.conf']
-  healthcheck:
-    test: ['CMD', 'redis-cli', 'ping']
-    <<: *app-healthcheck
-
-# PHP main container
-x-service-app: &service-app
-  container_name: levelup_store_app
-  command: []
-  <<: *app-base
-  depends_on:
-    postgres:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-  deploy:
-    <<: *app-deploy
-
-# Setup container (dependencies install, tests, migrations, seeds, etc.)
-x-service-app-setup: &service-app-setup
-  container_name: levelup_store_app_setup
-  profiles: ['setup']
-  command: ['setup']
-  <<: *app-base
-  depends_on:
-    postgres:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-  deploy:
-    <<: *app-deploy
-
-# Cron / Scheduler Service
-x-service-cron: &service-cron
-  <<: *app-base
-  container_name: levelup_store_cron
-  restart: unless-stopped
-  depends_on:
-    postgres:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-  entrypoint: ["/usr/local/bin/scripts/entrypoints/app/cron/run-cron.sh"]
-
-# Messenger Worker Service (consumes async queue)
-x-service-worker: &service-worker
-  <<: *app-base
-  container_name: levelup_store_worker
-  restart: unless-stopped
-  depends_on:
-    postgres:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
-    rabbitmq:
-      condition: service_healthy
-  environment:
-    <<: *app-environment
-  entrypoint: ["/usr/local/bin/scripts/entrypoints/app/worker/run-worker.sh"]
-
-# Nginx as a webserver proxy for the app
-x-service-webserver: &service-webserver
-  container_name: levelup_store_nginx
-  volumes:
-    - .:/var/www:delegated
-    - ./docker/nginx/config:/etc/nginx/conf.d
-  ports:
-    - '8000:80'
-  dns: 8.8.8.8
-  build:
-    context: ./docker/nginx
-    dockerfile: Dockerfile.nginx
-  depends_on:
-    - app
-  networks:
-    - app-network
-
-# Vite (frontend builder)
-x-service-vite: &service-vite
-  container_name: levelup_store_vite
-  profiles: ['dev']
-  build:
-    context: ./docker/vite
-    dockerfile: Dockerfile.vite
-  working_dir: /var/www
-  volumes:
-    - ./:/var/www
-  ports:
-    - '5173:5173'
-  networks:
-    - app-network
-  depends_on:
-    - app
-
-# RabbitMQ Blueprint
-x-service-rabbitmq: &service-rabbitmq
-  image: rabbitmq:3-management
-  container_name: levelup_store_rabbitmq
-  restart: unless-stopped
-  environment:
-    RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-    RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
-    RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
-  ports:
-    - '${RABBITMQ_PORT}:5672'
-    - '15672:15672'
-  volumes:
-    - rabbitmq_data:/var/lib/rabbitmq
-  networks:
-    - app-network
-  healthcheck:
-    test: ['CMD', 'rabbitmq-diagnostics', 'ping']
-    <<: *app-healthcheck
-
-# Adminer (latest) Blueprint
-x-service-adminer: &service-adminer
-  image: adminer:latest
-  container_name: levelup_store_adminer
-  restart: unless-stopped
-  ports:
-    - '8080:8080'
-  environment:
-    ADMINER_DEFAULT_DB_DRIVER: pgsql
-  networks:
-    - app-network
-
-# Prometheus (latest) Blueprint
-x-service-prometheus: &service-prometheus
-  image: prom/prometheus:latest
-  container_name: levelup_store_prometheus
-  restart: unless-stopped
-  volumes:
-    - ./docker/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
-    - prometheus_data:/prometheus
-  ports:
-    - '${PROMETHEUS_PORT}:9090'
-  networks:
-    - app-network
-
-# Grafana (latest) Blueprint
-x-service-grafana: &service-grafana
-  image: grafana/grafana:latest
-  container_name: levelup_store_grafana
-  restart: unless-stopped
-  user: '472'
-  volumes:
-    - ./docker/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
-    - ./docker/grafana/provisioning:/etc/grafana/provisioning:ro
-    - ./docker/grafana/provisioning/dashboards:/var/lib/grafana/dashboards:ro
-    - grafana_data:/var/lib/grafana
-  ports:
-    - '${GRAFANA_PORT}:3000'
-  networks:
-    - app-network
-  depends_on:
-    - prometheus
-
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🚀 Final Service Wiring (The Actual Boot Order)
-# ──────────────────────────────────────────────────────────────────────────────────────────────
-
-services:
-  # PostgreSQL Service
-  postgres:
-    <<: *service-postgres
-
-  # Redis Service
-  redis:
-    <<: *service-redis
-
-  # RabbitMQ Service
-  rabbitmq:
-    <<: *service-rabbitmq
-
-  # PHP Service
-  app:
-    <<: *service-app
-
-  # PHP Setup Service (runs dependencies install, tests, migrations, seeds, etc.)
-  app_setup:
-    <<: *service-app-setup
-
-  # Cron / Scheduler Service
-  cron:
-    <<: *service-cron
-
-  # Messenger Worker Service
-  worker:
-    <<: *service-worker
-
-  # Nginx Service
-  webserver:
-    <<: *service-webserver
-
-  # Vite Service
-  vite:
-    <<: *service-vite
-
-  # Adminer Service
-  adminer:
-    <<: *service-adminer
-
-  # Prometheus Service
-  prometheus:
-    <<: *service-prometheus
-
-  # Grafana Service
-  grafana:
-    <<: *service-grafana
+  # App
+  - docker/compose/services/app/app.yml
+  - docker/compose/services/app/cron.yml
+  - docker/compose/services/app/worker.yml
+  - docker/compose/services/app/webserver.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes
@@ -355,13 +43,23 @@ networks:
 volumes:
   pg_data:
     driver: local
-  #mysql_data:
-  #driver: local
+  elasticsearch_data:
+    driver: local
   redis_data:
+    driver: local
+  rabbitmq_data:
     driver: local
   prometheus_data:
     driver: local
+  alertmanager_data:
+    driver: local
+  loki_data:
+    driver: local
   grafana_data:
     driver: local
-  rabbitmq_data:
+  minio_data:
+    driver: local
+  mercure_data:
+    driver: local
+  mercure_config:
     driver: local

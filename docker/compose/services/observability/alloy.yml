@@ -1,0 +1,17 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 📊 Observability - Alloy (log collector)
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  alloy:
+    image: grafana/alloy:latest
+    container_name: levelup_store_alloy
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/docker/config/alloy:/etc/alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: run /etc/alloy/config.alloy
+    networks:
+      - app-network
+    depends_on:
+      - loki

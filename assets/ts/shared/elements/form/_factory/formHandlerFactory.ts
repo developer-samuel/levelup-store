@@ -43,6 +43,27 @@ export const createFormAlertHandler = (serviceSubmit: ServiceSubmitFn): FormSubm
     },
   })
 
+async function handleSuccess(
+  data: FormResponse,
+  ctx: FormHandlerContext,
+  options: CreateFormHandlerOptions,
+): Promise<void> {
+  if (options.onSuccess) {
+    options.onSuccess(data, ctx)
+  } else if (data.message) {
+    NotyfAlert.success(data.message)
+  }
+
+  const redirect = data.redirect && data.redirect !== 'null' ? data.redirect : options.defaultRedirect
+  if (redirect) {
+    if (options.redirectDelay) await sleep(options.redirectDelay)
+    window.location.href = redirect
+  } else if (options.reloadDelay) {
+    await sleep(options.reloadDelay)
+    window.location.reload()
+  }
+}
+
 /**
  * Creates an async form submission handler.
  *
@@ -64,25 +85,9 @@ export function createFormHandler(
       if (!data) return
 
       if (data.success) {
-        if (options.onSuccess) {
-          options.onSuccess(data, { alert, errors })
-        } else if (data.message) {
-          NotyfAlert.success(data.message)
-        }
-
-        const redirect = data.redirect && data.redirect !== 'null' ? data.redirect : options.defaultRedirect
-        if (redirect) {
-          if (options.redirectDelay) await sleep(options.redirectDelay)
-
-          window.location.href = redirect
-        } else if (options.reloadDelay) {
-          await sleep(options.reloadDelay)
-
-          window.location.reload()
-        }
+        await handleSuccess(data, { alert, errors }, options)
       } else {
         alert.display(false, data.message ?? 'An error occurred.')
-
         scrollToContainer()
         if (data.errors) errors.show(data.errors)
         if (options.onError) options.onError(data, { alert, errors })

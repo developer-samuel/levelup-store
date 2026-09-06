@@ -5,7 +5,7 @@
         {% import 'layout/public/head/head.html.twig' as Head %}
         {{ Head.render() }}
     </head>
-    <body data-authenticated="{{ app.user ? 'true' : 'false' }}">
+    <body data-authenticated="{{ app.user ? 'true' : 'false' }}" data-storage-url="{{ storage_url('') }}">
         {% import 'components/loading/loading.html.twig' as Loading %}
         {{ Loading.render() }}
 

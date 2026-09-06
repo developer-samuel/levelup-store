@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Reviews\CreateReviewsTable;
 
-class Version030_CreateReviewsTable extends AbstractMigration
+final class Version030_CreateReviewsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

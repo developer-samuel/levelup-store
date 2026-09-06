@@ -22,13 +22,13 @@ use App\Core\Application\Segment\Product\Service\Query\ProductCategoryQueryServi
 use App\Core\Ports\{
     Segment\Category\Repository\CategoryRepositoryContract,
     Segment\Product\Service\Query\ProductCategoryQueryContract,
-    Segment\Type\Repository\TypeRepositoryContract
+    Segment\Type\TypeRepositoryContract
 };
 
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductCategoryQueryService
 */
-class ProductCategoryQueryServiceTest extends TestCase
+final class ProductCategoryQueryServiceTest extends TestCase
 {
     private CategoryRepositoryContract&MockObject $categoryRepository;
     private TypeRepositoryContract&MockObject $typeRepository;

@@ -29,7 +29,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Service\Command\SignupCommandService
 */
-class SignupCommandServiceTest extends TestCase
+final class SignupCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
     private PasswordHasherProviderContract&MockObject $passwordHasherProvider;

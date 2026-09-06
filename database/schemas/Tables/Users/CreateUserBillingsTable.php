@@ -6,7 +6,7 @@ namespace Database\Schemas\Tables\Users;
 
 use Database\Schemas\Abstract\AbstractAddressTable;
 
-class CreateUserBillingsTable extends AbstractAddressTable
+final class CreateUserBillingsTable extends AbstractAddressTable
 {
     /**
      * @return string

@@ -15,7 +15,7 @@ use App\Core\Application\Segment\Cart\Input\CartStoreInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class CartStoreRequest extends AbstractRequest
+final class CartStoreRequest extends AbstractRequest
 {
     use CartStoreInput;
 

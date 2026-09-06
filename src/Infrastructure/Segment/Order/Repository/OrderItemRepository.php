@@ -28,7 +28,7 @@ use App\Infrastructure\Shared\Traits\SingleResult;
 /**
  * @extends ServiceEntityRepository<OrderItem>
 */
-class OrderItemRepository extends ServiceEntityRepository implements OrderItemRepositoryContract
+final class OrderItemRepository extends ServiceEntityRepository implements OrderItemRepositoryContract
 {
     use SingleResult;
 

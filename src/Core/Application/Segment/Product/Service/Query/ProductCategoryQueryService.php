@@ -13,7 +13,7 @@ use App\Core\Domain\{
 use App\Core\Ports\{
     Segment\Category\Repository\CategoryRepositoryContract,
     Segment\Product\Service\Query\ProductCategoryQueryContract,
-    Segment\Type\Repository\TypeRepositoryContract
+    Segment\Type\TypeRepositoryContract
 };
 
 /**

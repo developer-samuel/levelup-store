@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\SpecialCharacterConstraintValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class SpecialCharacterConstraint extends Constraint
+final class SpecialCharacterConstraint extends Constraint
 {
     public string $message;
 

@@ -15,7 +15,7 @@ use App\Core\Application\Segment\Review\Input\ReviewRatingInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class ReviewRatingRequest extends AbstractRequest
+final class ReviewRatingRequest extends AbstractRequest
 {
     use ReviewRatingInput;
 

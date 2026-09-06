@@ -24,7 +24,7 @@ use App\Presentation\{
     Shared\Utils\IdDecoder
 };
 
-class ReviewRatingCommandController extends AbstractCrudCommandController
+final class ReviewRatingCommandController extends AbstractCrudCommandController
 {
     /**
      * @param HmacFieldDecoderContract $hmacFieldDecoder

@@ -88,6 +88,7 @@
                     {% if data.review is defined and currentUser and userRatingType is defined %}
                         <div
                             data-review-id="{{ hmac_encrypt(review.id) }}"
+                            data-mercure-review-id="{{ review.id }}"
                             data-rating-type="{{ userRatingType ?? '' }}"
                             class="reviews__card-item-row-right"
                         >

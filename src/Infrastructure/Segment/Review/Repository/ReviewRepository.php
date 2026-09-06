@@ -10,9 +10,9 @@ use Doctrine\{
 };
 
 use App\Core\Domain\{
-    Segment\Review\Aggregate\ReviewStatistics,
     Segment\Review\Entity\Review,
     Segment\Review\Enum\ReviewType,
+    Segment\Review\Utils\ReviewStatistics,
     Segment\User\Entity\User
 };
 
@@ -30,10 +30,12 @@ use App\Infrastructure\{
  *
  * @extends AbstractRepository<Review>
 */
-class ReviewRepository extends AbstractRepository implements ReviewRepositoryContract
+final class ReviewRepository extends AbstractRepository implements ReviewRepositoryContract
 {
     use SingleResult;
     use IterableQuery;
+
+    private const VARIANT_CONDITION = 'r.variant = :variantId';
 
     /**
      * @param ManagerRegistry $registry
@@ -147,6 +149,35 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     }
 
     /**
+     * @param list<int> $variantIds
+     *
+     * @return array<int, float> [variantId => averageRating]
+    */
+    public function getAverageRatingsByVariantIds(array $variantIds): array
+    {
+        if (empty($variantIds)) {
+            return [];
+        }
+
+        $rows = $this->createQueryBuilder('r')
+            ->select('IDENTITY(r.variant) AS variantId, AVG(r.value) AS avgRating')
+            ->where('r.variant IN (:variantIds)')
+            ->setParameter('variantIds', $variantIds)
+            ->groupBy('r.variant')
+            ->getQuery()
+            ->getScalarResult();
+
+        $ratings = array_fill_keys($variantIds, 0.0);
+
+        foreach ($rows as $row) {
+            /** @var array{variantId: string, avgRating: string|null} $row */
+            $ratings[(int) $row['variantId']] = round((float) $row['avgRating'], 2);
+        }
+
+        return $ratings;
+    }
+
+    /**
      * @param int $variantId
      *
      * @return QueryBuilder
@@ -154,7 +185,7 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     private function createBaseQueryForVariantAndType(int $variantId): QueryBuilder
     {
         return $this->createQueryBuilder('r')
-            ->where('r.variant = :variantId')
+            ->where(self::VARIANT_CONDITION)
             ->andWhere('r.type = :type')
             ->setParameter('variantId', $variantId)
             ->setParameter('type', ReviewType::FEEDBACK->value);
@@ -184,7 +215,7 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     {
         return $this->createQueryBuilder('r')
             ->select('1')
-            ->where('r.variant = :variantId')
+            ->where(self::VARIANT_CONDITION)
             ->andWhere('r.user = :user')
             ->setParameter('variantId', $variantId)
             ->setParameter('user', $user)
@@ -199,7 +230,7 @@ class ReviewRepository extends AbstractRepository implements ReviewRepositoryCon
     private function fetchReviewsByVariant(int $variantId): array
     {
         $qb = $this->createQueryBuilder('r')
-            ->where('r.variant = :variantId')
+            ->where(self::VARIANT_CONDITION)
             ->setParameter('variantId', $variantId);
 
         $results = $this->getIterableResult($qb);

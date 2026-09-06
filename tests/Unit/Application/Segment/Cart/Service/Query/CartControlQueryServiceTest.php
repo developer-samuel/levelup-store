@@ -23,7 +23,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartControlQueryService
 */
-class CartControlQueryServiceTest extends TestCase
+final class CartControlQueryServiceTest extends TestCase
 {
     use UserStub;
 

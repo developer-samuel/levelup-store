@@ -21,3 +21,5 @@ runs:
         echo "DATABASE_URL=${DATABASE_URL}" >> .env
         sed -i '/^REDIS_URL=/d' .env
         echo "REDIS_URL=${REDIS_URL}" >> .env
+        sed -i '/^MESSENGER_TRANSPORT_DSN=/d' .env
+        echo "MESSENGER_TRANSPORT_DSN=${RABBITMQ_URL}" >> .env

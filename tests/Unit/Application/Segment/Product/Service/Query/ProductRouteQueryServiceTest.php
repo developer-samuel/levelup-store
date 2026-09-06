@@ -13,7 +13,7 @@ use App\Core\Ports\Segment\Product\Service\Query\ProductRouteQueryContract;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductRouteQueryService
 */
-class ProductRouteQueryServiceTest extends TestCase
+final class ProductRouteQueryServiceTest extends TestCase
 {
     private ProductRouteQueryService $service;
 

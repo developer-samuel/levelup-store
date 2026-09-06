@@ -9,7 +9,7 @@ use App\Core\Domain\Segment\Audit\Enum\AuditAction;
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Audit\AuditLoggerContract,
     Segment\User\Handler\Command\DestroyProfileHandlerContract,
     Segment\User\Service\Command\DestroyProfileCommandContract,
@@ -18,7 +18,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class DestroyProfileHandler extends AbstractCommandHandler implements DestroyProfileHandlerContract
+final class DestroyProfileHandler extends AbstractCommandHandler implements DestroyProfileHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

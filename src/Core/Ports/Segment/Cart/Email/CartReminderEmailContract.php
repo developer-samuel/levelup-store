@@ -8,5 +8,12 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface CartReminderEmailContract
 {
+    /**
+     * @param User $user
+     * @param int $daysRemaining
+     * @param string $cartUrl
+     *
+     * @return void
+    */
     public function send(User $user, int $daysRemaining, string $cartUrl): void;
 }

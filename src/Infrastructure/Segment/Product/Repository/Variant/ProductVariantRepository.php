@@ -9,7 +9,7 @@ use Doctrine\{
     Persistence\ManagerRegistry
 };
 
-use Kit\Utils\Shared\Normalizer\StringNormalizer;
+use Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Product,
@@ -20,7 +20,11 @@ use App\Core\Domain\{
     Segment\Review\Entity\Review
 };
 
-use App\Core\Ports\Segment\Product\Repository\Variant\ProductVariantRepositoryContract;
+use App\Core\Ports\{
+    Gateways\External\Search\ElasticsearchGatewayContract,
+    Segment\Product\Projection\ProductVariantProjectionQueryContract,
+    Segment\Product\Repository\Variant\ProductVariantRepositoryContract
+};
 
 use App\Infrastructure\{
     Abstract\Repository\AbstractRepository,
@@ -32,16 +36,21 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<ProductVariant>
 */
-class ProductVariantRepository extends AbstractRepository implements ProductVariantRepositoryContract
+final class ProductVariantRepository extends AbstractRepository implements ProductVariantRepositoryContract
 {
     use OrderedQuery;
     use SingleResult;
 
     /**
+     * @param ElasticsearchGatewayContract $elasticsearch
+     * @param ProductVariantProjectionQueryContract $projectionQuery
      * @param ManagerRegistry $registry
     */
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        private readonly ElasticsearchGatewayContract $elasticsearch,
+        private readonly ProductVariantProjectionQueryContract $projectionQuery,
+        ManagerRegistry $registry,
+    ) {
         parent::__construct(
             $registry,
             ProductVariant::class,
@@ -89,6 +98,19 @@ class ProductVariantRepository extends AbstractRepository implements ProductVari
         int $limit,
         ?ProductSortOption $sort = null,
     ): array {
+        if ($this->elasticsearch->isEnabled()) {
+            ['ids' => $ids, 'total' => $total] = $this->projectionQuery->filter(
+                $filter,
+                $page,
+                $limit,
+                $sort,
+            );
+
+            $items = empty($ids) ? [] : $this->findByOrderedIds($ids);
+
+            return ['items' => $items, 'total' => $total];
+        }
+
         $qb = $this->createAvailableVariantsQueryBuilder();
 
         $this->applyEffectivePrice($qb);
@@ -154,6 +176,16 @@ class ProductVariantRepository extends AbstractRepository implements ProductVari
     */
     public function searchByName(string $searchTerm): array
     {
+        if ($this->elasticsearch->isEnabled()) {
+            ['ids' => $ids] = $this->projectionQuery->search($searchTerm, 50);
+
+            if (empty($ids)) {
+                return [];
+            }
+
+            return $this->findByOrderedIds($ids);
+        }
+
         $qb = $this->createQueryBuilder('v')
             ->andWhere('LOWER(v.name) LIKE LOWER(:searchTerm)')
             ->setParameter('searchTerm', '%' . $searchTerm . '%');
@@ -234,7 +266,8 @@ class ProductVariantRepository extends AbstractRepository implements ProductVari
             ->leftJoin('p.category', 'c')
             ->leftJoin('p.subtypes', 'ps')
             ->leftJoin('ps.subtype', 'st')
-            ->addSelect('v');
+            ->leftJoin('v.images', 'vi')
+            ->addSelect('v', 'p', 'd', 'b', 't', 'c', 'ps', 'st', 'vi');
     }
 
     /**
@@ -374,5 +407,34 @@ class ProductVariantRepository extends AbstractRepository implements ProductVari
     {
         $qb->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
+    }
+
+    /**
+     * @param int[] $ids
+     *
+     * @return ProductVariant[]
+    */
+    private function findByOrderedIds(array $ids): array
+    {
+        /** @var ProductVariant[] $variants */
+        $variants = $this->createQueryBuilder('v')
+            ->andWhere('v.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+
+        $indexed = [];
+        foreach ($variants as $variant) {
+            $indexed[$variant->getId()] = $variant;
+        }
+
+        $ordered = [];
+        foreach ($ids as $id) {
+            if (isset($indexed[$id])) {
+                $ordered[] = $indexed[$id];
+            }
+        }
+
+        return $ordered;
     }
 }

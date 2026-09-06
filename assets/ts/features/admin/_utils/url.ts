@@ -2,5 +2,5 @@
 export function getLastPathSegment(): string {
   const pathSegments = window.location.pathname.split('/').filter(Boolean)
 
-  return pathSegments[pathSegments.length - 1] ?? ''
+  return pathSegments.at(-1) ?? ''
 }

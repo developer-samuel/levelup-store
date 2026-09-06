@@ -11,11 +11,11 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use App\Core\Application\Admin\Segment\Product\Input\Variant\Description\AdminVariantDescriptionStoreInput;
+use App\Core\Application\Admin\Segment\Product\Input\Description\AdminVariantDescriptionStoreInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class AdminVariantDescriptionStoreRequest extends AbstractRequest
+final class AdminVariantDescriptionStoreRequest extends AbstractRequest
 {
     use AdminVariantDescriptionStoreInput;
 

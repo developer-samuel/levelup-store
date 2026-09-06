@@ -15,7 +15,7 @@ use App\Core\Application\Segment\Wishlist\Input\WishlistInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class WishlistToggleRequest extends AbstractRequest
+final class WishlistToggleRequest extends AbstractRequest
 {
     use WishlistInput;
 

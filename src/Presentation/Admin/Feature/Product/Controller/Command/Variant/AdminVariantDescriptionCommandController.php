@@ -11,10 +11,11 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use App\Core\Domain\Admin\Segment\Product\Payload\Variant\AdminVariantDescriptionPayload;
+use App\Core\Domain\Admin\Product\Payload\AdminVariantDescriptionPayload;
+
+use App\Core\Application\Admin\Segment\Product\Handler\Command\AdminVariantDescriptionCommandHandler;
 
 use App\Core\Ports\{
-    Admin\Segment\Product\Handler\Command\Variant\AdminVariantDescriptionCommandHandlerContract,
     Shared\Encryption\HmacFieldDecoderContract,
     Shared\Logging\AppLoggerContract
 };
@@ -25,17 +26,17 @@ use App\Presentation\{
     Admin\Feature\Product\Request\Variant\Description\AdminVariantDescriptionUpdateRequest
 };
 
-class AdminVariantDescriptionCommandController extends AbstractAdminVariantCommandController
+final class AdminVariantDescriptionCommandController extends AbstractAdminVariantCommandController
 {
     /**
-     * @param AdminVariantDescriptionCommandHandlerContract $adminVariantDescriptionHandler
+     * @param AdminVariantDescriptionCommandHandler $adminVariantDescriptionHandler
      * @param HmacFieldDecoderContract $hmacFieldDecoder
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param AppLoggerContract $logger
      * @param ValidatorInterface $validator
     */
     public function __construct(
-        private readonly AdminVariantDescriptionCommandHandlerContract $adminVariantDescriptionHandler,
+        private readonly AdminVariantDescriptionCommandHandler $adminVariantDescriptionHandler,
         HmacFieldDecoderContract $hmacFieldDecoder,
         CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,

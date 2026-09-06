@@ -11,7 +11,7 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\Shared\ValueObject\AddressObject;
 
@@ -27,11 +27,11 @@ use App\Presentation\{
 };
 
 use App\Shared\{
-    Enum\Address\AddressType,
+    Enum\AddressType,
     Utils\Resolver\AddressResolver
 };
 
-class ProfileRequest extends AbstractRequest
+final class ProfileRequest extends AbstractRequest
 {
     use UserPersonalInput;
     use BillingAddressInput;
@@ -83,22 +83,31 @@ class ProfileRequest extends AbstractRequest
     #[Assert\Callback]
     public function validateOptionalAddressFields(ExecutionContextInterface $context): void
     {
-        $address = $this->createAddress();
-
-        AddressCheckFields::validateOptional($context, $address);
+        AddressCheckFields::validateOptional($context, $this->createAddress(AddressType::SHIPPING), $this->use_shipping ?? false);
     }
 
     /**
+     * @param AddressType $type
+     *
      * @return AddressObject
     */
-    private function createAddress(): AddressObject
+    private function createAddress(AddressType $type): AddressObject
     {
-        return new AddressObject(
-            country: DataSanitizer::sanitizeString($this->country ?? ''),
-            street: DataSanitizer::sanitizeString($this->street ?? ''),
-            postalCode: DataSanitizer::sanitizeString($this->postal_code ?? ''),
-            city: DataSanitizer::sanitizeString($this->city ?? ''),
-            sendShipping: DataSanitizer::sanitizeBoolean($this->use_shipping ?? false),
-        );
+        return match ($type) {
+            AddressType::BILLING => new AddressObject(
+                country: DataSanitizer::sanitizeString($this->billing_country ?? ''),
+                street: DataSanitizer::sanitizeString($this->billing_street ?? ''),
+                postalCode: DataSanitizer::sanitizeString($this->billing_postal_code ?? ''),
+                city: DataSanitizer::sanitizeString($this->billing_city ?? ''),
+                sendShipping: DataSanitizer::sanitizeBoolean($this->use_shipping ?? false),
+            ),
+            AddressType::SHIPPING => new AddressObject(
+                country: DataSanitizer::sanitizeString($this->shipping_country ?? ''),
+                street: DataSanitizer::sanitizeString($this->shipping_street ?? ''),
+                postalCode: DataSanitizer::sanitizeString($this->shipping_postal_code ?? ''),
+                city: DataSanitizer::sanitizeString($this->shipping_city ?? ''),
+                sendShipping: DataSanitizer::sanitizeBoolean($this->use_shipping ?? false),
+            ),
+        };
     }
 }

@@ -11,13 +11,13 @@ use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Review\Handler\Command\DestroyReviewHandlerContract,
     Segment\Review\Service\Command\ReviewCommandContract,
     Shared\Logging\AppLoggerContract
 };
 
-class DestroyReviewHandler extends AbstractCommandHandler implements DestroyReviewHandlerContract
+final class DestroyReviewHandler extends AbstractCommandHandler implements DestroyReviewHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

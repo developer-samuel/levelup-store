@@ -10,7 +10,7 @@ use Symfony\{
     Component\HttpFoundation\ResponseHeaderBag
 };
 
-use App\Core\Domain\Cookie\ValueObject\CookieObject;
+use App\Core\Domain\Cookie\CookieObject;
 
 use App\Core\Ports\Gateways\Internal\Cookie\CookieGatewayContract;
 

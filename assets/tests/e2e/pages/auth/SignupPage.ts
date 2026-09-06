@@ -91,7 +91,9 @@ export class SignupPage extends BasePage {
 
   async submit(): Promise<void> {
     await this.disableNativeValidation(this.form)
-    await this.submitBtn.click()
+    await this.form.evaluate((f) => {
+      f.requestSubmit()
+    })
   }
 
   async fillValidForm(email: string, password: string): Promise<void> {

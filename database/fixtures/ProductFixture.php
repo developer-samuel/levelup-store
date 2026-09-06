@@ -26,14 +26,14 @@ use App\Core\Domain\{
 };
 
 use App\Core\Ports\{
-    Segment\Brand\Repository\BrandRepositoryContract,
+    Segment\Brand\BrandRepositoryContract,
     Segment\Category\Repository\CategoryRepositoryContract,
-    Segment\Type\Repository\TypeRepositoryContract,
+    Segment\Type\TypeRepositoryContract,
     Shared\Logging\AppLoggerContract,
     Shared\Logging\ConsoleLoggerContract
 };
 
-class ProductFixture extends AbstractFixture implements DependentFixtureInterface
+final class ProductFixture extends AbstractFixture implements DependentFixtureInterface
 {
     use ProductBuilder;
 
@@ -75,7 +75,6 @@ class ProductFixture extends AbstractFixture implements DependentFixtureInterfac
     */
     protected function getData(): iterable
     {
-        /** @var iterable<ProductRecordContract> $data */
         $data = [
             new ComputersRecord(),
             new SmartRecord(),

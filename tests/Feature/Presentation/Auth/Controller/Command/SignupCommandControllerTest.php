@@ -21,7 +21,7 @@ use Tests\Support\{
 /**
  * @coversDefaultClass \App\Presentation\Auth\Controller\Command\SignupCommandController
 */
-class SignupCommandControllerTest extends WebTestCase
+final class SignupCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
     use RateLimiterMockTrait;
@@ -92,11 +92,11 @@ class SignupCommandControllerTest extends WebTestCase
         $this->assertResponseHeaderSame('Content-Type', 'application/json');
     }
 
-    public function testStoreReturnsBadRequestOnValidationErrors(): void
+    public function testStoreReturnsUnprocessableOnValidationErrors(): void
     {
         $this->client->request('POST', '/signup/store', []);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
 
         $data = $this->decodeJson();
 

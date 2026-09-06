@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Security\CreateRefreshTokensTable;
 
-class Version034_CreateRefreshTokensTable extends AbstractMigration
+final class Version034_CreateRefreshTokensTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

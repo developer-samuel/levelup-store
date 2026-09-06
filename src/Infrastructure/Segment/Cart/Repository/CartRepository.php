@@ -16,7 +16,7 @@ use App\Core\Ports\Segment\Cart\Repository\CartRepositoryContract;
 /**
  * @extends ServiceEntityRepository<Cart>
 */
-class CartRepository extends ServiceEntityRepository implements CartRepositoryContract
+final class CartRepository extends ServiceEntityRepository implements CartRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

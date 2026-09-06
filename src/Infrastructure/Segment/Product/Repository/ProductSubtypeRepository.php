@@ -19,7 +19,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<ProductSubtype>
 */
-class ProductSubtypeRepository extends AbstractRepository implements ProductSubtypeRepositoryContract
+final class ProductSubtypeRepository extends AbstractRepository implements ProductSubtypeRepositoryContract
 {
     use OrderedQuery;
 

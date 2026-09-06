@@ -55,7 +55,7 @@ services:
       $redisEnabled: '%env(bool:REDIS_ENABLED)%'
       $redisUrl: '%env(REDIS_URL)%'
 
-  App\Adapters\External\MessageBroker\RabbitMQ\RabbitMQAdapter:
+  App\Adapters\External\MessageBroker\RabbitMQAdapter:
     arguments:
       $enabled: '%env(bool:RABBITMQ_ENABLED)%'
       $host: '%env(RABBITMQ_HOST)%'
@@ -64,11 +64,42 @@ services:
       $pass: '%env(RABBITMQ_PASS)%'
       $vhost: '%env(RABBITMQ_VHOST)%'
 
+  App\Adapters\External\Storage\StorageAdapter:
+    arguments:
+      $minioEnabled: '%env(bool:MINIO_ENABLED)%'
+      $publicUrl: '%env(MINIO_PUBLIC_URL)%'
+      $bucket: '%env(MINIO_BUCKET)%'
+      $endpoint: '%env(MINIO_ENDPOINT)%'
+      $rootUser: '%env(MINIO_ROOT_USER)%'
+      $rootPassword: '%env(MINIO_ROOT_PASSWORD)%'
+      $uploadsPath: '%kernel.project_dir%/public/uploads'
+
+  App\Adapters\External\Realtime\MercureHubAdapter:
+    arguments:
+      $hub: '@mercure.hub.default'
+      $enabled: '%env(bool:MERCURE_ENABLED)%'
+      $hubUrl: '%env(MERCURE_URL)%'
+
+  App\Adapters\External\Search\ElasticsearchAdapter:
+    arguments:
+      $enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
+      $host: '%env(ELASTICSEARCH_HOST)%'
+      $port: '%env(int:ELASTICSEARCH_PORT)%'
+
+  Elastic\Elasticsearch\Client:
+    factory: ['@App\Adapters\External\Search\ElasticsearchAdapter', 'getClient']
+
   App\Adapters\External\Pdf\SnappyPdfGeneratorAdapter:
     arguments:
       $wkhtmltopdfEnabled: '%env(bool:WKHTMLTOPDF_ENABLED)%'
 
-  App\Adapters\External\Api\Country\CountryApiAdapter:
+  App\Adapters\External\Turnstile\TurnstileAdapter:
+    arguments:
+      $enabled: '%env(bool:TURNSTILE_ENABLED)%'
+      $secretKey: '%env(TURNSTILE_SECRET_KEY)%'
+      $verifyUrl: '%env(TURNSTILE_VERIFY_URL)%'
+
+  App\Adapters\External\Api\CountryApiAdapter:
     arguments:
       $countryUrl: '%env(API_COUNTRY_URL)%'
 
@@ -89,17 +120,28 @@ services:
     arguments:
       $enabled: '%env(bool:AUDIT_LOGS_ENABLED)%'
 
-  App\Infrastructure\Shared\Subscriber\:
-    resource: '../src/Infrastructure/Shared/Subscriber/'
+  App\Infrastructure\Segment\Product\Projection\ProductVariantProjector:
     tags:
-      - { name: kernel.event_subscriber }
+      - { name: app.elasticsearch.reindexable }
+
+  App\Infrastructure\Segment\Order\Projection\OrderProjector:
+    tags:
+      - { name: app.elasticsearch.reindexable }
+
+  App\Infrastructure\Segment\Review\Projection\ReviewProjector:
+    tags:
+      - { name: app.elasticsearch.reindexable }
+
+  App\Infrastructure\Segment\User\Projection\UserProjector:
+    tags:
+      - { name: app.elasticsearch.reindexable }
 
   # Presentation
   App\Presentation\:
     resource: '../src/Presentation/'
     tags: ['controller.service_arguments']
 
-  App\Presentation\Dev\Api\Controller\HealthCheckController:
+  App\Presentation\Dev\HealthCheckConfig:
     arguments:
       $stripeSecretKey: '%env(STRIPE_SECRET)%'
       $mailerUser: '%env(MAILER_USER)%'
@@ -113,7 +155,7 @@ services:
     arguments:
       $refreshTokenTtl: '%env(int:JWT_REFRESH_TTL)%'
 
-  App\Presentation\Segment\Review\Twig\Extension\ReviewExtension:
+  App\Presentation\Segment\Review\Twig\ReviewExtension:
     tags:
       - { name: twig.extension }
 

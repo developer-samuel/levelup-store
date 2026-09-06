@@ -14,6 +14,7 @@ vendor/
 bin/*
 !bin/console
 !bin/phpunit
+!bin/run
 
 # Node / npm
 node_modules/
@@ -31,8 +32,10 @@ public/build/
 public/bundles/
 public/uploads/
 
+# Generated UML
+.uml/
+
 # PHP Tools
-.php-cs-fixer.php
 phpunit.xml
 
 # Editor

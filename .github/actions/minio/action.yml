@@ -1,0 +1,59 @@
+name: Setup MinIO
+description: Start MinIO via Docker, create bucket, and inject environment variables
+
+inputs:
+  minio-port:
+    description: Host port for MinIO API
+    required: false
+    default: '9000'
+  minio-user:
+    description: MinIO root user
+    required: false
+    default: 'minioadmin'
+  minio-password:
+    description: MinIO root password
+    required: false
+    default: 'minioadmin'
+  minio-bucket:
+    description: Bucket name to create
+    required: false
+    default: 'levelup-store'
+
+runs:
+  using: composite
+  steps:
+    - name: Start MinIO
+      shell: bash
+      run: |
+        docker run -d \
+          --name minio \
+          -p ${{ inputs.minio-port }}:9000 \
+          -e MINIO_ROOT_USER=${{ inputs.minio-user }} \
+          -e MINIO_ROOT_PASSWORD=${{ inputs.minio-password }} \
+          minio/minio server /data
+
+    - name: Inject MinIO environment
+      shell: bash
+      run: |
+        echo "MINIO_ENABLED=true" >> $GITHUB_ENV
+        echo "MINIO_ROOT_USER=${{ inputs.minio-user }}" >> $GITHUB_ENV
+        echo "MINIO_ROOT_PASSWORD=${{ inputs.minio-password }}" >> $GITHUB_ENV
+        echo "MINIO_ENDPOINT=http://127.0.0.1:${{ inputs.minio-port }}" >> $GITHUB_ENV
+        echo "MINIO_PUBLIC_URL=http://127.0.0.1:${{ inputs.minio-port }}" >> $GITHUB_ENV
+        echo "MINIO_BUCKET=${{ inputs.minio-bucket }}" >> $GITHUB_ENV
+
+    - name: Wait for MinIO and create bucket
+      shell: bash
+      run: |
+        echo "Waiting for MinIO to be ready..."
+        until curl -sf http://127.0.0.1:${{ inputs.minio-port }}/minio/health/live; do
+          echo "MinIO not ready, retrying..."
+          sleep 2
+        done
+        echo "MinIO is ready."
+        curl -sSL -o /usr/local/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
+        chmod +x /usr/local/bin/mc
+        mc alias set ci http://127.0.0.1:${{ inputs.minio-port }} ${{ inputs.minio-user }} ${{ inputs.minio-password }}
+        mc mb ci/${{ inputs.minio-bucket }} --ignore-existing
+        mc anonymous set download ci/${{ inputs.minio-bucket }}
+        echo "Bucket '${{ inputs.minio-bucket }}' ready."

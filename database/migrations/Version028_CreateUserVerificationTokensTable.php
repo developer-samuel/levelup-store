@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Users\CreateUserVerificationTokenTable;
 
-class Version028_CreateUserVerificationTokensTable extends AbstractMigration
+final class Version028_CreateUserVerificationTokensTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

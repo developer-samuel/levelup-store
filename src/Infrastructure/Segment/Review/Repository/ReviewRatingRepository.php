@@ -22,7 +22,7 @@ use App\Infrastructure\Shared\Traits\SingleResult;
 /**
  * @extends ServiceEntityRepository<ReviewRating>
 */
-class ReviewRatingRepository extends ServiceEntityRepository implements ReviewRatingRepositoryContract
+final class ReviewRatingRepository extends ServiceEntityRepository implements ReviewRatingRepositoryContract
 {
     use SingleResult;
 

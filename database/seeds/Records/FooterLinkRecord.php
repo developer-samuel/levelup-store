@@ -6,7 +6,7 @@ namespace Database\Seeds\Records;
 
 use Database\Seeds\Abstract\AbstractDataRecord;
 
-class FooterLinkRecord extends AbstractDataRecord
+final class FooterLinkRecord extends AbstractDataRecord
 {
     /**
      * @return string

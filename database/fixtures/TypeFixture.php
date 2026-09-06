@@ -22,7 +22,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class TypeFixture extends AbstractFixture implements DependentFixtureInterface
+final class TypeFixture extends AbstractFixture implements DependentFixtureInterface
 {
     use HasCategory;
     use TypeFactory;

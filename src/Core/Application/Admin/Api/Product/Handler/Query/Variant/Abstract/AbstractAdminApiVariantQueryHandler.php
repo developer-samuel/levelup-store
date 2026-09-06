@@ -8,7 +8,7 @@ use Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
-use App\Core\Application\Admin\Abstract\Handler\AbstractAdminApiListQueryHandler;
+use App\Core\Application\Admin\Abstract\AbstractAdminApiListQueryHandler;
 
 use App\Core\Ports\{
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,

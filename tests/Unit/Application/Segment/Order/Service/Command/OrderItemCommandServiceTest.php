@@ -34,7 +34,7 @@ use Tests\Support\Provides\AssertsPersisted;
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderItemCommandService
 */
-class OrderItemCommandServiceTest extends TestCase
+final class OrderItemCommandServiceTest extends TestCase
 {
     use AssertsPersisted;
 

@@ -13,7 +13,7 @@ use App\Core\Domain\{
 };
 
 use App\Core\Ports\{
-    Segment\Country\Repository\CountryRepositoryContract,
+    Segment\Country\CountryRepositoryContract,
     Segment\User\Service\Command\AddressCommandContract,
     Segment\User\Service\Query\AddressQueryContract,
     Shared\Persistence\EntityPersistenceContract

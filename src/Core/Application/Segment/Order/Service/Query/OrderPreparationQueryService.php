@@ -6,8 +6,8 @@ namespace App\Core\Application\Segment\Order\Service\Query;
 
 use Kit\{
     Assertion\Shared\IdAssertion,
-    Utils\Shared\Normalizer\StringNormalizer,
-    Utils\Shared\Sanitizer\DataSanitizer
+    Utils\Shared\StringNormalizer,
+    Utils\Shared\DataSanitizer
 };
 
 use App\Core\Domain\{

@@ -28,7 +28,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class VariantRecommendedFixture extends AbstractFixture implements DependentFixtureInterface
+final class VariantRecommendedFixture extends AbstractFixture implements DependentFixtureInterface
 {
     use VariantRecommendedFactory;
 

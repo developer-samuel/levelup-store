@@ -18,7 +18,7 @@ use App\Presentation\{
     Shared\Validation\PasswordCheckFields
 };
 
-class SignupRequest extends AbstractRequest
+final class SignupRequest extends AbstractRequest
 {
     use SignupInput;
 

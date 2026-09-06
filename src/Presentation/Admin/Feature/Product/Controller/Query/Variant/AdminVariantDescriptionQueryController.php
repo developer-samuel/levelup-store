@@ -22,7 +22,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminVariantDescriptionQueryController extends AbstractFindQueryController
+final class AdminVariantDescriptionQueryController extends AbstractFindQueryController
 {
     /**
      * @param ProductVariantRepositoryContract $variantRepository

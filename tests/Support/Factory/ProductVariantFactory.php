@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Support\Factory;
 
 use App\Core\Domain\{
-    Segment\Brand\Entity\Brand,
+    Segment\Brand\Brand,
     Segment\Category\Entity\Category,
     Segment\Product\Entity\Product,
     Segment\Product\Entity\Variant\ProductVariant,

@@ -10,19 +10,19 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 use App\Core\Ports\{
     Auth\Repository\RefreshTokenRepositoryContract,
-    Segment\Password\Repository\PasswordResetTokenRepositoryContract,
+    Segment\Password\PasswordResetTokenRepositoryContract,
     Segment\User\Repository\UserVerificationTokenRepositoryContract,
     Shared\Logging\ConsoleLoggerContract,
     Shared\Repository\CleanableTokenRepositoryContract
 };
 
 use App\Scheduler\{
-    Abstract\AbstractTask,
-    Message\Token\TokenCleanupMessage
+    Message\Token\TokenCleanupMessage,
+    Task\Abstract\AbstractTask
 };
 
 #[AsMessageHandler]
-class TokenCleanupTask extends AbstractTask
+final class TokenCleanupTask extends AbstractTask
 {
     /**
      * @param RefreshTokenRepositoryContract $refreshTokenRepository

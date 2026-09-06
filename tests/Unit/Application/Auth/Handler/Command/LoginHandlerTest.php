@@ -32,7 +32,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LoginHandler
 */
-class LoginHandlerTest extends TestCase
+final class LoginHandlerTest extends TestCase
 {
     private UserRepositoryContract&MockObject $userRepository;
     private PasswordHasherProviderContract&MockObject $passwordHasherProvider;
@@ -196,7 +196,7 @@ class LoginHandlerTest extends TestCase
     private function assertInvalidCredentials(array $result): void
     {
         $this->assertSame('error', $result['status']);
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(422, $result['code']);
         $this->assertSame('Invalid credentials.', $result['message']);
     }
 }

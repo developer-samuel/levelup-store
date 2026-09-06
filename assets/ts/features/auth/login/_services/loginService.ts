@@ -17,10 +17,10 @@ type LoginResponse = {
  * Logs in via the JWT API endpoint.
  * Stores the access token in memory, refresh token is set as httpOnly cookie by the server.
  */
-async function login(email: string, password: string): Promise<LoginResponse> {
+async function login(email: string, password: string, cf_turnstile_response: string): Promise<LoginResponse> {
   const response = await api.post<LoginResponse>(
     '/api/auth/login',
-    { email, password },
+    { email, password, cf_turnstile_response },
     { withCredentials: true, persistLoading: true },
   )
 
@@ -38,8 +38,9 @@ async function login(email: string, password: string): Promise<LoginResponse> {
 export default async function loginSubmit(formData: FormData): FormSubmitResult {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
+  const cf_turnstile_response = document.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? ''
 
-  const result = await login(email, password)
+  const result = await login(email, password, cf_turnstile_response)
 
   const response: FormResponse = {
     success: result.status === 'success',

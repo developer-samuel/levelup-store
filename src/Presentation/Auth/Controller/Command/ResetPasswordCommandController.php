@@ -23,7 +23,7 @@ use App\Presentation\{
     Auth\Request\ResetPasswordRequest
 };
 
-class ResetPasswordCommandController extends AbstractCrudCommandController
+final class ResetPasswordCommandController extends AbstractCrudCommandController
 {
     /**
      * @param ResetPasswordCommandHandlerContract $resetPasswordCommandHandler

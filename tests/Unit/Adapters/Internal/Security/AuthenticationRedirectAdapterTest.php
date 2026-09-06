@@ -23,7 +23,7 @@ use App\Adapters\Internal\Security\AuthenticationRedirectAdapter;
 /**
  * @coversDefaultClass \App\Adapters\Internal\Security\AuthenticationRedirectAdapter
 */
-class AuthenticationRedirectAdapterTest extends TestCase
+final class AuthenticationRedirectAdapterTest extends TestCase
 {
     private RouterInterface&MockObject $router;
     private AuthenticationRedirectAdapter $adapter;

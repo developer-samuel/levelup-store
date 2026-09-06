@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kit\Utils\Product;
 
-use Kit\Utils\Shared\Generator\IdentifierGenerator;
+use Kit\Utils\Shared\IdentifierGenerator;
 
 final class ProductCatalogCodeGenerator
 {

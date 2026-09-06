@@ -11,13 +11,13 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Application\Segment\Review\Input\ReviewStoreInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class ReviewStoreRequest extends AbstractRequest
+final class ReviewStoreRequest extends AbstractRequest
 {
     use ReviewStoreInput;
 

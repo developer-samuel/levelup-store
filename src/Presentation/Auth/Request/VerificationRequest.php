@@ -13,7 +13,7 @@ use Symfony\{
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class VerificationRequest extends AbstractRequest
+final class VerificationRequest extends AbstractRequest
 {
     public ?string $email = null;
 

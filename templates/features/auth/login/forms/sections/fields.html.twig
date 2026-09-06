@@ -52,4 +52,8 @@
             }}
         </div>
     </div>
+
+    {% if turnstile_enabled %}
+        <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}"></div>
+    {% endif %}
 {% endmacro %}

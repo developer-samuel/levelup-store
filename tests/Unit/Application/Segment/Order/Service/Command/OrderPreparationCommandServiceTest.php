@@ -30,7 +30,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderPreparationCommandService
 */
-class OrderPreparationCommandServiceTest extends TestCase
+final class OrderPreparationCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
     private OrderPreparationQueryContract&MockObject $orderPreparationQuery;

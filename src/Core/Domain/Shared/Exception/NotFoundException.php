@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Shared\Exception;
 
-class NotFoundException extends \Exception
+final class NotFoundException extends \Exception
 {
-    protected int $statusCode = 404;
+    private int $statusCode = 404;
 
     /**
      * @param string $message

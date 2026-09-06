@@ -25,7 +25,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class FooterLinkFixture extends AbstractFixture implements FixtureGroupInterface
+final class FooterLinkFixture extends AbstractFixture implements FixtureGroupInterface
 {
     use FooterLinkFactory;
 

@@ -1,0 +1,33 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🧑‍💻 Dev-Only Services
+#
+# Extends docker-compose.yml with local development tools.
+#
+# Run with:
+#   First time: make dev-setup-build
+#   After:      make dev
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+include:
+  - docker/compose/services/_dev/dozzle.yml
+  - docker/compose/services/_dev/pgAdmin.yml
+  - docker/compose/services/_dev/elasticvue.yml
+  - docker/compose/services/_dev/mailpit.yml
+  - docker/compose/services/_dev/vite.yml
+  - docker/compose/services/_dev/sonarqube.yml
+
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🕸️ Networks & Volumes
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgadmin_data:
+    driver: local
+  sonarqube_data:
+    driver: local
+  sonarqube_logs:
+    driver: local

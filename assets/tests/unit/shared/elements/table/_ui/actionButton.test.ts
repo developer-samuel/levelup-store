@@ -1,4 +1,4 @@
-import { createActionButton } from '@/ts/shared/elements/table/_ui/actionButton'
+import { createActionButton, renderActionButtons } from '@/ts/shared/elements/table/_ui/actionButton'
 
 describe('createActionButton()', () => {
   it('should return a td element', () => {
@@ -38,5 +38,51 @@ describe('createActionButton()', () => {
   it('should set href to empty string', () => {
     const td = createActionButton({ className: 'btn', text: 'Edit' })
     expect(td.querySelector('a')?.getAttribute('href')).toBe('')
+  })
+})
+
+describe('renderActionButtons()', () => {
+  it('should append anchors into the td', () => {
+    const td = document.createElement('td')
+    renderActionButtons(td, [{ className: 'btn', text: 'Edit', href: '/edit/1', attrs: {} }], 1)
+    expect(td.querySelectorAll('a')).toHaveLength(1)
+  })
+
+  it('should set href on each anchor', () => {
+    const td = document.createElement('td')
+    renderActionButtons(td, [{ className: 'btn', text: 'Edit', href: '/edit/5', attrs: {} }], 5)
+    expect(td.querySelector('a')?.getAttribute('href')).toBe('/edit/5')
+  })
+
+  it('should set custom attrs on each anchor', () => {
+    const td = document.createElement('td')
+    renderActionButtons(td, [{ className: 'btn', text: 'Delete', href: '/delete/3', attrs: { 'data-confirm': 'true' } }], 3)
+    expect(td.querySelector('a')?.getAttribute('data-confirm')).toBe('true')
+  })
+
+  it('should render multiple buttons', () => {
+    const td = document.createElement('td')
+    renderActionButtons(
+      td,
+      [
+        { className: 'btn-edit', text: 'Edit', href: '/edit/1', attrs: {} },
+        { className: 'btn-delete', text: 'Delete', href: '/delete/1', attrs: {} },
+      ],
+      1,
+    )
+    expect(td.querySelectorAll('a')).toHaveLength(2)
+  })
+
+  it('should do nothing when buttons array is empty', () => {
+    const td = document.createElement('td')
+    renderActionButtons(td, [], 1)
+    expect(td.querySelectorAll('a')).toHaveLength(0)
+  })
+
+  it('should skip button when querySelector returns null', () => {
+    const td = document.createElement('td')
+    vi.spyOn(HTMLTableCellElement.prototype, 'querySelector').mockReturnValueOnce(null)
+    renderActionButtons(td, [{ className: 'btn', text: 'Edit', href: '/edit/1', attrs: {} }], 1)
+    expect(td.querySelectorAll('a')).toHaveLength(0)
   })
 })

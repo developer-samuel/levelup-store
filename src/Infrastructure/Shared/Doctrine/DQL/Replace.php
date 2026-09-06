@@ -12,7 +12,7 @@ use Doctrine\{
     ORM\Query\TokenType
 };
 
-class Replace extends FunctionNode
+final class Replace extends FunctionNode
 {
     private Node $str;
     private Node $search;

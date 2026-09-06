@@ -15,7 +15,7 @@ use Database\{
 };
 
 use App\Core\Domain\{
-    Segment\Brand\Entity\Brand,
+    Segment\Brand\Brand,
     Segment\Category\Entity\Category,
     Segment\Type\Entity\Type
 };

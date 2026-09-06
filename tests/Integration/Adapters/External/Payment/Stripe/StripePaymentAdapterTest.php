@@ -41,7 +41,7 @@ use App\Adapters\External\Payment\Stripe\StripePaymentAdapter;
  *
  * @phpstan-import-type LineItem from StripePaymentAdapter
 */
-class StripePaymentAdapterTest extends TestCase
+final class StripePaymentAdapterTest extends TestCase
 {
     private UrlGeneratorInterface&MockObject $urlGenerator;
     private StripeSdkContract&MockObject $stripeSdk;

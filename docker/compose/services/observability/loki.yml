@@ -1,0 +1,17 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 📊 Observability - Loki
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  loki:
+    image: grafana/loki:latest
+    container_name: levelup_store_loki
+    restart: unless-stopped
+    volumes:
+      - ${PWD}/docker/config/loki:/etc/loki:ro
+      - loki_data:/loki
+    ports:
+      - '3100:3100'
+    command: -config.file=/etc/loki/loki.yaml
+    networks:
+      - app-network

@@ -23,8 +23,8 @@ use App\Core\Domain\{
 };
 
 use App\Core\Application\{
-    Segment\Order\Builder\Command\OrderCommandBuilder,
-    Segment\Order\Builder\Query\OrderQueryBuilder,
+    Segment\Order\Builder\OrderCommandBuilder,
+    Segment\Order\Builder\OrderQueryBuilder,
     Segment\Order\Service\Command\OrderMutationCommandService
 };
 
@@ -50,7 +50,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderMutationCommandService
 */
-class OrderMutationCommandServiceTest extends TestCase
+final class OrderMutationCommandServiceTest extends TestCase
 {
     private SecurityProviderContract&MockObject $securityProvider;
     private OrderBuildCommandContract&MockObject $orderBuildCommand;

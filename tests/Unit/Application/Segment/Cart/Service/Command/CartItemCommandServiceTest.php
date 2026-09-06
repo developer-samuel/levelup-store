@@ -31,7 +31,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Command\CartItemCommandService
 */
-class CartItemCommandServiceTest extends TestCase
+final class CartItemCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
     private CartItemAvailabilityPolicyContract&MockObject $cartItemPolicy;
@@ -69,7 +69,7 @@ class CartItemCommandServiceTest extends TestCase
             'totalPrice' => '0,00 €',
             'message'    => 'This product is no longer in stock.',
             'success'    => false,
-            'status'     => 400,
+            'status'     => 422,
         ];
 
         $this->cartRenderQuery

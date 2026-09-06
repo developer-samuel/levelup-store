@@ -15,5 +15,8 @@ bash "$(dirname "$0")/tasks/node.sh"
 echo "🟢 Installing PHP extensions..."
 bash "$(dirname "$0")/tasks/php-extensions.sh"
 
+echo "🟢 Installing storage tools..."
+bash "$(dirname "$0")/tasks/storage.sh"
+
 echo "🧹 Cleaning up..."
 rm -rf /var/lib/apt/lists/*

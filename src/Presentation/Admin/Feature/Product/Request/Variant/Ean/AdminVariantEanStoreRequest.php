@@ -11,11 +11,11 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use App\Core\Application\Admin\Segment\Product\Input\Variant\Ean\AdminVariantEanStoreInput;
+use App\Core\Application\Admin\Segment\Product\Input\Ean\AdminVariantEanStoreInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class AdminVariantEanStoreRequest extends AbstractRequest
+final class AdminVariantEanStoreRequest extends AbstractRequest
 {
     use AdminVariantEanStoreInput;
 

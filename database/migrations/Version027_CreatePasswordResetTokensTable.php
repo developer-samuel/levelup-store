@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Passwords\CreatePasswordResetTokenTable;
 
-class Version027_CreatePasswordResetTokensTable extends AbstractMigration
+final class Version027_CreatePasswordResetTokensTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

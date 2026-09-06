@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Product\Handler\Query;
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\{
     Segment\Product\Enum\ProductSortOption,

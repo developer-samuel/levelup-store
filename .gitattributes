@@ -11,3 +11,5 @@
 *.json text diff=json
 *.yml text diff=yaml
 *.yaml text diff=yaml
+
+CHANGELOG.md merge=union

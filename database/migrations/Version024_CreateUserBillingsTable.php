@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Users\CreateUserBillingsTable;
 
-class Version024_CreateUserBillingsTable extends AbstractMigration
+final class Version024_CreateUserBillingsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

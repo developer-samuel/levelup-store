@@ -32,7 +32,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\SignupHandler
 */
-class SignupHandlerTest extends TestCase
+final class SignupHandlerTest extends TestCase
 {
     private SignupCommandContract&MockObject $signupCommand;
     private VerificationCommandContract&MockObject $verificationCommand;
@@ -158,7 +158,7 @@ class SignupHandlerTest extends TestCase
         $result = $this->handler->handle($this->buildPayload());
 
         $this->assertSame('error', $result['status']);
-        $this->assertSame(400, $result['code']);
+        $this->assertSame(422, $result['code']);
     }
 
     private function initMocks(): void

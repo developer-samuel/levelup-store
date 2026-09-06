@@ -11,7 +11,7 @@ use Attribute;
 use App\Core\Application\Shared\Validator\TermsAcceptedConstraintValidator;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class TermsAcceptedConstraint extends Constraint
+final class TermsAcceptedConstraint extends Constraint
 {
     public string $message;
 

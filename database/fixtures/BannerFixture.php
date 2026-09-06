@@ -22,7 +22,7 @@ use App\Core\Ports\{
     Shared\Logging\ConsoleLoggerContract
 };
 
-class BannerFixture extends AbstractFixture implements FixtureGroupInterface
+final class BannerFixture extends AbstractFixture implements FixtureGroupInterface
 {
     use BannerFactory;
 

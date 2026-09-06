@@ -30,7 +30,7 @@ use App\Presentation\{
     Shared\Utils\IdDecoder
 };
 
-class ReviewCommandController extends AbstractCrudCommandController
+final class ReviewCommandController extends AbstractCrudCommandController
 {
     /**
      * @param HmacFieldDecoderContract $hmacFieldDecoder

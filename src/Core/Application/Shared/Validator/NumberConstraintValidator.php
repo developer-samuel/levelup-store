@@ -11,7 +11,7 @@ use App\Core\Application\{
     Shared\Constraint\NumberConstraint
 };
 
-class NumberConstraintValidator extends AbstractConstraintValidator
+final class NumberConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

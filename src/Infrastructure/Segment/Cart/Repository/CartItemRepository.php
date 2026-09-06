@@ -19,7 +19,7 @@ use App\Core\Ports\Segment\Cart\Repository\CartItemRepositoryContract;
 /**
  * @extends ServiceEntityRepository<CartItem>
 */
-class CartItemRepository extends ServiceEntityRepository implements CartItemRepositoryContract
+final class CartItemRepository extends ServiceEntityRepository implements CartItemRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

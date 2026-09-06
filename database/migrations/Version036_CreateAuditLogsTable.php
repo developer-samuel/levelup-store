@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Audit\CreateAuditLogsTable;
 
-class Version036_CreateAuditLogsTable extends AbstractMigration
+final class Version036_CreateAuditLogsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

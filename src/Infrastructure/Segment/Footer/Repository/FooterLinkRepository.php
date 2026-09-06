@@ -21,7 +21,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractRepository<FooterLink>
 */
-class FooterLinkRepository extends AbstractRepository implements FooterLinkRepositoryContract
+final class FooterLinkRepository extends AbstractRepository implements FooterLinkRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

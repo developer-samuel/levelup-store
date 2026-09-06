@@ -25,6 +25,8 @@ use App\Core\Ports\{
 
 final readonly class OrderItemCommandService implements OrderItemCommandContract
 {
+    private const CART_STOCK_REMOVED_MSG = 'Your cart has been updated. Some products are no longer in stock and have been removed.';
+
     /**
      * @param EntityPersistenceContract $entityPersistence
      * @param ProductVariantEanRepositoryContract $eanRepository
@@ -78,7 +80,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
                 $this->cartItemCommand->removeVariant($variant, $cartItems);
 
                 throw new ConflictException(
-                    'Your cart has been updated. Some products are no longer in stock and have been removed.',
+                    self::CART_STOCK_REMOVED_MSG,
                 );
             }
 
@@ -137,7 +139,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
         $stock = $variant->getStock();
         if (!$stock instanceof ProductVariantStock) {
             throw new ConflictException(
-                'Your cart has been updated. Some products are no longer in stock and have been removed.',
+                self::CART_STOCK_REMOVED_MSG,
             );
         }
 
@@ -174,7 +176,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
             $this->cartItemCommand->removeVariant($variant, $cartItems);
 
             throw new ConflictException(
-                'Your cart has been updated. Some products are no longer in stock and have been removed.',
+                self::CART_STOCK_REMOVED_MSG,
             );
         }
     }

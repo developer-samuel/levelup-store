@@ -1,4 +1,5 @@
 import { createTableImage } from '@/ts/shared/elements/table/_ui/image'
+import { storageUrl } from '@/ts/core/storage/storageUrl'
 
 import { renderDatatableRows } from '@/ts/plugins/datatables/_ui/render'
 
@@ -16,7 +17,7 @@ export function renderImages(tbody: HTMLTableSectionElement, items: unknown[]): 
   const images = items as VariantImage[]
   renderDatatableRows(tbody, images, COLUMNS, {
     cellRenderers: {
-      path: (val: unknown) => createTableImage(`/uploads/${String(val ?? '')}`),
+      path: (val: unknown) => createTableImage(storageUrl(String(val ?? ''))),
     },
     emptyText: 'No images found',
   })

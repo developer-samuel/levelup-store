@@ -23,7 +23,7 @@ use Tests\{
 /**
  * @coversDefaultClass \App\Infrastructure\Segment\User\Repository\UserRepository
 */
-class UserRepositoryTest extends KernelTestCase
+final class UserRepositoryTest extends KernelTestCase
 {
     use Persistence;
     use DateRange;

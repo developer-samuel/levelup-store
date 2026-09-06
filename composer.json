@@ -7,13 +7,17 @@
     "php": ">=8.2 <8.4",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "async-aws/s3": "*",
     "developer-samuel/php-codestats": "^1.1",
     "doctrine/dbal": "^3",
     "doctrine/doctrine-bundle": "^2.13",
     "doctrine/doctrine-migrations-bundle": "^3.4",
     "doctrine/orm": "^3.6",
     "dragonmantank/cron-expression": "^3.6",
+    "elasticsearch/elasticsearch": "^8",
     "knplabs/knp-snappy-bundle": "^1.10",
+    "league/flysystem-aws-s3-v3": "*",
+    "league/flysystem-bundle": "*",
     "lexik/jwt-authentication-bundle": "^3.2",
     "nelmio/cors-bundle": "^2.5",
     "paragonie/sodium_compat": "^2.1",
@@ -40,6 +44,7 @@
     "symfony/http-kernel": "7.4.*",
     "symfony/intl": "7.4.*",
     "symfony/mailer": "7.4.*",
+    "symfony/mercure-bundle": "^0.5.0",
     "symfony/messenger": "7.4.*",
     "symfony/mime": "7.4.*",
     "symfony/monolog-bundle": "^3.0",
@@ -93,7 +98,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "Tests\\": "tests/",
+      "Tools\\Rector\\Rules\\": "tools/rector/rules/"
     }
   },
   "replace": {
@@ -114,118 +120,143 @@
     },
     "post-install-cmd": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/env/generate/launcher.php",
-      "php scripts/symfony/env/secret/launcher.php",
-      "php scripts/symfony/jwt/generate/launcher.php",
+      "bin/run php scripts/symfony/env-generate/launcher.php",
+      "bin/run php scripts/symfony/env-secret/launcher.php",
+      "bin/run php scripts/symfony/jwt-generate/launcher.php",
+      "bin/run php scripts/tasks/prepare-var/launcher.php",
+      "bin/run php scripts/tasks/set-permissions/launcher.php",
       "@auto-scripts",
-      "php scripts/tasks/prepare-temp/launcher.php",
-      "php scripts/tasks/prepare-assets/launcher.php"
+      "bin/run php scripts/tasks/prepare-temp/launcher.php",
+      "bin/run php scripts/tasks/prepare-assets/launcher.php",
+      "bin/run php scripts/tasks/generate-uml/launcher.php"
     ],
     "post-update-cmd": [
       "Composer\\Config::disableProcessTimeout",
+      "bin/run php scripts/tasks/prepare-var/launcher.php",
+      "bin/run php scripts/tasks/set-permissions/launcher.php",
       "@auto-scripts",
-      "php scripts/tasks/prepare-temp/launcher.php",
-      "php scripts/tasks/prepare-assets/launcher.php"
+      "bin/run php scripts/tasks/prepare-temp/launcher.php",
+      "bin/run php scripts/tasks/prepare-assets/launcher.php"
     ],
     "env:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/env/generate/launcher.php"
+      "bin/run php scripts/symfony/env-generate/launcher.php"
     ],
     "env:secret": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/env/secret/launcher.php"
+      "bin/run php scripts/symfony/env-secret/launcher.php"
     ],
     "secrets:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "php bin/console secrets:generate-keys"
+      "bin/run php bin/console secrets:generate-keys"
     ],
     "jwt:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/jwt/generate/launcher.php"
+      "bin/run php scripts/symfony/jwt-generate/launcher.php"
+    ],
+    "var:prepare": [
+      "Composer\\Config::disableProcessTimeout",
+      "bin/run php scripts/tasks/prepare-var/launcher.php"
+    ],
+    "permissions:set": [
+      "Composer\\Config::disableProcessTimeout",
+      "bin/run php scripts/tasks/set-permissions/launcher.php"
     ],
     "temp:prepare": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/tasks/prepare-temp/launcher.php"
+      "bin/run php scripts/tasks/prepare-temp/launcher.php"
     ],
     "assets:prepare": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/tasks/prepare-assets/launcher.php"
+      "bin/run php scripts/tasks/prepare-assets/launcher.php"
+    ],
+    "uml:generate": [
+      "Composer\\Config::disableProcessTimeout",
+      "bin/run php scripts/tasks/generate-uml/launcher.php"
     ],
     "cache:clear": [
       "Composer\\Config::disableProcessTimeout",
-      "php bin/console cache:clear"
+      "bin/run php bin/console cache:clear"
     ],
     "cache:warmup": [
       "Composer\\Config::disableProcessTimeout",
-      "php bin/console cache:warmup"
+      "bin/run php bin/console cache:warmup"
     ],
     "db-setup": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/symfony/database/launcher.php"
+      "bin/run php scripts/symfony/database/launcher.php"
+    ],
+    "elasticsearch:reindex": [
+      "Composer\\Config::disableProcessTimeout",
+      "bin/run php bin/console app:elasticsearch:reindex"
     ],
     "scheduler:run": [
       "Composer\\Config::disableProcessTimeout",
-      "php bin/console messenger:consume scheduler_default"
+      "bin/run php bin/console messenger:consume scheduler_default"
     ],
     "deptrac": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/tools/deptrac/launcher.php"
+      "bin/run php scripts/tools/deptrac/launcher.php"
     ],
     "php-md": [
       "Composer\\Config::disableProcessTimeout",
-      "phpmd src kit xml phpmd.xml"
+      "bin/run php vendor/bin/phpmd src kit xml phpmd.xml"
     ],
     "php-stan": [
       "Composer\\Config::disableProcessTimeout",
-      "phpstan analyse --memory-limit=1G"
+      "bin/run php vendor/bin/phpstan analyse --memory-limit=1G"
     ],
     "php-cpd": [
       "Composer\\Config::disableProcessTimeout",
-      "phpcpd src database kit"
+      "bin/run php vendor/bin/phpcpd src database kit"
     ],
     "php-loc": [
       "Composer\\Config::disableProcessTimeout",
-      "phploc src database kit"
+      "bin/run php vendor/bin/phploc src database kit"
     ],
     "php-metrics": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/tools/php-metrics/launcher.php"
+      "bin/run php scripts/tools/php-metrics/launcher.php"
     ],
     "pdepend": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/tools/pdepend/launcher.php"
+      "bin/run php scripts/tools/pdepend/launcher.php"
     ],
     "php-cs-fixer:fix": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/tools/php-cs-fixer/launcher.php"
+      "bin/run php scripts/tools/php-cs-fixer/launcher.php"
     ],
     "rector:fix": [
       "Composer\\Config::disableProcessTimeout",
-      "rector process"
+      "bin/run php vendor/bin/rector process"
     ],
     "php-unit": [
       "Composer\\Config::disableProcessTimeout",
-      "php scripts/tools/php-unit/launcher.php"
+      "bin/run php scripts/tools/php-unit/launcher.php"
+    ],
+    "sonar": [
+      "Composer\\Config::disableProcessTimeout",
+      "bin/run php scripts/tools/sonar/launcher.php"
     ],
     "lint:twig": [
       "Composer\\Config::disableProcessTimeout",
-      "php bin/console lint:twig templates/"
+      "bin/run php bin/console lint:twig templates/"
     ],
     "count-stats": [
       "Composer\\Config::disableProcessTimeout",
-      "php vendor/bin/count-stats"
+      "bin/run php vendor/bin/count-stats"
     ],
     "count-files": [
       "Composer\\Config::disableProcessTimeout",
-      "php vendor/bin/count-files"
+      "bin/run php vendor/bin/count-files"
     ],
     "count-lines": [
       "Composer\\Config::disableProcessTimeout",
-      "php vendor/bin/count-lines"
+      "bin/run php vendor/bin/count-lines"
     ],
     "count-chars": [
       "Composer\\Config::disableProcessTimeout",
-      "php vendor/bin/count-chars"
+      "bin/run php vendor/bin/count-chars"
     ],
     "serve": [
       "Composer\\Config::disableProcessTimeout",
@@ -260,6 +291,7 @@
     "symfony/maker-bundle": "^1.0",
     "symfony/phpunit-bridge": "^7.4",
     "symfony/stopwatch": "7.4.*",
-    "symfony/web-profiler-bundle": "7.4.*"
+    "symfony/web-profiler-bundle": "7.4.*",
+    "symplify/rule-doc-generator-contracts": "*"
   }
 }

@@ -17,7 +17,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminOrderQueryController extends AbstractQueryController
+final class AdminOrderQueryController extends AbstractQueryController
 {
     /**
      * @param GetOrderDetailQueryHandlerContract $getOrderDetailQueryHandler

@@ -23,26 +23,6 @@ If you have a `Makefile` or want to manage Docker manually, these commands cover
 ### Core Commands
 
 ```bash
-# Start all services in foreground
-make up
-# or
-docker compose up
-
-# Start all services in background (detached)
-make up-detached
-# or
-docker compose up -d
-
-# Stop all services
-make down
-# or
-docker compose down
-
-# Stop and clean all services including volumes and orphan containers
-make down-clean
-# or
-docker compose down --volumes --remove-orphans
-
 # Clean ALL containers and images (⚠️ destructive!)
 make clean-all
 # or
@@ -50,88 +30,93 @@ docker ps -q | xargs -r docker stop
 docker ps -aq | xargs -r docker rm -f
 docker images -aq | xargs -r docker rmi -f
 
-# Build/rebuild images
-make build
-# or
-docker compose build
-
-# Force recreate all services detached (stop old, remove conflicts)
-make force
-# or
-docker compose up -d --force-recreate
-
-# Force rebuild all images and recreate all services
-make build-force
-# or
-docker compose build
-docker compose up -d --force-recreate
-
-# Build/rebuild all Docker images without using cache
+# Build/rebuild base images without cache
 make build-cache
 # or
 docker compose build --no-cache
-
-# Restart all services (clean + up detached)
-make restart
-# or
-docker compose down --volumes --remove-orphans
-docker compose up
 ```
 
 ### Setup Commands
 
 ```bash
 # Build and start setup containers (first time or Dockerfile changes)
+# Stops any running stack first to avoid stale unhealthy containers
 make setup-build
 # or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose --profile setup up --build
-
-# Start setup containers without rebuilding
-make setup-up
-# or
-docker compose --profile setup up
-
-# Clean and rebuild setup containers (with cache)
-make setup-restart-build
-# or
-docker compose down --volumes --remove-orphans
-docker compose --profile setup up --build
-
-# Clean and rebuild setup containers (without cache)
-make setup-restart-build-without-cache
-# or
-docker compose down --volumes --remove-orphans
-docker compose build --no-cache
-docker compose --profile setup up --build
-
-# Restart setup containers (clean + start without rebuild)
-make setup-restart
-# or
-docker compose down --volumes --remove-orphans
-docker compose --profile setup up
+docker compose up -d
 ```
 
 ### Development Commands
 
+All services including dev tools - Vite, pgAdmin, Elasticvue, Mailpit, Dozzle, SonarQube.
+
 ```bash
-# Start dev profile services in foreground
+# Start all services (base + dev) in foreground
+# Stops any running stack first to avoid stale unhealthy containers
 make dev
 # or
-docker compose --profile dev up
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 
-# Start dev profile services detached
-make dev-detached
+# Force rebuild all services (base + dev)
+make dev-build-force
 # or
-docker compose --profile dev up -d
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --force-recreate
+
+# Stop all services (base + dev)
+make dev-down
+# or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+
+# Stop and clean all services including volumes and orphan containers (base + dev)
+make dev-down-clean
+# or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
+```
+
+### Dev Setup Commands
+
+```bash
+# Build and start setup containers + all dev services (first time or Dockerfile changes)
+# Stops any running stack first to avoid stale unhealthy containers
+make dev-setup-build
+# or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+# Clean and rebuild setup containers + dev services (with cache)
+make dev-setup-restart-build
+# or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
+docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+# Clean and rebuild setup containers + dev services (without cache)
+make dev-setup-restart-build-without-cache
+# or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
+docker compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache
+docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 ```
 
 ### Utility Commands
 
 ```bash
-# Show logs of all services
+# Show logs of base services
 make logs
 # or
 docker compose logs -f
+
+# Show logs of all services (base + dev)
+make logs-dev
+# or
+docker compose -f docker-compose.yml -f docker-compose.dev.yml logs -f
 ```
 
 ## 🩺 Health Check

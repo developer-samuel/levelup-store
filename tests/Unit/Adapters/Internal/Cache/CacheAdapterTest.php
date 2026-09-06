@@ -20,7 +20,7 @@ use App\Adapters\Internal\Cache\CacheAdapter;
 /**
  * @coversDefaultClass \App\Adapters\Internal\Cache\CacheAdapter
 */
-class CacheAdapterTest extends TestCase
+final class CacheAdapterTest extends TestCase
 {
     private RedisCacheGatewayContract&MockObject $redis;
     private CacheAdapter $adapter;

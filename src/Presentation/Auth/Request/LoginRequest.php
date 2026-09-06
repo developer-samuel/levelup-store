@@ -13,7 +13,7 @@ use App\Core\Application\Auth\Input\LoginInput;
 
 use App\Presentation\Abstract\Request\AbstractRequest;
 
-class LoginRequest extends AbstractRequest
+final class LoginRequest extends AbstractRequest
 {
     use LoginInput;
 

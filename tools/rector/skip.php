@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Rector\{
     CodingStyle\Rector\ClassLike\NewlineBetweenClassLikeStmtsRector,
     CodingStyle\Rector\If_\NullableCompareToNullRector,
+    CodingStyle\Rector\Stmt\NewlineAfterStatementRector,
     DeadCode\Rector\ClassMethod\RemoveParentDelegatingConstructorRector,
     DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector,
     DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector,
@@ -26,6 +27,7 @@ return [
     RemoveUselessReturnTagRector::class,
 
     // CodingStyle
+    NewlineAfterStatementRector::class,
     NewlineBetweenClassLikeStmtsRector::class,
     NullableCompareToNullRector::class,
 

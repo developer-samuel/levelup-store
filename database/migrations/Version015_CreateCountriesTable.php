@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Countries\CreateCountriesTable;
 
-class Version015_CreateCountriesTable extends AbstractMigration
+final class Version015_CreateCountriesTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

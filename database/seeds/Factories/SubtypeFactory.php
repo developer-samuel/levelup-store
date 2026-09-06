@@ -12,7 +12,7 @@ use App\Core\Domain\{
     Segment\Type\Entity\Type
 };
 
-use App\Core\Ports\Segment\Type\Repository\TypeRepositoryContract;
+use App\Core\Ports\Segment\Type\TypeRepositoryContract;
 
 trait SubtypeFactory
 {

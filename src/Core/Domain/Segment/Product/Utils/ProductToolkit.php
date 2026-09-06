@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Segment\Product\Utils;
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\{
     ProductVariant,

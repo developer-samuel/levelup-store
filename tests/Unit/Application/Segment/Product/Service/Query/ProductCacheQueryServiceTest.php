@@ -23,7 +23,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductCacheQueryService
 */
-class ProductCacheQueryServiceTest extends TestCase
+final class ProductCacheQueryServiceTest extends TestCase
 {
     private ProductTitleQueryContract&MockObject $productTitleQuery;
     private ProductRouteQueryContract&MockObject $productRouteQuery;

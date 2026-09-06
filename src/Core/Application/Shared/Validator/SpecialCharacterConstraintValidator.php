@@ -11,7 +11,7 @@ use App\Core\Application\{
     Shared\Constraint\SpecialCharacterConstraint
 };
 
-class SpecialCharacterConstraintValidator extends AbstractConstraintValidator
+final class SpecialCharacterConstraintValidator extends AbstractConstraintValidator
 {
     /**
      * @param mixed $value

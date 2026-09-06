@@ -23,12 +23,11 @@ composer db-setup
 ### Frontend
 
 - **Vitest** - Unit, Integration, and Functional testing for TypeScript.  
-  Run tests via `npm run vitest` or `pnpm vitest`.  
-  For continuous testing during development, use `npm run vitest:watch` or `pnpm vitest:watch` to automatically rerun tests on file changes.
+  Run tests via `pnpm vitest` or `npm run vitest`.  
+  For continuous testing during development, use `pnpm vitest:watch` or `npm run vitest:watch` to automatically rerun tests on file changes.
 
 - **Playwright** - End-to-end testing against a running local server.  
-  Run tests via `npx playwright test`.  
-  Requires the `levelup_store_test` database (see [Integration Tests - Database](#integration-tests---database) above).  
+  Run tests via `pnpm e2e` or `npm run e2e`.  
   Configure the target URL and test user credentials in `.env.test`:
 
   ```env

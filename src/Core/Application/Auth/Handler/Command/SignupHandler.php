@@ -24,7 +24,7 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-class SignupHandler extends AbstractCommandHandler implements SignupHandlerContract
+final class SignupHandler extends AbstractCommandHandler implements SignupHandlerContract
 {
     /**
      * @param SignupCommandContract $signupCommand

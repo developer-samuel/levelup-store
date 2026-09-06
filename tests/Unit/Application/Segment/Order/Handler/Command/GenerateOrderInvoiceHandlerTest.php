@@ -17,8 +17,8 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Order\Handler\Command\GenerateOrderInvoiceHandler;
 
 use App\Core\Ports\{
-    Gateways\Internal\Segment\Order\OrderInvoiceGatewayContract,
-    Security\Policy\SecurityPolicyContract,
+    Gateways\Internal\Order\OrderInvoiceGatewayContract,
+    Security\SecurityPolicyContract,
     Segment\Order\Handler\Command\GenerateOrderInvoiceHandlerContract,
     Segment\Order\Service\Query\OrderInvoiceQueryContract,
     Shared\FileSystem\TempFileManagerContract,
@@ -28,7 +28,7 @@ use App\Core\Ports\{
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\GenerateOrderInvoiceHandler
 */
-class GenerateOrderInvoiceHandlerTest extends TestCase
+final class GenerateOrderInvoiceHandlerTest extends TestCase
 {
     private SecurityPolicyContract&MockObject $securityPolicy;
     private OrderInvoiceGatewayContract&MockObject $orderInvoiceAdapter;

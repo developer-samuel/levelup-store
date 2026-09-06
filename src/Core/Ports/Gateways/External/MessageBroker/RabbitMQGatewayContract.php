@@ -9,6 +9,11 @@ interface RabbitMQGatewayContract
     /**
      * @return bool
     */
+    public function isEnabled(): bool;
+
+    /**
+     * @return bool
+    */
     public function isConnected(): bool;
 
     /**

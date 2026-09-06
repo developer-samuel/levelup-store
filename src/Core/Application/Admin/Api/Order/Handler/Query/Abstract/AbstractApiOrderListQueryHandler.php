@@ -9,7 +9,7 @@ use App\Core\Domain\{
     Segment\Order\Enum\OrderStatus
 };
 
-use App\Core\Application\Admin\Abstract\Handler\AbstractAdminApiListQueryHandler;
+use App\Core\Application\Admin\Abstract\AbstractAdminApiListQueryHandler;
 
 use App\Core\Ports\{
     Segment\Order\Repository\OrderRepositoryContract,

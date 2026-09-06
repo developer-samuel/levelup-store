@@ -17,7 +17,7 @@ use App\Presentation\{
     Shared\Responder\ExceptionResponder
 };
 
-class AdminProductSubtypeQueryController extends AbstractFindQueryController
+final class AdminProductSubtypeQueryController extends AbstractFindQueryController
 {
     /**
      * @param ProductRepositoryContract $productRepository

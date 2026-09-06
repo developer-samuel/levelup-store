@@ -1,0 +1,15 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🔍 Dev Tool - Dozzle (Container Log Viewer)
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: levelup_store_dozzle
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '8070:8080'
+    networks:
+      - app-network

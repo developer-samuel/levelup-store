@@ -4,7 +4,7 @@
             <div class="product-item__box-top">
                 <div class="product-item__box-image">
                     <img
-                        src="{{ asset(item.imagePath) }}"
+                        src="{{ storage_url(item.imagePath) }}"
                     alt="{{ item.imagePath ? 'Image: ' ~ item.imagePath : 'Image not found' }}"
                     >
                 </div>

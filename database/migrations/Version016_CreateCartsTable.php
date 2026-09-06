@@ -11,7 +11,7 @@ use Doctrine\{
 
 use Database\Schemas\Tables\Carts\CreateCartsTable;
 
-class Version016_CreateCartsTable extends AbstractMigration
+final class Version016_CreateCartsTable extends AbstractMigration
 {
     /**
      * Get description of the migration.

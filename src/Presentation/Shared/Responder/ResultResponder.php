@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Presentation\Shared\Utils\MessageResolver;
 
-use Kit\Utils\Shared\Sanitizer\DataSanitizer;
+use Kit\Utils\Shared\DataSanitizer;
 
 final class ResultResponder
 {
@@ -74,7 +74,7 @@ final class ResultResponder
     */
     private static function resolveStatusCode(array $result): int
     {
-        $default = JsonResponse::HTTP_BAD_REQUEST;
+        $default = JsonResponse::HTTP_UNPROCESSABLE_ENTITY;
 
         if (isset($result['code'])) {
             $code = DataSanitizer::sanitizeInt($result['code']);

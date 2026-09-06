@@ -18,7 +18,7 @@ use App\Infrastructure\{
 /**
  * @extends AbstractVariantRepository<ProductVariantImage>
 */
-class ProductVariantImageRepository extends AbstractVariantRepository implements ProductVariantImageRepositoryContract
+final class ProductVariantImageRepository extends AbstractVariantRepository implements ProductVariantImageRepositoryContract
 {
     /**
      * @param ManagerRegistry $registry

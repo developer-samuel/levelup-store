@@ -11,13 +11,13 @@ use App\Core\Domain\{
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
-    Security\Policy\SecurityPolicyContract,
+    Security\SecurityPolicyContract,
     Segment\Review\Handler\Command\ToggleReviewRatingHandlerContract,
     Segment\Review\Service\Command\ReviewRatingCommandContract,
     Shared\Logging\AppLoggerContract
 };
 
-class ToggleReviewRatingHandler extends AbstractCommandHandler implements ToggleReviewRatingHandlerContract
+final class ToggleReviewRatingHandler extends AbstractCommandHandler implements ToggleReviewRatingHandlerContract
 {
     /**
      * @param SecurityPolicyContract $securityPolicy

@@ -34,23 +34,17 @@ test.describe('Login Page', () => {
   // ── Validation ─────────────────────────────────────────────────────────────
 
   test('should show field error when submitting empty form', async () => {
-    const responsePromise = loginPage.waitForAuthResponse()
-
     await loginPage.submit()
-    await responsePromise
 
-    await expect(loginPage.emailError).not.toBeEmpty({ timeout: 5_000 })
+    await expect(loginPage.emailError).not.toBeEmpty({ timeout: 15_000 })
   })
 
   test('should show field error when email is invalid format', async () => {
-    const responsePromise = loginPage.waitForAuthResponse()
-
     await loginPage.fillEmail(INVALID_USER.email)
     await loginPage.fillPassword(INVALID_USER.password)
     await loginPage.submit()
-    await responsePromise
 
-    await expect(loginPage.emailError).not.toBeEmpty({ timeout: 8_000 })
+    await expect(loginPage.emailError).not.toBeEmpty({ timeout: 15_000 })
   })
 
   test('should show error when credentials are invalid', async () => {

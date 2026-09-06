@@ -53,7 +53,9 @@ export class LoginPage extends BasePage {
 
   async submit(): Promise<void> {
     await this.disableNativeValidation(this.form)
-    await this.submitBtn.click()
+    await this.form.evaluate((f) => {
+      f.requestSubmit()
+    })
   }
 
   async login(email: string, password: string): Promise<void> {

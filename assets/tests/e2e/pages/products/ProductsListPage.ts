@@ -87,7 +87,11 @@ export class ProductsListPage extends BasePage {
   }
 
   async selectSort(value: string): Promise<void> {
-    await this.sortSelect.selectOption(value)
+    await this.sortSelect.evaluate((el, val) => {
+      const select = el as HTMLSelectElement
+      select.value = val
+      select.dispatchEvent(new Event('change', { bubbles: true }))
+    }, value)
 
     await this.page.waitForFunction((v) => new URL(window.location.href).searchParams.get('sort') === v, value, {
       timeout: 10_000,
@@ -103,9 +107,7 @@ export class ProductsListPage extends BasePage {
       this.page.waitForResponse((resp) => resp.url().includes('/products') && resp.status() === 200, {
         timeout: 15_000,
       }),
-      this.loadMoreBtn.evaluate((el) => {
-        el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
-      }),
+      this.loadMoreBtn.click({ force: true }),
     ])
 
     await this.page.waitForFunction((n) => document.querySelectorAll('.product-item').length > n, countBefore, {
@@ -143,6 +145,8 @@ export class ProductsListPage extends BasePage {
   }
 
   async checkBrand(index: number): Promise<void> {
+    await this.openFilterIfHidden()
+
     await this.brandCheckboxes.nth(index).evaluate((el) => {
       const input = el as HTMLInputElement
       input.checked = true
@@ -153,6 +157,8 @@ export class ProductsListPage extends BasePage {
   }
 
   async uncheckBrand(index: number): Promise<void> {
+    await this.openFilterIfHidden()
+
     await this.brandCheckboxes.nth(index).evaluate((el) => {
       const input = el as HTMLInputElement
       input.checked = false
@@ -163,6 +169,8 @@ export class ProductsListPage extends BasePage {
   }
 
   async setMinPrice(value: string): Promise<void> {
+    await this.openFilterIfHidden()
+
     await this.minPriceInput.evaluate((el, val) => {
       ;(el as HTMLInputElement).value = val
     }, value)
@@ -175,6 +183,8 @@ export class ProductsListPage extends BasePage {
   }
 
   async setMaxPrice(value: string): Promise<void> {
+    await this.openFilterIfHidden()
+
     await this.maxPriceInput.evaluate((el, val) => {
       ;(el as HTMLInputElement).value = val
     }, value)
