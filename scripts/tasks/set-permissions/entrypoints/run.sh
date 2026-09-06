@@ -46,6 +46,13 @@ if [ -d "node_modules/" ]; then
     chmod +x node_modules/.bin/* 2>/dev/null || true
 fi
 
+# ─── Frontend package files ───────────────────────────────────────────────────
+
+echo "Fixing frontend package file permissions..."
+for f in package.json package-lock.json pnpm-lock.yaml pnpm-workspace.yaml; do
+    [ -f "$f" ] && chmod 644 "$f" || true
+done
+
 # ─── public/build/ ────────────────────────────────────────────────────────────
 
 echo "Fixing public/build ownership and permissions..."
