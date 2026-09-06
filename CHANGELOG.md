@@ -1,7 +1,5 @@
 ## [1.5.0] - 2026-09-06
 
-## [1.5.0] - 2026-09-06
-
 ### 🔐 Security
 - Token blacklist stored in Redis with configurable TTL
 - Refresh token reuse detection - invalidates entire token family on reuse attempt
