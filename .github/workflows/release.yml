@@ -23,8 +23,21 @@ jobs:
       - name: Prepend release notes to CHANGELOG.md
         env:
           BODY: ${{ github.event.release.body }}
+          TAG: ${{ github.event.release.tag_name }}
+          DATE: ${{ github.event.release.published_at }}
         run: |
-          ENTRY="${BODY}"
+          TAG_CLEAN="${TAG#v}"
+          DATE_SHORT="${DATE:0:10}"
+
+          # Skip if this version header already exists - prevents duplicate entries
+          if [ -f CHANGELOG.md ] && grep -qF "## [$TAG_CLEAN]" CHANGELOG.md; then
+            echo "Version $TAG_CLEAN already exists in CHANGELOG.md - skipping."
+            exit 0
+          fi
+
+          # Auto-generate version header - only write the release description, not the version
+          ENTRY="## [$TAG_CLEAN] - $DATE_SHORT"$'\n\n'"$BODY"
+
           if [ -f CHANGELOG.md ]; then
             printf '%s\n\n%s' "$ENTRY" "$(cat CHANGELOG.md)" > CHANGELOG.md
           else
