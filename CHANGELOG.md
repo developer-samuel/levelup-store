@@ -1,3 +1,21 @@
+## [1.5.0] - 2026-09-06
+
+### 🔐 Security
+- Token blacklist stored in Redis with configurable TTL
+- Refresh token reuse detection - invalidates entire token family on reuse attempt
+- Logout revokes active refresh token immediately
+
+### 🐛 Fixes
+- Resolved pnpm permission conflict and missing frontend build in setup
+
+## [1.4.1] - 2026-09-06
+
+### 🐛 Fixes
+- Removed node_modules chown from Docker permissions script to prevent pnpm install failures on host
+- Added pnpm via corepack to PHP container
+- Added frontend build step to Docker setup flow
+- Added chmod 644 for pnpm package files in permissions scripts
+
 ## [1.4.0] - 2026-09-06
 
 ### 🚀 Features

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-TOTAL=6
+TOTAL=7
 source /usr/local/bin/scripts/helpers/step.sh
 
 echo ""
@@ -20,6 +20,9 @@ step "Running migrations and seeding database..."
 
 step "Setting up uploads..."
 /usr/local/bin/scripts/bootstrap/uploads-setup.sh
+
+step "Building frontend assets..."
+/usr/local/bin/scripts/entrypoints/app/build.sh
 
 step "Clearing caches and optimizing configuration..."
 /usr/local/bin/scripts/bootstrap/optimize.sh

@@ -31,15 +31,16 @@ if [ -d /var/www/config/jwt ]; then
   chmod 644 /var/www/config/jwt/private.pem /var/www/config/jwt/public.pem 2>/dev/null || true
 fi
 
+# 📦 Frontend package files — readable by www-data, writable by host user only
+for f in package.json package-lock.json pnpm-lock.yaml pnpm-workspace.yaml; do
+  [ -f /var/www/$f ] && chmod 644 /var/www/$f
+done
+
 # 📢 Hot reload file
 [ -f /var/www/public/hot ] && chown www-data:www-data /var/www/public/hot
 
 # 📦 Frontend build assets directory
 [ -d /var/www/public/build ] && chown -R www-data:www-data /var/www/public/build
-
-# 📦 Node-related files
-[ -f /var/www/package-lock.json ] && chown www-data:www-data /var/www/package-lock.json
-[ -d /var/www/node_modules ] && chown -R www-data:www-data /var/www/node_modules
 
 # 📜 All project scripts - must be executable (only at runtime when /var/www is mounted)
 if [ -d /var/www/scripts ]; then
@@ -54,11 +55,6 @@ fi
 # 📦 Composer vendor binaries
 if [ -d /var/www/vendor/bin ]; then
   find /var/www/vendor/bin -type f -exec chmod +x {} \;
-fi
-
-# 📦 Node modules binaries
-if [ -d /var/www/node_modules/.bin ]; then
-  find /var/www/node_modules/.bin -type f -exec chmod +x {} \;
 fi
 
 echo "✅ Permissions and logging setup complete."
