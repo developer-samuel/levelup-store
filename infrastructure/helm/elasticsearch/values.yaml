@@ -27,3 +27,8 @@ elasticsearch:
 
   security:
     enabled: false
+
+  # Elasticsearch requires vm.max_map_count=262144 - needs privileged initContainer
+  # Kyverno exception added in kyverno-policies
+  sysctlImage:
+    enabled: true

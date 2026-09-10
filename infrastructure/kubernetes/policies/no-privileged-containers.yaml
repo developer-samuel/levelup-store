@@ -18,6 +18,14 @@ spec:
           - resources:
               kinds: [Pod]
               namespaces: [levelup-store]
+      exclude:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [levelup-store]
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: elasticsearch
       validate:
         message: "Privileged containers are not allowed."
         pattern:

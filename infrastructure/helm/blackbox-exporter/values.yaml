@@ -13,9 +13,7 @@ prometheus-blackbox-exporter:
         labels:
           app: levelup-store
 
-      # Health endpoint
-      # url: set via make blackbox-install (argocd app set from APP_DOMAIN)
-      - name: levelup-store-health
+      - name: levelup-store-home
         module: https_2xx
         labels:
           app: levelup-store

@@ -16,7 +16,7 @@ spec:
       match:
         any:
           - resources:
-              kinds: [Pod]
+              kinds: [Deployment]
               namespaces: [levelup-store]
       validate:
         message: "Image tag 'latest' is not allowed. Use a specific SHA tag (e.g. ghcr.io/user/app:abc1234)."
