@@ -1,3 +1,10 @@
+# PostgreSQL
+postgresql:
+  enabled: true
+  auth:
+    database: levelup_store
+    username: postgres
+
 # Redis
 redis:
   enabled: true
@@ -9,6 +16,8 @@ redis:
 # RabbitMQ
 rabbitmq:
   enabled: true
+  auth:
+    username: levelup_store
   metrics:
     enabled: true
 
