@@ -1,0 +1,85 @@
+opentelemetry-collector:
+  # DaemonSet - one collector per node
+  mode: daemonset
+
+  image:
+    repository: otel/opentelemetry-collector-contrib
+
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    processors:
+      # Batches messages for efficiency
+      batch:
+        timeout: 5s
+        send_batch_size: 1024
+
+      # Limits memory - drops traces if memory is full
+      memory_limiter:
+        check_interval: 1s
+        limit_mib: 512
+        spike_limit_mib: 100
+
+      # Adds resource attributes (namespace, pod, node)
+      resource:
+        attributes:
+          - key: k8s.cluster.name
+            value: levelup-store
+            action: insert
+
+    exporters:
+      # Sends traces to Grafana Tempo
+      otlp/tempo:
+        endpoint: tempo.tempo.svc.cluster.local:4317
+        tls:
+          # Internal cluster traffic (pod-to-pod) - Tempo has no TLS configured
+          insecure: true
+
+      # Sends metrics to Prometheus
+      prometheus:
+        endpoint: 0.0.0.0:8889
+
+      # Debug - visible in collector logs
+      debug:
+        verbosity: basic
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter, resource, batch]
+          exporters: [otlp/tempo]
+        metrics:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [prometheus]
+
+  # Ports for receiving traces from PHP app
+  ports:
+    otlp:
+      enabled: true
+      containerPort: 4317
+      servicePort: 4317
+      protocol: TCP
+    otlp-http:
+      enabled: true
+      containerPort: 4318
+      servicePort: 4318
+      protocol: TCP
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 250m
+      memory: 640Mi
+
+  serviceMonitor:
+    enabled: true

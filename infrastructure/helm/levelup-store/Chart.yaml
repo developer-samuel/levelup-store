@@ -1,0 +1,6 @@
+apiVersion: v2
+name: levelup-store
+description: LevelUp Store - Symfony e-commerce application
+type: application
+version: 0.1.0
+appVersion: "1.4.0"

@@ -1,0 +1,31 @@
+# Redis
+redis:
+  enabled: true
+  auth:
+    enabled: true
+  metrics:
+    enabled: true
+
+# RabbitMQ
+rabbitmq:
+  enabled: true
+  metrics:
+    enabled: true
+
+# Elasticsearch
+elasticsearch:
+  enabled: true
+
+# MinIO
+minio:
+  enabled: true
+  defaultBuckets: levelup-store,pg-backups
+
+# Mercure
+mercure:
+  enabled: true
+  url: http://mercure/.well-known/mercure
+
+# Turnstile
+turnstile:
+  enabled: true

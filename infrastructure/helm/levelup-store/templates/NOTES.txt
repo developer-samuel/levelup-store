@@ -1,0 +1,30 @@
+LevelUp Store has been deployed successfully!
+
+Application URL:
+  https://{{ .Values.ingress.host }}
+
+Image deployed:
+  {{ .Values.app.image.tag }}
+
+Components:
+  ✓ App:           {{ .Values.app.replicas }} replica(s)
+  ✓ Worker:        messenger:consume async
+  ✓ Scheduler:     scheduler:run (every 15 minutes)
+  ✓ PostgreSQL:    levelup-store-postgresql:5432
+  ✓ Redis:         levelup-store-redis-master:6379
+  ✓ RabbitMQ:      levelup-store-rabbitmq:5672
+  ✓ Elasticsearch: levelup-store-elasticsearch:9200
+  ✓ MinIO:         levelup-store-minio:9000
+  ✓ Mercure:       https://{{ .Values.ingress.host }}/.well-known/mercure
+
+Post-install hooks (run automatically):
+  → doctrine:migrations:migrate  (pre-install)
+  → app:elasticsearch:reindex    (post-install)
+
+{{- if .Values.app.autoscaling.enabled }}
+
+Autoscaling: enabled ({{ .Values.app.autoscaling.minReplicas }}–{{ .Values.app.autoscaling.maxReplicas }} replicas)
+{{- end }}
+
+Secrets are managed via ArgoCD parameters - never stored in git.
+Run: make secrets

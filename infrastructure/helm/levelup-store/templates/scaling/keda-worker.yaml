@@ -1,0 +1,45 @@
+{{- if .Values.keda.enabled }}
+---
+# TriggerAuthentication reads MESSENGER_TRANSPORT_DSN from the app Secret.
+# KEDA uses it to connect to RabbitMQ and count queue depth.
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: {{ include "levelup-store.fullname" . }}-rabbitmq-auth
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+spec:
+  secretTargetRef:
+    - parameter: host
+      name: {{ include "levelup-store.fullname" . }}
+      key: MESSENGER_TRANSPORT_DSN
+---
+# ScaledObject replaces the static worker Deployment replica count.
+# minReplicaCount: 0 → scales to zero when the queue is empty (saves resources).
+# maxReplicaCount: 5 → hard cap; tune based on RabbitMQ capacity.
+# queueLength: 10    → one additional worker pod per 10 queued messages.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ include "levelup-store.fullname" . }}-worker
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "levelup-store.fullname" . }}-worker
+  pollingInterval: {{ .Values.keda.pollingInterval }}
+  cooldownPeriod:  {{ .Values.keda.cooldownPeriod }}
+  minReplicaCount: {{ .Values.keda.minReplicaCount }}
+  maxReplicaCount: {{ .Values.keda.maxReplicaCount }}
+  triggers:
+    - type: rabbitmq
+      metadata:
+        protocol: amqp
+        queueName: {{ .Values.keda.queueName }}
+        mode: QueueLength
+        value: {{ .Values.keda.queueLength | quote }}
+      authenticationRef:
+        name: {{ include "levelup-store.fullname" . }}-rabbitmq-auth
+{{- end }}

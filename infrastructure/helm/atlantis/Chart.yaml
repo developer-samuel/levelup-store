@@ -1,0 +1,10 @@
+apiVersion: v2
+name: atlantis
+description: Atlantis - Terraform pull request automation (GitOps for Terraform)
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: atlantis
+    version: ">=5.0.0 <6.0.0"
+    repository: https://runatlantis.github.io/helm-charts

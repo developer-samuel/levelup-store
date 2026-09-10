@@ -1,0 +1,9 @@
+apiVersion: v2
+name: mercure
+description: Mercure real-time hub for LevelUp Store
+type: application
+version: 0.1.0
+dependencies:
+  - name: mercure
+    version: ">=0.1.0"
+    repository: https://helm.mercure.rocks

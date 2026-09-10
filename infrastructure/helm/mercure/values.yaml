@@ -1,0 +1,17 @@
+mercure:
+  # Service name must match MERCURE_URL in configmap
+  fullnameOverride: mercure
+
+  # existingSecret: created via make services-secrets
+  existingSecret: levelup-store-mercure-secret
+
+  extraDirectives: |
+    anonymous
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi

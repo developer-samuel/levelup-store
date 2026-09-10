@@ -1,0 +1,29 @@
+elasticsearch:
+  # Service name must match ELASTICSEARCH_HOST in configmap
+  fullnameOverride: levelup-store-elasticsearch
+
+  # Single-node, security disabled (internal network)
+  master:
+    replicaCount: 1
+    persistence:
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    heapSize: 256m
+
+  coordinating:
+    replicaCount: 0
+
+  data:
+    replicaCount: 0
+
+  ingest:
+    replicaCount: 0
+
+  security:
+    enabled: false

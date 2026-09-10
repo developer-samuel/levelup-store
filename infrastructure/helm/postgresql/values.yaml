@@ -1,0 +1,21 @@
+postgresql:
+  # Service name must match DB_HOST in configmap
+  fullnameOverride: levelup-store-postgresql
+
+  auth:
+    # username, database: set via make secrets (from DB_USERNAME, DB_DATABASE)
+    # existingSecret: created via make services-secrets (DB_PASSWORD)
+    existingSecret: levelup-store-postgresql-secret
+    secretKeys:
+      adminPasswordKey: postgres-password
+
+  primary:
+    persistence:
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi

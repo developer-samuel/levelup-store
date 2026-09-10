@@ -1,0 +1,39 @@
+tempo:
+  # Single binary - suitable for single-node k3s
+  tempo:
+    reportingEnabled: false
+
+    # Receives traces via OTLP (OpenTelemetry Protocol)
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+
+    storage:
+      trace:
+        backend: local
+        local:
+          path: /var/tempo/traces
+        wal:
+          path: /var/tempo/wal
+
+    # Retention policy - traces are kept for 72 hours
+    retention: 72h
+
+  persistence:
+    enabled: true
+    size: 10Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  serviceMonitor:
+    enabled: true

@@ -1,0 +1,12 @@
+version: 3
+
+projects:
+  - name: oracle
+    dir: infrastructure/terraform/oracle
+    workspace: default
+    apply_requirements: [approved]
+    autoplan:
+      enabled: true
+      when_modified:
+        - "**/*.tf"
+        - "../../atlantis.yaml"

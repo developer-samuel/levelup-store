@@ -1,0 +1,48 @@
+name: 🔬 CodeQL
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'config/**'
+      - 'public/**'
+      - 'templates/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'config/**'
+      - 'public/**'
+      - 'templates/**'
+  schedule:
+    # Weekly scan - catches newly discovered CVEs in unchanged code
+    - cron: '0 2 * * 1'
+
+jobs:
+  analyze:
+    name: 🔬 Analyze PHP
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write   # Required to upload results to GitHub Security tab
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: php
+          # security-extended: OWASP Top 10 + additional security queries
+          # Includes: SQL injection, XSS, path traversal, SSRF, XXE, open redirect, etc.
+          queries: security-extended
+
+      # PHP does not require compilation - CodeQL analyzes source directly
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: php
+          # Results appear in: Security → Code scanning alerts

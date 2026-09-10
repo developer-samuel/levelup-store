@@ -25,6 +25,9 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
 
+      - name: Composer Audit
+        run: composer audit
+
       - name: PHPStan
         run: composer php-stan
 
@@ -70,6 +73,9 @@ jobs:
       - uses: ./.github/actions/node
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: pnpm Audit
+        run: pnpm audit --audit-level=high
 
       - name: TypeScript type check
         run: pnpm type-check

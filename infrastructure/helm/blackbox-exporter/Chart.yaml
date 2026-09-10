@@ -1,0 +1,10 @@
+apiVersion: v2
+name: blackbox-exporter
+description: Prometheus Blackbox Exporter - external HTTP/HTTPS/SSL endpoint monitoring
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: prometheus-blackbox-exporter
+    version: ">=9.0.0 <10.0.0"
+    repository: https://prometheus-community.github.io/helm-charts

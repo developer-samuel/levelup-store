@@ -1,0 +1,10 @@
+apiVersion: v2
+name: system-upgrade-controller
+description: Rancher System Upgrade Controller - automated k3s version upgrades
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: system-upgrade-controller
+    version: ">=104.0.0 <105.0.0"
+    repository: https://charts.rancher.io

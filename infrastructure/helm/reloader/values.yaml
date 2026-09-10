@@ -1,0 +1,13 @@
+reloader:
+  reloader:
+    watchGlobally: true
+    ignoreSecrets: false
+    ignoreConfigMaps: false
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 64Mi

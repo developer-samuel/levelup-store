@@ -1,0 +1,69 @@
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "levelup-store.fullname" . }}
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "levelup-store.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+    - Egress
+
+  ingress:
+    # Allow traffic from Traefik ingress controller (k3s default namespace: kube-system)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 8000
+          protocol: TCP
+
+  egress:
+    # DNS - required for service discovery inside cluster
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+
+    # Data services - same namespace only
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Release.Namespace }}
+      ports:
+        - port: 5432   # PostgreSQL
+          protocol: TCP
+        - port: 6379   # Redis
+          protocol: TCP
+        - port: 5672   # RabbitMQ AMQP
+          protocol: TCP
+        - port: 15672  # RabbitMQ management (health checks)
+          protocol: TCP
+        - port: 9200   # Elasticsearch HTTP
+          protocol: TCP
+        - port: 9300   # Elasticsearch transport
+          protocol: TCP
+        - port: 9000   # MinIO S3 API
+          protocol: TCP
+        - port: 80     # Mercure hub
+          protocol: TCP
+
+    # External HTTPS - Stripe, Sentry, Cloudflare, apicountries, etc.
+    - ports:
+        - port: 443
+          protocol: TCP
+
+    # External HTTP - redirect flows, webhooks (restrict further if not needed)
+    - ports:
+        - port: 80
+          protocol: TCP
+{{- end }}

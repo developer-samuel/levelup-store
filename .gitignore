@@ -25,6 +25,9 @@ var/
 .cache/
 *.cache
 
+# Archives
+*.tgz
+
 # Frontend Build
 assets/vendor/
 public/assets/
@@ -44,3 +47,17 @@ phpunit.xml
 
 # AI Tools
 .claude
+
+# Infrastructure root
+infrastructure/*
+!infrastructure/Makefile
+!infrastructure/*/
+
+# Terraform
+infrastructure/terraform/**/.cache/
+infrastructure/terraform/**/*.tfstate
+infrastructure/terraform/**/*.tfstate.backup
+infrastructure/terraform/**/*.tfstate.lock.info
+
+# Helm
+infrastructure/helm/**/charts/

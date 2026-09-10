@@ -1,0 +1,9 @@
+apiVersion: v2
+name: elasticsearch
+description: Elasticsearch search engine for LevelUp Store
+type: application
+version: 0.1.0
+dependencies:
+  - name: elasticsearch
+    version: ">=21.0.0 <22.0.0"
+    repository: https://charts.bitnami.com/bitnami

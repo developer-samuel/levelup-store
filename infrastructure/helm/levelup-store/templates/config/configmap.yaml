@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "levelup-store.fullname" . }}
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+data:
+  APP_ENV: {{ .Values.app.env | quote }}
+  APP_DEBUG: {{ .Values.app.debug | quote }}
+  APP_URL: {{ .Values.app.url | quote }}
+  TRUSTED_PROXIES: {{ .Values.app.trustedProxies | quote }}
+  CORS_ALLOW_ORIGIN: {{ .Values.app.corsAllowOrigin | quote }}
+  AUDIT_LOGS_ENABLED: {{ .Values.app.auditLogsEnabled | quote }}
+  WKHTMLTOPDF_ENABLED: {{ .Values.app.wkhtmltopdfEnabled | quote }}
+  WKHTMLTOPDF_PATH: {{ .Values.app.wkhtmltopdfPath | quote }}
+
+  SERVER_VERSION: {{ .Values.app.postgresVersion | quote }}
+  DB_HOST: {{ printf "%s-postgresql" .Release.Name | quote }}
+  DB_PORT: "5432"
+  DB_DATABASE: {{ .Values.postgresql.auth.database | quote }}
+  DB_USERNAME: {{ .Values.postgresql.auth.username | quote }}
+
+  REDIS_ENABLED: {{ .Values.redis.enabled | quote }}
+  REDIS_HOST: {{ printf "%s-redis-master" .Release.Name | quote }}
+  REDIS_PORT: "6379"
+
+  ELASTICSEARCH_ENABLED: {{ .Values.elasticsearch.enabled | quote }}
+  ELASTICSEARCH_HOST: {{ printf "%s-elasticsearch" .Release.Name | quote }}
+  ELASTICSEARCH_PORT: "9200"
+
+  RABBITMQ_ENABLED: {{ .Values.rabbitmq.enabled | quote }}
+  RABBITMQ_HOST: {{ printf "%s-rabbitmq" .Release.Name | quote }}
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_USER: {{ .Values.rabbitmq.auth.username | quote }}
+  RABBITMQ_VHOST: "/"
+
+  MINIO_ENABLED: {{ .Values.minio.enabled | quote }}
+  MINIO_ENDPOINT: {{ printf "http://%s-minio:9000" .Release.Name | quote }}
+  MINIO_BUCKET: {{ .Values.minio.defaultBuckets | quote }}
+
+  MERCURE_ENABLED: {{ .Values.mercure.enabled | quote }}
+  MERCURE_URL: {{ .Values.mercure.url | quote }}
+
+  TURNSTILE_ENABLED: {{ .Values.turnstile.enabled | quote }}
+  TURNSTILE_VERIFY_URL: "https://challenges.cloudflare.com/turnstile/v0/siteverify"
+
+  JWT_TTL: {{ .Values.app.jwtTtl | quote }}
+  JWT_REFRESH_TTL: {{ .Values.app.jwtRefreshTtl | quote }}
+
+  API_COUNTRY_URL: {{ .Values.app.apiCountryUrl | quote }}
+  SENTRY_DSN: {{ .Values.app.sentryDsn | default "null" | quote }}
+
+  OTEL_PHP_AUTOLOAD_ENABLED: "true"
+  OTEL_SERVICE_NAME: "levelup-store"
+  OTEL_TRACES_EXPORTER: "otlp"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://opentelemetry-collector.otel.svc.cluster.local:4317"
+  OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
+  OTEL_PROPAGATORS: "baggage,tracecontext"

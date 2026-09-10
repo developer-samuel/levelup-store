@@ -1,0 +1,61 @@
+prometheus-blackbox-exporter:
+  serviceMonitor:
+    enabled: true
+    defaults:
+      interval: 60s
+      scrapeTimeout: 30s
+
+    targets:
+      # Main app - HTTPS check
+      # url: set via make blackbox-install (argocd app set from APP_DOMAIN)
+      - name: levelup-store-https
+        module: https_2xx
+        labels:
+          app: levelup-store
+
+      # Health endpoint
+      # url: set via make blackbox-install (argocd app set from APP_DOMAIN)
+      - name: levelup-store-health
+        module: https_2xx
+        labels:
+          app: levelup-store
+
+  prometheusRule:
+    enabled: true
+    additionalLabels:
+      release: monitoring
+    rules:
+      - alert: EndpointDown
+        expr: probe_success{job="blackbox"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{ $labels.instance }} is down"
+          description: "HTTP probe failed for 2 consecutive minutes."
+
+      - alert: SSLCertExpiringSoon
+        expr: probe_ssl_earliest_cert_expiry{job="blackbox"} - time() < 604800
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "SSL certificate expiring in 7 days: {{ $labels.instance }}"
+          description: "TLS certificate for {{ $labels.instance }} is expiring soon."
+
+      - alert: SlowResponse
+        expr: probe_duration_seconds{job="blackbox"} > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow response: {{ $labels.instance }}"
+          description: "Endpoint {{ $labels.instance }} is responding for more than 3 seconds."
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi

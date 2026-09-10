@@ -13,3 +13,6 @@ pecl install amqp && docker-php-ext-enable amqp
 
 echo "📦 Installing PCOV (coverage driver)..."
 pecl install pcov && docker-php-ext-enable pcov
+
+echo "📦 Installing OpenTelemetry extension..."
+pecl install opentelemetry && docker-php-ext-enable opentelemetry

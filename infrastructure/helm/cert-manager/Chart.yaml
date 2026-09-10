@@ -1,0 +1,10 @@
+apiVersion: v2
+name: cert-manager
+description: Automatic TLS certificate management via Let's Encrypt
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: cert-manager
+    version: ">=1.0.0 <2.0.0"
+    repository: https://charts.jetstack.io

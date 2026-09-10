@@ -31,7 +31,7 @@ if [ -d /var/www/config/jwt ]; then
   chmod 644 /var/www/config/jwt/private.pem /var/www/config/jwt/public.pem 2>/dev/null || true
 fi
 
-# 📦 Frontend package files — readable by www-data, writable by host user only
+# 📦 Frontend package files - readable by www-data, writable by host user only
 for f in package.json package-lock.json pnpm-lock.yaml pnpm-workspace.yaml; do
   [ -f /var/www/$f ] && chmod 644 /var/www/$f
 done

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: velero
+description: Velero - cluster backup and disaster recovery
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: velero
+    version: ">=7.0.0 <8.0.0"
+    repository: https://vmware-tanzu.github.io/helm-charts

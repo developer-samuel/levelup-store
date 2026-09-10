@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ include "levelup-store.fullname" . }}
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+spec:
+  hard:
+    requests.cpu: {{ .Values.resourceQuota.requests.cpu | quote }}
+    requests.memory: {{ .Values.resourceQuota.requests.memory }}
+    limits.cpu: {{ .Values.resourceQuota.limits.cpu | quote }}
+    limits.memory: {{ .Values.resourceQuota.limits.memory }}
+    pods: {{ .Values.resourceQuota.pods | quote }}
+    persistentvolumeclaims: {{ .Values.resourceQuota.pvcs | quote }}

@@ -1,0 +1,95 @@
+# Application
+app:
+  image:
+    tag: latest
+    pullPolicy: Always
+
+  replicas: 1
+
+  env: prod
+  debug: "0"
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+
+# Ingress
+ingress:
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  # host: set via make secrets (APP_DOMAIN)
+  tls:
+    enabled: true
+    secretName: levelup-store-tls
+
+# Security Context
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ALL]
+  runAsNonRoot: true
+  runAsUser: 1000
+  readOnlyRootFilesystem: true
+
+# Network Policy
+networkPolicy:
+  enabled: true
+
+# Sealed Secrets
+sealedSecrets:
+  enabled: true
+
+# PostgreSQL Backup
+pgBackup:
+  enabled: true
+  schedule: "0 3 * * *"
+  bucket: pg-backups
+  retentionDays: 30
+
+# LimitRange
+limitRange:
+  default:
+    cpu: 500m
+    memory: 512Mi
+  defaultRequest:
+    cpu: 100m
+    memory: 128Mi
+  max:
+    cpu: 2000m
+    memory: 2Gi
+  min:
+    cpu: 10m
+    memory: 32Mi
+
+# KEDA - event-driven worker autoscaling
+keda:
+  enabled: true
+  queueName: messages
+  queueLength: "10"
+  minReplicaCount: 0
+  maxReplicaCount: 5
+  pollingInterval: 15
+  cooldownPeriod: 30
+
+# ResourceQuota
+resourceQuota:
+  requests:
+    cpu: "6"
+    memory: 6Gi
+  limits:
+    cpu: "12"
+    memory: 12Gi
+  pods: "30"
+  pvcs: "10"

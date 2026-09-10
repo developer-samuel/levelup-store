@@ -1,0 +1,9 @@
+argo-cd:
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      # hostname: set via make argocd-install (argocd.$APP_DOMAIN)
+      tls: true

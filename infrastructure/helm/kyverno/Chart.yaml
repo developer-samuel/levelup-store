@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kyverno
+description: Kyverno - Kubernetes Policy as Code (admission controller)
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: kyverno
+    version: ">=3.2.0 <4.0.0"
+    repository: https://kyverno.github.io/kyverno
