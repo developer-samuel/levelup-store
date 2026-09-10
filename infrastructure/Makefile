@@ -129,6 +129,7 @@ bootstrap: ## Full bootstrap from scratch (tf-apply → k3s → cert-manager →
 	$(MAKE) helm-deps-update
 	$(MAKE) cert-manager-install
 	$(MAKE) argocd-install
+	$(MAKE) argocd-notifications
 	$(MAKE) argocd-repo-add
 	$(MAKE) argocd-bootstrap
 	@echo "  Waiting for ArgoCD to sync all apps (this may take a few minutes)..."
@@ -138,6 +139,7 @@ bootstrap: ## Full bootstrap from scratch (tf-apply → k3s → cert-manager →
 	$(MAKE) services-secrets
 	$(MAKE) secrets
 	$(MAKE) monitoring-secrets
+	$(MAKE) blackbox-install
 	@echo "✓ Bootstrap complete. App running at https://$(APP_DOMAIN)"
 
 # ── Terraform ─────────────────────────────────────────────────────────────────
@@ -469,7 +471,7 @@ blackbox-install: ## Set Blackbox Exporter target URLs via ArgoCD (deployed by r
 	$(call argocd_login)
 	argocd app set blackbox-exporter \
 		-p "prometheus-blackbox-exporter.serviceMonitor.targets[0].url=https://$(APP_DOMAIN)" \
-		-p "prometheus-blackbox-exporter.serviceMonitor.targets[1].url=https://$(APP_DOMAIN)/health"
+		-p "prometheus-blackbox-exporter.serviceMonitor.targets[1].url=https://$(APP_DOMAIN)/"
 	@echo "✓ Blackbox Exporter deployed. Dashboards in Grafana → Explore → probe_success"
 
 # ── Sealed Secrets ────────────────────────────────────────────────────────────

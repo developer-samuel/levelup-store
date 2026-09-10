@@ -22,7 +22,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: system-upgrade
+    namespace: cattle-system
 
   syncPolicy:
     automated:
