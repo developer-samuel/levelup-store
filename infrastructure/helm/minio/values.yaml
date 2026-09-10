@@ -1,6 +1,8 @@
 minio:
   # Service name must match MINIO_ENDPOINT in configmap
   fullnameOverride: levelup-store-minio
+  image:
+    tag: ""
 
   auth:
     # existingSecret: created via make services-secrets
