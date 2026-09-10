@@ -48,7 +48,7 @@ resource "oci_core_volume" "k3s_data" {
   size_in_gbs         = 200
 
   lifecycle {
-    prevent_destroy = false  # Guards against accidental terraform destroy - contains prod data
+    prevent_destroy = false # Guards against accidental terraform destroy - contains prod data
   }
 }
 

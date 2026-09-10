@@ -8,6 +8,15 @@ loki:
     storage:
       type: filesystem
     auth_enabled: true
+    schemaConfig:
+      configs:
+        - from: "2026-09-10"
+          store: tsdb
+          object_store: filesystem
+          schema: v13
+          index:
+            prefix: index_
+            period: 24h
 
   singleBinary:
     replicas: 1
