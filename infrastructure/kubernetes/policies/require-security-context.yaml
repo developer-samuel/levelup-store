@@ -1,0 +1,28 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-security-context
+  annotations:
+    policies.kyverno.io/title: Require Security Context
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/description: >
+      All containers must have allowPrivilegeEscalation: false.
+      Running in Audit mode - monitor violations in Grafana/Falco before switching to Enforce.
+spec:
+  # Audit: logs violations but does not block - switch to Enforce when confident
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: require-allowPrivilegeEscalation-false
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [levelup-store]
+      validate:
+        message: "Container must have securityContext.allowPrivilegeEscalation: false"
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  allowPrivilegeEscalation: "false"

@@ -1,0 +1,47 @@
+velero:
+  # OCI Object Storage plugin (S3-compatible API)
+  initContainers:
+    - name: velero-plugin-for-aws
+      image: velero/velero-plugin-for-aws:v1.10.0
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /target
+          name: plugins
+
+  # existingSecret: created via make velero-secret
+  credentials:
+    useSecret: true
+    existingSecret: velero-credentials
+
+  # OCI Object Storage is S3-compatible - bucket, region, s3Url set via make velero-install
+  configuration:
+    backupStorageLocation:
+      - name: default
+        provider: aws
+        default: true
+        config:
+          s3ForcePathStyle: "true"
+
+    volumeSnapshotLocation:
+      - name: default
+        provider: aws
+        # config.region: set via make velero-install (TF_VAR_region)
+
+  schedules:
+    daily:
+      disabled: false
+      schedule: "0 2 * * *"    # every day at 02:00
+      useOwnerReferencesInBackup: false
+      template:
+        ttl: "720h"             # 30 days retention
+        includedNamespaces:
+          - levelup-store
+        storageLocation: default
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi

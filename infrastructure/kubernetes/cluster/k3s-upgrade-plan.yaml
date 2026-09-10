@@ -1,0 +1,38 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# k3s Upgrade Plan - automatic upgrade to the latest stable version
+#
+# How it works:
+#   1. System Upgrade Controller watches this Plan
+#   2. When a new k3s version is released, the controller applies it automatically
+#   3. Node is drained gracefully (drain → upgrade → uncordon)
+#
+# Manual upgrade to a specific version:
+#   kubectl patch plan k3s-server --patch '{"spec":{"version":"v1.36.4+k3s1"}}'
+#
+# Current stable releases: https://github.com/k3s-io/k3s/releases
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: k3s-server
+  namespace: system-upgrade
+  labels:
+    k3s-upgrade: server
+spec:
+  channel: https://update.k3s.io/v1-release/channels/stable
+  concurrency: 1
+
+  drain:
+    force: true
+    skipWaitForDeleteTimeout: 60
+
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: In
+        values: ["true"]
+
+  serviceAccountName: system-upgrade
+
+  upgrade:
+    image: rancher/k3s-upgrade

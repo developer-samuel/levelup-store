@@ -1,0 +1,72 @@
+backend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**'
+          - 'config/**'
+          - 'kit/**'
+          - 'bin/**'
+          - 'init.php'
+          - 'composer.json'
+          - 'composer.lock'
+          - 'symfony.lock'
+          - 'phpstan.neon'
+          - 'phpmd.xml'
+          - 'rector.php'
+          - 'deptrac.yaml'
+          - 'codestats-analyzer.xml'
+
+frontend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'assets/**'
+          - 'templates/**'
+          - 'public/**'
+          - 'vite/**'
+          - 'vite.config.ts'
+          - 'tsconfig*.json'
+          - 'eslint.config.mjs'
+          - 'importmap.php'
+          - 'package.json'
+          - 'pnpm-lock.yaml'
+          - 'package-lock.json'
+
+database:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'database/**'
+          - 'migrations/**'
+          - 'resources/**'
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**'
+          - 'assets/tests/**'
+          - 'phpunit.xml.dist'
+          - 'playwright.config.ts'
+
+infrastructure:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'infrastructure/**'
+
+docker:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docker/**'
+          - 'scripts/**'
+          - 'docker-compose*.yml'
+          - 'Dockerfile*'
+
+ci/cd:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+          - 'tools/**'
+          - 'Makefile'
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.md'
+          - 'docs/**'

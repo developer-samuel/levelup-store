@@ -1,0 +1,118 @@
+falco:
+  # modern_ebpf: kernel >= 5.8 (Ubuntu 22.04+, OCI Ubuntu VMs)
+  # ebpf:        kernel >= 4.14 (fallback for Oracle Linux 8 / kernel 5.4)
+  driver:
+    kind: modern_ebpf
+
+  metrics:
+    enabled: true
+
+  # stdout → picked up by Promtail/Loki for log aggregation in Grafana
+  falco:
+    json_output: true
+    log_stderr: true
+    log_syslog: false
+    output_timeout: 2000
+
+    # Disable chatty default rules that generate noise on single-node k3s
+    rules_file:
+      - /etc/falco/falco_rules.yaml
+      - /etc/falco/falco_rules.local.yaml
+      - /etc/falco/rules.d
+
+  customRules:
+    levelup-store-rules.yaml: |-
+      # Detect shell spawned inside the PHP app container
+      - rule: Shell Spawned in PHP Container
+        desc: A shell was spawned inside the levelup-store PHP container
+        condition: >
+          spawned_process
+          and container
+          and container.image.repository contains "levelup-store"
+          and proc.name in (bash, sh, zsh, dash, ash, ksh)
+        output: >
+          Shell spawned in PHP container
+          (user=%user.name container=%container.name image=%container.image.repository
+          shell=%proc.name parent=%proc.pname cmdline=%proc.cmdline)
+        priority: WARNING
+        tags: [levelup-store, shell, php]
+
+      # Detect unexpected write to sensitive paths
+      - rule: Write to Sensitive Path in PHP Container
+        desc: A file was written to a sensitive location inside the app container
+        condition: >
+          open_write
+          and container
+          and container.image.repository contains "levelup-store"
+          and (
+            fd.name startswith /etc
+            or fd.name startswith /usr/local/bin
+            or fd.name startswith /var/www/.env
+          )
+          and not proc.name in (php, php-fpm)
+        output: >
+          Sensitive file write in PHP container
+          (user=%user.name file=%fd.name container=%container.name
+          image=%container.image.repository proc=%proc.name)
+        priority: ERROR
+        tags: [levelup-store, write, php]
+
+      # Detect unexpected outbound connection from PHP container
+      - rule: Unexpected Outbound Connection from PHP Container
+        desc: Outbound connection to unexpected destination from levelup-store
+        condition: >
+          outbound
+          and container
+          and container.image.repository contains "levelup-store"
+          and not (
+            fd.sport in (443, 80, 5432, 6379, 5672, 9200, 9000, 53)
+            or fd.sip.name = "localhost"
+          )
+        output: >
+          Unexpected outbound connection from PHP container
+          (user=%user.name container=%container.name dest=%fd.rip:%fd.rport
+          proto=%fd.l4proto image=%container.image.repository)
+        priority: NOTICE
+        tags: [levelup-store, network, php]
+
+      # Detect kubectl exec into production pod
+      - rule: Kubectl Exec into Production Pod
+        desc: Someone exec'd into a pod in the levelup-store namespace
+        condition: >
+          spawned_process
+          and container
+          and k8s.ns.name = "levelup-store"
+          and proc.pname = "exe"
+          and proc.name in (bash, sh, zsh)
+        output: >
+          kubectl exec into production pod
+          (user=%user.name pod=%k8s.pod.name ns=%k8s.ns.name
+          shell=%proc.name image=%container.image.repository)
+        priority: CRITICAL
+        tags: [levelup-store, kubectl-exec, production]
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  # Run on all nodes including control plane (single-node k3s)
+  tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
+
+  # Uncomment and configure to forward Falco alerts to Slack, webhook, etc.
+  #
+  # falcosidekick:
+  #   enabled: true
+  #   config:
+  #     slack:
+  #       webhookurl: ""   # Set via: argocd app set falco -p falco.falcosidekick.config.slack.webhookurl=...
+  #       minimumpriority: "warning"
+  #     prometheus:
+  #       # Expose Falcosidekick metrics for Grafana
+  #       extralabels: ""

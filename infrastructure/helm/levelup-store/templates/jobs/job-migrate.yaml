@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "levelup-store.fullname" . }}-migrate
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+  annotations:
+    # Run before new pods are rolled out so the DB schema is ready
+    "helm.sh/hook": pre-upgrade,pre-install
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrate
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          command:
+            - php
+            - bin/console
+            - doctrine:migrations:migrate
+            - --no-interaction
+          envFrom:
+            - configMapRef:
+                name: {{ include "levelup-store.fullname" . }}
+            - secretRef:
+                name: {{ include "levelup-store.fullname" . }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi

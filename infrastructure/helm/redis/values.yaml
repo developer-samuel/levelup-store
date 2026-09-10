@@ -1,0 +1,27 @@
+redis:
+  # Service name must match REDIS_HOST in configmap
+  # bitnami/redis creates service: <fullnameOverride>-master
+  fullnameOverride: levelup-store-redis
+
+  auth:
+    enabled: true
+    # existingSecret: created via make services-secrets (REDIS_PASSWORD)
+    existingSecret: levelup-store-redis-secret
+    existingSecretPasswordKey: redis-password
+
+  master:
+    persistence:
+      size: 2Gi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+
+  replica:
+    replicaCount: 0   # single-node k3s
+
+  metrics:
+    enabled: true

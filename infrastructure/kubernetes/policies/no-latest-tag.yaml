@@ -1,0 +1,28 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: no-latest-tag
+  annotations:
+    policies.kyverno.io/title: No Latest Tag
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/description: >
+      Image tag 'latest' is not allowed in production.
+      Every deploy must use a specific SHA tag for reproducibility.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: no-latest-tag
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [levelup-store]
+      validate:
+        message: "Image tag 'latest' is not allowed. Use a specific SHA tag (e.g. ghcr.io/user/app:abc1234)."
+        pattern:
+          spec:
+            containers:
+              - image: "!*:latest"
+            =(initContainers):
+              - image: "!*:latest"

@@ -8,6 +8,9 @@ services:
     container_name: levelup_store_grafana
     restart: unless-stopped
     user: '472'
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
     volumes:
       - ${PWD}/docker/config/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ${PWD}/docker/config/grafana/provisioning:/etc/grafana/provisioning:ro

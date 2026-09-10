@@ -1,0 +1,29 @@
+kyverno:
+  replicaCount: 1   # single-node k3s
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 384Mi
+
+  # Audit mode - logs violations without blocking (safe for initial rollout)
+  # Switch policies to Enforce after verifying no violations in Grafana/logs
+  config:
+    webhooks:
+      # Exclude kube-system and argocd from policy enforcement
+      - namespaceSelector:
+          matchExpressions:
+            - key: kubernetes.io/metadata.name
+              operator: NotIn
+              values:
+                - kube-system
+                - kyverno
+                - argocd
+                - cert-manager
+                - sealed-secrets
+                - falco
+                - velero
+                - monitoring

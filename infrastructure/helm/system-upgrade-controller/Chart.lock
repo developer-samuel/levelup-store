@@ -1,0 +1,6 @@
+dependencies:
+- name: system-upgrade-controller
+  repository: https://charts.rancher.io
+  version: 104.0.0+up0.7.0
+digest: sha256:84966f4a8f690e78f46905593e2ed92726a32c5e6471beb0f6b46b0cb187dd39
+generated: "2026-09-10T13:57:20.668345874+02:00"

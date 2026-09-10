@@ -1,0 +1,40 @@
+# ── App of Apps root ──────────────────────────────────────────────────────────
+#
+# The only file you apply manually during bootstrap:
+#   envsubst < kubernetes/root-app.yaml | kubectl apply -f -
+#
+# ArgoCD then deploys all apps from kubernetes/apps/ recursively.
+# Add new apps by committing to kubernetes/apps/ - no Makefile intervention needed.
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: root
+    app.kubernetes.io/managed-by: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/developer-samuel/levelup-store
+    targetRevision: main
+    path: infrastructure/kubernetes/apps
+    directory:
+      recurse: true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd   # Application CRs belong in the argocd namespace
+
+  syncPolicy:
+    automated:
+      prune: true       # Removes apps deleted from git
+      selfHeal: true    # Reverts manual changes made in ArgoCD
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

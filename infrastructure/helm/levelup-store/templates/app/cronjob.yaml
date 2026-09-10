@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "levelup-store.fullname" . }}-scheduler
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+    app.kubernetes.io/component: scheduler
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: scheduler
+              image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+              imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+              command:
+                - php
+                - bin/console
+                - scheduler:run
+              envFrom:
+                - configMapRef:
+                    name: {{ include "levelup-store.fullname" . }}
+                - secretRef:
+                    name: {{ include "levelup-store.fullname" . }}
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 250m
+                  memory: 256Mi

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: opentelemetry-collector
+description: OpenTelemetry Collector - receives, processes and exports traces/metrics/logs
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: opentelemetry-collector
+    version: ">=0.90.0 <1.0.0"
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts

@@ -1,0 +1,30 @@
+name: 🏗️ Terraform
+
+on:
+  pull_request:
+    paths:
+      - 'infrastructure/terraform/**'
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: infrastructure/terraform/oracle
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: terraform init
+        run: terraform init -backend=false
+
+      - name: terraform fmt
+        run: terraform fmt --check --recursive
+
+      - name: terraform validate
+        run: terraform validate

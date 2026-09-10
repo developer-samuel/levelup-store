@@ -1,0 +1,75 @@
+---
+
+# SSH hardening
+- name: Harden SSH configuration
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: sshd -t -f %s
+  loop:
+    - { regexp: '^#?PermitRootLogin',        line: 'PermitRootLogin no' }
+    - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication no' }
+    - { regexp: '^#?PubkeyAuthentication',   line: 'PubkeyAuthentication yes' }
+    - { regexp: '^#?X11Forwarding',          line: 'X11Forwarding no' }
+    - { regexp: '^#?MaxAuthTries',           line: 'MaxAuthTries {{ ssh_max_auth_tries }}' }
+    - { regexp: '^#?LoginGraceTime',         line: 'LoginGraceTime {{ ssh_login_grace_time }}' }
+    - { regexp: '^#?AllowAgentForwarding',   line: 'AllowAgentForwarding no' }
+    - { regexp: '^#?PermitEmptyPasswords',   line: 'PermitEmptyPasswords no' }
+  notify: Restart sshd
+
+# fail2ban - brute force protection
+- name: Install fail2ban
+  ansible.builtin.apt:
+    name: fail2ban
+    state: present
+    update_cache: true
+
+- name: Configure fail2ban SSH jail
+  ansible.builtin.copy:
+    dest: /etc/fail2ban/jail.d/sshd.conf
+    content: |
+      [sshd]
+      enabled  = true
+      port     = {{ ssh_port }}
+      maxretry = {{ fail2ban_ssh_maxretry }}
+      bantime  = {{ fail2ban_ssh_bantime }}
+      findtime = {{ fail2ban_ssh_findtime }}
+    mode: '0644'
+  notify: Restart fail2ban
+
+- name: Enable and start fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    enabled: true
+    state: started
+
+# unattended-upgrades - automatic security updates
+- name: Install unattended-upgrades
+  ansible.builtin.apt:
+    name:
+      - unattended-upgrades
+      - apt-listchanges
+    state: present
+
+- name: Configure unattended-upgrades
+  ansible.builtin.copy:
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    content: |
+      Unattended-Upgrade::Allowed-Origins {
+          "${distro_id}:${distro_codename}-security";
+      };
+      Unattended-Upgrade::AutoFixInterruptedDpkg "true";
+      Unattended-Upgrade::MinimalSteps "true";
+      Unattended-Upgrade::Remove-Unused-Dependencies "true";
+      Unattended-Upgrade::Automatic-Reboot "{{ unattended_reboot | lower }}";
+    mode: '0644'
+
+- name: Enable unattended-upgrades
+  ansible.builtin.copy:
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    content: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
+    mode: '0644'

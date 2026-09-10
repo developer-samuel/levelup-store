@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: levelup-store
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: levelup-store
+    app.kubernetes.io/managed-by: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/developer-samuel/levelup-store
+    targetRevision: main
+    path: infrastructure/helm/levelup-store
+    helm:
+      valueFiles:
+        - values.yaml
+        - services.yaml
+        - values.prod.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: levelup-store
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PrunePropagationPolicy=foreground
+    retry:
+      limit: 3
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m

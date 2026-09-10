@@ -1,0 +1,100 @@
+kube-prometheus-stack:
+  # Grafana
+  grafana:
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      # hosts, tls.hosts, adminPassword: set via make monitoring-secrets
+      tls:
+        - secretName: grafana-tls
+
+    persistence:
+      enabled: true
+      size: 5Gi
+
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        url: http://loki.monitoring.svc.cluster.local:3100
+        access: proxy
+        jsonData:
+          httpHeaderName1: "X-Scope-OrgID"
+        secureJsonData:
+          httpHeaderValue1: "levelup-store"
+
+      - name: Tempo
+        type: tempo
+        url: http://tempo.tempo.svc.cluster.local:3100
+        access: proxy
+        jsonData:
+          tracesToLogsV2:
+            datasourceUid: loki
+            filterByTraceID: true
+          serviceMap:
+            datasourceUid: prometheus
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi
+
+  # Prometheus
+  prometheus:
+    prometheusSpec:
+      retention: 15d
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes: [ReadWriteOnce]
+            resources:
+              requests:
+                storage: 10Gi
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          cpu: 500m
+          memory: 1Gi
+
+  # Alertmanager
+  alertmanager:
+    alertmanagerSpec:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+
+    config:
+      route:
+        receiver: email
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 12h
+        routes:
+          - matchers:
+              - severity="critical"
+            receiver: email
+            repeat_interval: 1h
+
+      receivers:
+        - name: email
+          email_configs:
+            # to, from, smarthost, auth_username, auth_password: Set via make monitoring-secrets
+            - require_tls: true
+
+  # Node Exporter
+  nodeExporter:
+    enabled: true
+
+  # Kube State Metrics
+  kubeStateMetrics:
+    enabled: true

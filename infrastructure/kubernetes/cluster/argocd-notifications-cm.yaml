@@ -1,0 +1,82 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# ArgoCD Notifications - email alerting pre deploy events
+#
+# Setup:
+#   1. Set SMTP credentials in .env (MAILER_HOST, MAILER_PORT, MAILER_USER, MAILER_PASS)
+#   2. make -C infrastructure argocd-notifications
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  # SMTP service
+  # ${MAILER_*} substituted by envsubst via make argocd-notifications
+  # password uses ArgoCD secret ref ($email-password) instead of envsubst - passwords must not be stored in ConfigMap
+  service.email.smtp: |
+    host: ${MAILER_HOST}
+    port: ${MAILER_PORT}
+    from: ${MAILER_USER}
+    username: ${MAILER_USER}
+    password: $email-password
+
+  # Notification templates
+  template.app-deployed: |
+    email:
+      subject: "✅ Deploy successful: {{.app.metadata.name}}"
+      body: |
+        Application {{.app.metadata.name}} was deployed successfully.
+
+        Revision:  {{.app.status.sync.revision}}
+        Namespace: {{.app.spec.destination.namespace}}
+        Time:      {{.app.status.operationState.finishedAt}}
+
+        ArgoCD: https://{{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+
+  template.app-sync-failed: |
+    email:
+      subject: "❌ Deploy failed: {{.app.metadata.name}}"
+      body: |
+        Application {{.app.metadata.name}} failed to deploy.
+
+        Error:     {{.app.status.operationState.message}}
+        Revision:  {{.app.status.sync.revision}}
+        Namespace: {{.app.spec.destination.namespace}}
+
+        ArgoCD: https://{{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+
+  template.app-health-degraded: |
+    email:
+      subject: "⚠️ App degraded: {{.app.metadata.name}}"
+      body: |
+        Application {{.app.metadata.name}} is in a degraded state.
+
+        Status: {{.app.status.health.status}}
+        ArgoCD: https://{{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+
+  # Triggers
+  trigger.on-deployed: |
+    - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+      send: [app-deployed]
+
+  trigger.on-sync-failed: |
+    - when: app.status.operationState.phase in ['Failed', 'Error']
+      send: [app-sync-failed]
+
+  trigger.on-health-degraded: |
+    - when: app.status.health.status == 'Degraded'
+      send: [app-health-degraded]
+
+  # Subscriptions
+  subscriptions: |
+    - recipients:
+        - email:${MAILER_USER}
+      triggers:
+        - on-deployed
+        - on-sync-failed
+        - on-health-degraded
+
+  # ArgoCD URL for links in email notifications
+  context: |
+    argocdUrl: ${ARGOCD_SERVER}

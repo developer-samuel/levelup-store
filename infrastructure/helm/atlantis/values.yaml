@@ -1,0 +1,135 @@
+atlantis:
+  vcsSecretName: atlantis-credentials
+
+  # GitHub sends webhook POST requests to this URL on every PR event - must be publicly reachable
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    # host + tls[0].hosts[0]: set via make atlantis-install (atlantis.$APP_DOMAIN)
+    tls:
+      - secretName: atlantis-tls
+
+  # All TF_VAR_* are read by the Terraform OCI provider automatically.
+  # TF_VAR_private_key_path points to the PEM file mounted below (extraVolumes).
+  environmentSecrets:
+    - name: TF_VAR_tenancy_ocid
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_tenancy_ocid
+    - name: TF_VAR_user_ocid
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_user_ocid
+    - name: TF_VAR_fingerprint
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_fingerprint
+    - name: TF_VAR_region
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_region
+    - name: TF_VAR_compartment_ocid
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_compartment_ocid
+    - name: TF_VAR_ssh_public_key
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_ssh_public_key
+    - name: TF_VAR_allowed_cidr
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_allowed_cidr
+    - name: APP_DOMAIN
+      secretKeyRef:
+        name: atlantis-credentials
+        key: APP_DOMAIN
+    - name: TF_VAR_cloudflare_api_token
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_cloudflare_api_token
+    - name: TF_VAR_cloudflare_zone_id
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_cloudflare_zone_id
+    - name: TF_VAR_vm_shape
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_vm_shape
+    - name: TF_VAR_vm_ocpus
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_vm_ocpus
+    - name: TF_VAR_vm_memory_gb
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_vm_memory_gb
+    - name: TF_VAR_vcn_cidr
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_vcn_cidr
+    - name: TF_VAR_subnet_cidr
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_subnet_cidr
+    - name: TF_VAR_velero_bucket
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_VAR_velero_bucket
+    - name: TF_CLI_ARGS_init
+      secretKeyRef:
+        name: atlantis-credentials
+        key: TF_CLI_ARGS_init
+
+  environmentRaw:
+    - name: TF_VAR_private_key_path
+      value: /home/atlantis/.oci/oci_api_key.pem
+
+  # OCI Terraform provider requires the private key as a file on disk.
+  # PEM content is stored in the secret (key: oci_private_key) and mounted here.
+  extraVolumes:
+    - name: oci-key
+      secret:
+        secretName: atlantis-credentials
+        defaultMode: 0400
+        items:
+          - key: oci_private_key
+            path: oci_api_key.pem
+
+  extraVolumeMounts:
+    - name: oci-key
+      mountPath: /home/atlantis/.oci
+      readOnly: true
+
+  # Restricts what atlantis.yaml in the repo is allowed to override.
+  # allow_custom_workflows: false → repo cannot inject arbitrary shell commands
+  repoConfig: |
+    repos:
+      - id: /.*/
+        branch: /.*/
+        apply_requirements:
+          - approved
+        allowed_overrides:
+          - apply_requirements
+          - workflow
+        allow_custom_workflows: false
+
+  # Persistent volume for Terraform state locks and plan files between pod restarts
+  storageClassName: local-path
+  data:
+    storageClassName: local-path
+
+  storage:
+    enabled: true
+    storageClassName: local-path
+    size: 5Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi

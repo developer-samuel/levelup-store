@@ -1,0 +1,58 @@
+kube-prometheus-stack:
+  additionalPrometheusRulesMap:
+    levelup-store:
+      groups:
+        - name: pods
+          rules:
+            - alert: PodCrashLooping
+              expr: rate(kube_pod_container_status_restarts_total{namespace="levelup-store"}[15m]) > 0
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "Pod {{ $labels.pod }} is crash looping"
+                description: "Pod {{ $labels.pod }} has restarted more than once in the last 15 minutes."
+
+            - alert: PodNotReady
+              expr: kube_pod_status_ready{namespace="levelup-store", condition="true"} == 0
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "Pod {{ $labels.pod }} is not ready"
+                description: "Pod {{ $labels.pod }} has not been in ready state for 5 minutes."
+
+        - name: resources
+          rules:
+            - alert: HighMemoryUsage
+              expr: |
+                (container_memory_working_set_bytes{namespace="levelup-store", container!=""} /
+                container_spec_memory_limit_bytes{namespace="levelup-store", container!=""}) > 0.85
+              for: 5m
+              labels:
+                severity: warning
+              annotations:
+                summary: "High memory usage: {{ $labels.pod }}"
+                description: "Container {{ $labels.container }} is using more than 85% of its memory limit."
+
+            - alert: DiskSpaceLow
+              expr: |
+                (node_filesystem_avail_bytes{mountpoint="/mnt/k3s-data"} /
+                node_filesystem_size_bytes{mountpoint="/mnt/k3s-data"}) < 0.15
+              for: 10m
+              labels:
+                severity: critical
+              annotations:
+                summary: "Low disk space on block volume"
+                description: "Block volume /mnt/k3s-data has less than 15% free space."
+
+        - name: certificates
+          rules:
+            - alert: CertificateExpiringSoon
+              expr: certmanager_certificate_expiration_timestamp_seconds - time() < 604800
+              for: 1h
+              labels:
+                severity: warning
+              annotations:
+                summary: "Certificate expiring in 7 days: {{ $labels.name }}"
+                description: "TLS certificate {{ $labels.name }} is expiring soon."

@@ -1,0 +1,104 @@
+{{- if .Values.pgBackup.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "levelup-store.fullname" . }}-pg-backup
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+    app.kubernetes.io/component: pg-backup
+spec:
+  schedule: {{ .Values.pgBackup.schedule | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            # Step 1: pg_dump → /backup/dump.sql.gz
+            - name: pg-dump
+              image: postgres:{{ .Values.app.postgresVersion }}-alpine
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  FILENAME="backup-$(date +%Y%m%d-%H%M%S).sql.gz"
+                  echo "Dumping database to /backup/$FILENAME..."
+                  pg_dump "$DATABASE_URL" | gzip > /backup/$FILENAME
+                  echo "Dump complete: $(du -sh /backup/$FILENAME | cut -f1)"
+              envFrom:
+                - secretRef:
+                    name: {{ include "levelup-store.fullname" . }}
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 64Mi
+                limits:
+                  cpu: 500m
+                  memory: 256Mi
+
+          containers:
+            # Step 2: upload to MinIO (S3-compatible)
+            - name: upload
+              image: amazon/aws-cli:2
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  FILE=$(ls /backup/*.sql.gz | head -1)
+                  FILENAME=$(basename $FILE)
+                  echo "Uploading $FILENAME to MinIO bucket {{ .Values.pgBackup.bucket }}..."
+                  AWS_ACCESS_KEY_ID="$MINIO_ROOT_USER" \
+                  AWS_SECRET_ACCESS_KEY="$MINIO_ROOT_PASSWORD" \
+                  aws s3 cp $FILE \
+                    s3://{{ .Values.pgBackup.bucket }}/$FILENAME \
+                    --endpoint-url http://{{ .Release.Name }}-minio:9000 \
+                    --region us-east-1 \
+                    --no-progress
+                  echo "Upload complete: {{ .Values.pgBackup.bucket }}/$FILENAME"
+                  # Delete backups older than {{ .Values.pgBackup.retentionDays }} days
+                  CUTOFF=$(date -d "-{{ .Values.pgBackup.retentionDays }} days" +%Y%m%d 2>/dev/null || \
+                            date -v-{{ .Values.pgBackup.retentionDays }}d +%Y%m%d)
+                  AWS_ACCESS_KEY_ID="$MINIO_ROOT_USER" \
+                  AWS_SECRET_ACCESS_KEY="$MINIO_ROOT_PASSWORD" \
+                  aws s3 ls s3://{{ .Values.pgBackup.bucket }}/ \
+                    --endpoint-url http://{{ .Release.Name }}-minio:9000 \
+                    --region us-east-1 \
+                    | awk '{print $4}' \
+                    | grep "^backup-" \
+                    | while read f; do
+                        FDATE=$(echo $f | grep -o '[0-9]\{8\}' | head -1)
+                        if [ "$FDATE" -lt "$CUTOFF" ]; then
+                          echo "Deleting old backup: $f"
+                          AWS_ACCESS_KEY_ID="$MINIO_ROOT_USER" \
+                          AWS_SECRET_ACCESS_KEY="$MINIO_ROOT_PASSWORD" \
+                          aws s3 rm s3://{{ .Values.pgBackup.bucket }}/$f \
+                            --endpoint-url http://{{ .Release.Name }}-minio:9000 \
+                            --region us-east-1
+                        fi
+                      done
+              envFrom:
+                - secretRef:
+                    name: {{ include "levelup-store.fullname" . }}
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 32Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+
+          volumes:
+            - name: backup
+              emptyDir: {}
+{{- end }}

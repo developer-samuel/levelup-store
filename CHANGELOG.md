@@ -1,13 +1,3 @@
-## [1.5.0] - 2026-09-06
-
-### 🔐 Security
-- Token blacklist stored in Redis with configurable TTL
-- Refresh token reuse detection - invalidates entire token family on reuse attempt
-- Logout revokes active refresh token immediately
-
-### 🐛 Fixes
-- Resolved pnpm permission conflict and missing frontend build in setup
-
 ## [1.4.1] - 2026-09-06
 
 ### 🐛 Fixes

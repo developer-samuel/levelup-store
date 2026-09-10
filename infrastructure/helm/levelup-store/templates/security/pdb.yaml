@@ -1,0 +1,13 @@
+{{- if gt (.Values.app.replicas | int) 1 }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "levelup-store.fullname" . }}
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "levelup-store.selectorLabels" . | nindent 6 }}
+{{- end }}

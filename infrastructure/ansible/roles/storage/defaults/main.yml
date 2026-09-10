@@ -1,0 +1,4 @@
+---
+storage_device: /dev/sdb          # OCI paravirtualized block volume - always the second disk
+storage_mount_point: /mnt/k3s-data
+storage_fstype: ext4

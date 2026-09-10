@@ -1,0 +1,47 @@
+kube-prometheus-stack:
+  grafana:
+    # Dashboards are auto-imported on Grafana startup. gnetId = ID from grafana.com/dashboards
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: levelup-store
+            orgId: 1
+            folder: LevelUp Store
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/levelup-store
+
+    dashboards:
+      levelup-store:
+        # RabbitMQ - queue depth, message rates, consumers
+        rabbitmq:
+          gnetId: 10991
+          revision: 11
+          datasource: Prometheus
+
+        # Redis - memory, hit rate, connected clients
+        redis:
+          gnetId: 763
+          revision: 6
+          datasource: Prometheus
+
+        # Kubernetes pods - CPU, memory, restarts per namespace
+        k8s-namespace:
+          gnetId: 15661
+          revision: 1
+          datasource: Prometheus
+
+        # Blackbox Exporter - uptime, response time, SSL expiry
+        blackbox:
+          gnetId: 7587
+          revision: 3
+          datasource: Prometheus
+
+        # Falco - security events, severity distribution
+        falco:
+          gnetId: 11914
+          revision: 1
+          datasource: Prometheus

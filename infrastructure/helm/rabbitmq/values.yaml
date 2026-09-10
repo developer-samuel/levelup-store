@@ -1,0 +1,23 @@
+rabbitmq:
+  # Service name must match RABBITMQ_HOST in configmap
+  fullnameOverride: levelup-store-rabbitmq
+
+  auth:
+    # username: set via make services-secrets (from RABBITMQ_USER)
+    # existingSecret/existingErlangSecret: created via make services-secrets
+    existingSecret: levelup-store-rabbitmq-secret
+    existingErlangSecret: levelup-store-rabbitmq-secret
+
+  persistence:
+    size: 2Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+  metrics:
+    enabled: true
