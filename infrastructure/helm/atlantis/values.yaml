@@ -118,13 +118,7 @@ atlantis:
 
   # Persistent volume for Terraform state locks and plan files between pod restarts
   storageClassName: local-path
-  data:
-    storageClassName: local-path
-
-  storage:
-    enabled: true
-    storageClassName: local-path
-    size: 5Gi
+  dataStorage: 5Gi
 
   resources:
     requests:

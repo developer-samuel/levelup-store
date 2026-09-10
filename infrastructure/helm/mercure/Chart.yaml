@@ -6,4 +6,4 @@ version: 0.1.0
 dependencies:
   - name: mercure
     version: ">=0.1.0"
-    repository: https://helm.mercure.rocks
+    repository: https://dunglas.github.io/mercure
