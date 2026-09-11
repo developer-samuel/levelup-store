@@ -55,6 +55,7 @@ K8S_APPS_DIR  := kubernetes/apps
 # app
 APP_NAME      := levelup-store
 ARGOCD_SERVER ?= argocd.$(APP_DOMAIN)
+ARGOCD_FLAGS  ?= --port-forward --port-forward-namespace argocd --insecure --grpc-web
 # Strip .git suffix - ArgoCD requires URL without it
 REPO_URL      := $(shell echo "$(GITHUB_REPO_URL)" | sed 's/\.git$$//')
 
@@ -76,8 +77,14 @@ endef
 # argocd_login - authenticate against ArgoCD - $(call argocd_login)
 # Tries domain first, falls back to --port-forward (no manual port-forward needed)
 define argocd_login
-  argocd login $(ARGOCD_SERVER) --grpc-web 2>/dev/null || \
-  argocd login --port-forward --port-forward-namespace argocd --insecure --grpc-web
+  argocd login $(ARGOCD_SERVER) --grpc-web --username admin --password "$(ARGOCD_PASSWORD)" 2>/dev/null || \
+  argocd login --port-forward --port-forward-namespace argocd --insecure --grpc-web --username admin --password "$(ARGOCD_PASSWORD)"
+endef
+
+# argocd_exec - run argocd command, auto port-forward if domain unreachable - $(call argocd_exec,ARGS)
+define argocd_exec
+  argocd $(1) --server $(ARGOCD_SERVER) --grpc-web 2>/dev/null || \
+  argocd $(1) --port-forward --port-forward-namespace argocd --insecure --grpc-web
 endef
 
 # get_vm_ip - fetch public IP from Terraform into VM_IP - $(call get_vm_ip)
@@ -280,7 +287,7 @@ velero-install: ## Configure Velero OCI region/bucket/endpoint via ArgoCD (deplo
 	$(call require,TF_VAR_region)
 	$(MAKE) velero-secret
 	$(call argocd_login)
-	argocd app set velero \
+	argocd app set velero $(ARGOCD_FLAGS) \
 		-p "velero.configuration.backupStorageLocation[0].bucket=$(TF_VAR_velero_bucket)" \
 		-p "velero.configuration.backupStorageLocation[0].config.region=$(TF_VAR_region)" \
 		-p "velero.configuration.backupStorageLocation[0].config.s3Url=$(VELERO_S3_URL)" \
@@ -325,7 +332,7 @@ services-secrets: ## Create K8s secrets for standalone service charts + set Rabb
 		--from-literal=mercure-cors-allowed-origins="https://$(APP_DOMAIN)" \
 		--dry-run=client -o yaml | kubectl apply -f -
 	$(call argocd_login)
-	argocd app set rabbitmq \
+	argocd app set rabbitmq $(ARGOCD_FLAGS) \
 		-p rabbitmq.auth.username="$(RABBITMQ_USER)"
 	@echo "✓ K8s secrets created and RabbitMQ username set."
 
@@ -344,7 +351,7 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 	$(call require,TURNSTILE_SITE_KEY)
 	$(call require,TURNSTILE_SECRET_KEY)
 	$(call argocd_login)
-	argocd app set $(APP_NAME) \
+	argocd app set $(APP_NAME) $(ARGOCD_FLAGS) \
 		-p app.image.repository="$(GHCR_IMAGE)" \
 		-p app.secret="$(APP_SECRET)" \
 		-p app.hmacSecret="$(HMAC_SECRET)" \
@@ -388,7 +395,7 @@ monitoring-secrets: ## Set Grafana password, domain and Alertmanager email via A
 	$(call require,MAILER_PORT)
 	$(call require,MAILER_PASS)
 	$(call argocd_login)
-	argocd app set monitoring \
+	argocd app set monitoring $(ARGOCD_FLAGS) \
 		-p kube-prometheus-stack.grafana.adminPassword="$(GRAFANA_PASSWORD)" \
 		-p "kube-prometheus-stack.grafana.ingress.hosts[0]=grafana.$(APP_DOMAIN)" \
 		-p "kube-prometheus-stack.grafana.tls[0].hosts[0]=grafana.$(APP_DOMAIN)" \
@@ -457,7 +464,7 @@ atlantis-install: ## Configure Atlantis via ArgoCD (deployed by root-app)
 	$(call require,ATLANTIS_REPO_WHITELIST)
 	$(MAKE) atlantis-secret
 	$(call argocd_login)
-	argocd app set atlantis \
+	argocd app set atlantis $(ARGOCD_FLAGS) \
 		-p atlantis.github.user="$(GITHUB_USERNAME)" \
 		-p atlantis.orgWhitelist="$(ATLANTIS_REPO_WHITELIST)" \
 		-p atlantis.ingress.host="atlantis.$(APP_DOMAIN)" \
@@ -469,7 +476,7 @@ atlantis-install: ## Configure Atlantis via ArgoCD (deployed by root-app)
 blackbox-install: ## Set Blackbox Exporter target URLs via ArgoCD (deployed by root-app)
 	$(call require,APP_DOMAIN)
 	$(call argocd_login)
-	argocd app set blackbox-exporter \
+	argocd app set blackbox-exporter $(ARGOCD_FLAGS) \
 		-p "prometheus-blackbox-exporter.serviceMonitor.targets[0].url=https://$(APP_DOMAIN)" \
 		-p "prometheus-blackbox-exporter.serviceMonitor.targets[1].url=https://$(APP_DOMAIN)/"
 	@echo "✓ Blackbox Exporter deployed. Dashboards in Grafana → Explore → probe_success"
