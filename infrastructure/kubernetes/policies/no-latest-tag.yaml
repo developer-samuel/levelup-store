@@ -24,6 +24,7 @@ spec:
               kinds: [Deployment]
               namespaces: [levelup-store]
               names:
+                - "levelup-store-minio"
                 - "levelup-store-minio-console"
       validate:
         message: "Image tag 'latest' is not allowed. Use a specific SHA tag (e.g. ghcr.io/user/app:abc1234)."
