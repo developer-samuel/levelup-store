@@ -42,4 +42,4 @@ runs:
 
     - name: Install PHP dependencies
       shell: bash
-      run: composer install --prefer-dist --no-interaction
+      run: composer install --prefer-dist --no-interaction --ignore-platform-req=ext-opentelemetry

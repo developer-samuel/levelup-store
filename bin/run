@@ -1,5 +1,5 @@
 #!/bin/bash
-if docker ps --filter "name=levelup_store_app" --filter "status=running" -q 2>/dev/null | grep -q .; then
+if docker info &>/dev/null && docker ps --filter "name=levelup_store_app" --filter "status=running" -q 2>/dev/null | grep -q .; then
     docker exec levelup_store_app "$@"
 else
     "$@"
