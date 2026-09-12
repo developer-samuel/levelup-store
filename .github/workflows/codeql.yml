@@ -21,8 +21,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  analyze:
-    name: 🔬 Analyze PHP
+  analyze-typescript:
+    name: 🔬 Analyze TypeScript
     runs-on: ubuntu-latest
 
     permissions:

@@ -8,11 +8,19 @@ echo "🖨️ Installing wkhtmltopdf (attempting to fetch prebuilt .deb)..."
 WKDEB_TMP="/tmp/wkhtmltox.deb"
 rm -f "${WKDEB_TMP}"
 
-CANDIDATES=(
-  "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb"
-  # Debian packages mirror (fallback to Debian stable package if GitHub links fail)
-  "https://deb.debian.org/debian/pool/main/w/wkhtmltopdf/wkhtmltopdf_0.12.6-2+b1_amd64.deb"
-)
+ARCH=$(dpkg --print-architecture)  # amd64 or arm64
+
+if [ "${ARCH}" = "arm64" ]; then
+  CANDIDATES=(
+    "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_arm64.deb"
+    "https://deb.debian.org/debian/pool/main/w/wkhtmltopdf/wkhtmltopdf_0.12.6-2+b1_arm64.deb"
+  )
+else
+  CANDIDATES=(
+    "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb"
+    "https://deb.debian.org/debian/pool/main/w/wkhtmltopdf/wkhtmltopdf_0.12.6-2+b1_amd64.deb"
+  )
+fi
 
 DOWNLOAD_OK=0
 for URL in "${CANDIDATES[@]}"; do
