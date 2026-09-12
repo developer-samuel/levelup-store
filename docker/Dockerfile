@@ -15,7 +15,7 @@ COPY config/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 # ──────────────────────────────────
 # 🧰 Redis configuration
 # ──────────────────────────────────
-COPY config/redis/config/redis.conf /usr/local/etc/redis/redis.conf
+COPY config/redis/redis.conf /usr/local/etc/redis/redis.conf
 
 # ──────────────────────────────────
 # 📦 Install dependencies & fix permissions
