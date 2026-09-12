@@ -18,6 +18,7 @@ on:
   schedule:
     # Weekly scan - catches newly discovered CVEs in unchanged code
     - cron: '0 2 * * 1'
+  workflow_dispatch:
 
 jobs:
   analyze:

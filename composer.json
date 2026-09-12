@@ -77,7 +77,8 @@
       "symfony/flex": true,
       "symfony/runtime": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "infection/extension-installer": true
+      "infection/extension-installer": true,
+      "tbachert/spi": true
     },
     "bump-after-update": true,
     "sort-packages": true
