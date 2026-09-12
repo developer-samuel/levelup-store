@@ -1,6 +1,10 @@
 minio:
   # Service name must match MINIO_ENDPOINT in configmap
   fullnameOverride: levelup-store-minio
+
+  image:
+    repository: bitnamilegacy/minio
+    tag: 2025.7.23-debian-12-r5
   auth:
     # existingSecret: created via make services-secrets
     existingSecret: levelup-store-minio-secret

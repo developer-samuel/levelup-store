@@ -142,11 +142,11 @@ bootstrap: ## Full bootstrap from scratch (tf-apply → k3s → cert-manager →
 	@echo "  Waiting for ArgoCD to sync all apps (this may take a few minutes)..."
 	kubectl wait --for=condition=available deployment/argocd-server -n argocd --timeout=300s
 	argocd app wait root --sync --health --timeout 300
-	$(MAKE) velero-install
 	$(MAKE) services-secrets
 	$(MAKE) secrets
 	$(MAKE) monitoring-secrets
 	$(MAKE) blackbox-install
+	$(MAKE) velero-install
 	@echo "✓ Bootstrap complete. App running at https://$(APP_DOMAIN)"
 
 # ── Terraform ─────────────────────────────────────────────────────────────────
@@ -272,12 +272,13 @@ velero-secret: ## Create Velero credentials secret from .env (OCI Customer Secre
 	$(call require,VELERO_ACCESS_KEY)
 	$(call require,VELERO_SECRET_KEY)
 	kubectl create namespace velero --dry-run=client -o yaml | kubectl apply -f -
+	@printf '[default]\naws_access_key_id=%s\naws_secret_access_key=%s\n' \
+		'$(VELERO_ACCESS_KEY)' '$(VELERO_SECRET_KEY)' > /tmp/velero-creds
 	kubectl create secret generic velero-credentials \
 		--namespace velero \
-		--from-literal=cloud="[default]
-aws_access_key_id=$(VELERO_ACCESS_KEY)
-aws_secret_access_key=$(VELERO_SECRET_KEY)" \
+		--from-file=cloud=/tmp/velero-creds \
 		--dry-run=client -o yaml | kubectl apply -f -
+	@rm -f /tmp/velero-creds
 
 velero-install: ## Configure Velero OCI region/bucket/endpoint via ArgoCD (deployed by root-app)
 	$(call require,VELERO_ACCESS_KEY)

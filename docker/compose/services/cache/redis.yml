@@ -4,7 +4,7 @@
 
 services:
   redis:
-    image: redis:latest
+    image: redis:8.10.1
     container_name: levelup_store_redis
     restart: unless-stopped
     ports:

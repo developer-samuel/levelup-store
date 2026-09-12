@@ -4,7 +4,7 @@
 
 services:
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.2.1
     container_name: levelup_store_grafana
     restart: unless-stopped
     user: '472'
