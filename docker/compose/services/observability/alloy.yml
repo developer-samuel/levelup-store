@@ -4,7 +4,7 @@
 
 services:
   alloy:
-    image: grafana/alloy:latest
+    image: grafana/alloy:v1.19.2
     container_name: levelup_store_alloy
     restart: unless-stopped
     volumes:

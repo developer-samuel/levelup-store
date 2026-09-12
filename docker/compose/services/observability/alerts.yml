@@ -4,7 +4,7 @@
 
 services:
   alertmanager:
-    image: prom/alertmanager:latest
+    image: prom/alertmanager:v0.34.0
     container_name: levelup_store_alertmanager
     restart: unless-stopped
     volumes:

@@ -2,6 +2,10 @@ postgresql:
   # Service name must match DB_HOST in configmap
   fullnameOverride: levelup-store-postgresql
 
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: 17.6.0-debian-12-r4
+
   auth:
     # username, database: set via make secrets (from DB_USERNAME, DB_DATABASE)
     # existingSecret: created via make services-secrets (DB_PASSWORD)

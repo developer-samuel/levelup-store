@@ -3,6 +3,10 @@ redis:
   # bitnami/redis creates service: <fullnameOverride>-master
   fullnameOverride: levelup-store-redis
 
+  image:
+    repository: bitnamilegacy/redis
+    tag: 8.2.1-debian-12-r0
+
   auth:
     enabled: true
     # existingSecret: created via make services-secrets (REDIS_PASSWORD)

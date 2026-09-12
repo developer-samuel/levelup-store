@@ -4,7 +4,7 @@
 
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.14.0
     container_name: levelup_store_prometheus
     restart: unless-stopped
     volumes:

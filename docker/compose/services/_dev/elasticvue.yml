@@ -4,7 +4,7 @@
 
 services:
   elasticvue:
-    image: cars10/elasticvue:latest
+    image: cars10/elasticvue:1.15.0
     container_name: levelup_store_elasticvue
     restart: unless-stopped
     environment:
