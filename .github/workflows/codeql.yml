@@ -36,7 +36,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: php
+          languages: javascript-typescript
           # security-extended: OWASP Top 10 + additional security queries
           # Includes: SQL injection, XSS, path traversal, SSRF, XXE, open redirect, etc.
           queries: security-extended
