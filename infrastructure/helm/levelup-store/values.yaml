@@ -1,6 +1,7 @@
 # Application
 app:
   image:
+    repository: ghcr.io/developer-samuel/levelup-store
     tag: latest
     pullPolicy: Always
 
