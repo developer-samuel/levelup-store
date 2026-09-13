@@ -43,6 +43,30 @@ securityContext:
   runAsUser: 1000
   readOnlyRootFilesystem: true
 
+# Elasticsearch
+elasticsearch:
+  enabled: true
+
+# Redis
+redis:
+  enabled: true
+
+# RabbitMQ
+rabbitmq:
+  enabled: true
+
+# MinIO
+minio:
+  enabled: true
+
+# Mercure
+mercure:
+  enabled: true
+
+# Turnstile (CAPTCHA)
+turnstile:
+  enabled: true
+
 # Network Policy
 networkPolicy:
   enabled: true
@@ -54,7 +78,7 @@ sealedSecrets:
 # PostgreSQL Backup
 pgBackup:
   enabled: true
-  schedule: "0 3 * * *"
+  schedule: "0 2 * * *"
   bucket: pg-backups
   retentionDays: 30
 
@@ -82,14 +106,3 @@ keda:
   maxReplicaCount: 5
   pollingInterval: 15
   cooldownPeriod: 30
-
-# ResourceQuota
-resourceQuota:
-  requests:
-    cpu: "6"
-    memory: 6Gi
-  limits:
-    cpu: "12"
-    memory: 12Gi
-  pods: "30"
-  pvcs: "10"

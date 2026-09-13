@@ -56,7 +56,7 @@ jobs:
       security-events: write
 
     container:
-      image: semgrep/semgrep:1
+      image: semgrep/semgrep:1.177.0
 
     steps:
       - uses: actions/checkout@v7

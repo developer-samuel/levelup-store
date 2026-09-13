@@ -26,10 +26,7 @@ jobs:
             refactor
             docs
             test
-            perf
             ci
-            build
-            revert
           requireScope: false
           subjectPattern: ^.{1,100}$
           subjectPatternError: 'PR title subject must be between 1 and 100 characters.'
@@ -56,6 +53,4 @@ jobs:
             --from ${{ github.event.pull_request.base.sha }} \
             --to ${{ github.event.pull_request.head.sha }} \
             --verbose \
-            --config - <<'EOF'
-          { "extends": ["@commitlint/config-conventional"] }
-          EOF
+            --default-config

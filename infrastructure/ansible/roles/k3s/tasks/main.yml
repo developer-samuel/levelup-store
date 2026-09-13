@@ -33,7 +33,7 @@
     mode: "0755"
 
 - name: Install k3s
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: /tmp/k3s-install.sh
     creates: "{{ k3s_install_dir }}/k3s"
   environment:
@@ -53,8 +53,8 @@
 
 - name: Wait for k3s to be ready
   ansible.builtin.command: k3s kubectl get nodes
-  register: result
-  until: result.rc == 0
+  register: k3s_result
+  until: k3s_result.rc == 0
   retries: 10
   delay: 5
   changed_when: false

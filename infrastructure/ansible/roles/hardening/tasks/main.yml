@@ -9,14 +9,14 @@
     state: present
     validate: sshd -t -f %s
   loop:
-    - { regexp: '^#?PermitRootLogin',        line: 'PermitRootLogin no' }
+    - { regexp: '^#?PermitRootLogin', line: 'PermitRootLogin no' }
     - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication no' }
-    - { regexp: '^#?PubkeyAuthentication',   line: 'PubkeyAuthentication yes' }
-    - { regexp: '^#?X11Forwarding',          line: 'X11Forwarding no' }
-    - { regexp: '^#?MaxAuthTries',           line: 'MaxAuthTries {{ ssh_max_auth_tries }}' }
-    - { regexp: '^#?LoginGraceTime',         line: 'LoginGraceTime {{ ssh_login_grace_time }}' }
-    - { regexp: '^#?AllowAgentForwarding',   line: 'AllowAgentForwarding no' }
-    - { regexp: '^#?PermitEmptyPasswords',   line: 'PermitEmptyPasswords no' }
+    - { regexp: '^#?PubkeyAuthentication', line: 'PubkeyAuthentication yes' }
+    - { regexp: '^#?X11Forwarding', line: 'X11Forwarding no' }
+    - { regexp: '^#?MaxAuthTries', line: 'MaxAuthTries {{ hardening_ssh_max_auth_tries }}' }
+    - { regexp: '^#?LoginGraceTime', line: 'LoginGraceTime {{ hardening_ssh_login_grace_time }}' }
+    - { regexp: '^#?AllowAgentForwarding', line: 'AllowAgentForwarding no' }
+    - { regexp: '^#?PermitEmptyPasswords', line: 'PermitEmptyPasswords no' }
   notify: Restart sshd
 
 # fail2ban - brute force protection
@@ -32,10 +32,10 @@
     content: |
       [sshd]
       enabled  = true
-      port     = {{ ssh_port }}
-      maxretry = {{ fail2ban_ssh_maxretry }}
-      bantime  = {{ fail2ban_ssh_bantime }}
-      findtime = {{ fail2ban_ssh_findtime }}
+      port     = {{ hardening_ssh_port }}
+      maxretry = {{ hardening_fail2ban_ssh_maxretry }}
+      bantime  = {{ hardening_fail2ban_ssh_bantime }}
+      findtime = {{ hardening_fail2ban_ssh_findtime }}
     mode: '0644'
   notify: Restart fail2ban
 
@@ -63,7 +63,7 @@
       Unattended-Upgrade::AutoFixInterruptedDpkg "true";
       Unattended-Upgrade::MinimalSteps "true";
       Unattended-Upgrade::Remove-Unused-Dependencies "true";
-      Unattended-Upgrade::Automatic-Reboot "{{ unattended_reboot | lower }}";
+      Unattended-Upgrade::Automatic-Reboot "{{ hardening_unattended_reboot | lower }}";
     mode: '0644'
 
 - name: Enable unattended-upgrades
