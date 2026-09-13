@@ -39,10 +39,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Install Ansible and ansible-lint
+        run: pip install ansible ansible-lint
+
       - name: Install Ansible collections
         run: ansible-galaxy collection install -r infrastructure/ansible/requirements.yml
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@v26
-        with:
-          working_directory: infrastructure/ansible
+        run: ansible-lint
+        working-directory: infrastructure/ansible
