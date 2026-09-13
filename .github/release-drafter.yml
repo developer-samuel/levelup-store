@@ -1,0 +1,43 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: '🚀 New Features'
+    labels: ['feature', 'backend', 'frontend']
+  - title: '🗄️ Database'
+    labels: ['database']
+  - title: '🧪 Tests'
+    labels: ['tests']
+  - title: '⎈ Infrastructure'
+    labels: ['infrastructure', 'docker']
+  - title: '🔧 CI/CD'
+    labels: ['ci/cd']
+  - title: '🔍 Code Quality'
+    labels: ['code-quality']
+  - title: '📖 Documentation'
+    labels: ['documentation']
+  - title: '🐛 Bug Fixes'
+    labels: ['bug']
+  - title: '🔒 Security'
+    labels: ['security']
+  - title: '⬆️ Dependency Updates'
+    labels: ['dependencies']
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+
+version-resolver:
+  major:
+    labels: ['major', 'breaking-change']
+  minor:
+    labels: ['minor', 'feature', 'backend', 'frontend']
+  patch:
+    labels: ['patch', 'bug', 'dependencies', 'infrastructure', 'docker', 'ci/cd', 'code-quality', 'documentation']
+  default: patch
+
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: $PREVIOUS_TAG...v$RESOLVED_VERSION

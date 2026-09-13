@@ -10,7 +10,7 @@ concurrency:
 
 env:
   PHP_VERSION: '8.3'
-  NODE_VERSION: '22'
+  NODE_VERSION: '24'
 
 jobs:
   # ─── PHP Static Analysis & Linting ────────────────────────────────────────
@@ -19,11 +19,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/php
         with:
           php-version: ${{ env.PHP_VERSION }}
+
+      - name: Prepare environment
+        run: cp .env.example .env
 
       - name: Composer Audit
         run: composer audit --no-dev
@@ -33,9 +36,6 @@ jobs:
 
       - name: PHP Mess Detector
         run: composer php-md
-
-      - name: Prepare environment
-        run: cp .env.example .env
 
       - name: Lint Twig
         run: php bin/console lint:twig templates/
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/php
         with:
@@ -68,12 +68,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/node
         with:
           node-version: ${{ env.NODE_VERSION }}
-    
+
       - name: pnpm Audit
         run: pnpm audit --prod --audit-level=high
 
@@ -146,7 +146,7 @@ jobs:
           --health-retries 5
 
       mercure:
-        image: dunglas/mercure:latest
+        image: dunglas/mercure:v0.24.2
         env:
           SERVER_NAME: ':80'
           MERCURE_PUBLISHER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
@@ -161,7 +161,7 @@ jobs:
           --health-retries 10
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/postgres
         with:
@@ -215,11 +215,11 @@ jobs:
         if: failure()
         run: cat var/log/test.log 2>/dev/null || echo "No test log found"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: phpunit-reports-php${{ matrix.php-version }}
-          path: var/tools/phpunit
+          path: var/tools/php-unit
 
   # ─── Vitest Frontend Tests ────────────────────────────────────────────────
   vitest:
@@ -227,7 +227,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/node
         with:
@@ -236,7 +236,7 @@ jobs:
       - name: Run Vitest
         run: pnpm vitest
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: vitest-coverage

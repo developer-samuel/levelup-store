@@ -2,7 +2,7 @@
 set -e
 
 echo "🔧 Installing MinIO Client (mc)..."
-curl -sSL https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc
+curl -sSfL https://github.com/minio/mc/releases/download/RELEASE.2025-08-13T08-35-41Z/mc.linux-amd64.RELEASE.2025-08-13T08-35-41Z -o /usr/local/bin/mc
 chmod +x /usr/local/bin/mc
 
 echo "✅ MinIO Client installed."

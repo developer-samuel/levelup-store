@@ -12,6 +12,25 @@ Designed for security, scalability, robustness, observability, and maintainabili
 
 ---
 
+## 📊 Status
+
+### CI/CD
+[![CI](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/main.yml?logo=githubactions&label=CI)](https://github.com/developer-samuel/levelup-store/actions/workflows/main.yml)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/deploy.yml?logo=docker&label=Deploy)](https://github.com/developer-samuel/levelup-store/actions/workflows/deploy.yml)
+[![Terraform](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/infrastructure-validate.yml?logo=terraform&label=Terraform)](https://github.com/developer-samuel/levelup-store/actions/workflows/infrastructure-validate.yml)
+
+### Security
+[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/developer-samuel/levelup-store?logo=github&label=OpenSSF+Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/developer-samuel/levelup-store)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/sast.yml?logo=github&label=CodeQL)](https://github.com/developer-samuel/levelup-store/actions/workflows/sast.yml)
+[![Supply Chain](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/supply-chain.yml?logo=dependabot&label=Supply+Chain)](https://github.com/developer-samuel/levelup-store/actions/workflows/supply-chain.yml)
+[![CVE Scan](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/cve-scan.yml?logo=trivy&label=CVE+Scan)](https://github.com/developer-samuel/levelup-store/actions/workflows/cve-scan.yml)
+
+### Coverage
+[![codecov](https://codecov.io/gh/developer-samuel/levelup-store/branch/main/graph/badge.svg)](https://codecov.io/gh/developer-samuel/levelup-store)
+[![Code Quality](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/code-quality.yml?logo=sonar&label=Code+Quality)](https://github.com/developer-samuel/levelup-store/actions/workflows/code-quality.yml)
+
+---
+
 ## 🧱 Architecture
 
 - Hexagonal Architecture (Ports & Adapters)

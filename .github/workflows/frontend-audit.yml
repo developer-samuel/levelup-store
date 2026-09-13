@@ -1,0 +1,209 @@
+name: 🎨 Frontend Audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/**'
+      - 'templates/**'
+      - 'public/**'
+  schedule:
+    - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
+  workflow_dispatch:
+
+env:
+  PHP_VERSION: '8.3'
+  NODE_VERSION: '24'
+
+jobs:
+  # ─── Accessibility ────────────────────────────────────────────────────────
+  accessibility:
+    name: ♿ Accessibility (axe-core + pa11y)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    permissions:
+      contents: read
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: levelup_store
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/postgres
+        with:
+          db-name: levelup_store
+          db-port: '5432'
+          db-password: secret
+
+      - uses: ./.github/actions/redis
+        with:
+          redis-port: '6379'
+
+      - uses: ./.github/actions/env
+        with:
+          source: .env.test
+
+      - uses: ./.github/actions/php
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo_pgsql, redis
+
+      - uses: ./.github/actions/node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          install-flags: '--ignore-scripts'
+
+      - name: Rebuild native modules
+        run: pnpm rebuild esbuild @parcel/watcher
+
+      - name: Database warmup
+        run: |
+          php bin/console doctrine:database:create --if-not-exists
+          php bin/console doctrine:migrations:migrate --no-interaction
+          php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate
+
+      - name: Build frontend
+        run: pnpm build
+
+      - name: Cache warmup
+        run: php bin/console cache:warmup
+
+      - name: Start PHP server
+        run: |
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t public &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8000/ > /dev/null && break
+            sleep 1
+          done
+
+      - name: Run axe-core
+        run: |
+          npm install -g @axe-core/cli
+          axe http://127.0.0.1:8000 \
+            --tags wcag2a,wcag2aa \
+            --reporter cli \
+            --exit || true
+
+      - name: Run pa11y
+        run: |
+          npm install -g pa11y
+          pa11y http://127.0.0.1:8000 \
+            --standard WCAG2AA \
+            --reporter cli || true
+
+  # ─── Lighthouse ───────────────────────────────────────────────────────────
+  lighthouse:
+    name: 🏠 Lighthouse audit
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+
+    permissions:
+      contents: read
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: levelup_store
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/postgres
+        with:
+          db-name: levelup_store
+          db-port: '5432'
+          db-password: secret
+
+      - uses: ./.github/actions/redis
+        with:
+          redis-port: '6379'
+
+      - uses: ./.github/actions/env
+        with:
+          source: .env.test
+
+      - uses: ./.github/actions/php
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo_pgsql, redis
+
+      - uses: ./.github/actions/node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          install-flags: '--ignore-scripts'
+
+      - name: Rebuild native modules
+        run: pnpm rebuild esbuild @parcel/watcher
+
+      - name: Database warmup
+        run: |
+          php bin/console doctrine:database:create --if-not-exists
+          php bin/console doctrine:migrations:migrate --no-interaction
+          php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate
+
+      - name: Build frontend
+        run: pnpm build
+
+      - name: Cache warmup
+        run: php bin/console cache:warmup
+
+      - name: Start PHP server
+        run: |
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t public &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8000/ > /dev/null && break
+            sleep 1
+          done
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://127.0.0.1:8000/
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 3

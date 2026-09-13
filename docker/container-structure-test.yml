@@ -1,0 +1,46 @@
+schemaVersion: '2.0.0'
+
+commandTests:
+  - name: PHP is installed
+    command: php
+    args: [--version]
+    expectedOutput: [PHP 8]
+
+  - name: Composer is installed
+    command: composer
+    args: [--version]
+    expectedOutput: [Composer]
+
+  - name: Working directory is /var/www
+    command: pwd
+    expectedOutput: [/var/www]
+
+fileExistenceTests:
+  - name: Entrypoint script exists
+    path: /usr/local/bin/scripts/run.sh
+    shouldExist: true
+    permissions: '-rwxr-xr-x'
+
+  - name: PHP config exists
+    path: /usr/local/etc/php/conf.d/opcache.ini
+    shouldExist: true
+
+  - name: PHP-FPM config exists
+    path: /usr/local/etc/php-fpm.d/www.conf
+    shouldExist: true
+
+  - name: Redis config exists
+    path: /usr/local/etc/redis/redis.conf
+    shouldExist: true
+
+  - name: Bootstrap scripts exist
+    path: /usr/local/bin/scripts/bootstrap
+    shouldExist: true
+
+  - name: Helper scripts exist
+    path: /usr/local/bin/scripts/helpers
+    shouldExist: true
+
+metadataTest:
+  entrypoint: ['/usr/local/bin/scripts/run.sh']
+  workdir: /var/www

@@ -1,0 +1,109 @@
+name: 📦 Bundle Size
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/**'
+      - 'vite/**'
+      - 'vite.config.ts'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+env:
+  NODE_VERSION: '24'
+
+jobs:
+  check:
+    name: 📦 Check bundle size
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: ./.github/actions/node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Build baseline (main)
+        run: pnpm build
+
+      - name: Save baseline size
+        run: |
+          find public/build \( -name "*.js" -o -name "*.css" \) | xargs du -cb | tail -1 | awk '{print $1}' > /tmp/baseline-size.txt
+          echo "Baseline: $(cat /tmp/baseline-size.txt) bytes"
+
+      - uses: actions/checkout@v7
+        with:
+          clean: false
+
+      - uses: ./.github/actions/node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Build PR branch
+        run: pnpm build
+
+      - name: Compare and comment
+        run: |
+          BASELINE=$(cat /tmp/baseline-size.txt)
+          CURRENT=$(find public/build \( -name "*.js" -o -name "*.css" \) | xargs du -cb | tail -1 | awk '{print $1}')
+          DIFF=$((CURRENT - BASELINE))
+          DIFF_KB=$((DIFF / 1024))
+
+          if [ $DIFF -gt 0 ]; then
+            ICON="⚠️"
+            SIGN="+"
+          elif [ $DIFF -lt 0 ]; then
+            ICON="✅"
+            SIGN=""
+          else
+            ICON="✅"
+            SIGN=""
+          fi
+
+          BASELINE_KB=$((BASELINE / 1024))
+          CURRENT_KB=$((CURRENT / 1024))
+
+          echo "COMMENT<<EOF" >> $GITHUB_ENV
+          echo "## 📦 Bundle Size" >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "| | Size |" >> $GITHUB_ENV
+          echo "|---|---|" >> $GITHUB_ENV
+          echo "| main | ${BASELINE_KB} KB |" >> $GITHUB_ENV
+          echo "| this PR | ${CURRENT_KB} KB |" >> $GITHUB_ENV
+          echo "| diff | ${ICON} ${SIGN}${DIFF_KB} KB |" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Post comment
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const body = process.env.COMMENT
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            })
+            const existing = comments.find(c => c.body.includes('📦 Bundle Size'))
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              })
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              })
+            }

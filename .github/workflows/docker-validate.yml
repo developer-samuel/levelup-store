@@ -1,0 +1,137 @@
+name: 🐳 Docker Validate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docker/**'
+      - 'docker-compose*.yml'
+      - '.env.example'
+      - '.hadolint.yaml'
+  workflow_dispatch:
+
+jobs:
+  # ─── Dockerfile Lint ──────────────────────────────────────────────────────
+  dockerfile-lint:
+    name: 🐳 Lint Dockerfile
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run Hadolint
+        uses: hadolint/hadolint-action@v3.5.0
+        with:
+          dockerfile: docker/Dockerfile
+          config: .hadolint.yaml
+          format: sarif
+          output-file: hadolint.sarif
+          no-fail: false
+
+      - name: Upload SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: hadolint.sarif
+          category: hadolint
+
+  # ─── Docker Compose Validate ──────────────────────────────────────────────
+  compose-validate:
+    name: 🐙 Validate Compose files
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Prepare environment
+        run: cp .env.example .env
+
+      - name: Validate docker-compose.yml
+        run: docker compose -f docker-compose.yml config --quiet
+
+      - name: Validate docker-compose.dev.yml
+        run: docker compose -f docker-compose.yml -f docker-compose.dev.yml config --quiet
+
+  # ─── Container Structure Test ─────────────────────────────────────────────
+  structure-test:
+    name: 🐳 Container structure test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./docker
+          file: docker/Dockerfile
+          load: true
+          tags: levelup-store:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Install container-structure-test
+        run: |
+          curl -sLO https://github.com/GoogleContainerTools/container-structure-test/releases/latest/download/container-structure-test-linux-amd64
+          chmod +x container-structure-test-linux-amd64
+          sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
+
+      - name: Run structure tests
+        run: |
+          container-structure-test test \
+            --image levelup-store:test \
+            --config docker/container-structure-test.yml
+
+  # ─── Trivy Image Scan ─────────────────────────────────────────────────────
+  trivy-image:
+    name: 🔒 Trivy image scan
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./docker
+          file: docker/Dockerfile
+          load: true
+          tags: levelup-store:pr
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@0.36.0
+        with:
+          image-ref: levelup-store:pr
+          format: sarif
+          output: trivy-image.sarif
+          severity: CRITICAL,HIGH
+          exit-code: 0
+
+      - name: Upload SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: trivy-image.sarif
+          category: trivy-image
