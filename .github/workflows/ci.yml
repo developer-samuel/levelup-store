@@ -1,12 +1,14 @@
-name: 🚀 LevelUp Store Pipeline
+name: 🚀 LevelUp Store CI
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: main-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -247,6 +249,7 @@ jobs:
   e2e:
     name: 🎭 Playwright E2E
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
 
     services:
       postgres:
