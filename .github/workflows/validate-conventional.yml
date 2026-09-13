@@ -1,4 +1,4 @@
-name: 📋 Lint Commits
+name: 📋 Validate PR & Commits
 
 on:
   pull_request:
