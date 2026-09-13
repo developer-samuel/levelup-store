@@ -1,4 +1,4 @@
-name: 📋 Validate PR & Commits
+name: 📋 Validate Commits
 
 on:
   pull_request:
@@ -6,31 +6,6 @@ on:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
-  # ─── PR Title ─────────────────────────────────────────────────────────────
-  pr-title:
-    name: 📋 Validate PR title
-    runs-on: ubuntu-latest
-
-    permissions:
-      pull-requests: read
-
-    steps:
-      - uses: amannn/action-semantic-pull-request@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          types: |
-            feat
-            fix
-            chore
-            refactor
-            docs
-            test
-            ci
-          requireScope: false
-          subjectPattern: ^.{1,100}$
-          subjectPatternError: 'PR title subject must be between 1 and 100 characters.'
-
   # ─── Commit Messages ──────────────────────────────────────────────────────
   commit-messages:
     name: 📋 Validate commit messages

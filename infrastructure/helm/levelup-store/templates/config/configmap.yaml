@@ -17,8 +17,8 @@ data:
   SERVER_VERSION: {{ .Values.app.postgresVersion | quote }}
   DB_HOST: {{ printf "%s-postgresql" .Release.Name | quote }}
   DB_PORT: "5432"
-  DB_DATABASE: {{ .Values.postgresql.auth.database | quote }}
-  DB_USERNAME: {{ .Values.postgresql.auth.username | quote }}
+  DB_DATABASE: {{ (.Values.postgresql).auth | default dict | dig "database" "" | quote }}
+  DB_USERNAME: {{ (.Values.postgresql).auth | default dict | dig "username" "" | quote }}
 
   REDIS_ENABLED: {{ .Values.redis.enabled | quote }}
   REDIS_HOST: {{ printf "%s-redis-master" .Release.Name | quote }}
@@ -31,7 +31,7 @@ data:
   RABBITMQ_ENABLED: {{ .Values.rabbitmq.enabled | quote }}
   RABBITMQ_HOST: {{ printf "%s-rabbitmq" .Release.Name | quote }}
   RABBITMQ_PORT: "5672"
-  RABBITMQ_USER: {{ .Values.rabbitmq.auth.username | quote }}
+  RABBITMQ_USER: {{ (.Values.rabbitmq).auth | default dict | dig "username" "" | quote }}
   RABBITMQ_VHOST: "/"
 
   MINIO_ENABLED: {{ .Values.minio.enabled | quote }}
