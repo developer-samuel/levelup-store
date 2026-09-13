@@ -25,7 +25,7 @@ runs:
         tools: composer
         coverage: ${{ inputs.coverage }}
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v6
       with:
         path: ~/.composer/cache
         key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}

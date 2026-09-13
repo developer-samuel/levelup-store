@@ -5,8 +5,9 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  label:
-    name: 🏷️ Apply labels
+  # ─── Content Labels ───────────────────────────────────────────────────────
+  content:
+    name: 🏷️ Apply content labels
     runs-on: ubuntu-latest
 
     permissions:
@@ -14,8 +15,26 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/labeler@v6
+      - uses: actions/labeler@v7
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/labeler.yml
           sync-labels: true
+
+  # ─── Size Labels ──────────────────────────────────────────────────────────
+  size:
+    name: 📏 Apply size label
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: codelytv/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_max_size: 100
+          s_max_size: 1000
+          m_max_size: 5000
+          l_max_size: 10000
+          fail_if_xl: false

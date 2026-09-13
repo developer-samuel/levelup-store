@@ -12,3 +12,7 @@ echo "✅ Cache directories ready."
 echo "⚡ Warming up Symfony cache..."
 php bin/console cache:warmup
 echo "✅ Symfony cache warmed up."
+
+echo "🔧 Fixing cache ownership..."
+chown -R www-data:www-data /var/www/var/cache
+echo "✅ Cache ownership fixed."

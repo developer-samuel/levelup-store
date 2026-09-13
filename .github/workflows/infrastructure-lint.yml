@@ -1,0 +1,45 @@
+name: 🔧 Infrastructure Lint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'infrastructure/ansible/**'
+      - '**/*.sh'
+      - 'bin/**'
+  workflow_dispatch:
+
+jobs:
+  # ─── ShellCheck ───────────────────────────────────────────────────────────
+  shellcheck:
+    name: 🐚 Lint shell scripts
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          scandir: '.'
+          severity: error
+          ignore_paths: vendor node_modules
+
+  # ─── Ansible Lint ─────────────────────────────────────────────────────────
+  ansible:
+    name: 📜 Lint Ansible playbooks & roles
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@v26
+        with:
+          working_directory: infrastructure/ansible

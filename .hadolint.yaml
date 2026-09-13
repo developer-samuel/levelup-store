@@ -1,0 +1,6 @@
+failure-threshold: error
+
+ignore:
+  - DL3008   # apt-get without pinned versions - managed via install scripts
+  - DL3009   # apt-get clean - managed via install scripts
+  - DL3059   # Multiple RUN instructions - intentional for readability

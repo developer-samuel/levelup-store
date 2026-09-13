@@ -1,0 +1,80 @@
+name: 🔬 Static Application Security Testing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'config/**'
+      - 'public/**'
+      - 'templates/**'
+      - 'assets/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'config/**'
+      - 'public/**'
+      - 'templates/**'
+      - 'assets/**'
+  schedule:
+    - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  # ─── CodeQL ───────────────────────────────────────────────────────────────
+  codeql:
+    name: 🔬 CodeQL (TypeScript)
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: codeql
+
+  # ─── Semgrep ──────────────────────────────────────────────────────────────
+  semgrep:
+    name: 🔬 Semgrep (PHP + Symfony)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    container:
+      image: semgrep/semgrep:1
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run Semgrep
+        run: |
+          semgrep \
+            --config p/php \
+            --config p/symfony \
+            --config p/owasp-top-ten \
+            --config p/secrets \
+            --sarif \
+            --output semgrep.sarif \
+            --error
+
+      - name: Upload SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep

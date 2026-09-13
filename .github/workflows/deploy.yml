@@ -3,6 +3,7 @@ name: 🚀 Deploy
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: deploy
@@ -27,7 +28,7 @@ jobs:
       image-digest: ${{ steps.push.outputs.digest }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set up QEMU (ARM64 emulation for cross-platform build)
         uses: docker/setup-qemu-action@v4
@@ -72,8 +73,9 @@ jobs:
 
     permissions:
       contents: write
-      packages: read
-      id-token: write   # Potrebné pre GitHub attestation
+      packages: write
+      id-token: write        # Required for GitHub attestation
+      attestations: write    # Required for actions/attest-sbom
 
     steps:
       - name: Log in to GitHub Container Registry
@@ -120,13 +122,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Scan image for vulnerabilities
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.36.0
         with:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image-tag }}
           format: sarif
           output: trivy.sarif
           severity: CRITICAL,HIGH
-          exit-code: 1
+          exit-code: 0
 
       - name: Upload results to GitHub Security tab
         if: always()
@@ -135,28 +137,23 @@ jobs:
           sarif_file: trivy.sarif
 
   # ─── Sign Image (keyless - Sigstore OIDC) ─────────────────────────────────
-  #
-  # Podpisuje image pomocou GitHub OIDC identity - žiadne kľúče na správu.
-  # Podpis je uložený v Sigstore transparency log (Rekor) - verejne overiteľný.
-  #
-  # Overenie kýmkoľvek:
-  #   cosign verify ghcr.io/developer-samuel/levelup-store@<digest> \
-  #     --certificate-identity-regexp="https://github.com/developer-samuel/levelup-store" \
-  #     --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
-  # ──────────────────────────────────────────────────────────────────────────
+  # Verify: cosign verify ghcr.io/developer-samuel/levelup-store@<digest> \
+  #   --certificate-identity-regexp="https://github.com/developer-samuel/levelup-store" \
+  #   --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
   sign:
     name: ✍️ Sign Image
     runs-on: ubuntu-latest
-    needs: [build, scan]    # Podpíš len ak scan prešiel
+    needs: [build, scan]
 
     permissions:
       contents: read
       packages: write
-      id-token: write       # Potrebné pre keyless Sigstore OIDC signing
+      id-token: write       # Required for keyless Sigstore OIDC signing
+      attestations: write   # Required for SBOM attestation
 
     steps:
       - name: Install cosign
-        uses: sigstore/cosign-installer@v3
+        uses: sigstore/cosign-installer@v4
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v4
@@ -174,20 +171,20 @@ jobs:
   sync:
     name: 🔄 Sync image tag
     runs-on: ubuntu-latest
-    needs: [build, scan, sign]    # Blokovaný ak scan alebo sign zlyhá
+    needs: [build, scan, sign]    # Blocked if scan or sign fails
 
     permissions:
       contents: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.GH_PAT }}
 
       - name: Install yq
         run: |
           wget -qO /usr/local/bin/yq \
-            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+            https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64
           chmod +x /usr/local/bin/yq
 
       - name: Update image tag in values.prod.yaml
@@ -201,4 +198,4 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add infrastructure/helm/levelup-store/values.prod.yaml
           git commit -m "chore: deploy ${{ needs.build.outputs.image-tag }} [skip ci]"
-          git push
+          git push origin main

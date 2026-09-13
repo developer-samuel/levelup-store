@@ -39,6 +39,7 @@
         </include>
         <report>
             <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
+            <clover outputFile="var/tools/php-unit/coverage.xml"/>
         </report>
     </coverage>
 

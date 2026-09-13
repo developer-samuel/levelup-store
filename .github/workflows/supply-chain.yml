@@ -1,0 +1,62 @@
+name: 🔗 Supply Chain Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  # ─── Gitleaks ─────────────────────────────────────────────────────────────
+  gitleaks:
+    name: 🔑 Scan for secrets
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ─── OpenSSF Scorecard ────────────────────────────────────────────────────
+  scorecard:
+    name: 🏅 Scorecard analysis
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+
+    permissions:
+      contents: read
+      id-token: write        # Required for publishing results to OSSF REST API
+      security-events: write # Required for uploading SARIF to GitHub Security tab
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Run Scorecard analysis
+        uses: ossf/scorecard-action@v2
+        with:
+          results_file: scorecard.sarif
+          results_format: sarif
+          publish_results: true
+
+      - name: Upload SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: scorecard.sarif
+          category: scorecard

@@ -9,11 +9,6 @@ backend:
           - 'composer.json'
           - 'composer.lock'
           - 'symfony.lock'
-          - 'phpstan.neon'
-          - 'phpmd.xml'
-          - 'rector.php'
-          - 'deptrac.yaml'
-          - 'codestats-analyzer.xml'
 
 frontend:
   - changed-files:
@@ -24,11 +19,22 @@ frontend:
           - 'vite/**'
           - 'vite.config.ts'
           - 'tsconfig*.json'
-          - 'eslint.config.mjs'
           - 'importmap.php'
           - 'package.json'
           - 'pnpm-lock.yaml'
           - 'package-lock.json'
+
+code-quality:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'phpstan.neon'
+          - 'phpmd.xml'
+          - 'rector.php'
+          - 'deptrac.yaml'
+          - 'codestats-analyzer.xml'
+          - 'eslint.config.mjs'
+          - '.stylelintrc*'
+          - '.editorconfig'
 
 database:
   - changed-files:

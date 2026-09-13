@@ -1,0 +1,99 @@
+name: 🕷️ OWASP ZAP DAST
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
+  workflow_dispatch:
+
+env:
+  PHP_VERSION: '8.3'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  zap:
+    name: 🕷️ DAST scan
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: levelup_store
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/postgres
+        with:
+          db-name: levelup_store
+          db-port: '5432'
+          db-password: secret
+
+      - uses: ./.github/actions/redis
+        with:
+          redis-port: '6379'
+
+      - uses: ./.github/actions/env
+        with:
+          source: .env.test
+
+      - uses: ./.github/actions/php
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo_pgsql, redis
+
+      - name: Database warmup
+        run: |
+          php bin/console doctrine:database:create --if-not-exists
+          php bin/console doctrine:migrations:migrate --no-interaction
+          php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate
+
+      - name: Cache warmup
+        run: php bin/console cache:warmup
+
+      - name: Start PHP server
+        run: |
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t public &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8000/ > /dev/null && break
+            sleep 1
+          done
+
+      - name: Run ZAP baseline scan
+        uses: zaproxy/action-baseline@v0.15.0
+        with:
+          target: 'http://127.0.0.1:8000'
+          rules_file_name: '.zap-rules.tsv'
+          cmd_options: '-a'
+          fail_action: false
+
+      - name: Upload ZAP report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: zap-report
+          path: report_html.html

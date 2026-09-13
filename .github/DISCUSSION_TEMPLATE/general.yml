@@ -1,0 +1,15 @@
+title: '[Discussion] '
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question, idea, or want to share something? Start a discussion below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What's on your mind?
+      placeholder: Describe your question or idea...
+    validations:
+      required: true

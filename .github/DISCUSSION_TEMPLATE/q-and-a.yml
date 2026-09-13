@@ -1,0 +1,24 @@
+title: '[Q&A] '
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask a question about the project - setup, configuration, usage, or anything else.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      placeholder: What do you want to know?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What have you already tried or checked?
+      placeholder: I looked at... / I tried...
+    validations:
+      required: false

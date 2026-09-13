@@ -1,0 +1,36 @@
+name: 📬 Notify
+
+on:
+  workflow_run:
+    workflows: ['🚀 Deploy']
+    types: [completed]
+
+jobs:
+  notify:
+    name: 📬 Send deploy notification
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v21
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.NOTIFY_EMAIL_USERNAME }}
+          password: ${{ secrets.NOTIFY_EMAIL_PASSWORD }}
+          to: ${{ secrets.NOTIFY_EMAIL_USERNAME }}
+          from: LevelUp Store CI <${{ secrets.NOTIFY_EMAIL_USERNAME }}>
+          subject: ${{ github.event.workflow_run.conclusion == 'success' && '✅ Deploy successful' || '❌ Deploy failed' }} - ${{ github.event.workflow_run.head_sha }}
+          body: |
+            Deploy ${{ github.event.workflow_run.conclusion == 'success' && 'succeeded' || 'FAILED' }}
+
+            Image:       ${{ github.event.workflow_run.head_sha }}
+            Branch:      ${{ github.event.workflow_run.head_branch }}
+            Triggered by: ${{ github.event.workflow_run.triggering_actor.login }}
+            Time:        ${{ github.event.workflow_run.updated_at }}
+
+            Details: ${{ github.event.workflow_run.html_url }}
