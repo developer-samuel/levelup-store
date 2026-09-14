@@ -25,6 +25,10 @@ spec:
             - bin/console
             - doctrine:migrations:migrate
             - --no-interaction
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
           envFrom:
             - configMapRef:
                 name: {{ include "levelup-store.fullname" . }}
@@ -32,7 +36,7 @@ spec:
                 name: {{ include "levelup-store.fullname" . }}
           resources:
             requests:
-              cpu: 100m
+              cpu: 50m
               memory: 128Mi
             limits:
               cpu: 250m
