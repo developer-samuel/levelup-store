@@ -11,6 +11,10 @@ minio:
 
   defaultBuckets: levelup-store,pg-backups
 
+  console:
+    image:
+      repository: bitnamilegacy/minio-object-browser
+
   persistence:
     size: 10Gi
 
