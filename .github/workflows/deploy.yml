@@ -24,11 +24,15 @@ jobs:
       packages: write
 
     outputs:
-      image-tag: ${{ steps.meta.outputs.version }}
+      image-tag: ${{ steps.sha.outputs.short }}
       image-digest: ${{ steps.push.outputs.digest }}
 
     steps:
       - uses: actions/checkout@v7
+
+      - name: Get short SHA
+        id: sha
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU (ARM64 emulation for cross-platform build)
         uses: docker/setup-qemu-action@v4
@@ -179,7 +183,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GH_PAT || github.token }}
 
       - name: Install yq
         run: |
