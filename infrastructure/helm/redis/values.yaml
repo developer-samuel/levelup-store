@@ -28,4 +28,5 @@ redis:
     replicaCount: 0   # single-node k3s
 
   metrics:
-    enabled: true
+    image:
+      repository: bitnamilegacy/redis-exporter
