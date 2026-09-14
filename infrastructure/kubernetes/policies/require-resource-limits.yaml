@@ -6,7 +6,7 @@ metadata:
     policies.kyverno.io/title: Require Resource Limits
     policies.kyverno.io/severity: medium
     policies.kyverno.io/description: >
-      All containers must have resource limits defined (CPU + memory).
+      All containers and init containers must have resource limits defined (CPU + memory).
       Without limits, a single pod can consume all node resources.
 spec:
   validationFailureAction: Enforce
@@ -19,10 +19,15 @@ spec:
               kinds: [Pod]
               namespaces: [levelup-store]
       validate:
-        message: "Container '{{ request.object.metadata.name }}' is missing resource limits. Add resources.limits.cpu and resources.limits.memory."
+        message: "Pod '{{ request.object.metadata.name }}' has a container missing resource limits. Add resources.limits.cpu and resources.limits.memory to every container."
         pattern:
           spec:
             containers:
+              - resources:
+                  limits:
+                    memory: "?*"
+                    cpu: "?*"
+            =(initContainers):
               - resources:
                   limits:
                     memory: "?*"
