@@ -12,7 +12,7 @@ app:
 
   resources:
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 256Mi
     limits:
       cpu: 500m
@@ -92,11 +92,22 @@ limitRange:
     cpu: 50m
     memory: 128Mi
   max:
-    cpu: 2000m
-    memory: 2Gi
+    cpu: 500m
+    memory: 512Mi
   min:
     cpu: 10m
     memory: 32Mi
+
+# Resource Quota - namespace ceiling (node: 2 CPU / 12Gi RAM)
+resourceQuota:
+  requests:
+    cpu: "1"
+    memory: 3Gi
+  limits:
+    cpu: "3"
+    memory: 6Gi
+  pods: "20"
+  pvcs: "10"
 
 # KEDA - event-driven worker autoscaling
 keda:

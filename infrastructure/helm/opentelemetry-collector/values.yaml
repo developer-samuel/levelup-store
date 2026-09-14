@@ -79,7 +79,7 @@ opentelemetry-collector:
       memory: 256Mi
     limits:
       cpu: 250m
-      memory: 640Mi
+      memory: 512Mi
 
   serviceMonitor:
     enabled: true

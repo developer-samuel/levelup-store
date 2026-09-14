@@ -7,7 +7,7 @@ kyverno:
       memory: 128Mi
     limits:
       cpu: 500m
-      memory: 384Mi
+      memory: 256Mi
 
   # Audit mode - logs violations without blocking (safe for initial rollout)
   # Switch policies to Enforce after verifying no violations in Grafana/logs
