@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/component: worker
   annotations:
     reloader.stakater.com/auto: "true"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   {{- if not .Values.keda.enabled }}
   replicas: 1

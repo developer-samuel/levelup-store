@@ -6,6 +6,7 @@ metadata:
     {{- include "levelup-store.labels" . | nindent 4 }}
   annotations:
     reloader.stakater.com/auto: "true"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   replicas: {{ .Values.app.replicas }}
   selector:
