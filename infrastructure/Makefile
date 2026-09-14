@@ -339,18 +339,29 @@ services-secrets: ## Create K8s secrets for standalone service charts + set Rabb
 
 secrets: ## Set production secrets for levelup-store app via ArgoCD
 	$(call require,APP_DOMAIN)
+	$(call require,APP_URL)
+	$(call require,CORS_ALLOW_ORIGIN)
 	$(call require,GHCR_IMAGE)
 	$(call require,APP_SECRET)
 	$(call require,HMAC_SECRET)
 	$(call require,JWT_PASSPHRASE)
 	$(call require,STRIPE_SECRET)
-	$(call require,DB_PASSWORD)
-	$(call require,REDIS_PASSWORD)
+	$(call require,DATABASE_URL)
+	$(call require,REDIS_URL)
 	$(call require,RABBITMQ_PASS)
+	$(call require,MESSENGER_TRANSPORT_DSN)
 	$(call require,MINIO_ROOT_PASSWORD)
+	$(call require,MINIO_PUBLIC_URL)
 	$(call require,MERCURE_JWT_SECRET)
+	$(call require,MERCURE_CORS_ORIGINS)
+	$(call require,MERCURE_PUBLIC_URL)
 	$(call require,TURNSTILE_SITE_KEY)
 	$(call require,TURNSTILE_SECRET_KEY)
+	$(call require,MAILER_USER)
+	$(call require,MAILER_PASS)
+	$(call require,MAILER_HOST)
+	$(call require,MAILER_PORT)
+	$(call require,MAILER_DSN)
 	$(call argocd_login)
 	argocd app set $(APP_NAME) $(ARGOCD_FLAGS) \
 		-p sealedSecrets.enabled=false \
@@ -359,26 +370,30 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 		-p app.hmacSecret="$(HMAC_SECRET)" \
 		-p app.jwtPassphrase="$(JWT_PASSPHRASE)" \
 		-p app.stripeSecret="$(STRIPE_SECRET)" \
-		-p app.url="https://$(APP_DOMAIN)" \
-		-p app.corsAllowOrigin="https://$(APP_DOMAIN)" \
+		-p app.url="$(APP_URL)" \
+		-p app.corsAllowOrigin="$(CORS_ALLOW_ORIGIN)" \
 		-p app.wkhtmltopdfPath="$(WKHTMLTOPDF_PATH)" \
 		-p app.apiCountryUrl="$(API_COUNTRY_URL)" \
 		-p app.mailerDsn="$(MAILER_DSN)" \
+		-p app.mailerUser="$(MAILER_USER)" \
+		-p app.mailerPass="$(MAILER_PASS)" \
+		-p app.mailerHost="$(MAILER_HOST)" \
+		-p app.mailerPort="$(MAILER_PORT)" \
 		-p app.sentryDsn="$(SENTRY_DSN)" \
 		-p postgresql.auth.username="$(DB_USERNAME)" \
 		-p postgresql.auth.database="$(DB_DATABASE)" \
 		-p rabbitmq.auth.username="$(RABBITMQ_USER)" \
-		-p app.databaseUrl="pgsql://$(DB_USERNAME):$(DB_PASSWORD)@levelup-store-postgresql:5432/$(DB_DATABASE)?serverVersion=17&charset=utf8" \
-		-p app.redisUrl="redis://:$(REDIS_PASSWORD)@levelup-store-redis-master:6379" \
+		-p app.databaseUrl="$(DATABASE_URL)" \
+		-p app.redisUrl="$(REDIS_URL)" \
 		-p app.rabbitmqPass="$(RABBITMQ_PASS)" \
-		-p app.messengerDsn="amqp://$(RABBITMQ_USER):$(RABBITMQ_PASS)@levelup-store-rabbitmq:5672/%2f" \
+		-p app.messengerDsn="$(MESSENGER_TRANSPORT_DSN)" \
 		-p app.minioRootUser="$(MINIO_ROOT_USER)" \
 		-p app.minioRootPassword="$(MINIO_ROOT_PASSWORD)" \
 		-p app.mercureJwtSecret="$(MERCURE_JWT_SECRET)" \
 		-p ingress.host="$(APP_DOMAIN)" \
-		-p minio.publicUrl="https://$(APP_DOMAIN)/storage" \
-		-p mercure.publicUrl="https://$(APP_DOMAIN)/.well-known/mercure" \
-		-p mercure.corsOrigins="https://$(APP_DOMAIN)" \
+		-p minio.publicUrl="$(MINIO_PUBLIC_URL)" \
+		-p mercure.publicUrl="$(MERCURE_PUBLIC_URL)" \
+		-p mercure.corsOrigins="$(MERCURE_CORS_ORIGINS)" \
 		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY)" \
 		-p turnstile.secretKey="$(TURNSTILE_SECRET_KEY)" \
 		-p app.trustedProxies="$(TRUSTED_PROXIES)" \
