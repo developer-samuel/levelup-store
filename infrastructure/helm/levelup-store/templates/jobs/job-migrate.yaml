@@ -5,8 +5,9 @@ metadata:
   labels:
     {{- include "levelup-store.labels" . | nindent 4 }}
   annotations:
-    # Run before new pods are rolled out so the DB schema is ready
-    "helm.sh/hook": pre-upgrade,pre-install
+    # pre-upgrade: runs before new pods roll out (schema ready before new code)
+    # post-install: runs after first-install resources exist (secret/configmap already created)
+    "helm.sh/hook": pre-upgrade,post-install
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
