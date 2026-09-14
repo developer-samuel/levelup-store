@@ -1,3 +1,7 @@
+global:
+  security:
+    allowInsecureImages: true
+
 elasticsearch:
   # Service name must match ELASTICSEARCH_HOST in configmap
   fullnameOverride: levelup-store-elasticsearch
