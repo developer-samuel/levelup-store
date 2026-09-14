@@ -93,6 +93,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.image-tag }}
+          syft-version: v1.51.1
           format: spdx-json
           output-file: sbom.spdx.json
           upload-artifact: true
