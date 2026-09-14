@@ -5,16 +5,17 @@ metadata:
   labels:
     {{- include "levelup-store.labels" . | nindent 4 }}
   annotations:
-    # Wave 1: runs after Secret/ConfigMap (wave 0), before Deployment (wave 2)
-    argocd.argoproj.io/hook: Sync
-    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: Replace=true
 spec:
-  ttlSecondsAfterFinished: 300
+  ttlSecondsAfterFinished: 60
   backoffLimit: 3
   template:
     spec:
       restartPolicy: OnFailure
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
         - name: migrate
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
