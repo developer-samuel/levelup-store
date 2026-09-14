@@ -5,6 +5,7 @@
 .PHONY: help install cache-clear serve setup \
         clean-all build-cache \
         setup-build \
+		build-prod test-prod \
         dev dev-build-force dev-down dev-down-clean \
         dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
         logs logs-dev
@@ -80,6 +81,14 @@ setup-build: ## Build and start setup containers (first time or Dockerfile chang
 	$(MAKE) dev-down
 	$(DC) --profile setup up --build
 	$(DC) up -d
+
+# ── 🚢 Production ────────────────────────────────────────────────────────────
+
+build-prod: ## Build production image locally (smoke test before push to main)
+	docker build -f docker/Dockerfile.prod -t levelup-store:prod-test .
+
+test-prod: ## Verify production image has bin/console (run after build-prod)
+	docker run --rm --entrypoint php levelup-store:prod-test -l /var/www/bin/console
 
 # ── 💻 Development ───────────────────────────────────────────────────────────
 
