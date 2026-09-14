@@ -30,7 +30,9 @@ spec:
         message: "Image tag 'latest' is not allowed. Use a specific SHA tag (e.g. ghcr.io/user/app:abc1234)."
         pattern:
           spec:
-            containers:
-              - image: "!*:latest"
-            =(initContainers):
-              - image: "!*:latest"
+            template:
+              spec:
+                containers:
+                  - image: "!*:latest"
+                =(initContainers):
+                  - image: "!*:latest"
