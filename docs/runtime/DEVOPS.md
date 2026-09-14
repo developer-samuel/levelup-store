@@ -11,10 +11,20 @@ Everything is set up to make development smooth, automated, and maintainable.
 
 ---
 
-## 🐳 Docker Services
+## 🐳 Docker
 
-The project runs fully on Docker, providing isolated and reproducible environments.
-All services are grouped under `Docker Containers`.
+The project uses two Dockerfiles:
+
+| File | Purpose | Build context |
+|------|---------|---------------|
+| `docker/Dockerfile` | Local dev base image - PHP-FPM runtime only, app code is volume-mounted | `./docker` |
+| `docker/Dockerfile.prod` | Production image - PHP-FPM + Nginx + full app code baked in | `.` (repo root) |
+
+Production-specific configs live in `docker/_prod/`:
+- `config/nginx/nginx.conf` - Nginx main config (non-root, temp paths under `/tmp`)
+- `config/nginx/server.conf` - Nginx server block (port 8000, FastCGI → localhost:9000)
+- `config/php/fpm-pool.conf` - PHP-FPM pool (non-root, TCP socket 127.0.0.1:9000)
+- `scripts/run.sh` - Production entrypoint (starts php-fpm + nginx)
 
 ---
 
@@ -24,8 +34,8 @@ All pipelines are implemented using GitHub Actions, ensuring automated builds, t
 
 #### Pipeline Details:
 
-- **main.yml** - Triggered on every push to main. Runs PHP lint & static analysis, architecture check, assets lint, PHPUnit (PHP 8.2 / 8.3), Vitest, and Playwright E2E.
-- **pull-request.yml** - Triggered on every pull request to main. Runs PHP lint & static analysis, architecture check, assets lint, PHPUnit (PHP 8.2 / 8.3), and Vitest.
+- **ci.yml** - Triggered on every push/PR to main. Runs PHP lint & static analysis, architecture check, assets lint, PHPUnit (PHP 8.2 / 8.3), Vitest, and Playwright E2E.
+- **deploy.yml** - Triggered on every push to main (after CI passes). Builds the production Docker image (`Dockerfile.prod`), pushes to GHCR, signs with Sigstore, and updates `values.prod.yaml` - ArgoCD auto-syncs to Kubernetes.
 - **release.yml** - Triggered on GitHub Release creation. Automatically prepends release notes to `CHANGELOG.md` and commits it to main.
 
 Pipelines ensure early detection of issues and maintain a deployable state at all times.

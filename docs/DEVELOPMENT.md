@@ -48,6 +48,24 @@ docker compose --profile setup up --build
 docker compose up -d
 ```
 
+### Production Commands
+
+Build and test the production Docker image locally before pushing to `main`.
+The production image (`docker/Dockerfile.prod`) includes the full app - PHP-FPM + Nginx + compiled assets.
+CI builds it automatically on every push to `main`, so these commands are for local verification only.
+
+```bash
+# Build production image locally
+make build-prod
+# or
+docker build -f docker/Dockerfile.prod -t levelup-store:prod-test .
+
+# Verify production image has bin/console (run after build-prod)
+make test-prod
+# or
+docker run --rm --entrypoint php levelup-store:prod-test -l /var/www/bin/console
+```
+
 ### Development Commands
 
 All services including dev tools - Vite, pgAdmin, Elasticvue, Mailpit, Dozzle, SonarQube.
