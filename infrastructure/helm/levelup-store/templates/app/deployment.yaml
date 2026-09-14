@@ -12,10 +12,12 @@ spec:
   selector:
     matchLabels:
       {{- include "levelup-store.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: app
   template:
     metadata:
       labels:
         {{- include "levelup-store.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: app
     spec:
       {{- if .Values.securityContext.runAsNonRoot }}
       securityContext:

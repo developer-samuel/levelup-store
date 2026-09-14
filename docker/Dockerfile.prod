@@ -98,7 +98,7 @@ COPY database/ database/
 COPY public/ public/
 COPY src/ src/
 COPY templates/ templates/
-COPY composer.json composer.lock symfony.lock importmap.php ./
+COPY composer.json composer.lock symfony.lock importmap.php init.php ./
 
 # Minimal .env - tells Symfony it's in prod mode without loading dotenv at runtime.
 # Real values (DB, secrets, etc.) come from K8s ConfigMap/Secret and override this.
