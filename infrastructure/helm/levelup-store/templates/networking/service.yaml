@@ -8,6 +8,7 @@ spec:
   type: ClusterIP
   selector:
     {{- include "levelup-store.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: app
   ports:
     - port: 80
       targetPort: 8000
