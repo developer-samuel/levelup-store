@@ -40,5 +40,5 @@ elasticsearch:
   # Kyverno exception added in kyverno-policies
   sysctlImage:
     enabled: true
-    image:
-      repository: bitnamilegacy/os-shell
+    registry: docker.io
+    repository: bitnamilegacy/os-shell
