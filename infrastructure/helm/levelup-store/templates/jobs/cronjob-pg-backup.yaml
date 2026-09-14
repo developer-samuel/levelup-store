@@ -20,6 +20,8 @@ spec:
             # Step 1: pg_dump → /backup/dump.sql.gz
             - name: pg-dump
               image: postgres:{{ .Values.app.postgresVersion }}-alpine
+              securityContext:
+                allowPrivilegeEscalation: false
               command:
                 - /bin/sh
                 - -c
@@ -46,7 +48,9 @@ spec:
           containers:
             # Step 2: upload to MinIO (S3-compatible)
             - name: upload
-              image: amazon/aws-cli:2
+              image: public.ecr.aws/aws-cli/aws-cli:2
+              securityContext:
+                allowPrivilegeEscalation: false
               command:
                 - /bin/sh
                 - -c

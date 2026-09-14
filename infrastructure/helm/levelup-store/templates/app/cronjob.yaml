@@ -19,10 +19,16 @@ spec:
             - name: scheduler
               image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
               imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: [ALL]
               command:
                 - php
                 - /var/www/bin/console
-                - scheduler:run
+                - messenger:consume
+                - scheduler_default
+                - --time-limit=840
               envFrom:
                 - configMapRef:
                     name: {{ include "levelup-store.fullname" . }}

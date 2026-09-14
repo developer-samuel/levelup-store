@@ -9,7 +9,7 @@ Image deployed:
 Components:
   ✓ App:           {{ .Values.app.replicas }} replica(s)
   ✓ Worker:        messenger:consume async
-  ✓ Scheduler:     scheduler:run (every 15 minutes)
+  ✓ Scheduler:     messenger:consume scheduler_default (every 15 minutes)
   ✓ PostgreSQL:    levelup-store-postgresql:5432
   ✓ Redis:         levelup-store-redis-master:6379
   ✓ RabbitMQ:      levelup-store-rabbitmq:5672
