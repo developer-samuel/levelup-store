@@ -8,8 +8,8 @@ rabbitmq:
 
   auth:
     # username: set via make services-secrets (from RABBITMQ_USER)
-    # existingSecret/existingErlangSecret: created via make services-secrets
-    existingSecret: levelup-store-rabbitmq-secret
+    # existingPasswordSecret/existingErlangSecret: created via make services-secrets
+    existingPasswordSecret: levelup-store-rabbitmq-secret
     existingErlangSecret: levelup-store-rabbitmq-secret
 
   persistence:
