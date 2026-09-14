@@ -6,13 +6,14 @@
 
 - name: Check if device is already formatted
   ansible.builtin.command: blkid {{ storage_device }}
-  register: blkid_result
+  register: storage_blkid_result
   changed_when: false
   failed_when: false
 
 - name: Format block volume as ext4
   ansible.builtin.command: mkfs.ext4 -F {{ storage_device }}
-  when: blkid_result.rc != 0
+  when: storage_blkid_result.rc != 0
+  changed_when: storage_blkid_result.rc != 0
 
 - name: Create mount point
   ansible.builtin.file:
@@ -22,13 +23,13 @@
 
 - name: Get block volume UUID
   ansible.builtin.command: blkid -s UUID -o value {{ storage_device }}
-  register: volume_uuid
+  register: storage_volume_uuid
   changed_when: false
 
 - name: Mount block volume persistently via fstab
   ansible.posix.mount:
     path: "{{ storage_mount_point }}"
-    src: "UUID={{ volume_uuid.stdout }}"
+    src: "UUID={{ storage_volume_uuid.stdout }}"
     fstype: "{{ storage_fstype }}"
     opts: defaults,nofail
     state: mounted
