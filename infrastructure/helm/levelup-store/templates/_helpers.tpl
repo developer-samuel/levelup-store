@@ -2,7 +2,7 @@
 Full name of the release
 */}}
 {{- define "levelup-store.fullname" -}}
-{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*

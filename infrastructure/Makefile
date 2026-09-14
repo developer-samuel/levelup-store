@@ -353,6 +353,7 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 	$(call require,TURNSTILE_SECRET_KEY)
 	$(call argocd_login)
 	argocd app set $(APP_NAME) $(ARGOCD_FLAGS) \
+		-p sealedSecrets.enabled=false \
 		-p app.image.repository="$(GHCR_IMAGE)" \
 		-p app.secret="$(APP_SECRET)" \
 		-p app.hmacSecret="$(HMAC_SECRET)" \
