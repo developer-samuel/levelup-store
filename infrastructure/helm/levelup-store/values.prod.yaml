@@ -1,6 +1,6 @@
 app:
   image:
-    tag: "0fd7a46"
+    tag: "02dd0af"
   resources:
     requests:
       cpu: 50m
