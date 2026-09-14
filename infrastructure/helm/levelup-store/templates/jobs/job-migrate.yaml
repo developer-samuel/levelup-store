@@ -5,11 +5,10 @@ metadata:
   labels:
     {{- include "levelup-store.labels" . | nindent 4 }}
   annotations:
-    # pre-upgrade: runs before new pods roll out (schema ready before new code)
-    # post-install: runs after first-install resources exist (secret/configmap already created)
-    "helm.sh/hook": pre-upgrade,post-install
-    "helm.sh/hook-weight": "0"
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    # Wave 1: runs after Secret/ConfigMap (wave 0), before Deployment (wave 2)
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   ttlSecondsAfterFinished: 300
   backoffLimit: 3
