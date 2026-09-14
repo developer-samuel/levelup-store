@@ -6,7 +6,10 @@
         <ext>scss</ext>
         <ext>twig</ext>
         <ext>yaml</ext>
+        <ext>yml</ext>
         <ext>sh</ext>
+        <ext>tf</ext>
+        <ext>tpl</ext>
     </file_extensions>
     <ignored_dirs>
         <dir>public</dir>
