@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           command:
             - php
-            - bin/console
+            - /var/www/bin/console
             - app:elasticsearch:reindex
           envFrom:
             - configMapRef:
