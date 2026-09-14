@@ -39,6 +39,11 @@ loki:
   backend:
     replicas: 0
 
+  chunksCache:
+    enabled: false
+  resultsCache:
+    enabled: false
+
 # Promtail - collects logs from all pods
 promtail:
   enabled: true

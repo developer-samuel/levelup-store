@@ -17,7 +17,7 @@ elasticsearch:
       size: 10Gi
     resources:
       requests:
-        cpu: 200m
+        cpu: 100m
         memory: 512Mi
       limits:
         cpu: 500m
