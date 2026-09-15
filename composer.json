@@ -11,6 +11,7 @@
     "developer-samuel/php-codestats": "^1.1",
     "doctrine/dbal": "^3",
     "doctrine/doctrine-bundle": "^2.13",
+    "doctrine/doctrine-fixtures-bundle": "^4.1",
     "doctrine/doctrine-migrations-bundle": "^3.4",
     "doctrine/orm": "^3.6",
     "dragonmantank/cron-expression": "^3.6",
@@ -279,7 +280,6 @@
   },
   "require-dev": {
     "deptrac/deptrac": "^4.4",
-    "doctrine/doctrine-fixtures-bundle": "^4.1",
     "friendsofphp/php-cs-fixer": "^3.92",
     "pdepend/pdepend": "^2.16",
     "phploc/phploc": "^7.0",
