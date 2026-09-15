@@ -40,9 +40,9 @@ const projects: Project[] = [
 
 const webServer: PlaywrightTestConfig['webServer'] = {
   command: 'php -S 127.0.0.1:8000 -t public',
-  url: 'http://127.0.0.1:8000',
+  url: 'http://127.0.0.1:8000/api/dev/health-check',
   reuseExistingServer: true,
-  timeout: 30_000,
+  timeout: 60_000,
   env: { PHP_CLI_SERVER_WORKERS: '4' },
 }
 
