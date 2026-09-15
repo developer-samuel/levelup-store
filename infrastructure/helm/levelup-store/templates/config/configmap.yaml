@@ -42,7 +42,7 @@ data:
   MERCURE_URL: {{ .Values.mercure.url | quote }}
 
   TURNSTILE_ENABLED: {{ .Values.turnstile.enabled | quote }}
-  TURNSTILE_VERIFY_URL: "https://challenges.cloudflare.com/turnstile/v0/siteverify"
+  TURNSTILE_VERIFY_URL: {{ .Values.turnstile.verifyUrl | quote }}
 
   JWT_TTL: {{ .Values.app.jwtTtl | quote }}
   JWT_REFRESH_TTL: {{ .Values.app.jwtRefreshTtl | quote }}
@@ -51,8 +51,8 @@ data:
   SENTRY_DSN: {{ .Values.app.sentryDsn | default "null" | quote }}
 
   OTEL_PHP_AUTOLOAD_ENABLED: "true"
-  OTEL_SERVICE_NAME: "levelup-store"
+  OTEL_SERVICE_NAME: {{ .Values.otel.serviceName | quote }}
   OTEL_TRACES_EXPORTER: "otlp"
-  OTEL_EXPORTER_OTLP_ENDPOINT: "http://opentelemetry-collector.otel.svc.cluster.local:4317"
-  OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
+  OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
+  OTEL_EXPORTER_OTLP_PROTOCOL: {{ .Values.otel.protocol | quote }}
   OTEL_PROPAGATORS: "baggage,tracecontext"

@@ -363,8 +363,22 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 	$(call require,MERCURE_PUBLIC_URL)
 	$(call require,TURNSTILE_SITE_KEY)
 	$(call require,TURNSTILE_SECRET_KEY)
+	$(call require,TURNSTILE_VERIFY_URL)
 	$(call require,MAILER_USER)
 	$(call require,MAILER_DSN)
+	$(call require,API_COUNTRY_URL)
+	$(call require,WKHTMLTOPDF_PATH)
+	$(call require,DB_USERNAME)
+	$(call require,DB_DATABASE)
+	$(call require,RABBITMQ_USER)
+	$(call require,MINIO_ROOT_USER)
+	$(call require,TRUSTED_PROXIES)
+	$(call require,SERVER_VERSION)
+	$(call require,JWT_TTL)
+	$(call require,JWT_REFRESH_TTL)
+	$(call require,OTEL_SERVICE_NAME)
+	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
+	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
 	$(call argocd_login)
 	argocd app set $(APP_NAME) $(ARGOCD_FLAGS) \
 		-p sealedSecrets.enabled=false \
@@ -396,6 +410,10 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 		-p mercure.corsOrigins="$(MERCURE_CORS_ORIGINS)" \
 		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY)" \
 		-p turnstile.secretKey="$(TURNSTILE_SECRET_KEY)" \
+		-p turnstile.verifyUrl="$(TURNSTILE_VERIFY_URL)" \
+		-p otel.serviceName="$(OTEL_SERVICE_NAME)" \
+		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
+		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)" \
 		-p app.trustedProxies="$(TRUSTED_PROXIES)" \
 		-p app.auditLogsEnabled="$(AUDIT_LOGS_ENABLED)" \
 		-p app.wkhtmltopdfEnabled="$(WKHTMLTOPDF_ENABLED)" \
