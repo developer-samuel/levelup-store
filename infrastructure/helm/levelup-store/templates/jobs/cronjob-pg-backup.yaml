@@ -48,7 +48,7 @@ spec:
           containers:
             # Step 2: upload to MinIO (S3-compatible)
             - name: upload
-              image: public.ecr.aws/aws-cli/aws-cli:2
+              image: amazon/aws-cli:2
               securityContext:
                 allowPrivilegeEscalation: false
               command:
