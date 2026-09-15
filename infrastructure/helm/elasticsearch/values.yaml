@@ -12,6 +12,7 @@ elasticsearch:
 
   # Single-node, security disabled (internal network)
   master:
+    masterOnly: false
     replicaCount: 1
     persistence:
       size: 10Gi
