@@ -388,7 +388,7 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 		-p minio.publicUrl="$(MINIO_PUBLIC_URL)" \
 		-p mercure.publicUrl="$(MERCURE_PUBLIC_URL)" \
 		-p mercure.corsOrigins="$(MERCURE_CORS_ORIGINS)" \
-		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY" \
+		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY)" \
 		-p turnstile.secretKey="$(TURNSTILE_SECRET_KEY)" \
 		-p app.trustedProxies="$(TRUSTED_PROXIES)" \
 		-p app.auditLogsEnabled="$(AUDIT_LOGS_ENABLED)" \
