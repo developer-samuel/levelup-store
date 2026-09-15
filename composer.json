@@ -56,6 +56,7 @@
     "symfony/process": "7.4.*",
     "symfony/property-access": "7.4.*",
     "symfony/property-info": "7.4.*",
+    "symfony/resend-mailer": "7.4.*",
     "symfony/runtime": "7.4.*",
     "symfony/scheduler": "7.4.*",
     "symfony/security-bundle": "7.4.*",
