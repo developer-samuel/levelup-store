@@ -111,9 +111,10 @@ RUN composer dump-autoload --no-dev --optimize
 # Overwrite public/build with the real compiled assets from Stage 2
 COPY --from=frontend /app/public/build /var/www/public/build
 
-# Fix ownership to app user and pre-create var/ dirs
+# Fix permissions/ownership and pre-create var/ dirs
 # (K8s emptyDir volumes mount over var/cache and var/log at runtime)
-RUN chown -R 1000:1000 /var/www \
+RUN chmod +x bin/* \
+    && chown -R 1000:1000 /var/www \
     && mkdir -p var/cache var/log var/sessions var/tmp \
     && chown -R 1000:1000 var/
 
