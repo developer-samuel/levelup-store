@@ -4,7 +4,8 @@ Minimal setup guide for **environment variables and runtime configuration**.
 
 **Source of truth:**  
 - `.env.example` (default, Docker / shared setup)  
-- `.env.local.example` (local development overrides)
+- `.env.local.example` (local development overrides)  
+- `.env.production.example` (Kubernetes / production overrides)
 
 This file explains **only the steps required to prepare configuration**.  
 It does not document individual variable meanings - those live inline in the `.env.example` files.
@@ -22,7 +23,7 @@ Complete **steps 1 and 2** from [INSTALL.md](INSTALL.md):
 ## 2. Environment Variables & Services
 
 All environment variables and configuration options are fully documented inline in
-`.env.example` and `.env.local.example`.
+`.env.example`, `.env.local.example` and `.env.production.example`.
 Review comments carefully before editing to avoid misconfiguration.
 
 Core variables to check / configure:
@@ -91,8 +92,12 @@ Core variables to check / configure:
   - Set `MINIO_ENABLED=false` to fall back to local filesystem storage.
 
 - **Mailer** ⚠️ *Must be set for email delivery to work*  
-  `MAILER_USER`, `MAILER_PASS`, `MAILER_HOST`, `MAILER_PORT`  
-  SMTP credentials. Use Mailpit or Mailtrap for local development.  
+  `MAILER_DSN`, `MAILER_USER`  
+  Three supported providers - see `.env.example` for full configuration:
+  - **SMTP** - default, standard SMTP credentials
+  - **Resend** - alternative HTTP API provider, use when SMTP is blocked (e.g. Oracle Cloud free tier)
+  - **Mailpit** - local email testing (included in Docker Compose dev stack)
+
   > ⚠️ `MAILER_PASS` must be URL-encoded if it contains special characters (`@` → `%40`, `:` → `%3A`).
 
 - **Payments** ⚠️ *Must be set for checkout to work*  
@@ -123,6 +128,7 @@ Core variables to check / configure:
 > ⚠️ Reminder:
 - `.env.example` is the primary source of documentation.
 - `.env.local.example` is intended only for overriding values when running outside Docker.
+- `.env.production.example` contains Kubernetes-specific overrides. Copy to `.env.production` and set `APP_DOMAIN` to your production domain before running `make secrets`.
 
 ---
 
