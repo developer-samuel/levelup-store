@@ -15,6 +15,18 @@ minio:
     image:
       repository: bitnamilegacy/minio-object-browser
 
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hostname: minio.levelup-store.samuel-steiner.com
+    tls: true
+    extraTls:
+      - hosts:
+          - minio.levelup-store.samuel-steiner.com
+        secretName: levelup-store-minio-tls
+
   persistence:
     size: 10Gi
 
