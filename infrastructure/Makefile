@@ -358,9 +358,6 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 	$(call require,TURNSTILE_SITE_KEY)
 	$(call require,TURNSTILE_SECRET_KEY)
 	$(call require,MAILER_USER)
-	$(call require,MAILER_PASS)
-	$(call require,MAILER_HOST)
-	$(call require,MAILER_PORT)
 	$(call require,MAILER_DSN)
 	$(call argocd_login)
 	argocd app set $(APP_NAME) $(ARGOCD_FLAGS) \
@@ -376,9 +373,6 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 		-p app.apiCountryUrl="$(API_COUNTRY_URL)" \
 		-p app.mailerDsn="$(MAILER_DSN)" \
 		-p app.mailerUser="$(MAILER_USER)" \
-		-p app.mailerPass="$(MAILER_PASS)" \
-		-p app.mailerHost="$(MAILER_HOST)" \
-		-p app.mailerPort="$(MAILER_PORT)" \
 		-p app.sentryDsn="$(SENTRY_DSN)" \
 		-p postgresql.auth.username="$(DB_USERNAME)" \
 		-p postgresql.auth.database="$(DB_DATABASE)" \
@@ -394,7 +388,7 @@ secrets: ## Set production secrets for levelup-store app via ArgoCD
 		-p minio.publicUrl="$(MINIO_PUBLIC_URL)" \
 		-p mercure.publicUrl="$(MERCURE_PUBLIC_URL)" \
 		-p mercure.corsOrigins="$(MERCURE_CORS_ORIGINS)" \
-		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY)" \
+		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY" \
 		-p turnstile.secretKey="$(TURNSTILE_SECRET_KEY)" \
 		-p app.trustedProxies="$(TRUSTED_PROXIES)" \
 		-p app.auditLogsEnabled="$(AUDIT_LOGS_ENABLED)" \
