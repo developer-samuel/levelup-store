@@ -128,7 +128,7 @@ Core variables to check / configure:
 > ⚠️ Reminder:
 - `.env.example` is the primary source of documentation.
 - `.env.local.example` is intended only for overriding values when running outside Docker.
-- `.env.production.example` contains Kubernetes-specific overrides. Copy to `.env.production` and set `APP_DOMAIN` to your production domain before running `make secrets`.
+- `.env.production.example` contains Kubernetes-specific overrides. Copy to `.env.production` and set `APP_DOMAIN` to your production domain before deploying.
 
 ---
 

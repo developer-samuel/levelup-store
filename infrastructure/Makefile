@@ -30,6 +30,12 @@ ifneq (,$(wildcard ../.env))
   export
 endif
 
+# Loads production overrides (K8s hostnames, public URLs)
+ifneq (,$(wildcard ../.env.production))
+  include ../.env.production
+  export
+endif
+
 # SSH public key - evaluated as shell command (not Makefile expression)
 TF_VAR_ssh_public_key := $(shell cat $(ANSIBLE_SSH_KEY).pub 2>/dev/null)
 
