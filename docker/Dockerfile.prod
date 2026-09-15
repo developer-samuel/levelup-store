@@ -97,6 +97,8 @@ COPY config/ config/
 COPY database/ database/
 COPY public/ public/
 COPY src/ src/
+COPY kit/ kit/
+COPY scripts/ scripts/
 COPY templates/ templates/
 COPY composer.json composer.lock symfony.lock importmap.php init.php ./
 
