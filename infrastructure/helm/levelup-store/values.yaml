@@ -59,6 +59,7 @@ rabbitmq:
 # MinIO
 minio:
   enabled: true
+  bucket: levelup-store
 
 # Mercure
 mercure:
@@ -93,7 +94,7 @@ limitRange:
     memory: 128Mi
   max:
     cpu: 500m
-    memory: 512Mi
+    memory: 1Gi
   min:
     cpu: 10m
     memory: 32Mi
