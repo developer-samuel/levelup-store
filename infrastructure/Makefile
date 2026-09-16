@@ -336,7 +336,11 @@ services-secrets: ## Create K8s secrets for standalone service charts + set Rabb
 		--namespace levelup-store \
 		--from-literal=publisher-jwt-key="$(MERCURE_JWT_SECRET)" \
 		--from-literal=subscriber-jwt-key="$(MERCURE_JWT_SECRET)" \
-		--from-literal=mercure-cors-allowed-origins="https://$(APP_DOMAIN)" \
+		--from-literal=mercure-cors-allowed-origins="$(CORS_ALLOW_ORIGIN)" \
+		--from-literal=extra-directives="anonymous"$'\n'"cors_origins $(CORS_ALLOW_ORIGIN)" \
+		--from-literal=caddy-extra-config="" \
+		--from-literal=caddy-extra-directives="" \
+		--from-literal=license="" \
 		--dry-run=client -o yaml | kubectl apply -f -
 	$(call argocd_login)
 	argocd app set rabbitmq $(ARGOCD_FLAGS) \
@@ -564,6 +568,7 @@ sealed-secrets-generate: ## Generate SealedSecret from .env values (requires: ku
 		--from-literal=REDIS_URL="redis://:$(REDIS_PASSWORD)@levelup-store-redis-master:6379" \
 		--from-literal=RABBITMQ_PASS="$(RABBITMQ_PASS)" \
 		--from-literal=MESSENGER_TRANSPORT_DSN="amqp://$(RABBITMQ_USER):$(RABBITMQ_PASS)@levelup-store-rabbitmq:5672/%2f" \
+		--from-literal=KEDA_RABBITMQ_HOST="amqp://$(RABBITMQ_USER):$(RABBITMQ_PASS)@levelup-store-rabbitmq.levelup-store.svc.cluster.local:5672/%2f" \
 		--from-literal=MINIO_ROOT_USER="$(MINIO_ROOT_USER)" \
 		--from-literal=MINIO_ROOT_PASSWORD="$(MINIO_ROOT_PASSWORD)" \
 		--from-literal=MINIO_PUBLIC_URL="https://$(APP_DOMAIN)/storage" \

@@ -45,6 +45,15 @@ spec:
             readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem }}
             capabilities:
               drop: {{- toYaml .Values.securityContext.capabilities.drop | nindent 16 }}
+          env:
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            {{- if .Values.otel.enabled }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://$(HOST_IP):4318"
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ include "levelup-store.fullname" . }}

@@ -13,6 +13,15 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
+          {{- if .Values.mercure.enabled }}
+          - path: /.well-known/mercure
+            pathType: Prefix
+            backend:
+              service:
+                name: mercure
+                port:
+                  number: 80
+          {{- end }}
           - path: /
             pathType: Prefix
             backend:

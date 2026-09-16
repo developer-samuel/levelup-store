@@ -29,7 +29,8 @@ spec:
                   set -e
                   FILENAME="backup-$(date +%Y%m%d-%H%M%S).sql.gz"
                   echo "Dumping database to /backup/$FILENAME..."
-                  pg_dump "$DATABASE_URL" | gzip > /backup/$FILENAME
+                  PG_URL=$(echo "$DATABASE_URL" | sed 's|^pgsql://|postgresql://|;s|?.*||')
+                  pg_dump "$PG_URL" | gzip > /backup/$FILENAME
                   echo "Dump complete: $(du -sh /backup/$FILENAME | cut -f1)"
               envFrom:
                 - secretRef:
