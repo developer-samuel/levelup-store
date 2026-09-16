@@ -66,7 +66,7 @@
   },
   "helmv3": {
     "enabled": true,
-    "fileMatch": ["infrastructure/helm/.+/Chart\\.yaml$"]
+    "managerFilePatterns": ["/infrastructure/helm/.+/Chart\\.yaml$/"]
   },
   "github-actions": {
     "enabled": true
@@ -77,8 +77,5 @@
   "npm": {
     "enabled": true
   },
-  "ignorePaths": [
-    "**/vendor/**",
-    "**/node_modules/**"
-  ]
+  "ignorePaths": ["**/vendor/**", "**/node_modules/**"]
 }
