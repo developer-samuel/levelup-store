@@ -6,7 +6,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ## 1. Backend
 
-- **Language:** PHP 8.2 / 8.3
+- **Language:** 8.3
 - **Framework:** Symfony
 - **Dependency Manager:** Composer
 - **Template Engine:** Twig
@@ -93,8 +93,6 @@ We maintain 100% focus on code quality using these tools:
 | Deptrac      | Architectural dependency enforcement           | composer deptrac          |
 | PHPMD        | PHP Mess Detector (using `phpmd.xml`)          | composer php-md           |
 | PHPStan      | Static analysis (Level 10+)                    | composer php-stan         |
-| PHPCPD       | Copy-Paste Detector                            | composer php-cpd          |
-| PHPLoc       | Lines of Code (LOC) analyzer                   | composer php-loc          |
 | PHPMetrics   | Visual quality metrics and complexity analysis | composer php-metrics      |
 | PDepend      | Design metrics and software artifacts          | composer pdepend          |
 | PHP CS Fixer | Coding standards enforcement                   | composer php-cs-fixer:fix |

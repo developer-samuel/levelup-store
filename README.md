@@ -61,7 +61,7 @@ src/
 
 | Layer          | Stack                                                            |
 |----------------|------------------------------------------------------------------|
-| Backend        | PHP 8.2 / 8.3, Symfony 7.4                                       |
+| Backend        | PHP 8.3, Symfony 7.4                                             |
 | Auth           | JWT (LexikJWTAuthenticationBundle)                               |
 | Frontend       | Vanilla TypeScript, SCSS, Vite                                   |
 | Database       | PostgreSQL / MySQL                                               |

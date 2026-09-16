@@ -24,14 +24,6 @@ graph TD
         PHPMD[PHP Mess Detector]
     end
 
-    %% Metrics / Statistics
-    subgraph Metrics["📊 Metrics / Stats"]
-        PHPCPD[PHPCPD]
-        PHPLoc[PHPLoc]
-        PHPMetrics[PHP-Metrics]
-        PDepend[PDepend]
-    end
-
     %% Refactoring
     subgraph Refactoring["🛠️ Refactoring"]
         Rector[Rector]
@@ -49,7 +41,7 @@ graph TD
 
     %% Classes
     class Deptrac,PHPStan,PHPMD quality;
-    class PHPCPD,PHPLoc,PHPMetrics,PDepend metrics;
+    class PHPMetrics,PDepend metrics;
     class Rector refactor;
     class PHPCS formatting;
     class TwigLint linting;

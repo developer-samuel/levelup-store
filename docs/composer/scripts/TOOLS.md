@@ -34,18 +34,6 @@ This file documents all custom Composer scripts related to static analysis, metr
 
 ## 📊 Metrics / Statistics
 
-### php-cpd
-
-- **Command**: `bin/run php vendor/bin/phpcpd src database kit`
-- **Purpose**: Detects copy-pasted code and duplicate blocks to improve maintainability.
-- **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
-
-### php-loc
-
-- **Command**: `bin/run php vendor/bin/phploc src database kit`
-- **Purpose**: Counts lines of PHP code, measures project size, structure, and complexity to track maintainability.
-- **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
-
 ### php-metrics
 
 - **Command**: `bin/run php scripts/tools/php-metrics/launcher.php`

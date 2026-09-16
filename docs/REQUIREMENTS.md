@@ -6,7 +6,7 @@
 
 ## 1. Mandatory Requirements
 
-- **PHP** 8.2 or 8.3
+- **PHP** 8.3
 - **Composer** for dependency management
 - **Node.js** (LTS) + **pnpm** or **npm** for frontend assets (Vite, TS build)
 - **Git** version control

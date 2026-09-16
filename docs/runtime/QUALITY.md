@@ -22,8 +22,6 @@ These tools enforce architecture rules, detect issues early, and keep codebases 
 
 These tools provide insights into code size, complexity, duplication, and overall project health:
 
-- **PHPCPD** - Detects copy-pasted code and duplicate blocks to improve maintainability.
-- **PHPLoc** - Counts lines of PHP code, measures project size, structure, and complexity.
 - **PHP-Metrics** - Generates maintainability and complexity metrics for the codebase.
 - **PDepend** - Analyzes dependencies and metrics for better architecture understanding.
 

@@ -34,7 +34,7 @@ All pipelines are implemented using GitHub Actions, ensuring automated builds, t
 
 #### Pipeline Details:
 
-- **ci.yml** - Triggered on every push/PR to main. Runs PHP lint & static analysis, architecture check, assets lint, PHPUnit (PHP 8.2 / 8.3), Vitest, and Playwright E2E.
+- **ci.yml** - Triggered on every push/PR to main. Runs PHP lint & static analysis, architecture check, assets lint, PHPUnit (PHP 8.3), Vitest, and Playwright E2E.
 - **deploy.yml** - Triggered on every push to main (after CI passes). Builds the production Docker image (`Dockerfile.prod`), pushes to GHCR, signs with Sigstore, and updates `values.prod.yaml` - ArgoCD auto-syncs to Kubernetes.
 - **release.yml** - Triggered on GitHub Release creation. Automatically prepends release notes to `CHANGELOG.md` and commits it to main.
 

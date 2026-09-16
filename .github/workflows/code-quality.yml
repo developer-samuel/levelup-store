@@ -149,6 +149,9 @@ jobs:
       - name: Run Vitest with coverage
         run: pnpm vitest
 
+      - name: Generate ESLint report for SonarCloud
+        run: pnpm lint:report
+
       - name: Upload JS coverage to Codecov
         uses: codecov/codecov-action@v7
         with:
@@ -163,6 +166,7 @@ jobs:
           path: |
             var/tools/php-unit/coverage.xml
             var/tools/vitest/coverage/lcov.info
+            var/tools/eslint/report.json
           retention-days: 1
 
   # ─── SonarCloud ───────────────────────────────────────────────────────────
