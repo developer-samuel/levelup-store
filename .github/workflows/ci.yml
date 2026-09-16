@@ -367,7 +367,7 @@ jobs:
         run: |
           PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t public &
           for i in $(seq 1 30); do
-            curl -sf http://127.0.0.1:8000/ > /dev/null && echo "PHP server is ready." && break
+            curl -sf http://127.0.0.1:8000/api/dev/health-check > /dev/null && echo "PHP server is ready." && break
             echo "Waiting for PHP server... ($i/30)"
             sleep 1
           done

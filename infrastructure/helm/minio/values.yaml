@@ -20,11 +20,10 @@ minio:
     ingressClassName: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-    hostname: minio.levelup-store.samuel-steiner.com
+    # hostname: set via make services-secrets (APP_DOMAIN → minio.<APP_DOMAIN>)
     tls: true
     extraTls:
-      - hosts:
-          - minio.levelup-store.samuel-steiner.com
+      # hosts: set via make services-secrets (APP_DOMAIN → minio.<APP_DOMAIN>)
         secretName: levelup-store-minio-tls
 
   persistence:

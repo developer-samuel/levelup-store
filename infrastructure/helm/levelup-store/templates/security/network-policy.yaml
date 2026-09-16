@@ -56,6 +56,16 @@ spec:
           protocol: TCP
         - port: 80     # Mercure hub
           protocol: TCP
+    {{- if .Values.otel.enabled }}
+    # OTel collector - monitoring namespace
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - port: 4318
+          protocol: TCP
+    {{- end }}
 
     # External HTTPS - Stripe, Sentry, Cloudflare, apicountries, etc.
     - ports:
