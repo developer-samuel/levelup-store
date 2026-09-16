@@ -101,20 +101,4 @@ trait ReviewCoreTrait
             : ReviewType::RATING;
     }
 
-    /**
-     * @param float $value
-     *
-     * @return string
-    */
-    public static function resolveValueText(float $value): string
-    {
-        return match (true) {
-            $value >= 4.5 => 'Excellent',
-            $value >= 3.5 => 'Very Good',
-            $value >= 2.5 => 'Good',
-            $value >= 1.5 => 'Fair',
-            $value > 0    => 'Poor',
-            default       => 'No rating',
-        };
-    }
 }
