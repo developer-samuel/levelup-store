@@ -46,9 +46,9 @@ spec:
                   memory: 256Mi
 
           containers:
-            # Step 2: upload to MinIO (S3-compatible)
+            # Step 2: upload to MinIO using mc (MinIO client)
             - name: upload
-              image: amazon/aws-cli:2
+              image: minio/mc:RELEASE.2025-08-13T08-35-41Z
               securityContext:
                 allowPrivilegeEscalation: false
               command:
@@ -59,33 +59,22 @@ spec:
                   FILE=$(ls /backup/*.sql.gz | head -1)
                   FILENAME=$(basename $FILE)
                   echo "Uploading $FILENAME to MinIO bucket {{ .Values.pgBackup.bucket }}..."
-                  AWS_ACCESS_KEY_ID="$MINIO_ROOT_USER" \
-                  AWS_SECRET_ACCESS_KEY="$MINIO_ROOT_PASSWORD" \
-                  aws s3 cp $FILE \
-                    s3://{{ .Values.pgBackup.bucket }}/$FILENAME \
-                    --endpoint-url http://{{ .Release.Name }}-minio:9000 \
-                    --region us-east-1 \
-                    --no-progress
+                  MC_CONFIG_DIR=/tmp/.mc mc alias set minio \
+                    http://{{ .Release.Name }}-minio:9000 \
+                    "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"
+                  MC_CONFIG_DIR=/tmp/.mc mc cp $FILE minio/{{ .Values.pgBackup.bucket }}/$FILENAME
                   echo "Upload complete: {{ .Values.pgBackup.bucket }}/$FILENAME"
                   # Delete backups older than {{ .Values.pgBackup.retentionDays }} days
                   CUTOFF=$(date -d "-{{ .Values.pgBackup.retentionDays }} days" +%Y%m%d 2>/dev/null || \
                             date -v-{{ .Values.pgBackup.retentionDays }}d +%Y%m%d)
-                  AWS_ACCESS_KEY_ID="$MINIO_ROOT_USER" \
-                  AWS_SECRET_ACCESS_KEY="$MINIO_ROOT_PASSWORD" \
-                  aws s3 ls s3://{{ .Values.pgBackup.bucket }}/ \
-                    --endpoint-url http://{{ .Release.Name }}-minio:9000 \
-                    --region us-east-1 \
-                    | awk '{print $4}' \
+                  MC_CONFIG_DIR=/tmp/.mc mc ls minio/{{ .Values.pgBackup.bucket }}/ \
+                    | awk '{print $5}' \
                     | grep "^backup-" \
                     | while read f; do
                         FDATE=$(echo $f | grep -o '[0-9]\{8\}' | head -1)
                         if [ "$FDATE" -lt "$CUTOFF" ]; then
                           echo "Deleting old backup: $f"
-                          AWS_ACCESS_KEY_ID="$MINIO_ROOT_USER" \
-                          AWS_SECRET_ACCESS_KEY="$MINIO_ROOT_PASSWORD" \
-                          aws s3 rm s3://{{ .Values.pgBackup.bucket }}/$f \
-                            --endpoint-url http://{{ .Release.Name }}-minio:9000 \
-                            --region us-east-1
+                          MC_CONFIG_DIR=/tmp/.mc mc rm minio/{{ .Values.pgBackup.bucket }}/$f
                         fi
                       done
               envFrom:

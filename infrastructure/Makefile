@@ -341,7 +341,20 @@ services-secrets: ## Create K8s secrets for standalone service charts + set Rabb
 	$(call argocd_login)
 	argocd app set rabbitmq $(ARGOCD_FLAGS) \
 		-p rabbitmq.auth.username="$(RABBITMQ_USER)"
-	@echo "✓ K8s secrets created and RabbitMQ username set."
+	argocd app set minio $(ARGOCD_FLAGS) \
+		-p minio.ingress.hostname="minio.$(APP_DOMAIN)" \
+		-p "minio.ingress.extraTls[0].hosts[0]=minio.$(APP_DOMAIN)"
+	@echo "✓ K8s secrets created and service domains set."
+
+jwt-keys-secret: ## Create JWT keypair secret from local config/jwt/*.pem files (run once after keygen)
+	@test -f ../config/jwt/private.pem || (echo "ERROR: config/jwt/private.pem not found. Run: php bin/console lexik:jwt:generate-keypair"; exit 1)
+	@test -f ../config/jwt/public.pem  || (echo "ERROR: config/jwt/public.pem not found."; exit 1)
+	kubectl create secret generic levelup-store-jwt-keys \
+		--namespace levelup-store \
+		--from-file=private.pem=../config/jwt/private.pem \
+		--from-file=public.pem=../config/jwt/public.pem \
+		--dry-run=client -o yaml | kubectl apply -f -
+	@echo "✓ JWT keys secret created/updated."
 
 secrets: ## Set production secrets for levelup-store app via ArgoCD
 	$(call require,APP_DOMAIN)

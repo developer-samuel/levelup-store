@@ -50,7 +50,7 @@ data:
   API_COUNTRY_URL: {{ .Values.app.apiCountryUrl | quote }}
   SENTRY_DSN: {{ .Values.app.sentryDsn | default "null" | quote }}
 
-  OTEL_PHP_AUTOLOAD_ENABLED: "true"
+  OTEL_PHP_AUTOLOAD_ENABLED: {{ .Values.otel.enabled | default false | quote }}
   OTEL_SERVICE_NAME: {{ .Values.otel.serviceName | quote }}
   OTEL_TRACES_EXPORTER: "otlp"
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}

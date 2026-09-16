@@ -61,6 +61,10 @@ minio:
   enabled: true
   bucket: levelup-store
 
+# OpenTelemetry
+otel:
+  enabled: true
+
 # Mercure
 mercure:
   enabled: true
@@ -105,8 +109,8 @@ resourceQuota:
     cpu: "1"
     memory: 3Gi
   limits:
-    cpu: "4"
-    memory: 6Gi
+    cpu: "6"
+    memory: 8Gi
   pods: "20"
   pvcs: "10"
 

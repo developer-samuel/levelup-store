@@ -41,8 +41,20 @@ spec:
                 name: {{ include "levelup-store.fullname" . }}
             - secretRef:
                 name: {{ include "levelup-store.fullname" . }}
-          {{- if .Values.securityContext.readOnlyRootFilesystem }}
+          env:
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            {{- if .Values.otel.enabled }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://$(HOST_IP):4318"
+            {{- end }}
           volumeMounts:
+            - name: jwt-keys
+              mountPath: /var/www/config/jwt
+              readOnly: true
+          {{- if .Values.securityContext.readOnlyRootFilesystem }}
             - name: tmp
               mountPath: /tmp
             - name: var-cache
@@ -66,8 +78,12 @@ spec:
             periodSeconds: 5
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
-      {{- if .Values.securityContext.readOnlyRootFilesystem }}
       volumes:
+        - name: jwt-keys
+          secret:
+            secretName: {{ include "levelup-store.fullname" . }}-jwt-keys
+            defaultMode: 0400
+      {{- if .Values.securityContext.readOnlyRootFilesystem }}
         - name: tmp
           emptyDir: {}
         - name: var-cache
