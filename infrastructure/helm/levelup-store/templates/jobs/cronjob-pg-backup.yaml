@@ -49,7 +49,7 @@ spec:
           containers:
             # Step 2: upload to MinIO using mc (MinIO client)
             - name: upload
-              image: minio/mc:RELEASE.2025-08-13T08-35-41Z
+              image: quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z
               securityContext:
                 allowPrivilegeEscalation: false
               command:
