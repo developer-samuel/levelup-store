@@ -106,9 +106,18 @@ graph TD
     %% Worker consumes and indexes
     RabbitMQ --> Worker
     Worker --> Elasticsearch
+    Worker --> Postgres
+    Worker --> Redis
+
+    %% Cron/Scheduler
+    Cron --> Postgres
+    Cron --> Elasticsearch
+    Cron --> Redis
+    Cron --> RabbitMQ
 
     %% Setup
     AppSetup --> Postgres
+    AppSetup --> Elasticsearch
     AppSetup --> MinIO
 
     %% Web

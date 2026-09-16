@@ -18,6 +18,16 @@ Before configuring environment variables, make sure the project dependencies are
 
 Complete **steps 1 and 2** from [INSTALL.md](INSTALL.md):
 
+`composer install` automatically runs the following setup steps - no manual intervention needed:
+- Generates `APP_SECRET` and `HMAC_SECRET` if empty
+- Generates Symfony secrets encryption keys
+- Generates JWT RSA key pair (if not already present)
+- Prepares `var/`, temp, and asset directories
+- Sets required file permissions
+- Generates UML diagrams
+
+> See [composer/scripts/SETUP.md](composer/scripts/SETUP.md) for full details on each script.
+
 ---
 
 ## 2. Environment Variables & Services

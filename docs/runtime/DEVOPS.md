@@ -1,6 +1,6 @@
 # 🛠️ DevOps
 
-This document describes **Docker services, CI/CD pipelines, and testing tools** for this project.
+This document describes **Docker setup and CI/CD pipelines** for this project.
 Everything is set up to make development smooth, automated, and maintainable.
 
 ## Principles
@@ -15,10 +15,10 @@ Everything is set up to make development smooth, automated, and maintainable.
 
 The project uses two Dockerfiles:
 
-| File | Purpose | Build context |
-|------|---------|---------------|
-| `docker/Dockerfile` | Local dev base image - PHP-FPM runtime only, app code is volume-mounted | `./docker` |
-| `docker/Dockerfile.prod` | Production image - PHP-FPM + Nginx + full app code baked in | `.` (repo root) |
+| File                     | Purpose                                                                 | Build context   |
+|--------------------------|-------------------------------------------------------------------------|-----------------|
+| `docker/Dockerfile`      | Local dev base image - PHP-FPM runtime only, app code is volume-mounted | `./docker`      |
+| `docker/Dockerfile.prod` | Production image - PHP-FPM + Nginx + full app code baked in             | `.` (repo root) |
 
 Production-specific configs live in `docker/_prod/`:
 - `config/nginx/nginx.conf` - Nginx main config (non-root, temp paths under `/tmp`)
@@ -31,34 +31,45 @@ Production-specific configs live in `docker/_prod/`:
 ## 🧱 CI/CD Pipelines
 
 All pipelines are implemented using GitHub Actions, ensuring automated builds, tests, and deploys.
+PHP and Node versions are centralized as repository variables (`PHP_VERSION`, `NODE_VERSION`).
 
-#### Pipeline Details:
+| Workflow                      | Trigger                                                                                                  | Description                                                                                                                                  |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`                      | push/PR → main                                                                                           | PHP lint, static analysis, architecture check, assets lint, PHPUnit (PHP 8.3 + forward-compat 8.4/8.5), Vitest, Playwright E2E               |
+| `deploy.yml`                  | push → main                                                                                              | Build `Dockerfile.prod`, push to GHCR, generate SBOM, Trivy scan, sign with Sigstore (cosign), update `values.prod.yaml` → ArgoCD auto-syncs |
+| `code-quality.yml`            | push/PR → main                                                                                           | PHPUnit + Vitest coverage upload to Codecov, ESLint report, SonarCloud analysis                                                              |
+| `frontend-audit.yml`          | push/PR → main (assets), schedule Mon 02:00                                                              | Lighthouse (push/schedule), axe-core + pa11y accessibility (PR only)                                                                         |
+| `zap.yml`                     | push → main, schedule Mon 02:00                                                                          | OWASP ZAP DAST baseline scan                                                                                                                 |
+| `sast.yml`                    | push/PR → main (src/**, config/**, public/**, templates/**, assets/**), schedule Mon 02:00               | CodeQL static security analysis                                                                                                              |
+| `supply-chain.yml`            | push/PR → main, schedule Mon 02:00                                                                       | Gitleaks secrets scan + OSSF Scorecard                                                                                                       |
+| `cve-scan.yml`                | PR → main (composer.lock, pnpm-lock.yaml, docker/**)                                                     | Trivy CVE scan on Docker image                                                                                                               |
+| `docker-validate.yml`         | PR → main (docker/**, docker-compose*.yml, .env.example, .hadolint.yaml)                                 | Validate Dockerfiles and Docker Compose files                                                                                                |
+| `infrastructure-validate.yml` | PR → main (infrastructure/helm/**, infrastructure/kubernetes/**, infrastructure/terraform/**, docker/**) | Validate Helm charts + Kubernetes manifests                                                                                                  |
+| `infrastructure-lint.yml`     | PR → main (infrastructure/ansible/**, **/*.sh, bin/**)                                                   | Ansible lint + shell script lint                                                                                                             |
+| `bundle-size.yml`             | PR → main (assets/**, vite/**, vite.config.ts, package.json, pnpm-lock.yaml)                             | Frontend bundle size report                                                                                                                  |
+| `renovate-validate.yml`       | PR → main (renovate config files)                                                                        | Validate Renovate config                                                                                                                     |
+| `validate-commits.yml`        | PR → main                                                                                                | Enforce conventional commit message format                                                                                                   |
+| `labeler.yml`                 | PR opened/updated                                                                                        | Auto-label PRs based on changed paths                                                                                                        |
+| `release-drafter.yml`         | push → main                                                                                              | Update release draft with changelog entries                                                                                                  |
+| `release.yml`                 | GitHub Release created                                                                                   | Prepend release notes to `CHANGELOG.md`, commit to main                                                                                      |
+| `notify.yml`                  | Deploy workflow completed                                                                                | Send deployment notification                                                                                                                 |
 
-- **ci.yml** - Triggered on every push/PR to main. Runs PHP lint & static analysis, architecture check, assets lint, PHPUnit (PHP 8.3), Vitest, and Playwright E2E.
-- **deploy.yml** - Triggered on every push to main (after CI passes). Builds the production Docker image (`Dockerfile.prod`), pushes to GHCR, signs with Sigstore, and updates `values.prod.yaml` - ArgoCD auto-syncs to Kubernetes.
-- **release.yml** - Triggered on GitHub Release creation. Automatically prepends release notes to `CHANGELOG.md` and commits it to main.
+### Job dependency chain (ci.yml)
 
-Pipelines ensure early detection of issues and maintain a deployable state at all times.
+```
+php-checks ──┐
+deptrac ─────┴──► phpunit ──┐
+                            ├──► e2e  (push only, not required)
+lint-assets      vitest ───┘
 
----
+php-checks + deptrac + lint-assets + phpunit + vitest
+                  │
+                  ▼
+            ci-pass ✅  (single required status check)
+```
 
-## 🧪 Testing
-
-Developers can run local testing tools to verify code before pushing:
-
-**Backend**
-- **PHPStan** - Static analysis (Level 10)
-- **PHPMD** - Mess detection
-- **Deptrac** - Architecture dependency enforcement
-- **PHPUnit** - Unit, integration & feature tests
-
-**Frontend**
-- **TypeScript** - Type checking
-- **ESLint / Stylelint** - Linting
-- **Vitest** - Unit, integration & functional tests
-- **Playwright** - End-to-end tests (auth flows)
-
-Local testing mirrors CI/CD pipelines to prevent failing builds or broken deployments.
+PHPUnit runs only if php-checks and deptrac pass. E2E runs only if unit tests pass but is not a required check.
+`ci-pass` is the single required check configured in branch protection rules.
 
 ---
 
@@ -76,3 +87,7 @@ Local testing mirrors CI/CD pipelines to prevent failing builds or broken deploy
 
 - [Docker Services](../diagrams/graphs/devops/docker.mmd)
 - [CI/CD Pipelines](../diagrams/graphs/devops/pipelines.mmd)
+
+---
+
+See also: [Testing Tools](TESTS.md)

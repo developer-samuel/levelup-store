@@ -6,7 +6,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ## 1. Backend
 
-- **Language:** 8.3
+- **Language:** PHP 8.3
 - **Framework:** Symfony
 - **Dependency Manager:** Composer
 - **Template Engine:** Twig
@@ -48,13 +48,39 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Error Monitoring:** Sentry
 - **Object Storage:** MinIO (S3-compatible, pluggable via Flysystem)
 - **Real-time Hub:** Mercure (server-sent events for stock and review updates)
-- **Monitoring:** Prometheus, Grafana, Loki, Alloy, AlertManager
-- **Dev Tools:** Mailpit (local email), Dozzle (container logs), SonarQube (static analysis), Elasticvue (Elasticsearch UI), pgAdmin (PostgreSQL UI)
-- **CI/CD:** GitHub Actions (configured via `act`)
+- **Monitoring:** Prometheus, Grafana, Loki, AlertManager
+- **Dev Tools:** Mailpit (local email), Dozzle (container logs), SonarQube (static analysis), Elasticvue (Elasticsearch UI), pgAdmin (PostgreSQL UI), Alloy (local log/metric collection for Loki + Prometheus)
+- **CI/CD:** GitHub Actions (see [DEVOPS.md](runtime/DEVOPS.md) for full pipeline details)
 
 ---
 
-## 4. Documentation & Modeling
+## 4. Production Infrastructure
+
+The production stack runs on a single Oracle Cloud ARM VM, managed entirely via code.
+
+- **Cloud Provider:** Oracle Cloud Infrastructure (OCI) - ARM VM, VCN, Object Storage
+- **DNS:** Cloudflare (managed via Terraform)
+- **IaC:** Terraform (provisions OCI VM, VCN, networking, Cloudflare DNS records)
+- **Configuration Management:** Ansible (k3s install, SSH hardening, fail2ban)
+- **Container Orchestration:** k3s (lightweight Kubernetes)
+- **GitOps:** ArgoCD (watches `main` branch, auto-syncs Helm releases)
+- **Package Management:** Helm (all services deployed as Helm charts)
+- **TLS:** cert-manager + Let's Encrypt (automatic certificate provisioning)
+- **Autoscaling:** KEDA (scales worker pods based on RabbitMQ queue depth)
+- **Backups:** Velero (daily K8s resource + PVC backups to OCI Object Storage)
+- **Observability:** OpenTelemetry + Tempo (distributed tracing), Loki (logs), Prometheus + Grafana (metrics)
+- **Runtime Security:** Falco (threat detection) + Kyverno (policy enforcement)
+- **HTTP Monitoring:** Blackbox Exporter (Prometheus-compatible endpoint health checks)
+- **Terraform Automation:** Atlantis (runs `terraform plan` on PRs touching `infrastructure/terraform/`)
+- **Image Registry:** GHCR (GitHub Container Registry - built and pushed by `deploy.yml`)
+- **Alerting:** AlertManager (Prometheus alert routing and notifications)
+- **Secrets at rest:** Sealed Secrets (encrypts K8s secrets in git via `kubeseal`, 30-day key rotation)
+- **Config reload:** Reloader (auto-restarts pods on ConfigMap/Secret changes)
+- **k3s upgrades:** System Upgrade Controller (automated k3s version upgrades via upgrade plan CR)
+
+---
+
+## 5. Documentation & Modeling
 
 - The project includes comprehensive **documentation**
 - **UML diagrams** are used throughout the project via:
@@ -65,7 +91,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ---
 
-## 5. Data & Configuration
+## 6. Data & Configuration
 
 - **Configuration:** YAML (Symfony services, routing, deptrac.yaml, etc.)
 - **Data Exchange:** JSON
@@ -74,15 +100,16 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ---
 
-## 6. Automation & Tooling
+## 7. Automation & Tooling
 
 - **Command Runner:** Makefile
+- **Dependency Automation:** Renovate (automated dependency update PRs for Composer, pnpm, Docker, Helm)
 - **Scripts:** Bash, PHP, Tools
 - **Code Statistics:** Custom PHP tools for files, rows, and characters counting
 
 ---
 
-## 7. Quality Assurance
+## 8. Quality Assurance
 
 We maintain 100% focus on code quality using these tools:
 
@@ -98,7 +125,7 @@ We maintain 100% focus on code quality using these tools:
 | PHP CS Fixer | Coding standards enforcement                   | composer php-cs-fixer:fix |
 | Rector       | Automated refactoring and upgrades             | composer rector:fix       |
 | PHPUnit      | Unit, Integration and Feature testing          | composer php-unit         |
-| SonarQube    | Static analysis with issue tracking dashboard  | composer sonar            |
+| SonarQube    | Local static analysis dashboard                | composer sonar            |
 
 ### Frontend QA
 
@@ -110,3 +137,28 @@ We maintain 100% focus on code quality using these tools:
 | ESLint + Prettier | TS linting and automated code formatting  | pnpm lint / npm run lint               |
 | Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss / npm run lint-scss     |
 | SLOC              | Source Lines of Code analysis (TS & SCSS) | npx sloc assets/ts assets/scss         |
+
+### CI/CD Tooling
+
+Tools that run exclusively in GitHub Actions pipelines - not available as local CLI commands.
+
+| Tool                     | Purpose                                               | Workflow                    |
+|--------------------------|-------------------------------------------------------|-----------------------------|
+| OWASP ZAP                | DAST - baseline scan against live app                 | `zap.yml`                   |
+| CodeQL                   | SAST - static security analysis                       | `sast.yml`                  |
+| Trivy                    | CVE scan on Docker images and dependencies            | `cve-scan.yml`, `deploy.yml`, `docker-validate.yml` |
+| Grype (Anchore)          | Vulnerability scan on built image                     | `cve-scan.yml`              |
+| GitHub Dependency Review | Dependency vulnerability review on PRs                | `cve-scan.yml`              |
+| Gitleaks                 | Secrets detection in commits                          | `supply-chain.yml`          |
+| OSSF Scorecard           | Supply chain security scoring                         | `supply-chain.yml`          |
+| cosign / Sigstore        | Production image signing                              | `deploy.yml`                |
+| SBOM (Syft / Anchore)    | Software Bill of Materials generation and attestation | `deploy.yml`                |
+| Hadolint                 | Dockerfile linting                                    | `docker-validate.yml`       |
+| Checkov                  | IaC security scanning (Terraform, Helm, K8s)         | `infrastructure-validate.yml` |
+| ShellCheck               | Shell script static analysis                          | `infrastructure-lint.yml`   |
+| ansible-lint             | Ansible playbook linting                              | `infrastructure-lint.yml`   |
+| Lighthouse               | Frontend performance auditing                         | `frontend-audit.yml`        |
+| axe-core + pa11y         | Accessibility testing on PRs                          | `frontend-audit.yml`        |
+| SonarCloud               | Cloud static analysis + ESLint + coverage             | `code-quality.yml`          |
+| Codecov                  | PHP + JS coverage tracking and reporting              | `code-quality.yml`          |
+| commitlint               | Conventional commit message format enforcement        | `validate-commits.yml`      |

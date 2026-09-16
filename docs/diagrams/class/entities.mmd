@@ -316,6 +316,17 @@ classDiagram
         created_at
     }
 
+    %% Entities: Audit
+    class AuditLog {
+        id
+        user
+        action
+        entity
+        entityId
+        metadata
+        createdAt
+    }
+
     %% Relations: Core
     Category --> Type
     Category --> Subtype
@@ -371,3 +382,6 @@ classDiagram
     %% Relations: Review
     Review --> ReviewDetail
     Review --> ReviewRating
+
+    %% Relations: Audit
+    User --> AuditLog

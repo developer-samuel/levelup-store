@@ -18,9 +18,9 @@ composer update
 #### Post-update validation (required)
 
 ```bash
-composer test
-composer phpmd
-composer phpstan
+composer php-unit
+composer php-md
+composer php-stan
 ```
 
 - Run the full test suite to ensure no regressions were introduced.
@@ -38,14 +38,14 @@ composer phpstan
 pnpm update
 
 # or npm
-npm update
+npm run update
 ```
 
 #### Post-update validation (required)
 
 ```bash
 # pnpm
-pnpm run vitest
+pnpm vitest
 
 # or npm
 npm run vitest
@@ -61,26 +61,26 @@ npm run vitest
 These checks are recommended but not mandatory for dependency updates.
 
 ```bash
-# TypeScript linting
-pnpm run eslint
-pnpm run eslint:fix
-
-# or npm
-npm run eslint
-npm run eslint:fix
-```
-
-```bash
-# SCSS linting
-pnpm run lint
-pnpm run lint:fix
+# TypeScript linting (ESLint)
+pnpm lint
+pnpm lint:fix
 
 # or npm
 npm run lint
 npm run lint:fix
 ```
 
-⚠️ `eslint:fix` may modify code automatically - review changes before committing.
+```bash
+# SCSS linting (Stylelint)
+pnpm lint-scss
+pnpm lint-scss:fix
+
+# or npm
+npm run lint-scss
+npm run lint-scss:fix
+```
+
+⚠️ `lint:fix` and `lint-scss:fix` may modify code automatically - review changes before committing.
 
 ---
 

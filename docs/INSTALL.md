@@ -70,6 +70,18 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 
 ---
 
+## 3. Production Deployment
+
+For deploying to production (Kubernetes on OCI, ArgoCD, secrets, Terraform):
+
+- [Infrastructure Overview](infrastructure/OVERVIEW.md)
+- [Setup & Prerequisites](infrastructure/SETUP.md)
+- [Environment Variables & Secrets](infrastructure/SECRETS.md)
+- [Deployment Guide](infrastructure/DEPLOYMENT.md)
+- [Makefile Command Reference](infrastructure/COMMANDS.md)
+
+---
+
 ✅ This `INSTALL.md` is your **quick-start guide** for getting the project running.
 
 - Dependency updates are handled as part of regular maintenance. See [MAINTENANCE.md](MAINTENANCE.md).

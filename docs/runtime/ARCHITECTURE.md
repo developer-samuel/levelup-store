@@ -12,8 +12,8 @@
 ```
 src/
 ├── Adapters/           # Gateways connecting Core to the outside world
-│   ├── External/       # Stripe, PDF, JWT, Country API, cache, RabbitMQ, Elasticsearch, Mercure, MinIO
-│   └── Internal/       # Cookie, security, internal cache, order segment
+│   ├── External/       # Stripe, PDF, JWT, Turnstile, Country API, cache, RabbitMQ, Elasticsearch, Mercure, MinIO
+│   └── Internal/       # Auth (token blacklist), cookie, security, internal cache, order segment
 ├── Core/               # Heart of the application - pure business logic
 │   ├── Application/    # Orchestration: services, handlers, inputs, policies
 │   ├── Domain/         # Business rules: entities, value objects, events, specs

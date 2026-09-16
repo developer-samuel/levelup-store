@@ -7,7 +7,6 @@ flowchart TD
     classDef error fill:#e90d0d, color:#fff, stroke:#000, stroke-width:2px;
 
     Start(["Start Signup Process"])
-    Authenticated{"User Authenticated?"}
     SignupPage["Show Signup Page"]
     FillSignup["User fills all required fields"]
     AcceptConditions["User accepts Terms & Conditions"]
@@ -15,7 +14,8 @@ flowchart TD
     RateLimit{"Rate Limit Exceeded?"}
     CreateUser["Create User Account"]
     SendVerificationEmail["Send Verification Email"]
-    AutoLogin["Automatically log in user"]
+    AutoLogin["Auto-login: Generate JWT + RefreshToken"]
+    ReturnTokens(["Return:<br/>access_token → JSON body<br/>refresh_token → HttpOnly cookie"])
     EmailVerified{"Email Verified?"}
     MustVerifyPage["Show 'Must Verify Email' Page"]
     RedirectHome(["Redirect to Home"])
@@ -23,15 +23,13 @@ flowchart TD
     Cancel(["429 Rate Limit / Cancel"])
 
     %% Flow
-    Start --> Authenticated
-    Authenticated -- Yes --> RedirectHome
-    Authenticated -- No --> SignupPage --> FillSignup --> AcceptConditions --> ValidateSignup
+    Start --> SignupPage --> FillSignup --> AcceptConditions --> ValidateSignup
 
     %% Rate limiting check
     ValidateSignup -- No --> FillSignup
     ValidateSignup -- Yes --> RateLimit
     RateLimit -- Yes --> Cancel
-    RateLimit -- No --> CreateUser --> SendVerificationEmail --> AutoLogin --> EmailVerified
+    RateLimit -- No --> CreateUser --> SendVerificationEmail --> AutoLogin --> ReturnTokens --> EmailVerified
 
     %% Email verification branch
     EmailVerified -- Yes --> RedirectHome
@@ -39,6 +37,6 @@ flowchart TD
 
     %% Classes
     class Start,End start;
-    class Authenticated,ValidateSignup,RateLimit,EmailVerified decision;
-    class RedirectHome success;
+    class ValidateSignup,RateLimit,EmailVerified decision;
+    class ReturnTokens,RedirectHome success;
     class Cancel error;

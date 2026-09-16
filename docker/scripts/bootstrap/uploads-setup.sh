@@ -7,7 +7,7 @@ UPLOADS_REPO="https://github.com/Developer-Samuel/levelup-store-uploads"
 echo "  ⬇  Cloning uploads repo..."
 TMP_DIR=$(mktemp -d)
 git clone --depth=1 --quiet "$UPLOADS_REPO" "$TMP_DIR"
-echo "  ✅  Clone done"
+echo "✅ Clone done"
 
 if [ "${MINIO_ENABLED}" = "true" ]; then
     echo "  ☁️  Uploading to MinIO bucket: ${MINIO_BUCKET}..."
@@ -16,7 +16,7 @@ if [ "${MINIO_ENABLED}" = "true" ]; then
     mc anonymous set public "local/${MINIO_BUCKET}"
     mc rm --recursive --force "local/${MINIO_BUCKET}/uploads/" --quiet 2>/dev/null || true
     mc cp --recursive "$TMP_DIR/uploads/" "local/${MINIO_BUCKET}/uploads/" --quiet
-    echo "  ✅  Uploads ready in MinIO"
+    echo "✅ Uploads ready in MinIO"
 else
     FILE_COUNT=$(find "$UPLOADS_DIR" -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
     if [ "$FILE_COUNT" -gt 0 ]; then
@@ -27,7 +27,7 @@ else
 
     mkdir -p "$UPLOADS_DIR"
     cp -r "$TMP_DIR/uploads/." "$UPLOADS_DIR/"
-    echo "  ✅  Local uploads ready"
+    echo "✅ Local uploads ready"
 fi
 
 rm -rf "$TMP_DIR"

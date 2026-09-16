@@ -59,4 +59,4 @@ These improve developer experience, monitoring, or enable optional features. Not
 - `wkhtmltopdf` must be installed either locally or in Docker for PDF generation
 - Optional services (Elasticsearch, Redis, RabbitMQ, pgAdmin, Prometheus, Grafana, Mercure, MinIO, Loki, AlertManager, Dozzle, SonarQube, Mailpit) improve developer experience or monitoring but are not required to run the app - when disabled, Elasticsearch falls back to database queries, Symfony Messenger falls back to a Doctrine-based queue, Mercure disables real-time push updates, and MinIO falls back to local filesystem storage
 - SMTP and Stripe can be sandbox/test accounts for development
-- **For a comprehensive overview of the full [Tech Stack](docs/TECHSTACK.md), architecture, and all Quality Assurance tools, please refer to the documentation.**
+- **For a comprehensive overview of the full [Tech Stack](TECHSTACK.md), architecture, and all Quality Assurance tools, please refer to the documentation.**
