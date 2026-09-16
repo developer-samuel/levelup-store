@@ -11,7 +11,7 @@ on:
       - 'pnpm-lock.yaml'
 
 env:
-  NODE_VERSION: '24'
+  NODE_VERSION: ${{ vars.NODE_VERSION }}
 
 jobs:
   check:
