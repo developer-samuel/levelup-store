@@ -12,7 +12,7 @@ spec:
   secretTargetRef:
     - parameter: host
       name: {{ include "levelup-store.fullname" . }}
-      key: MESSENGER_TRANSPORT_DSN
+      key: KEDA_RABBITMQ_HOST
 ---
 # ScaledObject replaces the static worker Deployment replica count.
 # minReplicaCount: 0 → scales to zero when the queue is empty (saves resources).

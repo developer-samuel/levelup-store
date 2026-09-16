@@ -13,13 +13,15 @@ use App\Core\Domain\Segment\Review\Traits\ReviewCoreTrait;
 
 final class ReviewExtension extends AbstractExtension
 {
+    use ReviewCoreTrait;
+
     /**
      * @return TwigFunction[]
     */
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('reviewValueText', static fn(float $value): string => ReviewCoreTrait::resolveValueText($value)),
+            new TwigFunction('reviewValueText', static fn(float $value): string => self::resolveValueText($value)),
         ];
     }
 }
