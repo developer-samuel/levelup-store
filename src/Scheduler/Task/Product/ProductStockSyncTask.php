@@ -72,8 +72,6 @@ final class ProductStockSyncTask extends AbstractTask
     */
     protected function processSingleItem(mixed $stock): bool
     {
-        assert($stock instanceof ProductVariantStock);
-
         if ($stock->getQuantityAvailable() === 0 && $stock->getStatus() !== ProductStockStatus::OUT_OF_STOCK) {
             $stock->setStatus(ProductStockStatus::OUT_OF_STOCK);
 

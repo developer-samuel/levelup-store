@@ -75,15 +75,13 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
     */
     protected function getData(): iterable
     {
-        $data = [
+        return [
             new ComputersRecord(),
             new SmartRecord(),
             new GamingRecord(),
             new TvRecord(),
             new AppliancesRecord(),
         ];
-
-        return $data;
     }
 
     /**

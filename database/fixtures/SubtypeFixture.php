@@ -95,10 +95,14 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         $category = $this->findCategoryOrLog($data['categoryName']);
-        if ($category === null) return;
+        if ($category === null) {
+            return;
+        }
 
         $type = $this->findTypeOrLog($category, $data['typeName']);
-        if ($type === null) return;
+        if ($type === null) {
+            return;
+        }
 
         $this->createSubtypes($manager, $category, $type, $data['subtypes']);
     }

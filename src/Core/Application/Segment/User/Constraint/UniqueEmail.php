@@ -15,7 +15,7 @@ final class UniqueEmail extends Constraint
 {
     public string $message = 'Email "{{ value }}" is already taken.';
 
-    public ?int $ignoreUserId = null;
+    public ?int $ignoreUserId;
 
     /**
      * @param int|null $ignoreUserId

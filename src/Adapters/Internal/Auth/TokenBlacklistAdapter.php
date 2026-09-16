@@ -11,18 +11,18 @@ use App\Core\Ports\{
     Shared\Proxy\CacheProxyContract
 };
 
-final class TokenBlacklistAdapter implements TokenBlacklistContract
+final readonly class TokenBlacklistAdapter implements TokenBlacklistContract
 {
     private const NAMESPACE = 'token_blacklist';
-    private const MISS_TTL  = 5; // seconds
+    private const MISS_TTL = 5; // seconds
 
-    private readonly ?CacheProxyContract $cache;
+    private ?CacheProxyContract $cache;
 
     /**
      * @param RedisCacheGatewayContract $redis
     */
     public function __construct(
-        RedisCacheGatewayContract $redis
+        RedisCacheGatewayContract $redis,
     ) {
         $this->cache = $redis->isRedisEnabled()
             ? $redis->createRedisCache(self::NAMESPACE)
@@ -41,7 +41,7 @@ final class TokenBlacklistAdapter implements TokenBlacklistContract
             return;
         }
 
-        $ttl  = max(1, $expiresAt->getTimestamp() - time());
+        $ttl = max(1, $expiresAt->getTimestamp() - time());
         $hash = $this->hash($token);
 
         $this->cache->delete($hash);
@@ -63,7 +63,7 @@ final class TokenBlacklistAdapter implements TokenBlacklistContract
             return false;
         }
 
-        $hash   = $this->hash($token);
+        $hash = $this->hash($token);
         $result = $this->cache->get($hash, function (CacheItemProxyContract $item): int {
             $item->expiresAfter(self::MISS_TTL);
             return 0;

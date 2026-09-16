@@ -93,7 +93,7 @@ final class LogoutCommandServiceTest extends TestCase
     public function testExecuteBlacklistsTokenAfterRevoke(): void
     {
         $expiresAt = new \DateTimeImmutable('+30 days');
-        $token     = $this->createMock(RefreshToken::class);
+        $token = $this->createMock(RefreshToken::class);
         $token->method('getExpiresAt')->willReturn($expiresAt);
 
         $this->refreshTokenRepository
@@ -111,7 +111,7 @@ final class LogoutCommandServiceTest extends TestCase
     private function initMocks(): void
     {
         $this->refreshTokenRepository = $this->createMock(RefreshTokenRepositoryContract::class);
-        $this->tokenBlacklist         = $this->createMock(TokenBlacklistContract::class);
+        $this->tokenBlacklist = $this->createMock(TokenBlacklistContract::class);
     }
 
     private function initService(): void

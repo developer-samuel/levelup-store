@@ -182,9 +182,9 @@ final class RefreshTokenCommandServiceTest extends TestCase
 
     private function initMocks(): void
     {
-        $this->jwtGateway            = $this->createMock(JwtGatewayContract::class);
+        $this->jwtGateway = $this->createMock(JwtGatewayContract::class);
         $this->refreshTokenRepository = $this->createMock(RefreshTokenRepositoryContract::class);
-        $this->tokenBlacklist        = $this->createMock(TokenBlacklistContract::class);
+        $this->tokenBlacklist = $this->createMock(TokenBlacklistContract::class);
     }
 
     private function initService(): void

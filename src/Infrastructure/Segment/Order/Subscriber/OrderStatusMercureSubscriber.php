@@ -7,7 +7,6 @@ namespace App\Infrastructure\Segment\Order\Subscriber;
 use Doctrine\{
     Bundle\DoctrineBundle\Attribute\AsDoctrineListener,
     ORM\Event\OnFlushEventArgs,
-    ORM\Event\PostFlushEventArgs,
     ORM\Events
 };
 

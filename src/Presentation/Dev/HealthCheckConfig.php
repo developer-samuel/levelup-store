@@ -16,12 +16,12 @@ final readonly class HealthCheckConfig
      * @param string $wkhtmltopdfPath
     */
     public function __construct(
-        public readonly string $stripeSecretKey,
-        public readonly string $mailerUser,
-        public readonly string $mailerPass,
-        public readonly string $mailerHost,
-        public readonly int    $mailerPort,
-        public readonly bool   $wkhtmltopdfEnabled,
-        public readonly string $wkhtmltopdfPath,
+        public string $stripeSecretKey,
+        public string $mailerUser,
+        public string $mailerPass,
+        public string $mailerHost,
+        public int    $mailerPort,
+        public bool   $wkhtmltopdfEnabled,
+        public string $wkhtmltopdfPath,
     ) {}
 }

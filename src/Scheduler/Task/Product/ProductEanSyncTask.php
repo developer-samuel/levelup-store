@@ -76,8 +76,6 @@ final class ProductEanSyncTask extends AbstractTask
     */
     protected function processSingleItem(mixed $stock): bool
     {
-        assert($stock instanceof ProductVariantStock);
-
         $quantities = $this->calculateQuantities($stock);
 
         if (!$this->needsUpdate($stock, $quantities)) {

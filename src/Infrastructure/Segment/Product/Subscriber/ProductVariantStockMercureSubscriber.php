@@ -7,7 +7,6 @@ namespace App\Infrastructure\Segment\Product\Subscriber;
 use Doctrine\{
     Bundle\DoctrineBundle\Attribute\AsDoctrineListener,
     ORM\EntityManagerInterface,
-    ORM\Event\PostFlushEventArgs,
     ORM\Events,
     Persistence\Event\LifecycleEventArgs
 };

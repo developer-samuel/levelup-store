@@ -37,7 +37,7 @@ final class TokenBlacklistAdapterTest extends TestCase
 
     public function testBlacklistMakesTokenBlacklisted(): void
     {
-        $token     = $this->uniqueToken();
+        $token = $this->uniqueToken();
         $expiresAt = new \DateTimeImmutable('+30 days');
 
         $this->adapter->blacklist($token, $expiresAt);
@@ -57,7 +57,7 @@ final class TokenBlacklistAdapterTest extends TestCase
 
     public function testTokenIsNoLongerBlacklistedAfterExpiry(): void
     {
-        $token     = $this->uniqueToken();
+        $token = $this->uniqueToken();
         $expiresAt = new \DateTimeImmutable('+1 second');
 
         $this->adapter->blacklist($token, $expiresAt);
@@ -71,7 +71,7 @@ final class TokenBlacklistAdapterTest extends TestCase
 
     public function testBlacklistOverwritesCachedMissEntry(): void
     {
-        $token     = $this->uniqueToken();
+        $token = $this->uniqueToken();
         $expiresAt = new \DateTimeImmutable('+30 days');
 
         $this->assertFalse($this->adapter->isBlacklisted($token));
@@ -83,7 +83,7 @@ final class TokenBlacklistAdapterTest extends TestCase
 
     public function testNoopWhenRedisDisabled(): void
     {
-        $redis   = new RedisCacheAdapter(false, $this->redisUrl());
+        $redis = new RedisCacheAdapter(false, $this->redisUrl());
         $adapter = new TokenBlacklistAdapter($redis);
 
         $token = $this->uniqueToken();
@@ -95,7 +95,7 @@ final class TokenBlacklistAdapterTest extends TestCase
 
     private function initAdapter(): void
     {
-        $redis         = new RedisCacheAdapter(true, $this->redisUrl());
+        $redis = new RedisCacheAdapter(true, $this->redisUrl());
         $this->adapter = new TokenBlacklistAdapter($redis);
     }
 
