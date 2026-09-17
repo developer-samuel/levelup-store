@@ -30,7 +30,7 @@ install: ## Install dependencies and build assets
 	@echo "📦 Installing dependencies and building assets..."
 	composer install
 	@if command -v pnpm > /dev/null 2>&1; then \
-		pnpm install && pnpm run build; \
+		pnpm install && pnpm build; \
 	else \
 		npm install && npm run build; \
 	fi
