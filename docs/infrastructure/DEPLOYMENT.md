@@ -257,3 +257,10 @@ composer install --ignore-platform-req=ext-opentelemetry --ignore-platform-req=e
 ```
 
 This is a local-only workaround - CI has the extension installed via the php composite action.
+
+---
+
+## 📊 Diagrams
+
+- [Deployment Pipeline](../diagrams/graphs/architecture/deployment.mmd)
+- [Provisioning](../diagrams/graphs/architecture/provisioning.mmd)

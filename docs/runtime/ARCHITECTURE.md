@@ -1,5 +1,7 @@
 # ARCHITECTURE
 
+> This document describes the **ecommerce** application architecture.
+
 ## 🏗️ Principles
 
 - **Hexagonal Architecture (Ports & Adapters)** - Core never talks to infrastructure directly, only through ports/adapters.
@@ -7,7 +9,7 @@
 - **CQRS** - Queries only read, commands change state.
 - **Event-Driven** - Used only for features that require asynchronous event handling, e.g. emails.
 
-## 🧱 Project Structure
+## 🧱 Ecommerce Backend Structure
 
 ```
 src/
@@ -28,5 +30,15 @@ src/
 
 ## 📊 Diagrams
 
-- [Architecture Layers](../diagrams/graphs/architecture/layers.mmd)
-- [Deployment](../diagrams/graphs/architecture/deployment.mmd)
+- [System Context](../diagrams/graphs/architecture/system-context.mmd)
+- [Ecommerce Layers](../diagrams/graphs/architecture/ecommerce-layers.mmd)
+- [Local Architecture](../diagrams/graphs/architecture/local-architecture.mmd)
+- [Production Architecture](../diagrams/graphs/architecture/production-architecture.mmd)
+- [Async Messaging](../diagrams/graphs/architecture/async-messaging.mmd)
+- [Deployment Pipeline](../diagrams/graphs/architecture/deployment.mmd)
+- [GitOps Flow](../diagrams/graphs/architecture/gitops.mmd)
+- [Provisioning](../diagrams/graphs/architecture/provisioning.mmd)
+
+---
+
+See also: [Infrastructure Overview](../infrastructure/OVERVIEW.md) · [Deployment Guide](../infrastructure/DEPLOYMENT.md)

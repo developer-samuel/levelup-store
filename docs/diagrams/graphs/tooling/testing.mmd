@@ -1,0 +1,33 @@
+graph TD
+    %% Testing strategy - PHPUnit + Vitest + Playwright
+    %% Layer: tool → test type → what it covers
+
+    classDef e2e         fill:#2EAD33, color:#fff, stroke:#000, stroke-width:2px;
+    classDef phpunit     fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef vitest      fill:#f8ff59, color:#000, stroke:#000, stroke-width:2px;
+    classDef layer       fill:#696969, color:#fff, stroke:#000, stroke-width:2px;
+
+    subgraph E2E["E2E"]
+        Playwright[🎭 Playwright\nFull-stack browser tests]:::e2e
+    end
+
+    subgraph Backend["Backend  -  PHPUnit"]
+        PHPFeature[🧪 Feature\nHTTP + DB]:::phpunit
+        PHPIntegration[🧪 Integration\nAdapters · Infrastructure · Presentation]:::phpunit
+        PHPUnit[🧪 Unit\nAdapters · Application · Infrastructure · Presentation]:::phpunit
+    end
+
+    subgraph Frontend["Frontend  -  Vitest"]
+        VitestFunctional[⚡ Functional\nDOM + user flows]:::vitest
+        VitestIntegration[⚡ Integration\ncomponent + service wiring]:::vitest
+        VitestUnit[⚡ Unit\nbusiness logic + utilities]:::vitest
+    end
+
+    Playwright      --> PHPFeature
+    Playwright      --> VitestFunctional
+
+    PHPFeature      --> PHPIntegration
+    PHPIntegration  --> PHPUnit
+
+    VitestFunctional   --> VitestIntegration
+    VitestIntegration  --> VitestUnit

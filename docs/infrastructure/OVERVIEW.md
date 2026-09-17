@@ -60,6 +60,14 @@ No manual `helm upgrade` is ever needed after initial setup.
 
 ---
 
+## 📊 Diagrams
+
+- [Production Architecture](../diagrams/graphs/architecture/production-architecture.mmd)
+- [Provisioning](../diagrams/graphs/architecture/provisioning.mmd)
+- [GitOps Flow](../diagrams/graphs/architecture/gitops.mmd)
+
+---
+
 ## Related docs
 
 - [Setup & Prerequisites](SETUP.md)

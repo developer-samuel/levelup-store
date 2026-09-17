@@ -85,8 +85,11 @@ PHPUnit runs only if php-checks and deptrac pass. E2E runs only if unit tests pa
 
 ## 📊 Diagrams
 
-- [Docker Services](../diagrams/graphs/devops/docker.mmd)
-- [CI/CD Pipelines](../diagrams/graphs/devops/pipelines.mmd)
+- [CI/CD Workflows](../diagrams/graphs/tooling/workflows.mmd)
+- [Testing Strategy](../diagrams/graphs/tooling/testing.mmd)
+- [Deployment Pipeline](../diagrams/graphs/architecture/deployment.mmd)
+- [GitOps Flow](../diagrams/graphs/architecture/gitops.mmd)
+- [Async Messaging](../diagrams/graphs/architecture/async-messaging.mmd)
 
 ---
 

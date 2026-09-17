@@ -40,4 +40,4 @@ composer db-setup
 
 ## 📊 Diagrams
 
-- [Testing Tools](../diagrams/graphs/devops/testing.mmd)
+- [Testing Tools](../diagrams/graphs/tooling/testing.mmd)

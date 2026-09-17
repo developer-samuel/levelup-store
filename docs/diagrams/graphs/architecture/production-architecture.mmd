@@ -1,0 +1,121 @@
+graph TD
+    %% Production stack - K8s on single OCI ARM VM managed by ArgoCD
+    %% All services deployed as Helm charts
+
+    classDef app        fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef runtime    fill:#696969, color:#fff, stroke:#000, stroke-width:2px;
+    classDef database   fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef cache      fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef messaging  fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef storage    fill:#16a085, color:#fff, stroke:#000, stroke-width:2px;
+    classDef realtime   fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
+    classDef monitoring fill:#27ae60, color:#fff, stroke:#000, stroke-width:2px;
+    classDef security   fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef infra      fill:#104f76, color:#fff, stroke:#000, stroke-width:2px;
+    classDef cdn        fill:#f39c12, color:#fff, stroke:#000, stroke-width:2px;
+    classDef client     fill:#2c3e50, color:#fff, stroke:#000, stroke-width:2px;
+    classDef external   fill:#e7d62f, color:#000, stroke:#000, stroke-width:2px;
+
+    Browser[🌐 Browser]:::client
+
+    subgraph Edge["Edge"]
+        Cloudflare[☁️ Cloudflare\nDNS + WAF + DDoS]:::cdn
+        Ingress[🌐 Traefik Ingress\ncert-manager TLS]:::infra
+    end
+
+    subgraph AppLayer["Application"]
+        App[⚙️ PHP-FPM App\nDeployment + HPA]:::app
+        Worker[⚙️ Messenger Worker\nKEDA ScaledObject]:::runtime
+        Cron[⏱️ Cron Scheduler\nCronJob]:::runtime
+    end
+
+    subgraph Data["Data"]
+        DB[🟦 PostgreSQL]:::database
+        Search[🔍 Elasticsearch]:::database
+        Cache[🟧 Redis]:::cache
+    end
+
+    subgraph Messaging["Messaging"]
+        Queue[🐇 RabbitMQ]:::messaging
+    end
+
+    subgraph Storage["Storage"]
+        MinIO[🗄️ MinIO\nS3-compatible]:::storage
+    end
+
+    subgraph Realtime["Real-time"]
+        Mercure[📡 Mercure]:::realtime
+    end
+
+    subgraph Observability["Observability"]
+        OTel[🔭 OTel Collector]:::monitoring
+        Tempo[⏱️ Tempo\nTracing]:::monitoring
+        Loki[📋 Loki\nLogs]:::monitoring
+        Prometheus[📊 Prometheus\nMetrics]:::monitoring
+        Grafana[📈 Grafana]:::monitoring
+        AlertManager[🔔 AlertManager]:::monitoring
+        Blackbox[🔍 Blackbox Exporter\nHTTP health checks]:::monitoring
+    end
+
+    subgraph Security["Security"]
+        Falco[🦅 Falco\nRuntime threat detection]:::security
+        Kyverno[📋 Kyverno\nPolicy enforcement]:::security
+    end
+
+    subgraph Infra["Cluster Infrastructure"]
+        ArgoCD[🐙 ArgoCD\nGitOps controller]:::infra
+        CertManager[🔒 cert-manager\nLet's Encrypt TLS]:::infra
+        KEDA[⚡ KEDA\nEvent-driven autoscaling]:::infra
+        Velero[💾 Velero\nDaily backups → OCI]:::infra
+        Reloader[🔄 Reloader\nConfig reload]:::infra
+        Atlantis[🤖 Atlantis\nTerraform via PRs]:::infra
+        SealedSecrets[🔐 Sealed Secrets\nEncrypted K8s secrets]:::infra
+        SUC[⬆️ System Upgrade Controller\nK3s node upgrades]:::infra
+    end
+
+    subgraph External["External Services"]
+        Stripe[💳 Stripe]:::external
+        Mailer[✉️ Mailer]:::external
+        Turnstile[🛡️ Cloudflare Turnstile]:::external
+        CountryAPI[🌍 Country API]:::external
+        Sentry[🔴 Sentry]:::external
+    end
+
+    Browser    --> Cloudflare
+    Cloudflare --> Ingress
+    Ingress    --> App
+    Ingress    --> Mercure
+    Ingress    --> MinIO
+    Ingress    --> ArgoCD
+    Ingress    --> Grafana
+    Ingress    --> Atlantis
+
+    App --> DB
+    App --> Search
+    App --> Cache
+    App --> MinIO
+    App --> Queue
+    App --> Mercure
+    App --> OTel
+    App --> Stripe
+    App --> Mailer
+    App --> Turnstile
+    App --> CountryAPI
+    App --> Sentry
+
+    Queue  --> Worker
+    KEDA   --> Worker
+    Worker --> Search
+    Worker --> DB
+    Worker --> OTel
+
+    Mercure --> Browser
+    Cron    --> App
+
+    OTel       --> Tempo
+    OTel       --> Loki
+    Prometheus --> AlertManager
+    Prometheus --> Grafana
+    Loki       --> Grafana
+    Tempo      --> Grafana
+    Blackbox   --> Prometheus

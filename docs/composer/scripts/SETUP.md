@@ -73,5 +73,5 @@ This file documents environment and setup Composer scripts defined in `composer.
 ### uml:generate
 
 - **Command**: `bin/run php scripts/tasks/generate-uml/launcher.php`
-- **Purpose**: Generates SVG diagrams from all `.mmd` source files in `docs/diagrams/` into `.uml/`. Clears existing SVGs before each run.
+- **Purpose**: Generates PNG diagrams from all `.mmd` source files in `docs/diagrams/` into `.uml/`. Clears existing PNGs before each run.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.

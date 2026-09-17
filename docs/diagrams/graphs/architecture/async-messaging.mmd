@@ -1,0 +1,40 @@
+graph LR
+    %% Async messaging flows - RabbitMQ + Mercure
+    %% Two separate flows: async queue (RabbitMQ) and realtime (domain events → Mercure)
+
+    classDef app      fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef queue    fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef worker   fill:#696969, color:#fff, stroke:#000, stroke-width:2px;
+    classDef target   fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef realtime fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
+    classDef client   fill:#2c3e50, color:#fff, stroke:#000, stroke-width:2px;
+    classDef event    fill:#27ae60, color:#fff, stroke:#000, stroke-width:2px;
+
+    App[⚙️ App\nSymfony Messenger]:::app
+
+    subgraph RabbitMQ["RabbitMQ"]
+        Queue[📨 async]:::queue
+    end
+
+    subgraph Workers["Messenger Workers"]
+        MailHandler[✉️ Symfony Mailer]:::worker
+        IndexHandlers[🔍 ES IndexHandlers]:::worker
+        SchedulerTasks[⏱️ Scheduler Tasks]:::worker
+    end
+
+    subgraph Targets["Targets"]
+        Mail[✉️ Mail]:::target
+        Elasticsearch[🔍 Elasticsearch]:::target
+        Database[🗄️ Database]:::target
+    end
+
+    DomainEvent[📣 Domain Events]:::event
+    MercureHub[📡 Mercure Hub]:::realtime
+    Browser[🌐 Browser\nSSE subscriber]:::client
+
+    App --> Queue
+    Queue --> MailHandler     --> Mail
+    Queue --> IndexHandlers   --> Elasticsearch
+    Queue --> SchedulerTasks  --> Database
+
+    DomainEvent --> MercureHub --> Browser

@@ -1,0 +1,55 @@
+graph TD
+    %% Infrastructure provisioning - Terraform + Ansible
+    %% How a bare OCI account becomes a running K8s cluster
+
+    classDef trigger fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef tf      fill:#7b42bc, color:#fff, stroke:#000, stroke-width:2px;
+    classDef ansible fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef k8s     fill:#326ce5, color:#fff, stroke:#000, stroke-width:2px;
+    classDef dns     fill:#f39c12, color:#fff, stroke:#000, stroke-width:2px;
+    classDef oci     fill:#c74634, color:#fff, stroke:#000, stroke-width:2px;
+
+    MakeBootstrap[🚀 make bootstrap]:::trigger
+
+    subgraph Terraform["Terraform - terraform/oracle/"]
+        VM[🖥️ OCI ARM VM\nVM.Standard.A1.Flex]:::oci
+        BlockVolume[💾 OCI Block Volume\n200GB persistent disk]:::oci
+        VCN[🌐 VCN + Subnet\nSecurity lists]:::oci
+        ObjectStorage[🗄️ OCI Object Storage\nVelero backup bucket]:::oci
+        DNS[☁️ Cloudflare DNS\nA record + wildcard *.domain]:::dns
+    end
+
+    subgraph Ansible["Ansible - ansible/playbooks/"]
+        K3s[☸️ k3s install\nLightweight Kubernetes]:::ansible
+        Hardening[🔒 SSH hardening\nfail2ban + auto-updates]:::ansible
+        Storage[💾 Mount Block Volume\next4 + fstab]:::ansible
+    end
+
+    subgraph Bootstrap["Cluster Bootstrap"]
+        HelmDeps[📦 helm-deps-update\nChart.lock versions]:::k8s
+        CertManager[🔒 cert-manager\nLet's Encrypt ClusterIssuer]:::k8s
+        ArgoCD[🔄 ArgoCD install\n+ repo-add + notifications]:::k8s
+        AllApps[📦 All Helm releases\nsynced by ArgoCD]:::k8s
+        Secrets[🔐 Inject secrets\napp + services + monitoring\n+ velero + blackbox]:::k8s
+    end
+
+    MakeBootstrap --> Terraform
+
+    Terraform --> VM
+    Terraform --> BlockVolume
+    Terraform --> VCN
+    Terraform --> ObjectStorage
+    Terraform --> DNS
+
+    VM          --> Ansible
+    BlockVolume --> Ansible
+
+    Ansible --> K3s
+    Ansible --> Hardening
+    Ansible --> Storage
+
+    K3s         --> HelmDeps
+    HelmDeps    --> CertManager
+    CertManager --> ArgoCD
+    ArgoCD      --> AllApps
+    AllApps     --> Secrets

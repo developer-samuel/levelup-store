@@ -68,5 +68,5 @@ These tools provide insights into code size, complexity, duplication, and overal
 
 ## 📊 Diagrams
 
-- [Backend Quality Tools](../diagrams/graphs/tools/backend.mmd)
-- [Frontend Quality Tools](../diagrams/graphs/tools/frontend.mmd)
+- [Backend Quality Tools](../diagrams/graphs/tooling/backend.mmd)
+- [Frontend Quality Tools](../diagrams/graphs/tooling/frontend.mmd)

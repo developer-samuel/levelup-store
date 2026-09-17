@@ -1,0 +1,38 @@
+graph TD
+    %% GitOps flow - ArgoCD app-of-apps
+    %% Two triggers: git commit (deploy) and K8s drift (selfHeal)
+
+    classDef git    fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef argocd fill:#f37626, color:#fff, stroke:#000, stroke-width:2px;
+    classDef helm   fill:#0f63ff, color:#fff, stroke:#000, stroke-width:2px;
+    classDef k8s    fill:#326ce5, color:#fff, stroke:#000, stroke-width:2px;
+    classDef drift  fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+
+    ValuesCommit[📝 git commit → main\nvalues.prod.yaml · image tag]:::git
+    KubernetesDrift[⚠️ K8s state drift\nmanual change detected]:::drift
+
+    subgraph ArgoCD["ArgoCD  (prune + selfHeal)"]
+        Poll[🔄 Polls main branch\ninfrastructure/helm/levelup-store/]:::argocd
+        Diff[📊 Detects diff\ngit state vs cluster state]:::argocd
+        Sync[🔁 Syncs Helm release\nvalues.yaml + services.yaml + values.prod.yaml]:::argocd
+    end
+
+    subgraph Helm["Helm"]
+        Render[📋 Renders templates\nwith merged values]:::helm
+        Apply[⚙️ Server-Side Apply\nprune orphaned resources]:::helm
+    end
+
+    subgraph K8s["Kubernetes"]
+        RollingUpdate[🔄 Rolling update\nnew pods → old pods removed]:::k8s
+        HealthCheck[✅ Readiness probe\nliveness probe]:::k8s
+    end
+
+    ValuesCommit    --> Poll
+    KubernetesDrift --> Diff
+
+    Poll  --> Diff
+    Diff  --> Sync
+    Sync  --> Render
+    Render --> Apply
+    Apply --> RollingUpdate
+    RollingUpdate --> HealthCheck
