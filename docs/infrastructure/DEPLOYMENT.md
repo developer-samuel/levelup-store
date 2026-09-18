@@ -75,6 +75,18 @@ Steps 10-13 configure secrets that the running pods need.
 
 ---
 
+## Seed database (one-time)
+
+After the app pod starts for the first time, load the initial fixtures:
+
+```bash
+kubectl exec -it deployment/levelup-store -n levelup-store -- php bin/console doctrine:fixtures:load --no-interaction
+```
+
+This must be done before seeding MinIO, as fixtures create product and variant records that the uploads reference.
+
+---
+
 ## Seed MinIO uploads (one-time)
 
 After ArgoCD syncs MinIO for the first time, seed the bucket with initial upload assets from the
@@ -83,7 +95,7 @@ After ArgoCD syncs MinIO for the first time, seed the bucket with initial upload
 Exec into the running app pod:
 
 ```bash
-kubectl exec -it deployment/levelup-store-app -n levelup-store -- bash docker/scripts/bootstrap/uploads-setup.sh
+kubectl exec -it deployment/levelup-store -n levelup-store -- bash docker/scripts/bootstrap/uploads-setup.sh
 ```
 
 The script reads `MINIO_ENABLED`, `MINIO_ENDPOINT`, `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`, and `MINIO_BUCKET`
@@ -108,7 +120,7 @@ push to main → CI passes → deploy.yml builds image → pushes to GHCR
 No manual intervention needed. Monitor in ArgoCD UI or:
 
 ```bash
-kubectl rollout status deployment/levelup-store-app -n levelup-store
+kubectl rollout status deployment/levelup-store -n levelup-store
 kubectl get pods -n levelup-store
 ```
 
