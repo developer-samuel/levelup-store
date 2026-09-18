@@ -48,7 +48,7 @@ abstract class AbstractAdminApiVariantQueryHandler extends AbstractAdminApiListQ
     }
 
     /**
-     * @param array{variantId?: int|null} $context
+     * @param array<string, mixed> $context
      *
      * @return array<int, ProductVariant>
      *
@@ -56,6 +56,7 @@ abstract class AbstractAdminApiVariantQueryHandler extends AbstractAdminApiListQ
     */
     protected function getRepositoryClass(array $context = []): array
     {
+        /** @var array{variantId?: int|null} $context */
         $variantId = IdAssertion::assert(
             $context['variantId'] ?? null,
             'Variant ID',

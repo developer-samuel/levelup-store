@@ -26,7 +26,6 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Segment\Order\Service\Command\OrderBuildCommandContract,
     Segment\Order\Service\Command\OrderCacheCommandContract,
     Segment\Order\Service\Command\OrderDataCommandContract,
     Segment\Order\Service\Command\OrderItemCommandContract,
@@ -65,27 +64,12 @@ final class OrderBuildCommandServiceTest extends TestCase
         $this->payload = $this->buildPayload();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderBuildCommandContract::class, $this->service);
-    }
-
-    public function testBuildReturnsOrder(): void
-    {
-        $order = $this->buildOrderMock();
-        $this->orderPreparationCommand->method('prepareOrder')->willReturn($order);
-
-        $result = $this->service->build($this->user, $this->payload, []);
-
-        $this->assertInstanceOf(Order::class, $result);
-    }
-
     public function testBuildCallsPrepareOrderWithUserAndPayload(): void
     {
         $order = $this->buildOrderMock();
 
         $this->orderPreparationCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('prepareOrder')
             ->with($this->user, $this->payload)
             ->willReturn($order);
@@ -100,7 +84,7 @@ final class OrderBuildCommandServiceTest extends TestCase
         $this->orderPreparationCommand->method('prepareOrder')->willReturn($order);
 
         $this->orderDataCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('attachOrderData')
             ->with($order, $this->payload);
 
@@ -113,7 +97,7 @@ final class OrderBuildCommandServiceTest extends TestCase
         $this->orderPreparationCommand->method('prepareOrder')->willReturn($order);
         $this->orderPriceQuery->method('calculateTotalPrice')->willReturn(149.99);
 
-        $order->expects($this->once())->method('setPrice')->with(149.99);
+        $order->expects(self::once())->method('setPrice')->with(149.99);
 
         $this->service->build($this->user, $this->payload, []);
     }
@@ -123,7 +107,7 @@ final class OrderBuildCommandServiceTest extends TestCase
         $this->setupPreparedOrder();
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->service->build($this->user, $this->payload, []);
@@ -134,7 +118,7 @@ final class OrderBuildCommandServiceTest extends TestCase
         $this->setupPreparedOrder();
 
         $this->orderCacheCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateOrdersCache')
             ->with($this->user);
 
@@ -151,7 +135,7 @@ final class OrderBuildCommandServiceTest extends TestCase
         ];
 
         $this->orderItemQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('prepareLineItems')
             ->with($cartItems)
             ->willReturn([]);

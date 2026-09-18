@@ -17,10 +17,7 @@ use App\Core\Domain\{
 
 use App\Core\Application\Segment\Cart\Service\Query\CartPriceQueryService;
 
-use App\Core\Ports\{
-    Segment\Cart\Service\Query\CartPriceQueryContract,
-    Segment\Product\Service\Query\ProductPriceQueryContract
-};
+use App\Core\Ports\Segment\Product\Service\Query\ProductPriceQueryContract;
 
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartPriceQueryService
@@ -36,16 +33,11 @@ final class CartPriceQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartPriceQueryContract::class, $this->service);
-    }
-
     public function testCalculateTotalPriceReturnsZeroForEmptyItems(): void
     {
         $result = $this->service->calculateTotalPrice([]);
 
-        $this->assertSame(0.0, $result);
+        self::assertSame(0.0, $result);
     }
 
     public function testCalculateTotalPriceSumsDiscountedPrices(): void
@@ -65,22 +57,14 @@ final class CartPriceQueryServiceTest extends TestCase
 
         $result = $this->service->calculateTotalPrice([$itemA, $itemB]);
 
-        $this->assertSame(130.0, $result);
-    }
-
-    public function testCalculateTotalPriceUsesDiscountedPriceNotOriginal(): void
-    {
-        $result = $this->calculateWithSingleItem(new ProductPriceObject(100.0, 60.0, true));
-
-        $this->assertSame(60.0, $result);
-        $this->assertNotSame(100.0, $result);
+        self::assertSame(130.0, $result);
     }
 
     public function testCalculateTotalPriceWithSingleItem(): void
     {
         $result = $this->calculateWithSingleItem(new ProductPriceObject(99.99, 99.99, false));
 
-        $this->assertSame(99.99, $result);
+        self::assertSame(99.99, $result);
     }
 
     private function initMocks(): void

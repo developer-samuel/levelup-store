@@ -77,7 +77,7 @@ final readonly class CartControlCommandService implements CartControlCommandCont
     private function clearItemsOrCart(Cart $cart): void
     {
         $remainingItems = $this->cartItemRepository->findByCart($cart);
-        if (empty($remainingItems)) {
+        if ($remainingItems === []) {
             $this->entityPersistence->remove($cart, true);
         }
     }

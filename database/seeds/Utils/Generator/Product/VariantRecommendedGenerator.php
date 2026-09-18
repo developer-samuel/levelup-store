@@ -20,7 +20,7 @@ final class VariantRecommendedGenerator
     {
         $randomVariants = [];
 
-        if (empty($variants)) {
+        if ($variants === []) {
             return [];
         }
 

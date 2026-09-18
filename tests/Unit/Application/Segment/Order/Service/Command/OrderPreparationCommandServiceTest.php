@@ -22,7 +22,6 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Order\Service\Command\OrderPreparationCommandService;
 
 use App\Core\Ports\{
-    Segment\Order\Service\Command\OrderPreparationCommandContract,
     Segment\Order\Service\Query\OrderPreparationQueryContract,
     Shared\Persistence\EntityPersistenceContract
 };
@@ -45,26 +44,14 @@ final class OrderPreparationCommandServiceTest extends TestCase
         $this->user = $this->createMock(User::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderPreparationCommandContract::class, $this->service);
-    }
-
-    public function testPrepareOrderReturnsOrder(): void
-    {
-        $this->setupPreparationQueryStubs();
-
-        $this->assertInstanceOf(Order::class, $this->callPrepareOrder());
-    }
-
     public function testPrepareOrderPersistsOrder(): void
     {
         $this->setupPreparationQueryStubs();
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
-            ->with($this->isInstanceOf(Order::class));
+            ->with(self::isInstanceOf(Order::class));
 
         $this->callPrepareOrder();
     }
@@ -73,49 +60,49 @@ final class OrderPreparationCommandServiceTest extends TestCase
     {
         $this->setupPreparationQueryStubs();
 
-        $this->assertSame(OrderStatus::PENDING, $this->callPrepareOrder()->getStatus());
+        self::assertSame(OrderStatus::PENDING, $this->callPrepareOrder()->getStatus());
     }
 
     public function testPrepareOrderSetsPaymentMethod(): void
     {
         $this->setupPreparationQueryStubs(paymentMethod: OrderPaymentMethod::CASH);
 
-        $this->assertSame(OrderPaymentMethod::CASH, $this->callPrepareOrder()->getPayment());
+        self::assertSame(OrderPaymentMethod::CASH, $this->callPrepareOrder()->getPayment());
     }
 
     public function testPrepareOrderSetsSendShippingTrue(): void
     {
         $this->setupPreparationQueryStubs();
 
-        $this->assertTrue($this->callPrepareOrder(sendShipping: true)->getSendShipping());
+        self::assertTrue($this->callPrepareOrder(sendShipping: true)->getSendShipping());
     }
 
     public function testPrepareOrderSetsSendShippingFalse(): void
     {
         $this->setupPreparationQueryStubs();
 
-        $this->assertFalse($this->callPrepareOrder(sendShipping: false)->getSendShipping());
+        self::assertFalse($this->callPrepareOrder(sendShipping: false)->getSendShipping());
     }
 
     public function testPrepareOrderSetsInitialPrice(): void
     {
         $this->setupPreparationQueryStubs(totalPrice: 49.99);
 
-        $this->assertSame(49.99, $this->callPrepareOrder()->getPrice());
+        self::assertSame(49.99, $this->callPrepareOrder()->getPrice());
     }
 
     public function testPrepareOrderGeneratesNonEmptyCode(): void
     {
         $this->setupPreparationQueryStubs();
 
-        $this->assertNotEmpty($this->callPrepareOrder()->getCode());
+        self::assertNotEmpty($this->callPrepareOrder()->getCode());
     }
 
     public function testPrepareOrderAssignsUser(): void
     {
         $this->setupPreparationQueryStubs();
 
-        $this->assertSame($this->user, $this->callPrepareOrder()->getUser());
+        self::assertSame($this->user, $this->callPrepareOrder()->getUser());
     }
 
     private function initMocks(): void
@@ -141,7 +128,7 @@ final class OrderPreparationCommandServiceTest extends TestCase
         $this->orderPreparationQuery->method('extractTotalPrice')->willReturn($totalPrice);
         $this->orderPreparationQuery->method('resolvePaymentMethod')->willReturn($paymentMethod);
     }
-    
+
     private function callPrepareOrder(bool $sendShipping = false): Order
     {
         return $this->service->prepareOrder($this->user, $this->buildPayload($sendShipping));

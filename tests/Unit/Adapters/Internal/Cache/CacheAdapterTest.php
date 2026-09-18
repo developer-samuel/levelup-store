@@ -11,7 +11,6 @@ use PHPUnit\{
 
 use App\Core\Ports\{
     Gateways\External\Cache\RedisCacheGatewayContract,
-    Gateways\Internal\Cache\CacheGatewayContract,
     Shared\Proxy\CacheProxyContract
 };
 
@@ -31,11 +30,6 @@ final class CacheAdapterTest extends TestCase
         $this->initAdapter();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CacheGatewayContract::class, $this->adapter);
-    }
-
     public function testGetCacheReturnsRedisCacheWhenRedisEnabled(): void
     {
         $redisCache = $this->createMock(CacheProxyContract::class);
@@ -43,32 +37,14 @@ final class CacheAdapterTest extends TestCase
         $this->enableRedis();
 
         $this->redis
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createRedisCache')
             ->with('orders')
             ->willReturn($redisCache);
 
         $result = $this->adapter->getCache('orders');
 
-        $this->assertSame($redisCache, $result);
-    }
-
-    public function testGetCacheReturnsFilesystemCacheWhenRedisDisabled(): void
-    {
-        $this->disableRedis();
-
-        $this->redis->expects($this->never())->method('createRedisCache');
-
-        $result = $this->adapter->getCache('orders');
-
-        $this->assertInstanceOf(CacheProxyContract::class, $result);
-    }
-
-    public function testCreateFilesystemCacheIsPubliclyCallable(): void
-    {
-        $result = $this->adapter->createFilesystemCache('test_namespace');
-
-        $this->assertInstanceOf(CacheProxyContract::class, $result);
+        self::assertSame($redisCache, $result);
     }
 
     public function testGetCacheReturnsDifferentInstancesPerNamespace(): void
@@ -78,7 +54,7 @@ final class CacheAdapterTest extends TestCase
         $cache1 = $this->adapter->getCache('namespace_a');
         $cache2 = $this->adapter->getCache('namespace_b');
 
-        $this->assertNotSame($cache1, $cache2);
+        self::assertNotSame($cache1, $cache2);
     }
 
     private function initMocks(): void

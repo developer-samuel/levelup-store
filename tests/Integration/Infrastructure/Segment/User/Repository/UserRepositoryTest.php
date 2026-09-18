@@ -10,8 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use App\Core\Domain\Segment\User\Entity\User;
 
-use App\Core\Ports\Segment\User\Repository\UserRepositoryContract;
-
 use App\Infrastructure\Segment\User\Repository\UserRepository;
 
 use Tests\{
@@ -52,46 +50,41 @@ final class UserRepositoryTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(UserRepositoryContract::class, $this->repository);
-    }
-
     public function testFindByEmailReturnsUserWhenFound(): void
     {
         $result = $this->repository->findByEmail($this->user->getEmail());
 
-        $this->assertInstanceOf(User::class, $result);
-        $this->assertSame($this->user->getEmail(), $result->getEmail());
+        self::assertInstanceOf(User::class, $result);
+        self::assertSame($this->user->getEmail(), $result->getEmail());
     }
 
     public function testFindByEmailReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->findByEmail('nonexistent@example.com');
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindByEmailIsCaseInsensitive(): void
     {
         $result = $this->repository->findByEmail(strtoupper($this->user->getEmail()));
 
-        $this->assertInstanceOf(User::class, $result);
+        self::assertInstanceOf(User::class, $result);
     }
 
     public function testFindByIdReturnsUserWhenFound(): void
     {
         $result = $this->repository->findById($this->user->getId());
 
-        $this->assertInstanceOf(User::class, $result);
-        $this->assertSame($this->user->getId(), $result->getId());
+        self::assertInstanceOf(User::class, $result);
+        self::assertSame($this->user->getId(), $result->getId());
     }
 
     public function testFindByIdReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->findById(999999);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testCountUsersBetweenReturnsCorrectCount(): void
@@ -103,15 +96,15 @@ final class UserRepositoryTest extends KernelTestCase
 
         $count = $this->repository->countUsersBetween($from, $to);
 
-        $this->assertGreaterThanOrEqual(2, $count);
+        self::assertGreaterThanOrEqual(2, $count);
     }
 
     public function testFindAllReturnsArray(): void
     {
         $result = $this->repository->findAll();
 
-        $this->assertNotEmpty($result);
-        $this->assertContainsOnlyInstancesOf(User::class, $result);
+        self::assertNotEmpty($result);
+        self::assertContainsOnlyInstancesOf(User::class, $result);
     }
 
     public function testCountUsersBetweenReturnsZeroForFutureRange(): void
@@ -120,7 +113,7 @@ final class UserRepositoryTest extends KernelTestCase
 
         $count = $this->repository->countUsersBetween($from, $to);
 
-        $this->assertSame(0, $count);
+        self::assertSame(0, $count);
     }
 
     private function getRepository(): UserRepository

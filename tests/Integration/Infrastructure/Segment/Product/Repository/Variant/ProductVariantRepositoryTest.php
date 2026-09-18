@@ -25,8 +25,7 @@ use App\Core\Domain\{
 
 use App\Core\Ports\{
     Gateways\External\Search\ElasticsearchGatewayContract,
-    Segment\Product\Projection\ProductVariantProjectionQueryContract,
-    Segment\Product\Repository\Variant\ProductVariantRepositoryContract
+    Segment\Product\Projection\ProductVariantProjectionQueryContract
 };
 
 use App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository;
@@ -69,26 +68,21 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(ProductVariantRepositoryContract::class, $this->repository);
-    }
-
     public function testFindByIdReturnsVariantWhenFound(): void
     {
         $variant = $this->createAndPersistVariant('SKU-BYID-001', 'Variant ById Test', 'variant-byid-test');
 
         $result = $this->repository->findById($variant->getId());
 
-        $this->assertInstanceOf(ProductVariant::class, $result);
-        $this->assertSame($variant->getId(), $result->getId());
+        self::assertInstanceOf(ProductVariant::class, $result);
+        self::assertSame($variant->getId(), $result->getId());
     }
 
     public function testFindByIdReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->findById(999999);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindOneByUrlReturnsVariantWhenFound(): void
@@ -97,8 +91,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findOneByUrl('variant-url-test');
 
-        $this->assertInstanceOf(ProductVariant::class, $result);
-        $this->assertSame('variant-url-test', $result->getUrl());
+        self::assertInstanceOf(ProductVariant::class, $result);
+        self::assertSame('variant-url-test', $result->getUrl());
     }
 
     public function testFindOneByUrlIsCaseInsensitive(): void
@@ -107,14 +101,14 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findOneByUrl('VARIANT-URL-CASE');
 
-        $this->assertInstanceOf(ProductVariant::class, $result);
+        self::assertInstanceOf(ProductVariant::class, $result);
     }
 
     public function testFindOneByUrlReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->findOneByUrl('nonexistent-url');
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testSearchByNameReturnsMatchingVariants(): void
@@ -124,15 +118,15 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $results = $this->repository->searchByName($unique);
 
-        $this->assertNotEmpty($results);
-        $this->assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+        self::assertNotEmpty($results);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $results);
     }
 
     public function testSearchByNameReturnsEmptyWhenNoMatch(): void
     {
         $results = $this->repository->searchByName('zzz-absolutely-no-match-xyz-999');
 
-        $this->assertEmpty($results);
+        self::assertEmpty($results);
     }
 
     public function testFindAllByProductReturnsVariantsForProduct(): void
@@ -142,8 +136,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $results = $this->repository->findAllByProduct($product);
 
-        $this->assertNotEmpty($results);
-        $this->assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+        self::assertNotEmpty($results);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $results);
     }
 
     public function testFindAvailableVariantsPaginatedReturnsArray(): void
@@ -152,9 +146,9 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12, ProductSortOption::TOP_RATED);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertArrayHasKey('total', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertArrayHasKey('total', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testFindAllReturnsArrayOfVariants(): void
@@ -163,8 +157,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAll();
 
-        $this->assertNotEmpty($result);
-        $this->assertContainsOnlyInstancesOf(ProductVariant::class, $result);
+        self::assertNotEmpty($result);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $result);
     }
 
     public function testFindAvailableVariantsPaginatedWithBrandFilter(): void
@@ -180,8 +174,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertNotEmpty($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertNotEmpty($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedWithBrandFilterHyphenatedName(): void
@@ -195,8 +189,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
             1, 12,
         );
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertNotEmpty($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertNotEmpty($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedWithBrandFilterNoHyphenInName(): void
@@ -210,8 +204,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
             1, 12,
         );
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertNotEmpty($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertNotEmpty($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedWithCategoryFilter(): void
@@ -228,8 +222,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertNotEmpty($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertNotEmpty($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedWithTypeFilter(): void
@@ -246,8 +240,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertNotEmpty($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertNotEmpty($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedWithPriceRangeFilter(): void
@@ -264,8 +258,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedWithDiscountRoute(): void
@@ -278,8 +272,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedWithSubtypeFilter(): void
@@ -292,8 +286,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testGetMaxPriceForFilterReturnsFloat(): void
@@ -302,7 +296,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->getMaxPriceForFilter($filter);
 
-        $this->assertGreaterThanOrEqual(0.0, $result);
+        self::assertGreaterThanOrEqual(0.0, $result);
     }
 
     public function testFindAvailableVariantsPaginatedReturnsMultipleItemsWhenPresent(): void
@@ -315,9 +309,9 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 100);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertArrayHasKey('total', $result);
-        $this->assertGreaterThanOrEqual(3, count($result['items']));
+        self::assertArrayHasKey('items', $result);
+        self::assertArrayHasKey('total', $result);
+        self::assertGreaterThanOrEqual(3, count($result['items']));
     }
 
     public function testFindAvailableVariantsPaginatedUsesDefaultSortWhenNullPassed(): void
@@ -328,8 +322,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedSortByCheapest(): void
@@ -338,8 +332,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12, ProductSortOption::CHEAPEST);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedSortByMostExpensive(): void
@@ -348,8 +342,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12, ProductSortOption::MOST_EXPENSIVE);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedSortByLatest(): void
@@ -358,8 +352,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAvailableVariantsPaginated($filter, 1, 12, ProductSortOption::LATEST);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertIsArray($result['items']);
+        self::assertArrayHasKey('items', $result);
+        self::assertIsArray($result['items']);
     }
 
     public function testFindAvailableVariantsPaginatedPageTwoReturnsOffset(): void
@@ -373,15 +367,15 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         $page1 = $this->repository->findAvailableVariantsPaginated($filter, 1, 2);
         $page2 = $this->repository->findAvailableVariantsPaginated($filter, 2, 2);
 
-        $this->assertArrayHasKey('items', $page1);
-        $this->assertArrayHasKey('items', $page2);
+        self::assertArrayHasKey('items', $page1);
+        self::assertArrayHasKey('items', $page2);
     }
 
     public function testFindOneByUrlReturnsNullWhenVariantHasNoStock(): void
     {
         $result = $this->repository->findOneByUrl('url-that-does-not-exist-xyz');
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindRandomAvailableExcludingReturnsAvailableVariant(): void
@@ -390,7 +384,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findRandomAvailableExcluding([]);
 
-        $this->assertInstanceOf(ProductVariant::class, $result);
+        self::assertInstanceOf(ProductVariant::class, $result);
     }
 
     public function testFindRandomAvailableExcludingReturnsNullWhenAllExcluded(): void
@@ -401,14 +395,14 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $fresh = $this->repository->findById($variant->getId());
 
-        $this->assertNotNull($fresh);
+        self::assertNotNull($fresh);
 
         $allVariants = $this->repository->findAll();
         $allIds = array_map(fn(ProductVariant $v) => $v->getId(), $allVariants);
 
         $result = $this->repository->findRandomAvailableExcluding($allIds);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindAvailableVariantsPaginatedUsesElasticsearchWhenEnabled(): void
@@ -423,10 +417,10 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertArrayHasKey('items', $result);
-        $this->assertArrayHasKey('total', $result);
-        $this->assertCount(1, $result['items']);
-        $this->assertSame(1, $result['total']);
+        self::assertArrayHasKey('items', $result);
+        self::assertArrayHasKey('total', $result);
+        self::assertCount(1, $result['items']);
+        self::assertSame(1, $result['total']);
     }
 
     public function testFindAvailableVariantsPaginatedReturnsEmptyWhenElasticsearchReturnsNoIds(): void
@@ -440,8 +434,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertSame([], $result['items']);
-        $this->assertSame(0, $result['total']);
+        self::assertSame([], $result['items']);
+        self::assertSame(0, $result['total']);
     }
 
     public function testSearchByNameUsesElasticsearchWhenEnabled(): void
@@ -455,8 +449,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $results = $repository->searchByName('ES Search');
 
-        $this->assertNotEmpty($results);
-        $this->assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+        self::assertNotEmpty($results);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $results);
     }
 
     public function testSearchByNameReturnsEmptyWhenElasticsearchReturnsNoIds(): void
@@ -468,7 +462,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $results = $repository->searchByName('anything');
 
-        $this->assertSame([], $results);
+        self::assertSame([], $results);
     }
 
     public function testFindAvailableVariantsPaginatedSkipsNonExistentIdsFromElasticsearch(): void
@@ -483,8 +477,8 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
 
-        $this->assertCount(1, $result['items']);
-        $this->assertSame($variant->getId(), $result['items'][0]->getId());
+        self::assertCount(1, $result['items']);
+        self::assertSame($variant->getId(), $result['items'][0]->getId());
     }
 
     public function testFindRandomAvailableExcludingRespectsExcludedIds(): void
@@ -497,13 +491,13 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         $idA = $this->repository->findOneByUrl('random-a')?->getId();
         $idB = $this->repository->findOneByUrl('random-b')?->getId();
 
-        $this->assertNotNull($idA);
-        $this->assertNotNull($idB);
+        self::assertNotNull($idA);
+        self::assertNotNull($idB);
 
         $result = $this->repository->findRandomAvailableExcluding([$idA]);
 
         if ($result !== null) {
-            $this->assertNotSame($idA, $result->getId());
+            self::assertNotSame($idA, $result->getId());
         }
     }
 

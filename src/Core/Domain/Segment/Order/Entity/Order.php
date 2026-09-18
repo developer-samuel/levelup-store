@@ -56,6 +56,7 @@ class Order
     #[ORM\JoinColumn(
         name: 'user_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private User $user;
@@ -69,7 +70,7 @@ class Order
     #[ORM\Column(
         type: 'string',
         length: 10,
-        nullable: true,
+        nullable: false,
         enumType: OrderPaymentMethod::class,
         options: ['default' => OrderPaymentMethod::CARD->value],
     )]

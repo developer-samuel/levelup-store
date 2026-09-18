@@ -106,7 +106,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
                 $sort,
             );
 
-            $items = empty($ids) ? [] : $this->findByOrderedIds($ids);
+            $items = $ids === [] ? [] : $this->findByOrderedIds($ids);
 
             return ['items' => $items, 'total' => $total];
         }
@@ -179,7 +179,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         if ($this->elasticsearch->isEnabled()) {
             ['ids' => $ids] = $this->projectionQuery->search($searchTerm, 50);
 
-            if (empty($ids)) {
+            if ($ids === []) {
                 return [];
             }
 
@@ -238,7 +238,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
 
         ProductVariantAvailabilitySpecification::applyInStock($qb, 'v');
 
-        if (!empty($excludedVariantIds)) {
+        if ($excludedVariantIds !== []) {
             $qb->andWhere('v.id NOT IN (:excluded)')
                 ->setParameter('excluded', $excludedVariantIds);
         }
@@ -246,7 +246,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         /** @var ProductVariant[] $results */
         $results = $qb->getQuery()->getResult();
 
-        if (empty($results)) {
+        if ($results === []) {
             return null;
         }
 
@@ -311,19 +311,19 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
             $qb->andWhere('d.id IS NOT NULL');
         }
 
-        if ($brands) {
+        if ($brands !== []) {
             $qb->andWhere("REPLACE(LOWER(b.name), ' ', '-') IN (:brands)")->setParameter('brands', $brands);
         }
 
-        if ($subtypes) {
+        if ($subtypes !== []) {
             $qb->andWhere("REPLACE(LOWER(st.name), ' ', '-') IN (:subtypes)")->setParameter('subtypes', $subtypes);
         }
 
-        if ($category) {
+        if ($category !== null) {
             $qb->andWhere("REPLACE(LOWER(c.name), ' ', '-') = :category")->setParameter('category', $category);
         }
 
-        if ($type) {
+        if ($type !== null) {
             $qb->andWhere("REPLACE(LOWER(t.name), ' ', '-') = :type")->setParameter('type', $type);
         }
 
@@ -363,7 +363,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
             $items,
         );
 
-        return array_values(array_unique(array_filter($normalized)));
+        return array_values(array_unique(array_filter($normalized, static fn(string $s): bool => $s !== '')));
     }
 
     /**

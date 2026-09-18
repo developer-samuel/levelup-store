@@ -31,7 +31,7 @@ final class SpecialCharacterConstraintValidator extends AbstractConstraintValida
             return;
         }
 
-        if (!is_string($value) || !preg_match('/[!@#$%^&*(),.?":{}|<>]/', $value)) {
+        if (!is_string($value) || preg_match('/[!@#$%^&*(),.?":{}|<>]/', $value) !== 1) {
             $this->addViolation($constraint->message);
         }
     }

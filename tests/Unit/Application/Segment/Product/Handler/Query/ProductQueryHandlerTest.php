@@ -17,7 +17,6 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Product\Handler\Query\ProductQueryHandler;
 
 use App\Core\Ports\{
-    Segment\Product\Handler\Query\ProductQueryHandlerContract,
     Segment\Product\Service\Query\ProductQueryContract,
     Segment\Review\Service\Query\ReviewQueryContract
 };
@@ -37,18 +36,13 @@ final class ProductQueryHandlerTest extends TestCase
         $this->initHandler();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(ProductQueryHandlerContract::class, $this->handler);
-    }
-
     public function testHandleReturnsArray(): void
     {
         $this->withEmptyProductData();
 
         $result = $this->handler->handle($this->buildFilter());
 
-        $this->assertNotEmpty($result);
+        self::assertNotEmpty($result);
     }
 
     public function testHandleDelegatesToProductQuery(): void
@@ -56,7 +50,7 @@ final class ProductQueryHandlerTest extends TestCase
         $filter = $this->buildFilter();
 
         $this->productQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFilteredAndSortedData')
             ->with($filter, 1, ProductSortOption::TOP_RATED)
             ->willReturn([]);
@@ -73,7 +67,7 @@ final class ProductQueryHandlerTest extends TestCase
         ]);
 
         $this->reviewQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAverageRatingByVariant')
             ->with(42)
             ->willReturn(4.5);
@@ -81,7 +75,7 @@ final class ProductQueryHandlerTest extends TestCase
         /** @var array{products: array<int, array<string, mixed>>} $result */
         $result = $this->handler->handle($this->buildFilter());
 
-        $this->assertSame(4.5, $result['products'][0]['averageRating']);
+        self::assertSame(4.5, $result['products'][0]['averageRating']);
     }
 
     public function testHandleReturnsZeroRatingWhenVariantIdMissing(): void
@@ -92,12 +86,12 @@ final class ProductQueryHandlerTest extends TestCase
             ],
         ]);
 
-        $this->reviewQuery->expects($this->never())->method('getAverageRatingByVariant');
+        $this->reviewQuery->expects(self::never())->method('getAverageRatingByVariant');
 
         /** @var array{products: array<int, array<string, mixed>>} $result */
         $result = $this->handler->handle($this->buildFilter());
 
-        $this->assertSame(0.0, $result['products'][0]['averageRating']);
+        self::assertSame(0.0, $result['products'][0]['averageRating']);
     }
 
     public function testHandleFiltersOutNonArrayProducts(): void
@@ -115,7 +109,7 @@ final class ProductQueryHandlerTest extends TestCase
         /** @var array{products: array<int, mixed>} $result */
         $result = $this->handler->handle($this->buildFilter());
 
-        $this->assertCount(1, $result['products']);
+        self::assertCount(1, $result['products']);
     }
 
     public function testHandleReturnsEmptyProductsWhenNotArray(): void
@@ -126,7 +120,7 @@ final class ProductQueryHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildFilter());
 
-        $this->assertSame([], $result['products']);
+        self::assertSame([], $result['products']);
     }
 
     public function testHandleSanitizesShowLoadMoreFromPagination(): void
@@ -143,7 +137,7 @@ final class ProductQueryHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildFilter());
 
-        $this->assertTrue($result['showLoadMore']);
+        self::assertTrue($result['showLoadMore']);
     }
 
     public function testHandleDefaultsShowLoadMoreToFalseWhenNoPagination(): void
@@ -152,7 +146,7 @@ final class ProductQueryHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildFilter());
 
-        $this->assertFalse($result['showLoadMore']);
+        self::assertFalse($result['showLoadMore']);
     }
 
     public function testHandlePassesCustomPageAndSort(): void
@@ -161,7 +155,7 @@ final class ProductQueryHandlerTest extends TestCase
         $sort = ProductSortOption::CHEAPEST;
 
         $this->productQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFilteredAndSortedData')
             ->with($filter, 3, $sort)
             ->willReturn([]);

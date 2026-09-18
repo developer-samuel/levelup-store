@@ -34,7 +34,7 @@ final class TermsAcceptedConstraint extends Constraint
     }
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

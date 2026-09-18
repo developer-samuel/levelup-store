@@ -46,6 +46,7 @@ class Review
     #[ORM\JoinColumn(
         name: 'user_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private User $user;
@@ -54,6 +55,7 @@ class Review
     #[ORM\JoinColumn(
         name: 'variant_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private ProductVariant $variant;

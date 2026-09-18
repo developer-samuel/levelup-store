@@ -20,7 +20,6 @@ use App\Core\Ports\{
     Security\SecurityPolicyContract,
     Segment\Cart\Service\Command\CartControlCommandContract,
     Segment\Cart\Service\Command\CartItemCommandContract,
-    Segment\Cart\Service\Command\CartMutationCommandContract,
     Segment\Cart\Service\Query\CartControlQueryContract
 };
 
@@ -44,11 +43,6 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->user = $this->createMock(User::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartMutationCommandContract::class, $this->service);
-    }
-
     public function testAddToCartCreatesCartWhenUserHasNone(): void
     {
         $this->setupVerifiedUser();
@@ -56,7 +50,7 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->cartItemCommand->method('addProductToCart')->willReturn(['success' => true]);
 
         $this->cartControlCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createNewCart')
             ->with($this->user);
 
@@ -70,7 +64,7 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->cartItemCommand->method('addProductToCart')->willReturn(['success' => true]);
 
         $this->cartControlCommand
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('createNewCart');
 
         $this->service->addToCart(1);
@@ -82,7 +76,7 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->withExistingCart();
 
         $this->cartItemCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addProductToCart')
             ->with($this->user, 42)
             ->willReturn(['success' => true]);
@@ -100,7 +94,7 @@ final class CartMutationCommandServiceTest extends TestCase
 
         $result = $this->service->addToCart(1);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testRemoveFromCartDoesNotCreateCart(): void
@@ -109,11 +103,11 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->cartItemCommand->method('removeProductFromCart')->willReturn(['success' => true]);
 
         $this->cartControlCommand
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('createNewCart');
 
         $this->cartControlQuery
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getUserCart');
 
         $this->service->removeFromCart(5);
@@ -124,7 +118,7 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->setupVerifiedUser();
 
         $this->cartItemCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('removeProductFromCart')
             ->with($this->user, 99)
             ->willReturn(['success' => true]);
@@ -141,7 +135,7 @@ final class CartMutationCommandServiceTest extends TestCase
 
         $result = $this->service->removeFromCart(5);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testAddToCartChecksEmailVerification(): void
@@ -150,7 +144,7 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->cartItemCommand->method('addProductToCart')->willReturn([]);
 
         $this->securityPolicy
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('checkIfEmailVerified')
             ->willReturn($this->user);
 
@@ -162,7 +156,7 @@ final class CartMutationCommandServiceTest extends TestCase
         $this->cartItemCommand->method('removeProductFromCart')->willReturn([]);
 
         $this->securityPolicy
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('checkIfEmailVerified')
             ->willReturn($this->user);
 

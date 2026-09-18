@@ -59,7 +59,7 @@ final class OrderCacheQueryService implements OrderCacheQueryContract
     */
     private function getCacheKey(?User $user): string
     {
-        return OrderCacheKeyPrefix::ORDERS_USER->value . ($user ? $user->getId() : 'guest');
+        return OrderCacheKeyPrefix::ORDERS_USER->value . ($user !== null ? $user->getId() : 'guest');
     }
 
     /**

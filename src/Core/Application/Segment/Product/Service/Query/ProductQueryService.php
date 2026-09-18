@@ -12,7 +12,8 @@ use App\Core\Domain\{
     Segment\Product\ValueObject\Catalog\ProductCatalogFilterObject,
     Segment\Product\ValueObject\Catalog\ProductCatalogPaginationObject,
     Segment\Product\ValueObject\ProductFilterObject,
-    Segment\Product\ValueObject\ProductPaginationObject
+    Segment\Product\ValueObject\ProductPaginationObject,
+    Segment\Product\ValueObject\ProductVariantObject
 };
 
 use App\Core\Application\{
@@ -152,8 +153,9 @@ final readonly class ProductQueryService implements ProductQueryContract
      *     type: string|null,
      *     types: string[],
      *     subtypes: string[],
-     *     filtered: array<string, mixed>,
-     *     pagination: ProductPaginationObject
+     *     filtered: ProductVariantObject[],
+     *     pagination: ProductPaginationObject,
+     *     totalCount: int
      * } $data
      * @param ProductSortOption $sort
      *
@@ -164,7 +166,7 @@ final readonly class ProductQueryService implements ProductQueryContract
         $catalog = new ProductCatalogObject(
             isDiscountRoute: $data['isDiscountRoute'],
             filter: $this->createFilter($filter, $data),
-            pagination: $this->createPagination($data['pagination'], $data['totalCount'] ?? count($data['filtered'])),
+            pagination: $this->createPagination($data['pagination'], $data['totalCount']),
             variants: $data['filtered'],
             sortOptions: $this->getSortOptions(),
             sort: $sort->value,
@@ -199,7 +201,7 @@ final readonly class ProductQueryService implements ProductQueryContract
      * @param array{
      *     types: string[],
      *     subtypes: string[],
-     *     filtered: array<string, mixed>,
+     *     filtered: ProductVariantObject[],
      *     category: string|null,
      *     type: string|null
      * } $data

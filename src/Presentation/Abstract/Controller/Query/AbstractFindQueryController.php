@@ -61,7 +61,7 @@ abstract class AbstractFindQueryController extends AbstractQueryController
         $entity = $this->repository->findById($id);
 
         if (!$entity) {
-            if ($redirectRoute) {
+            if ($redirectRoute !== null) {
                 return $this->redirectToRoute($redirectRoute);
             }
 

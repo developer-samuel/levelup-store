@@ -36,6 +36,7 @@ class ProductVariantRecommended
     #[ORM\JoinColumn(
         name: 'variant_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private ProductVariant $variant;

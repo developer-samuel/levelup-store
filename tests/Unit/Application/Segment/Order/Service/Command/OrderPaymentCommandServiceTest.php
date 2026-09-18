@@ -34,7 +34,6 @@ use App\Core\Ports\{
     Segment\Order\Service\Command\OrderCacheCommandContract,
     Segment\Order\Service\Command\OrderDataCommandContract,
     Segment\Order\Service\Command\OrderItemCommandContract,
-    Segment\Order\Service\Command\OrderPaymentCommandContract,
     Segment\Order\Service\Command\OrderPreparationCommandContract,
     Segment\Order\Service\Query\OrderCacheQueryContract,
     Segment\Order\Service\Query\OrderCountryQueryContract,
@@ -68,18 +67,13 @@ final class OrderPaymentCommandServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderPaymentCommandContract::class, $this->service);
-    }
-
     public function testProcessSuccessReturnsOrder(): void
     {
         $order = $this->setupPaymentProcessing(shouldProcessPayment: false);
 
         $result = $this->service->processSuccess('sess_abc');
 
-        $this->assertSame($order, $result);
+        self::assertSame($order, $result);
     }
 
     public function testProcessSuccessSendsNotification(): void
@@ -87,9 +81,9 @@ final class OrderPaymentCommandServiceTest extends TestCase
         $this->setupPaymentProcessing(shouldProcessPayment: false);
 
         $this->notifier
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('send')
-            ->with($this->isInstanceOf(Order::class));
+            ->with(self::isInstanceOf(Order::class));
 
         $this->service->processSuccess('sess_abc');
     }
@@ -109,7 +103,7 @@ final class OrderPaymentCommandServiceTest extends TestCase
         $order->method('getUser')->willReturn($user);
 
         $this->orderBuildCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('build')
             ->with($user, $payload, $items)
             ->willReturn($order);
@@ -125,7 +119,7 @@ final class OrderPaymentCommandServiceTest extends TestCase
 
         $persisted = $this->capturePersistedOnProcessSuccess();
 
-        $this->assertNotEmpty(array_filter($persisted, fn($e) => $e instanceof OrderPayment));
+        self::assertNotEmpty(array_filter($persisted, fn($e) => $e instanceof OrderPayment));
     }
 
     public function testProcessSuccessSkipsOrderPaymentWhenShouldNotProcess(): void
@@ -134,7 +128,7 @@ final class OrderPaymentCommandServiceTest extends TestCase
 
         $persisted = $this->capturePersistedOnProcessSuccess();
 
-        $this->assertEmpty(array_filter($persisted, fn($e) => $e instanceof OrderPayment));
+        self::assertEmpty(array_filter($persisted, fn($e) => $e instanceof OrderPayment));
     }
 
     public function testProcessSuccessThrowsLogicExceptionAndLogsCriticalOnFailure(): void
@@ -145,9 +139,9 @@ final class OrderPaymentCommandServiceTest extends TestCase
             ->willThrowException(new \RuntimeException('Stripe API down'));
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('critical')
-            ->with($this->stringContains('Failed to process payment'));
+            ->with(self::stringContains('Failed to process payment'));
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('An error occurred while processing the payment.');

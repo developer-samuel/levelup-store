@@ -14,35 +14,29 @@ use App\Core\Domain\{
 
 use App\Core\Ports\{
     Segment\Country\CountryRepositoryContract,
-    Segment\User\Service\Command\AddressCommandContract,
-    Segment\User\Service\Query\AddressQueryContract,
+    Segment\User\Service\Command\UserAddressCommandContract,
+    Segment\User\Service\Query\UserAddressQueryContract,
     Shared\Persistence\EntityPersistenceContract
 };
 
-final readonly class AddressCommandService implements AddressCommandContract
+final readonly class UserAddressCommandService implements UserAddressCommandContract
 {
     /**
      * @param EntityPersistenceContract $entityPersistence
      * @param CountryRepositoryContract $countryRepository
-     * @param AddressQueryContract $addressQuery
+     * @param UserAddressQueryContract $userAddressQuery
     */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private CountryRepositoryContract $countryRepository,
-        private AddressQueryContract $addressQuery,
+        private UserAddressQueryContract $userAddressQuery,
     ) {}
 
     /**
      * @param User $user
      * @param UserBilling|UserShipping|null $entity
-     * @param array{
-     *     countryId: int,
-     *     street: string,
-     *     postalCode: string,
-     *     city: string
-     * } $data
+     * @param array<string, int|string|null> $data
      * @param class-string<UserBilling|UserShipping> $entityClass
-     * @param string $setterMethod
      *
      * @return void
     */
@@ -51,25 +45,24 @@ final readonly class AddressCommandService implements AddressCommandContract
         UserBilling|UserShipping|null $entity,
         array $data,
         string $entityClass,
-        string $setterMethod,
     ): void {
-        $addressData = $this->addressQuery->extractAndSanitizeAddressData($data);
+        $addressData = $this->userAddressQuery->extractAndSanitizeAddressData($data);
 
         $countryId = $addressData['countryId'];
         $street = $addressData['street'];
         $postalCode = $addressData['postalCode'];
         $city = $addressData['city'];
 
-        $entity = $this->createEntityIfNeeded($user, $entity, $countryId, $street, $postalCode, $city, $entityClass, $setterMethod);
+        $entity = $this->createEntityIfNeeded($user, $entity, $countryId, $street, $postalCode, $city, $entityClass);
         if ($entity === null) {
             return;
         }
 
         $this->updateOrRemoveAddressEntity($entity, $countryId, $street, $postalCode, $city);
 
-        if ($this->addressQuery->shouldRemoveEntity($entity)) {
+        if ($this->userAddressQuery->shouldRemoveEntity($entity)) {
             $this->entityPersistence->remove($entity, true);
-            $user->$setterMethod(null);
+            $entity instanceof UserBilling ? $user->setBilling(null) : $user->setShipping(null);
 
             return;
         }
@@ -80,27 +73,25 @@ final readonly class AddressCommandService implements AddressCommandContract
     /**
      * @param User $user
      * @param UserBilling|UserShipping|null $entity
-     * @param int|null $countryId
-     * @param string|null $street
-     * @param string|null $postalCode
-     * @param string|null $city
+     * @param int $countryId
+     * @param string $street
+     * @param string $postalCode
+     * @param string $city
      * @param class-string<UserBilling|UserShipping> $entityClass
-     * @param string $setterMethod
      *
      * @return UserBilling|UserShipping|null
     */
     private function createEntityIfNeeded(
         User $user,
         UserBilling|UserShipping|null $entity,
-        ?int $countryId,
-        ?string $street,
-        ?string $postalCode,
-        ?string $city,
+        int $countryId,
+        string $street,
+        string $postalCode,
+        string $city,
         string $entityClass,
-        string $setterMethod,
     ): UserBilling|UserShipping|null {
-        if ($entity === null && ($countryId || $street || $postalCode || $city)) {
-            return $this->createNewAddressEntity($user, $entityClass, $setterMethod);
+        if ($entity === null && ($countryId > 0 || $street !== '' || $postalCode !== '' || $city !== '')) {
+            return $this->createNewAddressEntity($user, $entityClass);
         }
 
         return $entity;
@@ -109,16 +100,16 @@ final readonly class AddressCommandService implements AddressCommandContract
     /**
      * @param User $user
      * @param class-string<UserBilling|UserShipping> $entityClass
-     * @param string $setterMethod
      *
      * @return UserBilling|UserShipping
     */
-    private function createNewAddressEntity(User $user, string $entityClass, string $setterMethod): UserBilling|UserShipping
+    private function createNewAddressEntity(User $user, string $entityClass): UserBilling|UserShipping
     {
         $entity = new $entityClass();
         $entity->setUser($user);
 
-        $user->$setterMethod($entity);
+        $entity instanceof UserBilling ? $user->setBilling($entity) : $user->setShipping($entity);
+
         return $entity;
     }
 
@@ -150,7 +141,7 @@ final readonly class AddressCommandService implements AddressCommandContract
     */
     private function updateCountry(UserBilling|UserShipping $entity, ?int $countryId): void
     {
-        if (empty($countryId)) {
+        if ($countryId === null || $countryId === 0) {
             $entity->setCountry(null);
             return;
         }

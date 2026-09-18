@@ -48,6 +48,8 @@ abstract class AbstractApiOrderListQueryHandler extends AbstractAdminApiListQuer
     }
 
     /**
+     * @param array<string, mixed> $context
+     * 
      * @return array<int, Order>
     */
     protected function getRepositoryClass(array $context = []): array

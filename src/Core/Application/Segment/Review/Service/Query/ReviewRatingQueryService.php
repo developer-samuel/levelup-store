@@ -63,7 +63,7 @@ final readonly class ReviewRatingQueryService implements ReviewRatingQueryContra
     */
     private function getUserRatingType(Review $review, ?User $user): string
     {
-        if (!$user) {
+        if ($user === null) {
             return '';
         }
 

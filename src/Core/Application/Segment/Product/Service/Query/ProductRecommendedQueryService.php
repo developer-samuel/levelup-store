@@ -16,6 +16,7 @@ use App\Core\Ports\{
 
 /**
  * @phpstan-import-type ResourceArray from ProductRecommendedResource
+ * @phpstan-import-type ProductRecommendedShape from ProductRecommendedQueryContract
 */
 final readonly class ProductRecommendedQueryService implements ProductRecommendedQueryContract
 {
@@ -29,7 +30,7 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
     ) {}
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return array<int, ProductRecommendedShape>
     */
     public function findAll(): array
     {
@@ -51,7 +52,7 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
     /**
      * @param array<int, ProductVariantRecommended> $variants
      *
-     * @return array<int, array<string, mixed>>
+     * @return array<int, ResourceArray>
     */
     private function convertVariantsToViewData(array $variants): array
     {
@@ -81,7 +82,7 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
      * @param array<int, ProductVariantRecommended> $variants
      * @param array<int, float> $ratings
      *
-     * @return array<int, array<string, mixed>>
+     * @return array<int, ResourceArray>
     */
     private function mapVariantsToViewData(array $variants, array $ratings): array
     {
@@ -95,7 +96,7 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
      * @param ProductVariantRecommended $variant
      * @param array<int, float> $ratings
      *
-     * @return array<string, mixed>
+     * @return ResourceArray
     */
     private function transformVariant(ProductVariantRecommended $variant, array $ratings): array
     {

@@ -72,6 +72,23 @@ final class AddressCheckFields
     /**
      * @param ExecutionContextInterface $context
      * @param AddressObject $address
+     * @param AddressType $type
+     * @param bool|null $sendShipping
+     *
+     * @return void
+    */
+    public static function validateOptionalForType(
+        ExecutionContextInterface $context,
+        AddressObject $address,
+        AddressType $type,
+        ?bool $sendShipping = null,
+    ): void {
+        self::validateWithRequiredFlag($context, $address, false, $sendShipping, $type);
+    }
+
+    /**
+     * @param ExecutionContextInterface $context
+     * @param AddressObject $address
      * @param bool $required
      * @param bool|null $sendShipping
      *
@@ -306,7 +323,7 @@ final class AddressCheckFields
         ?string $regex,
         string $label,
     ): void {
-        if ($regex && !preg_match($regex, $value)) {
+        if ($regex !== null && preg_match($regex, $value) === 0) {
             $context->buildViolation(sprintf('%s contains invalid characters.', $label))
                 ->atPath($property)
                 ->addViolation();

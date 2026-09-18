@@ -15,6 +15,9 @@ use App\Core\Ports\Gateways\External\Search\ElasticsearchGatewayContract;
 
 abstract class AbstractIndexSubscriber
 {
+    /** @var array<int, int> */
+    private array $pendingRemoveIds = [];
+
     /**
      * @param ElasticsearchGatewayContract $elasticsearch
      * @param MessageBusInterface $bus
@@ -68,7 +71,7 @@ abstract class AbstractIndexSubscriber
      *
      * @return void
     */
-    public function postRemove(LifecycleEventArgs $args): void
+    public function preRemove(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
         $class = $this->getEntityClass();
@@ -79,8 +82,34 @@ abstract class AbstractIndexSubscriber
 
         assert(method_exists($entity, 'getId'));
 
-        /** @var int $id */
-        $id = $entity->getId();
+        /** @var int $entityId */
+        $entityId = $entity->getId();
+
+        $this->pendingRemoveIds[spl_object_id($entity)] = $entityId;
+    }
+
+    /**
+     * @param LifecycleEventArgs<EntityManagerInterface> $args
+     *
+     * @return void
+    */
+    public function postRemove(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+        $class = $this->getEntityClass();
+
+        if (!$entity instanceof $class || !$this->elasticsearch->isEnabled()) {
+            return;
+        }
+
+        $objectId = spl_object_id($entity);
+
+        if (!isset($this->pendingRemoveIds[$objectId])) {
+            return;
+        }
+
+        $id = $this->pendingRemoveIds[$objectId];
+        unset($this->pendingRemoveIds[$objectId]);
 
         $this->bus->dispatch($this->createRemoveMessage($id));
     }

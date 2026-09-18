@@ -45,7 +45,7 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
     ) {}
 
     /**
-     * @param array<int, StripeLineItemObject> $lineItems
+     * @param StripeLineItemObject[] $lineItems
      * @param OrderCreatePayload $payload
      *
      * @return string
@@ -81,7 +81,7 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
     }
 
     /**
-     * @param array<int, StripeLineItemObject> $lineItems
+     * @param StripeLineItemObject[] $lineItems
      * @param OrderCreatePayload $payload
      *
      * @return array{
@@ -106,7 +106,7 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
     }
 
     /**
-     * @param array<int, StripeLineItemObject> $lineItems
+     * @param StripeLineItemObject[] $lineItems
      *
      * @return array<int, LineItem>
     */
@@ -204,7 +204,7 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
             $metadata = $metadata->toArray();
         }
 
-        if (!is_array($metadata) || empty($metadata)) {
+        if (!is_array($metadata) || $metadata === []) {
             throw new \InvalidArgumentException('Stripe session metadata is missing or invalid.');
         }
 

@@ -105,7 +105,7 @@ final class ProductQueryController extends AbstractQueryController
     public function show(string $url): Response
     {
         $result = $this->productDetailQueryHandler->handle($url);
-        if (!$result) {
+        if ($result === null) {
             return $this->redirectToRoute('products_index');
         }
 
@@ -155,6 +155,7 @@ final class ProductQueryController extends AbstractQueryController
 
         return array_values(array_filter(
             DataSanitizer::sanitizeStringArray(explode(',', $sanitizedString)),
+            static fn (string $v): bool => $v !== '',
         ));
     }
 
@@ -271,7 +272,7 @@ final class ProductQueryController extends AbstractQueryController
     {
         $currentPage = $this->getCurrentPageFromData($data);
 
-        if ($currentPage > 1 && empty($data['products'] ?? [])) {
+        if ($currentPage > 1 && ($data['products'] ?? []) === []) {
             unset($params['page']);
 
             return $this->buildRedirectUri($request, $params);
@@ -309,7 +310,7 @@ final class ProductQueryController extends AbstractQueryController
     private function clearFilterParams(array $params): ?array
     {
         $filterParams = ProductFilterParam::values();
-        if (!array_intersect_key(array_flip($filterParams), $params)) {
+        if (array_intersect_key(array_flip($filterParams), $params) === []) {
             return null;
         }
 
@@ -329,6 +330,6 @@ final class ProductQueryController extends AbstractQueryController
     private function buildRedirectUri(Request $request, array $params): string
     {
         return $request->getUriForPath($request->getPathInfo())
-            . (empty($params) ? '' : '?' . http_build_query($params));
+            . ($params === [] ? '' : '?' . http_build_query($params));
     }
 }

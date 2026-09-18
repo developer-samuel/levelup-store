@@ -10,7 +10,8 @@ final class PasswordCheckFields
 {
     /**
      * @param ExecutionContextInterface $context
-     * @param object $object
+     * @param mixed $value1
+     * @param mixed $value2
      * @param string $field1
      * @param string $field2
      * @param string $message
@@ -19,14 +20,12 @@ final class PasswordCheckFields
     */
     public static function validatePasswordsMatch(
         ExecutionContextInterface $context,
-        object $object,
+        mixed $value1,
+        mixed $value2,
         string $field1,
         string $field2,
         string $message = 'Passwords do not match.',
     ): void {
-        $value1 = $object->{$field1} ?? null;
-        $value2 = $object->{$field2} ?? null;
-
         if ($value1 !== $value2) {
             self::addViolationForFields($context, $field1, $field2, $message);
         }

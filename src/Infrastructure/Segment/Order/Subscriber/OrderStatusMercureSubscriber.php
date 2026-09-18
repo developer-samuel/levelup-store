@@ -58,7 +58,7 @@ final class OrderStatusMercureSubscriber
      */
     public function postFlush(): void
     {
-        if (empty($this->pendingOrders)) {
+        if ($this->pendingOrders === []) {
             return;
         }
         foreach ($this->pendingOrders as $order) {

@@ -11,7 +11,6 @@ use PHPUnit\{
 
 use App\Core\Ports\{
     Gateways\External\Pdf\SnappyPdfGeneratorGatewayContract,
-    Gateways\Internal\Order\OrderInvoiceGatewayContract,
     Segment\Order\Renderer\OrderInvoicePdfRendererContract
 };
 
@@ -32,11 +31,6 @@ final class OrderInvoiceAdapterTest extends TestCase
         $this->initAdapter();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderInvoiceGatewayContract::class, $this->adapter);
-    }
-
     public function testGenerateReturnsPdfBinaryContent(): void
     {
         $data = ['order_id' => 1];
@@ -44,25 +38,25 @@ final class OrderInvoiceAdapterTest extends TestCase
         $binary = '%PDF-1.4 binary content';
 
         $this->renderer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($data)
             ->willReturn($html);
 
         $this->pdfGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generateFromHtml')
             ->with($html)
             ->willReturn($binary);
 
         $result = $this->adapter->generate($data);
 
-        $this->assertSame($binary, $result);
+        self::assertSame($binary, $result);
     }
 
     public function testGenerateWrapsRendererExceptionIntoException(): void
     {
-        $this->assertRendererThrowableWrapped(new \RuntimeException('Template not found'));
+        self::assertRendererThrowableWrapped(new \RuntimeException('Template not found'));
     }
 
     public function testGenerateWrapsPdfGeneratorExceptionIntoException(): void
@@ -80,7 +74,7 @@ final class OrderInvoiceAdapterTest extends TestCase
 
     public function testGenerateWrapsAnyThrowableIntoException(): void
     {
-        $this->assertRendererThrowableWrapped(new \Error('Fatal error'));
+        self::assertRendererThrowableWrapped(new \Error('Fatal error'));
     }
 
     public function testGeneratePreservesOriginalExceptionAsPrevious(): void
@@ -92,9 +86,9 @@ final class OrderInvoiceAdapterTest extends TestCase
         try {
             $this->adapter->generate([]);
 
-            $this->fail('Exception expected');
+            self::fail('Exception expected');
         } catch (\Exception $exception) {
-            $this->assertSame($original, $exception->getPrevious());
+            self::assertSame($original, $exception->getPrevious());
         }
     }
 

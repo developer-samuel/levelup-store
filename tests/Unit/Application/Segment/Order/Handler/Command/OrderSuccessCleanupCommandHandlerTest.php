@@ -19,7 +19,6 @@ use App\Core\Application\Segment\Order\Handler\Command\OrderSuccessCleanupComman
 use App\Core\Ports\{
     Segment\Cart\Service\Command\CartControlCommandContract,
     Segment\Cart\Service\Query\CartControlQueryContract,
-    Segment\Order\Handler\Command\OrderSuccessCleanupCommandHandlerContract,
     Segment\Order\Service\Command\OrderPaymentCommandContract,
     Shared\Logging\AppLoggerContract,
     Shared\Persistence\EntityPersistenceContract
@@ -46,18 +45,13 @@ final class OrderSuccessCleanupCommandHandlerTest extends TestCase
         $this->user = $this->createMock(User::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderSuccessCleanupCommandHandlerContract::class, $this->handler);
-    }
-
     public function testHandleReturnsSuccessStatus(): void
     {
         $this->withNoCart();
 
         $result = $this->handler->handle(null, $this->user);
 
-        $this->assertSame('success', $result['status']);
+        self::assertSame('success', $result['status']);
     }
 
     public function testHandleReturnsSuccessMessage(): void
@@ -66,13 +60,13 @@ final class OrderSuccessCleanupCommandHandlerTest extends TestCase
 
         $result = $this->handler->handle(null, $this->user);
 
-        $this->assertSame('Order cleaned successfully', $result['message']);
+        self::assertSame('Order cleaned successfully', $result['message']);
     }
 
     public function testHandleCallsProcessSuccessWhenSessionIdProvided(): void
     {
         $this->orderPaymentCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('processSuccess')
             ->with('sess_abc');
 
@@ -84,7 +78,7 @@ final class OrderSuccessCleanupCommandHandlerTest extends TestCase
     public function testHandleSkipsProcessSuccessWhenSessionIdIsNull(): void
     {
         $this->orderPaymentCommand
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('processSuccess');
 
         $this->withNoCart();
@@ -98,7 +92,7 @@ final class OrderSuccessCleanupCommandHandlerTest extends TestCase
         $this->cartControlQuery->method('getUserCart')->willReturn($cart);
 
         $this->cartControlCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('clearCart')
             ->with($cart);
 
@@ -112,7 +106,7 @@ final class OrderSuccessCleanupCommandHandlerTest extends TestCase
             ->willReturn($this->createMock(Cart::class));
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->handler->handle(null, $this->user);
@@ -123,11 +117,11 @@ final class OrderSuccessCleanupCommandHandlerTest extends TestCase
         $this->withNoCart();
 
         $this->cartControlCommand
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('clearCart');
 
         $this->entityPersistence
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('flush');
 
         $this->handler->handle(null, $this->user);
@@ -141,8 +135,8 @@ final class OrderSuccessCleanupCommandHandlerTest extends TestCase
 
         $result = $this->handler->handle('sess_abc', $this->user);
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(500, $result['code']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(500, $result['code']);
     }
 
     private function initMocks(): void

@@ -43,7 +43,7 @@ final class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiV
     protected function getItemsForVariant(int $variantId): array
     {
         $variant = $this->findVariant($variantId);
-        if (!$variant) {
+        if ($variant === null) {
             return [];
         }
 

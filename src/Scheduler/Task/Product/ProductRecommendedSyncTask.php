@@ -24,6 +24,9 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
+/**
+ * @extends AbstractTask<ProductVariantRecommended>
+*/
 #[AsMessageHandler]
 final class ProductRecommendedSyncTask extends AbstractTask
 {

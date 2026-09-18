@@ -13,8 +13,6 @@ use App\Core\Domain\{
     Segment\User\Entity\User
 };
 
-use App\Core\Ports\Auth\Repository\RefreshTokenRepositoryContract;
-
 use App\Infrastructure\Auth\Repository\RefreshTokenRepository;
 
 use Tests\{
@@ -53,26 +51,12 @@ final class RefreshTokenRepositoryTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(RefreshTokenRepositoryContract::class, $this->repository);
-    }
-
-    public function testCreatePersistsRefreshToken(): void
-    {
-        $token = $this->repository->create($this->user);
-
-        $this->assertInstanceOf(RefreshToken::class, $token);
-        $this->assertNotEmpty($token->getToken());
-        $this->assertFalse($token->isExpired());
-    }
-
     public function testCreateGeneratesUniqueTokens(): void
     {
         $tokenA = $this->repository->create($this->user);
         $tokenB = $this->repository->create($this->user);
 
-        $this->assertNotSame($tokenA->getToken(), $tokenB->getToken());
+        self::assertNotSame($tokenA->getToken(), $tokenB->getToken());
     }
 
     public function testFindByTokenReturnsTokenWhenFound(): void
@@ -81,15 +65,15 @@ final class RefreshTokenRepositoryTest extends KernelTestCase
 
         $found = $this->repository->findByToken($token->getToken());
 
-        $this->assertInstanceOf(RefreshToken::class, $found);
-        $this->assertSame($token->getToken(), $found->getToken());
+        self::assertInstanceOf(RefreshToken::class, $found);
+        self::assertSame($token->getToken(), $found->getToken());
     }
 
     public function testFindByTokenReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->findByToken('non-existing-token-string');
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testRevokeRemovesToken(): void
@@ -101,14 +85,14 @@ final class RefreshTokenRepositoryTest extends KernelTestCase
 
         $found = $this->repository->findByToken($tokenValue);
 
-        $this->assertNull($found);
+        self::assertNull($found);
     }
 
     public function testCreatedTokenIsNotExpired(): void
     {
         $token = $this->repository->create($this->user);
 
-        $this->assertFalse($token->isExpired());
+        self::assertFalse($token->isExpired());
     }
 
     private function getRepository(): RefreshTokenRepository

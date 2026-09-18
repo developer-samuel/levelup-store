@@ -9,6 +9,6 @@ trait AssertsPersisted
     /** @param object[] $persisted */
     private function assertPersistedContains(array $persisted, string $class): void
     {
-        $this->assertNotEmpty(array_filter($persisted, fn($e) => $e instanceof $class));
+        self::assertNotEmpty(array_filter($persisted, fn($e) => $e instanceof $class));
     }
 }

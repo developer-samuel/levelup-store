@@ -15,7 +15,8 @@ final class IdentifierGenerator
     */
     public static function generatePrefix(string $name, int $lettersPerWord = 1): string
     {
-        $words = preg_split('/\s+/', trim($name)) ?: [];
+        $split = preg_split('/\s+/', trim($name));
+        $words = $split !== false ? $split : [];
         $prefix = '';
 
         foreach ($words as $word) {

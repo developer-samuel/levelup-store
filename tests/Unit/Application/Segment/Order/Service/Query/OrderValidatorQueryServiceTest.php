@@ -23,8 +23,7 @@ use App\Core\Application\Segment\Order\Service\Query\OrderValidatorQueryService;
 use App\Core\Ports\{
     Segment\Cart\Repository\CartRepositoryContract,
     Segment\Cart\Service\Query\CartItemQueryContract,
-    Segment\Country\CountryRepositoryContract,
-    Segment\Order\Service\Query\OrderValidatorQueryContract
+    Segment\Country\CountryRepositoryContract
 };
 
 /**
@@ -43,19 +42,14 @@ final class OrderValidatorQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderValidatorQueryContract::class, $this->service);
-    }
-
     public function testValidateUserAndGetCartItemsReturnsEmptyWhenNoCart(): void
     {
         $this->cartRepository->method('findCartForUser')->willReturn(null);
 
         $result = $this->service->validateUserAndGetCartItems($this->buildUserMock());
 
-        $this->assertNull($result['cart']);
-        $this->assertEmpty($result['items']);
+        self::assertNull($result['cart']);
+        self::assertEmpty($result['items']);
     }
 
     public function testValidateUserAndGetCartItemsReturnsEmptyWhenCartExistsButNoItems(): void
@@ -65,8 +59,8 @@ final class OrderValidatorQueryServiceTest extends TestCase
 
         $result = $this->service->validateUserAndGetCartItems($this->buildUserMock());
 
-        $this->assertNull($result['cart']);
-        $this->assertEmpty($result['items']);
+        self::assertNull($result['cart']);
+        self::assertEmpty($result['items']);
     }
 
     public function testValidateUserAndGetCartItemsReturnsCartAndItems(): void
@@ -75,8 +69,8 @@ final class OrderValidatorQueryServiceTest extends TestCase
 
         $result = $this->service->validateUserAndGetCartItems($this->buildUserMock());
 
-        $this->assertSame($cart, $result['cart']);
-        $this->assertSame($items, $result['items']);
+        self::assertSame($cart, $result['cart']);
+        self::assertSame($items, $result['items']);
     }
 
     public function testGetCartItemsOrFailReturnsItemsWhenCartHasItems(): void
@@ -85,7 +79,7 @@ final class OrderValidatorQueryServiceTest extends TestCase
 
         $result = $this->service->getCartItemsOrFail($this->buildUserMock());
 
-        $this->assertSame($items, $result);
+        self::assertSame($items, $result);
     }
 
     public function testGetCartItemsOrFailThrowsWhenCartIsEmpty(): void

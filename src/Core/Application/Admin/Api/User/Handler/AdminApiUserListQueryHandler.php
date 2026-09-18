@@ -30,6 +30,8 @@ final class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandle
     }
 
     /**
+     * @param array<string, mixed> $context
+     * 
      * @return User[]
     */
     protected function getRepositoryClass(array $context = []): array

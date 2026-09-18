@@ -47,9 +47,9 @@ final class AuthApiCommandControllerTest extends WebTestCase
             'refresh_token' => 'refresh-token-xyz',
         ]);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('Content-Type', 'application/json');
-        $this->assertSame('success', $this->decodeJson()['status']);
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('Content-Type', 'application/json');
+        self::assertSame('success', $this->decodeJson()['status']);
     }
 
     public function testLoginSetsRefreshTokenCookie(): void
@@ -60,7 +60,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
             'refresh_token' => 'refresh-token-xyz',
         ]);
 
-        $this->assertNotNull($this->client->getCookieJar()->get('refresh_token'));
+        self::assertNotNull($this->client->getCookieJar()->get('refresh_token'));
     }
 
     public function testLoginDoesNotReturnRefreshTokenInBody(): void
@@ -71,19 +71,19 @@ final class AuthApiCommandControllerTest extends WebTestCase
             'refresh_token' => 'refresh-token-xyz',
         ]);
 
-        $this->assertArrayNotHasKey('refresh_token', $this->decodeJson());
+        self::assertArrayNotHasKey('refresh_token', $this->decodeJson());
     }
 
     public function testLoginReturnsUnprocessableOnInvalidPayload(): void
     {
         $this->postJson('/api/auth/login', ['email' => 'not-an-email', 'password' => '']);
 
-        $this->assertResponseStatusCodeSame(422);
+        self::assertResponseStatusCodeSame(422);
 
         $data = $this->decodeJson();
 
-        $this->assertFalse($data['success']);
-        $this->assertNotEmpty($data['errors']);
+        self::assertFalse($data['success']);
+        self::assertNotEmpty($data['errors']);
     }
 
     public function testLoginReturnsSuccessResponseBody(): void
@@ -94,7 +94,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
             'refresh_token' => 'refresh-token-xyz',
         ]);
 
-        $this->assertArrayHasKey('access_token', $this->decodeJson());
+        self::assertArrayHasKey('access_token', $this->decodeJson());
     }
 
     public function testRefreshReturnsSuccessJson(): void
@@ -105,8 +105,8 @@ final class AuthApiCommandControllerTest extends WebTestCase
             'refresh_token' => 'new-refresh-token',
         ]);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSame('success', $this->decodeJson()['status']);
+        self::assertResponseIsSuccessful();
+        self::assertSame('success', $this->decodeJson()['status']);
     }
 
     public function testRefreshSetsNewRefreshTokenCookie(): void
@@ -117,14 +117,14 @@ final class AuthApiCommandControllerTest extends WebTestCase
             'refresh_token' => 'new-refresh-token',
         ]);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertNotNull($this->client->getCookieJar()->get('refresh_token'));
+        self::assertResponseIsSuccessful();
+        self::assertNotNull($this->client->getCookieJar()->get('refresh_token'));
     }
 
     public function testRefreshWithEmptyCookieSendsNullToken(): void
     {
         $handler = $this->createMock(RefreshTokenHandlerContract::class);
-        $handler->expects($this->once())
+        $handler->expects(self::once())
             ->method('handle')
             ->with(null)
             ->willReturn(['status' => 'success', 'access_token' => 'tok', 'refresh_token' => 'r']);
@@ -133,15 +133,15 @@ final class AuthApiCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/api/auth/refresh');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testLogoutReturnsSuccessJson(): void
     {
         $this->postLogout(['status' => 'success', 'message' => 'Logged out successfully']);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertSame('success', $this->decodeJson()['status']);
+        self::assertResponseIsSuccessful();
+        self::assertSame('success', $this->decodeJson()['status']);
     }
 
     public function testLogoutClearsRefreshTokenCookie(): void
@@ -150,21 +150,21 @@ final class AuthApiCommandControllerTest extends WebTestCase
 
         $setCookie = $this->client->getResponse()->headers->get('Set-Cookie');
 
-        $this->assertNotNull($setCookie);
-        $this->assertStringContainsString('refresh_token', $setCookie);
+        self::assertNotNull($setCookie);
+        self::assertStringContainsString('refresh_token', $setCookie);
     }
 
     public function testLogoutBodyContainsSuccessTrue(): void
     {
         $this->postLogout(['status' => 'success', 'message' => 'Logged out']);
 
-        $this->assertTrue($this->decodeJson()['success']);
+        self::assertTrue($this->decodeJson()['success']);
     }
 
     public function testLogoutWithEmptyCookieSendsNullToken(): void
     {
         $handler = $this->createMock(LogoutHandlerContract::class);
-        $handler->expects($this->once())
+        $handler->expects(self::once())
             ->method('handle')
             ->with(null)
             ->willReturn(['status' => 'success', 'message' => 'ok']);
@@ -173,7 +173,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/api/auth/logout');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     /**

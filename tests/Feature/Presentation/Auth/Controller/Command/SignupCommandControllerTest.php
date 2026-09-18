@@ -46,8 +46,8 @@ final class SignupCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/signup/store', $this->buildPayload());
 
-        $this->assertResponseIsSuccessful();
-        $this->assertTrue($this->decodeJson()['success']);
+        self::assertResponseIsSuccessful();
+        self::assertTrue($this->decodeJson()['success']);
     }
 
     public function testStoreSetsRefreshTokenCookie(): void
@@ -61,7 +61,7 @@ final class SignupCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/signup/store', $this->buildPayload());
 
-        $this->assertNotNull($this->client->getCookieJar()->get('refresh_token'));
+        self::assertNotNull($this->client->getCookieJar()->get('refresh_token'));
     }
 
     public function testStoreDoesNotReturnRefreshTokenInBody(): void
@@ -75,7 +75,7 @@ final class SignupCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/signup/store', $this->buildPayload());
 
-        $this->assertArrayNotHasKey('refresh_token', $this->decodeJson());
+        self::assertArrayNotHasKey('refresh_token', $this->decodeJson());
     }
 
     public function testStoreReturnsJsonResponse(): void
@@ -89,19 +89,19 @@ final class SignupCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/signup/store', $this->buildPayload());
 
-        $this->assertResponseHeaderSame('Content-Type', 'application/json');
+        self::assertResponseHeaderSame('Content-Type', 'application/json');
     }
 
     public function testStoreReturnsUnprocessableOnValidationErrors(): void
     {
         $this->client->request('POST', '/signup/store', []);
 
-        $this->assertResponseStatusCodeSame(422);
+        self::assertResponseStatusCodeSame(422);
 
         $data = $this->decodeJson();
 
-        $this->assertFalse($data['success']);
-        $this->assertNotEmpty($data['errors']);
+        self::assertFalse($data['success']);
+        self::assertNotEmpty($data['errors']);
     }
 
     /**

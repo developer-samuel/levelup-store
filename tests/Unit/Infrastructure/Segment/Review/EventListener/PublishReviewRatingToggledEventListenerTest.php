@@ -36,7 +36,7 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
     public function testPublishesOnReviewRatingToggled(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish');
 
         ($this->listener)(new ReviewRatingToggledEvent(variantId: 5, reviewId: 10));
@@ -45,9 +45,9 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
     public function testPublishesCorrectTopic(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
-            ->with('reviews/5/ratings', $this->anything());
+            ->with('reviews/5/ratings', self::anything());
 
         ($this->listener)(new ReviewRatingToggledEvent(variantId: 5, reviewId: 10));
     }
@@ -60,10 +60,10 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
         ]);
 
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
             ->with(
-                $this->anything(),
+                self::anything(),
                 json_encode([
                     'reviewId'      => 10,
                     'likesCount'    => 3,
@@ -84,9 +84,9 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
             ]);
 
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
-            ->with($this->anything(), $this->stringContains('"likesCount":7'));
+            ->with(self::anything(), self::stringContains('"likesCount":7'));
 
         ($this->listener)(new ReviewRatingToggledEvent(variantId: 5, reviewId: 10));
     }
@@ -101,9 +101,9 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
             ]);
 
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
-            ->with($this->anything(), $this->stringContains('"dislikesCount":4'));
+            ->with(self::anything(), self::stringContains('"dislikesCount":4'));
 
         ($this->listener)(new ReviewRatingToggledEvent(variantId: 5, reviewId: 10));
     }

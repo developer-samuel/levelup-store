@@ -71,7 +71,7 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
     {
         $existingCountry = $this->countryRepository->findAllByCode($code);
 
-        return !empty($existingCountry);
+        return $existingCountry !== [];
     }
 
     /**

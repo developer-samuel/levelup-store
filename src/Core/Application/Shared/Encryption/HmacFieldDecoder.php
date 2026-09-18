@@ -56,6 +56,6 @@ final readonly class HmacFieldDecoder implements HmacFieldDecoderContract
             return null;
         }
 
-        return ctype_digit($decrypted) ? (int) $decrypted : $decrypted;
+        return $decrypted;
     }
 }

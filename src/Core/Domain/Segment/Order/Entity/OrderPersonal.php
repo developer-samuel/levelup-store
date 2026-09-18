@@ -32,6 +32,7 @@ class OrderPersonal
     #[ORM\JoinColumn(
         name: 'order_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private Order $order;

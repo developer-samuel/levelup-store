@@ -80,7 +80,8 @@
       "symfony/runtime": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "infection/extension-installer": true,
-      "tbachert/spi": true
+      "tbachert/spi": true,
+      "phpstan/extension-installer": true
     },
     "bump-after-update": true,
     "sort-packages": true
@@ -105,7 +106,8 @@
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/",
-      "Tools\\Rector\\Rules\\": "tools/rector/rules/"
+      "Tools\\Rector\\Rules\\": "tools/rector/rules/",
+      "Tools\\PhpStan\\Descriptors\\": "tools/php-stan/descriptors/"
     }
   },
   "replace": {
@@ -276,7 +278,12 @@
     "pdepend/pdepend": "^2.16",
     "phpmd/phpmd": "^2.15",
     "phpmetrics/phpmetrics": "^2.9",
+    "phpstan/extension-installer": "*",
     "phpstan/phpstan": "^2.1",
+    "phpstan/phpstan-deprecation-rules": "*",
+    "phpstan/phpstan-doctrine": "*",
+    "phpstan/phpstan-phpunit": "*",
+    "phpstan/phpstan-strict-rules": "*",
     "phpstan/phpstan-symfony": "^2.0",
     "phpunit/phpunit": "^9.6",
     "rector/rector": "^2.5",

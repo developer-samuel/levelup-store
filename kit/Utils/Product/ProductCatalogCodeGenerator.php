@@ -19,7 +19,7 @@ final class ProductCatalogCodeGenerator
     {
         $prefix = IdentifierGenerator::generatePrefix($productName);
 
-        $variantPart = $variantName ? '-' . strtoupper(str_replace(' ', '', $variantName)) : '';
+        $variantPart = $variantName !== null ? '-' . strtoupper(str_replace(' ', '', $variantName)) : '';
 
         $uniqueSuffix = '-' . IdentifierGenerator::generateRandomAlphanumeric($randomLength);
 

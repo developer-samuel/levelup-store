@@ -15,8 +15,6 @@ use App\Core\Domain\{
     Segment\User\Entity\User
 };
 
-use App\Core\Ports\Segment\Cart\Repository\CartItemRepositoryContract;
-
 use App\Infrastructure\Segment\Cart\Repository\CartItemRepository;
 
 use Tests\{
@@ -61,11 +59,6 @@ final class CartItemRepositoryTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartItemRepositoryContract::class, $this->repository);
-    }
-
     public function testGetItemReturnsCartItemWhenExists(): void
     {
         $variant = $this->createAndPersistVariant('SKU-GET-001', 'Variant Get', 'variant-get');
@@ -76,15 +69,15 @@ final class CartItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->getItem($itemId);
 
-        $this->assertInstanceOf(CartItem::class, $result);
-        $this->assertSame($itemId, $result->getId());
+        self::assertInstanceOf(CartItem::class, $result);
+        self::assertSame($itemId, $result->getId());
     }
 
     public function testGetItemReturnsNullWhenNotExists(): void
     {
         $result = $this->repository->getItem(999999);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindByCartReturnsItemsForCart(): void
@@ -95,15 +88,15 @@ final class CartItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findByCart($this->cart);
 
-        $this->assertCount(1, $result);
-        $this->assertInstanceOf(CartItem::class, $result[0]);
+        self::assertCount(1, $result);
+        self::assertInstanceOf(CartItem::class, $result[0]);
     }
 
     public function testFindByCartReturnsEmptyWhenNoItems(): void
     {
         $result = $this->repository->findByCart($this->cart);
 
-        $this->assertEmpty($result);
+        self::assertEmpty($result);
     }
 
     public function testFindAllWithVariantReturnsCartItems(): void
@@ -113,15 +106,15 @@ final class CartItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAllWithVariant();
 
-        $this->assertNotEmpty($result);
-        $this->assertContainsOnlyInstancesOf(CartItem::class, $result);
+        self::assertNotEmpty($result);
+        self::assertContainsOnlyInstancesOf(CartItem::class, $result);
     }
 
     public function testFindAllWithVariantReturnsEmptyWhenNoItems(): void
     {
         $result = $this->repository->findAllWithVariant();
 
-        $this->assertEmpty($result);
+        self::assertEmpty($result);
     }
 
     public function testFindAllWithVariantEagerLoadsVariantAndStock(): void
@@ -133,11 +126,11 @@ final class CartItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAllWithVariant();
 
-        $this->assertNotEmpty($result);
+        self::assertNotEmpty($result);
 
         $loadedVariant = $result[0]->getVariant();
 
-        $this->assertInstanceOf(ProductVariant::class, $loadedVariant);
+        self::assertInstanceOf(ProductVariant::class, $loadedVariant);
     }
 
     public function testFindByCartReturnsOnlyItemsForGivenCart(): void
@@ -152,12 +145,12 @@ final class CartItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findByCart($this->cart);
 
-        $this->assertCount(1, $result);
+        self::assertCount(1, $result);
 
         $cart = $result[0]->getCart();
         assert($cart !== null);
-        
-        $this->assertSame($this->cart->getId(), $cart->getId());
+
+        self::assertSame($this->cart->getId(), $cart->getId());
     }
 
     private function getRepository(): CartItemRepository

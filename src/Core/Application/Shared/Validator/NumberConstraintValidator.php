@@ -31,7 +31,7 @@ final class NumberConstraintValidator extends AbstractConstraintValidator
             return;
         }
 
-        if (!is_string($value) || !preg_match('/\d/', $value)) {
+        if (!is_string($value) || preg_match('/\d/', $value) !== 1) {
             $this->addViolation($constraint->message);
         }
     }

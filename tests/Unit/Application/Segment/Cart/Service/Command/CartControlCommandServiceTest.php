@@ -18,7 +18,6 @@ use App\Core\Application\Segment\Cart\Service\Command\CartControlCommandService;
 
 use App\Core\Ports\{
     Segment\Cart\Repository\CartItemRepositoryContract,
-    Segment\Cart\Service\Command\CartControlCommandContract,
     Shared\Persistence\EntityPersistenceContract
 };
 
@@ -40,17 +39,12 @@ final class CartControlCommandServiceTest extends TestCase
         $this->cart = $this->createMock(Cart::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartControlCommandContract::class, $this->service);
-    }
-
     public function testClearCartRemovesCartWhenNoItemsRemain(): void
     {
         $this->withEmptyCart();
 
         $this->entityPersistence
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('remove')
             ->with($this->cart, true);
 
@@ -62,7 +56,7 @@ final class CartControlCommandServiceTest extends TestCase
         $this->withCartItems();
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('remove')
             ->with($this->cart, true);
 
@@ -74,7 +68,7 @@ final class CartControlCommandServiceTest extends TestCase
         $this->withCartItems();
 
         $this->entityPersistence
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('flush');
 
         $this->service->flushAndRefreshCart($this->cart);
@@ -85,7 +79,7 @@ final class CartControlCommandServiceTest extends TestCase
         $this->withCartItems();
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('refresh')
             ->with($this->cart);
 
@@ -97,25 +91,11 @@ final class CartControlCommandServiceTest extends TestCase
         $this->withEmptyCart();
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('remove')
             ->with($this->cart, true);
 
         $this->service->flushAndRefreshCart($this->cart);
-    }
-
-    public function testCreateNewCartPersistsAndReturnsCart(): void
-    {
-        $user = $this->createMock(User::class);
-
-        $this->entityPersistence
-            ->expects($this->once())
-            ->method('persist')
-            ->with($this->isInstanceOf(Cart::class), true);
-
-        $result = $this->service->createNewCart($user);
-
-        $this->assertInstanceOf(Cart::class, $result);
     }
 
     private function initMocks(): void

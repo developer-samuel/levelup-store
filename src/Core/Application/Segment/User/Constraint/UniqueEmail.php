@@ -29,7 +29,7 @@ final class UniqueEmail extends Constraint
     }
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

@@ -19,7 +19,6 @@ use App\Core\Application\Segment\Order\Handler\Command\GenerateOrderInvoiceHandl
 use App\Core\Ports\{
     Gateways\Internal\Order\OrderInvoiceGatewayContract,
     Security\SecurityPolicyContract,
-    Segment\Order\Handler\Command\GenerateOrderInvoiceHandlerContract,
     Segment\Order\Service\Query\OrderInvoiceQueryContract,
     Shared\FileSystem\TempFileManagerContract,
     Shared\Logging\AppLoggerContract
@@ -43,18 +42,13 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->initHandler();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(GenerateOrderInvoiceHandlerContract::class, $this->handler);
-    }
-
     public function testHandleReturnsPdfContent(): void
     {
         $this->setupInvoiceGeneration(pdfContent: '%PDF-1.4 content');
 
         $result = $this->handler->handle('ORDER-001');
 
-        $this->assertSame('%PDF-1.4 content', $result);
+        self::assertSame('%PDF-1.4 content', $result);
     }
 
     public function testHandleCallsInvoiceQueryWithCode(): void
@@ -62,7 +56,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->setupInvoiceGeneration();
 
         $this->orderInvoiceQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getInvoiceDetails')
             ->with('ORDER-001');
 
@@ -77,7 +71,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->orderInvoiceQuery->method('getInvoiceDetails')->willReturn($invoiceData);
 
         $this->orderInvoiceAdapter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with($invoiceData)
             ->willReturn('%PDF content');
@@ -93,7 +87,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->setupInvoiceGeneration(pdfContent: '%PDF content');
 
         $this->tempFileManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('create')
             ->with('%PDF content', 'invoice_', '.pdf')
             ->willReturn('/tmp/invoice_abc.pdf');
@@ -106,7 +100,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->setupInvoiceGeneration(pdfContent: '%PDF content');
 
         $this->tempFileManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('read')
             ->with('/tmp/invoice_abc.pdf');
 
@@ -118,7 +112,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->setupInvoiceGeneration(pdfContent: '%PDF content');
 
         $this->tempFileManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('delete')
             ->with('/tmp/invoice_abc.pdf');
 
@@ -131,7 +125,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->orderInvoiceQuery->method('getInvoiceDetails')->willReturn([]);
         $this->orderInvoiceAdapter->method('generate')->willReturn('');
 
-        $this->logger->expects($this->once())->method('error');
+        $this->logger->expects(self::once())->method('error');
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Failed to read generated PDF file.');
@@ -147,7 +141,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
         $this->orderInvoiceQuery->method('getInvoiceDetails')->willThrowException($exception);
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error')
             ->with('Failed to generate invoice', $exception);
 
@@ -177,9 +171,9 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
             $this->handler->handle('ORDER-TEST-007');
         } catch (\Throwable) {}
 
-        $this->assertIsArray($capturedContext);
-        $this->assertArrayHasKey('code', $capturedContext);
-        $this->assertSame('ORDER-TEST-007', $capturedContext['code']);
+        self::assertIsArray($capturedContext);
+        self::assertArrayHasKey('code', $capturedContext);
+        self::assertSame('ORDER-TEST-007', $capturedContext['code']);
     }
 
     public function testHandleThrowsWithoutLoggingWhenPolicyThrows(): void
@@ -188,7 +182,7 @@ final class GenerateOrderInvoiceHandlerTest extends TestCase
             ->method('checkIfEmailVerified')
             ->willThrowException(new AccessDeniedException('Email not verified.'));
 
-        $this->logger->expects($this->never())->method('error');
+        $this->logger->expects(self::never())->method('error');
 
         $this->expectException(AccessDeniedException::class);
 

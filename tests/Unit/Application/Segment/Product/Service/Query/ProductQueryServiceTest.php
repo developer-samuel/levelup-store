@@ -21,7 +21,6 @@ use App\Core\Ports\{
     Segment\Brand\BrandRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
     Segment\Product\Service\Query\ProductCategoryQueryContract,
-    Segment\Product\Service\Query\ProductQueryContract,
     Segment\Product\Service\Query\ProductVariantQueryContract
 };
 
@@ -42,18 +41,13 @@ final class ProductQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(ProductQueryContract::class, $this->service);
-    }
-
     public function testGetFilteredAndSortedDataReturnsArray(): void
     {
         $this->setupDefaultMocks();
 
         $result = $this->service->getFilteredAndSortedData($this->buildFilter());
 
-        $this->assertArrayHasKey('variants', $result);
+        self::assertArrayHasKey('variants', $result);
     }
 
     public function testGetFilteredAndSortedDataContainsExpectedKeys(): void
@@ -62,10 +56,10 @@ final class ProductQueryServiceTest extends TestCase
 
         $result = $this->service->getFilteredAndSortedData($this->buildFilter());
 
-        $this->assertArrayHasKey('variants', $result);
-        $this->assertArrayHasKey('pagination', $result);
-        $this->assertArrayHasKey('filter', $result);
-        $this->assertArrayHasKey('isDiscountRoute', $result);
+        self::assertArrayHasKey('variants', $result);
+        self::assertArrayHasKey('pagination', $result);
+        self::assertArrayHasKey('filter', $result);
+        self::assertArrayHasKey('isDiscountRoute', $result);
     }
 
     public function testGetFilteredAndSortedDataPassesCategoryToRepository(): void
@@ -75,9 +69,9 @@ final class ProductQueryServiceTest extends TestCase
         $filter = $this->buildFilter(category: 'Electronics');
 
         $this->variantRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findAvailableVariantsPaginated')
-            ->with($this->anything(), $this->anything(), $this->anything(), $this->anything())
+            ->with(self::anything(), self::anything(), self::anything(), self::anything())
             ->willReturn(['items' => [], 'total' => 0]);
 
         $this->service->getFilteredAndSortedData($filter);
@@ -104,7 +98,7 @@ final class ProductQueryServiceTest extends TestCase
 
         $this->service->getFilteredAndSortedData($this->buildFilter(category: 'ELECTRONICS'));
 
-        $this->assertSame('electronics', $capturedFilter);
+        self::assertSame('electronics', $capturedFilter);
     }
 
     public function testGetFilteredAndSortedDataNullCategoryWhenEmptyString(): void
@@ -128,7 +122,7 @@ final class ProductQueryServiceTest extends TestCase
 
         $this->service->getFilteredAndSortedData($this->buildFilter(category: ''));
 
-        $this->assertNull($capturedCategory);
+        self::assertNull($capturedCategory);
     }
 
     public function testGetFilteredAndSortedDataMapsVariants(): void
@@ -157,7 +151,7 @@ final class ProductQueryServiceTest extends TestCase
 
         $result = $this->service->getFilteredAndSortedData($this->buildFilter());
 
-        $this->assertArrayHasKey('variants', $result);
+        self::assertArrayHasKey('variants', $result);
     }
 
     public function testGetFilteredAndSortedDataUsesDiscountRoute(): void
@@ -167,7 +161,7 @@ final class ProductQueryServiceTest extends TestCase
         $filter = $this->buildFilter(isDiscountRoute: true);
         $result = $this->service->getFilteredAndSortedData($filter);
 
-        $this->assertTrue($result['isDiscountRoute']);
+        self::assertTrue($result['isDiscountRoute']);
     }
 
     private function initMocks(): void

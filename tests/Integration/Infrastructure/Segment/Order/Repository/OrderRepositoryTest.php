@@ -15,8 +15,6 @@ use App\Core\Domain\{
 
 use App\Core\Domain\Segment\User\Entity\User;
 
-use App\Core\Ports\Segment\Order\Repository\OrderRepositoryContract;
-
 use App\Infrastructure\Segment\Order\Repository\OrderRepository;
 
 use Tests\{
@@ -59,26 +57,21 @@ final class OrderRepositoryTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderRepositoryContract::class, $this->repository);
-    }
-
     public function testGetOrderReturnsOrderWhenFound(): void
     {
         $order = $this->createAndPersistOrder($this->user, 'ORDER-GET-001');
 
         $result = $this->repository->getOrder($order->getId());
 
-        $this->assertInstanceOf(Order::class, $result);
-        $this->assertSame($order->getId(), $result->getId());
+        self::assertInstanceOf(Order::class, $result);
+        self::assertSame($order->getId(), $result->getId());
     }
 
     public function testGetOrderReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->getOrder(999999);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testGetOrderByCodeReturnsOrderWhenFound(): void
@@ -87,15 +80,15 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $result = $this->repository->getOrderByCode('ORDER-CODE-001');
 
-        $this->assertInstanceOf(Order::class, $result);
-        $this->assertSame('ORDER-CODE-001', $result->getCode());
+        self::assertInstanceOf(Order::class, $result);
+        self::assertSame('ORDER-CODE-001', $result->getCode());
     }
 
     public function testGetOrderByCodeReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->getOrderByCode('NONEXISTENT-CODE');
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindOneByCodeReturnsCaseInsensitive(): void
@@ -104,14 +97,14 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findOne(['code' => 'order-case-001']);
 
-        $this->assertInstanceOf(Order::class, $result);
+        self::assertInstanceOf(Order::class, $result);
     }
 
     public function testFindOneReturnsNullWhenNotFound(): void
     {
         $result = $this->repository->findOne(['code' => 'NO-SUCH-CODE']);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindAllForUserReturnsOnlyUserOrders(): void
@@ -125,9 +118,9 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAllForUser($userA);
 
-        $this->assertCount(2, $result);
+        self::assertCount(2, $result);
         foreach ($result as $order) {
-            $this->assertSame($userA->getId(), $order->getUser()->getId());
+            self::assertSame($userA->getId(), $order->getUser()->getId());
         }
     }
 
@@ -135,7 +128,7 @@ final class OrderRepositoryTest extends KernelTestCase
     {
         $result = $this->repository->findAllForUser($this->user);
 
-        $this->assertEmpty($result);
+        self::assertEmpty($result);
     }
 
     public function testFindOrdersByStatusesReturnsMatchingOrders(): void
@@ -151,9 +144,9 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $statuses = array_map(fn(Order $o) => $o->getStatus(), $result);
 
-        $this->assertContains(OrderStatus::PROCESSED, $statuses);
-        $this->assertContains(OrderStatus::COMPLETED, $statuses);
-        $this->assertNotContains(OrderStatus::REFUNDED, $statuses);
+        self::assertContains(OrderStatus::PROCESSED, $statuses);
+        self::assertContains(OrderStatus::COMPLETED, $statuses);
+        self::assertNotContains(OrderStatus::REFUNDED, $statuses);
     }
 
     public function testCountOrdersBetweenCountsWithinRange(): void
@@ -165,7 +158,7 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $count = $this->repository->countOrdersBetween($from, $to);
 
-        $this->assertGreaterThanOrEqual(2, $count);
+        self::assertGreaterThanOrEqual(2, $count);
     }
 
     public function testCountOrdersBetweenReturnsZeroForFutureRange(): void
@@ -174,7 +167,7 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $count = $this->repository->countOrdersBetween($from, $to);
 
-        $this->assertSame(0, $count);
+        self::assertSame(0, $count);
     }
 
     public function testFindAllReturnsArrayOfOrders(): void
@@ -183,8 +176,8 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAll();
 
-        $this->assertNotEmpty($result);
-        $this->assertContainsOnlyInstancesOf(Order::class, $result);
+        self::assertNotEmpty($result);
+        self::assertContainsOnlyInstancesOf(Order::class, $result);
     }
 
     public function testFindOneByCodeAndUserReturnsOrder(): void
@@ -196,8 +189,8 @@ final class OrderRepositoryTest extends KernelTestCase
             'user' => $this->user,
         ]);
 
-        $this->assertInstanceOf(Order::class, $result);
-        $this->assertSame($order->getId(), $result->getId());
+        self::assertInstanceOf(Order::class, $result);
+        self::assertSame($order->getId(), $result->getId());
     }
 
     public function testFindOneByCodeAndUserReturnsNullForWrongUser(): void
@@ -212,7 +205,7 @@ final class OrderRepositoryTest extends KernelTestCase
             'user' => $userB,
         ]);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testCountPaidOrdersBetweenReturnsInt(): void
@@ -221,7 +214,7 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $count = $this->repository->countPaidOrdersBetween($from, $to);
 
-        $this->assertGreaterThanOrEqual(0, $count);
+        self::assertGreaterThanOrEqual(0, $count);
     }
 
     public function testCountUnpaidOrdersBetweenReturnsInt(): void
@@ -232,7 +225,7 @@ final class OrderRepositoryTest extends KernelTestCase
 
         $count = $this->repository->countUnpaidOrdersBetween($from, $to);
 
-        $this->assertGreaterThanOrEqual(0, $count);
+        self::assertGreaterThanOrEqual(0, $count);
     }
 
     private function getRepository(): OrderRepository

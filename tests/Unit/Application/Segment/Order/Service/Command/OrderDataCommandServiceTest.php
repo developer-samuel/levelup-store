@@ -29,7 +29,6 @@ use App\Core\Application\{
 
 use App\Core\Ports\{
     Segment\Country\CountryRepositoryContract,
-    Segment\Order\Service\Command\OrderDataCommandContract,
     Segment\Order\Service\Query\OrderCacheQueryContract,
     Segment\Order\Service\Query\OrderCountryQueryContract,
     Segment\Order\Service\Query\OrderItemQueryContract,
@@ -64,16 +63,11 @@ final class OrderDataCommandServiceTest extends TestCase
         $this->order = $this->createMock(Order::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderDataCommandContract::class, $this->service);
-    }
-
     public function testAttachOrderDataPersistsPersonalData(): void
     {
         $this->withCountry();
 
-        $this->assertPersistedContains(
+        self::assertPersistedContains(
             $this->attachAndCapturePersisted($this->buildPayload()),
             OrderPersonal::class,
         );
@@ -83,7 +77,7 @@ final class OrderDataCommandServiceTest extends TestCase
     {
         $this->withCountry();
 
-        $this->assertPersistedContains(
+        self::assertPersistedContains(
             $this->attachAndCapturePersisted($this->buildPayload()),
             OrderBilling::class,
         );
@@ -94,7 +88,7 @@ final class OrderDataCommandServiceTest extends TestCase
         $this->withCountry();
         $this->withShippingCountry();
 
-        $this->assertPersistedContains(
+        self::assertPersistedContains(
             $this->attachAndCapturePersisted($this->buildPayload(sendShipping: true, withShipping: true)),
             OrderShipping::class,
         );
@@ -105,7 +99,7 @@ final class OrderDataCommandServiceTest extends TestCase
         $this->withCountry();
 
         $this->entityPersistence
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('persist');
 
         $this->service->attachOrderData($this->order, $this->buildPayload(sendShipping: false, withShipping: true));
@@ -116,7 +110,7 @@ final class OrderDataCommandServiceTest extends TestCase
         $this->withCountry();
 
         $this->entityPersistence
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('persist');
 
         $this->service->attachOrderData($this->order, $this->buildPayload(sendShipping: true, withShipping: false));
@@ -127,7 +121,7 @@ final class OrderDataCommandServiceTest extends TestCase
         $this->withCountry();
 
         $this->orderValidatorQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateBillingData');
 
         $this->service->attachOrderData($this->order, $this->buildPayload());
@@ -139,7 +133,7 @@ final class OrderDataCommandServiceTest extends TestCase
         $this->withShippingCountry();
 
         $this->orderValidatorQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateShippingData');
 
         $this->service->attachOrderData($this->order, $this->buildPayload(sendShipping: true, withShipping: true));

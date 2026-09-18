@@ -69,7 +69,7 @@ final class ReviewMercureSubscriber
      */
     public function postFlush(): void
     {
-        if (empty($this->pendingRatings)) {
+        if ($this->pendingRatings === []) {
             return;
         }
         foreach ($this->pendingRatings as ['variantId' => $variantId, 'reviewId' => $reviewId]) {

@@ -21,6 +21,9 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
+/**
+ * @extends AbstractTask<CleanableTokenRepositoryContract>
+*/
 #[AsMessageHandler]
 final class TokenCleanupTask extends AbstractTask
 {

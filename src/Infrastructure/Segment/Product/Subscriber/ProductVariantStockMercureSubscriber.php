@@ -78,7 +78,7 @@ final class ProductVariantStockMercureSubscriber
      */
     public function postFlush(): void
     {
-        if (empty($this->pendingStocks)) {
+        if ($this->pendingStocks === []) {
             return;
         }
         foreach ($this->pendingStocks as $variantId => $data) {

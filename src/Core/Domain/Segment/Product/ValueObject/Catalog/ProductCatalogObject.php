@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Segment\Product\ValueObject\Catalog;
 
+use App\Core\Domain\Segment\Product\ValueObject\ProductVariantObject;
+
 final readonly class ProductCatalogObject
 {
     /**
      * @param bool $isDiscountRoute
      * @param ProductCatalogFilterObject $filter
      * @param ProductCatalogPaginationObject $pagination
-     * @param array<string, mixed> $variants
+     * @param ProductVariantObject[] $variants
      * @param array<int, string[]> $sortOptions
      * @param string $sort
     */

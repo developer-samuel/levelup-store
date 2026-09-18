@@ -26,7 +26,7 @@ use App\Core\Domain\{
  *     subtypes: string[],
  *     brands: Brand[],
  *     maxPrice: float,
- *     filtered: array<string, mixed>
+ *     filtered: ProductVariantObject[]
  * }
  * @phpstan-type ProductPaginationShape array{
  *     pagination: object,
@@ -45,13 +45,10 @@ final class ProductCatalogResource
      */
     public static function toArray(ProductCatalogObject $catalog): array
     {
-        /** @var ProductVariantObject[] $variants */
-        $variants = $catalog->variants;
-
         return [
             'isDiscountRoute' => $catalog->isDiscountRoute,
             'filter'          => self::filterData($catalog),
-            'variants'        => $variants,
+            'variants'        => $catalog->variants,
             'sortOptions'     => $catalog->sortOptions,
             'pagination'      => self::paginationData($catalog),
             'sort'            => $catalog->sort,

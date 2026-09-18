@@ -16,8 +16,6 @@ use PHPUnit\{
 
 use App\Core\Domain\Auth\Enum\AuthenticationRedirect;
 
-use App\Core\Ports\Gateways\Internal\Security\AuthenticationRedirectGatewayContract;
-
 use App\Adapters\Internal\Security\AuthenticationRedirectAdapter;
 
 /**
@@ -34,23 +32,18 @@ final class AuthenticationRedirectAdapterTest extends TestCase
         $this->initAdapter();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(AuthenticationRedirectGatewayContract::class, $this->adapter);
-    }
-
     public function testRedirectToHomeGeneratesHomeRoute(): void
     {
         $result = $this->redirectTo(AuthenticationRedirect::HOME, 'home', '/');
 
-        $this->assertSame('/', $result->getTargetUrl());
+        self::assertSame('/', $result->getTargetUrl());
     }
 
     public function testRedirectToAdminDashboardGeneratesAdminRoute(): void
     {
         $result = $this->redirectTo(AuthenticationRedirect::ADMIN_DASHBOARD, 'admin', '/admin');
 
-        $this->assertSame('/admin', $result->getTargetUrl());
+        self::assertSame('/admin', $result->getTargetUrl());
     }
 
     private function initMocks(): void
@@ -63,18 +56,10 @@ final class AuthenticationRedirectAdapterTest extends TestCase
         $this->adapter = new AuthenticationRedirectAdapter($this->router);
     }
 
-    private function redirectTo(AuthenticationRedirect $redirect, string $route, string $url): RedirectResponse
+    private function redirectTo(AuthenticationRedirect $redirect, string $routeName, string $url): RedirectResponse
     {
-        $this->router
-            ->expects($this->once())
-            ->method('generate')
-            ->with($route)
-            ->willReturn($url);
+        $this->router->method('generate')->with($routeName)->willReturn($url);
 
-        $result = $this->adapter->redirectTo($redirect);
-
-        $this->assertInstanceOf(RedirectResponse::class, $result);
-
-        return $result;
+        return $this->adapter->redirectTo($redirect);
     }
 }

@@ -117,7 +117,7 @@ final class CartCommandController extends AbstractCommandController
         $message = DataSanitizer::sanitizeString($result['message'] ?? '');
         $success = $result['success'] ?? true;
 
-        return $success
+        return (bool) $success
             ? HttpResponder::success($result, $message)
             : HttpResponder::unprocessableEntity([], $message);
     }

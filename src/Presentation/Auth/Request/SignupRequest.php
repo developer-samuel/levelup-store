@@ -68,7 +68,8 @@ final class SignupRequest extends AbstractRequest
     {
         PasswordCheckFields::validatePasswordsMatch(
             $context,
-            $this,
+            $this->password,
+            $this->password_confirmation,
             'password',
             'password_confirmation',
         );

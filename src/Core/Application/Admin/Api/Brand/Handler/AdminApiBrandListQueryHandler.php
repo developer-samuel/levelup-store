@@ -30,6 +30,8 @@ final class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandl
     }
 
     /**
+     * @param array<string, mixed> $context
+     *
      * @return Brand[]
     */
     protected function getRepositoryClass(array $context = []): array
@@ -38,7 +40,7 @@ final class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandl
     }
 
     /**
-     * @return string
+     * @return class-string<AdminApiBrandResource>
     */
     protected function getResourceClass(): string
     {

@@ -26,10 +26,7 @@ use App\Presentation\{
     Shared\Validation\AddressCheckFields
 };
 
-use App\Shared\{
-    Enum\AddressType,
-    Utils\Resolver\AddressResolver
-};
+use App\Shared\Enum\AddressType;
 
 final class ProfileRequest extends AbstractRequest
 {
@@ -51,17 +48,22 @@ final class ProfileRequest extends AbstractRequest
     */
     protected function populateData(Request $request): void
     {
-        foreach (['first_name', 'last_name'] as $field) {
-            $this->extractTypedField($request, $field);
-        }
+        $data = $request->request;
 
-        foreach ([AddressType::BILLING, AddressType::SHIPPING] as $type) {
-            foreach (AddressResolver::for($type) as $field) {
-                $this->extractTypedField($request, $field);
-            }
-        }
+        $this->first_name = DataSanitizer::sanitizeString($data->get('first_name'));
+        $this->last_name  = DataSanitizer::sanitizeString($data->get('last_name'));
 
-        $this->use_shipping = $request->request->getBoolean('use_shipping');
+        $this->billing_country     = DataSanitizer::sanitizeInt($data->get('billing_country')) ?? 0;
+        $this->billing_street      = DataSanitizer::sanitizeString($data->get('billing_street'));
+        $this->billing_postal_code = DataSanitizer::sanitizeString($data->get('billing_postal_code'));
+        $this->billing_city        = DataSanitizer::sanitizeString($data->get('billing_city'));
+
+        $this->shipping_country     = DataSanitizer::sanitizeInt($data->get('shipping_country')) ?? 0;
+        $this->shipping_street      = DataSanitizer::sanitizeString($data->get('shipping_street'));
+        $this->shipping_postal_code = DataSanitizer::sanitizeString($data->get('shipping_postal_code'));
+        $this->shipping_city        = DataSanitizer::sanitizeString($data->get('shipping_city'));
+
+        $this->use_shipping = $data->getBoolean('use_shipping');
     }
 
     /**
@@ -83,7 +85,7 @@ final class ProfileRequest extends AbstractRequest
     #[Assert\Callback]
     public function validateOptionalAddressFields(ExecutionContextInterface $context): void
     {
-        AddressCheckFields::validateOptional($context, $this->createAddress(AddressType::SHIPPING), $this->use_shipping ?? false);
+        AddressCheckFields::validateOptionalForType($context, $this->createAddress(AddressType::SHIPPING), AddressType::SHIPPING, $this->use_shipping ?? false);
     }
 
     /**

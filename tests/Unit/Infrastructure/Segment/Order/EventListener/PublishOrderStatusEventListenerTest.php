@@ -36,7 +36,7 @@ final class PublishOrderStatusEventListenerTest extends TestCase
     public function testPublishesOnOrderStatusChanged(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish');
 
         ($this->listener)(new OrderStatusUpdatedEvent($this->buildOrder()));
@@ -45,9 +45,9 @@ final class PublishOrderStatusEventListenerTest extends TestCase
     public function testPublishesCorrectTopic(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
-            ->with('orders/ORD-123/status', $this->anything());
+            ->with('orders/ORD-123/status', self::anything());
 
         ($this->listener)(new OrderStatusUpdatedEvent($this->buildOrder()));
     }
@@ -55,10 +55,10 @@ final class PublishOrderStatusEventListenerTest extends TestCase
     public function testPublishesCorrectPayload(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
             ->with(
-                $this->anything(),
+                self::anything(),
                 json_encode([
                     'orderCode' => 'ORD-123',
                     'status'    => 'shipped',

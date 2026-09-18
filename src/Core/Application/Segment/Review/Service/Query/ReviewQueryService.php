@@ -54,7 +54,7 @@ final readonly class ReviewQueryService implements ReviewQueryContract
     */
     public function getAverageRatingsForVariants(array $variantIds): array
     {
-        if (empty($variantIds)) {
+        if ($variantIds === []) {
             return [];
         }
 

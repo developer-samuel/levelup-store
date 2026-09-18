@@ -17,6 +17,7 @@ use App\Core\Domain\{
 
 use App\Infrastructure\Abstract\Subscriber\AbstractIndexSubscriber;
 
+#[AsDoctrineListener(event: Events::preRemove)]
 #[AsDoctrineListener(event: Events::postPersist)]
 #[AsDoctrineListener(event: Events::postUpdate)]
 #[AsDoctrineListener(event: Events::postRemove)]

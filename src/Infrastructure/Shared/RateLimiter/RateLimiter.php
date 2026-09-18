@@ -59,7 +59,7 @@ final readonly class RateLimiter implements RateLimiterContract
         }
 
         $data['locked_until'] = null;
-        $data['attempts']++;
+        $data['attempts'] = (int) $data['attempts'] + 1;
 
         $lockoutSeconds = $this->resolveLockout($data['attempts']);
 

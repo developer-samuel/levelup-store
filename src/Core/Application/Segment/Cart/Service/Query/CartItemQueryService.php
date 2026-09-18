@@ -106,7 +106,7 @@ final readonly class CartItemQueryService implements CartItemQueryContract
     {
         $availableEans = $this->variantEanRepository->findAvailableByVariant($variant);
 
-        if (empty($availableEans)) {
+        if ($availableEans === []) {
             return 0;
         }
 

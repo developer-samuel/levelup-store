@@ -24,6 +24,9 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
+/**
+ * @extends AbstractTask<CartItem>
+*/
 #[AsMessageHandler]
 final class CartStockCleanupTask extends AbstractTask
 {

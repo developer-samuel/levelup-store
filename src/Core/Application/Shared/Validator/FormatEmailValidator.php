@@ -31,7 +31,7 @@ final class FormatEmailValidator extends AbstractConstraintValidator
             return;
         }
 
-        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
             $this->addViolation($constraint->message);
         }
     }

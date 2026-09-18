@@ -6,6 +6,7 @@ namespace Database\Fixtures;
 
 use Doctrine\{
     Common\DataFixtures\DependentFixtureInterface,
+    Common\DataFixtures\FixtureInterface,
     Persistence\ObjectManager
 };
 
@@ -52,7 +53,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<FixtureInterface>>
     */
     public function getDependencies(): array
     {
@@ -70,13 +71,13 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
         $variants = $this->variantRepository->findAll();
         $users = $this->userRepository->findAll();
 
-        if (empty($variants)) {
+        if ($variants === []) {
             $this->consoleLogger->logError('ReviewFixture: No product variants found. Make sure ProductFixture ran first.');
 
             return [];
         }
 
-        if (empty($users)) {
+        if ($users === []) {
             $this->consoleLogger->logError('ReviewFixture: No users found. Make sure UserFixture ran first.');
 
             return [];
@@ -88,13 +89,19 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
     }
 
     /**
-     * @param array{variant: ProductVariant, user: User} $data
+     * @param mixed $data
      * @param ObjectManager $manager
      *
      * @return void
     */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
+        /**
+         * @var array{
+         *     variant: ProductVariant,
+         *     user: User
+         * } $data
+        */
         $userId = IdAssertion::assert(
             $data['user']->getId(),
             'User ID',

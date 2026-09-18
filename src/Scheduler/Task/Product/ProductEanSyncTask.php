@@ -25,6 +25,9 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
+/**
+ * @extends AbstractTask<ProductVariantStock>
+*/
 #[AsMessageHandler]
 final class ProductEanSyncTask extends AbstractTask
 {

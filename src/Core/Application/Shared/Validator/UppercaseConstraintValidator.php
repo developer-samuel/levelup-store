@@ -31,7 +31,7 @@ final class UppercaseConstraintValidator extends AbstractConstraintValidator
             return;
         }
 
-        if (!is_string($value) || !preg_match('/[A-Z]/', $value)) {
+        if (!is_string($value) || preg_match('/[A-Z]/', $value) !== 1) {
             $this->addViolation($constraint->message);
         }
     }

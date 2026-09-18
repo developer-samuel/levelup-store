@@ -21,7 +21,6 @@ use App\Core\Application\{
 };
 
 use App\Core\Ports\{
-    Auth\Service\Command\SignupCommandContract,
     Security\Provider\PasswordHasherProviderContract,
     Shared\Persistence\EntityPersistenceContract
 };
@@ -41,44 +40,32 @@ final class SignupCommandServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(SignupCommandContract::class, $this->service);
-    }
-
-    public function testSignupReturnsUser(): void
-    {
-        $result = $this->signup();
-
-        $this->assertInstanceOf(User::class, $result);
-    }
-
     public function testSignupSetsEmail(): void
     {
         $result = $this->signup($this->buildPayload(email: 'test@example.com'));
 
-        $this->assertSame('test@example.com', $result->getEmail());
+        self::assertSame('test@example.com', $result->getEmail());
     }
 
     public function testSignupSetsFormattedFirstName(): void
     {
         $result = $this->signup($this->buildPayload(firstName: 'john'));
 
-        $this->assertSame(NameFormatter::formatName('john'), $result->getFirstName());
+        self::assertSame(NameFormatter::formatName('john'), $result->getFirstName());
     }
 
     public function testSignupSetsFormattedLastName(): void
     {
         $result = $this->signup($this->buildPayload(lastName: 'doe'));
 
-        $this->assertSame(NameFormatter::formatName('doe'), $result->getLastName());
+        self::assertSame(NameFormatter::formatName('doe'), $result->getLastName());
     }
 
     public function testSignupSetsUserRole(): void
     {
         $result = $this->signup();
 
-        $this->assertSame(UserRole::USER, $result->getRole());
+        self::assertSame(UserRole::USER, $result->getRole());
     }
 
     public function testSignupSetsHashedPassword(): void
@@ -87,15 +74,15 @@ final class SignupCommandServiceTest extends TestCase
 
         $result = $this->service->signup($this->buildPayload());
 
-        $this->assertSame('hashed-secret', $result->getPassword());
+        self::assertSame('hashed-secret', $result->getPassword());
     }
 
     public function testSignupHashesPasswordForCreatedUser(): void
     {
         $this->passwordHasherProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hash')
-            ->with($this->isInstanceOf(User::class), 'plain-password')
+            ->with(self::isInstanceOf(User::class), 'plain-password')
             ->willReturn('hashed');
 
         $this->service->signup($this->buildPayload(password: 'plain-password'));
@@ -106,9 +93,9 @@ final class SignupCommandServiceTest extends TestCase
         $this->passwordHasherProvider->method('hash')->willReturn('hashed');
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
-            ->with($this->isInstanceOf(User::class), true);
+            ->with(self::isInstanceOf(User::class), true);
 
         $this->service->signup($this->buildPayload());
     }

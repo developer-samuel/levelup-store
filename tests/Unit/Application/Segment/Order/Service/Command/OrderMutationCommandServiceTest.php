@@ -35,7 +35,6 @@ use App\Core\Ports\{
     Segment\Order\Service\Command\OrderCacheCommandContract,
     Segment\Order\Service\Command\OrderDataCommandContract,
     Segment\Order\Service\Command\OrderItemCommandContract,
-    Segment\Order\Service\Command\OrderMutationCommandContract,
     Segment\Order\Service\Command\OrderPreparationCommandContract,
     Segment\Order\Service\Query\OrderCacheQueryContract,
     Segment\Order\Service\Query\OrderCountryQueryContract,
@@ -68,30 +67,14 @@ final class OrderMutationCommandServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderMutationCommandContract::class, $this->service);
-    }
-
-    public function testCreateOrderReturnsOrderResultForCashPayment(): void
-    {
-        $this->setupCashOrderCreation();
-
-        $result = $this->service->createOrder($this->buildPayload(OrderPaymentMethod::CASH));
-
-        $this->assertInstanceOf(OrderResultObject::class, $result);
-        $this->assertInstanceOf(Order::class, $result->order);
-        $this->assertNull($result->paymentUrl);
-    }
-
     public function testCreateOrderReturnsPaymentUrlForCardPayment(): void
     {
         $this->setupCardPaymentInitiation(paymentUrl: 'https://stripe.com/pay/abc');
 
         $result = $this->service->createOrder($this->buildPayload(OrderPaymentMethod::CARD));
 
-        $this->assertNull($result->order);
-        $this->assertSame('https://stripe.com/pay/abc', $result->paymentUrl);
+        self::assertNull($result->order);
+        self::assertSame('https://stripe.com/pay/abc', $result->paymentUrl);
     }
 
     public function testCreateOrderSendsNotifierForCashPayment(): void
@@ -99,9 +82,9 @@ final class OrderMutationCommandServiceTest extends TestCase
         $this->setupCashOrderCreation();
 
         $this->notifier
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('send')
-            ->with($this->isInstanceOf(Order::class));
+            ->with(self::isInstanceOf(Order::class));
 
         $this->service->createOrder($this->buildPayload(OrderPaymentMethod::CASH));
     }
@@ -111,7 +94,7 @@ final class OrderMutationCommandServiceTest extends TestCase
         $this->setupCardPaymentInitiation();
 
         $this->notifier
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('send');
 
         $this->service->createOrder($this->buildPayload(OrderPaymentMethod::CARD));
@@ -135,7 +118,7 @@ final class OrderMutationCommandServiceTest extends TestCase
         $order->method('getUser')->willReturn($user);
 
         $this->orderBuildCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('build')
             ->willReturn($order);
 

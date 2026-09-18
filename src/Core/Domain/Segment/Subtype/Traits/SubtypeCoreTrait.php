@@ -29,7 +29,7 @@ trait SubtypeCoreTrait
         /** @var ProductSubtype $productSubtype */
         foreach ($this->productSubtypes as $productSubtype) {
             $product = $productSubtype->getProduct();
-            if ($product && !$product->getVariants()->isEmpty()) {
+            if ($product !== null && !$product->getVariants()->isEmpty()) {
                 return true;
             }
         }

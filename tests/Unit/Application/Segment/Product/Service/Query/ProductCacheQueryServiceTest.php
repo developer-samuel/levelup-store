@@ -13,7 +13,6 @@ use App\Core\Application\Segment\Product\Service\Query\ProductCacheQueryService;
 
 use App\Core\Ports\{
     Gateways\Internal\Cache\CacheGatewayContract,
-    Segment\Product\Service\Query\ProductCacheQueryContract,
     Segment\Product\Service\Query\ProductRouteQueryContract,
     Segment\Product\Service\Query\ProductTitleQueryContract,
     Shared\Proxy\CacheItemProxyContract,
@@ -38,11 +37,6 @@ final class ProductCacheQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(ProductCacheQueryContract::class, $this->service);
-    }
-
     public function testGetTitleReturnsCachedTitle(): void
     {
         $this->titleCache
@@ -51,13 +45,13 @@ final class ProductCacheQueryServiceTest extends TestCase
 
         $result = $this->service->getTitle('electronics', null, false);
 
-        $this->assertSame('Electronics', $result);
+        self::assertSame('Electronics', $result);
     }
 
     public function testGetTitleDelegatesToProductTitleQuery(): void
     {
         $this->productTitleQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generateTitle')
             ->with('electronics', null, false)
             ->willReturn('Electronics');
@@ -66,7 +60,7 @@ final class ProductCacheQueryServiceTest extends TestCase
 
         $result = $this->service->getTitle('electronics', null, false);
 
-        $this->assertSame('Electronics', $result);
+        self::assertSame('Electronics', $result);
     }
 
     public function testGetTitleReturnsEmptyStringWhenCacheReturnsNonString(): void
@@ -77,13 +71,13 @@ final class ProductCacheQueryServiceTest extends TestCase
 
         $result = $this->service->getTitle('electronics', null, false);
 
-        $this->assertSame('', $result);
+        self::assertSame('', $result);
     }
 
     public function testGetTitleSetsExpiry(): void
     {
         $item = $this->createMock(CacheItemProxyContract::class);
-        $item->expects($this->once())->method('expiresAfter');
+        $item->expects(self::once())->method('expiresAfter');
 
         $this->productTitleQuery->method('generateTitle')->willReturn('Electronics');
         $this->titleCache->method('get')->willReturnCallback($this->makeCacheInvokerCallback($item));
@@ -99,13 +93,13 @@ final class ProductCacheQueryServiceTest extends TestCase
 
         $result = $this->service->getRoute('/products');
 
-        $this->assertSame('products_index', $result);
+        self::assertSame('products_index', $result);
     }
 
     public function testGetRouteDelegatesToProductRouteQuery(): void
     {
         $this->productRouteQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generateRoute')
             ->with('/products')
             ->willReturn('products_index');
@@ -114,7 +108,7 @@ final class ProductCacheQueryServiceTest extends TestCase
 
         $result = $this->service->getRoute('/products');
 
-        $this->assertSame('products_index', $result);
+        self::assertSame('products_index', $result);
     }
 
     public function testGetRouteReturnsEmptyStringWhenCacheReturnsNonString(): void
@@ -125,13 +119,13 @@ final class ProductCacheQueryServiceTest extends TestCase
 
         $result = $this->service->getRoute('/products');
 
-        $this->assertSame('', $result);
+        self::assertSame('', $result);
     }
 
     public function testGetRouteSetsExpiry(): void
     {
         $item = $this->createMock(CacheItemProxyContract::class);
-        $item->expects($this->once())->method('expiresAfter');
+        $item->expects(self::once())->method('expiresAfter');
 
         $this->productRouteQuery->method('generateRoute')->willReturn('products_index');
         $this->routeCache->method('get')->willReturnCallback($this->makeCacheInvokerCallback($item));

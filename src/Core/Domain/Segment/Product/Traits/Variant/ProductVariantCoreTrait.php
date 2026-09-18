@@ -118,7 +118,9 @@ trait ProductVariantCoreTrait
     */
     public function getImage(): ?ProductVariantImage
     {
-        return $this->images->first() ?: null;
+        $image = $this->images->first();
+
+        return $image !== false ? $image : null;
     }
 
     /**
@@ -145,7 +147,7 @@ trait ProductVariantCoreTrait
     */
     public function getDiscountedPrice(): float
     {
-        return $this->discount
+        return $this->discount !== null
             ? ($this->price - $this->discount->getPrice())
             : $this->price;
     }
@@ -190,7 +192,7 @@ trait ProductVariantCoreTrait
     */
     public function getInStock(): ?ProductVariantStock
     {
-        if ($this->stock && $this->stock->getStatus() === ProductStockStatus::IN_STOCK) {
+        if ($this->stock !== null && $this->stock->getStatus() === ProductStockStatus::IN_STOCK) {
             return $this->stock;
         }
 

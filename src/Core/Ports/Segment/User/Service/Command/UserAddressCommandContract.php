@@ -10,14 +10,13 @@ use App\Core\Domain\{
     Segment\User\Entity\UserShipping
 };
 
-interface AddressCommandContract
+interface UserAddressCommandContract
 {
     /**
      * @param User $user
      * @param UserBilling|UserShipping|null $entity
      * @param array<string, int|string|null> $data
      * @param class-string<UserBilling|UserShipping> $entityClass
-     * @param string $setterMethod
      *
      * @return void
     */
@@ -26,6 +25,5 @@ interface AddressCommandContract
         UserBilling|UserShipping|null $entity,
         array $data,
         string $entityClass,
-        string $setterMethod,
     ): void;
 }

@@ -21,7 +21,7 @@ abstract class AbstractAdminApiQueryController extends AbstractQueryController
     */
     protected function respondWithList(?array $data, string $key): JsonResponse
     {
-        if (empty($data)) {
+        if ($data === null || $data === []) {
             return JsonResponder::notFound();
         }
 

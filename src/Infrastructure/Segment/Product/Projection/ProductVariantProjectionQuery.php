@@ -104,11 +104,11 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
             $clauses[] = ['term' => ['has_discount' => true]];
         }
 
-        if (!empty($filter->brands)) {
+        if ($filter->brands !== []) {
             $clauses[] = ['terms' => ['brand' => array_values($filter->brands)]];
         }
 
-        if (!empty($filter->subtypes)) {
+        if ($filter->subtypes !== []) {
             $clauses[] = ['terms' => ['subtypes' => array_values($filter->subtypes)]];
         }
 
@@ -145,7 +145,7 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
             $range['lte'] = $filter->maxPrice;
         }
 
-        return empty($range) ? null : $range;
+        return $range === [] ? null : $range;
     }
 
     /**
