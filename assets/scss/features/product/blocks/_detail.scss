@@ -361,6 +361,7 @@
       @include weights(700);
 
       background: colors.$success;
+      color: colors.$primary;
       text-transform: uppercase;
 
       &:hover {
