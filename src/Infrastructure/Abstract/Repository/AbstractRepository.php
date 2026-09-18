@@ -65,7 +65,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
         return $this->createQueryBuilder($this->getAlias())
             ->orderBy(
                 sprintf('%s.%s', $this->getAlias(), $this->getFindAllSortColumn()),
-                $this->getFindAllSortDirection()->value,
+                $this->getFindAllSortDirection()->sort(),
             );
     }
 

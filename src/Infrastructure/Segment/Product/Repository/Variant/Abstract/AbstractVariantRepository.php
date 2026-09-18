@@ -47,7 +47,7 @@ abstract class AbstractVariantRepository extends ServiceEntityRepository
         $results = $this->createQueryBuilder('v')
             ->andWhere('v.variant = :variant')
             ->setParameter('variant', $variant)
-            ->orderBy('v.id', SortDirection::ASC->value)
+            ->orderBy('v.id', SortDirection::ASC->sort())
             ->getQuery()
             ->getResult();
 

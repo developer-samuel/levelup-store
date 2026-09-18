@@ -65,8 +65,8 @@ final class FooterLinkRepository extends AbstractRepository implements FooterLin
     {
         /** @var FooterLink[] $results */
         $results = $this->createQueryBuilder('fl')
-            ->orderBy('fl.group', 'ASC')
-            ->addOrderBy('fl.position', 'ASC')
+            ->orderBy('fl.group', SortDirection::ASC->sort())
+            ->addOrderBy('fl.position', SortDirection::ASC->sort())
             ->getQuery()
             ->getResult();
 
@@ -84,7 +84,7 @@ final class FooterLinkRepository extends AbstractRepository implements FooterLin
         $results = $this->createQueryBuilder('fl')
             ->where('fl.group = :group')
             ->setParameter('group', $group)
-            ->orderBy('fl.position', 'ASC')
+            ->orderBy('fl.position', SortDirection::ASC->sort())
             ->getQuery()
             ->getResult();
 
