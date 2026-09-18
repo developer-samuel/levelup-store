@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 use Predis\Client as PredisClient;
 
-use App\Core\Ports\Shared\Proxy\CacheProxyContract;
 
 use App\Adapters\External\Cache\RedisCacheAdapter;
 

@@ -51,20 +51,20 @@ final class OrderRequest extends AbstractRequest
     {
         $data = $request->request;
 
-        $this->email          = DataSanitizer::sanitizeString($data->get('email'));
-        $this->first_name     = DataSanitizer::sanitizeString($data->get('first_name'));
-        $this->last_name      = DataSanitizer::sanitizeString($data->get('last_name'));
+        $this->email = DataSanitizer::sanitizeString($data->get('email'));
+        $this->first_name = DataSanitizer::sanitizeString($data->get('first_name'));
+        $this->last_name = DataSanitizer::sanitizeString($data->get('last_name'));
         $this->payment_method = DataSanitizer::sanitizeString($data->get('payment_method'));
 
-        $this->billing_country     = DataSanitizer::sanitizeInt($data->get('billing_country')) ?? 0;
-        $this->billing_street      = DataSanitizer::sanitizeString($data->get('billing_street'));
+        $this->billing_country = DataSanitizer::sanitizeInt($data->get('billing_country')) ?? 0;
+        $this->billing_street = DataSanitizer::sanitizeString($data->get('billing_street'));
         $this->billing_postal_code = DataSanitizer::sanitizeString($data->get('billing_postal_code'));
-        $this->billing_city        = DataSanitizer::sanitizeString($data->get('billing_city'));
+        $this->billing_city = DataSanitizer::sanitizeString($data->get('billing_city'));
 
-        $this->shipping_country     = DataSanitizer::sanitizeInt($data->get('shipping_country')) ?? 0;
-        $this->shipping_street      = DataSanitizer::sanitizeString($data->get('shipping_street'));
+        $this->shipping_country = DataSanitizer::sanitizeInt($data->get('shipping_country')) ?? 0;
+        $this->shipping_street = DataSanitizer::sanitizeString($data->get('shipping_street'));
         $this->shipping_postal_code = DataSanitizer::sanitizeString($data->get('shipping_postal_code'));
-        $this->shipping_city        = DataSanitizer::sanitizeString($data->get('shipping_city'));
+        $this->shipping_city = DataSanitizer::sanitizeString($data->get('shipping_city'));
 
         $this->send_shipping = $data->getBoolean('send_shipping');
     }

@@ -7,7 +7,6 @@ namespace Tests\Integration\Adapters\External\Search;
 use PHPUnit\Framework\TestCase;
 
 use Elastic\{
-    Elasticsearch\Client,
     Elasticsearch\Response\Elasticsearch,
     Elasticsearch\Exception\ClientResponseException
 };

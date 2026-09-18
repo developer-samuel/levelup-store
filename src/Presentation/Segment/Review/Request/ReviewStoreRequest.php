@@ -54,5 +54,4 @@ final class ReviewStoreRequest extends AbstractRequest
     {
         $this->validateCsrfToken('reviews_store', $context);
     }
-
 }

@@ -10,8 +10,7 @@ use PHPUnit\{
 };
 
 use App\Core\Domain\{
-    Segment\Cart\Entity\Cart,
-    Segment\User\Entity\User
+    Segment\Cart\Entity\Cart
 };
 
 use App\Core\Application\Segment\Cart\Service\Command\CartControlCommandService;

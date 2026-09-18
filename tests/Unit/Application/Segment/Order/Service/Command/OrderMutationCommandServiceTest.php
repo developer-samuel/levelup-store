@@ -18,7 +18,6 @@ use App\Core\Domain\{
     Segment\Order\Payload\OrderCreatePayload,
     Segment\Order\ValueObject\Address\OrderBillingObject,
     Segment\Order\ValueObject\OrderPersonalObject,
-    Segment\Order\ValueObject\OrderResultObject,
     Segment\User\Entity\User
 };
 
