@@ -21,7 +21,6 @@ use App\Core\Application\Segment\Product\Service\Query\ProductCategoryQueryServi
 
 use App\Core\Ports\{
     Segment\Category\Repository\CategoryRepositoryContract,
-    Segment\Product\Service\Query\ProductCategoryQueryContract,
     Segment\Type\TypeRepositoryContract
 };
 
@@ -40,26 +39,21 @@ final class ProductCategoryQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(ProductCategoryQueryContract::class, $this->service);
-    }
-
     public function testGetTypesForCategoryReturnsEmptyWhenCategoryIsNull(): void
     {
-        $this->assertEmptyTypesAndSubtypes($this->service->getTypesForCategory(null, null));
+        self::assertEmptyTypesAndSubtypes($this->service->getTypesForCategory(null, null));
     }
 
     public function testGetTypesForCategoryReturnsEmptyWhenCategoryIsEmptyString(): void
     {
-        $this->assertEmptyTypesAndSubtypes($this->service->getTypesForCategory('', null));
+        self::assertEmptyTypesAndSubtypes($this->service->getTypesForCategory('', null));
     }
 
     public function testGetTypesForCategoryReturnsEmptyWhenCategoryNotFound(): void
     {
         $this->categoryRepository->method('findByName')->willReturn(null);
 
-        $this->assertEmptyTypesAndSubtypes($this->service->getTypesForCategory('electronics', null));
+        self::assertEmptyTypesAndSubtypes($this->service->getTypesForCategory('electronics', null));
     }
 
     public function testGetTypesForCategoryReturnsTypesWhenCategoryFound(): void
@@ -69,7 +63,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->getTypesForCategory('electronics', null);
 
-        $this->assertCount(1, $result['types']);
+        self::assertCount(1, $result['types']);
     }
 
     public function testGetTypesForCategoryReturnsEmptySubtypesWhenTypeNameIsNull(): void
@@ -78,7 +72,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->getTypesForCategory('electronics', null);
 
-        $this->assertSame([], $result['subtypes']);
+        self::assertSame([], $result['subtypes']);
     }
 
     public function testGetTypesForCategoryReturnsEmptySubtypesWhenTypeNotFound(): void
@@ -88,7 +82,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->getTypesForCategory('electronics', 'smartphones');
 
-        $this->assertSame([], $result['subtypes']);
+        self::assertSame([], $result['subtypes']);
     }
 
     public function testGetTypesForCategoryReturnsSubtypesWhenTypeFound(): void
@@ -101,7 +95,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->getTypesForCategory('electronics', 'smartphones');
 
-        $this->assertCount(1, $result['subtypes']);
+        self::assertCount(1, $result['subtypes']);
     }
 
     public function testFindTypeByNameAndCategoryDelegatesToRepository(): void
@@ -110,14 +104,14 @@ final class ProductCategoryQueryServiceTest extends TestCase
         $type = $this->createMock(Type::class);
 
         $this->typeRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findByCategoryAndName')
             ->with($category, 'smartphones')
             ->willReturn($type);
 
         $result = $this->service->findTypeByNameAndCategory($category, 'smartphones');
 
-        $this->assertSame($type, $result);
+        self::assertSame($type, $result);
     }
 
     public function testGetTypesAndSubtypesMapsTypesToNames(): void
@@ -129,7 +123,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->getTypesAndSubtypes('electronics', null);
 
-        $this->assertContains('Smartphones', $result['types']);
+        self::assertContains('Smartphones', $result['types']);
     }
 
     public function testGetTypesAndSubtypesMapsSubtypesToNames(): void
@@ -144,7 +138,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->getTypesAndSubtypes('electronics', 'smartphones');
 
-        $this->assertContains('Android', $result['subtypes']);
+        self::assertContains('Android', $result['subtypes']);
     }
 
     public function testResolveTypesForCategoryReturnsAllTypesWhenNoTypeName(): void
@@ -154,8 +148,8 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->resolveTypesForCategory($category, null);
 
-        $this->assertCount(1, $result);
-        $this->assertSame($type, $result[0]);
+        self::assertCount(1, $result);
+        self::assertSame($type, $result[0]);
     }
 
     public function testResolveTypesForCategoryReturnsSingleTypeWhenTypeNameProvided(): void
@@ -167,7 +161,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->resolveTypesForCategory($category, 'smartphones');
 
-        $this->assertSame([$type], $result);
+        self::assertSame([$type], $result);
     }
 
     public function testResolveTypesForCategoryReturnsEmptyWhenTypeNotFound(): void
@@ -177,7 +171,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
 
         $result = $this->service->resolveTypesForCategory($category, 'nonexistent');
 
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
     }
 
     private function withCategoryFound(Category $category): void
@@ -190,8 +184,8 @@ final class ProductCategoryQueryServiceTest extends TestCase
     */
     private function assertEmptyTypesAndSubtypes(array $result): void
     {
-        $this->assertSame([], $result['types']);
-        $this->assertSame([], $result['subtypes']);
+        self::assertSame([], $result['types']);
+        self::assertSame([], $result['subtypes']);
     }
 
     /**

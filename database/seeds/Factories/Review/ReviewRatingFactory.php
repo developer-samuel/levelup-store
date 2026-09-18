@@ -32,6 +32,6 @@ trait ReviewRatingFactory
     */
     private function randomRatingType(): ReviewRatingType
     {
-        return rand(0, 1) ? ReviewRatingType::LIKE : ReviewRatingType::DISLIKE;
+        return rand(0, 1) === 1 ? ReviewRatingType::LIKE : ReviewRatingType::DISLIKE;
     }
 }

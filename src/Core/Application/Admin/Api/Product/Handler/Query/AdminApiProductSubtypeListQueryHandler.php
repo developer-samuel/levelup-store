@@ -32,7 +32,7 @@ final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQ
     }
 
     /**
-     * @param array{id?: int|null} $context
+     * @param array<string, mixed> $context
      *
      * @return ProductSubtype[]
      *
@@ -40,6 +40,7 @@ final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQ
     */
     protected function getRepositoryClass(array $context = []): array
     {
+        /** @var array{id?: int|null} $context */
         $productId = IdAssertion::assert(
             $context['id'] ?? null,
             'Product ID',

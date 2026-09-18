@@ -8,10 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 use Predis\Client as PredisClient;
 
-use App\Core\Ports\{
-    Gateways\External\Cache\RedisCacheGatewayContract,
-    Shared\Proxy\CacheProxyContract
-};
 
 use App\Adapters\External\Cache\RedisCacheAdapter;
 
@@ -29,30 +25,18 @@ final class RedisCacheAdapterTest extends TestCase
         $this->initAdapter();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(RedisCacheGatewayContract::class, $this->adapter);
-    }
-
     public function testIsRedisEnabledReturnsTrueWhenEnabled(): void
     {
         $adapter = new RedisCacheAdapter(true, self::REDIS_URL);
 
-        $this->assertTrue($adapter->isRedisEnabled());
+        self::assertTrue($adapter->isRedisEnabled());
     }
 
     public function testIsRedisEnabledReturnsFalseWhenDisabled(): void
     {
         $adapter = new RedisCacheAdapter(false, self::REDIS_URL);
 
-        $this->assertFalse($adapter->isRedisEnabled());
-    }
-
-    public function testCreateRedisCacheReturnsCacheProxyContract(): void
-    {
-        $result = $this->adapter->createRedisCache('test_namespace');
-
-        $this->assertInstanceOf(CacheProxyContract::class, $result);
+        self::assertFalse($adapter->isRedisEnabled());
     }
 
     public function testCreateRedisCacheReturnsDifferentInstancesPerNamespace(): void
@@ -60,7 +44,7 @@ final class RedisCacheAdapterTest extends TestCase
         $cache1 = $this->adapter->createRedisCache('namespace_a');
         $cache2 = $this->adapter->createRedisCache('namespace_b');
 
-        $this->assertNotSame($cache1, $cache2);
+        self::assertNotSame($cache1, $cache2);
     }
 
     public function testClientIsLazilyInitialized(): void
@@ -69,13 +53,13 @@ final class RedisCacheAdapterTest extends TestCase
 
         $clientBefore = $this->getClientProperty($adapter);
 
-        $this->assertNull($clientBefore);
+        self::assertNull($clientBefore);
 
         $adapter->createRedisCache('test');
 
         $clientAfter = $this->getClientProperty($adapter);
 
-        $this->assertInstanceOf(PredisClient::class, $clientAfter);
+        self::assertInstanceOf(PredisClient::class, $clientAfter);
     }
 
     public function testClientIsSingletonAcrossMultipleCalls(): void
@@ -88,7 +72,7 @@ final class RedisCacheAdapterTest extends TestCase
 
         $client2 = $this->getClientProperty($this->adapter);
 
-        $this->assertSame($client1, $client2);
+        self::assertSame($client1, $client2);
     }
 
     private function initAdapter(): void

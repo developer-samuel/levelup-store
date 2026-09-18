@@ -1,0 +1,35 @@
+graph TD
+    %% C4 Level 1 - System Context
+    %% Who uses the system and what external systems does it interact with
+
+    classDef user     fill:#2c3e50, color:#fff, stroke:#000, stroke-width:2px;
+    classDef system   fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef external fill:#e7d62f, color:#000, stroke:#000, stroke-width:2px;
+    classDef cdn      fill:#f39c12, color:#fff, stroke:#000, stroke-width:2px;
+
+    Customer[👤 Customer]:::user
+    Admin[👤 Admin]:::user
+
+    App[⚙️ LevelUp Store]:::system
+
+    subgraph External["External Services"]
+        Stripe[💳 Stripe\nPayment processing]:::external
+        Mailer[✉️ Mailer\nTransactional email]:::external
+        CountryAPI[🌍 Country API\nCountry data ingestion]:::external
+        Sentry[🔴 Sentry\nError monitoring]:::external
+        Turnstile[🛡️ Cloudflare Turnstile\nCAPTCHA]:::external
+    end
+
+    subgraph Network["Network Edge"]
+        Cloudflare[☁️ Cloudflare\nDNS + WAF + DDoS]:::cdn
+    end
+
+    Customer --> Cloudflare
+    Admin    --> Cloudflare
+    Cloudflare --> App
+
+    App --> Stripe
+    App --> Mailer
+    App --> CountryAPI
+    App --> Sentry
+    App --> Turnstile

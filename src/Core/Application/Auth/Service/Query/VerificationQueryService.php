@@ -32,7 +32,7 @@ final readonly class VerificationQueryService implements VerificationQueryContra
     {
         $tokenEntity = $this->tokenRepository->findByToken($token);
 
-        if (!$tokenEntity || !$this->isTokenValid($tokenEntity)) {
+        if ($tokenEntity === null || !$this->isTokenValid($tokenEntity)) {
             return null;
         }
 

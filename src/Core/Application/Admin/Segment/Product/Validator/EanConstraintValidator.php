@@ -33,7 +33,7 @@ final class EanConstraintValidator extends AbstractConstraintValidator
 
         $value = (string) $value;
 
-        if (!preg_match('/^\d+$/', $value)) {
+        if (preg_match('/^\d+$/', $value) !== 1) {
             $this->addViolation($constraint->messageNumber);
 
             return;

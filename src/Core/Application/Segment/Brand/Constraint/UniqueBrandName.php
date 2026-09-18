@@ -20,7 +20,7 @@ final class UniqueBrandName extends Constraint
     }
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

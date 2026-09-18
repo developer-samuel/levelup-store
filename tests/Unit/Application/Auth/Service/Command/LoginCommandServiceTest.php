@@ -19,7 +19,6 @@ use App\Core\Application\Auth\Service\Command\LoginCommandService;
 
 use App\Core\Ports\{
     Auth\Repository\RefreshTokenRepositoryContract,
-    Auth\Service\Command\LoginCommandContract,
     Gateways\External\Jwt\JwtGatewayContract
 };
 
@@ -41,36 +40,24 @@ final class LoginCommandServiceTest extends TestCase
         $this->user = $this->createMock(User::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(LoginCommandContract::class, $this->service);
-    }
-
-    public function testExecuteReturnsJwtTokenObject(): void
-    {
-        $result = $this->executeForUser();
-
-        $this->assertInstanceOf(JwtTokenObject::class, $result);
-    }
-
     public function testExecuteReturnsCorrectAccessToken(): void
     {
         $result = $this->executeForUser(accessToken: 'access-token-abc');
 
-        $this->assertSame('access-token-abc', $result->accessToken);
+        self::assertSame('access-token-abc', $result->accessToken);
     }
 
     public function testExecuteReturnsCorrectRefreshToken(): void
     {
         $result = $this->executeForUser(refreshToken: 'refresh-token-xyz');
 
-        $this->assertSame('refresh-token-xyz', $result->refreshToken);
+        self::assertSame('refresh-token-xyz', $result->refreshToken);
     }
 
     public function testExecuteGeneratesAccessTokenForGivenUser(): void
     {
         $this->jwtGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generateAccessToken')
             ->with($this->user)
             ->willReturn('access-token-abc');
@@ -89,7 +76,7 @@ final class LoginCommandServiceTest extends TestCase
             ->willReturn('access-token-abc');
 
         $this->refreshTokenRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('create')
             ->with($this->user)
             ->willReturn($this->buildRefreshToken('refresh-token-xyz'));
@@ -125,7 +112,7 @@ final class LoginCommandServiceTest extends TestCase
 
         return $this->service->execute($this->user);
     }
-    
+
     private function buildRefreshToken(string $token): RefreshToken&MockObject
     {
         $refreshToken = $this->createMock(RefreshToken::class);

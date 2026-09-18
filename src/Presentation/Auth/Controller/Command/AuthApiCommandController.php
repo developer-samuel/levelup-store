@@ -99,7 +99,8 @@ final class AuthApiCommandController extends AbstractCrudCommandController
     public function refresh(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {
-            $refreshToken = $request->cookies->getString(self::REFRESH_TOKEN_COOKIE) ?: null;
+            $token = $request->cookies->getString(self::REFRESH_TOKEN_COOKIE);
+            $refreshToken = $token !== '' ? $token : null;
 
             $result = $this->refreshTokenHandler->handle($refreshToken);
 
@@ -115,7 +116,8 @@ final class AuthApiCommandController extends AbstractCrudCommandController
     public function logout(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {
-            $refreshToken = $request->cookies->getString(self::REFRESH_TOKEN_COOKIE) ?: null;
+            $token = $request->cookies->getString(self::REFRESH_TOKEN_COOKIE);
+            $refreshToken = $token !== '' ? $token : null;
 
             $result = $this->logoutHandler->handle($refreshToken);
 

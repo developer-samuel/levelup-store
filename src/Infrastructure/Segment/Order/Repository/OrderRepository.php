@@ -235,11 +235,11 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         $qb = $this->buildDateRangeQuery($from, $to, $paymentMethod)
             ->select('COUNT(o.id)');
 
-        if ($paid) {
+        if ($paid === true) {
             $qb->innerJoin('o.orderPayment', 'op');
         }
 
-        if (!$paid) {
+        if ($paid === false) {
             $qb->leftJoin('o.orderPayment', 'op')
                 ->andWhere('op.id IS NULL');
         }

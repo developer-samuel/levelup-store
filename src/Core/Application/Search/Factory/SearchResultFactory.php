@@ -18,7 +18,7 @@ final class SearchResultFactory
      *
      * @return SearchResultObject
     */
-    public static function create(ProductVariant $variant, float $averageRating = 0.0): SearchResultObject
+    public function create(ProductVariant $variant, float $averageRating = 0.0): SearchResultObject
     {
         $imagePath = ProductToolkit::getFirstImagePath($variant);
         $discountData = ProductToolkit::getDiscountData($variant);

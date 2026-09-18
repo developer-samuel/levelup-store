@@ -72,8 +72,8 @@ final class ProductTitleQueryService implements ProductTitleQueryContract
     */
     private function getCategoryTypeState(?string $category, ?string $type): ProductTitleType
     {
-        $hasCategory = !empty($category);
-        $hasType = !empty($type);
+        $hasCategory = $category !== null && $category !== '';
+        $hasType = $type !== null && $type !== '';
 
         return $hasCategory
             ? ($hasType ? ProductTitleType::BOTH : ProductTitleType::CATEGORY_ONLY)

@@ -17,12 +17,12 @@ final class OrderPaymentAssertion
     {
         if (
             is_object($paymentIntent) && property_exists($paymentIntent, 'id') &&
-            is_string($paymentIntent->id) && !empty($paymentIntent->id)
+            is_string($paymentIntent->id) && $paymentIntent->id !== ''
         ) {
             return $paymentIntent->id;
         }
 
-        if (is_string($paymentIntent) && !empty($paymentIntent)) {
+        if (is_string($paymentIntent) && $paymentIntent !== '') {
             return $paymentIntent;
         }
 

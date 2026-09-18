@@ -25,6 +25,9 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
+/**
+ * @extends AbstractTask<ProductVariantStock>
+*/
 #[AsMessageHandler]
 final class ProductEanSyncTask extends AbstractTask
 {
@@ -76,8 +79,6 @@ final class ProductEanSyncTask extends AbstractTask
     */
     protected function processSingleItem(mixed $stock): bool
     {
-        assert($stock instanceof ProductVariantStock);
-
         $quantities = $this->calculateQuantities($stock);
 
         if (!$this->needsUpdate($stock, $quantities)) {

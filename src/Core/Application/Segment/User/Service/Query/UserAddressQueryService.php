@@ -11,12 +11,12 @@ use App\Core\Domain\{
     Segment\User\Entity\UserShipping
 };
 
-use App\Core\Ports\Segment\User\Service\Query\AddressQueryContract;
+use App\Core\Ports\Segment\User\Service\Query\UserAddressQueryContract;
 
 /**
- * @phpstan-import-type AddressData from AddressQueryContract
+ * @phpstan-import-type AddressData from UserAddressQueryContract
 */
-final class AddressQueryService implements AddressQueryContract
+final class UserAddressQueryService implements UserAddressQueryContract
 {
     /**
      * @param array<string, mixed> $data
@@ -45,10 +45,10 @@ final class AddressQueryService implements AddressQueryContract
     */
     public function shouldRemoveEntity(UserBilling|UserShipping $entity): bool
     {
-        $streetEmpty = empty($entity->getStreet());
-        $postalEmpty = empty($entity->getPostalCode());
-        $countryEmpty = empty($entity->getCountry());
-        $cityEmpty = empty($entity->getCity());
+        $streetEmpty = $entity->getStreet() === '';
+        $postalEmpty = $entity->getPostalCode() === '';
+        $countryEmpty = $entity->getCountry() === null;
+        $cityEmpty = $entity->getCity() === '';
 
         return $streetEmpty && $postalEmpty && $countryEmpty && $cityEmpty;
     }

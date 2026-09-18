@@ -10,7 +10,7 @@ source scripts/tools/sonar/functions/sonar.sh
 # ────────────── ESLint Report ──────────────
 mkdir -p var/tools/eslint
 echo "📋 Generating ESLint report..."
-pnpm run lint:report
+pnpm lint:report
 
 # ────────────── Execute ──────────────
 run_sonar

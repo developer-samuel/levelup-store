@@ -10,6 +10,9 @@ use App\Core\Ports\Shared\Logging\ConsoleLoggerContract;
 
 use App\Shared\Utils\Formatter\DateTimeFormatter;
 
+/**
+ * @template TItem
+*/
 abstract class AbstractTask
 {
     /**
@@ -32,7 +35,7 @@ abstract class AbstractTask
     abstract protected function fetchItems(): iterable;
 
     /**
-     * @param mixed $item
+     * @param TItem $item
      *
      * @return bool
     */
@@ -42,7 +45,7 @@ abstract class AbstractTask
     }
 
     /**
-     * @param iterable<mixed> $items
+     * @param iterable<TItem> $items
      *
      * @return int
     */

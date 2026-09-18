@@ -53,19 +53,22 @@ final class UserFixture extends AbstractFixture implements FixtureGroupInterface
     }
 
     /**
-     * @param array{
-     *     email: string,
-     *     first_name: string,
-     *     last_name: string,
-     *     password: string,
-     *     role: string,
-     * } $data
+     * @param mixed $data
      * @param ObjectManager $manager
      *
      * @return void
     */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
+        /**
+         * @var array{
+         *     email: string,
+         *     first_name: string,
+         *     last_name: string,
+         *     password: string,
+         *     role: string
+         * } $data
+        */
         $user = $this->createUsersFromData($data);
         $manager->persist($user);
     }

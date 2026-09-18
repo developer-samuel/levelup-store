@@ -6,6 +6,7 @@ namespace Database\Fixtures;
 
 use Doctrine\{
     Common\DataFixtures\DependentFixtureInterface,
+    Common\DataFixtures\FixtureInterface,
     Persistence\ObjectManager
 };
 
@@ -58,7 +59,7 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<FixtureInterface>>
     */
     public function getDependencies(): array
     {
@@ -75,26 +76,24 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
     */
     protected function getData(): iterable
     {
-        $data = [
+        return [
             new ComputersRecord(),
             new SmartRecord(),
             new GamingRecord(),
             new TvRecord(),
             new AppliancesRecord(),
         ];
-
-        return $data;
     }
 
     /**
-     * @param ProductRecordContract $record
+     * @param mixed $record
      * @param ObjectManager $manager
      *
      * @return void
     */
     protected function createEntity(mixed $record, ObjectManager $manager): void
     {
-        /** @var array<string, array<string, mixed>> $productDataSet */
+        /** @var ProductRecordContract $record */
         $productDataSet = $record->fetchData();
 
         foreach ($productDataSet as $categoryName => $types) {

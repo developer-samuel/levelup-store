@@ -52,7 +52,7 @@ final readonly class OrderPaymentQueryService implements OrderPaymentQueryContra
     public function extractPayloadFromMetadata(StripeCheckoutObject $session): OrderCreatePayload
     {
         $meta = $session->metadata;
-        if (empty($meta)) {
+        if ($meta === []) {
             throw new \InvalidArgumentException('Stripe session metadata is missing or invalid.');
         }
 

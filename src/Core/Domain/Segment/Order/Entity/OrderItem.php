@@ -34,16 +34,17 @@ class OrderItem
     #[ORM\JoinColumn(
         name: 'order_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private Order $order;
 
     #[ORM\ManyToOne(targetEntity: ProductVariant::class)]
-    #[ORM\JoinColumn(name: 'variant_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'variant_id', referencedColumnName: 'id', nullable: false)]
     private ProductVariant $variant;
 
     #[ORM\ManyToOne(targetEntity: ProductVariantEan::class)]
-    #[ORM\JoinColumn(name: 'ean_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'ean_id', referencedColumnName: 'id', nullable: false)]
     private ProductVariantEan $ean;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]

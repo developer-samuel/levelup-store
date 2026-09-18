@@ -1,0 +1,33 @@
+name: Bootstrap
+description: Run database migrations, optional fixtures and Elasticsearch reindex
+
+inputs:
+  symfony-env:
+    description: Symfony environment flag (e.g. test)
+    default: ''
+  with-fixtures:
+    description: Load doctrine fixtures
+    default: 'true'
+  with-reindex:
+    description: Run Elasticsearch reindex
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Database warmup
+      shell: bash
+      run: |
+        ENV_FLAG=${{ inputs.symfony-env != '' && format('--env={0}', inputs.symfony-env) || '' }}
+        php bin/console doctrine:database:create --if-not-exists $ENV_FLAG
+        php bin/console doctrine:migrations:migrate --no-interaction $ENV_FLAG
+
+    - name: Load fixtures
+      if: inputs.with-fixtures == 'true'
+      shell: bash
+      run: php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate ${{ inputs.symfony-env != '' && format('--env={0}', inputs.symfony-env) || '' }}
+
+    - name: Elasticsearch reindex
+      if: inputs.with-reindex == 'true'
+      shell: bash
+      run: php bin/console app:elasticsearch:reindex ${{ inputs.symfony-env != '' && format('--env={0}', inputs.symfony-env) || '' }}

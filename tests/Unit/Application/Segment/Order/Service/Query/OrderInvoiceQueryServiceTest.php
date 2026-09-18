@@ -24,10 +24,7 @@ use App\Core\Domain\{
 
 use App\Core\Application\Segment\Order\Service\Query\OrderInvoiceQueryService;
 
-use App\Core\Ports\{
-    Segment\Order\Repository\OrderRepositoryContract,
-    Segment\Order\Service\Query\OrderInvoiceQueryContract
-};
+use App\Core\Ports\Segment\Order\Repository\OrderRepositoryContract;
 
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderInvoiceQueryService
@@ -43,20 +40,15 @@ final class OrderInvoiceQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderInvoiceQueryContract::class, $this->service);
-    }
-
     public function testGetInvoiceDetailsReturnsArray(): void
     {
         $result = $this->fetchInvoice($this->buildOrder());
 
-        $this->assertArrayHasKey('order', $result);
-        $this->assertArrayHasKey('personal', $result);
-        $this->assertArrayHasKey('billing', $result);
-        $this->assertArrayHasKey('products', $result);
-        $this->assertArrayHasKey('hasShipping', $result);
+        self::assertArrayHasKey('order', $result);
+        self::assertArrayHasKey('personal', $result);
+        self::assertArrayHasKey('billing', $result);
+        self::assertArrayHasKey('products', $result);
+        self::assertArrayHasKey('hasShipping', $result);
     }
 
     public function testGetInvoiceDetailsThrowsWhenOrderNotFound(): void
@@ -96,18 +88,18 @@ final class OrderInvoiceQueryServiceTest extends TestCase
     {
         $result = $this->fetchInvoice($this->buildOrder());
 
-        $this->assertIsArray($result['order']);
-        $this->assertSame('ORDER-001', $result['order']['code']);
-        $this->assertSame(OrderStatus::PROCESSED, $result['order']['status']);
-        $this->assertSame(OrderPaymentMethod::CARD, $result['order']['payment']);
-        $this->assertSame(99.99, $result['order']['price']);
+        self::assertIsArray($result['order']);
+        self::assertSame('ORDER-001', $result['order']['code']);
+        self::assertSame(OrderStatus::PROCESSED, $result['order']['status']);
+        self::assertSame(OrderPaymentMethod::CARD, $result['order']['payment']);
+        self::assertSame(99.99, $result['order']['price']);
     }
 
     public function testGetInvoiceDetailsHasShippingFalseByDefault(): void
     {
         $result = $this->fetchInvoice($this->buildOrder());
 
-        $this->assertFalse($result['hasShipping']);
+        self::assertFalse($result['hasShipping']);
     }
 
     private function initMocks(): void

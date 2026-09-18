@@ -31,8 +31,8 @@ final class ResponseFormatter
     {
         return [
             'success' => false,
-            'message' => $message ?: null,
-            'errors'  => $errors ?: null,
+            'message' => $message ?? null,
+            'errors'  => $errors !== [] ? $errors : null,
             'status'  => $status,
         ];
     }

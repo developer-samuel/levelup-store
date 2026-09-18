@@ -33,6 +33,7 @@ var/
 assets/vendor/
 public/assets/
 public/build/
+public/.build/
 public/bundles/
 public/uploads/
 

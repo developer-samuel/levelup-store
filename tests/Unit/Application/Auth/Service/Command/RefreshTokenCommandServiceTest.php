@@ -19,7 +19,6 @@ use App\Core\Application\Auth\Service\Command\RefreshTokenCommandService;
 
 use App\Core\Ports\{
     Auth\Repository\RefreshTokenRepositoryContract,
-    Auth\Service\Command\RefreshTokenCommandContract,
     Gateways\External\Jwt\JwtGatewayContract,
     Gateways\Internal\Auth\TokenBlacklistContract
 };
@@ -43,30 +42,18 @@ final class RefreshTokenCommandServiceTest extends TestCase
         $this->user = $this->createMock(User::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(RefreshTokenCommandContract::class, $this->service);
-    }
-
-    public function testExecuteReturnsJwtTokenObject(): void
-    {
-        $result = $this->executeWithValidToken();
-
-        $this->assertInstanceOf(JwtTokenObject::class, $result);
-    }
-
     public function testExecuteReturnsCorrectAccessToken(): void
     {
         $result = $this->executeWithValidToken(accessToken: 'new-access-token');
 
-        $this->assertSame('new-access-token', $result->accessToken);
+        self::assertSame('new-access-token', $result->accessToken);
     }
 
     public function testExecuteReturnsCorrectRefreshToken(): void
     {
         $result = $this->executeWithValidToken(newRefreshToken: 'new-refresh-token');
 
-        $this->assertSame('new-refresh-token', $result->refreshToken);
+        self::assertSame('new-refresh-token', $result->refreshToken);
     }
 
     public function testExecuteThrowsWhenTokenIsBlacklisted(): void
@@ -111,7 +98,7 @@ final class RefreshTokenCommandServiceTest extends TestCase
         $token = $this->mockValidToken('old-refresh-token', $this->user);
 
         $this->refreshTokenRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('revoke')
             ->with($token);
 
@@ -131,9 +118,9 @@ final class RefreshTokenCommandServiceTest extends TestCase
         $this->mockValidToken('old-refresh-token', $this->user);
 
         $this->tokenBlacklist
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('blacklist')
-            ->with('old-refresh-token', $this->isInstanceOf(\DateTimeImmutable::class));
+            ->with('old-refresh-token', self::isInstanceOf(\DateTimeImmutable::class));
 
         $this->jwtGateway
             ->method('generateAccessToken')
@@ -151,7 +138,7 @@ final class RefreshTokenCommandServiceTest extends TestCase
         $this->mockValidToken('old-refresh-token', $this->user);
 
         $this->jwtGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generateAccessToken')
             ->with($this->user)
             ->willReturn('new-access-token');
@@ -172,7 +159,7 @@ final class RefreshTokenCommandServiceTest extends TestCase
             ->willReturn('new-access-token');
 
         $this->refreshTokenRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('create')
             ->with($this->user)
             ->willReturn($this->buildRefreshToken('new-refresh-token'));
@@ -182,9 +169,9 @@ final class RefreshTokenCommandServiceTest extends TestCase
 
     private function initMocks(): void
     {
-        $this->jwtGateway            = $this->createMock(JwtGatewayContract::class);
+        $this->jwtGateway = $this->createMock(JwtGatewayContract::class);
         $this->refreshTokenRepository = $this->createMock(RefreshTokenRepositoryContract::class);
-        $this->tokenBlacklist        = $this->createMock(TokenBlacklistContract::class);
+        $this->tokenBlacklist = $this->createMock(TokenBlacklistContract::class);
     }
 
     private function initService(): void

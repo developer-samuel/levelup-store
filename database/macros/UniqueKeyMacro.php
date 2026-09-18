@@ -19,7 +19,7 @@ final class UniqueKeyMacro
     */
     public static function add(Table $table, array $columns, ?string $indexName = null): void
     {
-        if ($indexName) {
+        if ($indexName !== null) {
             $table->addUniqueIndex($columns, $indexName);
         } else {
             $table->addUniqueIndex($columns);

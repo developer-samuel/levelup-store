@@ -6,12 +6,12 @@ namespace Tests\Integration\Adapters\External\Realtime;
 
 use PHPUnit\Framework\TestCase;
 
-use Symfony\Component\Mercure\Hub;
-use Symfony\Component\Mercure\Jwt\FactoryTokenProvider;
-use Symfony\Component\Mercure\Jwt\LcobucciFactory;
-use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
-
-use App\Core\Ports\Gateways\External\Realtime\MercureHubGatewayContract;
+use Symfony\{
+    Component\Mercure\Hub,
+    Component\Mercure\Jwt\FactoryTokenProvider,
+    Component\Mercure\Jwt\LcobucciFactory,
+    Component\Mercure\Jwt\StaticTokenProvider
+};
 
 use App\Adapters\External\Realtime\MercureHubAdapter;
 
@@ -41,14 +41,9 @@ final class MercureHubAdapterTest extends TestCase
         $this->adapter = new MercureHubAdapter($hub, true, $this->hubUrl);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(MercureHubGatewayContract::class, $this->adapter);
-    }
-
     public function testIsEnabledReturnsTrueWhenEnabled(): void
     {
-        $this->assertTrue($this->adapter->isEnabled());
+        self::assertTrue($this->adapter->isEnabled());
     }
 
     public function testIsEnabledReturnsFalseWhenDisabled(): void
@@ -56,7 +51,7 @@ final class MercureHubAdapterTest extends TestCase
         $hub = new Hub($this->hubUrl, new StaticTokenProvider('test'));
         $adapter = new MercureHubAdapter($hub, false, $this->hubUrl);
 
-        $this->assertFalse($adapter->isEnabled());
+        self::assertFalse($adapter->isEnabled());
     }
 
     public function testIsConnectedReturnsFalseWhenDisabled(): void
@@ -64,7 +59,7 @@ final class MercureHubAdapterTest extends TestCase
         $hub = new Hub($this->hubUrl, new StaticTokenProvider('test'));
         $adapter = new MercureHubAdapter($hub, false, $this->hubUrl);
 
-        $this->assertFalse($adapter->isConnected());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testIsConnectedReturnsFalseWhenUnreachable(): void
@@ -72,7 +67,7 @@ final class MercureHubAdapterTest extends TestCase
         $hub = new Hub('http://127.0.0.1:19999/.well-known/mercure', new StaticTokenProvider('test'));
         $adapter = new MercureHubAdapter($hub, true, 'http://127.0.0.1:19999/.well-known/mercure');
 
-        $this->assertFalse($adapter->isConnected());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testIsConnectedReturnsFalseWhenUrlIsMalformed(): void
@@ -80,13 +75,13 @@ final class MercureHubAdapterTest extends TestCase
         $hub = new Hub($this->hubUrl, new StaticTokenProvider('test'));
         $adapter = new MercureHubAdapter($hub, true, 'not-a-valid-url');
 
-        $this->assertFalse($adapter->isConnected());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testIsConnectedReturnsTrueWhenRunning(): void
     {
         $this->skipIfNotConnected();
-        $this->assertTrue($this->adapter->isConnected());
+        self::assertTrue($this->adapter->isConnected());
     }
 
     public function testPublishDoesNothingWhenDisabled(): void
@@ -110,7 +105,7 @@ final class MercureHubAdapterTest extends TestCase
     private function skipIfNotConnected(): void
     {
         if (!$this->adapter->isConnected()) {
-            $this->markTestSkipped('Mercure is not available.');
+            self::markTestSkipped('Mercure is not available.');
         }
     }
 }

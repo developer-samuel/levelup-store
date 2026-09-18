@@ -64,7 +64,7 @@ trait ReviewBuilder
     */
     private function generateReviewValue(?float $previousValue, array $details = []): float
     {
-        if (!empty($details)) {
+        if ($details !== []) {
             return $this->generateReviewValueBasedOnDetails($details);
         }
 
@@ -144,8 +144,8 @@ trait ReviewBuilder
     {
         $possible = $this->getPossibleValues($previousValue);
 
-        $min = !empty($possible) ? (float) min($possible) : 1.0;
-        $max = !empty($possible) ? (float) max($possible) : 5.0;
+        $min = $possible !== [] ? (float) min($possible) : 1.0;
+        $max = $possible !== [] ? (float) max($possible) : 5.0;
 
         return [$min, $max];
     }
@@ -271,7 +271,7 @@ trait ReviewBuilder
             $details[] = (new ReviewDetail())
                 ->setReview($review)
                 ->setBody($this->randomSentence())
-                ->setType(rand(0, 1) ? ReviewDetailType::POSITIVE : ReviewDetailType::NEGATIVE);
+                ->setType(rand(0, 1) === 1 ? ReviewDetailType::POSITIVE : ReviewDetailType::NEGATIVE);
         }
 
         return $details;

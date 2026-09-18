@@ -92,7 +92,7 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
     {
         $adjustedStock = $this->adjustStockForDestroy($ean);
 
-        if ($adjustedStock) {
+        if ($adjustedStock !== null) {
             $this->entityPersistence->persist($adjustedStock, true);
         }
 
@@ -132,7 +132,7 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
     private function adjustStockForDestroy(ProductVariantEan $ean): ?ProductVariantStock
     {
         $stock = $ean->getVariant()->getStock();
-        if (!$stock) {
+        if ($stock === null) {
             return null;
         }
 
@@ -154,7 +154,7 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
     private function adjustStockForCreate(ProductVariant $variant): void
     {
         $stock = $variant->getStock();
-        if ($stock) {
+        if ($stock !== null) {
             $stock->setQuantityAvailable($stock->getQuantityAvailable() + 1);
         }
     }

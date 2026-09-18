@@ -45,13 +45,13 @@ final readonly class RefreshTokenCommandService implements RefreshTokenCommandCo
             throw new \DomainException('Invalid or expired refresh token.');
         }
 
-        $user      = $token->getUser();
+        $user = $token->getUser();
         $expiresAt = $token->getExpiresAt();
 
         $this->refreshTokenRepository->revoke($token);
         $this->tokenBlacklist->blacklist($refreshToken, $expiresAt);
 
-        $newAccessToken  = $this->jwtGateway->generateAccessToken($user);
+        $newAccessToken = $this->jwtGateway->generateAccessToken($user);
         $newRefreshToken = $this->refreshTokenRepository->create($user);
 
         return new JwtTokenObject(

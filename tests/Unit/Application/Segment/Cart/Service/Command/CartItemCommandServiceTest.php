@@ -22,7 +22,6 @@ use App\Core\Application\Segment\Cart\Service\Command\CartItemCommandService;
 use App\Core\Ports\{
     Segment\Cart\Policy\CartItemAvailabilityPolicyContract,
     Segment\Cart\Service\Command\CartControlCommandContract,
-    Segment\Cart\Service\Command\CartItemCommandContract,
     Segment\Cart\Service\Query\CartItemQueryContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
     Shared\Persistence\EntityPersistenceContract
@@ -53,11 +52,6 @@ final class CartItemCommandServiceTest extends TestCase
         $this->variant = $this->createMock(ProductVariant::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartItemCommandContract::class, $this->service);
-    }
-
     public function testAddProductToCartReturnsErrorWhenNotAvailable(): void
     {
         $this->setupCartAndVariant();
@@ -73,14 +67,14 @@ final class CartItemCommandServiceTest extends TestCase
         ];
 
         $this->cartRenderQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildCartResponse')
             ->with($this->user, 'This product is no longer in stock.', true)
             ->willReturn($expected);
 
         $result = $this->service->addProductToCart($this->user, 1);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testAddProductToCartPersistsItemWhenAvailable(): void
@@ -88,9 +82,9 @@ final class CartItemCommandServiceTest extends TestCase
         $this->setupAvailableProduct();
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
-            ->with($this->isInstanceOf(CartItem::class), true);
+            ->with(self::isInstanceOf(CartItem::class), true);
 
         $this->service->addProductToCart($this->user, 1);
     }
@@ -100,7 +94,7 @@ final class CartItemCommandServiceTest extends TestCase
         $this->setupAvailableProduct();
 
         $this->cartControlCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flushAndRefreshCart')
             ->with($this->cart);
 
@@ -115,14 +109,14 @@ final class CartItemCommandServiceTest extends TestCase
         $expected = ['success' => true, 'message' => 'Product added to cart.'];
 
         $this->cartItemQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildCartResponse')
             ->with($this->user, CartAction::ADD)
             ->willReturn($expected);
 
         $result = $this->service->addProductToCart($this->user, 1);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testRemoveProductFromCartRemovesItemAndReturnsResponse(): void
@@ -133,7 +127,7 @@ final class CartItemCommandServiceTest extends TestCase
         $this->cartItemQuery->method('getValidatedCartItem')->with(5)->willReturn($item);
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('remove')
             ->with($item);
 
@@ -146,7 +140,7 @@ final class CartItemCommandServiceTest extends TestCase
 
         $result = $this->service->removeProductFromCart($this->user, 5);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testRemoveProductFromCartRefreshesCartWhenCartExists(): void
@@ -154,7 +148,7 @@ final class CartItemCommandServiceTest extends TestCase
         $this->mockRemoveItem($this->cart);
 
         $this->cartControlCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flushAndRefreshCart')
             ->with($this->cart);
 
@@ -166,7 +160,7 @@ final class CartItemCommandServiceTest extends TestCase
         $this->mockRemoveItem(null);
 
         $this->cartControlCommand
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('flushAndRefreshCart');
 
         $this->service->removeProductFromCart($this->user, 5);
@@ -183,11 +177,11 @@ final class CartItemCommandServiceTest extends TestCase
         $itemC->method('hasVariant')->willReturn(true);
 
         $this->entityPersistence
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('remove');
 
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->service->removeVariant($this->variant, [$itemA, $itemB, $itemC]);
@@ -196,7 +190,7 @@ final class CartItemCommandServiceTest extends TestCase
     public function testRemoveVariantFlushesAfterRemoving(): void
     {
         $this->entityPersistence
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->service->removeVariant($this->variant, []);
@@ -209,7 +203,7 @@ final class CartItemCommandServiceTest extends TestCase
         $item->method('getCart')->willReturn($this->cart);
 
         $this->cartControlCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flushAndRefreshCart')
             ->with($this->cart);
 
@@ -222,7 +216,7 @@ final class CartItemCommandServiceTest extends TestCase
         $item->method('hasVariant')->willReturn(false);
 
         $this->cartControlCommand
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('flushAndRefreshCart');
 
         $this->service->removeVariant($this->variant, [$item]);

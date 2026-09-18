@@ -7,7 +7,6 @@ namespace App\Infrastructure\Segment\Order\Subscriber;
 use Doctrine\{
     Bundle\DoctrineBundle\Attribute\AsDoctrineListener,
     ORM\Event\OnFlushEventArgs,
-    ORM\Event\PostFlushEventArgs,
     ORM\Events
 };
 
@@ -59,7 +58,7 @@ final class OrderStatusMercureSubscriber
      */
     public function postFlush(): void
     {
-        if (empty($this->pendingOrders)) {
+        if ($this->pendingOrders === []) {
             return;
         }
         foreach ($this->pendingOrders as $order) {

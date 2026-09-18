@@ -17,6 +17,8 @@ doctrine:
 
     types:
       enum: Database\Types\EnumType
+      bigint: Database\Types\BigIntType
+      decimal: Database\Types\DecimalType
 
   orm:
     auto_generate_proxy_classes: true

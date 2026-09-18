@@ -22,7 +22,7 @@ final class CheckConstraintMacro
     */
     public static function add(Table $table, string $name, string $expression): void
     {
-        /** @var mixed $rawOptions */
+        /** @var array<mixed> $rawOptions */
         $rawOptions = $table->getOptions();
         $options = is_array($rawOptions) ? $rawOptions : [];
 

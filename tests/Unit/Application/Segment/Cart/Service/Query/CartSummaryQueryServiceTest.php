@@ -28,7 +28,6 @@ use App\Core\Application\Segment\Cart\Service\Query\CartSummaryQueryService;
 
 use App\Core\Ports\{
     Segment\Cart\Repository\CartRepositoryContract,
-    Segment\Cart\Service\Query\CartSummaryQueryContract,
     Segment\Review\Service\Query\ReviewQueryContract
 };
 
@@ -49,30 +48,25 @@ final class CartSummaryQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartSummaryQueryContract::class, $this->service);
-    }
-
     public function testGetCartSummaryReturnsEmptyWhenCartNotFound(): void
     {
         $this->cartRepository->method('findCartForUser')->willReturn(null);
 
         $result = $this->service->getCartSummary(1);
 
-        $this->assertSame([], $result['items']);
-        $this->assertSame(0.0, $result['totalPrice']);
-        $this->assertSame(0, $result['totalItems']);
+        self::assertSame([], $result['items']);
+        self::assertSame(0.0, $result['totalPrice']);
+        self::assertSame(0, $result['totalItems']);
     }
 
     public function testGetCartSummarySkipsItemsWithNoStock(): void
     {
-        $this->assertCartSkipsVariant(null);
+        self::assertCartSkipsVariant(null);
     }
 
     public function testGetCartSummarySkipsItemsWithZeroStock(): void
     {
-        $this->assertCartSkipsVariant(0);
+        self::assertCartSkipsVariant(0);
     }
 
     public function testGetCartSummaryIncludesItemsWithStock(): void
@@ -97,9 +91,9 @@ final class CartSummaryQueryServiceTest extends TestCase
 
         $result = $this->service->getCartSummary(1);
 
-        $this->assertCount(1, $result['items']);
-        $this->assertSame(49.99, $result['totalPrice']);
-        $this->assertSame(1, $result['totalItems']);
+        self::assertCount(1, $result['items']);
+        self::assertSame(49.99, $result['totalPrice']);
+        self::assertSame(1, $result['totalItems']);
     }
 
     public function testFindCartItemsForUserReturnsSummaryItems(): void
@@ -108,7 +102,7 @@ final class CartSummaryQueryServiceTest extends TestCase
 
         $result = $this->service->findCartItemsForUser(1);
 
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
     }
 
     public function testBuildSuccessResponseReturnsCorrectStructure(): void
@@ -117,36 +111,36 @@ final class CartSummaryQueryServiceTest extends TestCase
 
         $result = $this->service->buildSuccessResponse('Added.', '<div>', $summary);
 
-        $this->assertSame('<div>', $result['html']);
-        $this->assertSame('Added.', $result['message']);
-        $this->assertTrue($result['success']);
-        $this->assertNull($result['status']);
-        $this->assertSame(2, $result['totalItems']);
-        $this->assertSame('99,98 €', $result['totalPrice']);
+        self::assertSame('<div>', $result['html']);
+        self::assertSame('Added.', $result['message']);
+        self::assertTrue($result['success']);
+        self::assertNull($result['status']);
+        self::assertSame(2, $result['totalItems']);
+        self::assertSame('99,98 €', $result['totalPrice']);
     }
 
     public function testBuildErrorResponseReturnsCorrectStructure(): void
     {
         $result = $this->service->buildErrorResponse('Error.', '<div>', self::EMPTY_SUMMARY, 422);
 
-        $this->assertSame('<div>', $result['html']);
-        $this->assertSame('Error.', $result['message']);
-        $this->assertFalse($result['success']);
-        $this->assertSame(422, $result['status']);
+        self::assertSame('<div>', $result['html']);
+        self::assertSame('Error.', $result['message']);
+        self::assertFalse($result['success']);
+        self::assertSame(422, $result['status']);
     }
 
     public function testBuildSuccessResponseSuccessIsTrue(): void
     {
         $result = $this->service->buildSuccessResponse('ok', '', self::EMPTY_SUMMARY);
 
-        $this->assertTrue($result['success']);
+        self::assertTrue($result['success']);
     }
 
     public function testBuildErrorResponseSuccessIsFalse(): void
     {
         $result = $this->service->buildErrorResponse('fail', '', self::EMPTY_SUMMARY, 422);
 
-        $this->assertFalse($result['success']);
+        self::assertFalse($result['success']);
     }
 
     public function testGetCartSummaryIncludesFormattedDiscountPriceWhenDiscountPresent(): void
@@ -172,13 +166,13 @@ final class CartSummaryQueryServiceTest extends TestCase
 
         $result = $this->service->getCartSummary(1);
 
-        $this->assertCount(1, $result['items']);
+        self::assertCount(1, $result['items']);
 
         /** @var CartItemObject $cartItemObject */
         $cartItemObject = $result['items'][0];
 
-        $this->assertTrue($cartItemObject->hasDiscount);
-        $this->assertNotNull($cartItemObject->formattedDiscountPrice);
+        self::assertTrue($cartItemObject->hasDiscount);
+        self::assertNotNull($cartItemObject->formattedDiscountPrice);
     }
 
     private function initMocks(): void
@@ -204,7 +198,7 @@ final class CartSummaryQueryServiceTest extends TestCase
 
         $result = $this->service->getCartSummary(1);
 
-        $this->assertSame([], $result['items']);
+        self::assertSame([], $result['items']);
     }
 
     private function createVariantWithStock(?int $quantity): ProductVariant&MockObject

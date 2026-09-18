@@ -99,7 +99,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return TEntity[]
+     * @return list<TEntity>
     */
     public function findAll(): array
     {

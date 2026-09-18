@@ -100,5 +100,4 @@ trait ReviewCoreTrait
             ? ReviewType::FEEDBACK
             : ReviewType::RATING;
     }
-
 }

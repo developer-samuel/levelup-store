@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Segment\Product\ValueObject\Catalog;
 
-use App\Core\Domain\Segment\Brand\Brand;
+use App\Core\Domain\{
+    Segment\Brand\Brand,
+    Segment\Product\ValueObject\ProductVariantObject
+};
 
 final readonly class ProductCatalogFilterObject
 {
@@ -13,7 +16,7 @@ final readonly class ProductCatalogFilterObject
      * @param string[] $subtypes
      * @param Brand[] $brands
      * @param float $maxPrice
-     * @param array<string, mixed> $filtered
+     * @param ProductVariantObject[] $filtered
      * @param string|null $category
      * @param string|null $type
     */

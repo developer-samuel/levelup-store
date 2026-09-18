@@ -11,7 +11,7 @@ flowchart TD
     subgraph Login ["🔐 Login"]
         LoginRequest(["POST /api/auth/login"])
         RateLimit{"Rate Limit Exceeded?"}
-        ValidateLoginRequest["Validate request<br/>(email, password, CSRF)"]
+        ValidateLoginRequest["Validate request<br/>(email, password, Turnstile)"]
         HasValidationErrors{"Validation<br/>errors?"}
         FindUserByEmail["Find User by email"]
         CredentialsValid{"User found &<br/>password valid?"}
@@ -40,9 +40,11 @@ flowchart TD
     subgraph Refresh ["🔄 Token Refresh"]
         RefreshRequest(["POST /api/auth/refresh<br/>(refresh_token cookie)"])
         ReadRefreshTokenCookie["Read refresh_token<br/>from HttpOnly cookie"]
+        RefreshTokenBlacklisted{"Token blacklisted?"}
         RefreshTokenValid{"Token found<br/>in DB & not expired?"}
         GetUserFromToken["Get User from token"]
         RevokeOldRefreshToken["Revoke old RefreshToken<br/>(delete from DB)"]
+        BlacklistOldToken["Blacklist old RefreshToken<br/>(Redis, until expiry)"]
         GenerateNewAccessToken["Generate new AccessToken<br/>(JWT)"]
         CreateNewRefreshToken["Create new RefreshToken<br/>(stored in DB)"]
         ReturnRefreshedTokens(["Return new token pair:<br/>access_token → JSON body<br/>refresh_token → HttpOnly cookie"])
@@ -50,11 +52,14 @@ flowchart TD
     end
 
     RefreshRequest --> ReadRefreshTokenCookie
-    ReadRefreshTokenCookie --> RefreshTokenValid
+    ReadRefreshTokenCookie --> RefreshTokenBlacklisted
+    RefreshTokenBlacklisted -- Yes --> RefreshTokenInvalid
+    RefreshTokenBlacklisted -- No --> RefreshTokenValid
     RefreshTokenValid -- No --> RefreshTokenInvalid
     RefreshTokenValid -- Yes --> GetUserFromToken
     GetUserFromToken --> RevokeOldRefreshToken
-    RevokeOldRefreshToken --> GenerateNewAccessToken
+    RevokeOldRefreshToken --> BlacklistOldToken
+    BlacklistOldToken --> GenerateNewAccessToken
     GenerateNewAccessToken --> CreateNewRefreshToken
     CreateNewRefreshToken --> ReturnRefreshedTokens
 
@@ -67,19 +72,19 @@ flowchart TD
         FindTokenInDb["Find token in DB"]
         TokenFoundInDb{"Token found<br/>in DB?"}
         RevokeRefreshToken["Revoke RefreshToken<br/>(delete from DB)"]
-        ClearRefreshTokenCookie["Clear refresh_token cookie"]
-        LogoutSuccess(["200 OK"])
+        BlacklistToken["Blacklist RefreshToken<br/>(Redis, until expiry)"]
+        LogoutSuccess(["200 OK<br/>(refresh_token cookie cleared)"])
     end
 
     LogoutRequest --> ReadLogoutCookie
     ReadLogoutCookie --> CookiePresent
-    CookiePresent -- No --> ClearRefreshTokenCookie
+    CookiePresent -- No --> LogoutSuccess
     CookiePresent -- Yes --> FindTokenInDb
     FindTokenInDb --> TokenFoundInDb
-    TokenFoundInDb -- No --> ClearRefreshTokenCookie
+    TokenFoundInDb -- No --> LogoutSuccess
     TokenFoundInDb -- Yes --> RevokeRefreshToken
-    RevokeRefreshToken --> ClearRefreshTokenCookie
-    ClearRefreshTokenCookie --> LogoutSuccess
+    RevokeRefreshToken --> BlacklistToken
+    BlacklistToken --> LogoutSuccess
 
     %% JWT lifecycle: Login → Refresh → Logout
     ReturnLoginTokens --> RefreshRequest
@@ -87,6 +92,6 @@ flowchart TD
 
     %% Classes
     class LoginRequest,RefreshRequest,LogoutRequest start;
-    class RateLimit,HasValidationErrors,CredentialsValid,RefreshTokenValid,CookiePresent,TokenFoundInDb decision;
+    class RateLimit,HasValidationErrors,CredentialsValid,RefreshTokenBlacklisted,RefreshTokenValid,CookiePresent,TokenFoundInDb decision;
     class ReturnLoginTokens,ReturnRefreshedTokens,LogoutSuccess success;
     class Cancel,LoginBadRequest,InvalidCredentials,RefreshTokenInvalid error;

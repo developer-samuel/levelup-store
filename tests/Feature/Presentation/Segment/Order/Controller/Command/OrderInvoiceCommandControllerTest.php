@@ -55,8 +55,8 @@ final class OrderInvoiceCommandControllerTest extends WebTestCase
 
         $this->client->request('GET', '/orders/ORDER-TEST-001/invoice/download');
 
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('Content-Type', 'application/pdf');
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('Content-Type', 'application/pdf');
     }
 
     public function testStoreReturnsContentDispositionAttachment(): void
@@ -65,8 +65,8 @@ final class OrderInvoiceCommandControllerTest extends WebTestCase
 
         $this->client->request('GET', '/orders/ORDER-ATTACH-001/invoice/download');
 
-        $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString(
+        self::assertResponseIsSuccessful();
+        self::assertStringContainsString(
             'attachment',
             (string) $this->client->getResponse()->headers->get('Content-Disposition'),
         );
@@ -80,7 +80,7 @@ final class OrderInvoiceCommandControllerTest extends WebTestCase
 
         $this->client->request('GET', '/orders/ORDER-BODY-001/invoice/download');
 
-        $this->assertSame($pdfContent, $this->client->getResponse()->getContent());
+        self::assertSame($pdfContent, $this->client->getResponse()->getContent());
     }
 
     public function testStoreDelegatesCodeToHandler(): void
@@ -89,7 +89,7 @@ final class OrderInvoiceCommandControllerTest extends WebTestCase
 
         $handler = $this->createMock(GenerateOrderInvoiceHandlerContract::class);
         $handler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('handle')
             ->with('ORDER-DELEGATE-001')
             ->willReturn('%PDF content');
@@ -98,14 +98,14 @@ final class OrderInvoiceCommandControllerTest extends WebTestCase
 
         $this->client->request('GET', '/orders/ORDER-DELEGATE-001/invoice/download');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testStoreReturns403WhenNotAuthenticated(): void
     {
         $this->client->request('GET', '/orders/ORDER-NOAUTH-001/invoice/download');
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     private function createUser(): User

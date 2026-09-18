@@ -93,9 +93,9 @@ final readonly class ProductCategoryQueryService implements ProductCategoryQuery
     */
     public function resolveTypesForCategory(Category $category, ?string $typeName): array
     {
-        if ($typeName) {
+        if ($typeName !== null) {
             $typeEntity = $this->findTypeByNameAndCategory($category, $typeName);
-            return $typeEntity ? [$typeEntity] : [];
+            return $typeEntity !== null ? [$typeEntity] : [];
         }
 
         return $category->getTypes()->toArray();

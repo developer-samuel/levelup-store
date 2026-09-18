@@ -22,11 +22,14 @@ use App\Core\Domain\{
 trait UserCoreTrait
 {
     /**
-     * @return string
+     * @return non-empty-string
     */
     public function getUserIdentifier(): string
     {
-        return $this->getEmail();
+        $email = $this->getEmail();
+        assert($email !== '');
+
+        return $email;
     }
 
     /**

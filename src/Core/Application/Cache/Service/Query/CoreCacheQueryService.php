@@ -165,7 +165,7 @@ final class CoreCacheQueryService implements CoreCacheQueryContract
     */
     private function isGuestPath(string $path): bool
     {
-        return !empty($this->getGuestPaths($path));
+        return $this->getGuestPaths($path) !== [];
     }
 
     /**

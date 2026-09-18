@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 use Symfony\Component\HttpClient\HttpClient;
 
-use App\Core\Ports\Gateways\External\Turnstile\TurnstileGatewayContract;
-
 use App\Adapters\External\Turnstile\TurnstileAdapter;
 
 /**
@@ -37,33 +35,28 @@ final class TurnstileAdapterTest extends TestCase
         );
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(TurnstileGatewayContract::class, $this->adapter);
-    }
-
     public function testIsEnabledReturnsTrueWhenEnabled(): void
     {
-        $this->assertTrue($this->adapter->isEnabled());
+        self::assertTrue($this->adapter->isEnabled());
     }
 
     public function testIsEnabledReturnsFalseWhenDisabled(): void
     {
         $adapter = new TurnstileAdapter(HttpClient::create(), false, $this->secretKey, $this->verifyUrl);
 
-        $this->assertFalse($adapter->isEnabled());
+        self::assertFalse($adapter->isEnabled());
     }
 
     public function testVerifyReturnsTrueWhenDisabled(): void
     {
         $adapter = new TurnstileAdapter(HttpClient::create(), false, $this->secretKey, $this->verifyUrl);
 
-        $this->assertTrue($adapter->verify('any-token', '127.0.0.1'));
+        self::assertTrue($adapter->verify('any-token', '127.0.0.1'));
     }
 
     public function testVerifyReturnsFalseOnEmptyToken(): void
     {
-        $this->assertFalse($this->adapter->verify('', '127.0.0.1'));
+        self::assertFalse($this->adapter->verify('', '127.0.0.1'));
     }
 
     public function testVerifyReturnsTrueWithTestSecretKey(): void
@@ -75,7 +68,7 @@ final class TurnstileAdapterTest extends TestCase
             $this->verifyUrl,
         );
 
-        $this->assertTrue($adapter->verify('test-token', '127.0.0.1'));
+        self::assertTrue($adapter->verify('test-token', '127.0.0.1'));
     }
 
     public function testVerifyReturnsFalseOnInvalidToken(): void
@@ -87,7 +80,7 @@ final class TurnstileAdapterTest extends TestCase
             $this->verifyUrl,
         );
 
-        $this->assertFalse($adapter->verify('invalid-token', '127.0.0.1'));
+        self::assertFalse($adapter->verify('invalid-token', '127.0.0.1'));
     }
 
     public function testVerifyReturnsFalseOnUnreachableUrl(): void
@@ -99,6 +92,6 @@ final class TurnstileAdapterTest extends TestCase
             'http://127.0.0.1:19999/turnstile',
         );
 
-        $this->assertFalse($adapter->verify('some-token', '127.0.0.1'));
+        self::assertFalse($adapter->verify('some-token', '127.0.0.1'));
     }
 }

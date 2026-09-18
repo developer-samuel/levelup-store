@@ -15,10 +15,7 @@ use App\Core\Application\Segment\Cart\Service\Query\CartControlQueryService;
 
 use Tests\Support\Stub\UserStub;
 
-use App\Core\Ports\{
-    Segment\Cart\Repository\CartRepositoryContract,
-    Segment\Cart\Service\Query\CartControlQueryContract
-};
+use App\Core\Ports\Segment\Cart\Repository\CartRepositoryContract;
 
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartControlQueryService
@@ -36,11 +33,6 @@ final class CartControlQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartControlQueryContract::class, $this->service);
-    }
-
     public function testGetUserCartReturnsCartWhenFound(): void
     {
         $user = $this->createUserWithId(1);
@@ -53,7 +45,7 @@ final class CartControlQueryServiceTest extends TestCase
 
         $result = $this->service->getUserCart($user);
 
-        $this->assertSame($cart, $result);
+        self::assertSame($cart, $result);
     }
 
     public function testGetUserCartReturnsNullWhenNotFound(): void
@@ -66,7 +58,7 @@ final class CartControlQueryServiceTest extends TestCase
 
         $result = $this->service->getUserCart($user);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testGetUserCartCallsRepositoryWithUserId(): void
@@ -74,7 +66,7 @@ final class CartControlQueryServiceTest extends TestCase
         $user = $this->createUserWithId(42);
 
         $this->cartRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findCartForUser')
             ->with(42)
             ->willReturn(null);

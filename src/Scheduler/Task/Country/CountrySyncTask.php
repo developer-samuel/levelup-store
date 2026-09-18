@@ -23,6 +23,9 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
+/**
+ * @extends AbstractTask<CountryObject>
+*/
 #[AsMessageHandler]
 final class CountrySyncTask extends AbstractTask
 {

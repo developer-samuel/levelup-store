@@ -13,10 +13,7 @@ use Symfony\{
 
 use Kit\Utils\Shared\DataSanitizer;
 
-use App\Core\Domain\{
-    Segment\Order\Enum\OrderPersonalFields,
-    Shared\ValueObject\AddressObject
-};
+use App\Core\Domain\Shared\ValueObject\AddressObject;
 
 use App\Core\Application\{
     Segment\Order\Input\OrderInput,
@@ -29,10 +26,7 @@ use App\Presentation\{
     Shared\Validation\AddressCheckFields
 };
 
-use App\Shared\{
-    Enum\AddressType,
-    Utils\Resolver\AddressResolver
-};
+use App\Shared\Enum\AddressType;
 
 final class OrderRequest extends AbstractRequest
 {
@@ -57,19 +51,20 @@ final class OrderRequest extends AbstractRequest
     {
         $data = $request->request;
 
-        $fieldsToProcess = array_unique(array_merge(
-            self::required(),
-            ['payment_method'],
-        ));
+        $this->email = DataSanitizer::sanitizeString($data->get('email'));
+        $this->first_name = DataSanitizer::sanitizeString($data->get('first_name'));
+        $this->last_name = DataSanitizer::sanitizeString($data->get('last_name'));
+        $this->payment_method = DataSanitizer::sanitizeString($data->get('payment_method'));
 
-        foreach ($fieldsToProcess as $field) {
-            $this->extractTypedField($request, $field);
-        }
+        $this->billing_country = DataSanitizer::sanitizeInt($data->get('billing_country')) ?? 0;
+        $this->billing_street = DataSanitizer::sanitizeString($data->get('billing_street'));
+        $this->billing_postal_code = DataSanitizer::sanitizeString($data->get('billing_postal_code'));
+        $this->billing_city = DataSanitizer::sanitizeString($data->get('billing_city'));
 
-        $shippingFields = AddressResolver::for(AddressType::SHIPPING);
-        foreach ($shippingFields as $field) {
-            $this->extractTypedField($request, $field);
-        }
+        $this->shipping_country = DataSanitizer::sanitizeInt($data->get('shipping_country')) ?? 0;
+        $this->shipping_street = DataSanitizer::sanitizeString($data->get('shipping_street'));
+        $this->shipping_postal_code = DataSanitizer::sanitizeString($data->get('shipping_postal_code'));
+        $this->shipping_city = DataSanitizer::sanitizeString($data->get('shipping_city'));
 
         $this->send_shipping = $data->getBoolean('send_shipping');
     }
@@ -106,20 +101,6 @@ final class OrderRequest extends AbstractRequest
                 AddressType::SHIPPING,
             );
         }
-    }
-
-    /**
-     * @return string[]
-    */
-    private static function required(): array
-    {
-        return [
-            ...array_map(
-                static fn(OrderPersonalFields $f): string => $f->value,
-                OrderPersonalFields::cases(),
-            ),
-            ...AddressResolver::for(AddressType::BILLING),
-        ];
     }
 
     /**

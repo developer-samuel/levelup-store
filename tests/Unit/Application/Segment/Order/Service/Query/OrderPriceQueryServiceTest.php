@@ -13,8 +13,6 @@ use App\Core\Domain\Segment\Order\ValueObject\Stripe\{
 
 use App\Core\Application\Segment\Order\Service\Query\OrderPriceQueryService;
 
-use App\Core\Ports\Segment\Order\Service\Query\OrderPriceQueryContract;
-
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderPriceQueryService
 */
@@ -27,16 +25,11 @@ final class OrderPriceQueryServiceTest extends TestCase
         $this->service = new OrderPriceQueryService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderPriceQueryContract::class, $this->service);
-    }
-
     public function testCalculatesTotalPriceReturnsZeroForEmptyItems(): void
     {
         $result = $this->service->calculateTotalPrice([]);
 
-        $this->assertSame(0.0, $result);
+        self::assertSame(0.0, $result);
     }
 
     public function testCalculatesTotalPriceForSingleItem(): void
@@ -45,7 +38,7 @@ final class OrderPriceQueryServiceTest extends TestCase
 
         $result = $this->service->calculateTotalPrice([$item]);
 
-        $this->assertSame(10.0, $result);
+        self::assertSame(10.0, $result);
     }
 
     public function testCalculatesTotalPriceConvertsUnitAmountFromCents(): void
@@ -54,7 +47,7 @@ final class OrderPriceQueryServiceTest extends TestCase
 
         $result = $this->service->calculateTotalPrice([$item]);
 
-        $this->assertSame(9.99, $result);
+        self::assertSame(9.99, $result);
     }
 
     public function testCalculatesTotalPriceMultipliesQuantity(): void
@@ -63,7 +56,7 @@ final class OrderPriceQueryServiceTest extends TestCase
 
         $result = $this->service->calculateTotalPrice([$item]);
 
-        $this->assertSame(30.0, $result);
+        self::assertSame(30.0, $result);
     }
 
     public function testCalculatesTotalPriceAccumulatesAcrossMultipleItems(): void
@@ -75,7 +68,7 @@ final class OrderPriceQueryServiceTest extends TestCase
 
         $result = $this->service->calculateTotalPrice($items);
 
-        $this->assertSame(25.0, $result);
+        self::assertSame(25.0, $result);
     }
 
     public function testCalculatesTotalPriceForMultipleQuantities(): void
@@ -87,7 +80,7 @@ final class OrderPriceQueryServiceTest extends TestCase
 
         $result = $this->service->calculateTotalPrice($items);
 
-        $this->assertSame(85.0, $result);
+        self::assertSame(85.0, $result);
     }
 
     private function buildLineItem(int $unitAmount, int $quantity): StripeLineItemObject

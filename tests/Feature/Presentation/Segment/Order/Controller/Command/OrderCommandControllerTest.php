@@ -59,12 +59,12 @@ final class OrderCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/orders/store', $this->buildOrderPayload('cash'));
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $data = $this->decodeJson();
 
-        $this->assertTrue($data['success']);
-        $this->assertArrayHasKey('redirect', $data);
+        self::assertTrue($data['success']);
+        self::assertArrayHasKey('redirect', $data);
     }
 
     public function testStoreReturnsCardOrderWithPaymentUrl(): void
@@ -73,11 +73,11 @@ final class OrderCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/orders/store', $this->buildOrderPayload('card'));
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
 
         $data = $this->decodeJson();
 
-        $this->assertTrue($data['success']);
+        self::assertTrue($data['success']);
     }
 
     public function testStoreReturnsJsonResponse(): void
@@ -86,7 +86,7 @@ final class OrderCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/orders/store', $this->buildOrderPayload());
 
-        $this->assertResponseHeaderSame('Content-Type', 'application/json');
+        self::assertResponseHeaderSame('Content-Type', 'application/json');
     }
 
     public function testStoreReturnsUnprocessableOnValidationErrors(): void
@@ -95,12 +95,12 @@ final class OrderCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/orders/store', []);
 
-        $this->assertResponseStatusCodeSame(422);
+        self::assertResponseStatusCodeSame(422);
 
         $data = $this->decodeJson();
 
-        $this->assertFalse($data['success']);
-        $this->assertNotEmpty($data['errors']);
+        self::assertFalse($data['success']);
+        self::assertNotEmpty($data['errors']);
     }
 
     public function testStoreWithShippingCallsCreateShippingObject(): void
@@ -118,7 +118,7 @@ final class OrderCommandControllerTest extends WebTestCase
             ],
         ));
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testStoreReturnsServerErrorOnInvalidPaymentMethod(): void
@@ -127,14 +127,14 @@ final class OrderCommandControllerTest extends WebTestCase
 
         $this->client->request('POST', '/orders/store', $this->buildOrderPayload('bitcoin'));
 
-        $this->assertResponseStatusCodeSame(500);
+        self::assertResponseStatusCodeSame(500);
     }
 
     public function testStoreReturns403WhenNotAuthenticated(): void
     {
         $this->client->request('POST', '/orders/store', $this->buildOrderPayload());
 
-        $this->assertResponseStatusCodeSame(403);
+        self::assertResponseStatusCodeSame(403);
     }
 
     /**

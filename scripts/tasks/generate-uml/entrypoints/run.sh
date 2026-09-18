@@ -3,36 +3,29 @@ set -euo pipefail
 
 # ────────────── Config ──────────────
 OUTPUT_DIR=".uml"
-IMAGE="ghcr.io/mermaid-js/mermaid-cli/mermaid-cli:latest"
-MMDC="/home/mermaidcli/node_modules/.bin/mmdc"
+MMDC="./node_modules/.bin/mmdc"
+
+# ────────────── Checks ──────────────
+if [ ! -f "$MMDC" ]; then
+    echo "❌ mmdc not found. Run: pnpm install"
+    exit 1
+fi
 
 # ────────────── Setup ──────────────
-if [ ! -d "$OUTPUT_DIR" ]; then
-    echo "🟢 Creating $OUTPUT_DIR..."
-    mkdir -p "$OUTPUT_DIR"
-fi
-chmod 777 "$OUTPUT_DIR"
+echo "🟢 Cleaning $OUTPUT_DIR..."
+rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
 
 # ────────────── Generate ──────────────
 echo "🟢 Generating UML diagrams..."
 
-docker run --rm \
-    -v "$(pwd)/docs:/data" \
-    -v "$(pwd)/.uml:/.uml" \
-    --user "$(id -u):$(id -g)" \
-    --entrypoint sh \
-    "$IMAGE" \
-    -c "
-        MMDC=$MMDC
-        find /.uml -mindepth 1 -delete 2>/dev/null || true
-        for f in \$(find /data/diagrams -name '*.mmd'); do
-            rel=\"\${f#/data/diagrams/}\"
-            dir=\$(dirname \"\$rel\")
-            name=\$(basename \"\$f\" .mmd)
-            mkdir -p \"/.uml/\$dir\"
-            echo \"  → \$dir/\$name\"
-            \$MMDC -p /puppeteer-config.json -i \"\$f\" -o \"/.uml/\$dir/\${name}.svg\"
-        done
-    "
+find docs/diagrams -name "*.mmd" | while read -r f; do
+    rel="${f#docs/diagrams/}"
+    dir=$(dirname "$rel")
+    name=$(basename "$f" .mmd)
+    mkdir -p "$OUTPUT_DIR/$dir"
+    echo "  → $dir/$name"
+    "$MMDC" -i "$f" -o "$OUTPUT_DIR/$dir/${name}.png" --scale 3 2>/dev/null
+done
 
 echo "✅ UML diagrams generated in $OUTPUT_DIR/"

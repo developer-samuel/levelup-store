@@ -22,13 +22,12 @@ graph TD
         Deptrac[Deptrac]
         PHPStan[PHPStan]
         PHPMD[PHP Mess Detector]
+        SonarQube[SonarQube]
     end
 
-    %% Metrics / Statistics
-    subgraph Metrics["📊 Metrics / Stats"]
-        PHPCPD[PHPCPD]
-        PHPLoc[PHPLoc]
-        PHPMetrics[PHP-Metrics]
+    %% Metrics
+    subgraph Metrics["📊 Metrics"]
+        PHPMetrics[PHP Metrics]
         PDepend[PDepend]
     end
 
@@ -48,8 +47,8 @@ graph TD
     end
 
     %% Classes
-    class Deptrac,PHPStan,PHPMD quality;
-    class PHPCPD,PHPLoc,PHPMetrics,PDepend metrics;
+    class Deptrac,PHPStan,PHPMD,SonarQube quality;
+    class PHPMetrics,PDepend metrics;
     class Rector refactor;
     class PHPCS formatting;
     class TwigLint linting;

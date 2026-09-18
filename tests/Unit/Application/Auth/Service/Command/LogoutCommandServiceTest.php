@@ -15,7 +15,6 @@ use App\Core\Application\Auth\Service\Command\LogoutCommandService;
 
 use App\Core\Ports\{
     Auth\Repository\RefreshTokenRepositoryContract,
-    Auth\Service\Command\LogoutCommandContract,
     Gateways\Internal\Auth\TokenBlacklistContract
 };
 
@@ -34,19 +33,14 @@ final class LogoutCommandServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(LogoutCommandContract::class, $this->service);
-    }
-
     public function testExecuteDoesNothingWhenTokenIsNull(): void
     {
-        $this->assertRepositorySkipped(null);
+        self::assertRepositorySkipped(null);
     }
 
     public function testExecuteDoesNothingWhenTokenIsEmptyString(): void
     {
-        $this->assertRepositorySkipped('');
+        self::assertRepositorySkipped('');
     }
 
     public function testExecuteDoesNothingWhenTokenNotFound(): void
@@ -56,7 +50,7 @@ final class LogoutCommandServiceTest extends TestCase
             ->willReturn(null);
 
         $this->refreshTokenRepository
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('revoke');
 
         $this->service->execute('unknown-token');
@@ -65,7 +59,7 @@ final class LogoutCommandServiceTest extends TestCase
     public function testExecuteFindsTokenByValue(): void
     {
         $this->refreshTokenRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findByToken')
             ->with('valid-token')
             ->willReturn(null);
@@ -83,7 +77,7 @@ final class LogoutCommandServiceTest extends TestCase
             ->willReturn($token);
 
         $this->refreshTokenRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('revoke')
             ->with($token);
 
@@ -93,7 +87,7 @@ final class LogoutCommandServiceTest extends TestCase
     public function testExecuteBlacklistsTokenAfterRevoke(): void
     {
         $expiresAt = new \DateTimeImmutable('+30 days');
-        $token     = $this->createMock(RefreshToken::class);
+        $token = $this->createMock(RefreshToken::class);
         $token->method('getExpiresAt')->willReturn($expiresAt);
 
         $this->refreshTokenRepository
@@ -101,7 +95,7 @@ final class LogoutCommandServiceTest extends TestCase
             ->willReturn($token);
 
         $this->tokenBlacklist
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('blacklist')
             ->with('valid-token', $expiresAt);
 
@@ -111,7 +105,7 @@ final class LogoutCommandServiceTest extends TestCase
     private function initMocks(): void
     {
         $this->refreshTokenRepository = $this->createMock(RefreshTokenRepositoryContract::class);
-        $this->tokenBlacklist         = $this->createMock(TokenBlacklistContract::class);
+        $this->tokenBlacklist = $this->createMock(TokenBlacklistContract::class);
     }
 
     private function initService(): void
@@ -125,7 +119,7 @@ final class LogoutCommandServiceTest extends TestCase
     private function assertRepositorySkipped(?string $token): void
     {
         $this->refreshTokenRepository
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('findByToken');
 
         $this->service->execute($token);

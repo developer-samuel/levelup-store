@@ -24,8 +24,7 @@ use App\Core\Application\Segment\Order\Service\Query\OrderPaymentQueryService;
 
 use App\Core\Ports\{
     Gateways\External\Payment\Stripe\StripePaymentGatewayContract,
-    Segment\Cart\Repository\CartRepositoryContract,
-    Segment\Order\Service\Query\OrderPaymentQueryContract
+    Segment\Cart\Repository\CartRepositoryContract
 };
 
 /**
@@ -43,11 +42,6 @@ final class OrderPaymentQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderPaymentQueryContract::class, $this->service);
-    }
-
     public function testInitiateCardPaymentReturnsPaymentUrl(): void
     {
         $this->stripePaymentAdapter
@@ -56,7 +50,7 @@ final class OrderPaymentQueryServiceTest extends TestCase
 
         $result = $this->service->initiateCardPayment([], $this->buildPayload());
 
-        $this->assertSame('https://stripe.com/pay/abc', $result);
+        self::assertSame('https://stripe.com/pay/abc', $result);
     }
 
     public function testInitiateCardPaymentDelegatesToStripeAdapter(): void
@@ -70,7 +64,7 @@ final class OrderPaymentQueryServiceTest extends TestCase
         $payload = $this->buildPayload();
 
         $this->stripePaymentAdapter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('initiateCheckout')
             ->with($lineItems, $payload)
             ->willReturn('https://stripe.com/pay/abc');
@@ -88,20 +82,13 @@ final class OrderPaymentQueryServiceTest extends TestCase
         $this->service->extractPayloadFromMetadata($session);
     }
 
-    public function testExtractPayloadFromMetadataReturnsOrderCreatePayload(): void
-    {
-        $result = $this->service->extractPayloadFromMetadata($this->buildSession());
-
-        $this->assertInstanceOf(OrderCreatePayload::class, $result);
-    }
-
     public function testExtractPayloadFromMetadataBuildsPersonalData(): void
     {
         $result = $this->service->extractPayloadFromMetadata($this->buildSession());
 
-        $this->assertSame('test@example.com', $result->personal->email);
-        $this->assertSame('Test', $result->personal->firstName);
-        $this->assertSame('User', $result->personal->lastName);
+        self::assertSame('test@example.com', $result->personal->email);
+        self::assertSame('Test', $result->personal->firstName);
+        self::assertSame('User', $result->personal->lastName);
     }
 
     public function testExtractPayloadFromMetadataBuildsBillingData(): void
@@ -110,17 +97,17 @@ final class OrderPaymentQueryServiceTest extends TestCase
             'billing_country' => '3',
         ]));
 
-        $this->assertSame(3, $result->billing->country);
-        $this->assertSame('Centrum', $result->billing->street);
-        $this->assertSame('12345', $result->billing->postalCode);
-        $this->assertSame('Bratislava', $result->billing->city);
+        self::assertSame(3, $result->billing->country);
+        self::assertSame('Centrum', $result->billing->street);
+        self::assertSame('12345', $result->billing->postalCode);
+        self::assertSame('Bratislava', $result->billing->city);
     }
 
     public function testExtractPayloadFromMetadataSetsCardPaymentMethod(): void
     {
         $result = $this->service->extractPayloadFromMetadata($this->buildSession());
 
-        $this->assertSame(OrderPaymentMethod::CARD, $result->paymentMethod);
+        self::assertSame(OrderPaymentMethod::CARD, $result->paymentMethod);
     }
 
     public function testExtractPayloadFromMetadataBuildsShippingWhenSendShippingTrue(): void
@@ -133,18 +120,18 @@ final class OrderPaymentQueryServiceTest extends TestCase
             'shipping_city'    => 'Žilina',
         ]));
 
-        $this->assertTrue($result->sendShipping);
-        $this->assertNotNull($result->shipping);
-        $this->assertSame(2, $result->shipping->country);
-        $this->assertSame('Antona Bernoláka', $result->shipping->street);
+        self::assertTrue($result->sendShipping);
+        self::assertNotNull($result->shipping);
+        self::assertSame(2, $result->shipping->country);
+        self::assertSame('Antona Bernoláka', $result->shipping->street);
     }
 
     public function testExtractPayloadFromMetadataReturnsNullShippingWhenSendShippingFalse(): void
     {
         $result = $this->service->extractPayloadFromMetadata($this->buildSession());
 
-        $this->assertFalse($result->sendShipping);
-        $this->assertNull($result->shipping);
+        self::assertFalse($result->sendShipping);
+        self::assertNull($result->shipping);
     }
 
     public function testExtractPayloadFromMetadataReturnsNullShippingWhenCountryMissing(): void
@@ -153,7 +140,7 @@ final class OrderPaymentQueryServiceTest extends TestCase
             'send_shipping' => '1',
         ]));
 
-        $this->assertNull($result->shipping);
+        self::assertNull($result->shipping);
     }
 
     public function testShouldProcessPaymentReturnsTrueWhenCartExistsAndCardPayment(): void
@@ -162,7 +149,7 @@ final class OrderPaymentQueryServiceTest extends TestCase
 
         $result = $this->service->shouldProcessPayment(1, $this->buildPayload(OrderPaymentMethod::CARD));
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     public function testShouldProcessPaymentReturnsFalseWhenCartNotFound(): void
@@ -171,7 +158,7 @@ final class OrderPaymentQueryServiceTest extends TestCase
 
         $result = $this->service->shouldProcessPayment(1, $this->buildPayload(OrderPaymentMethod::CARD));
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     public function testShouldProcessPaymentReturnsFalseForCashPayment(): void
@@ -180,7 +167,7 @@ final class OrderPaymentQueryServiceTest extends TestCase
 
         $result = $this->service->shouldProcessPayment(1, $this->buildPayload(OrderPaymentMethod::CASH));
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     public function testRetrieveCheckoutSessionDelegatesToStripeAdapter(): void
@@ -188,14 +175,14 @@ final class OrderPaymentQueryServiceTest extends TestCase
         $session = new StripeCheckoutObject(metadata: ['x' => 'y'], amountTotal: 1000, paymentIntent: 'pi_abc');
 
         $this->stripePaymentAdapter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('retrieveCheckoutSession')
             ->with('sess_abc')
             ->willReturn($session);
 
         $result = $this->service->retrieveCheckoutSession('sess_abc');
 
-        $this->assertSame($session, $result);
+        self::assertSame($session, $result);
     }
 
     private function initMocks(): void

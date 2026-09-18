@@ -56,7 +56,7 @@ final readonly class GetOrderCreateQueryHandler implements GetOrderCreateQueryHa
         $allItems = $this->getCartItems($cart);
 
         $outOfStockItems = $this->filterOutOfStock($allItems);
-        if (!empty($outOfStockItems)) {
+        if ($outOfStockItems !== []) {
             $this->removeItems($outOfStockItems);
         }
 
@@ -66,7 +66,7 @@ final readonly class GetOrderCreateQueryHandler implements GetOrderCreateQueryHa
             personal: $user,
             countries: $this->countryCacheQuery->getAllCountries(),
             paymentMethods: OrderPaymentMethod::cases(),
-            cartEmpty: empty($availableItems),
+            cartEmpty: $availableItems === [],
             useShipping: $user->getUseShipping(),
             billing: $user->getBilling(),
             shipping: $user->getShipping(),

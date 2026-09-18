@@ -19,7 +19,6 @@ use App\Core\Domain\{
 use App\Core\Application\Auth\Handler\Command\LoginHandler;
 
 use App\Core\Ports\{
-    Auth\Handler\Command\LoginHandlerContract,
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
     Security\Provider\PasswordHasherProviderContract,
@@ -49,18 +48,13 @@ final class LoginHandlerTest extends TestCase
         $this->initHandler();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(LoginHandlerContract::class, $this->handler);
-    }
-
     public function testHandleReturnsSuccessStatus(): void
     {
         $this->setupSuccess();
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('success', $result['status']);
+        self::assertSame('success', $result['status']);
     }
 
     public function testHandleReturnsAccessToken(): void
@@ -70,7 +64,7 @@ final class LoginHandlerTest extends TestCase
         /** @var array{data: array<string, mixed>} $result */
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('access-abc', $result['data']['access_token']);
+        self::assertSame('access-abc', $result['data']['access_token']);
     }
 
     public function testHandleReturnsRefreshToken(): void
@@ -79,7 +73,7 @@ final class LoginHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('refresh-xyz', $result['refresh_token']);
+        self::assertSame('refresh-xyz', $result['refresh_token']);
     }
 
     public function testHandleReturnsRedirectRoute(): void
@@ -89,7 +83,7 @@ final class LoginHandlerTest extends TestCase
         /** @var array{data: array<string, mixed>} $result */
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('/dashboard', $result['data']['redirect']);
+        self::assertSame('/dashboard', $result['data']['redirect']);
     }
 
     public function testHandleCallsLoginCommandForValidUser(): void
@@ -100,7 +94,7 @@ final class LoginHandlerTest extends TestCase
         $this->passwordHasherProvider->method('isPasswordValid')->willReturn(true);
 
         $this->loginCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('execute')
             ->with($user)
             ->willReturn(new JwtTokenObject('access-abc', 'refresh-xyz'));
@@ -116,7 +110,7 @@ final class LoginHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertInvalidCredentials($result);
+        self::assertInvalidCredentials($result);
     }
 
     public function testHandleReturnsErrorWhenPasswordInvalid(): void
@@ -128,7 +122,7 @@ final class LoginHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertInvalidCredentials($result);
+        self::assertInvalidCredentials($result);
     }
 
     public function testHandleReturnsRateLimitErrorWhenTooManyRequests(): void
@@ -139,8 +133,8 @@ final class LoginHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(429, $result['code']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(429, $result['code']);
     }
 
     private function initMocks(): void
@@ -195,8 +189,8 @@ final class LoginHandlerTest extends TestCase
     */
     private function assertInvalidCredentials(array $result): void
     {
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(422, $result['code']);
-        $this->assertSame('Invalid credentials.', $result['message']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(422, $result['code']);
+        self::assertSame('Invalid credentials.', $result['message']);
     }
 }

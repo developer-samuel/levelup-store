@@ -35,6 +35,7 @@ class ReviewRating
     #[ORM\JoinColumn(
         name: 'review_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private Review $review;
@@ -43,6 +44,7 @@ class ReviewRating
     #[ORM\JoinColumn(
         name: 'user_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private User $user;

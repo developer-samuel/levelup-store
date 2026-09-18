@@ -1,0 +1,94 @@
+graph TD
+    %% Local development architecture - docker compose + external APIs
+    %% Docker services + external APIs the app connects to in local dev
+
+    classDef app        fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef runtime    fill:#696969, color:#fff, stroke:#000, stroke-width:2px;
+    classDef database   fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef cache      fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef messaging  fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef storage    fill:#16a085, color:#fff, stroke:#000, stroke-width:2px;
+    classDef realtime   fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
+    classDef external   fill:#e7d62f, color:#000, stroke:#000, stroke-width:2px;
+    classDef monitoring fill:#27ae60, color:#fff, stroke:#000, stroke-width:2px;
+    classDef devtool    fill:#104f76, color:#fff, stroke:#000, stroke-width:2px;
+    classDef client     fill:#2c3e50, color:#fff, stroke:#000, stroke-width:2px;
+
+    Browser[🌐 Browser]:::client
+
+    subgraph Runtime["Runtime"]
+        Nginx[🌐 Nginx :8000]:::runtime
+        App[⚙️ PHP-FPM App]:::app
+        Worker[⚙️ Messenger Worker]:::runtime
+        Cron[⏱️ Cron Scheduler]:::runtime
+    end
+
+    subgraph Data["Data"]
+        DB[🟦 PostgreSQL :5432]:::database
+        Search[🔍 Elasticsearch :9200]:::database
+        Cache[🟧 Redis :6379]:::cache
+    end
+
+    subgraph Messaging["Messaging"]
+        Queue[🐇 RabbitMQ :5672\nManagement :15672]:::messaging
+    end
+
+    subgraph Storage["Storage"]
+        MinIO[🗄️ MinIO :9000\nConsole :9001]:::storage
+    end
+
+    subgraph Realtime["Real-time"]
+        Mercure[📡 Mercure :9300]:::realtime
+    end
+
+    subgraph ExternalServices["External Services"]
+        Stripe[💳 Stripe]:::external
+        Turnstile[🛡️ Cloudflare Turnstile]:::external
+        CountryAPI[🌍 Country API]:::external
+        Sentry[🔴 Sentry]:::external
+    end
+
+    subgraph Observability["Observability"]
+        Prometheus[📊 Prometheus :9090]:::monitoring
+        Grafana[📈 Grafana :3030]:::monitoring
+        Loki[📋 Loki :3100]:::monitoring
+        Alloy[🔄 Grafana Alloy\nLog + metric collection]:::monitoring
+        AlertManager[🔔 AlertManager :9093]:::monitoring
+    end
+
+    subgraph DevTools["Dev Tools"]
+        Mailpit[✉️ Mailpit :8025\nSMTP :1025]:::devtool
+        Dozzle[📋 Dozzle :8070\nContainer logs]:::devtool
+        PgAdmin[🟦 pgAdmin :8080]:::devtool
+        Elasticvue[🔍 Elasticvue :8090]:::devtool
+        SonarQube[🔬 SonarQube :9100]:::devtool
+        Vite[⚡ Vite :5173\nHMR dev server]:::devtool
+    end
+
+    Browser --> Nginx
+    Nginx   --> App
+
+    App --> DB
+    App --> Search
+    App --> Cache
+    App --> MinIO
+    App --> Queue
+    App --> Mercure
+    App --> Stripe
+    App --> Mailpit
+    App --> Turnstile
+    App --> CountryAPI
+    App --> Sentry
+
+    Queue  --> Worker
+    Worker --> Search
+    Worker --> DB
+
+    Mercure --> Browser
+    Cron    --> App
+
+    App        --> Prometheus
+    Alloy      --> Loki
+    Prometheus --> AlertManager
+    Prometheus --> Grafana
+    Loki       --> Grafana

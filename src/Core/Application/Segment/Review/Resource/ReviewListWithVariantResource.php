@@ -6,23 +6,32 @@ namespace App\Core\Application\Segment\Review\Resource;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariant,
-    Segment\Review\Entity\Review,
-    Segment\Review\ValueObject\ReviewListObject
+    Segment\Review\Entity\ReviewDetail,
+    Segment\Review\ValueObject\ReviewListObject,
+    Segment\Review\ValueObject\ReviewObject
 };
 
 /**
  * @phpstan-import-type ResourceArray from ReviewListResource
-*/
+ */
 final class ReviewListWithVariantResource
 {
     /**
      * @param ReviewListObject|null $list
      * @param ProductVariant $variant
      *
-     * @return (ResourceArray & array{
-     *     reviews: array<int, Review>,
+     * @return array{
+     *     reviewExists: bool,
+     *     averageRating: float,
+     *     totalRatings: int,
+     *     totalFeedbacks: int,
+     *     totalCount: int,
+     *     ratingsCount: array<string, int>,
+     *     lastReviewDetails: ReviewDetail[],
+     *     lastReview: ReviewObject|null,
+     *     reviews: ReviewObject[],
      *     variant: ProductVariant
-     * })|array{}
+     * }|array{}
     */
     public static function toArray(?ReviewListObject $list, ProductVariant $variant): array
     {
@@ -30,8 +39,11 @@ final class ReviewListWithVariantResource
             return [];
         }
 
+        /** @var ResourceArray $base */
+        $base = ReviewListResource::toArray($list);
+
         return [
-            ...ReviewListResource::toArray($list) ?? [],
+            ...$base,
             'reviews' => array_values($list->reviews),
             'variant' => $variant,
         ];

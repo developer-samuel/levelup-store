@@ -75,34 +75,37 @@ final class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCo
 
     /**
      * @param int $variantId
-     * @param AdminVariantDescriptionPayload $payload
+     * @param object $payload
      *
      * @return void
     */
     protected function createEntity(int $variantId, object $payload): void
     {
+        /** @var AdminVariantDescriptionPayload $payload */
         $this->adminVariantDescriptionCommand->createDescription($variantId, $payload);
     }
 
     /**
      * @param int $id
      * @param int $variantId
-     * @param AdminVariantDescriptionPayload $payload
+     * @param object $payload
      *
      * @return void
     */
     protected function updateEntity(int $id, int $variantId, object $payload): void
     {
+        /** @var AdminVariantDescriptionPayload $payload */
         $this->adminVariantDescriptionCommand->updateDescription($id, $variantId, $payload);
     }
 
     /**
-     * @param ProductVariantDescription $entity
+     * @param object $entity
      *
      * @return void
     */
     protected function destroyEntity(object $entity): void
     {
+        /** @var ProductVariantDescription $entity */
         $this->adminVariantDescriptionCommand->destroyDescription($entity);
     }
 }

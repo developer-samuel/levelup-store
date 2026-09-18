@@ -25,6 +25,9 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
+/**
+ * @extends AbstractTask<Cart>
+*/
 #[AsMessageHandler]
 final class CartReminderTask extends AbstractTask
 {

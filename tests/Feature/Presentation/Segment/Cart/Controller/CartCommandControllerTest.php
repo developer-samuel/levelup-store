@@ -48,7 +48,7 @@ final class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->store($request);
 
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testStoreReturns422WhenVariantIdIsZero(): void
@@ -57,7 +57,7 @@ final class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->store($request);
 
-        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     public function testStoreReturns422WhenAddToCartReturnsFailure(): void
@@ -70,13 +70,13 @@ final class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->store($request);
 
-        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     public function testStoreCallsAddToCartWithVariantId(): void
     {
         $this->cartMutationCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addToCart')
             ->with(7)
             ->willReturn(['success' => true, 'message' => 'ok']);
@@ -92,13 +92,13 @@ final class CartCommandControllerTest extends TestCase
             ->method('addToCart')
             ->willThrowException(new \RuntimeException('fail'));
 
-        $this->logger->expects($this->once())->method('logThrowable');
+        $this->logger->expects(self::once())->method('logThrowable');
 
         $request = $this->buildRequest(['variant_id' => 1]);
 
         $response = $this->controller->store($request);
 
-        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     public function testDestroyReturns200WhenRemoveFromCartSucceeds(): void
@@ -111,7 +111,7 @@ final class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->destroy($request);
 
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testDestroyReturns422WhenItemIdIsZero(): void
@@ -120,13 +120,13 @@ final class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->destroy($request);
 
-        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     public function testDestroyCallsRemoveFromCartWithItemId(): void
     {
         $this->cartMutationCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('removeFromCart')
             ->with(9)
             ->willReturn(['success' => true, 'message' => 'ok']);
@@ -146,7 +146,7 @@ final class CartCommandControllerTest extends TestCase
 
         $response = $this->controller->destroy($request);
 
-        $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
     }
 
     public function testDestroyReturns500WhenExceptionThrown(): void
@@ -155,13 +155,13 @@ final class CartCommandControllerTest extends TestCase
             ->method('removeFromCart')
             ->willThrowException(new \RuntimeException('fail'));
 
-        $this->logger->expects($this->once())->method('logThrowable');
+        $this->logger->expects(self::once())->method('logThrowable');
 
         $request = $this->buildRequest(['item_id' => 1]);
 
         $response = $this->controller->destroy($request);
 
-        $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     /**

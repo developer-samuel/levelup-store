@@ -78,7 +78,7 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
         }
 
         $items = $this->cartItemQuery->getItems($user);
-        if (empty($items)) {
+        if ($items === []) {
             return [
                 'cart'  => null,
                 'items' => [],
@@ -112,7 +112,7 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
     */
     public function validateShippingData(?OrderShippingObject $shipping): void
     {
-        if (!$shipping) {
+        if ($shipping === null) {
             return;
         }
 
@@ -133,7 +133,7 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
     ): void {
         $missing = $this->collectMissingFields($address);
 
-        if (!empty($missing)) {
+        if ($missing !== []) {
             throw new \InvalidArgumentException(sprintf(
                 'Missing %s fields: %s',
                 strtolower($type->name),
@@ -156,7 +156,7 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
         }
 
         foreach (['street', 'postalCode', 'city'] as $key) {
-            if (!isset($address->{$key}) || trim((string) $address->{$key}) === '') {
+            if (!isset($address->{$key}) || trim($address->{$key}) === '') {
                 $missing[] = $key === 'postalCode' ? 'postal code' : $key;
             }
         }
@@ -171,6 +171,6 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
     */
     private function isCountryMissing(OrderBillingObject|OrderShippingObject $address): bool
     {
-        return !isset($address->country) || $this->countryRepository->findById((int) $address->country) === null;
+        return !isset($address->country) || $this->countryRepository->findById($address->country) === null;
     }
 }

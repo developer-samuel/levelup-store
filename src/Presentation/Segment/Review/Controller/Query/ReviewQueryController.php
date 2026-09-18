@@ -49,7 +49,7 @@ final class ReviewQueryController extends AbstractQueryController
     public function index(string $url): Response
     {
         $result = $this->reviewListQueryHandler->handle($url);
-        if (!$result) {
+        if ($result === null) {
             return $this->redirectToRoute('products_index');
         }
 

@@ -43,15 +43,15 @@ final class RefreshTokenCookieManagerTest extends TestCase
 
         $result = $this->manager->create('token-value', false);
 
-        $this->assertSame($cookie, $result);
+        self::assertSame($cookie, $result);
     }
 
     public function testCreatePassesCookieObjectToGateway(): void
     {
         $this->cookieGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('apply')
-            ->with($this->isInstanceOf(CookieObject::class))
+            ->with(self::isInstanceOf(CookieObject::class))
             ->willReturn($this->buildCookie());
 
         $this->manager->create('token-value', false);
@@ -61,38 +61,38 @@ final class RefreshTokenCookieManagerTest extends TestCase
     {
         [$result, $response] = $this->performAttachWithToken();
 
-        $this->assertNotEmpty($response->headers->getCookies());
+        self::assertNotEmpty($response->headers->getCookies());
     }
 
     public function testAttachRemovesRefreshTokenFromResult(): void
     {
         [$result] = $this->performAttachWithToken();
 
-        $this->assertArrayNotHasKey('refresh_token', $result);
+        self::assertArrayNotHasKey('refresh_token', $result);
     }
 
     public function testAttachDoesNotSetCookieWhenTokenMissing(): void
     {
-        $this->cookieGateway->expects($this->never())->method('apply');
+        $this->cookieGateway->expects(self::never())->method('apply');
 
         $result = ['access_token' => 'access-xyz'];
         $response = new JsonResponse($result);
 
         $this->manager->attach($result, $response, false);
 
-        $this->assertEmpty($response->headers->getCookies());
+        self::assertEmpty($response->headers->getCookies());
     }
 
     public function testAttachDoesNotSetCookieWhenTokenIsNotString(): void
     {
-        $this->cookieGateway->expects($this->never())->method('apply');
+        $this->cookieGateway->expects(self::never())->method('apply');
 
         $result = ['refresh_token' => 123, 'access_token' => 'access-xyz'];
         $response = new JsonResponse($result);
 
         $this->manager->attach($result, $response, false);
 
-        $this->assertEmpty($response->headers->getCookies());
+        self::assertEmpty($response->headers->getCookies());
     }
 
     public function testClearRemovesCookieFromHeaders(): void
@@ -107,7 +107,7 @@ final class RefreshTokenCookieManagerTest extends TestCase
             fn(Cookie $c): bool => $c->getName() === 'refresh_token' && $c->isCleared(),
         );
 
-        $this->assertNotEmpty($cleared);
+        self::assertNotEmpty($cleared);
     }
 
     public function testClearSetsCookieNameRefreshToken(): void
@@ -117,8 +117,8 @@ final class RefreshTokenCookieManagerTest extends TestCase
         $this->manager->clear($headers, true);
 
         $cookies = $headers->getCookies();
-        $this->assertNotEmpty($cookies);
-        $this->assertSame('refresh_token', $cookies[0]->getName());
+        self::assertNotEmpty($cookies);
+        self::assertSame('refresh_token', $cookies[0]->getName());
     }
 
     /**

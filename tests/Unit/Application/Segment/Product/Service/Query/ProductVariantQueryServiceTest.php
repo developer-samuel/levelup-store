@@ -20,7 +20,6 @@ use App\Core\Application\Segment\Product\Service\Query\ProductVariantQueryServic
 use App\Core\Ports\{
     Segment\Product\Assembler\ProductVariantAssemblerContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
-    Segment\Product\Service\Query\ProductVariantQueryContract,
     Segment\Review\Service\Query\ReviewQueryContract
 };
 
@@ -40,11 +39,6 @@ final class ProductVariantQueryServiceTest extends TestCase
         $this->initService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(ProductVariantQueryContract::class, $this->service);
-    }
-
     public function testGetVariantOrNullReturnsVariantWhenFound(): void
     {
         $variant = $this->createMock(ProductVariant::class);
@@ -56,7 +50,7 @@ final class ProductVariantQueryServiceTest extends TestCase
 
         $result = $this->service->getVariantOrNull('test-product-url');
 
-        $this->assertSame($variant, $result);
+        self::assertSame($variant, $result);
     }
 
     public function testGetVariantOrNullReturnsNullWhenNotFound(): void
@@ -68,7 +62,7 @@ final class ProductVariantQueryServiceTest extends TestCase
 
         $result = $this->service->getVariantOrNull('non-existing-url');
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testGetAllVariantsOrNullReturnsVariants(): void
@@ -80,8 +74,8 @@ final class ProductVariantQueryServiceTest extends TestCase
 
         $result = $this->service->getAllVariantsOrNull($this->buildVariantWithProduct());
 
-        $this->assertCount(2, $result);
-        $this->assertContainsOnlyInstancesOf(ProductVariant::class, $result);
+        self::assertCount(2, $result);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $result);
     }
 
     public function testGetAllVariantsOrNullReturnsSequentialKeys(): void
@@ -93,10 +87,10 @@ final class ProductVariantQueryServiceTest extends TestCase
 
         $result = $this->service->getAllVariantsOrNull($this->buildVariantWithProduct());
 
-        $this->assertArrayHasKey(0, $result);
-        $this->assertArrayHasKey(1, $result);
-        $this->assertArrayNotHasKey(5, $result);
-        $this->assertArrayNotHasKey(10, $result);
+        self::assertArrayHasKey(0, $result);
+        self::assertArrayHasKey(1, $result);
+        self::assertArrayNotHasKey(5, $result);
+        self::assertArrayNotHasKey(10, $result);
     }
 
     public function testGetAllVariantsOrNullReturnsEmptyArrayWhenNoVariants(): void
@@ -105,7 +99,7 @@ final class ProductVariantQueryServiceTest extends TestCase
 
         $result = $this->service->getAllVariantsOrNull($this->buildVariantWithProduct());
 
-        $this->assertEmpty($result);
+        self::assertEmpty($result);
     }
 
     public function testMapVariantsToDataReturnsProductVariantObjects(): void
@@ -120,17 +114,17 @@ final class ProductVariantQueryServiceTest extends TestCase
 
         $result = $this->service->mapVariantsToData([$variant]);
 
-        $this->assertCount(1, $result);
-        $this->assertContainsOnlyInstancesOf(ProductVariantObject::class, $result);
+        self::assertCount(1, $result);
+        self::assertContainsOnlyInstancesOf(ProductVariantObject::class, $result);
     }
 
     public function testMapVariantsToDataReturnsEmptyArrayOnEmptyInput(): void
     {
-        $this->assembler->expects($this->never())->method('toObject');
+        $this->assembler->expects(self::never())->method('toObject');
 
         $result = $this->service->mapVariantsToData([]);
 
-        $this->assertEmpty($result);
+        self::assertEmpty($result);
     }
 
     public function testMapVariantsToDataCallsAssemblerForEachVariant(): void
@@ -139,13 +133,13 @@ final class ProductVariantQueryServiceTest extends TestCase
         $variantB = $this->createMock(ProductVariant::class);
 
         $this->assembler
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('toObject')
             ->willReturn($this->buildVariantObject());
 
         $result = $this->service->mapVariantsToData([$variantA, $variantB]);
 
-        $this->assertCount(2, $result);
+        self::assertCount(2, $result);
     }
 
     private function initMocks(): void

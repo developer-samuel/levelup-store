@@ -12,11 +12,11 @@ trait IterableCollector
      * @param iterable<mixed> $items
      * @param class-string<T> $className
      *
-     * @return T[]
+     * @return list<T>
     */
     private function collectFromIterable(iterable $items, string $className): array
     {
-        /** @var T[] $results */
+        /** @var list<T> $results */
         $results = iterator_to_array(
             $this->iterateOfClass($items, $className),
             false,

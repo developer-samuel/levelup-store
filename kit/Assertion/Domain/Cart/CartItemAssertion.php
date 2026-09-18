@@ -35,7 +35,7 @@ final class CartItemAssertion
     */
     public static function assertNotEmpty(array $items): void
     {
-        if (empty($items)) {
+        if ($items === []) {
             throw new \RuntimeException('Cart is empty.');
         }
     }

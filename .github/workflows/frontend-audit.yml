@@ -1,19 +1,22 @@
 name: 🎨 Frontend Audit
 
 on:
-  pull_request:
+  push:
     branches: [main]
-    paths:
+    paths: &frontend-paths
       - 'assets/**'
       - 'templates/**'
       - 'public/**'
+  pull_request:
+    branches: [main]
+    paths: *frontend-paths
   schedule:
     - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
   workflow_dispatch:
 
 env:
-  PHP_VERSION: '8.3'
-  NODE_VERSION: '24'
+  PHP_VERSION: ${{ vars.PHP_VERSION }}
+  NODE_VERSION: ${{ vars.NODE_VERSION }}
 
 jobs:
   # ─── Accessibility ────────────────────────────────────────────────────────
@@ -80,25 +83,14 @@ jobs:
       - name: Rebuild native modules
         run: pnpm rebuild esbuild @parcel/watcher
 
-      - name: Database warmup
-        run: |
-          php bin/console doctrine:database:create --if-not-exists
-          php bin/console doctrine:migrations:migrate --no-interaction
-          php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate
+      - name: Bootstrap
+        uses: ./.github/actions/bootstrap
 
       - name: Build frontend
         run: pnpm build
 
-      - name: Cache warmup
-        run: php bin/console cache:warmup
-
-      - name: Start PHP server
-        run: |
-          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t public &
-          for i in $(seq 1 30); do
-            curl -sf http://127.0.0.1:8000/ > /dev/null && break
-            sleep 1
-          done
+      - name: Launch PHP server
+        uses: ./.github/actions/launch
 
       - name: Run axe-core
         run: |
@@ -179,25 +171,14 @@ jobs:
       - name: Rebuild native modules
         run: pnpm rebuild esbuild @parcel/watcher
 
-      - name: Database warmup
-        run: |
-          php bin/console doctrine:database:create --if-not-exists
-          php bin/console doctrine:migrations:migrate --no-interaction
-          php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate
+      - name: Bootstrap
+        uses: ./.github/actions/bootstrap
 
       - name: Build frontend
         run: pnpm build
 
-      - name: Cache warmup
-        run: php bin/console cache:warmup
-
-      - name: Start PHP server
-        run: |
-          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t public &
-          for i in $(seq 1 30); do
-            curl -sf http://127.0.0.1:8000/ > /dev/null && break
-            sleep 1
-          done
+      - name: Launch PHP server
+        uses: ./.github/actions/launch
 
       - name: Run Lighthouse
         uses: treosh/lighthouse-ci-action@v12

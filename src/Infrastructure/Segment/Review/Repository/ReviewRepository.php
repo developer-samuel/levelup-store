@@ -86,7 +86,7 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
             $this->applyAuthUserOrdering($qb, $authUserId);
         }
 
-        if ($authUserId == null) {
+        if ($authUserId === null) {
             $qb->orderBy('r.createdAt', SortDirection::DESC->value);
         }
 
@@ -155,7 +155,7 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
     */
     public function getAverageRatingsByVariantIds(array $variantIds): array
     {
-        if (empty($variantIds)) {
+        if ($variantIds === []) {
             return [];
         }
 

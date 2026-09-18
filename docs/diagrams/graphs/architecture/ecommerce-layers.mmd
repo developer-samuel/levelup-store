@@ -1,0 +1,53 @@
+graph TD
+    %% Architectural layers - dependency map derived from actual imports
+    %% Arrows = "depends on" / imports
+
+    classDef system         fill:#000,    color:#fff;
+    classDef presentation   fill:#0f63ff, color:#fff, stroke:#000, stroke-width:2px;
+    classDef adapters       fill:#f8ff59, color:#000, stroke:#000, stroke-width:2px;
+    classDef application    fill:#0a8555, color:#fff, stroke:#000, stroke-width:2px;
+    classDef domain         fill:#ff5c44, color:#fff, stroke:#000, stroke-width:2px;
+    classDef ports          fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
+    classDef infrastructure fill:#ffa51c, color:#000, stroke:#000, stroke-width:2px;
+    classDef shared         fill:#d9dce0, color:#000, stroke:#000, stroke-width:2px;
+    classDef scheduler      fill:#27ae60, color:#fff, stroke:#000, stroke-width:2px;
+
+    Presentation[📱 Presentation]:::presentation
+    Adapters[📦 Adapters]:::adapters
+    Scheduler[⏰ Scheduler]:::scheduler
+
+    subgraph Core["Core"]
+        Application[⚙️ Application]:::application
+        Ports[🔌 Ports]:::ports
+        Domain[🏛️ Domain]:::domain
+    end
+
+    Infrastructure[🏢 Infrastructure]:::infrastructure
+    Shared[📚 Shared]:::shared
+
+    Presentation   --> Application
+    Presentation   --> Domain
+    Presentation   --> Ports
+    Presentation   --> Shared
+
+    Adapters       --> Domain
+    Adapters       --> Ports
+    Adapters       --> Infrastructure
+    Adapters       --> Shared
+
+    Application    --> Domain
+    Application    --> Ports
+    Application    --> Shared
+
+    Ports          --> Domain
+    Ports          --> Shared
+
+    Domain         --> Shared
+
+    Infrastructure --> Domain
+    Infrastructure --> Ports
+    Infrastructure --> Shared
+
+    Scheduler      --> Domain
+    Scheduler      --> Ports
+    Scheduler      --> Shared

@@ -52,13 +52,13 @@ final class CountryApiAdapterTest extends TestCase
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertNotNull($result);
-        $this->assertCount(3, $result);
-        $this->assertContainsOnlyInstancesOf(CountryObject::class, $result);
+        self::assertNotNull($result);
+        self::assertCount(3, $result);
+        self::assertContainsOnlyInstancesOf(CountryObject::class, $result);
 
-        $this->assertSame('Austria', $result[0]->name);
-        $this->assertSame('Czech Republic', $result[1]->name);
-        $this->assertSame('Slovakia', $result[2]->name);
+        self::assertSame('Austria', $result[0]->name);
+        self::assertSame('Czech Republic', $result[1]->name);
+        self::assertSame('Slovakia', $result[2]->name);
     }
 
     public function testGetAllCountriesReturnsNullOnHttpError(): void
@@ -66,12 +66,12 @@ final class CountryApiAdapterTest extends TestCase
         $this->mockHttpRequest(Response::HTTP_INTERNAL_SERVER_ERROR, '');
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error');
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testGetAllCountriesReturnsNullOnNetworkException(): void
@@ -81,12 +81,12 @@ final class CountryApiAdapterTest extends TestCase
             ->willThrowException(new \RuntimeException('Connection refused'));
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('critical');
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testGetAllCountriesReturnsEmptyArrayOnInvalidJson(): void
@@ -94,13 +94,13 @@ final class CountryApiAdapterTest extends TestCase
         $this->mockHttpRequest(Response::HTTP_OK, 'not-valid-json');
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error');
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        self::assertIsArray($result);
+        self::assertEmpty($result);
     }
 
     public function testGetAllCountriesReturnsEmptyArrayOnNonListJson(): void
@@ -108,13 +108,13 @@ final class CountryApiAdapterTest extends TestCase
         $this->mockHttpRequest(Response::HTTP_OK, '{"key": "value"}');
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error');
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        self::assertIsArray($result);
+        self::assertEmpty($result);
     }
 
     public function testGetAllCountriesReturnsEmptyArrayOnMissingFields(): void
@@ -124,13 +124,13 @@ final class CountryApiAdapterTest extends TestCase
         $this->mockHttpRequest(Response::HTTP_OK, (string) $json);
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error');
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        self::assertIsArray($result);
+        self::assertEmpty($result);
     }
 
     public function testGetAllCountriesReturnsSingleCountry(): void
@@ -141,10 +141,10 @@ final class CountryApiAdapterTest extends TestCase
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertNotNull($result);
-        $this->assertCount(1, $result);
-        $this->assertSame('DE', $result[0]->code);
-        $this->assertSame('Germany', $result[0]->name);
+        self::assertNotNull($result);
+        self::assertCount(1, $result);
+        self::assertSame('DE', $result[0]->code);
+        self::assertSame('Germany', $result[0]->name);
     }
 
     public function testGetAllCountriesReturnsEmptyArrayOnEmptyList(): void
@@ -153,8 +153,8 @@ final class CountryApiAdapterTest extends TestCase
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        self::assertIsArray($result);
+        self::assertEmpty($result);
     }
 
     public function testGetAllCountriesSanitizesWhitespace(): void
@@ -165,10 +165,10 @@ final class CountryApiAdapterTest extends TestCase
 
         $result = $this->adapter->getAllCountries();
 
-        $this->assertNotNull($result);
-        $this->assertCount(1, $result);
-        $this->assertSame('SK', $result[0]->code);
-        $this->assertSame('Slovakia', $result[0]->name);
+        self::assertNotNull($result);
+        self::assertCount(1, $result);
+        self::assertSame('SK', $result[0]->code);
+        self::assertSame('Slovakia', $result[0]->name);
     }
 
     public function testCountryExistsReturnsTrueWhenFound(): void
@@ -180,7 +180,7 @@ final class CountryApiAdapterTest extends TestCase
 
         $result = $this->adapter->countryExists('SK');
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     public function testCountryExistsReturnsFalseWhenNotFound(): void
@@ -192,7 +192,7 @@ final class CountryApiAdapterTest extends TestCase
 
         $result = $this->adapter->countryExists('XX');
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     private function initMocks(): void

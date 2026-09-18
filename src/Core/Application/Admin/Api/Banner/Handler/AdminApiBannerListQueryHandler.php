@@ -30,6 +30,8 @@ final class AdminApiBannerListQueryHandler extends AbstractAdminApiListQueryHand
     }
 
     /**
+     * @param array<string, mixed> $context
+     *
      * @return Banner[]
     */
     protected function getRepositoryClass(array $context = []): array
@@ -38,7 +40,7 @@ final class AdminApiBannerListQueryHandler extends AbstractAdminApiListQueryHand
     }
 
     /**
-     * @return string
+     * @return class-string<AdminApiBannerResource>
     */
     protected function getResourceClass(): string
     {

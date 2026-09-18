@@ -42,7 +42,7 @@ final readonly class WishlistCommandService implements WishlistCommandContract
     public function toggle(User $user, int $variantId): bool
     {
         $variant = $this->variantRepository->findById($variantId);
-        if (!$variant) {
+        if ($variant === null) {
             return false;
         }
 
@@ -65,7 +65,7 @@ final readonly class WishlistCommandService implements WishlistCommandContract
     public function remove(User $user, int $variantId): bool
     {
         $variant = $this->variantRepository->findById($variantId);
-        if (!$variant) {
+        if ($variant === null) {
             return false;
         }
 

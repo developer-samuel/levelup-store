@@ -23,7 +23,6 @@ use App\Core\Application\Segment\Order\Service\Command\OrderItemCommandService;
 
 use App\Core\Ports\{
     Segment\Cart\Service\Command\CartItemCommandContract,
-    Segment\Order\Service\Command\OrderItemCommandContract,
     Segment\Order\Service\Query\OrderItemQueryContract,
     Segment\Product\Repository\Variant\ProductVariantEanRepositoryContract,
     Shared\Persistence\EntityPersistenceContract
@@ -53,11 +52,6 @@ final class OrderItemCommandServiceTest extends TestCase
         $this->order = $this->createMock(Order::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderItemCommandContract::class, $this->service);
-    }
-
     public function testProcessOrderItemsThrowsWhenVariantHasNoStock(): void
     {
         $variant = $this->buildVariantMock(stock: null);
@@ -79,7 +73,7 @@ final class OrderItemCommandServiceTest extends TestCase
         $this->eanRepository->method('findAvailableByVariant')->willReturn([]);
 
         $this->cartItemCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('removeVariant')
             ->with($variant);
 
@@ -125,7 +119,7 @@ final class OrderItemCommandServiceTest extends TestCase
     public function testProcessOrderItemsReservesEansWithReservedStatus(): void
     {
         $ean = $this->createMock(ProductVariantEan::class);
-        $ean->expects($this->once())
+        $ean->expects(self::once())
             ->method('setStatus')
             ->with(ProductVariantEanStatus::RESERVED);
 
@@ -143,13 +137,13 @@ final class OrderItemCommandServiceTest extends TestCase
 
         $persisted = $this->capturePersistedOnProcess([$cartItem]);
 
-        $this->assertPersistedContains($persisted, OrderItem::class);
+        self::assertPersistedContains($persisted, OrderItem::class);
     }
 
     public function testProcessOrderItemsUpdatesStockQuantity(): void
     {
         $stock = $this->createMock(ProductVariantStock::class);
-        $stock->expects($this->once())->method('reserveQuantity')->with(1);
+        $stock->expects(self::once())->method('reserveQuantity')->with(1);
 
         $variant = $this->buildVariantMock(stock: $stock);
         $cartItem = $this->buildCartItemMock($variant);
@@ -182,7 +176,7 @@ final class OrderItemCommandServiceTest extends TestCase
 
         $persisted = $this->capturePersistedOnProcess([$cartItem]);
 
-        $this->assertPersistedContains($persisted, ProductVariantEan::class);
+        self::assertPersistedContains($persisted, ProductVariantEan::class);
     }
 
     public function testProcessOrderItemsAggregatesItemsForSameVariant(): void
@@ -206,7 +200,7 @@ final class OrderItemCommandServiceTest extends TestCase
         $this->orderItemQuery->method('isStockAvailable')->willReturn(true);
 
         $this->eanRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findAvailableByVariant')
             ->with($variant);
 
@@ -218,7 +212,7 @@ final class OrderItemCommandServiceTest extends TestCase
         [$cartItem, $variant] = $this->buildCartItemWithoutStock();
 
         $this->cartItemCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('removeVariant')
             ->with($variant);
 
@@ -235,7 +229,7 @@ final class OrderItemCommandServiceTest extends TestCase
         $this->setupStockCheck(isAvailable: false, eans: []);
 
         $this->cartItemCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('removeVariant')
             ->with($variant);
 

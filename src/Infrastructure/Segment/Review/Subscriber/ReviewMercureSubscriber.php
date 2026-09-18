@@ -7,7 +7,6 @@ namespace App\Infrastructure\Segment\Review\Subscriber;
 use Doctrine\{
     Bundle\DoctrineBundle\Attribute\AsDoctrineListener,
     ORM\EntityManagerInterface,
-    ORM\Event\PostFlushEventArgs,
     ORM\Events,
     Persistence\Event\LifecycleEventArgs
 };
@@ -70,7 +69,7 @@ final class ReviewMercureSubscriber
      */
     public function postFlush(): void
     {
-        if (empty($this->pendingRatings)) {
+        if ($this->pendingRatings === []) {
             return;
         }
         foreach ($this->pendingRatings as ['variantId' => $variantId, 'reviewId' => $reviewId]) {

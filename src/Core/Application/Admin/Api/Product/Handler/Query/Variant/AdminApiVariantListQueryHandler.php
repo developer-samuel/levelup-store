@@ -38,7 +38,7 @@ final readonly class AdminApiVariantListQueryHandler
     public function handle(int $productId): array
     {
         $product = $this->getProduct($productId);
-        if (!$product) {
+        if ($product === null) {
             return [];
         }
 

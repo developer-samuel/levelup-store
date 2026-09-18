@@ -6,6 +6,7 @@ namespace Database\Fixtures;
 
 use Doctrine\{
     Common\DataFixtures\DependentFixtureInterface,
+    Common\DataFixtures\FixtureInterface,
     Persistence\ObjectManager
 };
 
@@ -51,7 +52,7 @@ final class VariantRecommendedFixture extends AbstractFixture implements Depende
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string<FixtureInterface>>
     */
     public function getDependencies(): array
     {
@@ -71,10 +72,7 @@ final class VariantRecommendedFixture extends AbstractFixture implements Depende
     }
 
     /**
-     * @param array{
-     *     variant: ProductVariant,
-     *     position: int
-     * } $data
+     * @param mixed $data
      * @param ObjectManager $manager
      *
      * @return void
@@ -83,6 +81,7 @@ final class VariantRecommendedFixture extends AbstractFixture implements Depende
     */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
+        /** @var array{variant: ProductVariant, position: int} $data */
         $variantId = IdAssertion::assert(
             $data['variant']->getId(),
             'Variant ID',

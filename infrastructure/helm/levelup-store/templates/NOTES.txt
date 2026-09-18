@@ -23,7 +23,7 @@ Post-install hooks (run automatically):
 
 {{- if .Values.app.autoscaling.enabled }}
 
-Autoscaling: enabled ({{ .Values.app.autoscaling.minReplicas }}–{{ .Values.app.autoscaling.maxReplicas }} replicas)
+Autoscaling: enabled ({{ .Values.app.autoscaling.minReplicas }}-{{ .Values.app.autoscaling.maxReplicas }} replicas)
 {{- end }}
 
 Secrets are managed via ArgoCD parameters - never stored in git.

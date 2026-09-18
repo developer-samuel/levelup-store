@@ -16,7 +16,7 @@ final class ExistingEmail extends Constraint
     public string $message = 'No user exists with the provided email.';
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

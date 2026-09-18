@@ -47,14 +47,12 @@ final readonly class ReviewValidatorQueryService implements ReviewValidatorQuery
      *
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws \DomainException
     */
     private function validateValue(int $value): void
     {
         if ($value < 1 || $value > 5) {
-            throw new \InvalidArgumentException(
-                'Review value must be between 1 and 5.',
-            );
+            throw new \DomainException('Review value must be between 1 and 5.');
         }
     }
 

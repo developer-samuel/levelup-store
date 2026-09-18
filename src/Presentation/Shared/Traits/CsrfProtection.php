@@ -27,7 +27,7 @@ trait CsrfProtection
     */
     public function validateCsrfToken(string $tokenId, ExecutionContextInterface $context): void
     {
-        if ($this->csrfToken && !$this->resolveCsrfTokenManager()->isTokenValid(new CsrfToken($tokenId, $this->csrfToken))) {
+        if ($this->csrfToken !== '' && !$this->resolveCsrfTokenManager()->isTokenValid(new CsrfToken($tokenId, $this->csrfToken))) {
             $context->buildViolation('Invalid CSRF token.')
                 ->atPath('csrf_token')
                 ->addViolation();

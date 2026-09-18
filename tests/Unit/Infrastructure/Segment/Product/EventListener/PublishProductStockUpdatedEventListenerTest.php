@@ -32,7 +32,7 @@ final class PublishProductStockUpdatedEventListenerTest extends TestCase
     public function testPublishesOnProductStockUpdated(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish');
 
         ($this->listener)(new ProductStockUpdatedEvent(1, 10, true));
@@ -41,9 +41,9 @@ final class PublishProductStockUpdatedEventListenerTest extends TestCase
     public function testPublishesCorrectTopic(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
-            ->with('products/42/stock', $this->anything());
+            ->with('products/42/stock', self::anything());
 
         ($this->listener)(new ProductStockUpdatedEvent(42, 10, true));
     }
@@ -51,10 +51,10 @@ final class PublishProductStockUpdatedEventListenerTest extends TestCase
     public function testPublishesCorrectPayload(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
             ->with(
-                $this->anything(),
+                self::anything(),
                 json_encode([
                     'variantId'         => 42,
                     'quantityAvailable' => 10,
@@ -68,10 +68,10 @@ final class PublishProductStockUpdatedEventListenerTest extends TestCase
     public function testPublishesInStockFalseWhenOutOfStock(): void
     {
         $this->mercureHubGateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publish')
             ->with(
-                $this->anything(),
+                self::anything(),
                 json_encode([
                     'variantId'         => 42,
                     'quantityAvailable' => 0,

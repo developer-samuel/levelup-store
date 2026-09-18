@@ -6,6 +6,7 @@ namespace Database\Fixtures;
 
 use Doctrine\{
     Common\DataFixtures\DependentFixtureInterface,
+    Common\DataFixtures\FixtureInterface,
     Persistence\ObjectManager
 };
 
@@ -56,7 +57,7 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<FixtureInterface>>
     */
     public function getDependencies(): array
     {
@@ -83,22 +84,29 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
     }
 
     /**
-     * @param array{
-     *     categoryName: string,
-     *     typeName: string,
-     *     subtypes: string[]
-     * } $data
+     * @param mixed $data
      * @param ObjectManager $manager
      *
      * @return void
     */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
+        /**
+         * @var array{
+         *     categoryName: string,
+         *     typeName: string,
+         *     subtypes: string[]
+         * } $data
+        */
         $category = $this->findCategoryOrLog($data['categoryName']);
-        if ($category === null) return;
+        if ($category === null) {
+            return;
+        }
 
         $type = $this->findTypeOrLog($category, $data['typeName']);
-        if ($type === null) return;
+        if ($type === null) {
+            return;
+        }
 
         $this->createSubtypes($manager, $category, $type, $data['subtypes']);
     }

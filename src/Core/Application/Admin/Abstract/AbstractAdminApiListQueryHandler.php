@@ -20,13 +20,13 @@ abstract class AbstractAdminApiListQueryHandler
     /**
      * @param array<string, mixed> $context
      *
-     * @return array<int, object>
-    */
+     * @return array<array-key, object>
+     */
     abstract protected function getRepositoryClass(array $context = []): array;
 
     /**
-     * @return class-string
-    */
+     * @return string
+     */
     abstract protected function getResourceClass(): string;
 
     /**
@@ -51,13 +51,14 @@ abstract class AbstractAdminApiListQueryHandler
     }
 
     /**
-     * @param array<int, object> $items
-     * @param class-string $resourceClass
+     * @param array<array-key, object> $items
+     * @param string $resourceClass
      *
      * @return array<int, array<string, mixed>>
     */
     private function mapAndReindex(array $items, string $resourceClass): array
     {
+        /** @var class-string $resourceClass */
         $mapped = ResourceMapper::collection($items, $resourceClass);
 
         return array_values($mapped);

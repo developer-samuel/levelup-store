@@ -6,8 +6,6 @@ namespace Tests\Integration\Adapters\External\Storage;
 
 use PHPUnit\Framework\TestCase;
 
-use App\Core\Ports\Gateways\External\Storage\StorageGatewayContract;
-
 use App\Adapters\External\Storage\StorageAdapter;
 
 /**
@@ -49,14 +47,9 @@ final class StorageAdapterTest extends TestCase
         );
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(StorageGatewayContract::class, $this->adapter);
-    }
-
     public function testIsEnabledReturnsTrueWhenEnabled(): void
     {
-        $this->assertTrue($this->adapter->isEnabled());
+        self::assertTrue($this->adapter->isEnabled());
     }
 
     public function testIsEnabledReturnsFalseWhenDisabled(): void
@@ -71,13 +64,13 @@ final class StorageAdapterTest extends TestCase
             $this->uploadsPath,
         );
 
-        $this->assertFalse($adapter->isEnabled());
+        self::assertFalse($adapter->isEnabled());
     }
 
     public function testIsConnectedReturnsTrueWhenRunning(): void
     {
         $this->skipIfNotConnected();
-        $this->assertTrue($this->adapter->isConnected());
+        self::assertTrue($this->adapter->isConnected());
     }
 
     public function testIsConnectedReturnsFalseWhenDisabled(): void
@@ -92,7 +85,7 @@ final class StorageAdapterTest extends TestCase
             $this->uploadsPath,
         );
 
-        $this->assertFalse($adapter->isConnected());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testIsConnectedReturnsFalseWhenUnreachable(): void
@@ -107,7 +100,7 @@ final class StorageAdapterTest extends TestCase
             $this->uploadsPath,
         );
 
-        $this->assertFalse($adapter->isConnected());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testIsConnectedReturnsFalseWhenEndpointIsMalformed(): void
@@ -122,7 +115,7 @@ final class StorageAdapterTest extends TestCase
             $this->uploadsPath,
         );
 
-        $this->assertFalse($adapter->isConnected());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testUrlReturnsMinioUrlWhenEnabled(): void
@@ -130,8 +123,8 @@ final class StorageAdapterTest extends TestCase
         $this->skipIfNotConnected();
         $url = $this->adapter->url('test/image.jpg');
 
-        $this->assertStringContainsString($this->bucket, $url);
-        $this->assertStringContainsString('image.jpg', $url);
+        self::assertStringContainsString($this->bucket, $url);
+        self::assertStringContainsString('image.jpg', $url);
     }
 
     public function testUrlStripsUploadsPrefixWhenEnabled(): void
@@ -139,9 +132,9 @@ final class StorageAdapterTest extends TestCase
         $this->skipIfNotConnected();
         $url = $this->adapter->url('uploads/test/image.jpg');
 
-        $this->assertStringContainsString($this->bucket, $url);
-        $this->assertStringContainsString('image.jpg', $url);
-        $this->assertStringNotContainsString('uploads/uploads/', $url);
+        self::assertStringContainsString($this->bucket, $url);
+        self::assertStringContainsString('image.jpg', $url);
+        self::assertStringNotContainsString('uploads/uploads/', $url);
     }
 
     public function testUrlReturnsLocalUrlWhenDisabled(): void
@@ -158,7 +151,7 @@ final class StorageAdapterTest extends TestCase
 
         $url = $adapter->url('test/image.jpg');
 
-        $this->assertStringStartsWith('/uploads/', $url);
+        self::assertStringStartsWith('/uploads/', $url);
     }
 
     public function testUploadWritesToStorage(): void
@@ -168,7 +161,7 @@ final class StorageAdapterTest extends TestCase
 
         $this->adapter->upload($path, 'PHPUnit test content');
 
-        $this->assertTrue($this->adapter->exists($path));
+        self::assertTrue($this->adapter->exists($path));
         $this->adapter->delete($path);
     }
 
@@ -180,19 +173,19 @@ final class StorageAdapterTest extends TestCase
         $this->adapter->upload($path, 'to be deleted');
         $this->adapter->delete($path);
 
-        $this->assertFalse($this->adapter->exists($path));
+        self::assertFalse($this->adapter->exists($path));
     }
 
     public function testExistsReturnsFalseForNonExistentFile(): void
     {
         $this->skipIfNotConnected();
-        $this->assertFalse($this->adapter->exists('phpunit/nonexistent-' . uniqid() . '.txt'));
+        self::assertFalse($this->adapter->exists('phpunit/nonexistent-' . uniqid() . '.txt'));
     }
 
     private function skipIfNotConnected(): void
     {
         if (!$this->adapter->isConnected()) {
-            $this->markTestSkipped('MinIO is not available.');
+            self::markTestSkipped('MinIO is not available.');
         }
     }
 }

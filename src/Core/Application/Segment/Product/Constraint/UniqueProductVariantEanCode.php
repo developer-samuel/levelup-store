@@ -20,7 +20,7 @@ final class UniqueProductVariantEanCode extends Constraint
     }
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

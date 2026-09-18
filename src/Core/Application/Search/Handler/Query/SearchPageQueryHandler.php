@@ -42,7 +42,7 @@ final readonly class SearchPageQueryHandler implements SearchPageQueryHandlerCon
     */
     private function getSearchResults(string $query): array
     {
-        return $query ? $this->searchQuery->searchByTerm($query) : [];
+        return $query !== '' ? $this->searchQuery->searchByTerm($query) : [];
     }
 
     /**

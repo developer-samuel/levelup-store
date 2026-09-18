@@ -24,7 +24,6 @@ use App\Core\Ports\{
     Segment\Cart\Repository\CartItemRepositoryContract,
     Segment\Cart\Repository\CartRepositoryContract,
     Segment\Cart\Service\Query\CartControlQueryContract,
-    Segment\Cart\Service\Query\CartItemQueryContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
     Segment\Product\Repository\Variant\ProductVariantEanRepositoryContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract
@@ -56,11 +55,6 @@ final class CartItemQueryServiceTest extends TestCase
         $this->variant = $this->createMock(ProductVariant::class);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartItemQueryContract::class, $this->service);
-    }
-
     public function testGetItemsReturnsEmptyArrayWhenCartNotFound(): void
     {
         $user = $this->createUserWithId(1);
@@ -69,7 +63,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getItems($user);
 
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
     }
 
     public function testGetItemsReturnsCartItems(): void
@@ -82,8 +76,8 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getItems($user);
 
-        $this->assertCount(1, $result);
-        $this->assertSame($item, $result[0]);
+        self::assertCount(1, $result);
+        self::assertSame($item, $result[0]);
     }
 
     public function testGetCartAndVariantReturnsCartAndVariant(): void
@@ -100,8 +94,8 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getCartAndVariant($user, 10);
 
-        $this->assertSame($cart, $result['cart']);
-        $this->assertSame($variant, $result['variant']);
+        self::assertSame($cart, $result['cart']);
+        self::assertSame($variant, $result['variant']);
     }
 
     public function testGetValidatedCartItemReturnsItem(): void
@@ -112,7 +106,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getValidatedCartItem(5);
 
-        $this->assertSame($item, $result);
+        self::assertSame($item, $result);
     }
 
     public function testGetAvailableEansCountReturnsZeroWhenEmpty(): void
@@ -121,7 +115,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getAvailableEansCount($this->variant);
 
-        $this->assertSame(0, $result);
+        self::assertSame(0, $result);
     }
 
     public function testGetAvailableEansCountReturnsCount(): void
@@ -133,7 +127,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getAvailableEansCount($this->variant);
 
-        $this->assertSame(2, $result);
+        self::assertSame(2, $result);
     }
 
     public function testGetExistingQuantityReturnsZeroWhenNoMatchingVariant(): void
@@ -146,7 +140,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getExistingQuantity($cart, $this->variant);
 
-        $this->assertSame(0, $result);
+        self::assertSame(0, $result);
     }
 
     public function testGetExistingQuantityCountsMatchingVariants(): void
@@ -165,7 +159,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->service->getExistingQuantity($cart, $this->variant);
 
-        $this->assertSame(2, $result);
+        self::assertSame(2, $result);
     }
 
     public function testBuildCartResponseDelegatesToCartRenderQuery(): void
@@ -174,7 +168,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->buildCartResponse(CartAction::ADD, 'Product added to cart.', $expected);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function testBuildCartResponseUsesRemoveMessage(): void
@@ -183,7 +177,7 @@ final class CartItemQueryServiceTest extends TestCase
 
         $result = $this->buildCartResponse(CartAction::REMOVE, 'Product removed from cart.', $expected);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     private function initMocks(): void
@@ -236,7 +230,7 @@ final class CartItemQueryServiceTest extends TestCase
 
     /**
      * @param array<string, mixed> $expected
-     * 
+     *
      * @return array<string, mixed>
     */
     private function buildCartResponse(CartAction $action, string $message, array $expected): array
@@ -244,7 +238,7 @@ final class CartItemQueryServiceTest extends TestCase
         $user = $this->createUserWithId(1);
 
         $this->cartRenderQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildCartResponse')
             ->with($user, $message)
             ->willReturn($expected);

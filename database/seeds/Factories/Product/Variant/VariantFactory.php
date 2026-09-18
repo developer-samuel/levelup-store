@@ -147,7 +147,7 @@ trait VariantFactory
         $catalogCode = ProductCatalogCodeGenerator::generateCatalogCode($productName);
         $prefix = substr(str_replace('-', '', $catalogCode), 0, 6);
 
-        $variantPart = $variantName
+        $variantPart = $variantName !== null
             ? '-' . strtoupper(substr(str_replace(' ', '', $variantName), 0, 5))
             : '';
 

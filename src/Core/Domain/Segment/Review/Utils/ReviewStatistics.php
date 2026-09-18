@@ -96,6 +96,6 @@ final class ReviewStatistics
     */
     private static function calculateAverage(array $values): float
     {
-        return !empty($values) ? round(array_sum($values) / count($values), 2) : 0.0;
+        return $values !== [] ? round(array_sum($values) / count($values), 2) : 0.0;
     }
 }

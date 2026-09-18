@@ -19,7 +19,6 @@ use App\Core\Domain\{
 use App\Core\Application\Auth\Handler\Command\SignupHandler;
 
 use App\Core\Ports\{
-    Auth\Handler\Command\SignupHandlerContract,
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Command\SignupCommandContract,
     Auth\Service\Command\VerificationCommandContract,
@@ -49,16 +48,11 @@ final class SignupHandlerTest extends TestCase
         $this->initHandler();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(SignupHandlerContract::class, $this->handler);
-    }
-
     public function testHandleReturnsSuccessStatus(): void
     {
         $result = $this->handleSuccessfully();
 
-        $this->assertSame('success', $result['status']);
+        self::assertSame('success', $result['status']);
     }
 
     public function testHandleReturnsAccessToken(): void
@@ -66,14 +60,14 @@ final class SignupHandlerTest extends TestCase
         /** @var array{data: array<string, mixed>} $result */
         $result = $this->handleSuccessfully(accessToken: 'access-abc');
 
-        $this->assertSame('access-abc', $result['data']['access_token']);
+        self::assertSame('access-abc', $result['data']['access_token']);
     }
 
     public function testHandleReturnsRefreshToken(): void
     {
         $result = $this->handleSuccessfully(refreshToken: 'refresh-xyz');
 
-        $this->assertSame('refresh-xyz', $result['refresh_token']);
+        self::assertSame('refresh-xyz', $result['refresh_token']);
     }
 
     public function testHandleReturnsRedirectRoute(): void
@@ -81,13 +75,13 @@ final class SignupHandlerTest extends TestCase
         /** @var array{data: array<string, mixed>} $result */
         $result = $this->handleSuccessfully(redirectRoute: '/dashboard');
 
-        $this->assertSame('/dashboard', $result['data']['redirect']);
+        self::assertSame('/dashboard', $result['data']['redirect']);
     }
 
     public function testHandleCallsSignupCommand(): void
     {
         $this->signupCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('signup');
 
         $this->setupSuccess();
@@ -98,7 +92,7 @@ final class SignupHandlerTest extends TestCase
     public function testHandleSendsVerificationEmail(): void
     {
         $this->verificationCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createAndSaveTokenForUser');
 
         $this->setupSuccess();
@@ -113,7 +107,7 @@ final class SignupHandlerTest extends TestCase
         $this->signupCommand->method('signup')->willReturn($user);
 
         $this->loginCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('execute')
             ->with($user)
             ->willReturn(new JwtTokenObject('access-abc', 'refresh-xyz'));
@@ -132,8 +126,8 @@ final class SignupHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(429, $result['code']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(429, $result['code']);
     }
 
     public function testHandleLogsErrorWhenLogicExceptionThrown(): void
@@ -143,7 +137,7 @@ final class SignupHandlerTest extends TestCase
             ->willThrowException(new \LogicException('Unexpected logic failure.'));
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error');
 
         $this->handler->handle($this->buildPayload());
@@ -157,8 +151,8 @@ final class SignupHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(422, $result['code']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(422, $result['code']);
     }
 
     private function initMocks(): void

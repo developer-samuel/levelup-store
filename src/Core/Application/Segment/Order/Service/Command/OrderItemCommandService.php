@@ -170,7 +170,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
         int $quantityInCart,
     ): void {
         if (!$this->orderItemQuery->isStockAvailable($stock)
-            || empty($availableEans)
+            || $availableEans === []
             || $quantityInCart > count($availableEans)
         ) {
             $this->cartItemCommand->removeVariant($variant, $cartItems);

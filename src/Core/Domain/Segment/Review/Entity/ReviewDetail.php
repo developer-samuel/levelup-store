@@ -31,6 +31,7 @@ class ReviewDetail
     #[ORM\JoinColumn(
         name: 'review_id',
         referencedColumnName: 'id',
+        nullable: false,
         onDelete: 'CASCADE',
     )]
     private Review $review;

@@ -109,7 +109,7 @@ final class AdminVariantDescriptionQueryController extends AbstractFindQueryCont
     private function getVariantOrThrow(int $variantId): ProductVariant
     {
         $variant = $this->variantRepository->findById($variantId);
-        if (!$variant) {
+        if ($variant === null) {
             throw $this->createNotFoundException(sprintf('Variant with ID %d not found.', $variantId));
         }
 

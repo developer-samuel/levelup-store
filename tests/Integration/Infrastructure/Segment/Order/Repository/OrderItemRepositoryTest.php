@@ -15,8 +15,6 @@ use App\Core\Domain\{
 
 use App\Core\Domain\Segment\User\Entity\User;
 
-use App\Core\Ports\Segment\Order\Repository\OrderItemRepositoryContract;
-
 use App\Infrastructure\Segment\Order\Repository\OrderItemRepository;
 
 use Tests\{
@@ -59,11 +57,6 @@ final class OrderItemRepositoryTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderItemRepositoryContract::class, $this->repository);
-    }
-
     public function testFindByOrderReturnsItemsForOrder(): void
     {
         $order = $this->createAndPersistOrder($this->user, 'ORDER-ITEM-001');
@@ -74,8 +67,8 @@ final class OrderItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findByOrder($order);
 
-        $this->assertCount(1, $result);
-        $this->assertInstanceOf(OrderItem::class, $result[0]);
+        self::assertCount(1, $result);
+        self::assertInstanceOf(OrderItem::class, $result[0]);
     }
 
     public function testFindByOrderReturnsEmptyWhenNoItems(): void
@@ -84,7 +77,7 @@ final class OrderItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findByOrder($order);
 
-        $this->assertEmpty($result);
+        self::assertEmpty($result);
     }
 
     public function testFindByOrderReturnsOnlyItemsForGivenOrder(): void
@@ -102,8 +95,8 @@ final class OrderItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findByOrder($orderA);
 
-        $this->assertCount(1, $result);
-        $this->assertSame($eanA->getId(), $result[0]->getEan()->getId());
+        self::assertCount(1, $result);
+        self::assertSame($eanA->getId(), $result[0]->getEan()->getId());
     }
 
     public function testHasPurchasedVariantReturnsTrueWhenPurchased(): void
@@ -116,7 +109,7 @@ final class OrderItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->hasPurchasedVariant($this->user, $variant->getId());
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     public function testHasPurchasedVariantReturnsFalseWhenOrderNotCompleted(): void
@@ -129,7 +122,7 @@ final class OrderItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->hasPurchasedVariant($this->user, $variant->getId());
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     public function testHasPurchasedVariantReturnsFalseForDifferentUser(): void
@@ -144,7 +137,7 @@ final class OrderItemRepositoryTest extends KernelTestCase
 
         $result = $this->repository->hasPurchasedVariant($userB, $variant->getId());
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     private function getRepository(): OrderItemRepository

@@ -24,7 +24,7 @@ final class StripeSdk implements StripeSdkContract
     */
     public function initialize(): void
     {
-        if (empty($this->secretKey) || trim($this->secretKey) === '') {
+        if (trim($this->secretKey) === '') {
             throw new \LogicException('Stripe secret key is not set.');
         }
 

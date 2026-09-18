@@ -37,7 +37,7 @@ final class EanConstraint extends Constraint
     }
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

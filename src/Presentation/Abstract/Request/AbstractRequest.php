@@ -10,15 +10,11 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use Kit\Utils\Shared\DataSanitizer;
-
 use App\Presentation\Shared\Traits\CsrfProtection;
 
 abstract class AbstractRequest
 {
     use CsrfProtection;
-
-    private const INT_FIELDS = ['billing_country', 'shipping_country'];
 
     /**
      * @param CsrfTokenManagerInterface $csrfTokenManager
@@ -40,29 +36,6 @@ abstract class AbstractRequest
     protected final function resolveCsrfTokenManager(): CsrfTokenManagerInterface
     {
         return $this->csrfTokenManager;
-    }
-
-    /**
-     * @param Request $request
-     * @param string $field
-     *
-     * @return void
-    */
-    protected final function extractTypedField(Request $request, string $field): void
-    {
-        if (!property_exists($this, $field)) {
-            return;
-        }
-
-        $rawValue = $request->request->get($field);
-
-        if (in_array($field, self::INT_FIELDS, true)) {
-            $this->{$field} = DataSanitizer::sanitizeInt($rawValue) ?? 0;
-
-            return;
-        }
-
-        $this->{$field} = DataSanitizer::sanitizeString($rawValue);
     }
 
     /**

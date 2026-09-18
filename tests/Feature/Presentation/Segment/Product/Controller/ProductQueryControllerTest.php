@@ -44,21 +44,21 @@ final class ProductQueryControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/products');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testIndexWithCategoryReturnsSuccessfulResponse(): void
     {
         $this->client->request('GET', '/products/electronics');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testIndexWithCategoryAndTypeReturnsSuccessfulResponse(): void
     {
         $this->client->request('GET', '/products/electronics/smartphones');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testIndexAjaxRequestReturnsSuccessfulResponse(): void
@@ -67,28 +67,28 @@ final class ProductQueryControllerTest extends WebTestCase
             'HTTP_X-Requested-With' => 'XMLHttpRequest',
         ]);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testIndexRedirectsWhenPageExceedsTotalResults(): void
     {
         $this->client->request('GET', '/products', ['page' => '3']);
 
-        $this->assertResponseRedirects();
+        self::assertResponseRedirects();
     }
 
     public function testIndexWithExplicitSortReturnsSuccessfulResponse(): void
     {
         $this->client->request('GET', '/products', ['sort' => 'cheapest']);
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testIndexWithBrandStringParamRedirects(): void
     {
         $this->client->request('GET', '/products', ['brand' => 'nike']);
 
-        $this->assertResponseRedirects();
+        self::assertResponseRedirects();
     }
 
     public function testIndexWithNoPaginationInHandlerResultReturnsSuccessfulResponse(): void
@@ -100,14 +100,14 @@ final class ProductQueryControllerTest extends WebTestCase
 
         $this->client->request('GET', '/products');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     public function testShowRedirectsWhenVariantNotFound(): void
     {
         $this->client->request('GET', '/product/show/nonexistent-url');
 
-        $this->assertResponseRedirects();
+        self::assertResponseRedirects();
     }
 
     public function testShowReturnsDetailWhenVariantFound(): void
@@ -116,7 +116,7 @@ final class ProductQueryControllerTest extends WebTestCase
 
         $this->client->request('GET', '/product/show/existing-product-url');
 
-        $this->assertResponseIsSuccessful();
+        self::assertResponseIsSuccessful();
     }
 
     private function createRendererStub(): ProductRendererContract

@@ -20,7 +20,6 @@ use App\Core\Application\Segment\Cart\Service\Query\CartRenderQueryService;
 use App\Core\Ports\{
     Segment\Cart\Renderer\CartRendererContract,
     Segment\Cart\Service\Query\CartPriceQueryContract,
-    Segment\Cart\Service\Query\CartRenderQueryContract,
     Segment\Cart\Service\Query\CartSummaryQueryContract
 };
 
@@ -47,11 +46,6 @@ final class CartRenderQueryServiceTest extends TestCase
         $this->user = $this->createUserWithId(1);
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartRenderQueryContract::class, $this->service);
-    }
-
     public function testBuildCartResponseReturnsSuccessResponse(): void
     {
         $summary = ['totalItems' => 0, 'totalPrice' => '0 €'];
@@ -73,8 +67,8 @@ final class CartRenderQueryServiceTest extends TestCase
 
         $result = $this->service->buildCartResponse($this->user, 'Item added.');
 
-        $this->assertSame('Item added.', $result['message']);
-        $this->assertTrue($result['success']);
+        self::assertSame('Item added.', $result['message']);
+        self::assertTrue($result['success']);
     }
 
     public function testBuildCartResponseReturnsErrorResponseWhenIsErrorTrue(): void
@@ -98,8 +92,8 @@ final class CartRenderQueryServiceTest extends TestCase
 
         $result = $this->service->buildCartResponse($this->user, 'Error.', true);
 
-        $this->assertFalse($result['success']);
-        $this->assertSame(422, $result['status']);
+        self::assertFalse($result['success']);
+        self::assertSame(422, $result['status']);
     }
 
     public function testBuildCartResponseCallsRenderCartWithTransformedItems(): void
@@ -121,9 +115,9 @@ final class CartRenderQueryServiceTest extends TestCase
             ]);
 
         $this->cartRenderer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('renderCart')
-            ->with($this->isType('array'))
+            ->with(self::isType('array'))
             ->willReturn('<div>item</div>');
 
         $this->service->buildCartResponse($this->user, 'ok');
@@ -145,7 +139,7 @@ final class CartRenderQueryServiceTest extends TestCase
             ]);
 
         $this->cartPriceQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('calculateTotalPrice')
             ->willReturn(0.0);
 

@@ -27,7 +27,6 @@ use App\Core\Ports\{
     Security\SecurityPolicyContract,
     Security\Provider\SecurityProviderContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
-    Segment\Order\Handler\Command\CreateOrderHandlerContract,
     Segment\Order\Service\Command\OrderMutationCommandContract,
     Shared\Logging\AppLoggerContract
 };
@@ -50,15 +49,10 @@ final class CreateOrderHandlerTest extends TestCase
         $this->initHandler();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CreateOrderHandlerContract::class, $this->handler);
-    }
-
     public function testHandleChecksPolicyBeforeCreatingOrder(): void
     {
         $this->securityPolicy
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('checkIfEmailVerified')
             ->willReturn($this->createMock(User::class));
 
@@ -76,8 +70,8 @@ final class CreateOrderHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('success', $result['status']);
-        $this->assertSame('success', $result['redirect']);
+        self::assertSame('success', $result['status']);
+        self::assertSame('success', $result['redirect']);
     }
 
     public function testHandleReturnsSuccessWithPaymentUrlForCardPayment(): void
@@ -90,8 +84,8 @@ final class CreateOrderHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('success', $result['status']);
-        $this->assertSame('https://stripe.com/pay/abc', $result['redirect']);
+        self::assertSame('success', $result['status']);
+        self::assertSame('https://stripe.com/pay/abc', $result['redirect']);
     }
 
     public function testHandleReturnsErrorWhenPolicyThrowsAccessDenied(): void
@@ -102,9 +96,9 @@ final class CreateOrderHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(403, $result['code']);
-        $this->assertSame('Email not verified.', $result['message']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(403, $result['code']);
+        self::assertSame('Email not verified.', $result['message']);
     }
 
     public function testHandleReturnsErrorWhenMutationCommandThrows(): void
@@ -113,9 +107,9 @@ final class CreateOrderHandlerTest extends TestCase
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(422, $result['code']);
-        $this->assertSame('Cart is empty.', $result['message']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(422, $result['code']);
+        self::assertSame('Cart is empty.', $result['message']);
     }
 
     public function testHandleReturnsCartDataOnConflictWhenUserIsAuthenticated(): void
@@ -128,16 +122,16 @@ final class CreateOrderHandlerTest extends TestCase
         $this->securityProvider->method('getCurrentUser')->willReturn($user);
 
         $this->cartRenderQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildCartResponse')
             ->with($user, '')
             ->willReturn($cartData);
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(409, $result['code']);
-        $this->assertSame($cartData, $result['cart']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(409, $result['code']);
+        self::assertSame($cartData, $result['cart']);
     }
 
     public function testHandleReturnsNoCartDataOnConflictWhenUserIsNull(): void
@@ -146,25 +140,25 @@ final class CreateOrderHandlerTest extends TestCase
 
         $this->securityProvider->method('getCurrentUser')->willReturn(null);
 
-        $this->cartRenderQuery->expects($this->never())->method('buildCartResponse');
+        $this->cartRenderQuery->expects(self::never())->method('buildCartResponse');
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(409, $result['code']);
-        $this->assertArrayNotHasKey('cart', $result);
+        self::assertSame('error', $result['status']);
+        self::assertSame(409, $result['code']);
+        self::assertArrayNotHasKey('cart', $result);
     }
 
     public function testHandleLogsErrorWhenUnexpectedExceptionOccurs(): void
     {
         $this->setupCreateOrderThrows(new \RuntimeException('Unexpected failure.'));
 
-        $this->logger->expects($this->once())->method('error');
+        $this->logger->expects(self::once())->method('error');
 
         $result = $this->handler->handle($this->buildPayload());
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(500, $result['code']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(500, $result['code']);
     }
 
     private function initMocks(): void

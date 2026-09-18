@@ -19,7 +19,8 @@ final class AdminVariantValidationCommandService implements AdminVariantValidati
     */
     public function extractAndValidateId(object $payload, string $field = 'id'): int
     {
-        $id = DataSanitizer::sanitizeInt($payload->$field ?? null);
+        $vars = get_object_vars($payload);
+        $id = DataSanitizer::sanitizeInt($vars[$field] ?? null);
 
         return $this->validatePositiveInt($id, 'ID');
     }

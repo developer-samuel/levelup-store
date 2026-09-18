@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
-    "php": ">=8.2 <8.4",
+    "php": "^8.3",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "async-aws/s3": "*",
@@ -80,7 +80,8 @@
       "symfony/runtime": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "infection/extension-installer": true,
-      "tbachert/spi": true
+      "tbachert/spi": true,
+      "phpstan/extension-installer": true
     },
     "bump-after-update": true,
     "sort-packages": true
@@ -105,7 +106,8 @@
   "autoload-dev": {
     "psr-4": {
       "Tests\\": "tests/",
-      "Tools\\Rector\\Rules\\": "tools/rector/rules/"
+      "Tools\\Rector\\Rules\\": "tools/rector/rules/",
+      "Tools\\PhpStan\\Descriptors\\": "tools/php-stan/descriptors/"
     }
   },
   "replace": {
@@ -212,14 +214,6 @@
       "Composer\\Config::disableProcessTimeout",
       "bin/run php vendor/bin/phpstan analyse --memory-limit=1G"
     ],
-    "php-cpd": [
-      "Composer\\Config::disableProcessTimeout",
-      "bin/run php vendor/bin/phpcpd src database kit"
-    ],
-    "php-loc": [
-      "Composer\\Config::disableProcessTimeout",
-      "bin/run php vendor/bin/phploc src database kit"
-    ],
     "php-metrics": [
       "Composer\\Config::disableProcessTimeout",
       "bin/run php scripts/tools/php-metrics/launcher.php"
@@ -282,14 +276,17 @@
     "deptrac/deptrac": "^4.4",
     "friendsofphp/php-cs-fixer": "^3.92",
     "pdepend/pdepend": "^2.16",
-    "phploc/phploc": "^7.0",
     "phpmd/phpmd": "^2.15",
     "phpmetrics/phpmetrics": "^2.9",
+    "phpstan/extension-installer": "*",
     "phpstan/phpstan": "^2.1",
+    "phpstan/phpstan-deprecation-rules": "*",
+    "phpstan/phpstan-doctrine": "*",
+    "phpstan/phpstan-phpunit": "*",
+    "phpstan/phpstan-strict-rules": "*",
     "phpstan/phpstan-symfony": "^2.0",
     "phpunit/phpunit": "^9.6",
     "rector/rector": "^2.5",
-    "sebastian/phpcpd": "^6.0",
     "symfony/browser-kit": "7.4.*",
     "symfony/css-selector": "7.4.*",
     "symfony/debug-bundle": "7.4.*",

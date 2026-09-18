@@ -37,7 +37,7 @@ final class MinLengthConstraint extends Constraint
     }
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

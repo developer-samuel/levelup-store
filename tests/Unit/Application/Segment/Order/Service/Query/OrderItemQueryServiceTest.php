@@ -19,8 +19,6 @@ use App\Core\Domain\{
 
 use App\Core\Application\Segment\Order\Service\Query\OrderItemQueryService;
 
-use App\Core\Ports\Segment\Order\Service\Query\OrderItemQueryContract;
-
 /**
  * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderItemQueryService
 */
@@ -33,24 +31,19 @@ final class OrderItemQueryServiceTest extends TestCase
         $this->service = new OrderItemQueryService();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(OrderItemQueryContract::class, $this->service);
-    }
-
     public function testPrepareLineItemsReturnsEmptyArrayForNoItems(): void
     {
         $result = $this->service->prepareLineItems([]);
 
-        $this->assertSame([], $result);
+        self::assertSame([], $result);
     }
 
     public function testPrepareLineItemsReturnsSingleItemForOneCartItem(): void
     {
         $result = $this->service->prepareLineItems([$this->buildDefaultCartItem()]);
 
-        $this->assertCount(1, $result);
-        $this->assertContainsOnlyInstancesOf(StripeLineItemObject::class, $result);
+        self::assertCount(1, $result);
+        self::assertContainsOnlyInstancesOf(StripeLineItemObject::class, $result);
     }
 
     public function testPrepareLineItemsGroupsDuplicateVariantsIntoQuantity(): void
@@ -59,8 +52,8 @@ final class OrderItemQueryServiceTest extends TestCase
 
         $result = array_values($this->service->prepareLineItems([$item, $item]));
 
-        $this->assertCount(1, $result);
-        $this->assertSame(2, $result[0]->quantity);
+        self::assertCount(1, $result);
+        self::assertSame(2, $result[0]->quantity);
     }
 
     public function testPrepareLineItemsReturnsOneItemPerUniqueVariant(): void
@@ -70,28 +63,28 @@ final class OrderItemQueryServiceTest extends TestCase
             $this->buildCartItem(variantId: 2, price: 20.0, productName: 'Widget B'),
         ];
 
-        $this->assertCount(2, $this->service->prepareLineItems($cartItems));
+        self::assertCount(2, $this->service->prepareLineItems($cartItems));
     }
 
     public function testPrepareLineItemsConvertsUnitAmountToCents(): void
     {
         $lineItem = $this->firstLineItem($this->buildCartItem(variantId: 1, price: 9.99, productName: 'Widget'));
 
-        $this->assertSame(999, $lineItem->price->unitAmount);
+        self::assertSame(999, $lineItem->price->unitAmount);
     }
 
     public function testPrepareLineItemsUsesProductName(): void
     {
         $lineItem = $this->firstLineItem($this->buildCartItem(variantId: 1, price: 10.0, productName: 'Super Widget'));
 
-        $this->assertSame('Super Widget', $lineItem->price->productName);
+        self::assertSame('Super Widget', $lineItem->price->productName);
     }
 
     public function testPrepareLineItemsUsesCurrencyEur(): void
     {
         $lineItem = $this->firstLineItem($this->buildDefaultCartItem());
 
-        $this->assertSame('eur', $lineItem->price->currency);
+        self::assertSame('eur', $lineItem->price->currency);
     }
 
     public function testIsStockAvailableReturnsTrueWhenAvailable(): void
@@ -99,7 +92,7 @@ final class OrderItemQueryServiceTest extends TestCase
         $stock = $this->createMock(ProductVariantStock::class);
         $stock->method('isAvailable')->willReturn(true);
 
-        $this->assertTrue($this->service->isStockAvailable($stock));
+        self::assertTrue($this->service->isStockAvailable($stock));
     }
 
     public function testIsStockAvailableReturnsFalseWhenNotAvailable(): void
@@ -107,12 +100,12 @@ final class OrderItemQueryServiceTest extends TestCase
         $stock = $this->createMock(ProductVariantStock::class);
         $stock->method('isAvailable')->willReturn(false);
 
-        $this->assertFalse($this->service->isStockAvailable($stock));
+        self::assertFalse($this->service->isStockAvailable($stock));
     }
 
     public function testIsStockAvailableReturnsFalseWhenNull(): void
     {
-        $this->assertFalse($this->service->isStockAvailable(null));
+        self::assertFalse($this->service->isStockAvailable(null));
     }
 
     private function buildDefaultCartItem(): CartItem&MockObject

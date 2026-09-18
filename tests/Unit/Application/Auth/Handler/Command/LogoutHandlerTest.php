@@ -12,7 +12,6 @@ use PHPUnit\{
 use App\Core\Application\Auth\Handler\Command\LogoutHandler;
 
 use App\Core\Ports\{
-    Auth\Handler\Command\LogoutHandlerContract,
     Auth\Service\Command\LogoutCommandContract,
     Shared\Logging\AppLoggerContract
 };
@@ -34,29 +33,24 @@ final class LogoutHandlerTest extends TestCase
         $this->initHandler();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(LogoutHandlerContract::class, $this->handler);
-    }
-
     public function testHandleReturnsSuccessStatus(): void
     {
         $result = $this->handler->handle(self::TOKEN);
 
-        $this->assertSame('success', $result['status']);
+        self::assertSame('success', $result['status']);
     }
 
     public function testHandleReturnsSuccessMessage(): void
     {
         $result = $this->handler->handle(self::TOKEN);
 
-        $this->assertSame('Logged out successfully', $result['message']);
+        self::assertSame('Logged out successfully', $result['message']);
     }
 
     public function testHandleDelegatesToLogoutCommand(): void
     {
         $this->logoutCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('execute')
             ->with(self::TOKEN);
 
@@ -66,7 +60,7 @@ final class LogoutHandlerTest extends TestCase
     public function testHandlePassesNullTokenToCommand(): void
     {
         $this->logoutCommand
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('execute')
             ->with(null);
 
@@ -81,8 +75,8 @@ final class LogoutHandlerTest extends TestCase
 
         $result = $this->handler->handle(self::TOKEN);
 
-        $this->assertSame('error', $result['status']);
-        $this->assertSame(422, $result['code']);
+        self::assertSame('error', $result['status']);
+        self::assertSame(422, $result['code']);
     }
 
     private function initMocks(): void

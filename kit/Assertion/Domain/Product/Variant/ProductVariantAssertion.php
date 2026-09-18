@@ -36,7 +36,7 @@ final class ProductVariantAssertion
     public static function assertNameExists(ProductVariant $variant): void
     {
         $name = $variant->getProduct()->getName();
-        if (empty($name)) {
+        if ($name === '') {
             throw new NotFoundHttpException('Product or name is null');
         }
     }

@@ -7,12 +7,9 @@ namespace Tests\Integration\Adapters\External\Search;
 use PHPUnit\Framework\TestCase;
 
 use Elastic\{
-    Elasticsearch\Client,
     Elasticsearch\Response\Elasticsearch,
     Elasticsearch\Exception\ClientResponseException
 };
-
-use App\Core\Ports\Gateways\External\Search\ElasticsearchGatewayContract;
 
 use App\Adapters\External\Search\ElasticsearchAdapter;
 
@@ -37,7 +34,7 @@ final class ElasticsearchAdapterTest extends TestCase
         $this->adapter = new ElasticsearchAdapter(true, $this->host, $this->port);
 
         if (!$this->adapter->isConnected()) {
-            $this->markTestSkipped('Elasticsearch is not available.');
+            self::markTestSkipped('Elasticsearch is not available.');
         }
     }
 
@@ -55,45 +52,35 @@ final class ElasticsearchAdapterTest extends TestCase
         }
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(ElasticsearchGatewayContract::class, $this->adapter);
-    }
-
     public function testIsEnabledReturnsTrueWhenEnabled(): void
     {
-        $this->assertTrue($this->adapter->isEnabled());
+        self::assertTrue($this->adapter->isEnabled());
     }
 
     public function testIsEnabledReturnsFalseWhenDisabled(): void
     {
         $adapter = new ElasticsearchAdapter(false, $this->host, $this->port);
 
-        $this->assertFalse($adapter->isEnabled());
+        self::assertFalse($adapter->isEnabled());
     }
 
     public function testIsConnectedReturnsTrueWhenRunning(): void
     {
-        $this->assertTrue($this->adapter->isConnected());
+        self::assertTrue($this->adapter->isConnected());
     }
 
     public function testIsConnectedReturnsFalseWhenDisabled(): void
     {
         $adapter = new ElasticsearchAdapter(false, $this->host, $this->port);
 
-        $this->assertFalse($adapter->isConnected());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testIsConnectedReturnsFalseWhenUnreachable(): void
     {
         $adapter = new ElasticsearchAdapter(true, '127.0.0.1', 19999);
 
-        $this->assertFalse($adapter->isConnected());
-    }
-
-    public function testGetClientReturnsElasticsearchClient(): void
-    {
-        $this->assertInstanceOf(Client::class, $this->adapter->getClient());
+        self::assertFalse($adapter->isConnected());
     }
 
     public function testEnsureIndexExistsCreatesIndex(): void
@@ -109,7 +96,7 @@ final class ElasticsearchAdapterTest extends TestCase
         /** @var Elasticsearch $exists */
         $exists = $this->adapter->getClient()->indices()->exists(['index' => $this->testIndex]);
 
-        $this->assertTrue($exists->asBool());
+        self::assertTrue($exists->asBool());
     }
 
     public function testEnsureIndexExistsIsIdempotent(): void
@@ -128,7 +115,7 @@ final class ElasticsearchAdapterTest extends TestCase
         /** @var Elasticsearch $exists */
         $exists = $this->adapter->getClient()->indices()->exists(['index' => $this->testIndex]);
 
-        $this->assertTrue($exists->asBool());
+        self::assertTrue($exists->asBool());
     }
 
     public function testIndexDocumentIndexesDocument(): void
@@ -149,7 +136,7 @@ final class ElasticsearchAdapterTest extends TestCase
 
         /** @var array<string, mixed> $source */
         $source = $response['_source'];
-        $this->assertSame('Test Product', $source['name']);
+        self::assertSame('Test Product', $source['name']);
     }
 
     public function testRemoveDocumentRemovesDocument(): void

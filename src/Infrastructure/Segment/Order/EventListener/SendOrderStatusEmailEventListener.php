@@ -43,12 +43,12 @@ final readonly class SendOrderStatusEmailEventListener
         );
 
         $personal = $event->order->getPersonal();
-        if (!$personal) {
+        if ($personal === null) {
             return;
         }
 
         $email = $personal->getEmail();
-        if (!$email) {
+        if ($email === '') {
             return;
         }
 

@@ -60,7 +60,7 @@ final readonly class SecurityPolicy implements SecurityPolicyContract
     private function runChecks(array $checks): User
     {
         $user = $this->securityProvider->getCurrentUser();
-        if (!$user) {
+        if ($user === null) {
             throw new AccessDeniedException('No user found.');
         }
 

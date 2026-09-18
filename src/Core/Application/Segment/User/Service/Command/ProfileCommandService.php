@@ -14,7 +14,7 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\User\Utils\NameFormatter;
 
 use App\Core\Ports\{
-    Segment\User\Service\Command\AddressCommandContract,
+    Segment\User\Service\Command\UserAddressCommandContract,
     Segment\User\Service\Command\ProfileCommandContract,
     Shared\Persistence\EntityPersistenceContract
 };
@@ -23,11 +23,11 @@ final readonly class ProfileCommandService implements ProfileCommandContract
 {
     /**
      * @param EntityPersistenceContract $entityPersistence
-     * @param AddressCommandContract $addressCommand
+     * @param UserAddressCommandContract $userAddressCommand
     */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
-        private AddressCommandContract $addressCommand,
+        private UserAddressCommandContract $userAddressCommand,
     ) {}
 
     /**
@@ -69,20 +69,18 @@ final readonly class ProfileCommandService implements ProfileCommandContract
     */
     private function processUserAddresses(User $user, ProfilePayload $payload): void
     {
-        $this->addressCommand->processAddressEntity(
+        $this->userAddressCommand->processAddressEntity(
             $user,
             $user->getBilling(),
             $payload->billing,
             UserBilling::class,
-            'setBilling',
         );
 
-        $this->addressCommand->processAddressEntity(
+        $this->userAddressCommand->processAddressEntity(
             $user,
             $user->getShipping(),
             $payload->shipping,
             UserShipping::class,
-            'setShipping',
         );
     }
 }

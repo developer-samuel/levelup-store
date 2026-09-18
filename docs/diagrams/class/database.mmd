@@ -316,6 +316,17 @@ classDiagram
         created_at : DATETIME
     }
 
+    %% Tables: Audit
+    class AuditLog {
+        id : BIGINT PK
+        user_id : BIGINT FK NULL
+        action : VARCHAR(64)
+        entity : VARCHAR(64)
+        entity_id : BIGINT
+        metadata : TEXT NULL
+        created_at : DATETIME
+    }
+
     %% Relations: Core
     Category --> Type
     Category --> Subtype
@@ -371,3 +382,6 @@ classDiagram
     %% Relations: Review
     Review --> ReviewDetail
     Review --> ReviewRating
+
+    %% Relations: Audit
+    AuditLog --> User

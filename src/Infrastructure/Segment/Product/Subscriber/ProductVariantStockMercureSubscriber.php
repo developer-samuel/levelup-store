@@ -7,7 +7,6 @@ namespace App\Infrastructure\Segment\Product\Subscriber;
 use Doctrine\{
     Bundle\DoctrineBundle\Attribute\AsDoctrineListener,
     ORM\EntityManagerInterface,
-    ORM\Event\PostFlushEventArgs,
     ORM\Events,
     Persistence\Event\LifecycleEventArgs
 };
@@ -79,7 +78,7 @@ final class ProductVariantStockMercureSubscriber
      */
     public function postFlush(): void
     {
-        if (empty($this->pendingStocks)) {
+        if ($this->pendingStocks === []) {
             return;
         }
         foreach ($this->pendingStocks as $variantId => $data) {

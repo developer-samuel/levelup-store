@@ -50,7 +50,6 @@
 
   &__tbody {
     td {
-      gap: 0.5em;
       vertical-align: middle;
       text-align: center;
       padding: 0.75em 1em !important;
@@ -60,12 +59,9 @@
       }
 
       &:last-child {
-        text-align: right;
+        @include flex-end-x;
 
-        a {
-          display: inline-flex;
-          justify-content: flex-end;
-        }
+        gap: 0.5em;
       }
 
       a {

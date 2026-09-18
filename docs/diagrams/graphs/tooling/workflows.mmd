@@ -1,0 +1,71 @@
+graph TD
+    %% Class Styles
+    classDef root fill:#000, color:#fff;
+    classDef ci fill:#1a7f5a, color:#fff, stroke:#000, stroke-width:2px;
+    classDef deploy fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef quality fill:#6b21a8, color:#fff, stroke:#000, stroke-width:2px;
+    classDef security fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef validation fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef release fill:#b45309, color:#fff, stroke:#000, stroke-width:2px;
+
+    %% Root
+    GHA[🚀 GitHub Actions]:::root
+
+    %% ── CI ────────────────────────────────────────────────────────────────
+
+    subgraph CI["CI"]
+        CIYml[🚀 ci.yml - lint, PHPUnit, Vitest, E2E]:::ci
+    end
+
+    %% ── Deploy ────────────────────────────────────────────────────────────
+
+    subgraph Deploy["Deploy"]
+        DeployYml[🐳 deploy.yml - build image, SBOM, Trivy, sign, sync ArgoCD]:::deploy
+        NotifyYml[🔔 notify.yml - deployment notification]:::deploy
+    end
+
+    %% ── Quality ───────────────────────────────────────────────────────────
+
+    subgraph Quality["Quality"]
+        CodeQuality[📊 code-quality.yml - coverage, SonarCloud]:::quality
+        FrontendAudit[🏠 frontend-audit.yml - Lighthouse, axe-core, pa11y]:::quality
+        BundleSize[📦 bundle-size.yml - bundle size report]:::quality
+    end
+
+    %% ── Security ──────────────────────────────────────────────────────────
+
+    subgraph Security["Security"]
+        Zap[🕷️ zap.yml - OWASP ZAP DAST]:::security
+        Sast[🔬 sast.yml - CodeQL]:::security
+        CveScan[🔒 cve-scan.yml - Trivy CVE scan]:::security
+        SupplyChain[🔗 supply-chain.yml - Gitleaks, OSSF Scorecard]:::security
+    end
+
+    %% ── Validation ────────────────────────────────────────────────────────
+
+    subgraph Validation["Validation"]
+        DockerValidate[🐳 docker-validate.yml]:::validation
+        InfraValidate[🏗️ infrastructure-validate.yml]:::validation
+        InfraLint[🔧 infrastructure-lint.yml]:::validation
+        RenovateValidate[🔄 renovate-validate.yml]:::validation
+        ValidateCommits[✅ validate-commits.yml]:::validation
+        Labeler[🏷️ labeler.yml]:::validation
+    end
+
+    %% ── Release ───────────────────────────────────────────────────────────
+
+    subgraph Release["Release"]
+        ReleaseDrafter[📝 release-drafter.yml - update release draft]:::release
+        ReleaseYml[📦 release.yml - prepend CHANGELOG, commit]:::release
+    end
+
+    %% Connections
+    GHA --> CI
+    GHA --> Deploy
+    GHA --> Quality
+    GHA --> Security
+    GHA --> Validation
+    GHA --> Release
+
+    %% Deploy flow
+    DeployYml --> NotifyYml

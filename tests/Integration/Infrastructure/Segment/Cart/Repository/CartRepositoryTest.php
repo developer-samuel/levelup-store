@@ -10,8 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use App\Core\Domain\Segment\Cart\Entity\Cart;
 
-use App\Core\Ports\Segment\Cart\Repository\CartRepositoryContract;
-
 use App\Infrastructure\Segment\Cart\Repository\CartRepository;
 
 use Tests\{
@@ -51,11 +49,6 @@ final class CartRepositoryTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(CartRepositoryContract::class, $this->repository);
-    }
-
     public function testFindCartForUserReturnsCartWhenExists(): void
     {
         $user = $this->createAndPersistUser('test@example.com');
@@ -63,15 +56,15 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findCartForUser($user->getId());
 
-        $this->assertInstanceOf(Cart::class, $result);
-        $this->assertSame($user->getId(), $result->getUser()->getId());
+        self::assertInstanceOf(Cart::class, $result);
+        self::assertSame($user->getId(), $result->getUser()->getId());
     }
 
     public function testFindCartForUserReturnsNullWhenNotExists(): void
     {
         $result = $this->repository->findCartForUser(999999);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testFindCartForUserReturnsOnlyCartForGivenUser(): void
@@ -84,8 +77,8 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findCartForUser($userA->getId());
 
-        $this->assertNotNull($result);
-        $this->assertSame($userA->getId(), $result->getUser()->getId());
+        self::assertNotNull($result);
+        self::assertSame($userA->getId(), $result->getUser()->getId());
     }
 
     public function testFindInactiveSinceReturnsCartUpdatedBeforeThreshold(): void
@@ -97,7 +90,7 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findInactiveSince(new \DateTimeImmutable('-1 day'));
 
-        $this->assertContains($cart->getId(), $this->extractIds($result));
+        self::assertContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindInactiveSinceDoesNotReturnRecentCart(): void
@@ -109,14 +102,14 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findInactiveSince(new \DateTimeImmutable('now'));
 
-        $this->assertNotContains($cart->getId(), $this->extractIds($result));
+        self::assertNotContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindInactiveSinceReturnsEmptyWhenNoCartsMatchThreshold(): void
     {
         $result = $this->repository->findInactiveSince(new \DateTimeImmutable('-10 years'));
 
-        $this->assertEmpty($result);
+        self::assertEmpty($result);
     }
 
     public function testFindAbandonedForReminderReturnsCartInWindow(): void
@@ -133,7 +126,7 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAbandonedForReminder($from, $to);
 
-        $this->assertContains($cart->getId(), $this->extractIds($result));
+        self::assertContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindAbandonedForReminderExcludesAlreadyReminded(): void
@@ -151,7 +144,7 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAbandonedForReminder($from, $to);
 
-        $this->assertNotContains($cart->getId(), $this->extractIds($result));
+        self::assertNotContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindAbandonedForReminderExcludesEmptyCarts(): void
@@ -166,7 +159,7 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAbandonedForReminder($from, $to);
 
-        $this->assertNotContains($cart->getId(), $this->extractIds($result));
+        self::assertNotContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindAbandonedForReminderExcludesRecentCarts(): void
@@ -183,7 +176,7 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findAbandonedForReminder($from, $to);
 
-        $this->assertNotContains($cart->getId(), $this->extractIds($result));
+        self::assertNotContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindEmptyReturnsCartWithNoItems(): void
@@ -193,7 +186,7 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findEmpty();
 
-        $this->assertContains($cart->getId(), $this->extractIds($result));
+        self::assertContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindEmptyDoesNotReturnCartWithItems(): void
@@ -206,7 +199,7 @@ final class CartRepositoryTest extends KernelTestCase
 
         $result = $this->repository->findEmpty();
 
-        $this->assertNotContains($cart->getId(), $this->extractIds($result));
+        self::assertNotContains($cart->getId(), $this->extractIds($result));
     }
 
     public function testFindEmptyReturnsOnlyEmptyCarts(): void
@@ -223,8 +216,8 @@ final class CartRepositoryTest extends KernelTestCase
         $result = $this->repository->findEmpty();
         $ids = $this->extractIds($result);
 
-        $this->assertContains($emptyCart->getId(), $ids);
-        $this->assertNotContains($fullCart->getId(), $ids);
+        self::assertContains($emptyCart->getId(), $ids);
+        self::assertNotContains($fullCart->getId(), $ids);
     }
 
     /**

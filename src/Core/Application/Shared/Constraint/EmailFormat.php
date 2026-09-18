@@ -24,7 +24,7 @@ final class EmailFormat extends Constraint
     }
 
     /**
-     * @return string
+     * @return 'property'
     */
     public function getTargets(): string
     {

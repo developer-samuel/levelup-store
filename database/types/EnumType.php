@@ -50,7 +50,7 @@ final class EnumType extends Type
     /**
      * Gets the SQL declaration snippet for the enum type.
      *
-     * @param array<string, int|string|null> $fieldDeclaration
+     * @param mixed[] $fieldDeclaration
      * @param AbstractPlatform $platform
      *
      * @return string

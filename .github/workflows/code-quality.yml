@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  PHP_VERSION: '8.3'
-  NODE_VERSION: '24'
+  PHP_VERSION: ${{ vars.PHP_VERSION }}
+  NODE_VERSION: ${{ vars.NODE_VERSION }}
 
 jobs:
   # ─── Coverage ─────────────────────────────────────────────────────────────
@@ -124,13 +124,12 @@ jobs:
           extensions: pdo_pgsql, redis, pcov
           coverage: pcov
 
-      - name: Database warmup
-        run: |
-          php bin/console doctrine:database:create --if-not-exists --env=test
-          php bin/console doctrine:migrations:migrate --no-interaction --env=test
-
-      - name: Elasticsearch indexing
-        run: php bin/console app:elasticsearch:reindex --env=test
+      - name: Bootstrap
+        uses: ./.github/actions/bootstrap
+        with:
+          symfony-env: test
+          with-fixtures: 'false'
+          with-reindex: 'true'
 
       - name: Run PHPUnit with coverage
         run: composer php-unit
@@ -150,6 +149,9 @@ jobs:
       - name: Run Vitest with coverage
         run: pnpm vitest
 
+      - name: Generate ESLint report for SonarCloud
+        run: pnpm lint:report
+
       - name: Upload JS coverage to Codecov
         uses: codecov/codecov-action@v7
         with:
@@ -164,6 +166,7 @@ jobs:
           path: |
             var/tools/php-unit/coverage.xml
             var/tools/vitest/coverage/lcov.info
+            var/tools/eslint/report.json
           retention-days: 1
 
   # ─── SonarCloud ───────────────────────────────────────────────────────────

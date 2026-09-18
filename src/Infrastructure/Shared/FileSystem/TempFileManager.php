@@ -30,7 +30,9 @@ final class TempFileManager implements TempFileManagerContract
     */
     public function read(string $path): string
     {
-        return file_get_contents($path) ?: '';
+        $content = file_get_contents($path);
+
+        return $content !== false ? $content : '';
     }
 
     /**

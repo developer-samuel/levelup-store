@@ -29,10 +29,7 @@ use App\Core\Domain\{
     Segment\Order\ValueObject\Stripe\StripeLineItemPriceObject
 };
 
-use App\Core\Ports\{
-    Gateways\External\Payment\Stripe\StripePaymentGatewayContract,
-    Payment\Stripe\StripeSdkContract
-};
+use App\Core\Ports\Payment\Stripe\StripeSdkContract;
 
 use App\Adapters\External\Payment\Stripe\StripePaymentAdapter;
 
@@ -55,14 +52,9 @@ final class StripePaymentAdapterTest extends TestCase
         $this->initAdapter();
     }
 
-    public function testImplementsContract(): void
-    {
-        $this->assertInstanceOf(StripePaymentGatewayContract::class, $this->adapter);
-    }
-
     public function testInitiateCheckoutReturnsUrl(): void
     {
-        $this->stripeSdk->expects($this->once())->method('initialize');
+        $this->stripeSdk->expects(self::once())->method('initialize');
 
         $this->urlGenerator
             ->method('generate')
@@ -82,12 +74,12 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->adapter->initiateCheckout($lineItems, $payload);
 
-        $this->assertSame('https://checkout.stripe.com/pay/sk_test_123', $result);
+        self::assertSame('https://checkout.stripe.com/pay/sk_test_123', $result);
     }
 
     public function testRetrieveCheckoutSessionReturnsObject(): void
     {
-        $this->stripeSdk->expects($this->once())->method('initialize');
+        $this->stripeSdk->expects(self::once())->method('initialize');
 
         ApiRequestor::setHttpClient($this->buildStripeHttpMock([
             'id'             => 'sk_test_123',
@@ -99,22 +91,22 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->adapter->retrieveCheckoutSession('sk_test_123');
 
-        $this->assertSame(2000, $result->amountTotal);
-        $this->assertSame('pi_abc123', $result->paymentIntent);
-        $this->assertSame('test@example.com', $result->metadata['personal_email']);
+        self::assertSame(2000, $result->amountTotal);
+        self::assertSame('pi_abc123', $result->paymentIntent);
+        self::assertSame('test@example.com', $result->metadata['personal_email']);
     }
 
     public function testGenerateUrlCallsUrlGenerator(): void
     {
         $this->urlGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with('orders_success', [], UrlGeneratorInterface::ABSOLUTE_URL)
             ->willReturn('https://example.com/orders/success');
 
         $result = $this->callPrivate('generateUrl', ['orders_success']);
 
-        $this->assertSame('https://example.com/orders/success', $result);
+        self::assertSame('https://example.com/orders/success', $result);
     }
 
     public function testMapLineItemsMapsCorrectly(): void
@@ -129,11 +121,11 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<int, LineItem> $result */
         $result = $this->callPrivate('mapLineItems', [$lineItems]);
 
-        $this->assertCount(1, $result);
-        $this->assertSame('eur', $result[0]['price_data']['currency']);
-        $this->assertSame('Product A', $result[0]['price_data']['product_data']['name']);
-        $this->assertSame(1999, $result[0]['price_data']['unit_amount']);
-        $this->assertSame(2, $result[0]['quantity']);
+        self::assertCount(1, $result);
+        self::assertSame('eur', $result[0]['price_data']['currency']);
+        self::assertSame('Product A', $result[0]['price_data']['product_data']['name']);
+        self::assertSame(1999, $result[0]['price_data']['unit_amount']);
+        self::assertSame(2, $result[0]['quantity']);
     }
 
     public function testMapLineItemsReturnsEmptyArray(): void
@@ -141,8 +133,8 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<int, mixed> $result */
         $result = $this->callPrivate('mapLineItems', [[]]);
 
-        $this->assertIsArray($result);
-        $this->assertEmpty($result);
+        self::assertIsArray($result);
+        self::assertEmpty($result);
     }
 
     public function testBuildMetadataWithoutShipping(): void
@@ -152,15 +144,15 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<string, string> $result */
         $result = $this->callPrivate('buildMetadata', [$payload]);
 
-        $this->assertSame('test@example.com', $result['personal_email']);
-        $this->assertSame('John', $result['personal_first_name']);
-        $this->assertSame('Doe', $result['personal_last_name']);
-        $this->assertSame('1', $result['billing_country']);
-        $this->assertSame('Main Street', $result['billing_street']);
-        $this->assertSame('12345', $result['billing_postal']);
-        $this->assertSame('Bratislava', $result['billing_city']);
-        $this->assertSame('0', $result['send_shipping']);
-        $this->assertArrayNotHasKey('shipping_country', $result);
+        self::assertSame('test@example.com', $result['personal_email']);
+        self::assertSame('John', $result['personal_first_name']);
+        self::assertSame('Doe', $result['personal_last_name']);
+        self::assertSame('1', $result['billing_country']);
+        self::assertSame('Main Street', $result['billing_street']);
+        self::assertSame('12345', $result['billing_postal']);
+        self::assertSame('Bratislava', $result['billing_city']);
+        self::assertSame('0', $result['send_shipping']);
+        self::assertArrayNotHasKey('shipping_country', $result);
     }
 
     public function testBuildMetadataWithShipping(): void
@@ -171,11 +163,11 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<string, string> $result */
         $result = $this->callPrivate('buildMetadata', [$payload]);
 
-        $this->assertSame('1', $result['send_shipping']);
-        $this->assertSame('2', $result['shipping_country']);
-        $this->assertSame('Side Street', $result['shipping_street']);
-        $this->assertSame('54321', $result['shipping_postal']);
-        $this->assertSame('Košice', $result['shipping_city']);
+        self::assertSame('1', $result['send_shipping']);
+        self::assertSame('2', $result['shipping_country']);
+        self::assertSame('Side Street', $result['shipping_street']);
+        self::assertSame('54321', $result['shipping_postal']);
+        self::assertSame('Košice', $result['shipping_city']);
     }
 
     public function testExtractCheckoutUrlReturnsUrl(): void
@@ -184,7 +176,7 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->callPrivate('extractCheckoutUrl', [$session]);
 
-        $this->assertSame('https://checkout.stripe.com/pay/session_123', $result);
+        self::assertSame('https://checkout.stripe.com/pay/session_123', $result);
     }
 
     public function testExtractCheckoutUrlThrowsOnEmptyUrl(): void
@@ -213,7 +205,7 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->callPrivate('extractMetadata', [$session]);
 
-        $this->assertSame(['personal_email' => 'test@example.com'], $result);
+        self::assertSame(['personal_email' => 'test@example.com'], $result);
     }
 
     public function testExtractMetadataConvertsStripeObject(): void
@@ -225,8 +217,8 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->callPrivate('extractMetadata', [$session]);
 
-        $this->assertIsArray($result);
-        $this->assertSame('test@example.com', $result['personal_email']);
+        self::assertIsArray($result);
+        self::assertSame('test@example.com', $result['personal_email']);
     }
 
     public function testExtractMetadataThrowsOnMissingMetadata(): void
@@ -253,7 +245,7 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->callPrivate('extractPaymentIntent', [$session]);
 
-        $this->assertSame('pi_abc123', $result);
+        self::assertSame('pi_abc123', $result);
     }
 
     public function testExtractPaymentIntentReturnsNullWhenNotString(): void
@@ -262,12 +254,12 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->callPrivate('extractPaymentIntent', [$session]);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     public function testRetrieveCheckoutSessionReturnsZeroAmountWhenNull(): void
     {
-        $this->stripeSdk->expects($this->once())->method('initialize');
+        $this->stripeSdk->expects(self::once())->method('initialize');
 
         ApiRequestor::setHttpClient($this->buildStripeHttpMock([
             'id'             => 'sk_test_123',
@@ -279,7 +271,7 @@ final class StripePaymentAdapterTest extends TestCase
 
         $result = $this->adapter->retrieveCheckoutSession('sk_test_123');
 
-        $this->assertSame(0, $result->amountTotal);
+        self::assertSame(0, $result->amountTotal);
     }
 
     public function testMapLineItemsReturnsAllItemsWhenMultiple(): void
@@ -292,9 +284,9 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<int, LineItem> $result */
         $result = $this->callPrivate('mapLineItems', [$lineItems]);
 
-        $this->assertCount(2, $result);
-        $this->assertSame('Product A', $result[0]['price_data']['product_data']['name']);
-        $this->assertSame('Product B', $result[1]['price_data']['product_data']['name']);
+        self::assertCount(2, $result);
+        self::assertSame('Product A', $result[0]['price_data']['product_data']['name']);
+        self::assertSame('Product B', $result[1]['price_data']['product_data']['name']);
     }
 
     public function testMapLineItemsWithNonSequentialKeys(): void
@@ -307,7 +299,7 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<int, LineItem> $result */
         $result = $this->callPrivate('mapLineItems', [$lineItems]);
 
-        $this->assertCount(2, $result);
+        self::assertCount(2, $result);
     }
 
     public function testBuildSessionParamsStructure(): void
@@ -325,12 +317,12 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<string, mixed> $result */
         $result = $this->callPrivate('buildSessionParams', [$lineItems, $payload]);
 
-        $this->assertSame(['card'], $result['payment_method_types']);
-        $this->assertSame('payment', $result['mode']);
-        $this->assertSame('https://example.com/orders/success?session_id={CHECKOUT_SESSION_ID}', $result['success_url']);
-        $this->assertSame('https://example.com/orders/cancel', $result['cancel_url']);
-        $this->assertArrayHasKey('line_items', $result);
-        $this->assertArrayHasKey('metadata', $result);
+        self::assertSame(['card'], $result['payment_method_types']);
+        self::assertSame('payment', $result['mode']);
+        self::assertSame('https://example.com/orders/success?session_id={CHECKOUT_SESSION_ID}', $result['success_url']);
+        self::assertSame('https://example.com/orders/cancel', $result['cancel_url']);
+        self::assertArrayHasKey('line_items', $result);
+        self::assertArrayHasKey('metadata', $result);
     }
 
     public function testExtractMetadataReturnsAllKeys(): void
@@ -346,10 +338,10 @@ final class StripePaymentAdapterTest extends TestCase
         /** @var array<string, string> $result */
         $result = $this->callPrivate('extractMetadata', [$session]);
 
-        $this->assertCount(3, $result);
-        $this->assertArrayHasKey('personal_email', $result);
-        $this->assertArrayHasKey('personal_first_name', $result);
-        $this->assertArrayHasKey('billing_country', $result);
+        self::assertCount(3, $result);
+        self::assertArrayHasKey('personal_email', $result);
+        self::assertArrayHasKey('personal_first_name', $result);
+        self::assertArrayHasKey('billing_country', $result);
     }
 
     private function initMocks(): void
@@ -397,8 +389,8 @@ final class StripePaymentAdapterTest extends TestCase
             public function __construct(private array $responseData) {}
 
             /**
-             * @param array<string, mixed> $headers
-             * @param array<string, mixed> $params
+             * @param array<array-key, mixed> $headers
+             * @param array<array-key, mixed> $params
              *
              * @return array{0: string, 1: int, 2: string[]}
             */

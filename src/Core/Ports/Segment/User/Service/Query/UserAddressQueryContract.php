@@ -17,7 +17,7 @@ use App\Core\Domain\{
  *     city: string
  * }
 */
-interface AddressQueryContract
+interface UserAddressQueryContract
 {
     /**
      * @param array<string, mixed> $data

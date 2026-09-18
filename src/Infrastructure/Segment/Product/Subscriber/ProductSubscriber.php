@@ -31,7 +31,7 @@ final readonly class ProductSubscriber implements EventSubscriberInterface
     ) {}
 
     /**
-     * @return array<string, string|string[]>
+     * @return array<string, string>
     */
     public static function getSubscribedEvents(): array
     {

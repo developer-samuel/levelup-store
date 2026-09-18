@@ -67,7 +67,8 @@ final class ChangePasswordRequest extends AbstractRequest
     {
         PasswordCheckFields::validatePasswordsMatch(
             $context,
-            $this,
+            $this->new_password,
+            $this->new_password_confirmation,
             'new_password',
             'new_password_confirmation',
             'New passwords do not match.',

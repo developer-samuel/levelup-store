@@ -128,6 +128,6 @@ final readonly class AppLogger implements AppLoggerContract
             $context['user'] = $user->getId();
         }
 
-        $this->logger->{$level}($message, $context);
+        $this->logger->log($level, $message, $context);
     }
 }

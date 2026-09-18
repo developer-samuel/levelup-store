@@ -74,7 +74,7 @@ final readonly class OrderPreparationQueryService implements OrderPreparationQue
         $method = StringNormalizer::toLowerCase(trim($payload->paymentMethod->value));
 
         $resolved = OrderPaymentMethod::tryFrom($method);
-        if (!$resolved) {
+        if ($resolved === null) {
             throw new \InvalidArgumentException(sprintf(
                 'Invalid payment method "%s". Allowed values: %s',
                 $method,
