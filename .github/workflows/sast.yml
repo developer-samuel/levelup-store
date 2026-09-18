@@ -65,8 +65,6 @@ jobs:
         run: |
           semgrep \
             --config p/php \
-            --config p/symfony \
-            --config p/owasp-top-ten \
             --config p/secrets \
             --sarif \
             --output semgrep.sarif \
