@@ -31,7 +31,7 @@ trait OrderedQuery
         string $orderByColumn = 'id',
         SortDirection $direction = SortDirection::ASC,
     ): array {
-        $qb->orderBy(sprintf('%s.%s', $alias, $orderByColumn), $direction->value);
+        $qb->orderBy(sprintf('%s.%s', $alias, $orderByColumn), $direction->sort());
 
         return $this->collectFromIterable(
             $this->getIterableResult($qb),

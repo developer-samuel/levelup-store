@@ -389,10 +389,10 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
     private function applySorting(QueryBuilder $qb, ProductSortOption $sort): void
     {
         match ($sort) {
-            ProductSortOption::TOP_RATED      => $qb->orderBy('avgRating', 'DESC')->addOrderBy('v.createdAt', 'DESC'),
-            ProductSortOption::CHEAPEST       => $qb->orderBy('effectivePrice', 'ASC'),
-            ProductSortOption::MOST_EXPENSIVE => $qb->orderBy('effectivePrice', 'DESC'),
-            ProductSortOption::LATEST         => $qb->orderBy('v.createdAt', 'DESC'),
+            ProductSortOption::TOP_RATED      => $qb->orderBy('avgRating', SortDirection::DESC->sort())->addOrderBy('v.createdAt', SortDirection::DESC->sort()),
+            ProductSortOption::CHEAPEST       => $qb->orderBy('effectivePrice', SortDirection::ASC->sort()),
+            ProductSortOption::MOST_EXPENSIVE => $qb->orderBy('effectivePrice', SortDirection::DESC->sort()),
+            ProductSortOption::LATEST         => $qb->orderBy('v.createdAt', SortDirection::DESC->sort()),
         };
     }
 

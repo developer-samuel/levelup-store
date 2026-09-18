@@ -87,7 +87,7 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
         }
 
         if ($authUserId === null) {
-            $qb->orderBy('r.createdAt', SortDirection::DESC->value);
+            $qb->orderBy('r.createdAt', SortDirection::DESC->sort());
         }
 
         $results = $this->getIterableResult($qb);
@@ -129,7 +129,7 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
     public function getLastReviewByVariant(int $variantId): ?Review
     {
         $qb = $this->createBaseQueryForVariantAndType($variantId)
-            ->orderBy('r.createdAt', SortDirection::DESC->value);
+            ->orderBy('r.createdAt', SortDirection::DESC->sort());
 
         $review = $this->getResultOrNull($qb);
 
@@ -201,8 +201,8 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
     {
         $qb->addSelect("(CASE WHEN r.user = :authUserId THEN 0 ELSE 1 END) AS HIDDEN user_order")
             ->setParameter('authUserId', $authUserId)
-            ->orderBy('user_order', SortDirection::ASC->value)
-            ->addOrderBy('r.createdAt', SortDirection::DESC->value);
+            ->orderBy('user_order', SortDirection::ASC->sort())
+            ->addOrderBy('r.createdAt', SortDirection::DESC->sort());
     }
 
     /**
