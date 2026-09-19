@@ -1,0 +1,6 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+ollama==0.4.4
+pydantic-settings==2.6.1
+ruff==0.8.6
+mypy==1.14.0
