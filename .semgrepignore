@@ -1,0 +1,9 @@
+# Test and example environment files contain intentional dummy values
+.env.test
+.env.example
+.env.local.example
+.env.production.example
+
+# Vendor and node_modules
+vendor/
+node_modules/
