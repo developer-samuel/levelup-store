@@ -30,10 +30,11 @@ if ((bool) $_SERVER['APP_DEBUG']) {
 }
 
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-$requestedPath = __DIR__ . '/public' . parse_url($requestUri, PHP_URL_PATH);
+$publicDir = realpath(__DIR__ . '/public');
+$requestedPath = realpath(__DIR__ . '/public' . parse_url($requestUri, PHP_URL_PATH));
 
 // If not running on the built-in PHP server (cli-server), and the requested file exists, return a 404 error
-if (php_sapi_name() !== 'cli-server' && file_exists($requestedPath) && !is_dir($requestedPath)) {
+if (php_sapi_name() !== 'cli-server' && $publicDir !== false && $requestedPath !== false && str_starts_with($requestedPath, $publicDir) && !is_dir($requestedPath)) {
     // Set HTTP status to 404 and render the 404 error page using the Twig template engine
     http_response_code(404);
     $loader = new FilesystemLoader(__DIR__ . '/templates');
