@@ -5,6 +5,7 @@ from collections.abc import AsyncGenerator
 import ollama
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
+from httpx import ConnectError
 
 from app.config import settings
 from app.models import ChatRequest
@@ -24,19 +25,25 @@ async def chat(request: ChatRequest) -> StreamingResponse:
     client = ollama.AsyncClient(host=settings.ollama_host)
 
     async def stream() -> AsyncGenerator[str, None]:
-        async for chunk in await client.chat(
-            model=settings.ollama_model,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": request.message},
-            ],
-            stream=True,
-        ):
-            token = chunk["message"]["content"]
-            if token:
-                data = json.dumps({"token": token, "conversation_id": conversation_id})
-                yield f"data: {data}\n\n"
-        yield f"data: {json.dumps({'done': True, 'conversation_id': conversation_id})}\n\n"
+        try:
+            async for chunk in await client.chat(
+                model=settings.ollama_model,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": request.message},
+                ],
+                stream=True,
+            ):
+                token = chunk["message"]["content"]
+                if token:
+                    data = json.dumps({"token": token, "conversation_id": conversation_id})
+                    yield f"data: {data}\n\n"
+            yield f"data: {json.dumps({'done': True, 'conversation_id': conversation_id})}\n\n"
+        except ConnectError:
+            payload = {"error": "Ollama service unavailable", "conversation_id": conversation_id}
+            yield f"data: {json.dumps(payload)}\n\n"
+        except ollama.ResponseError as e:
+            yield f"data: {json.dumps({'error': str(e), 'conversation_id': conversation_id})}\n\n"
 
     return StreamingResponse(
         stream(),
