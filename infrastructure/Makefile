@@ -95,7 +95,7 @@ endef
 
 # get_vm_ip - fetch public IP from Terraform into VM_IP - $(call get_vm_ip)
 define get_vm_ip
-  $(eval VM_IP := $(shell cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform output -raw public_ip))
+  $(eval VM_IP := $(shell cd $(TERRAFORM_DIR) && AWS_REQUEST_CHECKSUM_CALCULATION=when_required TF_DATA_DIR=.cache terraform output -raw public_ip))
 endef
 
 # ── Targets ───────────────────────────────────────────────────────────────────
@@ -171,25 +171,38 @@ tf-init: ## Initialize Terraform - local state (default)
 	cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform init
 
 tf-init-remote: ## Initialize Terraform - OCI Object Storage remote state
-	cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform init \
+	cd $(TERRAFORM_DIR) && \
+		AWS_REQUEST_CHECKSUM_CALCULATION=when_required \
+		TF_DATA_DIR=.cache terraform init \
+		-reconfigure \
 		-backend-config=secrets/backend.config.hcl \
 		-backend-config=secrets/backend.credentials.hcl
 
 tf-plan: ## Terraform plan - shows what will change on OCI
-	cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform plan
+	cd $(TERRAFORM_DIR) && \
+		AWS_REQUEST_CHECKSUM_CALCULATION=when_required \
+		TF_DATA_DIR=.cache terraform plan
 
 tf-apply: ## Terraform apply - creates VM on OCI
 	$(call require_bin,terraform,https://developer.hashicorp.com/terraform/install)
-	cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform apply
+	cd $(TERRAFORM_DIR) && \
+		AWS_REQUEST_CHECKSUM_CALCULATION=when_required \
+		TF_DATA_DIR=.cache terraform apply
 
 tf-import-velero: ## Import existing Velero OCI bucket into Terraform state
-	cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform import oci_objectstorage_bucket.velero "n/$(OCI_NAMESPACE)/b/$(TF_VAR_velero_bucket)"
+	cd $(TERRAFORM_DIR) && \
+		AWS_REQUEST_CHECKSUM_CALCULATION=when_required \
+		TF_DATA_DIR=.cache terraform import oci_objectstorage_bucket.velero "n/$(OCI_NAMESPACE)/b/$(TF_VAR_velero_bucket)"
 
 tf-destroy: ## Terraform destroy - deletes VM on OCI
-	cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform destroy
+	cd $(TERRAFORM_DIR) && \
+		AWS_REQUEST_CHECKSUM_CALCULATION=when_required \
+		TF_DATA_DIR=.cache terraform destroy
 
 tf-output: ## Show terraform outputs (e.g. public IP)
-	cd $(TERRAFORM_DIR) && TF_DATA_DIR=.cache terraform output
+	cd $(TERRAFORM_DIR) && \
+		AWS_REQUEST_CHECKSUM_CALCULATION=when_required \
+		TF_DATA_DIR=.cache terraform output
 
 # ── Ansible ───────────────────────────────────────────────────────────────────
 

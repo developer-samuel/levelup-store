@@ -12,10 +12,12 @@ terraform {
 
   required_version = ">= 1.5.0"
 
-  # Config is never hardcoded here - it would end up in git.
+  # Backend config is never hardcoded here - it would end up in git.
   # All backend config (bucket, endpoint, keys) goes into secrets/ files (gitignored).
-  # To activate remote state on OCI Object Storage: make tf-init-remote
-  #backend "s3" {}
+  #
+  # Local state  (first-time / no secrets): comment out backend "s3" {} → make tf-init
+  # Remote state (OCI Object Storage):      keep backend "s3" {}        → make tf-init-remote
+  backend "s3" {}
 }
 
 provider "oci" {

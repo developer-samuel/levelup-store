@@ -97,8 +97,9 @@ You need:
 
 By default Terraform uses local state. To enable remote state on OCI Object Storage:
 
-1. Create an OCI bucket for state storage
-2. Fill in `TF_BACKEND_BUCKET`, `TF_BACKEND_ENDPOINT`, `TF_BACKEND_ACCESS_KEY`, `TF_BACKEND_SECRET_KEY` in `.env`
-3. Run `make -C infrastructure tf-init-remote`
+1. Create an OCI bucket (e.g. `levelup-store-tfstate`, Private) in OCI Console → Object Storage
+2. Copy `secrets/backend.config.hcl.example` → `secrets/backend.config.hcl` and fill in bucket, namespace, region
+3. Copy `secrets/backend.credentials.hcl.example` → `secrets/backend.credentials.hcl` and fill in access/secret key
+4. Run `make -C infrastructure tf-init-remote`
 
 Without remote state, `terraform.tfstate` stays local - do not commit it.
