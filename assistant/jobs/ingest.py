@@ -16,11 +16,7 @@ import numpy as np
 from chromadb.api.types import Embeddings
 
 from app.rag import embed, get_collection
-from app.repositories.product_repository import (
-    fetch_available_products,
-    fetch_catalog_summary,
-    fetch_top_reviewed_products,
-)
+from app.repositories import product_repository
 
 
 def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
@@ -77,9 +73,9 @@ def _ingest_catalog_summary(collection) -> None:
     """Build a catalog summary document and upsert it under a fixed ID.
 
     The text is intentionally keyword-rich so it surfaces for queries like
-    'what brands do you have', 'aké značky predávate', 'what categories', etc.
+    'what brands do you have', 'what categories', 'what do you sell', etc.
     """
-    catalog = fetch_catalog_summary()
+    catalog = product_repository.fetch_catalog_summary()
     if not catalog["brands"] and not catalog["categories"]:
         return
 
@@ -103,7 +99,7 @@ def _ingest_catalog_summary(collection) -> None:
 
 def _ingest_top_reviewed(collection) -> None:
     """Build a top-reviewed products document and upsert it under a fixed ID."""
-    rows = fetch_top_reviewed_products()
+    rows = product_repository.fetch_top_reviewed_products()
     if not rows:
         return
 
@@ -137,7 +133,7 @@ def _ingest_top_reviewed(collection) -> None:
 
 
 def ingest() -> None:
-    rows = fetch_available_products()
+    rows = product_repository.fetch_available_products()
 
     if not rows:
         print("No products found.")

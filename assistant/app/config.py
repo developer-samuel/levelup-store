@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     # required - must be set in .env, no safe default
     cors_origins: str
     database_url: str
+    redis_url: str
+
+    # optional
+    sentry_dsn: str = ""
 
 
 settings = Settings()

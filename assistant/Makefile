@@ -5,28 +5,27 @@
 # ── Dev ────────────────────────────────────────────────────────────────────────
 
 install:
-	python3 -m venv venv
-	venv/bin/pip install -r requirements.txt
+	uv sync --group dev
 
 run:
-	venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
+	uv run uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
 
 ingest:
-	venv/bin/python -m jobs.ingest
+	uv run python -m jobs.ingest
 
 # ── Quality ────────────────────────────────────────────────────────────────────
 
 lint:
-	venv/bin/ruff check --cache-dir .cache/ruff app/ && echo "lint: OK"
+	uv run ruff check --cache-dir .cache/ruff app/ && echo "lint: OK"
 
 format:
-	venv/bin/ruff format --cache-dir .cache/ruff app/ && echo "format: OK"
+	uv run ruff format --cache-dir .cache/ruff app/ && echo "format: OK"
 
 type-check:
-	venv/bin/mypy --explicit-package-bases --cache-dir .cache/mypy app/ && echo "type-check: OK"
+	uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/ && echo "type-check: OK"
 
 dead-code:
-	venv/bin/vulture app/ && echo "dead-code: OK"
+	uv run vulture app/ && echo "dead-code: OK"
 
 check: lint format type-check dead-code
 

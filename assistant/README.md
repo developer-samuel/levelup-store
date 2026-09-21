@@ -4,10 +4,11 @@ FastAPI assistant service with Ollama + RAG (ChromaDB).
 
 ## Prerequisites
 
-- Python 3.12 + venv
+- Python 3.12
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
 ```bash
-sudo apt install python3-pip python3.12-venv
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 - [Ollama](https://ollama.com) running locally with models pulled
@@ -24,7 +25,6 @@ ollama pull nomic-embed-text
 
 ```bash
 cp .env.example .env
-# fill in DB_USERNAME, DB_PASSWORD, CORS_ORIGINS
 make install
 make run
 ```
@@ -56,12 +56,13 @@ Re-run after product catalog changes to keep the vector store up to date.
 | `DB_DATABASE`        |                          | yes      | PostgreSQL database name               |
 | `DB_USERNAME`        |                          | yes      | PostgreSQL username                    |
 | `DB_PASSWORD`        |                          | yes      | PostgreSQL password                    |
+| `REDIS_URL`          |                          | yes      | Redis connection URL                   |
 
 ## Commands
 
 | Command                 | Description                                   |
 |-------------------------|-----------------------------------------------|
-| `make install`          | Create venv and install dependencies          |
+| `make install`          | Install dependencies via uv                   |
 | `make run`              | Start dev server with hot reload              |
 | `make ingest`           | Ingest products from PostgreSQL into ChromaDB |
 | `make lint`             | Run ruff linter                               |

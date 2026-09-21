@@ -1,17 +1,20 @@
+import sentry_sdk
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from slowapi.errors import RateLimitExceeded
 
 from app.config import settings
+from app.middleware import setup_middleware
+from app.rate_limiter import limiter, rate_limit_handler
 from app.routers import chat, health
 
-app = FastAPI(title="LevelUp Store Assistant")
+if settings.sentry_dsn:
+    sentry_sdk.init(dsn=settings.sentry_dsn, send_default_pii=False)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.cors_origins.split(","),
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
-)
+app = FastAPI(title="LevelUp Store Assistant")
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, rate_limit_handler)
+
+setup_middleware(app)
 
 app.include_router(chat.router)
 app.include_router(health.router)

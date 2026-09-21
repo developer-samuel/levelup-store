@@ -66,6 +66,7 @@ infrastructure/helm/**/charts/
 
 # Python
 venv/
+.venv/
 __pycache__/
 *.pyc
 .cache/
