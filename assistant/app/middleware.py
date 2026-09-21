@@ -12,6 +12,13 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        return response
 
 class RequestIDMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
@@ -40,5 +47,6 @@ def setup_middleware(app: FastAPI) -> None:
         allow_methods=["GET", "POST"],
         allow_headers=["*"],
     )
+    app.add_middleware(SecurityHeadersMiddleware)
     app.add_middleware(ErrorLoggingMiddleware)
     app.add_middleware(RequestIDMiddleware)

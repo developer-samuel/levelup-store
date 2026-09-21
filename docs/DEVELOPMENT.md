@@ -90,10 +90,12 @@ make dev-down
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 
-# Stop and clean all services including volumes and orphan containers (base + dev)
+# Stop and clean all services including volumes, orphan containers and networks (base + dev)
 make dev-down-clean
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down --volumes --remove-orphans
+docker container prune -f
+docker network prune -f
 ```
 
 ### Dev Setup Commands

@@ -6,9 +6,13 @@ import ollama
 from httpx import ConnectError
 
 from app.config import settings
-from app.conversation import load_history, save_history
+from app.conversation import delete_history, load_history, save_history
 from app.prompts import CHAT_SYSTEM_PROMPT
 from app.rag import query
+
+
+async def delete_conversation(conversation_id: str) -> None:
+    await delete_history(conversation_id)
 
 
 async def stream_chat(message: str, conversation_id: str) -> AsyncGenerator[str, None]:

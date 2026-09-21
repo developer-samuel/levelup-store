@@ -22,3 +22,26 @@ CHAT_SYSTEM_PROMPT = (
     "Never mix languages in a single response.\n\n"
     "Product context:\n{context}"
 )
+
+BLOCKED_PATTERNS = [
+    "ignore previous instructions",
+    "ignore all instructions",
+    "ignore your instructions",
+    "disregard previous",
+    "disregard all",
+    "forget previous",
+    "forget your instructions",
+    "you are now",
+    "pretend you are",
+    "pretend to be",
+    "act as",
+    "roleplay as",
+    "your new instructions",
+    "new persona",
+    "developer mode",
+    "jailbreak",
+    "system:",
+    "system prompt",
+    "override instructions",
+    "bypass",
+]

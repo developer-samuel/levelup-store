@@ -21,6 +21,7 @@ class Settings(BaseSettings):
 
     # optional
     sentry_dsn: str = ""
+    api_key: str = ""
 
 
 settings = Settings()

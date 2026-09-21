@@ -107,9 +107,11 @@ dev-down: ## Stop all services (base + dev)
 	@echo "⏹ Stopping all services (base + dev)..."
 	$(DC_DEV) down
 
-dev-down-clean: ## Stop and clean all services including volumes (base + dev)
-	@echo "⏹ Cleaning all services and volumes (base + dev)..."
+dev-down-clean: ## Stop and clean all services including volumes and networks (base + dev)
+	@echo "⏹ Cleaning all services, volumes and networks (base + dev)..."
 	$(DC_DEV) down --volumes --remove-orphans
+	docker container prune -f
+	docker network prune -f
 
 # ── 🔧 Dev Setup ─────────────────────────────────────────────────────────────
 
