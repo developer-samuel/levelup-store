@@ -1,0 +1,41 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🤖 Assistant - FastAPI + Ollama RAG
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  assistant:
+    build:
+      context: ${PWD}/assistant
+      dockerfile: Dockerfile
+    container_name: levelup_store_assistant
+    restart: unless-stopped
+    env_file:
+      - ${PWD}/assistant/.env
+    ports:
+      - '8001:8001'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      chromadb:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  assistant_setup:
+    build:
+      context: ${PWD}/assistant
+      dockerfile: Dockerfile
+    container_name: levelup_store_assistant_setup
+    profiles: ['setup']
+    command: ['python', '-m', 'jobs.ingest']
+    env_file:
+      - ${PWD}/assistant/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      chromadb:
+        condition: service_healthy
+      app_setup:
+        condition: service_completed_successfully
+    networks:
+      - app-network

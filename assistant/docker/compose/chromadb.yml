@@ -1,0 +1,20 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🗄️ Vector Database - ChromaDB
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  chromadb:
+    image: chromadb/chroma:1.5.9
+    container_name: levelup_store_chromadb
+    restart: unless-stopped
+    volumes:
+      - chroma_data:/chroma/chroma
+    ports:
+      - '8010:8000'
+    networks:
+      - app-network
+    extends:
+      file: ../../../docker/compose/_base/healthcheck.yml
+      service: healthcheck-base
+    healthcheck:
+      test: ['CMD', 'bash', '-c', 'exec 3<>/dev/tcp/localhost/8000 && printf "GET /api/v2/heartbeat HTTP/1.0\r\nHost: localhost\r\n\r\n" >&3 && grep -q "nanosecond" <&3']

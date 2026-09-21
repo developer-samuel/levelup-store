@@ -1,0 +1,20 @@
+[tool.ruff]
+target-version = "py312"  # minimum Python version to target
+line-length = 100          # max line length
+
+[tool.ruff.lint]
+select = [
+    "E",   # PEP 8 style errors (indentation, whitespace, ...)
+    "F",   # Pyflakes (unused imports, undefined variables, ...)
+    "I",   # isort (import ordering)
+    "UP",  # pyupgrade (use modern Python syntax)
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true  # enforce type annotations on all functions
+
+[tool.vulture]
+min_confidence = 80
+paths = ["app/"]
+ignore_decorators = ["@router.get", "@router.post", "@router.put", "@router.delete", "@app.get", "@app.post"]
