@@ -11,7 +11,9 @@ class ChatRequest(BaseModel):
     @classmethod
     def reject_prompt_injection(cls, v: str) -> str:
         lower = v.lower()
+
         for pattern in BLOCKED_PATTERNS:
             if pattern in lower:
                 raise ValueError("Message contains disallowed content")
+
         return v

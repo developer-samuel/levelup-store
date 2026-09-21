@@ -36,6 +36,7 @@ async def chat(
     _: Annotated[None, Depends(_verify_api_key)],
 ) -> StreamingResponse:
     conversation_id = body.conversation_id or str(uuid.uuid4())
+
     return StreamingResponse(
         _sse_stream(body.message, conversation_id),
         media_type="text/event-stream",
@@ -52,5 +53,7 @@ async def delete_conversation(
         uuid.UUID(conversation_id)
     except ValueError:
         raise HTTPException(status_code=422, detail="Invalid conversation ID")
+        
     await chat_service.delete_conversation(conversation_id)
+
     return success({"conversation_id": conversation_id})

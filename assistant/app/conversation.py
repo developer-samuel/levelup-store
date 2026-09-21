@@ -14,6 +14,7 @@ _redis: Redis = cast(Redis, Redis.from_url(settings.redis_url, decode_responses=
 
 async def load_history(conversation_id: str) -> list[dict[str, str]]:
     data = await _redis.get(f"{_KEY_PREFIX}{conversation_id}")
+
     return json.loads(data) if data else []
 
 

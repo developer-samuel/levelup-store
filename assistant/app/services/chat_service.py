@@ -32,6 +32,7 @@ async def stream_chat(message: str, conversation_id: str) -> AsyncGenerator[str,
     ]
 
     full_response: list[str] = []
+
     try:
         async for chunk in await client.chat(
             model=settings.ollama_model,
@@ -40,8 +41,10 @@ async def stream_chat(message: str, conversation_id: str) -> AsyncGenerator[str,
             options={"temperature": 0.1},
         ):
             token = chunk["message"]["content"]
+            
             if token:
                 full_response.append(token)
+
                 yield json.dumps({"success": True, "data": {"token": token, "conversation_id": conversation_id}})
 
         history.append({"role": "assistant", "content": "".join(full_response)})

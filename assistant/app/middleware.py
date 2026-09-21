@@ -18,6 +18,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["Referrer-Policy"] = "no-referrer"
+        
         return response
 
 class RequestIDMiddleware(BaseHTTPMiddleware):
@@ -25,6 +26,7 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
         request_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
         response = await call_next(request)
         response.headers["X-Request-ID"] = request_id
+
         return response
 
 
@@ -33,10 +35,12 @@ class ErrorLoggingMiddleware(BaseHTTPMiddleware):
         start = time.perf_counter()
         response = await call_next(request)
         duration = (time.perf_counter() - start) * 1000
+
         if response.status_code >= 400:
             logger.warning(
                 "%s %s %s %.1fms", request.method, request.url.path, response.status_code, duration
             )
+
         return response
 
 

@@ -83,7 +83,9 @@ _TOP_REVIEWED_QUERY = """
 
 def fetch_available_products() -> list[tuple[object, ...]]:
     """Return product variants that are available, have stock and an active EAN."""
+    
     conn = psycopg2.connect(settings.database_url)
+
     try:
         cursor = conn.cursor()
         cursor.execute(_PRODUCT_QUERY)
@@ -96,7 +98,9 @@ def fetch_available_products() -> list[tuple[object, ...]]:
 
 def fetch_catalog_summary() -> dict[str, list[str]]:
     """Return all active brands, categories and types that have available products."""
+
     conn = psycopg2.connect(settings.database_url)
+
     try:
         cursor = conn.cursor()
         cursor.execute(_CATALOG_SUMMARY_QUERY)
@@ -117,7 +121,9 @@ def fetch_catalog_summary() -> dict[str, list[str]]:
 
 def fetch_top_reviewed_products() -> list[tuple[object, ...]]:
     """Return top reviewed product variants ordered by review count and avg rating."""
+
     conn = psycopg2.connect(settings.database_url)
+
     try:
         cursor = conn.cursor()
         cursor.execute(_TOP_REVIEWED_QUERY)
