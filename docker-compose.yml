@@ -3,6 +3,8 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 include:
+  # ── E-commerce ────────────────────────────────────────────────────────────────
+
   # Database
   - docker/compose/services/database/postgres.yml
   - docker/compose/services/database/elasticsearch.yml
@@ -31,6 +33,11 @@ include:
   - docker/compose/services/app/cron.yml
   - docker/compose/services/app/worker.yml
   - docker/compose/services/app/webserver.yml
+
+  # ── Assistant ───────────────────────────────────────────────────────────────────
+
+  - assistant/docker/compose/chromadb.yml
+  - assistant/docker/compose/assistant.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes
@@ -62,4 +69,6 @@ volumes:
   mercure_data:
     driver: local
   mercure_config:
+    driver: local
+  chroma_data:
     driver: local

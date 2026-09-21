@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-TOTAL=7
+TOTAL=8
 source /usr/local/bin/scripts/helpers/step.sh
 
 echo ""
@@ -30,9 +30,5 @@ step "Clearing caches and optimizing configuration..."
 step "Clearing Redis cache..."
 /usr/local/bin/scripts/entrypoints/app/clear-cache.sh
 
-echo ""
-echo "╔═════════════════════════════════════════════════╗"
-echo "║           LEVELUP STORE - SETUP DONE            ║"
-echo "╚═════════════════════════════════════════════════╝"
-echo "🌐  ${APP_URL:-http://localhost:8000}"
-echo ""
+step "Ingesting products into ChromaDB (assistant)..."
+echo "   ⏳ Waiting for AI Assistant setup to complete..."
