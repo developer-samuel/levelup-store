@@ -1,0 +1,59 @@
+@reference "../../app/theme/index.css";
+
+.row {
+  @apply flex items-end gap-2 flex-row;
+}
+
+.rowReverse {
+  @apply flex-row-reverse;
+}
+
+.avatar {
+  @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full;
+}
+
+.avatarIcon {
+  @apply h-3.5 w-3.5;
+}
+
+.avatarUser {
+  @apply bg-secondary text-primary;
+}
+
+.avatarAi {
+  @apply bg-neutral/10 text-neutral/60;
+}
+
+.bubble {
+  @apply max-w-[78%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed;
+}
+
+.bubbleUser {
+  @apply rounded-br-sm bg-secondary text-primary;
+}
+
+.bubbleAi {
+  @apply rounded-bl-sm bg-neutral/8 text-neutral;
+}
+
+.dots {
+  @apply flex gap-1 py-0.5;
+}
+
+.dot {
+  @apply animate-bounce;
+}
+
+.dot2 {
+  @apply animate-bounce;
+  animation-delay: 0.15s;
+}
+
+.dot3 {
+  @apply animate-bounce;
+  animation-delay: 0.3s;
+}
+
+.cursor {
+  @apply ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-current opacity-60;
+}

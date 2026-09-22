@@ -16,16 +16,16 @@
             {% import 'app/init/reviews.html.twig' as Reviews %}
             {% import 'app/init/zoom.html.twig' as Zoom %}
             {% import 'app/init/header.html.twig' as Header %}
+            {% import 'app/init/ai-assistant.html.twig' as AiAssistant %}
+            {% import 'app/init/scroll-to-top.html.twig' as ScrollToTop %}
             {% import 'app/init/footer.html.twig' as Footer %}
 
             {{ Cookies.render(app.request) }}
             {{ Reviews.render(app.request, variant|default(null)) }}
             {{ Zoom.render(app.request) }}
             {{ Header.render(showHeader) }}
-
-            <div id="scroll-to-top" role="button" aria-label="Scroll to top">
-                <img src="{{ asset('img/icons/elements/arrow.png') }}" alt="Scroll to top">
-            </div>
+            {{ AiAssistant.render() }}
+            {{ ScrollToTop.render() }}
 
             {% block body %}{% endblock %}
 

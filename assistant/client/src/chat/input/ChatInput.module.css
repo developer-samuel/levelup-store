@@ -1,0 +1,41 @@
+@reference "../../app/theme/index.css";
+
+.wrapper {
+  @apply border-t border-neutral/10 bg-surface p-3;
+}
+
+.field {
+  @apply cursor-text rounded-lg border border-neutral/20 bg-primary p-2 transition-colors focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary;
+}
+
+.fieldError {
+  @apply border-red-400 focus-within:border-red-400 focus-within:ring-red-400;
+}
+
+.textarea {
+  @apply w-full resize-none bg-transparent p-0 text-sm text-neutral outline-none placeholder:text-neutral/40 disabled:opacity-50;
+}
+
+.footer {
+  @apply mt-2 flex items-end justify-between;
+}
+
+.counter {
+  @apply select-none text-xs tabular-nums text-neutral/40;
+}
+
+.counterError {
+  @apply text-red-500;
+}
+
+.sendBtn {
+  @apply cursor-pointer rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary transition-colors hover:bg-secondary-hover disabled:cursor-not-allowed disabled:opacity-40;
+}
+
+.sendBtnHidden {
+  @apply invisible;
+}
+
+.hint {
+  @apply mt-2.5 text-center text-[11px] text-neutral/40;
+}

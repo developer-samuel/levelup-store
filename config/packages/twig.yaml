@@ -4,6 +4,7 @@ twig:
     mercure_public_url: '%env(MERCURE_PUBLIC_URL)%'
     turnstile_enabled: '%env(bool:TURNSTILE_ENABLED)%'
     turnstile_site_key: '%env(TURNSTILE_SITE_KEY)%'
+    ai_assistant_enabled: '%env(bool:AI_ASSISTANT_ENABLED)%'
 
 when@test:
   twig:

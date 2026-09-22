@@ -18,6 +18,10 @@ include:
   - docker/compose/services/_dev/vite.yml
   - docker/compose/services/_dev/sonarqube.yml
 
+  # ── Assistant ───────────────────────────────────────────────────────────────────
+
+  - assistant/docker/compose/_dev/client.yml
+
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes
 # ──────────────────────────────────────────────────────────────────────────────────────────────

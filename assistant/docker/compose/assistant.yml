@@ -13,6 +13,7 @@ services:
       - ${PWD}/assistant/.env
     ports:
       - '8001:8001'
+    volumes: []
     depends_on:
       postgres:
         condition: service_healthy
@@ -20,6 +21,21 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    networks:
+      - app-network
+
+  assistant_client_build:
+    build:
+      context: ${PWD}/assistant/docker/config/_dev
+      dockerfile: Dockerfile.vite
+    container_name: levelup_store_assistant_client_build
+    profiles: ['setup']
+    working_dir: /app
+    command: sh /scripts/build-client.sh
+    volumes:
+      - ${PWD}/assistant/client:/app
+      - ${PWD}/public:/public
+      - ${PWD}/assistant/docker/scripts/build-client.sh:/scripts/build-client.sh:ro
     networks:
       - app-network
 
@@ -38,6 +54,8 @@ services:
       chromadb:
         condition: service_healthy
       app_setup:
+        condition: service_completed_successfully
+      assistant_client_build:
         condition: service_completed_successfully
     networks:
       - app-network

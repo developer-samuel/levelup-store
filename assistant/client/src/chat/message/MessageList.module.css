@@ -1,0 +1,29 @@
+@reference "../../app/theme/index.css";
+
+.empty {
+  @apply flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center;
+}
+
+.emptyIcon {
+  @apply flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary/10;
+}
+
+.emptyIconSvg {
+  @apply h-6 w-6 text-secondary;
+}
+
+.emptyTitle {
+  @apply text-sm font-medium text-neutral;
+}
+
+.emptySubtitle {
+  @apply mt-1 text-xs text-neutral/50;
+}
+
+.list {
+  @apply flex-1 overflow-y-auto px-4;
+}
+
+.messages {
+  @apply flex flex-col gap-4 py-4;
+}
