@@ -79,7 +79,8 @@ build-cache: ## Build/rebuild base images without cache
 setup-build: ## Build and start setup containers (first time or Dockerfile changes)
 	@echo "🛠 Setup: Building and starting setup containers..."
 	$(MAKE) dev-down
-	$(DC) --profile setup up --build
+	$(DC) --profile setup run --no-deps --rm assistant_client_build
+	-$(DC) --profile setup up --build --scale assistant_client_build=0
 	$(DC) up -d
 
 # ── 🚢 Production ────────────────────────────────────────────────────────────
@@ -118,7 +119,8 @@ dev-down-clean: ## Stop and clean all services including volumes and networks (b
 dev-setup-build: ## Build and start setup containers + all dev services
 	@echo "💻 Dev setup: Building and starting setup containers + dev services..."
 	$(MAKE) dev-down
-	$(DC_DEV) --profile setup up --build
+	$(DC_DEV) --profile setup run --no-deps --rm assistant_client_build
+	-$(DC_DEV) --profile setup up --build --scale assistant_client_build=0
 	$(DC_DEV) up -d
 
 dev-setup-restart-build: ## Rebuild setup containers + dev services (with cache)

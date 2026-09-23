@@ -36,6 +36,14 @@
   @apply rounded-bl-sm bg-neutral/8 text-neutral;
 }
 
+.thinking {
+  @apply flex items-center gap-2;
+}
+
+.thinkingSeconds {
+  @apply text-xs text-neutral/40;
+}
+
 .dots {
   @apply flex gap-1 py-0.5;
 }

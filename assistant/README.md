@@ -47,7 +47,7 @@ Re-run after product catalog changes to keep the vector store up to date.
 | Variable             | Default                  | Required | Description                                            |
 |----------------------|--------------------------|----------|--------------------------------------------------------|
 | `OLLAMA_HOST`        | `http://localhost:11434` |          | Ollama service URL                                     |
-| `OLLAMA_MODEL`       | `mistral:7b`             |          | LLM used for chat responses                            |
+| `OLLAMA_MODEL`       | `mistral:7b`              |          | LLM used for chat responses                            |
 | `OLLAMA_EMBED_MODEL` | `nomic-embed-text`       |          | Model used for generating embeddings                   |
 | `CHROMA_HOST`        | `http://localhost:8010`  |          | ChromaDB service URL                                   |
 | `CORS_ORIGINS`       |                          | yes      | Allowed CORS origins (comma-separated)                 |

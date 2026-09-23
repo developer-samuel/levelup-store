@@ -5,4 +5,6 @@ export type Message = {
   role: Role
   content: string
   streaming?: boolean
+  thinking?: boolean
+  thinkingSeconds?: number
 }

@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 
 import type { Message } from '@/chat/chat.types'
 import { deleteConversation, streamChat } from '@/chat/chat.service'
@@ -9,6 +10,7 @@ type ApiChunk = {
   data?: {
     token?: string
     done?: boolean
+    thinking?: boolean
     conversation_id?: string
   }
 }
@@ -20,6 +22,14 @@ export function useChat() {
   const conversationId = useRef<string>(crypto.randomUUID())
   const abortRef = useRef<AbortController | null>(null)
   const loadingRef = useRef(false)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const clearTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
+  }
 
   const send = useCallback(async (text: string) => {
     if (loadingRef.current) return
@@ -30,7 +40,14 @@ export function useChat() {
 
     const userMsg: Message = { id: crypto.randomUUID(), role: 'user', content: text }
     const assistantId = crypto.randomUUID()
-    const assistantMsg: Message = { id: assistantId, role: 'assistant', content: '', streaming: true }
+    const assistantMsg: Message = {
+      id: assistantId,
+      role: 'assistant',
+      content: '',
+      streaming: true,
+      thinking: true,
+      thinkingSeconds: 0,
+    }
 
     setMessages((prev) => [...prev, userMsg, assistantMsg])
 
@@ -49,21 +66,41 @@ export function useChat() {
           }
 
           if (!chunk.success) {
+            clearTimer()
             setError(chunk.message ?? 'Unknown error')
             setMessages((prev) =>
-              prev.map((m) => (m.id === assistantId ? { ...m, streaming: false } : m)),
+              prev.map((m) =>
+                m.id === assistantId ? { ...m, streaming: false, thinking: false } : m,
+              ),
             )
             return
           }
 
+          if (chunk.data?.thinking) {
+            const startTime = Date.now()
+            timerRef.current = setInterval(() => {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId
+                    ? { ...m, thinkingSeconds: Math.floor((Date.now() - startTime) / 1000) }
+                    : m,
+                ),
+              )
+            }, 1000)
+            return
+          }
+
           if (chunk.data?.token) {
-            setMessages((prev) =>
-              prev.map((m) =>
-                m.id === assistantId
-                  ? { ...m, content: m.content + chunk.data!.token! }
-                  : m,
-              ),
-            )
+            clearTimer()
+            flushSync(() => {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId
+                    ? { ...m, thinking: false, content: m.content + chunk.data!.token! }
+                    : m,
+                ),
+              )
+            })
           }
 
           if (chunk.data?.done) {
@@ -76,18 +113,23 @@ export function useChat() {
       )
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
+        clearTimer()
         setError('Connection failed. Please try again.')
         setMessages((prev) =>
-          prev.map((m) => (m.id === assistantId ? { ...m, streaming: false } : m)),
+          prev.map((m) =>
+            m.id === assistantId ? { ...m, streaming: false, thinking: false } : m,
+          ),
         )
       }
     } finally {
+      clearTimer()
       loadingRef.current = false
       setLoading(false)
     }
   }, [])
 
   const reset = useCallback(async () => {
+    clearTimer()
     abortRef.current?.abort()
     await deleteConversation(conversationId.current)
     conversationId.current = crypto.randomUUID()

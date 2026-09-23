@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '@/app/api.config'
+import { API_BASE_URL, API_KEY } from '@/app/api.config'
 
 export async function streamChat(
   message: string,
@@ -8,7 +8,7 @@ export async function streamChat(
 ): Promise<void> {
   const res = await fetch(`${API_BASE_URL}/chat`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(API_KEY && { 'X-Api-Key': API_KEY }) },
     body: JSON.stringify({ message, conversation_id: conversationId }),
     signal,
   })
@@ -33,5 +33,8 @@ export async function streamChat(
 }
 
 export async function deleteConversation(conversationId: string): Promise<void> {
-  await fetch(`${API_BASE_URL}/chat/${conversationId}`, { method: 'DELETE' }).catch(() => {})
+  await fetch(`${API_BASE_URL}/chat/${conversationId}`, {
+    method: 'DELETE',
+    headers: { ...(API_KEY && { 'X-Api-Key': API_KEY }) },
+  }).catch(() => {})
 }

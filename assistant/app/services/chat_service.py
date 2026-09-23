@@ -16,6 +16,8 @@ async def delete_conversation(conversation_id: str) -> None:
 
 
 async def stream_chat(message: str, conversation_id: str) -> AsyncGenerator[str, None]:
+    yield json.dumps({"success": True, "data": {"thinking": True}})
+
     client = ollama.AsyncClient(host=settings.ollama_host)
 
     history = await load_history(conversation_id)

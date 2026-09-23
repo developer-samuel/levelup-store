@@ -19,15 +19,22 @@ export function Message({ message }: Props) {
       </div>
 
       <div className={cn(s.bubble, isUser ? s.bubbleUser : s.bubbleAi)}>
-        {message.content || (
-          <span className={s.dots}>
-            <span className={s.dot}>•</span>
-            <span className={s.dot2}>•</span>
-            <span className={s.dot3}>•</span>
+        {message.thinking && !message.content ? (
+          <span className={s.thinking}>
+            <span className={s.dots}>
+              <span className={s.dot}>•</span>
+              <span className={s.dot2}>•</span>
+              <span className={s.dot3}>•</span>
+            </span>
+            {!!message.thinkingSeconds && (
+              <span className={s.thinkingSeconds}>{message.thinkingSeconds}s</span>
+            )}
           </span>
-        )}
-        {message.streaming && message.content && (
-          <span className={s.cursor} />
+        ) : (
+          <>
+            {message.content}
+            {message.streaming && message.content && <span className={s.cursor} />}
+          </>
         )}
       </div>
     </div>
