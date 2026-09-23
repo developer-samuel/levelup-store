@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react'
 
-export function useScrollToBottom(deps: unknown[]) {
+export function useScrollToBottom(messageCount: number) {
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [deps])
+    bottomRef.current?.scrollIntoView({ behavior: 'instant' })
+  }, [messageCount])
 
   return bottomRef
 }

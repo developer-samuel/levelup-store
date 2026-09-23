@@ -1,5 +1,9 @@
 {% macro render() %}
     {% block javascripts %}
         {{ vite_entry_script_tags('scripts') }}
+
+        {% if ai_assistant_enabled %}
+            <script type="module" src="/build/assistant/chat.js"></script>
+        {% endif %}
     {% endblock %}
 {% endmacro %}

@@ -5,7 +5,11 @@
 }
 
 .field {
-  @apply cursor-text rounded-lg border border-neutral/20 bg-primary p-2 transition-colors focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary;
+  @apply select-none cursor-text rounded-lg border border-neutral/20 bg-primary p-2 transition-colors focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary;
+}
+
+.fieldDisabled {
+  @apply cursor-default;
 }
 
 .fieldError {
@@ -21,7 +25,7 @@
 }
 
 .counter {
-  @apply select-none text-xs tabular-nums text-neutral/40;
+  @apply text-xs tabular-nums text-neutral/40;
 }
 
 .counterError {

@@ -1,4 +1,8 @@
 @use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/accessibility/appearance' as *;
+@use '@/scss/abstracts/mixins/colors/rgba' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
 input[type='radio'] {
   @include size(16px, 16px);
@@ -9,4 +13,58 @@ input[type='password']::-ms-clear,
 input[type='password']::-webkit-credentials-auto-fill-button,
 input[type='password']::-webkit-textfield-decoration-container {
   display: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  @include appearance;
+  @include transition('linear');
+
+  position: relative;
+  background: colors.$secondary;
+  border: 1px solid colors.$border-secondary;
+  border-radius: 50%;
+  z-index: 1;
+
+  &:hover {
+    scale: 1.1;
+    background: colors.$secondary-hover;
+  }
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  @include appearance;
+  @include transition('ease-out');
+
+  position: relative;
+  border: 1px solid colors.$border-primary;
+  background: colors.$primary;
+  cursor: pointer;
+
+  &:hover:not(:checked) {
+    @include rgba('blue', 40);
+  }
+
+  &:checked {
+    background: colors.$secondary;
+  }
+}
+
+input[type='checkbox'] {
+  border-radius: 4px;
+
+  &::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: white;
+  }
+}
+
+input[type='radio'] {
+  border-radius: 50%;
 }

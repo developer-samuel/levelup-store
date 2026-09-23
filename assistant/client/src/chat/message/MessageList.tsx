@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function MessageList({ messages }: Props) {
-  const bottomRef = useScrollToBottom(messages)
+  const bottomRef = useScrollToBottom(messages.length)
 
   if (messages.length === 0) {
     return (

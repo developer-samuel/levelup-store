@@ -18,23 +18,25 @@ export function Message({ message }: Props) {
         {isUser ? <User className={s.avatarIcon} /> : <Bot className={s.avatarIcon} />}
       </div>
 
-      <div className={cn(s.bubble, isUser ? s.bubbleUser : s.bubbleAi)}>
-        {message.thinking && !message.content ? (
-          <span className={s.thinking}>
+      <div className={cn(s.bubbleWrapper, isUser ? s.bubbleWrapperUser : s.bubbleWrapperAi)}>
+        <div className={cn(s.bubble, isUser ? s.bubbleUser : s.bubbleAi)}>
+          {message.thinking && !message.content ? (
             <span className={s.dots}>
-              <span className={s.dot}>•</span>
-              <span className={s.dot2}>•</span>
-              <span className={s.dot3}>•</span>
+              <span className={s.dot} />
+              <span className={s.dot2} />
+              <span className={s.dot3} />
             </span>
-            {!!message.thinkingSeconds && (
-              <span className={s.thinkingSeconds}>{message.thinkingSeconds}s</span>
-            )}
+          ) : (
+            <>
+              {message.content}
+              {message.streaming && message.content && <span className={s.cursor} />}
+            </>
+          )}
+        </div>
+        {message.thinking && !message.content && (
+          <span className={s.thinkingSeconds}>
+            Thinking{!!message.thinkingSeconds && ` · ${message.thinkingSeconds}s`}
           </span>
-        ) : (
-          <>
-            {message.content}
-            {message.streaming && message.content && <span className={s.cursor} />}
-          </>
         )}
       </div>
     </div>

@@ -8,9 +8,9 @@ export default defineConfig({
   resolve: {
     alias: { '@': resolve(import.meta.dirname, 'src') },
   },
-  base: '/build/ai-assistant/',
+  base: '/build/assistant/',
   build: {
-    outDir: '../../public/build/ai-assistant',
+    outDir: '../../public/build/assistant',
     emptyOutDir: true,
     rollupOptions: {
       input: resolve(import.meta.dirname, 'src/main.tsx'),

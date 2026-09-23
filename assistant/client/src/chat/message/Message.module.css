@@ -1,5 +1,16 @@
 @reference "../../app/theme/index.css";
 
+@keyframes thinking-pulse {
+  0%, 60%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
 .row {
   @apply flex items-end gap-2 flex-row;
 }
@@ -25,19 +36,35 @@
 }
 
 .bubble {
-  @apply max-w-[78%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed;
+  @apply w-full rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed wrap-break-word [user-drag:none] [-webkit-user-drag:none];
 }
 
 .bubbleUser {
-  @apply rounded-br-sm bg-secondary text-primary;
+  @apply rounded-br-sm bg-secondary text-primary selection:bg-primary selection:text-secondary;
 }
 
 .bubbleAi {
   @apply rounded-bl-sm bg-neutral/8 text-neutral;
 }
 
+.bubbleWrapper {
+  @apply flex max-w-75 flex-col gap-1;
+}
+
+.bubbleWrapperUser {
+  @apply ml-auto items-end;
+}
+
+.bubbleWrapperAi {
+  @apply items-start;
+}
+
 .thinking {
-  @apply flex items-center gap-2;
+  @apply flex min-w-[5rem] flex-col items-start gap-2;
+}
+
+.thinkingLabel {
+  @apply text-sm font-medium text-neutral/50;
 }
 
 .thinkingSeconds {
@@ -45,21 +72,21 @@
 }
 
 .dots {
-  @apply flex gap-1 py-0.5;
+  @apply flex gap-1.5 py-0.5;
 }
 
-.dot {
-  @apply animate-bounce;
+.dot,
+.dot2,
+.dot3 {
+  @apply h-1.5 w-1.5 rounded-full bg-neutral/40 animate-[thinking-pulse_1.2s_ease-in-out_infinite];
 }
 
 .dot2 {
-  @apply animate-bounce;
-  animation-delay: 0.15s;
+  @apply [animation-delay:0.2s];
 }
 
 .dot3 {
-  @apply animate-bounce;
-  animation-delay: 0.3s;
+  @apply [animation-delay:0.4s];
 }
 
 .cursor {

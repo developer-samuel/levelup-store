@@ -1,0 +1,16 @@
+@layer base {
+  #levelup-chat *,
+  #levelup-chat *::before,
+  #levelup-chat *::after {
+    @apply box-border border-0 border-solid m-0 p-0;
+  }
+
+  #levelup-chat button {
+    @apply bg-transparent cursor-pointer font-[inherit] text-[100%] leading-[inherit] text-inherit;
+  }
+
+  #levelup-chat input,
+  #levelup-chat textarea {
+    @apply font-[inherit] text-[100%] leading-[inherit] text-inherit;
+  }
+}

@@ -1,7 +1,4 @@
-@use '@/scss/abstracts/mixins/accessibility/appearance' as *;
 @use '@/scss/abstracts/mixins/accessibility/user-select' as *;
-@use '@/scss/abstracts/mixins/colors/rgba' as *;
-@use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
 .input,
@@ -28,60 +25,6 @@
   &:focus {
     box-shadow: 0 0 8px 0 colors.$blue-700;
   }
-}
-
-input[type='range']::-webkit-slider-thumb {
-  @include appearance;
-  @include transition('linear');
-
-  position: relative;
-  background: colors.$secondary;
-  border: 1px solid colors.$border-secondary;
-  border-radius: 50%;
-  z-index: 1;
-
-  &:hover {
-    scale: 1.1;
-    background: colors.$secondary-hover;
-  }
-}
-
-input[type='checkbox'],
-input[type='radio'] {
-  @include appearance;
-  @include transition('ease-out');
-
-  position: relative;
-  border: 1px solid colors.$border-primary;
-  background: colors.$primary;
-  cursor: pointer;
-
-  &:hover:not(:checked) {
-    @include rgba('blue', 40);
-  }
-
-  &:checked {
-    background: colors.$secondary;
-  }
-}
-
-input[type='checkbox'] {
-  border-radius: 4px;
-
-  &::after {
-    content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 12.5px;
-    font-weight: 700;
-    color: white;
-  }
-}
-
-input[type='radio'] {
-  border-radius: 50%;
 }
 
 .textarea {

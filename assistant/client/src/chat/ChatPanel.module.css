@@ -67,3 +67,47 @@
 .error {
   @apply mx-4 mb-2 rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-600;
 }
+
+.infoWrapper {
+  @apply relative flex items-center mr-2;
+}
+
+.infoIconWrapper {
+  @apply flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-orange-400 transition-colors hover:bg-orange-300;
+}
+
+.infoIcon {
+  @apply h-3 w-3 shrink-0 text-neutral;
+}
+
+.tooltip {
+  @apply pointer-events-none absolute right-0 top-6 z-30 w-64 rounded-lg bg-neutral p-3 opacity-0 shadow-lg transition-opacity;
+}
+
+.infoWrapper:hover .tooltip {
+  @apply opacity-100;
+}
+
+.tooltipTitle {
+  @apply mb-1 text-xs font-semibold text-primary;
+}
+
+.tooltipModel {
+  @apply mb-1.5 text-xs font-semibold text-orange-400;
+}
+
+.tooltipList {
+  @apply list-disc space-y-1 pl-3.5 text-xs text-primary/70;
+}
+
+.stopWrapper {
+  @apply flex justify-center pb-2;
+}
+
+.stopBtn {
+  @apply flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-secondary text-primary transition-colors hover:bg-secondary-hover;
+}
+
+.stopBtnIcon {
+  @apply h-4 w-4;
+}

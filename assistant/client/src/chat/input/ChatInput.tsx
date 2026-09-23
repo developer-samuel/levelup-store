@@ -47,17 +47,18 @@ export function ChatInput({ onSend, disabled }: Props) {
 
   return (
     <div className={s.wrapper}>
-      <div className={cn(s.field, isOverLimit && s.fieldError)} onClick={onFieldClick}>
+      <div className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled)} onClick={onFieldClick}>
         <textarea
           ref={textareaRef}
+          id="chat-input"
           rows={1}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={onKeyDown}
           onInput={onInput}
-          placeholder="Ask about products…"
+          placeholder="Ask me anything…"
           disabled={disabled}
-          className={s.textarea}
+          className={cn(s.textarea, disabled && 'cursor-default')}
         />
         <div className={s.footer}>
           <span className={cn(s.counter, isOverLimit && s.counterError)}>
