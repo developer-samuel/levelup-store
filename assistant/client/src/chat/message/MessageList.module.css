@@ -27,3 +27,11 @@
 .messages {
   @apply flex flex-col gap-4 py-4;
 }
+
+.loader {
+  @apply flex justify-center py-2;
+}
+
+.loaderIcon {
+  @apply h-4 w-4 animate-spin text-neutral/30;
+}

@@ -13,6 +13,7 @@ final readonly class CoreCacheObject
      * @param bool $isAdminPath
      * @param bool $showHeader
      * @param bool $showFooter
+     * @param bool $showAssistant
     */
     public function __construct(
         public string $path,
@@ -21,5 +22,6 @@ final readonly class CoreCacheObject
         public bool $isAdminPath,
         public bool $showHeader,
         public bool $showFooter,
+        public bool $showAssistant,
     ) {}
 }

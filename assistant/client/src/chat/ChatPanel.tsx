@@ -1,20 +1,31 @@
+import { useState } from 'react'
 import { MessageSquare, RotateCcw, Square, TriangleAlert, X } from 'lucide-react'
 
 import { cn } from '@/utils/classes.utils'
 
-import { useChat } from '@/chat/useChat'
+import { useChat } from '@/chat/_hooks/useChat'
 import { ChatInput } from '@/chat/input/ChatInput'
 import { MessageList } from '@/chat/message/MessageList'
-import { useEscapeKey } from '@/chat/useEscapeKey'
+import { useEscapeKey } from '@/chat/_hooks/useEscapeKey'
 import s from '@/chat/ChatPanel.module.css'
 
 type Props = {
   open: boolean
   onClose: () => void
+  conversationId: string
+  isAuthenticated: boolean
+  sessionLoaded: boolean
+  onConversationReset: (newId: string) => void
 }
 
-export function ChatPanel({ open, onClose }: Props) {
-  const { messages, loading, error, send, reset, stop } = useChat()
+export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sessionLoaded, onConversationReset }: Props) {
+  const [tooltipVisible, setTooltipVisible] = useState(false)
+  const { messages, loading, error, send, reset, stop } = useChat({
+    conversationId,
+    isAuthenticated,
+    sessionLoaded,
+    onConversationReset,
+  })
 
   useEscapeKey(open, onClose)
 
@@ -35,11 +46,13 @@ export function ChatPanel({ open, onClose }: Props) {
             <p className={s.headerSubtitle}>How can I help you?</p>
           </div>
           <div className={s.headerActions}>
-            <div className={s.infoWrapper}>
-              <div className={s.infoIconWrapper}>
-                <TriangleAlert className={s.infoIcon} />
-              </div>
-              <div className={s.tooltip}>
+            <div
+              className={s.infoWrapper}
+              onMouseEnter={() => setTooltipVisible(true)}
+              onMouseLeave={() => setTooltipVisible(false)}
+            >
+              <TriangleAlert className={s.infoIcon} />
+              <div className={cn(s.tooltip, tooltipVisible && s.tooltipVisible)}>
                 <p className={s.tooltipTitle}>Lightweight model notice</p>
                 <p className={s.tooltipModel}>Model: mistral:7b</p>
                 <ul className={s.tooltipList}>

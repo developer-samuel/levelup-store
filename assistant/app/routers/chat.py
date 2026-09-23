@@ -49,11 +49,6 @@ async def delete_conversation(
     conversation_id: str,
     _: Annotated[None, Depends(_verify_api_key)],
 ) -> JSONResponse:
-    try:
-        uuid.UUID(conversation_id)
-    except ValueError:
-        raise HTTPException(status_code=422, detail="Invalid conversation ID")
-        
     await chat_service.delete_conversation(conversation_id)
 
     return success({"conversation_id": conversation_id})

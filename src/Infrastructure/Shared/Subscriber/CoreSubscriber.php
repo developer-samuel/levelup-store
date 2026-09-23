@@ -62,6 +62,7 @@ final readonly class CoreSubscriber implements EventSubscriberInterface
                 $vars->isAdminPath,
                 $vars->showHeader,
                 $vars->showFooter,
+                $vars->showAssistant,
             );
         } catch (\Throwable $throwable) {
             $this->logger->alert(
@@ -69,7 +70,7 @@ final readonly class CoreSubscriber implements EventSubscriberInterface
                 $throwable,
             );
 
-            $this->addGlobalVariablesToTwig('', [], [], false, false, false);
+            $this->addGlobalVariablesToTwig('', [], [], false, false, false, false);
         }
     }
 
@@ -90,6 +91,7 @@ final readonly class CoreSubscriber implements EventSubscriberInterface
         bool $isAdminPath,
         bool $showHeader,
         bool $showFooter,
+        bool $showAssistant,
     ): void {
         $this->twig->addGlobal('path', $path);
         $this->twig->addGlobal('guestPaths', $guestPaths);
@@ -97,5 +99,6 @@ final readonly class CoreSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('isAdminPath', $isAdminPath);
         $this->twig->addGlobal('showHeader', $showHeader);
         $this->twig->addGlobal('showFooter', $showFooter);
+        $this->twig->addGlobal('showAssistant', $showAssistant);
     }
 }

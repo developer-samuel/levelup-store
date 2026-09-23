@@ -35,5 +35,6 @@ security:
         - App\Infrastructure\Security\JwtCookieAuthenticator
 
   access_control:
+    - { path: ^/api/assistant/session$, roles: PUBLIC_ACCESS }
     - { path: ^/api/admin/, roles: ROLE_ADMIN }
     - { path: ^/api/, roles: IS_AUTHENTICATED_FULLY }

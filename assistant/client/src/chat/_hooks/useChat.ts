@@ -1,8 +1,9 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 
 import type { Message } from '@/chat/chat.types'
 import { deleteConversation, streamChat } from '@/chat/chat.service'
+import { useChatMessages } from '@/chat/_hooks/useChatMessages'
 
 type ApiChunk = {
   success: boolean
@@ -15,33 +16,27 @@ type ApiChunk = {
   }
 }
 
-const MESSAGES_KEY = 'levelup_chat_messages'
-
-function loadMessages(): Message[] {
-  try {
-    const saved = localStorage.getItem(MESSAGES_KEY)
-    return saved ? (JSON.parse(saved) as Message[]) : []
-  } catch {
-    return []
-  }
+type UseChatOptions = {
+  conversationId: string
+  isAuthenticated: boolean
+  sessionLoaded: boolean
+  onConversationReset?: (newId: string) => void
 }
 
-function saveMessages(msgs: Message[]): void {
-  localStorage.setItem(MESSAGES_KEY, JSON.stringify(msgs.filter((m) => !m.streaming)))
-}
+export function useChat({ conversationId: initialConversationId, isAuthenticated, sessionLoaded, onConversationReset }: UseChatOptions) {
+  const { messages, setMessages, persist, clear } = useChatMessages({
+    conversationId: initialConversationId,
+    sessionLoaded,
+  })
 
-export function useChat() {
-  const [messages, setMessages] = useState<Message[]>(loadMessages)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const conversationId = useRef<string>(
-    localStorage.getItem('levelup_chat_id') ?? (() => {
-      const id = crypto.randomUUID()
-      localStorage.setItem('levelup_chat_id', id)
-      return id
-    })(),
-  )
+  const conversationId = useRef<string>(initialConversationId)
   const abortRef = useRef<AbortController | null>(null)
+
+  useEffect(() => {
+    conversationId.current = initialConversationId
+  }, [initialConversationId])
   const loadingRef = useRef(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -72,7 +67,7 @@ export function useChat() {
 
     setMessages((prev) => {
       const updated = [...prev, userMsg, assistantMsg]
-      saveMessages(updated)
+      persist(updated)
       return updated
     })
 
@@ -131,7 +126,7 @@ export function useChat() {
           if (chunk.data?.done) {
             setMessages((prev) => {
               const updated = prev.map((m) => (m.id === assistantId ? { ...m, streaming: false } : m))
-              saveMessages(updated)
+              persist(updated)
               return updated
             })
           }
@@ -154,26 +149,29 @@ export function useChat() {
         const updated = prev.map((m) =>
           m.streaming ? { ...m, streaming: false, thinking: false } : m,
         )
-        saveMessages(updated)
+        persist(updated)
         return updated
       })
       loadingRef.current = false
       setLoading(false)
     }
-  }, [])
+  }, [isAuthenticated, persist, setMessages])
 
   const reset = useCallback(async () => {
     clearTimer()
     abortRef.current?.abort()
     await deleteConversation(conversationId.current)
-    const newId = crypto.randomUUID()
-    localStorage.setItem('levelup_chat_id', newId)
-    localStorage.removeItem(MESSAGES_KEY)
-    conversationId.current = newId
-    setMessages([])
+
+    if (!isAuthenticated && onConversationReset) {
+      const newId = crypto.randomUUID()
+      onConversationReset(newId)
+      conversationId.current = newId
+    }
+
+    clear()
     setError(null)
     setLoading(false)
-  }, [])
+  }, [isAuthenticated, onConversationReset, clear])
 
   const stop = useCallback(() => {
     abortRef.current?.abort()

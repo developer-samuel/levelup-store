@@ -91,6 +91,7 @@ final class CoreCacheQueryService implements CoreCacheQueryContract
 
         $showHeader = $this->shouldShowHeader($path);
         $showFooter = $this->shouldShowFooter($path);
+        $showAssistant = $this->shouldShowAssistant($path);
 
         return new CoreCacheObject(
             $path,
@@ -99,6 +100,7 @@ final class CoreCacheQueryService implements CoreCacheQueryContract
             $isAdminPath,
             $showHeader,
             $showFooter,
+            $showAssistant,
         );
     }
 
@@ -153,8 +155,21 @@ final class CoreCacheQueryService implements CoreCacheQueryContract
      *
      * @return bool
     */
-    private function shouldShowFooter(string $path): bool {
+    private function shouldShowFooter(string $path): bool
+    {
         return !$this->isGuestPath($path) && !$this->isMustVerifyPath($path);
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return bool
+    */
+    private function shouldShowAssistant(string $path): bool
+    {
+        return !$this->isGuestPath($path)
+            && !$this->isMustVerifyPath($path)
+            && !$this->isAdminPath($path);
     }
 
     /**
