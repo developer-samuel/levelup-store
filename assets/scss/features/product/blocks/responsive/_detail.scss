@@ -362,7 +362,11 @@
 @include resolution(sm, min) {
   @include resolution(md, max) {
     .product-detail__gallery {
-      min-height: 450px;
+      height: auto;
+
+      &-image {
+        height: 100vw;
+      }
     }
   }
 }
