@@ -1,29 +1,22 @@
 @use '@/scss/abstracts/mixins/accessibility/visibility' as *;
 @use '@/scss/abstracts/mixins/effects/transition' as *;
-@use '@/scss/abstracts/mixins/colors/rgba' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
-
-$dark-400-rgba-50: rgba($color: colors.$dark-400, $alpha: 50%);
-$dark-400-rgba-75: rgba($color: colors.$dark-400, $alpha: 75%);
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 #scroll-to-top {
   @include visibility(false, 0, false);
   @include transition;
-  @include rgba('blue', 50);
 
   position: fixed;
-  border: 1px solid $dark-400-rgba-50;
+  background: colors.$secondary;
   border-radius: 50%;
-  box-shadow: 0 0 16px 1px $dark-400-rgba-50;
-  z-index: 999;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: z.$scroll-to-top;
   cursor: pointer;
 
   &:hover {
-    @include rgba('blue', 75);
-
+    background: colors.$secondary-hover;
     scale: 1.1;
-    border: 1px solid $dark-400-rgba-75;
-    box-shadow: 0 0 16px 1px $dark-400-rgba-75;
   }
 
   img {

@@ -1,3 +1,5 @@
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
 .notyf {
-  z-index: 999999 !important;
+  z-index: z.$notyf !important;
 }

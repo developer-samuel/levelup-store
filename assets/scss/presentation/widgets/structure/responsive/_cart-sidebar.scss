@@ -128,7 +128,6 @@
 
 #cart-sidebar {
   @include resolution(md, min) {
-    right: -400px;
     width: 400px;
 
     .cart__summary {
@@ -155,7 +154,6 @@
   }
 
   @include resolution(md, max) {
-    right: -100%;
     width: 100%;
 
     .cart__summary {

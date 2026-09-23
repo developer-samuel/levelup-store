@@ -3,15 +3,16 @@
 @use '@/scss/abstracts/mixins/colors/rgba' as *;
 @use '@/scss/abstracts/mixins/effects/backdrop-filter' as *;
 @use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .modal {
   @include size(100%, 100vh);
-  @include rgba('black', 50);
+  @include rgba('neutral', 50);
   @include backdrop-filter;
   @include transition('linear');
 
   position: fixed;
-  z-index: 9999;
+  z-index: z.$modal;
 
   &.visible {
     @include flex-center;

@@ -3,14 +3,12 @@
 @use '@/scss/abstracts/mixins/accessibility/visibility' as *;
 @use '@/scss/abstracts/mixins/colors/rgba' as *;
 @use '@/scss/abstracts/mixins/effects/backdrop-filter' as *;
-@use '@/scss/abstracts/mixins/effects/shadow' as *;
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .cart {
-  @include shadow(left, 1);
-
   position: fixed;
   background: colors.$primary;
 
@@ -185,11 +183,11 @@
 
   &__warning {
     @include size(100%, 100vh);
-    @include rgba('white', 25);
+    @include rgba('primary', 25);
     @include backdrop-filter(4);
 
     position: absolute;
-    z-index: 99999;
+    z-index: 1;
     display: none;
 
     &-header {
@@ -318,17 +316,41 @@
   }
 }
 
-#cart-sidebar {
-  @include transition('ease-in-out', 500, right);
+#cart-backdrop {
+  @include transition('ease-in-out', 300, opacity);
+  @include backdrop-filter(4);
 
+  @include rgba('neutral', 20);
+
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: z.$cart-backdrop;
+  opacity: 0;
+  pointer-events: none;
+
+  &.cart--active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+#cart-sidebar {
+  @include transition('ease-in-out', 300, transform);
+
+  right: 0;
   top: 0;
   height: 100vh;
-  z-index: 9999;
+  z-index: z.$overlay;
+  transform: translateX(100%);
 
   .cart {
     &--active {
       @at-root #cart-sidebar.cart--active {
-        right: 0;
+        transform: translateX(0);
       }
     }
 

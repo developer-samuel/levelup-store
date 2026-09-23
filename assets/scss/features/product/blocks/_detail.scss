@@ -310,7 +310,7 @@
       cursor: pointer;
 
       &:not(&--active):hover {
-        @include rgba('blue', 15);
+        @include rgba('secondary', 15);
       }
 
       &--active {

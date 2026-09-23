@@ -7,6 +7,7 @@
 @use '@/scss/abstracts/mixins/accessibility/visibility' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 @use '@/scss/presentation/components/loading/mixins/loading-spinner' as *;
 
@@ -17,7 +18,7 @@
   @include visibility(true, 1, true);
 
   position: fixed;
-  z-index: 999999;
+  z-index: z.$loading;
 
   &__background {
     @include size;
@@ -57,7 +58,7 @@
 
     .loading {
       &__background {
-        @include rgba('black', 50);
+        @include rgba('neutral', 50);
         @include backdrop-filter(4);
       }
 

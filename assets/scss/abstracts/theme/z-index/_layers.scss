@@ -1,0 +1,16 @@
+// Global z-index scale
+// Only for elements that compete in the root stacking context.
+// Local z-index values (e.g. z-index: 1 inside a component) do not need variables.
+
+$footer: 100;
+$scroll-to-top: 150;
+$navigation: 500;
+$header: 600;
+$ai-assistant: 700;
+$navigation-overlay: 800;
+$cart-backdrop: 850;
+$overlay: 900;
+$modal: 1000;
+$cursor: 1100;
+$loading: 900000;
+$notyf: 999999;

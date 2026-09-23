@@ -17,6 +17,7 @@ import { setupObservers } from '@/ts/presentation/layout/navigation/_interaction
 export class Navigation implements NavigationInstance {
   readonly navList: HTMLElement | null
   readonly navMenu: HTMLElement | null
+  readonly navContainer: HTMLElement | null
   readonly mobileContainer: HTMLElement | null
   readonly mobileIcon: HTMLImageElement | null
   readonly resetMenu: () => void
@@ -29,6 +30,7 @@ export class Navigation implements NavigationInstance {
   constructor(navSelector: string) {
     this.navList = query<HTMLElement>(navSelector)
     this.navMenu = query<HTMLElement>('.navigation__menu')
+    this.navContainer = query<HTMLElement>('.navigation')
     this.mobileContainer = query<HTMLElement>('.navigation__mobile')
     this.mobileIcon = query<HTMLImageElement>('#header-mobile-icon')
 
@@ -49,7 +51,7 @@ export class Navigation implements NavigationInstance {
     attachNavListMouseListeners(this.navList, this)
     attachNavMenuMouseListeners(this.navMenu, this)
     attachOutsideClickListener(this)
-    attachHeaderToggleListener(this.mobileContainer)
+    attachHeaderToggleListener(this.mobileContainer, this.navContainer)
 
     window.addEventListener('resize', (): void => updateMobileItemVisibility(this))
   }

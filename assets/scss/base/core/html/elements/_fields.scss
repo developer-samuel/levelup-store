@@ -42,7 +42,7 @@ input[type='radio'] {
   cursor: pointer;
 
   &:hover:not(:checked) {
-    @include rgba('blue', 40);
+    @include rgba('secondary', 40);
   }
 
   &:checked {

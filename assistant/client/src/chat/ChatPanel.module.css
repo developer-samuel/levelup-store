@@ -13,7 +13,7 @@
 }
 
 .panel {
-  @apply fixed right-0 top-0 z-20 flex w-full h-full md:max-w-sm flex-col bg-surface shadow-2xl transition-transform duration-300 ease-in-out;
+  @apply fixed right-0 top-0 z-20 flex w-full h-full md:max-w-[400px] flex-col bg-surface shadow-2xl transition-transform duration-300 ease-in-out;
 }
 
 .panelOpen {

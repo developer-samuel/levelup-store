@@ -4,6 +4,7 @@
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .admin-sidebar {
   @include size(300px, calc(100vh - 55px));
@@ -12,7 +13,7 @@
   position: fixed;
   top: 55px;
   background: colors.$secondary;
-  z-index: 100;
+  z-index: z.$footer;
 
   &__content {
     width: 100%;

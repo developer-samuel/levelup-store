@@ -6,11 +6,18 @@
 @use '@/scss/abstracts/mixins/accessibility/visibility' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .navigation {
   @include size(100%, auto);
+  @include transition('ease-in-out', 300);
 
-  position: relative;
+  position: fixed;
+  z-index: z.$navigation;
+
+  &--header-hidden {
+    transform: translateY(-200%);
+  }
 
   &__list {
     @include flex;
@@ -23,7 +30,7 @@
     border-bottom: 1px solid colors.$neutral;
 
     &--scrolled {
-      @include rgba('blue', 85);
+      @include rgba('secondary', 85);
       @include backdrop-filter;
     }
 
@@ -81,7 +88,7 @@
     position: fixed;
     top: 148px;
     width: 100%;
-    z-index: 1;
+    z-index: z.$navigation-overlay;
 
     &-submenu {
       @include flex;
@@ -162,7 +169,7 @@
 
     &-background {
       @include size(100%, calc(100vh - 150px));
-      @include rgba('black', 50);
+      @include rgba('neutral', 20);
       @include backdrop-filter;
 
       position: fixed;
@@ -174,12 +181,13 @@
 
   &__mobile {
     @include size(100%, calc(100dvh - 90px));
-    @include rgba('black', 50);
+    @include rgba('neutral', 20);
     @include backdrop-filter(4);
     @include transition;
     @include visibility;
 
     position: fixed;
+    z-index: z.$navigation-overlay;
 
     &--header-hidden {
       height: 100dvh;

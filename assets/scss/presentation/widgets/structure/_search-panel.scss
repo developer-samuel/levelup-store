@@ -6,16 +6,17 @@
 @use '@/scss/abstracts/mixins/accessibility/user-select' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .search-panel {
-  @include rgba('black', 50);
+  @include rgba('neutral', 20);
   @include backdrop-filter;
   @include transition('ease-in-out', 300, (top, height));
 
   position: fixed;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: z.$navigation-overlay;
   display: none;
 
   &--header-hidden {
@@ -119,7 +120,7 @@
         @include weights(700);
 
         position: relative;
-        color: colors.$primary;
+        color: colors.$neutral;
         font-size: 32px;
         text-align: center;
       }

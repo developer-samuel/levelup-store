@@ -2,7 +2,7 @@
 @use '@/scss/abstracts/theme/colors/rgba/colors' as rgba;
 
 $rgba-colors: (
-  'black': fn.generate-rgba(rgba.$black),
-  'blue': fn.generate-rgba(rgba.$blue),
-  'white': fn.generate-rgba(rgba.$white),
+  'primary': fn.generate-rgba(rgba.$primary),
+  'secondary': fn.generate-rgba(rgba.$secondary),
+  'neutral': fn.generate-rgba(rgba.$neutral),
 );

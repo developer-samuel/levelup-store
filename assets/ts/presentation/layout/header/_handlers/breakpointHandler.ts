@@ -3,9 +3,9 @@ import { updateLogo } from '@/ts/presentation/layout/header/_ui/logo'
 import { dispatchHeaderToggle } from '@/ts/presentation/layout/header/_events/toggle'
 
 export function handleBreakpointChange(instance: HeaderInstance, isDesktop: boolean): void {
-  if (!isDesktop) {
-    instance.mobileNavigation?.classList.remove('visible')
-  } else {
+  instance.mobileNavigation?.classList.remove('visible')
+
+  if (isDesktop) {
     const header = instance.header
 
     if (header) {

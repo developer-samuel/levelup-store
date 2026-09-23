@@ -64,17 +64,25 @@
       }
     }
 
-    .navigation {
-      @include flex;
-    }
-
     &__mobile {
       display: none;
     }
   }
 }
 
+@include resolution(lg, min) {
+  .navigation {
+    @include flex;
+
+    top: 75px;
+  }
+}
+
 @include resolution(lg, max) {
+  .navigation {
+    display: none;
+  }
+
   .header {
     &__main {
       &-search {
@@ -88,10 +96,6 @@
       &-login {
         padding: 0.25em 0.75em;
       }
-    }
-
-    .navigation {
-      display: none;
     }
 
     &__mobile {
@@ -178,19 +182,13 @@
         height: 2em;
       }
 
-      &-login,
-      &-user {
-        &-icon {
-          @include size(14px, 14px);
-        }
+      &-login-icon,
+      &-user-icon {
+        @include size(14px, 14px);
       }
 
       &-user {
         padding: 0 0.75em;
-
-        &-icon {
-          top: -1px;
-        }
 
         &-dropdown {
           top: 50px;

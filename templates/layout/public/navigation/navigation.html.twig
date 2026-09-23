@@ -1,12 +1,7 @@
 {% macro render() %}
     {% import 'layout/public/navigation/list/list.html.twig' as List %}
-    {% import 'layout/public/navigation/menu/menu.html.twig' as Menu %}
-    {% import 'layout/public/navigation/mobile/content/content.html.twig' as MobileNavigation %}
 
     <nav class="navigation">
         {{ List.render() }}
-        {{ Menu.render(categories, maxTypes) }}
     </nav>
-
-    {{ MobileNavigation.render() }}
 {% endmacro %}

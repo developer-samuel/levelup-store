@@ -1,6 +1,7 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/effects/shadow' as *;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 @include resolution(xxl, min) {
   .products__card-list {
@@ -142,7 +143,7 @@
 
       position: fixed;
       top: 0;
-      z-index: 99999;
+      z-index: z.$overlay;
       display: none;
 
       &-mobile {

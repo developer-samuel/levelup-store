@@ -2,6 +2,7 @@
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .admin-header {
   position: fixed;
@@ -9,7 +10,7 @@
   color: colors.$primary;
   background: colors.$neutral;
   padding: 0 0.5rem;
-  z-index: 1000;
+  z-index: z.$header;
 
   &__section {
     @include flex-between-center;

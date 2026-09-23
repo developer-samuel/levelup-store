@@ -1,12 +1,13 @@
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/colors/rgba' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 @use '@/scss/presentation/components/cursor/mixins/cursor-pulse' as *;
 
 .cursor {
   @include transition('linear', 500, ('transform', 'background-color', 'box-shadow'));
-  @include rgba('blue', 25);
+  @include rgba('secondary', 25);
   @include cursor-pulse;
 
   position: fixed;
@@ -15,11 +16,11 @@
   height: 20px;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 99999;
+  z-index: z.$cursor;
   box-shadow: 0 0 16px 2px rgba($color: colors.$primary, $alpha: 25%);
 
   &__hovered {
-    @include rgba('blue', 40);
+    @include rgba('secondary', 40);
 
     scale: 1.2;
     box-shadow: 0 0 16px 2px rgba($color: colors.$primary, $alpha: 40%);
