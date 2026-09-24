@@ -1,16 +1,21 @@
-{% macro render(banners, products) %}
+{% macro render(banners) %}
     {% import 'features/home/banners/blocks/background.html.twig' as BackgroundModule %}
-    {% import 'features/home/banners/blocks/recommended-products.html.twig' as RecommendedProductsModule %}
 
     <div class="home-page__banners">
         {% for banner in banners %}
             {% if banner.type == 'background' %}
                 {{ BackgroundModule.render(banner) }}
             {% endif %}
-
-            {% if banner.type == 'recommended_products' and products|length > 0 %}
-                {{ RecommendedProductsModule.render(banner, products) }}
-            {% endif %}
         {% endfor %}
     </div>
+{% endmacro %}
+
+{% macro renderProducts(banners, products) %}
+    {% import 'features/home/banners/blocks/recommended-products.html.twig' as RecommendedProductsModule %}
+
+    {% for banner in banners %}
+        {% if banner.type == 'recommended_products' and products|length > 0 %}
+            {{ RecommendedProductsModule.render(banner, products) }}
+        {% endif %}
+    {% endfor %}
 {% endmacro %}

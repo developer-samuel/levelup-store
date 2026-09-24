@@ -8,10 +8,12 @@ final readonly class HomeCacheObject
 {
     /**
      * @param array<int, mixed> $products
+     * @param array<int, mixed> $categories
      * @param array<int, mixed> $banners
     */
     public function __construct(
         public array $products,
+        public array $categories,
         public array $banners,
     ) {}
 
@@ -21,8 +23,9 @@ final readonly class HomeCacheObject
     public function toArray(): array
     {
         return [
-            'products' => $this->products,
-            'banners'  => $this->banners,
+            'products'   => $this->products,
+            'categories' => $this->categories,
+            'banners'    => $this->banners,
         ];
     }
 }

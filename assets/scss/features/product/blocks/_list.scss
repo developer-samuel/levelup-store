@@ -2,10 +2,12 @@
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/accessibility/appearance' as *;
 @use '@/scss/abstracts/mixins/colors/rgba' as *;
+@use '@/scss/abstracts/mixins/effects/backdrop-filter' as *;
 @use '@/scss/abstracts/mixins/effects/shadow' as *;
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .products {
   @include flex;
@@ -21,6 +23,20 @@
     padding-bottom: 2.5em;
     overflow-y: auto;
     z-index: 10;
+
+    &-backdrop {
+      @include rgba('neutral', 20);
+      @include backdrop-filter(4);
+      @include transition('ease-in-out', 300);
+
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100dvh;
+      z-index: z.$cart-backdrop;
+    }
 
     &-mobile {
       @include size(100%, 32.5px);
@@ -72,6 +88,27 @@
 
       position: relative;
       gap: 1em;
+    }
+
+    &-reset {
+      padding: 1em;
+
+      &-btn {
+        @include transition('linear');
+        @include weights(700);
+
+        width: 100%;
+        background: colors.$neutral;
+        color: colors.$primary;
+        border: 0;
+        border-radius: 1.5em;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &:hover {
+          background: colors.$neutral-hover;
+        }
+      }
     }
 
     &-menu-item {

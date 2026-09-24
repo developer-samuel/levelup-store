@@ -23,6 +23,15 @@
     <aside class="products__filter">
         {{ FilterHeader.render() }}
 
+        <div class="products__filter-reset">
+            <button
+                id="filter-reset"
+                class="products__filter-reset-btn"
+            >
+                Reset
+            </button>
+        </div>
+
         <div class="products__filter-content">
             {% if categories|length > 0 %}
                 {{
@@ -69,6 +78,8 @@
             {% endif %}
         </div>
     </aside>
+
+    <div id="filter-backdrop" class="products__filter-backdrop"></div>
 
     {# Mobile icon to open filter #}
     {{ FilterMobileIcon.render() }}

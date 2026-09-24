@@ -1,6 +1,7 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/effects/shadow' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/theme/z-index/layers' as z;
 
 @include resolution(xxl, min) {
@@ -138,13 +139,23 @@
 
 @include resolution(xl, max) {
   .products {
+    &__filter-reset-btn {
+      font-size: 14px;
+      padding: 0.75em 0;
+    }
+
     &__filter {
-      @include size(100%, 100dvh);
+      @include size(100%, calc(100dvh - 137.5px));
+      @include transition('ease-in-out', 300, transform);
 
       position: fixed;
       top: 0;
       z-index: z.$overlay;
-      display: none;
+      transform: translateX(-100%);
+
+      &--active {
+        transform: translate(0);
+      }
 
       &-mobile {
         display: block;
@@ -277,10 +288,22 @@
   .products__card-options {
     @include shadow(bottom, 1);
   }
+
+  .products__filter-reset-btn {
+    font-size: 16px;
+    padding: 1em 0;
+  }
 }
 
 @include resolution(md, min) {
   @include resolution(xl, max) {
+    .products {
+      &__filter {
+        width: 350px;
+        height: 100dvh;
+      }
+    }
+
     .products__card-title {
       font-size: 24px;
     }
@@ -311,6 +334,14 @@
 
 @include resolution(md, max) {
   .products {
+    &__filter {
+      transform: translateY(-100%);
+
+      &--active {
+        transform: translate(0);
+      }
+    }
+
     &__filter-mobile {
       top: 130px;
     }

@@ -5,7 +5,7 @@ import './app/theme/index.css'
 
 import App from '@/app/App'
 
-createRoot(document.getElementById('levelup-chat')!).render(
+createRoot(document.getElementById('levelup-assistant')!).render(
   <StrictMode>
     <App />
   </StrictMode>,

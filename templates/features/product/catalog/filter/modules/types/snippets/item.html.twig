@@ -1,5 +1,5 @@
 <a
-    href="{{ path(productRoute, { 'category': category|lower, 'type': item|lower }) }}"
+    href="{{ path(productRoute, { 'category': category|lower|replace({' ': '-'}), 'type': item|lower|replace({' ': '-'}) }) }}"
     class="products__filter-list-item"
 >
     {{ item }}

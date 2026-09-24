@@ -46,8 +46,9 @@ final class HomeQueryController extends AbstractQueryController
         $data = $this->homeCacheQuery->getHomeData();
 
         return $this->render('features/home/index.html.twig', [
-            'products' => $data['products'],
-            'banners'  => $data['banners'],
+            'products'   => $data['products'],
+            'categories' => $data['categories'] ?? [],
+            'banners'    => $data['banners'],
         ]);
     }
 }

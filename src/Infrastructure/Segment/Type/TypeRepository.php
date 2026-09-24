@@ -83,7 +83,7 @@ final class TypeRepository extends AbstractRepository implements TypeRepositoryC
             ->andWhere('t.category = :category')
             ->andWhere('LOWER(t.name) = LOWER(:name)')
             ->setParameter('category', $category)
-            ->setParameter('name', ucfirst($name));
+            ->setParameter('name', str_replace('-', ' ', $name));
 
         $type = $this->getResultOrNull($qb);
 

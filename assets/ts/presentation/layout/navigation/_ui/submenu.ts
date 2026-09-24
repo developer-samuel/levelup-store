@@ -26,6 +26,9 @@ export function activateSubmenu(instance: NavigationInstance, itemId: string): v
 }
 
 export function showSubmenu(instance: NavigationInstance, id: string): boolean {
+  const mobileContainer = document.querySelector('.navigation__mobile')
+  if (mobileContainer?.classList.contains('visible')) return false
+
   const targetMenuId = id.replace('-item', '-menu')
   const targetMenu = document.getElementById(targetMenuId)
   if (!targetMenu) return false

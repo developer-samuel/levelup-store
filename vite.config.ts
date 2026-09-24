@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vite'
 
 import { plugins, resolve, build, test } from './vite/config'
 import server from './vite/server'

@@ -10,7 +10,12 @@ export function showNavItems(id: string): boolean {
   if (!desktopEl || !mobileEl) return false
 
   desktopEl.classList.add('visible')
-  mobileEl.classList.add('visible')
+
+  const mobileContainer = document.querySelector('.navigation__mobile')
+  if (mobileContainer?.classList.contains('visible')) {
+    mobileEl.classList.add('visible')
+  }
+
   return true
 }
 

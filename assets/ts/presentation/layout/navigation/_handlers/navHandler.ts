@@ -27,9 +27,7 @@ export function handleMouseOver(instance: NavigationInstance, e: MouseEvent): vo
   const shown = showNavItems(id)
   if (!shown) return
 
-  const isMobileItem = item.classList.contains('navigation__mobile-item')
-
-  if (id !== 'discount-item' && !isMobileItem) {
+  if (id !== 'discount-item') {
     showSubmenu(instance, id)
   }
 }

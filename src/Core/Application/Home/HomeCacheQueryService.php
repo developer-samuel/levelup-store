@@ -8,6 +8,7 @@ use App\Core\Domain\Home\HomeCacheObject;
 
 use App\Core\Application\{
     Segment\Banner\BannerResource,
+    Segment\Category\CategoryResource,
     Shared\Constants\CacheTTLConstants,
     Shared\Utils\Mapper\ResourceMapper
 };
@@ -16,6 +17,7 @@ use App\Core\Ports\{
     Home\HomeCacheQueryContract,
     Gateways\Internal\Cache\CacheGatewayContract,
     Segment\Banner\BannerRepositoryContract,
+    Segment\Category\Repository\CategoryRepositoryContract,
     Segment\Product\Service\Query\ProductRecommendedQueryContract,
     Shared\Proxy\CacheItemProxyContract,
     Shared\Proxy\CacheProxyContract
@@ -31,11 +33,13 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
     /**
      * @param BannerRepositoryContract $bannerRepository
      * @param ProductRecommendedQueryContract $productRecommendedQuery
+     * @param CategoryRepositoryContract $categoryRepository
      * @param CacheGatewayContract $cacheGateway
     */
     public function __construct(
         private BannerRepositoryContract $bannerRepository,
         private ProductRecommendedQueryContract $productRecommendedQuery,
+        private CategoryRepositoryContract $categoryRepository,
         CacheGatewayContract $cacheGateway,
     ) {
         $this->cache = $cacheGateway->getCache(self::CACHE_POOL);
@@ -81,6 +85,7 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
 
         return new HomeCacheObject(
             $this->productRecommendedQuery->findAll(),
+            $this->getMappedCategories(),
             $this->getMappedBanners(),
         );
     }
@@ -93,6 +98,17 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
     private function configureCacheItem(CacheItemProxyContract $item): void
     {
         $item->expiresAfter(CacheTTLConstants::FIVE_MINUTES);
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+    */
+    private function getMappedCategories(): array
+    {
+        return ResourceMapper::collection(
+            $this->categoryRepository->findAll(),
+            CategoryResource::class,
+        );
     }
 
     /**

@@ -4,10 +4,13 @@
 
 {% block body %}
     {% import 'features/home/banners/banners.html.twig' as Banners %}
+    {% import 'features/home/categories/categories.html.twig' as Categories %}
 
     <main class="content">
         <div class="home-page">
-            {{ Banners.render(banners, products) }}
+            {{ Banners.render(banners) }}
+            {{ Categories.render(categories) }}
+            {{ Banners.renderProducts(banners, products) }}
         </div>
     </main>
 {% endblock %}

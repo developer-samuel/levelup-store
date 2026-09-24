@@ -10,7 +10,7 @@
         {{
             Item.render(
                 path('products_index', { 'category': category.name|lower|replace({' ': '-'}) }),
-                prefix ~ category.name|lower ~ '-item',
+                prefix ~ category.name|lower|replace({' ': '-'}) ~ '-item',
                 category.name,
                 asset('img/icons/categories/' ~ category.name|lower ~ '.png'),
                 baseClass,

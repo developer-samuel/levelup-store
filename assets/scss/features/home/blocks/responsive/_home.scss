@@ -1,8 +1,27 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
 
 @include resolution(xxl, min) {
   .home-page {
     padding: 3rem 3rem 8rem;
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(xl, max) {
+    .home-page {
+      &__category-card {
+        flex: 0 0 calc((100% - 2 * 1rem) / 3);
+      }
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .home-page {
+    &__category-card {
+      flex: 0 0 100%;
+    }
   }
 }
 
@@ -23,19 +42,9 @@
         font-size: 28px;
       }
     }
-  }
-}
 
-@include resolution(xs, min) {
-  @include resolution(md, max) {
-    .home-page {
-      &__banners {
-        gap: 2rem;
-      }
-
-      &__swiper-title {
-        font-size: 20px;
-      }
+    &__categories-title {
+      font-size: 28px;
     }
   }
 }
@@ -70,6 +79,24 @@
   }
 }
 
+@include resolution(xs, min) {
+  @include resolution(md, max) {
+    .home-page {
+      &__banners {
+        gap: 2rem;
+      }
+
+      &__swiper-title {
+        font-size: 20px;
+      }
+
+      &__categories-title {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
 @include resolution(xs, max) {
   .home-page {
     &__banners {
@@ -78,6 +105,43 @@
 
     &__swiper-title {
       font-size: 16px;
+    }
+
+    &__categories-title {
+      font-size: 16px;
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  .home-page {
+    &__category-card {
+      &-header {
+        gap: 0.75rem;
+        padding: 2rem 1.25rem 1.5rem;
+      }
+
+      &-icon {
+        @include size(56px, 56px);
+
+        img {
+          @include size(40px, 40px);
+        }
+      }
+
+      &-name {
+        font-size: 15px;
+      }
+
+      &-types {
+        padding: 1.125rem 1rem;
+        gap: 0.4rem;
+      }
+    }
+
+    &__category-type {
+      font-size: 11.5px;
+      padding: 0.275rem 0.75rem;
     }
   }
 }

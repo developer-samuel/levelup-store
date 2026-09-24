@@ -6,6 +6,14 @@ export function handleResize(productFilter: HTMLElement, lastWidth: { value: num
   const currentWidth = window.innerWidth
   if (currentWidth === lastWidth.value) return
 
+  const wasDesktop = lastWidth.value >= BREAKPOINT_XL
+  const isDesktop = currentWidth >= BREAKPOINT_XL
+
   lastWidth.value = currentWidth
-  toggle(productFilter, currentWidth >= BREAKPOINT_XL)
+
+  if (!wasDesktop && isDesktop) {
+    toggle(productFilter, true)
+  } else if (wasDesktop && !isDesktop) {
+    toggle(productFilter, false)
+  }
 }

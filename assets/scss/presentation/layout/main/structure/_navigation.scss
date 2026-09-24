@@ -16,7 +16,8 @@
   z-index: z.$navigation;
 
   &--header-hidden {
-    transform: translateY(-200%);
+    transform: translateY(-100%);
+    opacity: 0;
   }
 
   &__list {
@@ -83,6 +84,7 @@
 
   &__menu {
     @include transition('ease-out', 250, (opacity, visibility));
+    @include size(100%, auto);
     @include visibility;
 
     position: fixed;
@@ -97,6 +99,7 @@
       @include visibility;
 
       position: fixed;
+      top: 148px;
       flex-wrap: nowrap;
       align-items: stretch;
       min-height: 40%;
@@ -109,7 +112,6 @@
       @include flex-col;
 
       flex: 1;
-      height: auto;
       text-align: center;
     }
 
@@ -143,6 +145,7 @@
     &-list {
       @include flex-col;
 
+      flex: 1;
       width: 100%;
       box-sizing: border-box;
 
@@ -183,20 +186,30 @@
     @include size(100%, calc(100dvh - 90px));
     @include rgba('neutral', 20);
     @include backdrop-filter(4);
-    @include transition;
+    @include transition('ease-in-out', 300, (opacity, visibility));
     @include visibility;
 
     position: fixed;
+    overflow: hidden;
     z-index: z.$navigation-overlay;
+
+    &.visible {
+      .navigation__mobile-content {
+        transform: translateY(0);
+      }
+    }
 
     &--header-hidden {
       height: 100dvh;
     }
 
     &-content {
+      @include transition('ease-in-out', 300, transform);
+
       position: relative;
       width: 100%;
       background: colors.$primary;
+      transform: translateY(-100%);
     }
 
     &-search {
