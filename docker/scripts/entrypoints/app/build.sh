@@ -6,12 +6,13 @@ if [ -f public/hot ] && ! docker ps --filter "name=levelup_store_vite" --filter 
   rm public/hot
 fi
 
-echo "⚙️ Rebuilding native modules for container platform..."
-pnpm rebuild esbuild --silent
+echo "⚙️ Installing frontend dependencies..."
+pnpm config set store-dir /tmp/.pnpm-store
+pnpm install --frozen-lockfile
 
-echo "⚙️ Building assets..."
-pnpm build
-echo "✅ Assets built."
+echo "⚙️ Building all assets..."
+pnpm build:all
+echo "✅ All assets built."
 
 echo "⚙️ Generating ESLint report..."
 mkdir -p var/tools/eslint

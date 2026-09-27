@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-CHROMA_COLLECTION = "products"
+CHROMA_COLLECTION_PRODUCTS = "products"
 
 
 class Settings(BaseSettings):
@@ -18,10 +18,12 @@ class Settings(BaseSettings):
     cors_origins: str
     database_url: str
     redis_url: str
+    support_email: str
 
     # optional
-    sentry_dsn: str = ""
+    rabbitmq_url: str = ""
     api_key: str = ""
+    sentry_dsn: str = ""
 
 
 settings = Settings()

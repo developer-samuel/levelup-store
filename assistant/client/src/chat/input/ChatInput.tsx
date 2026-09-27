@@ -1,4 +1,5 @@
-import { type KeyboardEvent, type MouseEvent, useRef, useState } from 'react'
+import { type KeyboardEvent, type MouseEvent, useEffect, useRef, useState } from 'react'
+import { Square } from 'lucide-react'
 
 import { cn } from '@/utils/classes.utils'
 
@@ -6,14 +7,23 @@ import s from '@/chat/input/ChatInput.module.css'
 
 type Props = {
   onSend: (message: string) => void
+  onStop: () => void
+  loading: boolean
   disabled: boolean
+  restoredValue?: string | null
 }
 
 const MAX_LENGTH = 2000
 
-export function ChatInput({ onSend, disabled }: Props) {
+export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: Props) {
   const [value, setValue] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    if (!restoredValue) return
+    setValue(restoredValue)
+    textareaRef.current?.focus()
+  }, [restoredValue])
   const isOverLimit = value.length > MAX_LENGTH
 
   const submit = () => {
@@ -46,7 +56,7 @@ export function ChatInput({ onSend, disabled }: Props) {
   }
 
   return (
-    <div className={s.wrapper}>
+    <div className={s.wrapper} onMouseDown={(e) => { if (e.target !== textareaRef.current) e.preventDefault() }}>
       <div className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled)} onClick={onFieldClick}>
         <textarea
           ref={textareaRef}
@@ -64,13 +74,19 @@ export function ChatInput({ onSend, disabled }: Props) {
           <span className={cn(s.counter, isOverLimit && s.counterError)}>
             {value.length}/{MAX_LENGTH}
           </span>
-          <button
-            onClick={submit}
-            disabled={disabled || !value.trim() || isOverLimit}
-            className={cn(s.sendBtn, !value.trim() && s.sendBtnHidden)}
-          >
-            Send
-          </button>
+          {loading ? (
+            <button className={s.stopBtn} onClick={onStop} aria-label="Stop generating" title="Stop generating">
+              <Square className={s.stopBtnIcon} />
+            </button>
+          ) : (
+            <button
+              onClick={submit}
+              disabled={disabled || !value.trim() || isOverLimit}
+              className={cn(s.sendBtn, !value.trim() && s.sendBtnHidden)}
+            >
+              Send
+            </button>
+          )}
         </div>
       </div>
       <p className={s.hint}>Enter to send · Shift+Enter for new line</p>

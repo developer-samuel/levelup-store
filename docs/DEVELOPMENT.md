@@ -44,8 +44,7 @@ docker compose build --no-cache
 make setup-build
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down
-docker compose --profile setup run --no-deps --rm assistant_client_build
-docker compose --profile setup up --build --scale assistant_client_build=0 || true
+docker compose --profile setup up --build
 docker compose up -d
 ```
 
@@ -107,8 +106,7 @@ docker network prune -f
 make dev-setup-build
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down
-docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup run --no-deps --rm assistant_client_build
-docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build --scale assistant_client_build=0 || true
+docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup up --build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 # Clean and rebuild setup containers + dev services (with cache)

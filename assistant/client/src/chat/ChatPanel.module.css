@@ -13,7 +13,7 @@
 }
 
 .panel {
-  @apply fixed right-0 top-0 z-20 flex w-full h-full md:max-w-[400px] flex-col bg-surface shadow-2xl transition-transform duration-300 ease-in-out;
+  @apply fixed right-0 top-0 z-20 flex w-full h-full md:max-w-[400px] flex-col bg-surface shadow-2xl transition-transform duration-300 ease-in-out select-none;
 }
 
 .panelOpen {
@@ -77,7 +77,8 @@
 }
 
 .tooltip {
-  @apply pointer-events-none absolute right-0 top-6 z-30 w-64 rounded-lg bg-neutral p-3 opacity-0 shadow-lg transition-opacity;
+  @apply absolute right-0 top-6 z-30 w-64 rounded-lg bg-neutral p-3 opacity-0 shadow-lg
+         select-none pointer-events-none transition-opacity;
 }
 
 .tooltipVisible {
@@ -94,16 +95,4 @@
 
 .tooltipList {
   @apply list-disc space-y-1 pl-3.5 text-xs text-primary/70;
-}
-
-.stopWrapper {
-  @apply flex justify-center pb-2;
-}
-
-.stopBtn {
-  @apply flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-secondary text-primary transition-colors hover:bg-secondary-hover;
-}
-
-.stopBtnIcon {
-  @apply h-4 w-4;
 }

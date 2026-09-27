@@ -1,4 +1,9 @@
+packages:
+  - '.'
+  - 'assistant/client'
+
 allowBuilds:
   '@parcel/watcher': false
   esbuild: false
   puppeteer: true
+  unrs-resolver: false

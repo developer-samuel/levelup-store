@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { Message } from '@/chat/chat.types'
-import { clearMessages, loadMessages, purgeExpired, saveMessages } from '@/chat/chat.storage'
+import { clearAllMessages, clearMessages, loadMessages, purgeExpired, saveMessages } from '@/chat/chat.storage'
 
 type UseChatMessagesOptions = {
   conversationId: string
@@ -13,6 +13,7 @@ type UseChatMessagesReturn = {
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>
   persist: (msgs: Message[]) => void
   clear: () => void
+  clearAll: () => void
 }
 
 export function useChatMessages({ conversationId, sessionLoaded }: UseChatMessagesOptions): UseChatMessagesReturn {
@@ -41,5 +42,10 @@ export function useChatMessages({ conversationId, sessionLoaded }: UseChatMessag
     setMessages([])
   }, [])
 
-  return { messages, setMessages, persist, clear }
+  const clearAll = useCallback((): void => {
+    clearAllMessages()
+    setMessages([])
+  }, [])
+
+  return { messages, setMessages, persist, clear, clearAll }
 }

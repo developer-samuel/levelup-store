@@ -43,7 +43,7 @@ async def stream_chat(message: str, conversation_id: str) -> AsyncGenerator[str,
             options={"temperature": 0.1},
         ):
             token = chunk["message"]["content"]
-            
+
             if token:
                 full_response.append(token)
 
@@ -52,7 +52,5 @@ async def stream_chat(message: str, conversation_id: str) -> AsyncGenerator[str,
         history.append({"role": "assistant", "content": "".join(full_response)})
         await save_history(conversation_id, history)
         yield json.dumps({"success": True, "data": {"done": True, "conversation_id": conversation_id}})
-    except ConnectError:
-        yield json.dumps({"success": False, "message": "Ollama service unavailable"})
-    except ollama.ResponseError as e:
-        yield json.dumps({"success": False, "message": str(e)})
+    except (ConnectError, ollama.ResponseError):
+        yield json.dumps({"success": False, "message": "Something went wrong. The server may be busy - please try again."})

@@ -37,6 +37,7 @@ include:
   # ── Assistant ───────────────────────────────────────────────────────────────────
 
   - assistant/docker/compose/assistant.yml
+  - assistant/docker/compose/worker.yml
   - assistant/docker/compose/cron.yml
   - assistant/docker/compose/chromadb.yml
 

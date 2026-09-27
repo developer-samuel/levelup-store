@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { MessageSquare, RotateCcw, Square, TriangleAlert, X } from 'lucide-react'
+import { MessageSquare, RotateCcw, TriangleAlert, X } from 'lucide-react'
 
 import { cn } from '@/utils/classes.utils'
 
 import { useChat } from '@/chat/_hooks/useChat'
+import { useScrollTrigger } from '@/chat/_hooks/useScrollTrigger'
+import { useEscapeKey } from '@/chat/_hooks/useEscapeKey'
 import { ChatInput } from '@/chat/input/ChatInput'
 import { MessageList } from '@/chat/message/MessageList'
-import { useEscapeKey } from '@/chat/_hooks/useEscapeKey'
+import { QueueStatus } from '@/chat/status/QueueStatus'
 import s from '@/chat/ChatPanel.module.css'
 
 type Props = {
@@ -20,7 +22,7 @@ type Props = {
 
 export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sessionLoaded, onConversationReset }: Props) {
   const [tooltipVisible, setTooltipVisible] = useState(false)
-  const { messages, loading, error, send, reset, stop } = useChat({
+  const { messages, loading, queued, queuePosition, error, failedMessage, send, reset, stop } = useChat({
     conversationId,
     isAuthenticated,
     sessionLoaded,
@@ -28,6 +30,8 @@ export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sess
   })
 
   useEscapeKey(open, onClose)
+
+  const scrollTrigger = useScrollTrigger(error, queued)
 
   return (
     <>
@@ -59,6 +63,8 @@ export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sess
                   <li>Responses may be slower due to hardware constraints</li>
                   <li>Grammar and phrasing may not always be perfect</li>
                   <li>Best results in English - other languages supported</li>
+                  {loading && !queued && <li>Thinking may take up to 5 minutes</li>}
+                  {queued && <li>Queued requests expire after 15 minutes</li>}
                 </ul>
               </div>
             </div>
@@ -75,19 +81,13 @@ export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sess
 
         <div className={s.divider} />
 
-        <MessageList messages={messages} />
+        <MessageList messages={messages} scrollTrigger={scrollTrigger} />
 
         {error && <div className={s.error}>{error}</div>}
 
-        {loading && (
-          <div className={s.stopWrapper}>
-            <button className={s.stopBtn} onClick={stop} aria-label="Stop generating" title="Stop generating">
-              <Square className={s.stopBtnIcon} />
-            </button>
-          </div>
-        )}
+        {queued && <QueueStatus position={queuePosition} />}
 
-        <ChatInput onSend={send} disabled={loading} />
+        <ChatInput onSend={send} onStop={stop} loading={loading} disabled={loading || queued} restoredValue={error ? failedMessage : null} />
       </div>
     </>
   )

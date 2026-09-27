@@ -25,3 +25,4 @@ services:
       service: healthcheck-base
     healthcheck:
       test: ['CMD-SHELL', 'curl -f "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s" || exit 1']
+      start_period: 120s

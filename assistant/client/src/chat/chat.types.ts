@@ -7,4 +7,10 @@ export type Message = {
   streaming?: boolean
   thinking?: boolean
   thinkingSeconds?: number
+  thinkingStartedAt?: number
+  thinkingConfirmed?: boolean
+  requestId?: string
+  queued?: boolean
+  queuePosition?: number
+  createdAt?: number
 }

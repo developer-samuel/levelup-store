@@ -5,7 +5,7 @@ import chromadb.api
 import ollama
 from chromadb.api.types import PyEmbeddings
 
-from app.config import CHROMA_COLLECTION, settings
+from app.config import CHROMA_COLLECTION_PRODUCTS, settings
 
 # Module-level singletons  created once, reused across requests
 _chroma_client: chromadb.api.ClientAPI | None = None
@@ -33,14 +33,16 @@ def _get_ollama_client() -> ollama.Client:
 
 
 def get_collection() -> chromadb.Collection:
-    return _get_chroma_client().get_or_create_collection(CHROMA_COLLECTION)
+    return _get_chroma_client().get_or_create_collection(CHROMA_COLLECTION_PRODUCTS)
 
 
 def reset_collection() -> chromadb.Collection:
     """Delete and recreate the ChromaDB collection to remove stale documents."""
+    
     client = _get_chroma_client()
-    client.delete_collection(CHROMA_COLLECTION)
-    return client.get_or_create_collection(CHROMA_COLLECTION)
+    client.delete_collection(CHROMA_COLLECTION_PRODUCTS)
+
+    return client.get_or_create_collection(CHROMA_COLLECTION_PRODUCTS)
 
 
 def embed(text: str) -> list[float]:
@@ -61,7 +63,7 @@ def query(question: str, n_results: int = 5) -> str:
         )
 
         documents: list[str] = results["documents"][0] if results["documents"] else []
-        
+
         return "\n".join(f"- {doc}" for doc in documents)
     except Exception:
         return ""

@@ -12,11 +12,19 @@
 }
 
 .row {
-  @apply flex items-end gap-2 flex-row;
+  @apply flex flex-row;
 }
 
 .rowReverse {
   @apply flex-row-reverse;
+}
+
+.messageBody {
+  @apply flex items-end gap-2;
+}
+
+.messageBodyUser {
+  @apply ml-auto;
 }
 
 .avatar {
@@ -36,7 +44,12 @@
 }
 
 .bubble {
-  @apply w-full rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed wrap-break-word [user-drag:none] [-webkit-user-drag:none];
+  @apply w-full rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed wrap-break-word
+         [user-select:contain] [user-drag:none] [-webkit-user-drag:none];
+}
+
+.bubbleThinking {
+  @apply w-fit;
 }
 
 .bubbleUser {
@@ -48,7 +61,7 @@
 }
 
 .bubbleWrapper {
-  @apply flex max-w-75 flex-col gap-1;
+  @apply relative flex max-w-75 flex-col gap-1;
 }
 
 .bubbleWrapperUser {
@@ -68,7 +81,7 @@
 }
 
 .thinkingSeconds {
-  @apply text-xs text-neutral/40;
+  @apply text-xs text-neutral/40 select-none;
 }
 
 .dots {
@@ -91,4 +104,29 @@
 
 .cursor {
   @apply ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-current opacity-60;
+}
+
+.timestamp {
+  @apply absolute bottom-full mb-1.5 left-0
+         flex flex-col gap-0.5 select-none pointer-events-none
+         rounded-lg bg-neutral px-2.5 py-2 shadow-lg
+         opacity-0 -translate-y-1
+         transition-[opacity,transform] duration-150 ease-out;
+}
+
+.timestampUser {
+  @apply left-auto right-0;
+}
+
+.timestampDate {
+  @apply text-xs leading-none text-primary/70;
+}
+
+.timestampTime {
+  @apply font-mono text-xs leading-none tabular-nums text-primary;
+}
+
+.messageBody:has(.bubble:hover) .timestamp,
+.messageBody:has(.avatar:hover) .timestamp {
+  @apply opacity-100 translate-y-0;
 }

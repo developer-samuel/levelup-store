@@ -27,9 +27,11 @@ export function loadMessages(conversationId: string): Message[] {
   }
 }
 
+// Streaming messages with partial content are included so a page reload mid-stream
+// can restore what was already written and reconnect to the worker.
 export function saveMessages(conversationId: string, msgs: Message[]): void {
   const data: StoredData = {
-    messages: msgs.filter((m) => !m.streaming),
+    messages: msgs.filter((m) => !m.streaming || m.thinking || m.content.length > 0),
     expiresAt: Date.now() + TTL_MS,
   }
   localStorage.setItem(getKey(conversationId), JSON.stringify(data))
@@ -39,14 +41,26 @@ export function clearMessages(conversationId: string): void {
   localStorage.removeItem(getKey(conversationId))
 }
 
-export function purgeExpired(): void {
-  const now = Date.now()
+export function clearAllMessages(): void {
   for (let i = localStorage.length - 1; i >= 0; i--) {
     const key = localStorage.key(i)
+
+    if (key?.startsWith(MESSAGES_PREFIX)) localStorage.removeItem(key)
+  }
+}
+
+export function purgeExpired(): void {
+  const now = Date.now()
+
+  for (let i = localStorage.length - 1; i >= 0; i--) {
+    const key = localStorage.key(i)
+
     if (!key?.startsWith(MESSAGES_PREFIX)) continue
+
     try {
       const raw = localStorage.getItem(key)
       if (!raw) continue
+
       const stored = JSON.parse(raw) as StoredData
       if (now > stored.expiresAt) localStorage.removeItem(key)
     } catch {

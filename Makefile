@@ -2,10 +2,10 @@
 # 📝 Declare all phony targets to prevent conflicts with files
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: help install cache-clear serve setup \
+.PHONY: help install fix-permissions cache-clear serve setup \
         clean-all build-cache \
         setup-build \
-		build-prod test-prod \
+		    build-prod test-prod \
         dev dev-build-force dev-down dev-down-clean \
         dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
         logs logs-dev
@@ -35,12 +35,22 @@ install: ## Install dependencies and build assets
 		npm install && npm run build; \
 	fi
 
+fix-permissions: ## Fix root-owned files created by Docker (WSL2)
+	$(MAKE) cache-clear
+	@echo "🔧 Fixing permissions files..."
+	sudo chown -R $(shell id -u):$(shell id -g) .
+	@if command -v docker > /dev/null 2>&1 && docker info > /dev/null 2>&1 && docker ps --filter "name=levelup_store_app" --filter "status=running" -q 2>/dev/null | grep -q .; then \
+		echo "🔧 Fixing var/ permissions inside app container..."; \
+		docker exec levelup_store_app chown -R www-data:www-data /var/www/var/; \
+	fi
+	@echo "✅ Permissions fixed."
+
 cache-clear: ## Clear and warmup Symfony cache (flushes Redis if available)
 	@echo "🧹 Clearing and warming up cache..."
 	composer cache:clear
 	composer cache:warmup
 	@if command -v redis-cli > /dev/null 2>&1; then \
-		redis-cli -h "$$REDIS_HOST" -p "$$REDIS_PORT" flushall; \
+		redis-cli -h "$$REDIS_HOST" -p "$$REDIS_PORT" flushall 2>/dev/null || true; \
 	fi
 
 serve: ## Start local development servers (PHP + frontend)
@@ -79,8 +89,7 @@ build-cache: ## Build/rebuild base images without cache
 setup-build: ## Build and start setup containers (first time or Dockerfile changes)
 	@echo "🛠 Setup: Building and starting setup containers..."
 	$(MAKE) dev-down
-	$(DC) --profile setup run --no-deps --rm assistant_client_build
-	-$(DC) --profile setup up --build --scale assistant_client_build=0
+	-$(DC) --profile setup up --build
 	$(DC) up -d
 
 # ── 🚢 Production ────────────────────────────────────────────────────────────
@@ -119,8 +128,7 @@ dev-down-clean: ## Stop and clean all services including volumes and networks (b
 dev-setup-build: ## Build and start setup containers + all dev services
 	@echo "💻 Dev setup: Building and starting setup containers + dev services..."
 	$(MAKE) dev-down
-	$(DC_DEV) --profile setup run --no-deps --rm assistant_client_build
-	-$(DC_DEV) --profile setup up --build --scale assistant_client_build=0
+	-$(DC_DEV) --profile setup up --build
 	$(DC_DEV) up -d
 
 dev-setup-restart-build: ## Rebuild setup containers + dev services (with cache)

@@ -70,6 +70,28 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 
 ---
 
+## WSL2 - File Permission Issues
+
+Docker Desktop on WSL2 runs containers as `root`. Any files or directories created
+by Docker inside bind-mounted paths (`node_modules`, `vendor`, `var`, `public/build`)
+end up owned by root on the host, which causes `Permission denied` errors when
+running `pnpm`, `composer`, or similar tools directly on the host.
+
+**Fix:**
+```bash
+make fix-permissions
+```
+
+Run this whenever you get `Permission denied` on files under the project root after
+a Docker build or setup. It:
+1. Clears and warms up the Symfony cache
+2. Restores ownership of all Docker-managed directories to your host user
+3. Fixes `var/` permissions inside the app container (if running) so PHP/Symfony can write logs and cache
+
+This is a WSL2 limitation and does not affect Linux or macOS hosts.
+
+---
+
 ## 3. Production Deployment
 
 For deploying to production (Kubernetes on OCI, ArgoCD, secrets, Terraform):

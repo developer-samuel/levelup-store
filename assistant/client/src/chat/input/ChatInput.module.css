@@ -1,7 +1,7 @@
 @reference "../../app/theme/index.css";
 
 .wrapper {
-  @apply border-t border-neutral/10 bg-surface p-3;
+  @apply border-t border-neutral/10 bg-surface p-3 select-none;
 }
 
 .field {
@@ -17,7 +17,7 @@
 }
 
 .textarea {
-  @apply w-full resize-none bg-transparent p-0 text-sm text-neutral outline-none placeholder:text-neutral/40 disabled:opacity-50;
+  @apply w-full resize-none bg-transparent p-0 text-sm text-neutral outline-none placeholder:text-neutral/40 disabled:opacity-50 select-text;
 }
 
 .footer {
@@ -38,6 +38,14 @@
 
 .sendBtnHidden {
   @apply invisible;
+}
+
+.stopBtn {
+  @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-secondary text-primary transition-colors hover:bg-secondary-hover;
+}
+
+.stopBtnIcon {
+  @apply h-3.5 w-3.5;
 }
 
 .hint {

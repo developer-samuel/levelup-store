@@ -7,7 +7,6 @@ _PRODUCT_QUERY = """
         pv.id,
         p.name                        AS product_name,
         pv.name                       AS variant_name,
-        pv.sku,
         pv.price,
         (pv.price - d.price)          AS discounted_price,
         pv.description,
@@ -33,7 +32,7 @@ _PRODUCT_QUERY = """
           WHERE e.variant_id = pv.id
             AND e.status = 'active'
       )
-    GROUP BY pv.id, p.name, pv.name, pv.sku, pv.price, d.price,
+    GROUP BY pv.id, p.name, pv.name, pv.price, d.price,
              pv.description, b.name, c.name, t.name
 """
 

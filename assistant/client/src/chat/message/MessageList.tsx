@@ -10,12 +10,13 @@ import s from '@/chat/message/MessageList.module.css'
 
 type Props = {
   messages: MessageType[]
+  scrollTrigger: number
 }
 
-export function MessageList({ messages }: Props) {
+export function MessageList({ messages, scrollTrigger }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { visibleMessages, hasMore, loadMore } = useMessagePagination(messages)
-  const bottomRef = useScrollToBottom(messages.length)
+  const bottomRef = useScrollToBottom(messages, scrollTrigger)
   const sentinelRef = useScrollAnchor(containerRef, visibleMessages.length, hasMore, loadMore)
 
   if (messages.length === 0) {

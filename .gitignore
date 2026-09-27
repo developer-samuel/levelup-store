@@ -64,10 +64,3 @@ infrastructure/terraform/**/*.tfstate.lock.info
 
 # Helm
 infrastructure/helm/**/charts/
-
-# Python
-venv/
-.venv/
-__pycache__/
-*.pyc
-.cache/

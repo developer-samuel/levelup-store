@@ -20,7 +20,7 @@ from app.repositories import product_repository
 
 
 def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
-    id_, product_name, variant_name, sku, price, discounted_price, description, brand, category, type_, subtypes = row
+    id_, product_name, variant_name, price, discounted_price, description, brand, category, type_, subtypes = row
 
     if not product_name or not variant_name or not brand or not category:
         return None
@@ -33,14 +33,13 @@ def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
     else:
         price_text = f"Price: {price} EUR"
 
-    sku_text = f"SKU: {sku}. " if sku else ""
     type_text = f"Type: {type_}. " if type_ else ""
     valid_subtypes = [s for s in (subtypes or []) if s is not None]
     subtypes_text = f"Subtypes: {', '.join(valid_subtypes)}. " if valid_subtypes else ""
 
     text = (
         f"{brand} {product_name} - {variant_name}. "
-        f"Category: {category}. {type_text}{subtypes_text}{sku_text}{price_text}."
+        f"Category: {category}. {type_text}{subtypes_text}{price_text}."
     )
 
     if description:

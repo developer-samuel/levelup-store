@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:all": "vite build && (cd assistant/client && node_modules/.bin/vite build)",
+    "build:all": "vite build && (cd assistant/client && vite build)",
     "watch": "vite",
     "type-check": "tsc --noEmit",
     "type-check:test": "tsc --noEmit --project tsconfig.test.json",
