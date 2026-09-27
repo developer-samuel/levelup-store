@@ -42,8 +42,14 @@ final readonly class SendOrderConfirmationEmailEventListener
             $event->order->getUser(),
         );
 
+        $email = $event->personal->getEmail();
+
+        if (str_ends_with($email, '@example.com')) {
+            return;
+        }
+
         $this->orderConfirmationEmail->send(
-            $event->personal->getEmail(),
+            $email,
             $event->order,
             $event->personal,
             $event->billing,
