@@ -42,13 +42,15 @@
     background: colors.$primary;
 
     &-image {
-      @include flex-center;
-
+      position: relative;
       width: 100%;
+      padding-bottom: 75%;
 
       img {
         @include size;
 
+        position: absolute;
+        inset: 0;
         padding: 1em;
         object-fit: contain;
       }

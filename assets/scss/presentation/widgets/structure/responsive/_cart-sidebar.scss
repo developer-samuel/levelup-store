@@ -1,7 +1,7 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 
-@include resolution(md, min) {
+@include resolution(xs, min) {
   .cart {
     &__header {
       &-count {
@@ -37,6 +37,58 @@
 }
 
 @include resolution(md, max) {
+  .cart {
+    &__header {
+      &-count {
+        font-size: 20px;
+      }
+
+      &-close img {
+        @include size(18px, 18px);
+      }
+    }
+
+    &__content {
+      &-destroy img {
+        @include size(14px, 14px);
+      }
+
+      &-image img {
+        max-height: 85px;
+      }
+
+      &-name p {
+        font-size: 20px;
+      }
+
+      &-price {
+        &-current {
+          font-size: 22px;
+        }
+
+        &-old {
+          font-size: 13px;
+        }
+      }
+
+      &-no-results p {
+        font-size: 26px;
+      }
+    }
+
+    &__warning {
+      &-header-close p {
+        font-size: 18px;
+      }
+
+      &-actions-item a {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@include resolution(xs, max) {
   .cart {
     &-count {
       font-size: 18px;
@@ -91,7 +143,7 @@
       }
 
       &-price {
-        padding: 0.75em 0;
+        padding: 1.25em 0;
 
         &-current {
           font-size: 20px;
@@ -127,7 +179,7 @@
 }
 
 #cart-sidebar {
-  @include resolution(md, min) {
+  @include resolution(xs, min) {
     width: 400px;
 
     .cart__summary {
@@ -153,7 +205,7 @@
     }
   }
 
-  @include resolution(md, max) {
+  @include resolution(xs, max) {
     width: 100%;
 
     .cart__summary {

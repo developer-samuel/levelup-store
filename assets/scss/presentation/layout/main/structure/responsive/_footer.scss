@@ -89,12 +89,12 @@
         }
 
         &-heading {
-          font-size: 14px;
+          font-size: 16px;
         }
       }
 
       &-item {
-        font-size: 12.5px;
+        font-size: 14.5px;
 
         img {
           @include size(14px, 14px);
@@ -102,7 +102,7 @@
       }
 
       &-demo {
-        font-size: 12.5px;
+        font-size: 14px;
       }
     }
   }

@@ -40,6 +40,11 @@ export function handleBuy(event: MouseEvent, cart: CartInstance): boolean {
 
   event.preventDefault()
 
+  if (cart.isOpen) {
+    toggleCart(cart, false)
+    return true
+  }
+
   debouncedPerformBuy(buyButton, cart)
 
   return true

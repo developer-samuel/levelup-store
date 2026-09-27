@@ -1,9 +1,18 @@
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/effects/shadow' as *;
 
 @include resolution(xxl, min) {
-  .order__card-data {
-    width: 1000px;
+  .order__card {
+    padding: 2em;
+
+    &-data {
+      @include shadow(full, 1);
+
+      width: 1000px;
+      padding: 1em 0 0;
+      border-radius: 1.5em;
+    }
   }
 
   #cart-order {
@@ -12,8 +21,13 @@
 }
 
 @include resolution(xxl, max) {
-  .order__card-data {
-    width: 100%;
+  .order__card {
+    padding: 1em 0 0;
+
+    &-data {
+      width: 100%;
+      box-shadow: none;
+    }
   }
 
   #cart-order {
@@ -23,8 +37,6 @@
 
 @include resolution(md, min) {
   .order__card {
-    padding: 2em;
-
     &-title {
       font-size: 28px;
     }
@@ -78,8 +90,6 @@
 
 @include resolution(md, max) {
   .order__card {
-    padding: 1.5em;
-
     &-title {
       font-size: 24px;
     }

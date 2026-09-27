@@ -255,18 +255,15 @@
   .product-detail {
     &__gallery-image {
       &-zoom {
-        @include size(24px, 24px);
+        @include size(26px, 26px);
 
         bottom: 1em;
-        padding: 6px
+        padding: 6px;
       }
 
       &-dots {
         bottom: 1em;
-
-        &-item {
-          @include size(12.5px, 12.5px);
-        }
+        gap: 0.75em;
       }
 
       &-wrapper {
@@ -288,8 +285,12 @@
       }
 
       &-description {
-        font-size: 14px;
+        font-size: 16px;
         padding: 1em 1em 0;
+
+        &-show {
+          font-size: 16px;
+        }
       }
 
       &-variants {
@@ -297,24 +298,28 @@
       }
 
       &-subtitle {
-        font-size: 16px;
+        font-size: 18px;
       }
 
       &-item {
-        font-size: 12.5px;
+        font-size: 14px;
       }
 
       &-stocks {
-        font-size: 20px;
+        font-size: 22px;
+      }
+
+      &-row {
+        margin: 1.5em 1em 0.5em;
       }
 
       &-price {
         &-current {
-          font-size: 24px;
+          font-size: 26px;
         }
 
         &-old {
-          font-size: 12.5px;
+          font-size: 14px;
         }
       }
 
@@ -323,21 +328,21 @@
       }
 
       &-btn {
-        font-size: 20px;
+        font-size: 22px;
       }
     }
 
     &__description {
       &-item {
         &-title {
-          font-size: 18px;
+          font-size: 20px;
         }
 
         &-body {
-          font-size: 14px;
+          font-size: 16px;
 
           ul li {
-            font-size: 14px;
+            font-size: 16px;
           }
         }
       }
@@ -387,6 +392,92 @@
       &-track-item {
         padding: 3em 1em;
       }
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(md, max) {
+    .product-detail {
+      &__gallery-image {
+        &-zoom {
+          @include size(28px, 28px);
+        }
+
+        &-dots {
+          &-item {
+            @include size(14px, 14px);
+          }
+        }
+      }
+
+      &__details {
+        &-title {
+          font-size: 22px;
+        }
+
+        &-description {
+          font-size: 18px;
+
+          &-show {
+            font-size: 18px;
+          }
+        }
+
+        &-subtitle {
+          font-size: 20px;
+        }
+
+        &-item {
+          font-size: 16px;
+        }
+
+        &-stocks {
+          font-size: 24px;
+        }
+
+        &-price {
+          &-current {
+            font-size: 28px;
+          }
+
+          &-old {
+            font-size: 16px;
+          }
+        }
+
+        &-btn {
+          font-size: 24px;
+        }
+      }
+
+      &__description {
+        &-item {
+          &-title {
+            font-size: 22px;
+          }
+
+          &-body {
+            font-size: 18px;
+
+            ul li {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .product-detail {
+    &__details-data {
+      gap: 0.25em;
+    }
+
+    &__gallery-image-dots-item {
+      @include size(12px, 12px);
     }
   }
 }

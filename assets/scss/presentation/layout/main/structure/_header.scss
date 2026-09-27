@@ -184,7 +184,7 @@
 
       &-dropdown {
         @include flex-col-between-center;
-        @include transition('linear', 250, (opacity, visibility));
+        @include transition('ease-in-out', 250, (opacity, visibility, transform));
         @include visibility;
 
         position: fixed;
@@ -195,6 +195,12 @@
         border-bottom: 1px solid colors.$neutral;
         overflow: hidden;
         cursor: default;
+        z-index: z.$user-dropdown;
+        transform: translateY(-100%);
+
+        &.visible {
+          transform: translateY(0);
+        }
       }
 
       &-group {

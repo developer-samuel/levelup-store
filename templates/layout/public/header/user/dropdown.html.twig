@@ -1,0 +1,41 @@
+{% macro render() %}
+    {% if app.user %}
+        <div class="header__main-user-dropdown">
+            <div class="header__main-user-group">
+                <div class="header__main-user-item">
+                    <span>
+                        {{ app.user.getFullName() }}
+                    </span>
+                </div>
+            </div>
+            <div class="header__main-user-group">
+                <div class="header__main-user-item">
+                    <a href="{{ path('profile') }}">
+                        Profile
+                    </a>
+                </div>
+            </div>
+            <div class="header__main-user-group">
+                <div class="header__main-user-item">
+                    <a href="{{ path('orders_index') }}">
+                        Your Orders
+                    </a>
+                </div>
+            </div>
+            <div class="header__main-user-group">
+                <div class="header__main-user-item">
+                    <a href="{{ path('wishlist') }}">
+                        Wishlist
+                    </a>
+                </div>
+            </div>
+            <div class="header__main-user-group">
+                <div class="header__main-user-item logout-btn">
+                    <p>
+                        Log Out
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}

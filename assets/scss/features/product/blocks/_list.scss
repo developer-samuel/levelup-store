@@ -27,15 +27,21 @@
     &-backdrop {
       @include rgba('neutral', 20);
       @include backdrop-filter(4);
-      @include transition('ease-in-out', 300);
+      @include transition('ease-in-out', 300, opacity);
 
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100dvh;
       z-index: z.$cart-backdrop;
+      opacity: 0;
+      pointer-events: none;
+
+      &--active {
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
 
     &-mobile {
@@ -45,10 +51,10 @@
 
       position: fixed;
       background: colors.$white;
-      z-index: 1;
+      z-index: 150;
 
       &--header-hidden {
-        top: 40px !important;
+        top: 35px !important;
       }
 
       &-icon {
@@ -59,6 +65,13 @@
         left: 50%;
         top: 50%;
         cursor: pointer;
+      }
+
+      &-sort {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        height: 100%;
       }
     }
 
@@ -277,7 +290,7 @@
       background: colors.$white;
       border-bottom: 1px solid colors.$border-primary;
       overflow: hidden;
-      z-index: 1;
+      z-index: 150;
 
       &--header-hidden {
         top: 0 !important;

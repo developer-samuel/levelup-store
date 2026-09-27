@@ -14,12 +14,8 @@
     position: relative;
 
     &-data {
-      @include shadow(full, 1);
-
       position: relative;
       height: 100%;
-      border-radius: 1.5em;
-      padding: 1em 0 0;
       overflow: hidden;
     }
 
@@ -181,6 +177,7 @@
         padding: 0.75em 1.5em;
         width: 100%;
         text-align: center;
+        text-transform: uppercase;
 
         &:hover {
           background: colors.$secondary-hover;

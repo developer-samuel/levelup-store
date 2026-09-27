@@ -1,6 +1,9 @@
+/* Tailwind */
 @import 'tailwindcss/theme';
 @import 'tailwindcss/utilities';
 
+/* Theme */
+@import './_breakpoints.css';
 @import './_colors.css';
 @import './_font.css';
 @import './_layers.css';

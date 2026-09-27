@@ -12,8 +12,14 @@ export function attachDocumentClickListener(
     if (window.innerWidth >= BREAKPOINT_XL) return
 
     const target = e.target instanceof Node ? e.target : null
+    const loadingEl = document.querySelector('.loading')
 
-    if (!productFilter.contains(target) && !mobileFilterBtn.contains(target) && isVisible(productFilter)) {
+    if (
+      !productFilter.contains(target) &&
+      !mobileFilterBtn.contains(target) &&
+      !loadingEl?.contains(target) &&
+      isVisible(productFilter)
+    ) {
       hide(productFilter)
     }
   })

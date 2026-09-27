@@ -5,6 +5,7 @@ import { SCROLL_THRESHOLD } from '@/ts/presentation/layout/common/constants'
 import { dispatchHeaderToggle } from '@/ts/presentation/layout/header/_events/toggle'
 
 let lastScrollY = 0
+let isHidden = false
 
 export function handleScroll(headerMain: HTMLElement): void {
   const currentScrollY = window.scrollY
@@ -15,10 +16,13 @@ export function handleScroll(headerMain: HTMLElement): void {
     const header = headerMain.parentElement
     if (header) {
       const scrollingDown = currentScrollY > lastScrollY
-      const hidden = scrollingDown && currentScrollY > SCROLL_THRESHOLD
+      const shouldHide = scrollingDown && currentScrollY > SCROLL_THRESHOLD
 
-      toggleClass(header, 'header--hidden', hidden)
-      dispatchHeaderToggle(header, hidden)
+      if (shouldHide !== isHidden) {
+        isHidden = shouldHide
+        toggleClass(header, 'header--hidden', isHidden)
+        dispatchHeaderToggle(header, isHidden)
+      }
     }
   }
 

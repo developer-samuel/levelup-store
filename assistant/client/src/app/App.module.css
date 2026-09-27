@@ -1,7 +1,10 @@
 @reference "./theme/index.css";
 
 .trigger {
-  @apply fixed md:bottom-24 bottom-18 md:right-3 right-2.25 z-10 flex md:w-16 w-12 md:h-16 h-12 items-center justify-center rounded-full bg-secondary text-primary shadow-lg transition-colors duration-300 ease-linear hover:bg-secondary-hover;
+  @apply fixed md:bottom-24 bottom-18 md:right-3 right-2.25 z-10 flex md:w-16 w-12 md:h-16 h-12
+         items-center justify-center rounded-full
+         bg-secondary hover:bg-secondary-hover text-primary border border-neutral/30
+         shadow-lg transition-colors duration-300 ease-linear;
 }
 
 .triggerIcon {

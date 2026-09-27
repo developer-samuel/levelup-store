@@ -4,6 +4,7 @@
     {% import 'layout/public/header/user/panel.html.twig' as HeaderPanel %}
     {% import 'layout/public/header/snippets/mobile/icon.html.twig' as HeaderMobileIcon %}
     {% import 'layout/public/navigation/navigation.html.twig' as Navigation %}
+    {% import 'layout/public/header/user/dropdown.html.twig' as UserDropdown %}
     {% import 'layout/public/navigation/menu/menu.html.twig' as NavigationMenu %}
     {% import 'layout/public/navigation/mobile/content/content.html.twig' as NavigationMobile %}
     {% import 'layout/public/header/search/panel/panel.html.twig' as Search %}
@@ -18,6 +19,8 @@
             {{ HeaderMobileIcon.render() }}
         </div>
     </header>
+
+    {{ UserDropdown.render() }}
 
     {{ Navigation.render() }}
 

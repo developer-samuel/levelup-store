@@ -8,7 +8,9 @@
     maxPrice,
     filterPriceStep,
     maxPriceActive,
-    variants
+    variants,
+    sortOptions,
+    sort
 ) %}
     {% import 'features/product/catalog/filter/layout/header.html.twig' as FilterHeader %}
     {% import 'features/product/catalog/filter/mobile/icon.html.twig' as FilterMobileIcon %}
@@ -42,7 +44,7 @@
                 }}
             {% endif %}
 
-            {% if category and types|length > 0 and variants|length > 0 %}
+            {% if category and types|length > 0 %}
                 {{
                     TypesModule.render(
                         types,
@@ -52,7 +54,7 @@
                 }}
             {% endif %}
 
-            {% if category and type and subtypes|length > 0 and variants|length > 0 %}
+            {% if category and type and subtypes|length > 0 %}
                 {{
                     SubtypesModule.render(
                         subtypes,
@@ -67,13 +69,7 @@
                 {{ BrandsModule.render(brands) }}
             {% endif %}
 
-            {%
-                set variantsWithPrice = variants|filter(v => (
-                    v.discountPrice ? v.discountPrice : v.price
-                ) > 0)
-            %}
-
-            {% if variantsWithPrice|length > 0 %}
+            {% if maxPrice > 0 %}
                 {{ PriceModule.render(maxPrice, filterPriceStep) }}
             {% endif %}
         </div>
@@ -82,5 +78,5 @@
     <div id="filter-backdrop" class="products__filter-backdrop"></div>
 
     {# Mobile icon to open filter #}
-    {{ FilterMobileIcon.render() }}
+    {{ FilterMobileIcon.render(sortOptions, sort, variants) }}
 {% endmacro %}

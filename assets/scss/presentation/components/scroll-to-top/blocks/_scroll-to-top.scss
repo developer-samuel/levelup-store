@@ -9,6 +9,7 @@
 
   position: fixed;
   background: colors.$secondary;
+  border: 1px solid rgba(0, 0, 0, 0.30);
   border-radius: 50%;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   z-index: z.$scroll-to-top;

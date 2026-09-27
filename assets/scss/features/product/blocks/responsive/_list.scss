@@ -1,3 +1,4 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/effects/shadow' as *;
@@ -12,6 +13,10 @@
 
 @include resolution(xl, min) {
   .products {
+    &__filter-mobile-sort {
+      display: none;
+    }
+
     &__filter {
       position: sticky;
       top: 150px;
@@ -157,10 +162,6 @@
         transform: translate(0);
       }
 
-      &-mobile {
-        display: block;
-      }
-
       &-header {
         display: block;
       }
@@ -215,30 +216,6 @@
 
       &-options {
         gap: 1.5em;
-
-        &-item {
-          a {
-            font-size: 12px;
-          }
-
-          img {
-            @include size(10px, 10px);
-          }
-        }
-
-        &-sort {
-          width: 100px;
-
-          &-select {
-            &-field {
-              font-size: 12px;
-            }
-
-            &-option {
-              font-size: 11px;
-            }
-          }
-        }
       }
 
       &-title {
@@ -295,7 +272,41 @@
   }
 }
 
-@include resolution(md, min) {
+@include resolution(lg, min) {
+  @include resolution(xl, max) {
+    .products {
+      &__card {
+        &-options {
+          &-item {
+            a {
+              font-size: 16px;
+            }
+
+            img {
+              @include size(14px, 14px);
+            }
+          }
+        }
+
+        &-sort {
+          width: 175px;
+
+          &-select {
+            &-field {
+              font-size: 16px;
+            }
+
+            &-option {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, min) {
   @include resolution(xl, max) {
     .products {
       &__filter {
@@ -303,18 +314,49 @@
         height: 100dvh;
       }
     }
+  }
+}
 
+@include resolution(md, min) {
+  @include resolution(xl, max) {
     .products__card-title {
       font-size: 24px;
     }
   }
 }
 
+
 @include resolution(md, min) {
   @include resolution(lg, max) {
     .products {
-      &__card-options {
-        top: 105px;
+      &__card {
+        &-options {
+          top: 105px;
+
+          &-item {
+            a {
+              font-size: 14px;
+            }
+
+            img {
+              @include size(12px, 12px);
+            }
+          }
+        }
+
+        &-sort {
+          width: 125px;
+
+          &-select {
+            &-field {
+              font-size: 14px;
+            }
+
+            &-option {
+              font-size: 13px;
+            }
+          }
+        }
       }
 
       &__filter-mobile {
@@ -324,6 +366,76 @@
   }
 }
 
+@include resolution(xs, min) {
+  .products__filter-mobile-sort {
+    display: none;
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(md, max) {
+    .products {
+      &__filter-mobile {
+        top: 126px;
+      }
+
+      &__card {
+        &-options {
+          top: 93px;
+        }
+
+        &-title {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .products {
+    &__card {
+      &-options {
+        height: 36px;
+
+        &-item {
+          a {
+            font-size: 12px;
+          }
+
+          img {
+            @include size(10px, 10px);
+          }
+        }
+      }
+
+      &-sort {
+        height: 100%;
+        width: 100px;
+
+        &-select-wrapper {
+          height: 100%;
+        }
+
+        &-select-field {
+          height: 100%;
+          padding: 0 2em 0 0.75em;
+          font-size: 12px;
+        }
+
+        &-select-option {
+          font-size: 11px;
+        }
+      }
+    }
+
+    &__filter-mobile-icon {
+      @include size(18px, 18px);
+    }
+  }
+}
+
+
 @include resolution(sm, min) {
   @include resolution(hd, max) {
     .products__card-list {
@@ -332,7 +444,7 @@
   }
 }
 
-@include resolution(md, max) {
+@include resolution(xs, max) {
   .products {
     &__filter {
       transform: translateY(-100%);
@@ -343,12 +455,35 @@
     }
 
     &__filter-mobile {
-      top: 130px;
+      @include flex-between-center;
+
+      top: 129px;
+      height: 36px;
+      padding: 0 0 0 0.75em;
+      gap: 1em;
+
+      &-icon {
+        @include size(18px, 18px);
+
+        transform: none;
+        left: auto;
+        top: auto;
+      }
+
+      &-sort {
+        @include flex-end-center;
+        
+        height: 31px;
+      }
     }
 
     &__card {
       &-options {
-        top: 90px;
+        top: 93px;
+
+        .products__card-sort {
+          display: none;
+        }
       }
 
       &-title {

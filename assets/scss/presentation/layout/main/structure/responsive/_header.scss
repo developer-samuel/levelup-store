@@ -104,55 +104,53 @@
   }
 }
 
-@include resolution(md, min) {
-  @include resolution(lg, max) {
-    .header {
-      &__main {
-        height: 60px;
-        padding: 0 1rem;
+@include resolution(lg, max) {
+  .header {
+    &__main {
+      height: 60px;
+      padding: 0 1rem;
 
-        &-logo-image {
-          height: 36px;
-        }
+      &-logo-image {
+        height: 36px;
+      }
 
-        &-panel {
-          height: 2.25em;
-        }
+      &-panel {
+        height: 2.25em;
+      }
 
-        &-login,
-        &-user {
-          &-icon {
-            @include size(16px, 16px);
-          }
-        }
-
-        &-login span {
-          font-size: 14px;
-        }
-
-        &-user {
-          &-dropdown {
-            top: 60px;
-          }
-        }
-
-        &-cart {
-          @include size(30px, 30px);
-
-          &-count {
-            @include size(22px, 22px);
-
-            font-size: 10.5px;
-          }
+      &-login,
+      &-user {
+        &-icon {
+          @include size(16px, 16px);
         }
       }
 
-      &__mobile {
-        @include size(100%, 45px);
+      &-login span {
+        font-size: 14px;
+      }
 
-        &-icon {
-          @include size(24px, 24px);
+      &-user {
+        &-dropdown {
+          top: 60px;
         }
+      }
+
+      &-cart {
+        @include size(30px, 30px);
+
+        &-count {
+          @include size(22px, 22px);
+
+          font-size: 10.5px;
+        }
+      }
+    }
+
+    &__mobile {
+      @include size(100%, 45px);
+
+      &-icon {
+        @include size(24px, 24px);
       }
     }
   }
@@ -167,65 +165,42 @@
 @include resolution(md, max) {
   .header {
     &__main {
-      height: 50px;
+      height: 55px;
       padding: 0 0.75rem;
 
       &-logo-image {
-        height: 32px;
-      }
-
-      &-login span {
-        font-size: 12.5px;
-      }
-
-      &-panel {
-        height: 2em;
-      }
-
-      &-login-icon,
-      &-user-icon {
-        @include size(14px, 14px);
+        height: 34px;
       }
 
       &-user {
         padding: 0 0.75em;
 
         &-dropdown {
-          top: 50px;
-        }
-
-        &-item {
-          a,
-          p {
-            font-size: 12.5px;
-          }
-
-          span {
-            font-size: 14px;
-          }
+          top: 55px;
         }
       }
 
       &-cart {
-        @include size(24px, 24px);
+        @include size(28px, 28px);
 
         &-count {
-          @include size(18.5px, 18.5px);
+          @include size(21px, 21px);
 
-          font-size: 9px;
+          font-size: 10px;
         }
       }
     }
 
     &__mobile {
-      @include size(100%, 40px);
+      @include size(100%, 38px);
 
       &-icon {
-        @include size(20px, 20px);
+        @include size(22px, 22px);
       }
     }
   }
 }
+
 
 @include resolution(sm, min) {
   .header {
@@ -234,6 +209,27 @@
         &-dropdown {
           width: 325px;
           border-bottom-left-radius: 1.5em;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .header {
+      &__main {
+        &-user {
+          &-item {
+            a,
+            p {
+              font-size: 20px;
+            }
+
+            span {
+              font-size: 22px;
+            }
+          }
         }
       }
     }

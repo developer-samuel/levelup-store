@@ -16,7 +16,8 @@
       padding: 1em 1.5em;
 
       &-image {
-        height: 225px;
+        padding-bottom: 0;
+        height: 200px;
       }
 
       &-name {
@@ -110,15 +111,25 @@
 }
 
 @include resolution(sm, min) {
-  @include resolution(lg, max) {
+  @include resolution(md, max) {
     .product-item__box-image {
-      height: 150px;
+      height: 185px;
+      padding-bottom: 0;
     }
   }
 }
 
-@include resolution(sm, max) {
+@include resolution(xs, min) {
+  @include resolution(sm, max) {
+    .product-item__box-image {
+      height: 175px;
+      padding-bottom: 0;
+    }
+  }
+}
+
+@include resolution(xs, max) {
   .product-item__box-image {
-    height: 110px;
+    padding-bottom: 80%;
   }
 }
