@@ -1,5 +1,19 @@
 import { API_BASE_URL, API_KEY } from '@/app/api.config'
 
+async function _readSseStream(body: ReadableStream<Uint8Array>, onChunk: (data: string) => void): Promise<void> {
+  const reader = body.getReader()
+  const decoder = new TextDecoder()
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    const text = decoder.decode(value, { stream: true })
+    for (const line of text.split('\n')) {
+      if (line.startsWith('data: ')) onChunk(line.slice(6))
+    }
+  }
+}
+
 export async function streamChat(
   message: string,
   conversationId: string,
@@ -22,19 +36,7 @@ export async function streamChat(
     throw new Error(`HTTP ${res.status}`)
   }
 
-  const reader = res.body.getReader()
-  const decoder = new TextDecoder()
-
-  while (true) {
-    const { done, value } = await reader.read()
-    if (done) break
-    const text = decoder.decode(value, { stream: true })
-    for (const line of text.split('\n')) {
-      if (line.startsWith('data: ')) {
-        onChunk(line.slice(6))
-      }
-    }
-  }
+  await _readSseStream(res.body, onChunk)
 }
 
 export async function reattachStream(
@@ -50,17 +52,7 @@ export async function reattachStream(
 
   if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`)
 
-  const reader = res.body.getReader()
-  const decoder = new TextDecoder()
-
-  while (true) {
-    const { done, value } = await reader.read()
-    if (done) break
-    const text = decoder.decode(value, { stream: true })
-    for (const line of text.split('\n')) {
-      if (line.startsWith('data: ')) onChunk(line.slice(6))
-    }
-  }
+  await _readSseStream(res.body, onChunk)
 }
 
 export async function cancelChatRequest(requestId: string): Promise<void> {

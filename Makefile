@@ -37,13 +37,11 @@ install: ## Install dependencies and build assets
 
 fix-permissions: ## Fix root-owned files created by Docker (WSL2)
 	$(MAKE) cache-clear
-	@echo "🔧 Fixing permissions files..."
-	sudo chown -R $(shell id -u):$(shell id -g) .
+	@bash scripts/tasks/set-permissions/entrypoints/run.sh
 	@if command -v docker > /dev/null 2>&1 && docker info > /dev/null 2>&1 && docker ps --filter "name=levelup_store_app" --filter "status=running" -q 2>/dev/null | grep -q .; then \
 		echo "🔧 Fixing var/ permissions inside app container..."; \
 		docker exec levelup_store_app chown -R www-data:www-data /var/www/var/; \
 	fi
-	@echo "✅ Permissions fixed."
 
 cache-clear: ## Clear and warmup Symfony cache (flushes Redis if available)
 	@echo "🧹 Clearing and warming up cache..."

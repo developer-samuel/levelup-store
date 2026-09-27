@@ -44,8 +44,8 @@
 }
 
 .bubble {
-  @apply w-full rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed wrap-break-word
-         [user-select:contain] [user-drag:none] [-webkit-user-drag:none];
+  @apply w-full rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed wrap-break-word select-text
+         [user-drag:none] [-webkit-user-drag:none];
 }
 
 .bubbleThinking {

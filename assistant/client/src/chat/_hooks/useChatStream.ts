@@ -11,6 +11,7 @@ type ApiChunk = {
   data?: {
     token?: string
     done?: boolean
+    cancelled?: boolean
     thinking?: boolean
     queued?: boolean
     queue_position?: number
@@ -51,6 +52,37 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
       timerRef.current = null
     }
   }
+
+  const handleToken = useCallback((msgId: string, chunk: ApiChunk) => {
+    clearTimer()
+
+    let persisted: Message[] | null = null
+
+    flushSync(() => {
+      setMessages((prev) => {
+        const updated = prev.map((m) =>
+          m.id === msgId ? { ...m, thinking: false, content: m.content + chunk.data!.token! } : m,
+        )
+
+        persisted = updated
+
+        return updated
+      })
+    })
+
+    if (persisted) persist(persisted)
+  }, [persist, setMessages])
+
+  const handleDone = useCallback((msgId: string, cancelled = false) => {
+    setMessages((prev) => {
+      const updated = cancelled
+        ? prev.filter((m) => m.id !== msgId)
+        : prev.map((m) => m.id === msgId ? { ...m, streaming: false, createdAt: Date.now() } : m)
+      persist(updated)
+
+      return updated
+    })
+  }, [persist, setMessages])
 
   useEffect(() => () => clearTimer(), [])
 
@@ -144,30 +176,8 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
               return
             }
 
-            if (chunk.data?.token) {
-              clearTimer()
-              let persisted: Message[] | null = null
-              flushSync(() => {
-                setMessages((prev) => {
-                  const updated = prev.map((m) =>
-                    m.id === msgId
-                      ? { ...m, thinking: false, content: m.content + chunk.data!.token! }
-                      : m,
-                  )
-                  persisted = updated
-                  return updated
-                })
-              })
-              if (persisted) persist(persisted)
-            }
-
-            if (chunk.data?.done) {
-              setMessages((prev) => {
-                const updated = prev.map((m) => m.id === msgId ? { ...m, streaming: false, createdAt: Date.now() } : m)
-                persist(updated)
-                return updated
-              })
-            }
+            if (chunk.data?.token) handleToken(msgId, chunk)
+            if (chunk.data?.done) handleDone(msgId, chunk.data.cancelled)
           },
           reattachAbort.signal,
         )
@@ -308,30 +318,8 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
             return
           }
 
-          if (chunk.data?.token) {
-            clearTimer()
-            let persisted: Message[] | null = null
-            flushSync(() => {
-              setMessages((prev) => {
-                const updated = prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, thinking: false, content: m.content + chunk.data!.token! }
-                    : m,
-                )
-                persisted = updated
-                return updated
-              })
-            })
-            if (persisted) persist(persisted)
-          }
-
-          if (chunk.data?.done) {
-            setMessages((prev) => {
-              const updated = prev.map((m) => (m.id === assistantId ? { ...m, streaming: false, createdAt: Date.now() } : m))
-              persist(updated)
-              return updated
-            })
-          }
+          if (chunk.data?.token) handleToken(assistantId, chunk)
+          if (chunk.data?.done) handleDone(assistantId, chunk.data.cancelled)
         },
         abortRef.current.signal,
       )

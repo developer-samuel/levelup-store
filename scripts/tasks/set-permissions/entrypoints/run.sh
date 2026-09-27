@@ -4,7 +4,7 @@ set -euo pipefail
 # ─── Project ownership ────────────────────────────────────────────────────────
 
 echo "Fixing project ownership..."
-sudo -n chown -R "$(id -u):$(id -g)" . 2>/dev/null || true
+sudo chown -R "$(id -u):$(id -g)" .
 
 # ─── var/ ─────────────────────────────────────────────────────────────────────
 
@@ -46,7 +46,7 @@ fi
 # ─── node_modules/ ────────────────────────────────────────────────────────────
 
 if [ -d "node_modules/" ]; then
-    sudo -n chown -R "$(id -u):$(id -g)" node_modules/ 2>/dev/null || true
+    sudo chown -R "$(id -u):$(id -g)" node_modules/
     chmod +x node_modules/.bin/* 2>/dev/null || true
 fi
 
@@ -59,7 +59,7 @@ done
 # ─── public/build/ ────────────────────────────────────────────────────────────
 
 if [ -d "public/build/" ]; then
-    sudo -n chown -R "$(id -u):$(id -g)" public/build/ 2>/dev/null || true
+    sudo chown -R "$(id -u):$(id -g)" public/build/
     find public/build/ -type d -exec chmod 775 {} +
     find public/build/ -type f -exec chmod 664 {} +
 fi
