@@ -6,19 +6,24 @@
 .cookies__body {
   @include flex-col;
 
+  gap: 2.5em;
+  width: 650px;
   height: auto;
   background: colors.$primary;
   border-radius: 1.5rem;
+  padding: 1.5em;
   text-align: center;
 
   &-title {
     @include weights(700);
+
+    font-size: 24px;
   }
 
   &-text {
     @include flex-col;
 
-    gap: 0.5em;
+    gap: 1em;
 
     p {
       font-size: 16px;
@@ -34,8 +39,9 @@
       @include transition('linear');
       @include weights(700);
 
-      color: colors.$primary;
       background: colors.$secondary;
+      color: colors.$primary;
+      font-size: 16px;
       border-radius: 1.5em;
       padding: 0.5em 1em;
 

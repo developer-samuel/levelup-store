@@ -13,6 +13,7 @@
   @include transition('ease-in-out', 300);
 
   position: fixed;
+  top: 75px;
   z-index: z.$navigation;
 
   &--header-hidden {
@@ -190,6 +191,7 @@
     @include visibility;
 
     position: fixed;
+    top: 105px;
     overflow: hidden;
     z-index: z.$navigation-overlay;
 
@@ -231,6 +233,7 @@
 
       position: relative;
       width: 100%;
+      height: 32.5px;
       background: colors.$primary;
     }
 
@@ -266,6 +269,7 @@
         @include visibility(true, 1);
 
         position: relative;
+        height: 32px;
       }
 
       &-name {
@@ -275,6 +279,7 @@
 
         position: absolute;
         color: colors.$primary;
+        font-size: 20px;
       }
 
       &.visible {

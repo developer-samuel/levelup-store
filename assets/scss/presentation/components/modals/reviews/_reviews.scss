@@ -12,10 +12,13 @@
     @include flex-col;
 
     position: relative;
+    gap: 2.5em;
+    width: 650px;
     height: auto;
     max-height: calc(100% - 100px);
     background: colors.$primary;
     border-radius: 1.5rem;
+    padding: 1.5em 1.5em 2.5em;
     text-align: center;
 
     &-close {
@@ -34,6 +37,8 @@
 
     &-title {
       @include weights(700);
+
+      font-size: 24px;
     }
 
     &-form {
@@ -48,7 +53,11 @@
       &-stars {
         @include flex;
 
+        gap: 2.5em;
+
         img {
+          @include size(32px, auto);
+
           cursor: pointer;
 
           &.hovered,
@@ -71,7 +80,9 @@
       &-fields {
         @include flex-col;
 
+        gap: 3.5em;
         width: 100%;
+        padding: 0 5em;
       }
 
       &-group {

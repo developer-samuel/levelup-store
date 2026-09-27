@@ -1,11 +1,5 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 
-@include resolution(xxl, min) {
-  .user {
-    padding: 3em 30em;
-  }
-}
-
 @include resolution(xl, min) {
   @include resolution(xxl, max) {
     .user {

@@ -1,3 +1,4 @@
+@use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/accessibility/user-select' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
@@ -6,11 +7,16 @@
 .textarea {
   position: relative;
   width: 100%;
-  padding: 0.25em;
+  font-size: 16px;
   border: 1px solid colors.$border-primary;
   border-radius: 1.25em;
   background: transparent;
+  padding: 0.75em 1em;
   outline: 0;
+
+  &::placeholder {
+    font-size: 16px;
+  }
 
   &:disabled {
     @include user-select;
@@ -24,6 +30,11 @@
 
   &:focus {
     box-shadow: 0 0 8px 0 colors.$blue-700;
+  }
+
+  input[type='checkbox'],
+  input[type='range']::-webkit-slider-thumb {
+    @include size(18px, 18px);
   }
 }
 

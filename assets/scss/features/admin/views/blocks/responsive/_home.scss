@@ -1,24 +1,4 @@
-@use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
-
-@include resolution(md, min) {
-  .admin-home {
-    padding: 3rem;
-
-    &__card-title {
-      font-size: 28px;
-      margin-bottom: 2em;
-    }
-
-    &__list {
-      width: 400px;
-
-      &-item a {
-        font-size: 20px;
-      }
-    }
-  }
-}
 
 @include resolution(md, max) {
   .admin-home {
@@ -34,11 +14,17 @@
     }
 
     &__list {
-      width: 100%;
-
       &-item a {
         font-size: 16px;
       }
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .admin-home {
+    &__list {
+      width: 100%;
     }
   }
 }

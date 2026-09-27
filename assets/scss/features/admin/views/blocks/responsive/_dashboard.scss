@@ -1,14 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 
-@include resolution(lg, min) {
-  .admin-dashboard__charts-row {
-    @include flex-between-x;
-
-    gap: 2.5em;
-  }
-}
-
 @include resolution(lg, max) {
   .admin-dashboard__charts-row {
     @include flex-col;

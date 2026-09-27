@@ -20,13 +20,15 @@
 
     &-count {
       @include weights(700);
+
+      font-size: 22px;
     }
 
-    &-close {
-      img {
-        position: relative;
-        cursor: pointer;
-      }
+    &-close img {
+      @include size(20px, 20px);
+
+      position: relative;
+      cursor: pointer;
     }
   }
 
@@ -40,6 +42,7 @@
       @include size;
 
       position: relative;
+      padding: 0 1.25em;
       overflow-y: auto;
     }
 
@@ -212,9 +215,9 @@
         p {
           @include weights(700);
 
-          text-align: center;
           color: colors.$primary;
-          font-size: 22px;
+          font-size: 20px;
+          text-align: center;
           padding: 0.75em 1.5em;
         }
       }
@@ -228,6 +231,7 @@
       transform: translateY(-50%);
       top: 50%;
       gap: 1em;
+      width: 400px;
       padding: 0 1em;
 
       &-item {
@@ -241,6 +245,7 @@
           @include weights(700);
 
           display: block;
+          font-size: 20px;
           text-align: center;
           padding: 0.5em;
         }

@@ -8,7 +8,10 @@ export function show(filter: HTMLElement | null): void {
   if (!filter) return
 
   filter.classList.add(ACTIVE_CLASS)
-  document.body.style.overflow = 'hidden'
+
+  if (window.innerWidth < BREAKPOINT_XL) {
+    document.body.style.overflow = 'hidden'
+  }
 
   const backdrop = getBackdrop()
 

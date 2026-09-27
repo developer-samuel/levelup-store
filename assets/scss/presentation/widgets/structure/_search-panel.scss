@@ -15,7 +15,9 @@
 
   position: fixed;
   left: 0;
+  top: 75px;
   width: 100%;
+  height: calc(100% - 75px);
   z-index: z.$navigation-overlay;
   display: none;
 
@@ -104,8 +106,10 @@
 
   &__card {
     position: relative;
+    width: 400px;
     height: calc(100% - 4.5em);
     padding: 0 1em;
+    margin: 2.5em auto 0;
     overflow-y: auto;
 
     .no-results {

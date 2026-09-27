@@ -13,9 +13,11 @@
     @include flex-col-center-y;
     @include shadow(full, 1);
 
+    width: 900px;
     height: auto;
     min-height: calc(100vh - 300px);
     border-radius: 1.5em;
+    padding: 2em;
 
     &-groups {
       position: relative;

@@ -1,61 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 
-@include resolution(md, min) {
-  .product-item {
-    &__destroy {
-      padding: 1em;
-
-      p {
-        font-size: 20px;
-      }
-    }
-
-    &__box {
-      gap: 0.5em;
-      padding: 1em 1.5em;
-
-      &-image {
-        padding-bottom: 0;
-        height: 200px;
-      }
-
-      &-name {
-        height: 67.5px;
-
-        p {
-          font-size: 24px;
-        }
-      }
-
-      &-rating {
-        gap: 1em;
-        margin: 1.5em 0 0.75em;
-
-        img {
-          @include size(26px, 26px);
-        }
-      }
-
-      &-price {
-        height: 55px;
-
-        &-current {
-          font-size: 24px;
-        }
-
-        &-old {
-          font-size: 16px;
-        }
-      }
-
-      &-btn {
-        font-size: 20px;
-      }
-    }
-  }
-}
-
 @include resolution(md, max) {
   .product-item {
     &__destroy {

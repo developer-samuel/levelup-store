@@ -30,10 +30,12 @@
   &__body {
     @include flex-col;
 
+    gap: 1.25rem;
     text-align: center;
     z-index: 1;
 
     &-spinner {
+      @include size(56px, 56px);
       @include loading-spinner;
 
       border-radius: 50%;
@@ -49,6 +51,7 @@
       @include user-select;
 
       color: colors.$neutral;
+      font-size: 24px;
       margin: 0;
     }
   }

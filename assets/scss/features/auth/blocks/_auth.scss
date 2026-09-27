@@ -20,7 +20,7 @@
     z-index: 1;
 
     &-image {
-      @include size(auto, 56px);
+      @include size(auto, 52px);
     }
   }
 
@@ -30,11 +30,14 @@
     height: auto;
     background: #fff;
     border-radius: 1.5rem;
+    width: 650px;
+    padding: 2em 1.75em 3em;
     margin: 2em 0;
 
     &-title {
       @include weights(700);
 
+      font-size: 28px;
       text-align: center;
       margin-bottom: 1.5em;
     }
@@ -51,6 +54,7 @@
       @include size;
 
       position: relative;
+      gap: 1em;
 
       &-group {
         width: 100%;
@@ -59,6 +63,7 @@
       &-label {
         @include weights(600);
 
+        font-size: 18px;
         padding: 0 0.25em;
       }
 
@@ -76,11 +81,22 @@
         @include size(20px, auto);
 
         position: absolute;
+        right: 1em;
+        top: 1.25em;
+        width: 20px;
         z-index: 1;
         cursor: pointer;
       }
 
       &-consent {
+        @include flex-between-x;
+
+        gap: 1.5em;
+
+        p {
+          font-size: 14px;
+        }
+
         &-label {
           @include flex-center-y;
 
@@ -101,12 +117,15 @@
       &-action {
         @include flex-center-x;
 
+        margin-top: 2.25em;
+
         &-btn {
           @include transition('linear');
           @include weights(700);
 
-          color: colors.$primary;
           background: colors.$secondary;
+          color: colors.$primary;
+          font-size: 18px;
           border-radius: 1.5em;
           padding: 0.5em 1em;
 
@@ -118,6 +137,7 @@
 
       &-switch {
         position: relative;
+        font-size: 16px;
         margin-top: 0.5em;
         text-align: center;
 
@@ -130,6 +150,7 @@
 
   &__footer {
     position: relative;
+    bottom: 1em;
     width: 100%;
     z-index: 1;
 
@@ -154,6 +175,7 @@
     @include weights(700);
 
     position: fixed;
+    top: 5.5em;
     width: 100%;
     z-index: 1;
 
@@ -162,6 +184,8 @@
       background: colors.$neutral;
       border-radius: 1.5em;
       color: colors.$primary;
+      font-size: 20px;
+      padding: 0.5em 1em;
       cursor: pointer;
 
       &:hover {

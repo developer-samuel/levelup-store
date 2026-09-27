@@ -68,4 +68,11 @@
       margin-right: 0.25em !important;
     }
   }
+
+  &-dropdown label,
+  &-selector,
+  &-input,
+  &-info &-pagination {
+    font-size: 16px !important;
+  }
 }

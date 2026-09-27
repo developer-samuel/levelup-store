@@ -8,6 +8,7 @@
   @include size(100%, auto);
 
   position: relative;
+  padding: 3em 30em;
 
   &__title {
     @include weights(700);

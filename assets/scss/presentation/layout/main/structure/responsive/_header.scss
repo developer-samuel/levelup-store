@@ -1,82 +1,7 @@
 @use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
-
-@include resolution(lg, min) {
-  .header {
-    &__main {
-      height: 75px;
-      padding: 0 1.5rem 0 1rem;
-
-      &-logo-image {
-        height: 40px;
-      }
-
-      &-search {
-        @include flex;
-      }
-
-      &-panel {
-        height: 2.5em;
-        gap: 2em;
-      }
-
-      &-login,
-      &-user {
-        &-icon {
-          @include size(18px, 18px);
-        }
-      }
-
-      &-login {
-        padding: 0.25em 1em;
-
-        &-text {
-          font-size: 14px;
-        }
-      }
-
-      &-user {
-        &-dropdown {
-          top: 75px;
-        }
-
-        &-item {
-          a,
-          p {
-            font-size: 18px;
-          }
-
-          span {
-            font-size: 20px;
-          }
-        }
-      }
-
-      &-cart {
-        @include size(32px, 32px);
-
-        &-count {
-          @include size(25px, 25px);
-
-          font-size: 11px;
-        }
-      }
-    }
-
-    &__mobile {
-      display: none;
-    }
-  }
-}
-
-@include resolution(lg, min) {
-  .navigation {
-    @include flex;
-
-    top: 75px;
-  }
-}
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
 @include resolution(lg, max) {
   .navigation {
@@ -110,6 +35,10 @@
       height: 60px;
       padding: 0 1rem;
 
+      &-user-dropdown {
+        top: 105px;
+      }
+
       &-logo-image {
         height: 36px;
       }
@@ -127,12 +56,6 @@
 
       &-login span {
         font-size: 14px;
-      }
-
-      &-user {
-        &-dropdown {
-          top: 60px;
-        }
       }
 
       &-cart {
@@ -176,7 +99,7 @@
         padding: 0 0.75em;
 
         &-dropdown {
-          top: 55px;
+          top: 93px;
         }
       }
 
@@ -202,7 +125,7 @@
 }
 
 
-@include resolution(sm, min) {
+@include resolution(xs, min) {
   .header {
     &__main {
       &-user {
@@ -257,7 +180,28 @@
   }
 }
 
-@include resolution(sm, max) {
+@include resolution(xs, min) {
+  @include resolution(lg, max) {
+    .header {
+      &__main {
+        &-user {
+          &-item {
+            a,
+            p {
+              font-size: 17px;
+            }
+
+            span {
+              font-size: 19px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, max) {
   .header {
     &__main {
       &-user {

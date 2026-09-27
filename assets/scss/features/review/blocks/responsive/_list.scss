@@ -3,23 +3,6 @@
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
-@include resolution(lg, min) {
-  .reviews {
-    &__card-item-basic-right {
-      @include flex-col-center-y;
-    }
-
-    &__product {
-      width: 850px;
-
-      &-name {
-        font-size: 32px;
-        padding: 2.5em 1.5em;
-      }
-    }
-  }
-}
-
 @include resolution(lg, max) {
   .reviews {
     &__card-item-basic-right {

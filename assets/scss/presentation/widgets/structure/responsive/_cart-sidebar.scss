@@ -1,41 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 
-@include resolution(xs, min) {
-  .cart {
-    &__header {
-      &-count {
-        font-size: 22px;
-      }
-
-      &-close img {
-        @include size(20px, 20px);
-      }
-    }
-
-    &__content-wrapper {
-      padding: 0 1.25em;
-    }
-
-    &__warning {
-      &-header-close p {
-        font-size: 20px;
-        padding: 0.75em 1.5em;
-      }
-
-      &-actions {
-        width: 400px;
-
-        &-item {
-          a {
-            font-size: 20px;
-          }
-        }
-      }
-    }
-  }
-}
-
 @include resolution(md, max) {
   .cart {
     &__header {

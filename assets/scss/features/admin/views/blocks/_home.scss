@@ -8,17 +8,24 @@
   @include flex-center-x;
 
   height: 100vh;
+  padding: 3rem;
 
   &__card {
     @include flex-col-center-y;
 
     height: 100%;
+
+    &-title {
+      font-size: 28px;
+      margin-bottom: 2em;
+    }
   }
 
   &__list {
     @include flex-col;
 
     gap: 1.5em;
+    width: 400px;
     margin-top: 1.5em;
 
     &-item {

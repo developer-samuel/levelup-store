@@ -14,9 +14,9 @@
 
   &__gallery {
     @include flex-col-between-x;
+    @include size;
 
     position: relative;
-    width: 100%;
     border-bottom: 1px solid colors.$border-primary;
 
     &-image {
@@ -31,13 +31,15 @@
 
       &-zoom {
         @include flex-center;
+        @include size(48px, 48px);
 
         position: absolute;
         right: 1em;
-        z-index: 2;
         border-radius: 50%;
         background: colors.$secondary;
+        padding: 0.75em;
         opacity: 0.85;
+        z-index: 2;
         cursor: pointer;
 
         &-icon {
@@ -94,10 +96,10 @@
 
     &-wrapper {
       @include flex-between-center;
+      @include size(calc(100% + 1px), 101px);
 
       position: relative;
       gap: 0.5em;
-      width: calc(100% + 1px);
       background: colors.$surface;
       border-top: 1px solid colors.$border-primary;
       z-index: 1;
@@ -107,7 +109,9 @@
       @include flex-center;
       @include transition('ease-in-out', 500);
 
+      height: 101px;
       background: colors.$secondary;
+      padding: 0.5em;
       cursor: pointer;
 
       &:hover {
@@ -146,6 +150,7 @@
 
     &-item {
       @include flex-center;
+      @include size(84px, 84px);
       @include transition('ease-in-out', 250);
 
       position: relative;
@@ -159,6 +164,8 @@
         @include size(auto, auto);
 
         position: relative;
+        max-width: 64px;
+        max-height: 64px;
       }
 
       &--active {
@@ -171,7 +178,8 @@
 
   &__details {
     position: relative;
-    height: auto;
+    width: 550px;
+    height: 100%;
     background: colors.$primary;
     border-left: 1px solid colors.$border-primary;
     border-bottom: 1px solid colors.$border-primary;
@@ -181,17 +189,19 @@
       @include size;
 
       position: relative;
+      flex-direction: column;
 
       &-bottom {
-        @include flex;
+        @include flex-col;
 
         position: relative;
+        gap: 1em;
         width: 100%;
       }
     }
 
     &-data {
-      @include flex;
+      @include flex-col;
 
       gap: 0.5em;
     }
@@ -291,6 +301,8 @@
     }
 
     &-list {
+      @include flex-col;
+
       position: relative;
       gap: 0.75em;
       margin-top: 0.75em;
@@ -350,9 +362,9 @@
 
     &-action {
       @include flex-center-x;
+      @include size(100%, 100px);
 
       position: relative;
-      width: 100%;
     }
 
     &-btn {
@@ -362,6 +374,7 @@
 
       background: colors.$success;
       color: colors.$neutral;
+      font-size: 28px;
       text-transform: uppercase;
 
       &:hover {
@@ -374,6 +387,7 @@
     @include flex-col;
 
     gap: 2.5em;
+    width: 1050px;
     padding: 2.5em 1.5em;
     margin: 0 auto;
     border-bottom: 1px solid colors.$border-primary;

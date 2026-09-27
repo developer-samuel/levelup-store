@@ -25,6 +25,8 @@
   }
 
   &__close {
+    @include size(20px, auto);
+    
     position: absolute;
     top: 1em;
     right: 1em;

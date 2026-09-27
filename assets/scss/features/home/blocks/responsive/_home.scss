@@ -1,12 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 
-@include resolution(xxl, min) {
-  .home-page {
-    padding: 3em 3em 8em;
-  }
-}
-
 @include resolution(md, min) {
   @include resolution(xl, max) {
     .home-page {

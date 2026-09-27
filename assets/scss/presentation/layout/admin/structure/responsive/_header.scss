@@ -1,21 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 
-@include resolution(lg, min) {
-  .admin-header {
-    @include size(100%, 55px);
-
-    &__link img {
-      @include size(32px, 32px);
-    }
-
-    &__logout-btn {
-      font-size: 16px;
-      padding: 0.5em 1em;
-    }
-  }
-}
-
 @include resolution(lg, max) {
   .admin-header {
     @include size(100%, 45px);

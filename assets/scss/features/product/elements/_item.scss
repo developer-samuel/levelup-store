@@ -20,6 +20,7 @@
     @include transition('ease-out');
 
     background: colors.$secondary;
+    padding: 1em;
     margin-bottom: 0.5em;
     cursor: pointer;
 
@@ -31,6 +32,7 @@
       @include weights(800);
 
       color: colors.$primary;
+      font-size: 20px;
       text-align: center;
     }
   }
@@ -38,12 +40,15 @@
   &__box {
     @include flex-col-between-x;
 
+    gap: 0.5em;
     height: 100%;
     background: colors.$primary;
+    padding: 1em 1.5em;
 
     &-image {
+      @include size(100%, 200px);
+
       position: relative;
-      width: 100%;
       padding-bottom: 75%;
 
       img {
@@ -57,6 +62,7 @@
     }
 
     &-name {
+      height: 67.5px;
       margin-top: 1em;
       overflow: hidden;
 
@@ -64,27 +70,39 @@
         @include weights(600);
 
         color: colors.$neutral;
+        font-size: 24px;
         text-align: center;
       }
     }
 
     &-rating {
       @include flex-center-x;
+
+      gap: 1em;
+      margin: 1.5em 0 0.75em;
+
+      img {
+        @include size(26px, 26px);
+      }
     }
 
     &-price {
       @include flex-col-center;
 
-      margin: 0.25em 0;
+      height: 55px;
       color: colors.$neutral;
+      margin: 0.25em 0;
 
       &-current {
         @include weights(700);
+
+        font-size: 24px;
       }
 
       &-old {
         @include weights(600);
 
+        font-size: 16px;
         text-decoration: line-through;
       }
     }
@@ -95,6 +113,7 @@
 
       background: colors.$success;
       color: colors.$neutral;
+      font-size: 20px;
       padding: 0.75em 1.5em;
       width: 100%;
 

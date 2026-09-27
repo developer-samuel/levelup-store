@@ -1,12 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 
-@include resolution(md, min) {
-  .alert__body {
-    font-size: 18px;
-  }
-}
-
 @include resolution(md, max) {
   .alert__body {
     font-size: 14px;

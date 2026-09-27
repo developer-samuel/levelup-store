@@ -30,12 +30,6 @@
   }
 }
 
-@include resolution(lg, min) {
-  .footer {
-    top: 150px;
-  }
-}
-
 @include resolution(md, min) {
   @include resolution(lg, max) {
     .footer {

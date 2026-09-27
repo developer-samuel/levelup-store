@@ -1,24 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 
-@include resolution(md, min) {
-  .input,
-  .select,
-  .textarea {
-    font-size: 16px;
-    padding: 0.75em 1em;
-
-    &::placeholder {
-      font-size: 16px;
-    }
-  }
-
-  input[type='checkbox'],
-  input[type='range']::-webkit-slider-thumb {
-    @include size(18px, 18px);
-  }
-}
-
 @include resolution(md, max) {
   .input,
   .select,

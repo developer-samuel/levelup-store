@@ -9,13 +9,17 @@
 
   position: relative;
   width: 100%;
+  padding: 3rem 0;
 
   &__card {
     position: relative;
+    width: 725px;
 
     &-title {
       position: relative;
+      font-size: 28px;
       text-align: center;
+      margin-bottom: 2em;
     }
 
     &-list {
@@ -31,6 +35,7 @@
       @include transition;
 
       position: relative;
+      gap: 1.5em;
       border-radius: 1.5em;
       padding: 1.5em 3.5em 1.5em 2em;
 
@@ -47,6 +52,7 @@
       &-right {
         @include flex-col;
 
+        align-items: flex-end;
         gap: 0.5em;
       }
 
@@ -58,6 +64,14 @@
         transform: translateY(-50%);
         right: 0.5em;
         top: 50%;
+
+        &-type {
+          font-size: 20px;
+        }
+
+        &-paid {
+          font-size: 18px;
+        }
       }
     }
 
@@ -72,8 +86,22 @@
       @include weights(700);
     }
 
+    &-status {
+      font-size: 22px;
+    }
+
+    &-code {
+      font-size: 18px;
+    }
+
+    &-date {
+      font-size: 20px;
+    }
+
     &-time {
       @include weights(500);
+
+      font-size: 18px;
     }
 
     &-no-results {
@@ -99,8 +127,12 @@
     }
 
     &-data {
+      @include flex-col;
+
       position: relative;
+      gap: 2em;
       width: 100%;
+      padding-top: 1em;
 
       &-button {
         @include flex-center;
@@ -109,16 +141,22 @@
         gap: 0.5em;
         background: colors.$success;
         border-radius: 1em;
+        width: 150px;
         padding: 0.5em 1em;
 
         &:hover {
           background: colors.$success-hover;
         }
 
+        img {
+          @include size(24px, 24px);
+        }
+
         span {
           @include weights(700);
 
           color: colors.$neutral;
+          font-size: 20px;
         }
       }
     }
@@ -132,7 +170,7 @@
     &-subtitle {
       @include weights(700);
 
-      font-size: 22px;
+      font-size: 20px;
       text-decoration: underline;
     }
 
@@ -148,10 +186,21 @@
 
       gap: 0.25em;
     }
+
+    #order-basic {
+      font-size: 20px;
+    }
+
+    #order-billing,
+    #order-shipping {
+      font-size: 18px;
+    }
   }
 }
 
 #order-products {
+  @include size(650px, calc(100vh - 325px), (null, 'min'));
+  
   position: relative;
   overflow-y: auto;
 }

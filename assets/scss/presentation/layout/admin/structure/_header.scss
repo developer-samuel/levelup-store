@@ -1,10 +1,13 @@
 @use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
 @use '@/scss/abstracts/theme/z-index/layers' as z;
 
 .admin-header {
+  @include size(100%, 55px);
+
   position: fixed;
   top: 0;
   color: colors.$primary;
@@ -28,6 +31,8 @@
     color: colors.$primary;
 
     &-img {
+      @include size(32px, 32px);
+
       position: relative;
       filter: invert(100%);
     }
@@ -38,7 +43,9 @@
     @include weights(700);
 
     background: colors.$secondary;
+    font-size: 16px;
     border-radius: 0.5em;
+    padding: 0.5em 1em;
     cursor: pointer;
 
     &:hover {

@@ -1,17 +1,4 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
-@use '@/scss/abstracts/theme/colors/solid/index' as colors;
-
-@include resolution(lg, min) {
-  .search-panel {
-    top: 75px;
-    height: calc(100% - 75px);
-
-    &__card {
-      width: 400px;
-      margin: 2.5em auto 0;
-    }
-  }
-}
 
 @include resolution(lg, max) {
   .search-panel__card {

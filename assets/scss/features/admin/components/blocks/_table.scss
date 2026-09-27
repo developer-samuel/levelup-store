@@ -82,4 +82,9 @@
   &__tbody {
     width: 100%;
   }
+
+  &__thead,
+  &__tbody {
+    font-size: 16px;
+  }
 }

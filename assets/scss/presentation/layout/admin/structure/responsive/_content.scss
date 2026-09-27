@@ -1,34 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
 
-@include resolution(lg, min) {
-  .admin-content {
-    @include size(calc(100% - 300px), calc(100vh - 55px), (null, 'min'));
-
-    left: 300px;
-    padding: 2.5rem;
-
-    &__back {
-      margin-bottom: 2.5em;
-
-      &-btn {
-        font-size: 20px;
-        padding: 0.25em 1em;
-      }
-    }
-
-    &__title {
-      font-size: 28px;
-      margin-bottom: 2.5em;
-    }
-
-    .admin-content__actions-row-btn {
-      font-size: 20px;
-      padding: 0.25em 0.75em;
-    }
-  }
-}
-
 @include resolution(lg, max) {
   .admin-content {
     @include size((100%, 100vh), calc(100vh - 45px), (null, 'min'));

@@ -12,6 +12,7 @@ export function handleResize(productFilter: HTMLElement, lastWidth: { value: num
   lastWidth.value = currentWidth
 
   if (!wasDesktop && isDesktop) {
+    document.body.style.overflow = ''
     toggle(productFilter, true)
   } else if (wasDesktop && !isDesktop) {
     toggle(productFilter, false)

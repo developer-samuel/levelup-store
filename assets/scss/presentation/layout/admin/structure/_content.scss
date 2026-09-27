@@ -5,10 +5,12 @@
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
 .admin-content {
-  @include size(100%, auto);
+  @include size(calc(100% - 300px), calc(100vh - 55px), (null, 'min'));
 
   position: relative;
+  left: 300px;
   top: 55px;
+  padding: 2.5rem;
 
   &__card {
     width: 100%;
@@ -18,14 +20,17 @@
   &__back {
     left: 0;
     top: 0;
+    margin-bottom: 2.5em;
 
     &-btn {
       @include transition('linear');
       @include weights(500);
 
       color: colors.$primary;
+      font-size: 20px;
       border-radius: 0.75em;
       background: colors.$neutral;
+      padding: 0.25em 1em;
 
       &:hover {
         background: colors.$neutral-hover;
@@ -36,9 +41,11 @@
   &__title {
     @include weights(700);
 
+    font-size: 28px;
     text-align: center;
     word-break: break-all;
     padding: 0 1em;
+    margin-bottom: 2.5em;
   }
 
   &__actions {

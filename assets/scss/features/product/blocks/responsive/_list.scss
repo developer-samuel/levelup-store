@@ -5,12 +5,6 @@
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/theme/z-index/layers' as z;
 
-@include resolution(xxl, min) {
-  .products__card-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 @include resolution(xl, min) {
   .products {
     &__filter-mobile-sort {
@@ -472,7 +466,7 @@
 
       &-sort {
         @include flex-end-center;
-        
+
         height: 31px;
       }
     }

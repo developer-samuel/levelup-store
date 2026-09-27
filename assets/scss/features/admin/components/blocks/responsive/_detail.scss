@@ -1,12 +1,5 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 
-@include resolution(xl, min) {
-  .admin-detail__data {
-    width: 900px;
-    padding: 2em;
-  }
-}
-
 @include resolution(xl, max) {
   .admin-detail__data {
     width: 100%;

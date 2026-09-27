@@ -37,6 +37,7 @@
       font-size: 32px;
       text-align: center;
       border-bottom: 1px solid colors.$border-primary;
+      padding: 2.5em 1.5em;
     }
   }
 
@@ -186,6 +187,8 @@
         }
 
         &-right {
+          @include flex-col-center-y;
+
           position: relative;
 
           &-menu {

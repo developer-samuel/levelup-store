@@ -2,80 +2,6 @@
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 
-@include resolution(md, min) {
-  .auth-page {
-    &__logo-image {
-      @include size(auto, 52px);
-    }
-
-    &__card {
-      width: 650px;
-      padding: 2em 1.75em 3em;
-
-      &-title {
-        font-size: 28px;
-      }
-
-      &-info {
-        font-size: 18px;
-      }
-
-      &-form {
-        gap: 1em;
-
-        &-label {
-          font-size: 18px;
-        }
-
-        &-icon {
-          right: 1em;
-          top: 1.25em;
-          width: 20px;
-        }
-
-        &-consent {
-          @include flex-between-x;
-
-          gap: 1.5em;
-
-          p {
-            font-size: 14px;
-          }
-        }
-
-        &-action {
-          margin-top: 2.25em;
-        }
-
-        &-action-btn {
-          font-size: 18px;
-        }
-
-        &-switch {
-          font-size: 16px;
-        }
-      }
-    }
-
-    &__footer {
-      bottom: 1em;
-
-      &-text {
-        font-size: 16px;
-      }
-    }
-
-    &__logout {
-      top: 5.5em;
-
-      &-btn {
-        font-size: 20px;
-        padding: 0.5em 1em;
-      }
-    }
-  }
-}
-
 @include resolution(md, max) {
   .auth-page {
     padding: 0 1em;
@@ -90,7 +16,6 @@
 
     &__card {
       position: relative;
-      width: 100%;
       padding: 2em 1.25em;
 
       &-title {
@@ -119,10 +44,6 @@
 
           gap: 1.25em;
           margin-top: 0.5em;
-
-          p {
-            font-size: 14px;
-          }
         }
 
         &-action {
@@ -154,6 +75,63 @@
         font-size: 15px;
         padding: 0.5em 1em;
       }
+    }
+  }
+}
+
+@include resolution(sm, min) {
+  @include resolution(md, max) {
+    .auth-page__card {
+      width: 540px;
+
+      &-form-consent p {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+@include resolution(sm, max) {
+  .auth-page {
+    &__card {
+      width: 100%;
+
+      &-title {
+        font-size: 18px;
+      }
+
+      &-info {
+        font-size: 12px;
+      }
+
+      &-form {
+        &-label {
+          font-size: 14px;
+        }
+
+        &-consent {
+          p {
+            font-size: 12px;
+          }
+        }
+
+        &-switch {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .cf-turnstile {
+      transform: scale(0.8);
+      transform-origin: left center;
+    }
+
+    &__footer-text {
+      font-size: 11px;
+    }
+
+    &__logout-btn {
+      font-size: 13px;
     }
   }
 }

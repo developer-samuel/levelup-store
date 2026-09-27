@@ -1,25 +1,10 @@
 @use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
-@use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
-@include resolution(md, min) {
-  .navigation__mobile {
-    top: 105px;
-
-    &-wrapper {
-      height: 32.5px;
-    }
-
-    &-item {
-      &-image {
-        height: 32px;
-      }
-
-      &-name {
-        font-size: 20px;
-      }
-    }
+@include resolution(lg, min) {
+  .navigation {
+    @include flex;
   }
 }
 

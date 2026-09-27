@@ -16,6 +16,12 @@
     box-sizing: border-box;
     align-items: start;
 
+    &-row {
+      @include flex-between-x;
+
+      gap: 2.5em;
+    }
+
     &-item {
       @include size(100%, auto);
 

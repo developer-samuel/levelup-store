@@ -1,27 +1,5 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 
-@include resolution(lg, min) {
-  .error-page__container {
-    width: 800px;
-
-    &-title {
-      font-size: 48px;
-    }
-
-    &-body {
-      font-size: 32px;
-    }
-
-    &-action {
-      margin-top: 1.5em;
-    }
-
-    &-btn {
-      font-size: 22px;
-    }
-  }
-}
-
 @include resolution(lg, max) {
   .error-page__container {
     width: 100%;
