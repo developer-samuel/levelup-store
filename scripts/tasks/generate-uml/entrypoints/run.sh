@@ -6,9 +6,9 @@ OUTPUT_DIR=".uml"
 MMDC="./node_modules/.bin/mmdc"
 
 # ────────────── Checks ──────────────
-if ! command -v docker &>/dev/null && [ ! -f "$MMDC" ]; then
-    echo "❌ mmdc not found. Run: pnpm install"
-    exit 1
+if [ ! -f "$MMDC" ]; then
+    echo "📦 mmdc not found, running pnpm install..."
+    pnpm install --frozen-lockfile
 fi
 
 # ────────────── Setup ──────────────
@@ -39,7 +39,7 @@ else
         name=$(basename "$f" .mmd)
         mkdir -p "$OUTPUT_DIR/$dir"
         echo "  → $dir/$name"
-        "$MMDC" -i "$f" -o "$OUTPUT_DIR/$dir/${name}.png" --scale 3 2>/dev/null
+        "$MMDC" -i "$f" -o "$OUTPUT_DIR/$dir/${name}.png" --scale 3 2>/dev/null || true
     done
 fi
 
