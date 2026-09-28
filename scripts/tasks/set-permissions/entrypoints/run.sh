@@ -4,7 +4,9 @@ set -euo pipefail
 # ─── Project ownership ────────────────────────────────────────────────────────
 
 echo "Fixing project ownership..."
-sudo chown -R "$(id -u):$(id -g)" .
+if command -v sudo &>/dev/null; then
+    sudo chown -R "$(id -u):$(id -g)" .
+fi
 
 # ─── var/ ─────────────────────────────────────────────────────────────────────
 
@@ -16,8 +18,8 @@ mkdir -p \
     var/tmp \
     var/tools
 
-find var/ -type d -exec chmod 775 {} +
-find var/ -type f -exec chmod 664 {} +
+find var/ -type d -exec chmod 777 {} +
+find var/ -type f -exec chmod 666 {} +
 
 # ─── Shell scripts ───────────────────────────────────────────────────────────
 
@@ -46,7 +48,7 @@ fi
 # ─── node_modules/ ────────────────────────────────────────────────────────────
 
 if [ -d "node_modules/" ]; then
-    sudo chown -R "$(id -u):$(id -g)" node_modules/
+    if command -v sudo &>/dev/null; then sudo chown -R "$(id -u):$(id -g)" node_modules/; fi
     chmod +x node_modules/.bin/* 2>/dev/null || true
 fi
 
@@ -56,12 +58,12 @@ for f in package.json package-lock.json pnpm-lock.yaml pnpm-workspace.yaml; do
     [ -f "$f" ] && chmod 644 "$f"
 done
 
-# ─── dist/ ────────────────────────────────────────────────────────────
+# ─── public/build/ ────────────────────────────────────────────────────────────
 
-if [ -d "dist/" ]; then
-    sudo chown -R "$(id -u):$(id -g)" dist/
-    find dist/ -type d -exec chmod 775 {} +
-    find dist/ -type f -exec chmod 664 {} +
+if [ -d "public/build/" ]; then
+    if command -v sudo &>/dev/null; then sudo chown -R "$(id -u):$(id -g)" public/build/; fi
+    find public/build/ -type d -exec chmod 775 {} +
+    find public/build/ -type f -exec chmod 664 {} +
 fi
 
 echo "✅ Permissions prepared."
