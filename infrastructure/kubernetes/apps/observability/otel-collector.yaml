@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/developer-samuel/levelup-store
     targetRevision: main
-    path: infrastructure/helm/opentelemetry-collector
+    path: infrastructure/helm/observability/opentelemetry-collector
     helm:
       valueFiles:
         - values.yaml

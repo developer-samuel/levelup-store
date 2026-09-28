@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/developer-samuel/levelup-store
     targetRevision: main
-    path: infrastructure/helm/loki
+    path: infrastructure/helm/observability/loki
     helm:
       valueFiles:
         - values.yaml

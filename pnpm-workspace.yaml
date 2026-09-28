@@ -1,6 +1,6 @@
 packages:
-  - '.'
-  - 'assistant/client'
+  - 'apps/ecommerce'
+  - 'apps/assistant/client'
 
 allowBuilds:
   '@parcel/watcher': false

@@ -3,7 +3,7 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 services:
-  redis:
+  ecommerce_redis:
     image: redis:8.10.1
     container_name: levelup_store_redis
     restart: unless-stopped
@@ -13,10 +13,12 @@ services:
       - redis_data:/data
       - ${PWD}/docker/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
-      - app-network
+      app-network:
+        aliases:
+          - redis
     command: ['redis-server', '/usr/local/etc/redis/redis.conf', '--requirepass', '${REDIS_PASSWORD}']
     extends:
-      file: ../../_base/healthcheck.yml
-      service: healthcheck-base
+      file: ${PWD}/docker/compose/healthcheck.yml
+      service: healthcheck
     healthcheck:
       test: ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD}', '--no-auth-warning', 'ping']

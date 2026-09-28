@@ -9,18 +9,21 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 include:
-  # ── E-commerce ────────────────────────────────────────────────────────────────
+  # ── Shared ────────────────────────────────────────────────────────────────────
 
   - docker/compose/services/_dev/dozzle.yml
-  - docker/compose/services/_dev/pgAdmin.yml
-  - docker/compose/services/_dev/elasticvue.yml
-  - docker/compose/services/_dev/mailpit.yml
-  - docker/compose/services/_dev/vite.yml
   - docker/compose/services/_dev/sonarqube.yml
 
-  # ── Assistant ───────────────────────────────────────────────────────────────────
+  # ── E-commerce ────────────────────────────────────────────────────────────────
 
-  - assistant/docker/compose/_dev/client.yml
+  - apps/ecommerce/docker/compose/_dev/pgAdmin.yml
+  - apps/ecommerce/docker/compose/_dev/elasticvue.yml
+  - apps/ecommerce/docker/compose/_dev/mailpit.yml
+  - apps/ecommerce/docker/compose/_dev/vite.yml
+
+  # ── Assistant ─────────────────────────────────────────────────────────────────
+
+  - apps/assistant/docker/compose/_dev/client.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes

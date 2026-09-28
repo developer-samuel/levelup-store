@@ -1,0 +1,38 @@
+framework:
+  secret: '%env(APP_SECRET)%'
+  test: true
+
+  # Session Configuration
+  session:
+    enabled: true
+    storage_factory_id: session.storage.factory.native
+    cookie_secure: auto
+    cookie_samesite: lax
+    gc_maxlifetime: 604800
+
+    # 📂 Path where session files are stored (when using native handler)
+    save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+
+    # 🧰 Redis session handler
+    handler_id: session.handler.redis
+
+    # 💾 Using native PHP session handler (uncomment to enable filesystem)
+    #handler_id: null
+
+  http_client:
+    default_options:
+      timeout: 10
+
+  trusted_proxies: '%env(TRUSTED_PROXIES)%'
+  trusted_headers:
+    - x-forwarded-for
+    - x-forwarded-proto
+    - x-forwarded-port
+    - x-forwarded-host
+
+when@test:
+  framework:
+    test: true
+    session:
+      handler_id: null
+      storage_factory_id: session.storage.factory.mock_file

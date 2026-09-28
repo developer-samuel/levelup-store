@@ -28,18 +28,19 @@ runs:
     - uses: actions/cache@v6
       with:
         path: ~/.composer/cache
-        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('apps/ecommerce/composer.lock') }}
 
     - name: Ensure vendor exists
       shell: bash
-      run: mkdir -p vendor
+      run: mkdir -p apps/ecommerce/vendor
 
     - name: Make scripts executable
       shell: bash
       run: |
-        find scripts -name "*.sh" -exec chmod +x {} +
-        chmod +x bin/run
+        find apps/ecommerce/scripts -name "*.sh" -exec chmod +x {} +
+        chmod +x apps/ecommerce/bin/run
 
     - name: Install PHP dependencies
       shell: bash
+      working-directory: apps/ecommerce
       run: composer install --prefer-dist --no-interaction --ignore-platform-req=ext-opentelemetry

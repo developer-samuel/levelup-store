@@ -1,0 +1,14 @@
+{{- if gt (.Values.app.replicas | int) 1 }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "levelup-store-assistant.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "levelup-store-assistant.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "levelup-store-assistant.selectorLabels" . | nindent 6 }}
+{{- end }}

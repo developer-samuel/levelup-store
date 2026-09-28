@@ -1,0 +1,21 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# ⚙️ Messenger Worker
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  ecommerce_worker:
+    extends:
+      file: ${PWD}/apps/ecommerce/docker/compose/base.yml
+      service: app-base
+    container_name: levelup_store_ecommerce_worker
+    restart: unless-stopped
+    entrypoint: ['/usr/local/bin/scripts/entrypoints/app/worker/run-worker.sh']
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      ecommerce_elasticsearch:
+        condition: service_healthy
+      ecommerce_redis:
+        condition: service_healthy
+      ecommerce_rabbitmq:
+        condition: service_healthy

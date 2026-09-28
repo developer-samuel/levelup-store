@@ -1,0 +1,22 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🟨 Dev Tool - Vite (Frontend Builder)
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  ecommerce_vite:
+    container_name: levelup_store_ecommerce_vite
+    build:
+      context: ${PWD}/apps/ecommerce/docker/config/_dev
+      dockerfile: Dockerfile.vite
+    working_dir: /var/www/apps/ecommerce
+    environment:
+      CI: "true"
+    command: sh -c "pnpm rebuild esbuild @parcel/watcher && pnpm dev"
+    volumes:
+      - ${PWD}:/var/www
+    ports:
+      - '5173:5173'
+    networks:
+      - app-network
+    depends_on:
+      - ecommerce_app

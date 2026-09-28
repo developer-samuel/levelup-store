@@ -1,15 +1,54 @@
 * text=auto eol=lf
 
+# ── PHP ───────────────────────────────────────────────────
 *.php text diff=php
 *.twig text diff=html
-*.scss text diff=css
-*.js text diff=javascript
-*.ts text diff=javascript
 
+# ── Python ────────────────────────────────────────────────
+*.py text diff=python
+
+# ── Frontend ──────────────────────────────────────────────
+*.scss text diff=css
+*.css text diff=css
+*.js text diff=javascript
+*.jsx text diff=javascript
+*.ts text diff=javascript
+*.tsx text diff=javascript
+
+# ── Data / Config ─────────────────────────────────────────
 *.md text diff=markdown
 *.xml text diff=xml
 *.json text diff=json
 *.yml text diff=yaml
 *.yaml text diff=yaml
+*.toml text diff=toml
+*.env text
 
+# ── Infrastructure ────────────────────────────────────────
+*.tf text diff=terraform
+*.hcl text diff=terraform
+*.sh text eol=lf
+
+# ── Lockfiles (no diff noise) ─────────────────────────────
+*.lock -diff
+pnpm-lock.yaml -diff
+composer.lock -diff
+uv.lock -diff
+
+# ── Binary ────────────────────────────────────────────────
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.otf binary
+*.zip binary
+*.tgz binary
+
+# ── Merge strategy ────────────────────────────────────────
 CHANGELOG.md merge=ours

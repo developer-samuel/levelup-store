@@ -6,7 +6,6 @@ on:
     paths:
       - 'infrastructure/ansible/**'
       - '**/*.sh'
-      - 'bin/**'
   workflow_dispatch:
 
 jobs:
@@ -26,7 +25,7 @@ jobs:
         with:
           scandir: '.'
           severity: error
-          ignore_paths: vendor node_modules
+          ignore_paths: apps/ecommerce/vendor node_modules
 
   # ─── Ansible Lint ─────────────────────────────────────────────────────────
   ansible:
@@ -36,6 +35,10 @@ jobs:
     permissions:
       contents: read
 
+    defaults:
+      run:
+        working-directory: infrastructure/ansible
+
     steps:
       - uses: actions/checkout@v7
 
@@ -43,8 +46,7 @@ jobs:
         run: pip install ansible ansible-lint
 
       - name: Install Ansible collections
-        run: ansible-galaxy collection install -r infrastructure/ansible/requirements.yml
+        run: ansible-galaxy collection install -r requirements.yml
 
       - name: Run ansible-lint
         run: ansible-lint
-        working-directory: infrastructure/ansible

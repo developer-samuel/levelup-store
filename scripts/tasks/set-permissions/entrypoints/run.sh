@@ -56,12 +56,12 @@ for f in package.json package-lock.json pnpm-lock.yaml pnpm-workspace.yaml; do
     [ -f "$f" ] && chmod 644 "$f"
 done
 
-# ─── public/build/ ────────────────────────────────────────────────────────────
+# ─── dist/ ────────────────────────────────────────────────────────────
 
-if [ -d "public/build/" ]; then
-    sudo chown -R "$(id -u):$(id -g)" public/build/
-    find public/build/ -type d -exec chmod 775 {} +
-    find public/build/ -type f -exec chmod 664 {} +
+if [ -d "dist/" ]; then
+    sudo chown -R "$(id -u):$(id -g)" dist/
+    find dist/ -type d -exec chmod 775 {} +
+    find dist/ -type f -exec chmod 664 {} +
 fi
 
 echo "✅ Permissions prepared."

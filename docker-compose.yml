@@ -3,23 +3,13 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 include:
-  # ── E-commerce ────────────────────────────────────────────────────────────────
-
-  # Database
-  - docker/compose/services/database/postgres.yml
-  - docker/compose/services/database/elasticsearch.yml
+  # ── Shared ────────────────────────────────────────────────────────────────────
 
   # Cache
   - docker/compose/services/cache/redis.yml
 
   # Messaging
   - docker/compose/services/messaging/rabbitmq.yml
-
-  # Storage
-  - docker/compose/services/storage/minio.yml
-
-  # Realtime
-  - docker/compose/services/realtime/mercure.yml
 
   # Observability
   - docker/compose/services/observability/prometheus.yml
@@ -28,18 +18,25 @@ include:
   - docker/compose/services/observability/alloy.yml
   - docker/compose/services/observability/grafana.yml
 
-  # App
-  - docker/compose/services/app/app.yml
-  - docker/compose/services/app/cron.yml
-  - docker/compose/services/app/worker.yml
-  - docker/compose/services/app/webserver.yml
+  # Server
+  - docker/compose/services/server/nginx.yml
 
-  # ── Assistant ───────────────────────────────────────────────────────────────────
+  # ── E-commerce ────────────────────────────────────────────────────────────────
 
-  - assistant/docker/compose/assistant.yml
-  - assistant/docker/compose/worker.yml
-  - assistant/docker/compose/cron.yml
-  - assistant/docker/compose/chromadb.yml
+  - apps/ecommerce/docker/compose/database/postgres.yml
+  - apps/ecommerce/docker/compose/database/elasticsearch.yml
+  - apps/ecommerce/docker/compose/storage/minio.yml
+  - apps/ecommerce/docker/compose/realtime/mercure.yml
+  - apps/ecommerce/docker/compose/app/app.yml
+  - apps/ecommerce/docker/compose/app/cron.yml
+  - apps/ecommerce/docker/compose/app/worker.yml
+
+  # ── Assistant ─────────────────────────────────────────────────────────────────
+
+  - apps/assistant/docker/compose/database/chromadb.yml
+  - apps/assistant/docker/compose/app/app.yml
+  - apps/assistant/docker/compose/app/cron.yml
+  - apps/assistant/docker/compose/app/worker.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes

@@ -7,3 +7,5 @@
 # Vendor and node_modules
 vendor/
 node_modules/
+venv/
+.venv/

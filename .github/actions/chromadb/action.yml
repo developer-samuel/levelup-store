@@ -1,0 +1,21 @@
+name: Setup ChromaDB
+description: Wait for ChromaDB to be ready
+
+inputs:
+  chromadb-port:
+    description: Host port mapped to ChromaDB 8000
+    required: false
+    default: '8010'
+
+runs:
+  using: composite
+  steps:
+    - name: Wait for ChromaDB
+      shell: bash
+      run: |
+        echo "Waiting for ChromaDB to be ready..."
+        until curl -sf http://127.0.0.1:${{ inputs.chromadb-port }}/api/v2/heartbeat > /dev/null; do
+          echo "ChromaDB is not ready yet..."
+          sleep 3
+        done
+        echo "ChromaDB is ready."

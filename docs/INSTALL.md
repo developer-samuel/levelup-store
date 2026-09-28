@@ -73,13 +73,13 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 ## WSL2 - File Permission Issues
 
 Docker Desktop on WSL2 runs containers as `root`. Any files or directories created
-by Docker inside bind-mounted paths (`node_modules`, `vendor`, `var`, `public/build`)
+by Docker inside bind-mounted paths (`node_modules`, `vendor`, `var`, `dist`)
 end up owned by root on the host, which causes `Permission denied` errors when
 running `pnpm`, `composer`, or similar tools directly on the host.
 
 **Fix:**
 ```bash
-make fix-permissions
+make set-permissions
 ```
 
 Run this whenever you get `Permission denied` on files under the project root after

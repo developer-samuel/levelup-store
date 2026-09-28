@@ -12,6 +12,7 @@ runs:
   steps:
     - name: Prepare environment
       shell: bash
+      working-directory: apps/ecommerce
       run: |
         cp ${{ inputs.source }} .env
         echo "APP_SECRET=$(openssl rand -hex 32)" >> .env
