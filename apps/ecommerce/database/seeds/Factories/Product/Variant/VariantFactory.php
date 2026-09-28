@@ -60,8 +60,6 @@ trait VariantFactory
         $this->createProductVariantImages($manager, $variant, $variantData['images']);
         $this->createProductVariantDescriptions($manager, $variant, $variantData['descriptions']);
         $this->handleVariantEans($manager, $variant, $variantData);
-
-        $manager->flush();
     }
 
     /**

@@ -5,6 +5,15 @@
     "php": "^8.3",
     "developer-samuel/php-codestats": "^1.1"
   },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "tbachert/spi": true,
+      "phpstan/extension-installer": true,
+      "symfony/flex": true,
+      "symfony/runtime": true
+    }
+  },
   "scripts": {
     "count-stats": [
       "Composer\\Config::disableProcessTimeout",

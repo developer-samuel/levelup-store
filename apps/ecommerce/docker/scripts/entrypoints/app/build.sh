@@ -8,13 +8,14 @@ fi
 
 echo "⚙️ Installing frontend dependencies..."
 pnpm config set store-dir /tmp/.pnpm-store
-pnpm install --frozen-lockfile
+cd /var/www && pnpm install
 
 echo "⚙️ Building all assets..."
-pnpm build:all
+pnpm build
 echo "✅ All assets built."
 
-echo "⚙️ Generating ESLint report..."
-mkdir -p var/tools/eslint
+echo "⚙️ Generating ESLint reports..."
+mkdir -p apps/ecommerce/var/tools/eslint
+mkdir -p apps/assistant/client/reports
 pnpm lint:report
-echo "✅ ESLint report generated."
+echo "✅ ESLint reports generated."

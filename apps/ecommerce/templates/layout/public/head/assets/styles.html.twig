@@ -1,13 +1,7 @@
 {% macro render() %}
-    {% block stylesheets %}
-        {% if block('stylesheets') is defined %}
-            {{ vite_entry_link_tags('styles') }}
-        {% else %}
-            <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
-        {% endif %}
+    {{ vite_entry_link_tags('styles') }}
 
-        {% if showAssistant and ai_assistant_enabled %}
-            <link rel="stylesheet" href="/build/assistant/chat.css">
-        {% endif %}
-    {% endblock %}
+    {% if showAssistant and ai_assistant_enabled %}
+        <link rel="stylesheet" href="/dist/assistant/chat.css">
+    {% endif %}
 {% endmacro %}

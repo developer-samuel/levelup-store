@@ -3,7 +3,7 @@
         {{ vite_entry_script_tags('scripts') }}
 
         {% if showAssistant and ai_assistant_enabled %}
-            <script type="module" src="/build/assistant/chat.js"></script>
+            <script type="module" src="/dist/assistant/chat.js"></script>
         {% endif %}
     {% endblock %}
 {% endmacro %}

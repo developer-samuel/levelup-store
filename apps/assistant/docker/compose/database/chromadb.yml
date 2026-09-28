@@ -12,7 +12,9 @@ services:
     ports:
       - '8010:8000'
     networks:
-      - app-network
+      app-network:
+        aliases:
+          - chromadb
     extends:
       file: ${PWD}/docker/compose/healthcheck.yml
       service: healthcheck

@@ -17,7 +17,9 @@ services:
       - '9000:9000'
       - '9001:9001'
     networks:
-      - app-network
+      app-network:
+        aliases:
+          - minio
     extends:
       file: ${PWD}/docker/compose/healthcheck.yml
       service: healthcheck

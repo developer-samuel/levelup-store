@@ -10,7 +10,7 @@ export default defineConfig({
   },
   base: '/dist/assistant/',
   build: {
-    outDir: '../../dist/assistant',
+    outDir: '../../../dist/assistant',
     emptyOutDir: true,
     rollupOptions: {
       input: resolve(import.meta.dirname, 'src/main.tsx'),

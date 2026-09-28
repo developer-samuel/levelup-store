@@ -2,7 +2,9 @@ import symfonyPlugin from 'vite-plugin-symfony'
 
 import { AssetPaths, BuildPaths, TestConfig } from './constants'
 
-export const plugins = [symfonyPlugin({ publicDirectory: 'public', buildDirectory: '../../dist/ecommerce' })]
+export const base = '/dist/ecommerce/'
+
+export const plugins = [symfonyPlugin({ publicDirectory: 'public', buildDirectory: '../../../dist/ecommerce' })]
 
 export const resolve = {
   alias: {
@@ -12,6 +14,7 @@ export const resolve = {
 
 export const build = {
   outDir: '../../dist/ecommerce',
+  emptyOutDir: true,
   rollupOptions: {
     input: {
       styles: BuildPaths.STYLES,

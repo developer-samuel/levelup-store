@@ -5,7 +5,7 @@
 .PHONY: clean-all build-cache setup-build \
         dev dev-build-force dev-down dev-down-clean \
         dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
-        logs logs-dev logs-setup logs-setup-dev setup-watch setup-watch-dev status
+        logs logs-dev logs-setup setup-watch status
 
 ECOMMERCE_ENV := apps/ecommerce/.env
 
@@ -100,22 +100,15 @@ logs-dev:
 	@echo "📜 Showing logs of all services (base + dev)..."
 	$(DC_DEV) logs -f
 
-## Show setup logs (base) - last 50 lines
+## Show ecommerce + assistant setup logs - last 50 lines
 logs-setup:
-	@docker logs levelup_store_ecommerce_app_setup --tail 50
-
-## Show setup logs (dev) - last 50 lines
-logs-setup-dev:
 	@docker logs levelup_store_ecommerce_app_setup --tail 50 && \
 	 docker logs levelup_store_assistant_app_setup --tail 50
 
-## Follow ecommerce setup logs live
-setup-watch:
-	@docker logs levelup_store_ecommerce_app_setup -f
-
 ## Follow ecommerce + assistant setup logs live
-setup-watch-dev:
-	@docker logs levelup_store_ecommerce_app_setup -f
+setup-watch:
+	@docker logs levelup_store_ecommerce_app_setup -f &
+	@docker logs levelup_store_assistant_app_setup -f
 
 ## Show status of all levelup containers
 status:

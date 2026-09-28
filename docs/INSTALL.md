@@ -79,7 +79,7 @@ running `pnpm`, `composer`, or similar tools directly on the host.
 
 **Fix:**
 ```bash
-make set-permissions
+make fix-permissions
 ```
 
 Run this whenever you get `Permission denied` on files under the project root after

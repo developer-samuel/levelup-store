@@ -8,7 +8,7 @@ MMDC="./node_modules/.bin/mmdc"
 # ────────────── Checks ──────────────
 if [ ! -f "$MMDC" ]; then
     echo "📦 mmdc not found, running pnpm install..."
-    pnpm install --frozen-lockfile
+    pnpm install
 fi
 
 # ────────────── Setup ──────────────

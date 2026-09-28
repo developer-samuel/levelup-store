@@ -2,13 +2,17 @@
 # 🛒 Ecommerce Commands (Symfony/PHP)
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: install generate-uml set-permissions cache-clear serve setup build-prod test-prod
+.PHONY: install generate-uml fix-permissions cache-clear serve setup \
+        build-prod test-prod
 
 # ── 💻 Dev ────────────────────────────────────────────────────────────────────
 
 ## Install ecommerce + frontend dependencies and build assets
 install:
 	@echo "📦 Installing dependencies and building assets..."
+	@if [ -d "node_modules" ] && command -v sudo > /dev/null 2>&1; then \
+		sudo chown -R $$(id -u):$$(id -g) node_modules/; \
+	fi
 	cd apps/ecommerce && composer install
 	@if command -v pnpm > /dev/null 2>&1; then \
 		pnpm install && pnpm build; \
@@ -18,12 +22,13 @@ install:
 
 ## Generate UML diagrams from source code
 generate-uml:
-	@bash scripts/tasks/generate-uml/entrypoints/run.sh
+	@bash scripts/generate-uml/entrypoints/run.sh
 
 ## Set correct file permissions - fixes root-owned files (WSL2)
-set-permissions:
+fix-permissions:
+	@bash scripts/set-permissions/entrypoints/run.sh
+	cd apps/ecommerce && bash scripts/set-permissions/entrypoints/run.sh
 	$(MAKE) cache-clear
-	@bash scripts/tasks/set-permissions/entrypoints/run.sh
 	@if command -v docker > /dev/null 2>&1 && docker info > /dev/null 2>&1 && docker ps --filter "name=levelup_store_ecommerce_app" --filter "status=running" -q 2>/dev/null | grep -q .; then \
 		echo "🔧 Fixing var/ permissions inside app container..."; \
 		docker exec levelup_store_ecommerce_app chown -R www-data:www-data /var/www/apps/ecommerce/var/; \
@@ -48,11 +53,11 @@ serve:
 		npm run dev; \
 	fi
 
-## Full local setup: install dependencies + database + cache + serve
+## Full local setup: install dependencies + permissions + database + serve
 setup:
 	$(MAKE) install
+	$(MAKE) fix-permissions
 	cd apps/ecommerce && composer db-setup
-	$(MAKE) cache-clear
 	$(MAKE) serve
 
 # ── 🐳 Docker ─────────────────────────────────────────────────────────────────

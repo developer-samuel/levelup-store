@@ -127,20 +127,22 @@
     },
     "post-install-cmd": [
       "Composer\\Config::disableProcessTimeout",
+      "chmod +x bin/run bin/console bin/phpunit",
       "bin/run php scripts/symfony/env-generate/launcher.php",
       "bin/run php scripts/symfony/env-secret/launcher.php",
       "bin/run php scripts/symfony/jwt-generate/launcher.php",
       "bin/run php scripts/tasks/prepare-var/launcher.php",
-      "bin/run php ../../scripts/tasks/set-permissions/launcher.php",
+      "bin/run php ../../scripts/set-permissions/launcher.php",
       "@auto-scripts",
       "bin/run php scripts/tasks/prepare-temp/launcher.php",
       "bin/run php scripts/tasks/prepare-assets/launcher.php",
-      "bin/run php ../../scripts/tasks/generate-uml/launcher.php"
+      "bin/run php ../../scripts/generate-uml/launcher.php"
     ],
     "post-update-cmd": [
       "Composer\\Config::disableProcessTimeout",
+      "chmod +x bin/run bin/console bin/phpunit",
       "bin/run php scripts/tasks/prepare-var/launcher.php",
-      "bin/run php ../../scripts/tasks/set-permissions/launcher.php",
+      "bin/run php ../../scripts/set-permissions/launcher.php",
       "@auto-scripts",
       "bin/run php scripts/tasks/prepare-temp/launcher.php",
       "bin/run php scripts/tasks/prepare-assets/launcher.php"
@@ -167,7 +169,7 @@
     ],
     "permissions:set": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php ../../scripts/tasks/set-permissions/launcher.php"
+      "bin/run php ../../scripts/set-permissions/launcher.php"
     ],
     "temp:prepare": [
       "Composer\\Config::disableProcessTimeout",
@@ -179,7 +181,7 @@
     ],
     "uml:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php ../../scripts/tasks/generate-uml/launcher.php"
+      "bin/run php ../../scripts/generate-uml/launcher.php"
     ],
     "cache:clear": [
       "Composer\\Config::disableProcessTimeout",
