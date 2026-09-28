@@ -8,23 +8,29 @@
         <ext>sh</ext>
         <ext>tf</ext>
         <ext>tpl</ext>
+        <ext>mk</ext>
         <ext>js</ext>
         <ext>jsx</ext>
         <ext>ts</ext>
         <ext>tsx</ext>
         <ext>css</ext>
         <ext>scss</ext>
+        <ext>md</ext>
+        <ext>mmd</ext>
     </file_extensions>
     <ignored_dirs>
+        <dir>.git</dir>
+        <dir>.uml</dir>
+        <dir>dist</dir>
         <dir>public</dir>
         <dir>node_modules</dir>
         <dir>var</dir>
         <dir>vendor</dir>
-        <dir>venv/</dir>
-        <dir>.venv/</dir>
-        <dir>__pycache__/</dir>
-        <dir>.cache/</dir>
-        <dir>.mypy_cache/</dir>
-        <dir>.ruff_cache/</dir>
+        <dir>venv</dir>
+        <dir>.venv</dir>
+        <dir>__pycache__</dir>
+        <dir>.cache</dir>
+        <dir>.mypy_cache</dir>
+        <dir>.ruff_cache</dir>
     </ignored_dirs>
 </analyzer>
