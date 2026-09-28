@@ -10,10 +10,12 @@ import { attachCartWarningListener } from '@/ts/features/cart/_listeners/warning
 export default class Cart implements CartInstance {
   elements: CartElements | null
   isOpen: boolean
+  openedAt: number
 
   constructor() {
     this.elements = getCartElements()
     this.isOpen = false
+    this.openedAt = 0
 
     this.initListeners()
   }
