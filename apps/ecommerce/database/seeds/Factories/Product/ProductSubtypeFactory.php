@@ -6,7 +6,7 @@ namespace Database\Seeds\Factories\Product;
 
 use Doctrine\Persistence\ObjectManager;
 
-use Kit\Assertion\Domain\Subtype\SubtypeAssertion;
+use Packages\Kit\Assertion\Domain\Subtype\SubtypeAssertion;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Product,

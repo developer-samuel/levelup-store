@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Product\Service\Command\Abstract;
 
-use Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
+use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 

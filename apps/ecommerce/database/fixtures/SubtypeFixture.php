@@ -17,7 +17,7 @@ use Database\{
     Seeds\Records\SubtypeRecord
 };
 
-use Kit\Utils\Shared\DataSanitizer;
+use Packages\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\{
     Segment\Category\Entity\Category,

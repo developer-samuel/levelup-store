@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Review\Service\Command;
 
-use Kit\Assertion\Domain\Review\ReviewAssertion;
+use Packages\Kit\Assertion\Domain\Review\ReviewAssertion;
 
 use App\Core\Domain\{
     Shared\Exception\NotFoundException,

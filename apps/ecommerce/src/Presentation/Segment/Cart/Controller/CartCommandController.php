@@ -10,7 +10,7 @@ use Symfony\{
     Component\Security\Csrf\CsrfTokenManagerInterface
 };
 
-use Kit\Utils\Shared\DataSanitizer;
+use Packages\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Ports\{
     Segment\Cart\Service\Command\CartMutationCommandContract,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Traits\Enum;
 
-use Kit\Utils\Shared\StringNormalizer;
+use Packages\Kit\Utils\Shared\StringNormalizer;
 
 /**
  * @property string $value

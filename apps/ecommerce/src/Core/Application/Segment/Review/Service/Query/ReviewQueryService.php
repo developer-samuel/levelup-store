@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Review\Service\Query;
 
-use Kit\Assertion\Shared\IdAssertion;
+use Packages\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariant,

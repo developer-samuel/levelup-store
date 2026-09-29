@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\User\Service\Command;
 
-use Kit\Assertion\Domain\Country\CountryAssertion;
+use Packages\Kit\Assertion\Domain\Country\CountryAssertion;
 
 use App\Core\Domain\{
     Segment\User\Entity\User,

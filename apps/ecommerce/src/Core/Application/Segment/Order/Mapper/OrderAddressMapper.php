@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Mapper;
 
-use Kit\Assertion\Domain\Order\OrderBillingAssertion;
+use Packages\Kit\Assertion\Domain\Order\OrderBillingAssertion;
 
 use App\Core\Domain\{
     Segment\Country\Utils\CountryTransformer,

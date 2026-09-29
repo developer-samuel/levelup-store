@@ -6,7 +6,7 @@ namespace Database\Seeds\Factories\Product\Variant;
 
 use Doctrine\Persistence\ObjectManager;
 
-use Kit\{
+use Packages\Kit\{
     Utils\Product\ProductCatalogCodeGenerator,
     Utils\Shared\IdentifierGenerator,
     Utils\Shared\StringNormalizer

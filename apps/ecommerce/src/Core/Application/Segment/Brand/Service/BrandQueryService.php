@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Brand\Service;
 
-use Kit\Assertion\Domain\Brand\BrandAssertion;
+use Packages\Kit\Assertion\Domain\Brand\BrandAssertion;
 
 use App\Core\Domain\Segment\Brand\Brand;
 

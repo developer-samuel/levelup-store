@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeds\Utils\Sanitizer;
 
-use Kit\Utils\Shared\DataSanitizer;
+use Packages\Kit\Utils\Shared\DataSanitizer;
 
 trait NameSanitizer
 {

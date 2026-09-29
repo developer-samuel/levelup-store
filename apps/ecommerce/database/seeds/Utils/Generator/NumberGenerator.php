@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeds\Utils\Generator;
 
-use Kit\Constants\CharacterConstants;
+use Packages\Kit\Constants\CharacterConstants;
 
 final class NumberGenerator
 {

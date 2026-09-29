@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Order\Service\Command;
 
-use Kit\Assertion\Domain\Product\Variant\ProductVariantStockAssertion;
+use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantStockAssertion;
 
 use App\Core\Domain\{
     Admin\Order\AdminOrderStatusPayload,

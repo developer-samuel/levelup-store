@@ -6,7 +6,7 @@ namespace Database\Seeds\Builders;
 
 use Doctrine\Persistence\ObjectManager;
 
-use Kit\Assertion\Domain\Brand\BrandAssertion;
+use Packages\Kit\Assertion\Domain\Brand\BrandAssertion;
 
 use Database\{
     Seeds\Factories\Product\ProductFactory,

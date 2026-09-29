@@ -11,7 +11,7 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Shared\IdAssertion,
     Utils\Shared\DataSanitizer
 };

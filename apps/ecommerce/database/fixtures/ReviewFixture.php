@@ -15,7 +15,7 @@ use Database\{
     Seeds\Builders\ReviewBuilder
 };
 
-use Kit\Assertion\Shared\IdAssertion;
+use Packages\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariant,

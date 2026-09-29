@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Wishlist\Handler\Command;
 
-use Kit\Assertion\Domain\User\UserAssertion;
+use Packages\Kit\Assertion\Domain\User\UserAssertion;
 
 use App\Core\Domain\Segment\Wishlist\Payload\WishlistPayload;
 

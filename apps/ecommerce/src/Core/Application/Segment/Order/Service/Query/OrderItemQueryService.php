@@ -6,7 +6,7 @@ namespace App\Core\Application\Segment\Order\Service\Query;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
+use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
 
 use App\Core\Domain\{
     Segment\Cart\Entity\CartItem,

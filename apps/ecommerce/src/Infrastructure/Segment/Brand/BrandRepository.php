@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Brand;
 
 use Doctrine\Persistence\ManagerRegistry;
 
-use Kit\Utils\Shared\StringNormalizer;
+use Packages\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Brand\Brand,

@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Order\Notifier;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Domain\Order\OrderBillingAssertion,
     Assertion\Domain\Order\OrderPersonalAssertion
 };

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Review\Service\Command;
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Domain\Product\Variant\ProductVariantAssertion,
     Assertion\Domain\Review\ReviewAssertion
 };

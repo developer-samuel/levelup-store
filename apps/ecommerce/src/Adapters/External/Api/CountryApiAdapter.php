@@ -10,7 +10,7 @@ use Symfony\{
     Contracts\HttpClient\ResponseInterface
 };
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Domain\Country\CountryAssertion,
     Utils\Shared\DataSanitizer
 };

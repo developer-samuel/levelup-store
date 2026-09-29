@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Product\Service\Command;
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Domain\Product\Variant\ProductVariantDescriptionAssertion,
     Assertion\Shared\EntityAssertion
 };

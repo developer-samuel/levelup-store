@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Service\Command;
 
-use Kit\Assertion\Domain\User\UserAssertion;
+use Packages\Kit\Assertion\Domain\User\UserAssertion;
 
 use App\Core\Domain\{
     Segment\Cart\Entity\CartItem,

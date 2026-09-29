@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Handler\Command;
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Domain\Order\OrderAssertion,
     Assertion\Domain\User\UserAssertion
 };

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Shared\Utils;
 
-use Kit\Constants\CharacterConstants;
+use Packages\Kit\Constants\CharacterConstants;
 
 final class CodeGenerator
 {

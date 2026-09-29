@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Cache\Service\Query;
 
-use Kit\Assertion\Shared\CacheAssertion;
+use Packages\Kit\Assertion\Shared\CacheAssertion;
 
 use App\Core\Domain\Cache\DateCacheObject;
 

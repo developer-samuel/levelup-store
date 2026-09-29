@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Product\Handler\Command;
 
-use Kit\Assertion\Domain\Product\Variant\ProductVariantDescriptionAssertion;
+use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantDescriptionAssertion;
 
 use App\Core\Domain\{
     Admin\Product\Payload\AdminVariantDescriptionPayload,

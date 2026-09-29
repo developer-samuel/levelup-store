@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Service\Query;
 
-use Kit\Assertion\Domain\Order\{
+use Packages\Kit\Assertion\Domain\Order\{
     OrderAssertion,
     OrderBillingAssertion,
     OrderPersonalAssertion

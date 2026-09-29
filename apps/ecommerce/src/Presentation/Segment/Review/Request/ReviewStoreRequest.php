@@ -11,7 +11,7 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use Kit\Utils\Shared\DataSanitizer;
+use Packages\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Application\Segment\Review\Input\ReviewStoreInput;
 

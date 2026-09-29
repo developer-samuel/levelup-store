@@ -16,7 +16,7 @@ use Database\{
     Seeds\Utils\Generator\Product\VariantRecommendedGenerator
 };
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Domain\Product\Variant\ProductVariantAssertion,
     Assertion\Shared\IdAssertion
 };

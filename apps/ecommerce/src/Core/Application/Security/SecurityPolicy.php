@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Security;
 
-use Kit\Utils\Shared\StringNormalizer;
+use Packages\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Shared\Exception\AccessDeniedException,

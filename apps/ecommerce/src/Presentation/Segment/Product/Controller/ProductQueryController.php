@@ -9,7 +9,7 @@ use Symfony\{
     Component\HttpFoundation\Response
 };
 
-use Kit\{
+use Packages\Kit\{
     Utils\Shared\StringNormalizer,
     Utils\Shared\DataSanitizer
 };

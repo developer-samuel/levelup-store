@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Brand\Service;
 
-use Kit\{
+use Packages\Kit\{
     Assertion\Shared\EntityAssertion,
     Utils\Shared\DataSanitizer
 };
