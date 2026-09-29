@@ -1,7 +1,7 @@
 import type { Locator, Response } from '@playwright/test'
 import { expect } from '@playwright/test'
 
-import { BasePage } from '@/tests/e2e/pages/abstracts/BasePage'
+import { BasePage } from '@/e2e/pages/abstracts/BasePage'
 
 export class LoginPage extends BasePage {
   // Root
@@ -53,8 +53,17 @@ export class LoginPage extends BasePage {
 
   async submit(): Promise<void> {
     await this.disableNativeValidation(this.form)
+
+    const hasTurnstile = await this._page.locator('.cf-turnstile').isVisible().catch(() => false)
+    if (hasTurnstile) {
+      await this._page.waitForFunction(
+        () => (document.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value,
+        { timeout: 15_000 },
+      ).catch(() => {})
+    }
+
     await this.form.evaluate((f) => {
-      f.requestSubmit()
+      ;(f as HTMLFormElement).requestSubmit()
     })
   }
 

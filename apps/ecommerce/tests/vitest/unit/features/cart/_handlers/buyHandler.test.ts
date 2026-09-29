@@ -164,4 +164,15 @@ describe('handleBuy()', () => {
 
     await vi.waitFor(() => expect(mockedToggleCart).toHaveBeenCalledWith(cart, true))
   })
+
+  it('should close cart and return true when cart is already open', () => {
+    const cart = makeCart()
+    cart.isOpen = true
+
+    const result = handleBuy(makeMouseEvent(makeBuyButton()), cart)
+
+    expect(result).toBe(true)
+    expect(mockedToggleCart).toHaveBeenCalledWith(cart, false)
+    expect(mockedLoadingShow).not.toHaveBeenCalled()
+  })
 })

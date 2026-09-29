@@ -173,25 +173,31 @@
   @include resolution(xs, max) {
     width: 100%;
 
-    .cart__summary {
-      height: 75px;
-
-      &-price,
-      &-btn {
-        width: 100%;
+    .cart {
+      &__content-wrapper {
+        padding: 0;
       }
 
-      &-price {
-        height: 40px;
+      &__summary {
+        height: 75px;
 
-        p {
-          font-size: 20px;
+        &-price,
+        &-btn {
+          width: 100%;
         }
-      }
 
-      &-btn {
-        font-size: 18px;
-        padding: 0.5em 1.25em;
+        &-price {
+          height: 40px;
+
+          p {
+            font-size: 20px;
+          }
+        }
+
+        &-btn {
+          font-size: 18px;
+          padding: 0.5em 1.25em;
+        }
       }
     }
   }

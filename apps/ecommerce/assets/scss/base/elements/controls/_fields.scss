@@ -31,11 +31,11 @@
   &:focus {
     box-shadow: 0 0 8px 0 colors.$blue-700;
   }
+}
 
-  input[type='checkbox'],
-  input[type='range']::-webkit-slider-thumb {
-    @include size(18px, 18px);
-  }
+input[type='checkbox'],
+input[type='range']::-webkit-slider-thumb {
+  @include size(18px, 18px);
 }
 
 .textarea {

@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 
-import { TEST_USER } from '@/tests/e2e/data/users'
+import { TEST_USER } from '@/e2e/data/users'
 
-import { SignupPage } from '@/tests/e2e/pages/auth/SignupPage'
+import { SignupPage } from '@/e2e/pages/auth/SignupPage'
 
 test.describe('Signup Page', () => {
   let signupPage: SignupPage

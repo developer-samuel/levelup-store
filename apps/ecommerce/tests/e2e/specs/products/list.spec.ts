@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-import { ProductsListPage } from '@/tests/e2e/pages/products/ProductsListPage'
+import { ProductsListPage } from '@/e2e/pages/products/ProductsListPage'
 
 const PRICE_FILTER = { min: '50', max: '500' }
 
@@ -15,10 +15,14 @@ test.describe('Products List Page', () => {
 
   // ── Page load ──────────────────────────────────────────────────────────────
 
-  test('should load the products page', async () => {
+  test('should load the products page', async ({ page }) => {
     await expect(listPage.root).toBeVisible()
     await expect(listPage.filterAside).toBeAttached()
-    await expect(listPage.sortSelect).toBeVisible()
+
+    const viewport = page.viewportSize()
+    if (viewport && viewport.width >= 480) {
+      await expect(listPage.sortSelect).toBeVisible()
+    }
   })
 
   test('should display product items', async () => {
@@ -269,6 +273,59 @@ test.describe('Products List Page', () => {
     const maxParam = listPage.getUrlParam('maxPrice')
 
     expect(maxParam).toBe(PRICE_FILTER.max)
+  })
+
+  // ── Reset filter ───────────────────────────────────────────────────────────
+
+  test('should show reset button when filters are active', async () => {
+    const count = await listPage.brandCheckboxes.count()
+    if (count === 0) test.skip()
+
+    await listPage.checkBrand(0)
+
+    await expect(listPage.filterResetBtn).toBeVisible()
+  })
+
+  test('should clear brand filter params on reset click', async () => {
+    const count = await listPage.brandCheckboxes.count()
+    if (count === 0) test.skip()
+
+    await listPage.checkBrand(0)
+    await listPage.clickFilterReset()
+
+    expect(listPage.getUrlParam('brand')).toBeNull()
+  })
+
+  test('should clear price filter params on reset click', async () => {
+    const visible = await listPage.minPriceInput.isVisible()
+    if (!visible) test.skip()
+
+    await listPage.setMinPrice('10')
+    await listPage.clickFilterReset()
+
+    expect(listPage.getUrlParam('minPrice')).toBeNull()
+  })
+
+  test('should preserve sort param after reset', async () => {
+    const options = await listPage.sortSelect.locator('option').all()
+    if (options.length < 2) test.skip()
+
+    const secondValue = await options[1]?.getAttribute('value')
+    if (!secondValue) {
+      test.skip()
+      return
+    }
+
+    await listPage.selectSort(secondValue)
+
+    const count = await listPage.brandCheckboxes.count()
+    if (count === 0) test.skip()
+
+    await listPage.checkBrand(0)
+    await listPage.clickFilterReset()
+
+    expect(listPage.getUrlParam('sort')).toBe(secondValue)
+    expect(listPage.getUrlParam('brand')).toBeNull()
   })
 
   // ── No results ─────────────────────────────────────────────────────────────

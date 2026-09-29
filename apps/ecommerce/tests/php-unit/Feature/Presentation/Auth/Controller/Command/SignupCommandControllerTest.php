@@ -11,10 +11,14 @@ use Symfony\{
 
 use PHPUnit\Framework\MockObject\MockObject;
 
-use App\Core\Ports\Auth\Handler\Command\SignupHandlerContract;
+use App\Core\Ports\{
+    Auth\Handler\Command\SignupHandlerContract,
+    Gateways\External\Turnstile\TurnstileGatewayContract
+};
 
 use Tests\Support\{
-    Traits\RateLimiterMockTrait,
+    Mocks\RateLimiterMock,
+    Mocks\TurnstileMock,
     Provides\DecodesJson
 };
 
@@ -24,7 +28,8 @@ use Tests\Support\{
 final class SignupCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
-    use RateLimiterMockTrait;
+    use RateLimiterMock;
+    use TurnstileMock;
 
     private KernelBrowser $client;
 
@@ -33,6 +38,7 @@ final class SignupCommandControllerTest extends WebTestCase
         $this->client = static::createClient();
 
         static::getContainer()->set('App\Infrastructure\RateLimiter\SignupRateLimiter', $this->createRateLimiterMock());
+        static::getContainer()->set(TurnstileGatewayContract::class, $this->createTurnstileMock());
     }
 
     public function testStoreReturnsSuccessJson(): void
@@ -62,6 +68,16 @@ final class SignupCommandControllerTest extends WebTestCase
         $this->client->request('POST', '/signup/store', $this->buildPayload());
 
         self::assertNotNull($this->client->getCookieJar()->get('refresh_token'));
+    }
+
+    public function testStoreReturnsUnprocessableWhenTurnstileFails(): void
+    {
+        $this->turnstileVerified = false;
+
+        $this->client->request('POST', '/signup/store', $this->buildPayload());
+
+        self::assertResponseStatusCodeSame(422);
+        self::assertArrayHasKey('turnstile', $this->decodeJson()['errors']);
     }
 
     public function testStoreDoesNotReturnRefreshTokenInBody(): void

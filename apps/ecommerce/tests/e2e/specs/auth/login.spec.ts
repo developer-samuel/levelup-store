@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 
-import { TEST_USER } from '@/tests/e2e/data/users'
+import { TEST_USER } from '@/e2e/data/users'
 
-import { LoginPage } from '@/tests/e2e/pages/auth/LoginPage'
+import { LoginPage } from '@/e2e/pages/auth/LoginPage'
 
 const GUEST_USER = { email: 'nonexistent@example.com', password: 'wrongpassword123' }
 const INVALID_USER = { email: 'not-an-email', password: 'somepassword' }

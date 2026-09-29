@@ -1,7 +1,7 @@
 import type { Locator } from '@playwright/test'
 import { expect } from '@playwright/test'
 
-import { BasePage } from '@/tests/e2e/pages/abstracts/BasePage'
+import { BasePage } from '@/e2e/pages/abstracts/BasePage'
 
 export class OrderCreatePage extends BasePage {
   // Root

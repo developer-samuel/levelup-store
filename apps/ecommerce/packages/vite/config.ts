@@ -1,13 +1,18 @@
+import path from 'path'
 import symfonyPlugin from 'vite-plugin-symfony'
 
 import { AssetPaths, BuildPaths, TestConfig } from './constants'
 
 export const base = '/dist/ecommerce/'
 
-export const plugins = [symfonyPlugin({ publicDirectory: 'public', buildDirectory: '../../../dist/ecommerce' })]
+export const plugins = [
+  symfonyPlugin()
+]
 
 export const resolve = {
   alias: {
+    '@/tests': path.resolve(__dirname, '../../tests/vitest'),
+    '@/e2e': path.resolve(__dirname, '../../tests/e2e'),
     '@': AssetPaths.ROOT,
   },
 }

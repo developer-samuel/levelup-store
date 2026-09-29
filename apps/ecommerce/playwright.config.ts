@@ -6,16 +6,24 @@ config({ path: '.env.test' })
 
 type StorageState = Exclude<BrowserContextOptions['storageState'], string | undefined>
 
-const APP_URL = process.env['APP_URL'] ?? 'http://127.0.0.1:8000'
+const E2E_PORT = 8008
+const APP_URL = `http://127.0.0.1:${E2E_PORT}`
 const COOKIE_DOMAIN = new URL(APP_URL).hostname
 
 const projects: Project[] = [
+  // Auth setup (runs once before all tests)
+  {
+    name: 'setup',
+    testMatch: '**/setup/auth.setup.ts',
+  },
+
   // Desktop
-  { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-  { name: 'webkit', use: { ...devices['Desktop Safari'] } },
-  { name: 'edge', use: { ...devices['Desktop Edge'], channel: 'msedge' } },
+  { name: 'chromium', dependencies: ['setup'], use: { ...devices['Desktop Chrome'] } },
+  { name: 'webkit', dependencies: ['setup'], use: { ...devices['Desktop Safari'] } },
+  { name: 'edge', dependencies: ['setup'], use: { ...devices['Desktop Edge'], channel: 'msedge' } },
   {
     name: 'firefox',
+    dependencies: ['setup'],
     use: {
       ...devices['Desktop Firefox'],
       launchOptions: {
@@ -30,20 +38,29 @@ const projects: Project[] = [
   },
 
   // Tablet
-  { name: 'tablet-chrome', use: { ...devices['Galaxy Tab S9'] } },
-  { name: 'tablet-safari', use: { ...devices['iPad Pro 11'] } },
+  { name: 'tablet-chrome', dependencies: ['setup'], use: { ...devices['Galaxy Tab S9'] } },
+  { name: 'tablet-safari', dependencies: ['setup'], use: { ...devices['iPad Pro 11'] } },
 
   // Mobile
-  { name: 'mobile-chrome', use: { ...devices['Pixel 10'] } },
-  { name: 'mobile-safari', use: { ...devices['iPhone 17'] } },
+  { name: 'mobile-chrome', dependencies: ['setup'], use: { ...devices['Pixel 10'] } },
+  { name: 'mobile-safari', dependencies: ['setup'], use: { ...devices['iPhone 17'] } },
 ]
 
 const webServer: PlaywrightTestConfig['webServer'] = {
-  command: 'php -S 127.0.0.1:8000 -t public',
-  url: 'http://127.0.0.1:8000/api/dev/health-check',
-  reuseExistingServer: true,
+  command: `php -S 127.0.0.1:${E2E_PORT} -t public router.php`,
+  url: `${APP_URL}/api/dev/health-check`,
+  reuseExistingServer: false,
   timeout: 60_000,
-  env: { PHP_CLI_SERVER_WORKERS: '4' },
+  stdout: 'ignore',
+  stderr: 'ignore',
+  env: {
+      PHP_CLI_SERVER_WORKERS: '4',
+      APP_ENV: 'test',
+      REDIS_URL: 'redis://127.0.0.1:6379',
+      DB_HOST: '127.0.0.1',
+      OTEL_PHP_AUTOLOAD_ENABLED: 'false',
+      ELASTICSEARCH_ENABLED: 'false',
+    },
 }
 
 const storageState: StorageState = {
@@ -65,6 +82,7 @@ const storageState: StorageState = {
 export default defineConfig({
   testDir: './tests/e2e',
   outputDir: './var/tools/playwright/results',
+  tsconfig: './tsconfig.test.json',
 
   webServer,
 

@@ -14,11 +14,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use App\Core\Ports\{
     Auth\Handler\Command\LoginHandlerContract,
     Auth\Handler\Command\LogoutHandlerContract,
-    Auth\Handler\Command\RefreshTokenHandlerContract
+    Auth\Handler\Command\RefreshTokenHandlerContract,
+    Gateways\External\Turnstile\TurnstileGatewayContract
 };
 
 use Tests\Support\{
-    Traits\RateLimiterMockTrait,
+    Mocks\RateLimiterMock,
+    Mocks\TurnstileMock,
     Provides\DecodesJson
 };
 
@@ -28,7 +30,8 @@ use Tests\Support\{
 final class AuthApiCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
-    use RateLimiterMockTrait;
+    use RateLimiterMock;
+    use TurnstileMock;
 
     private KernelBrowser $client;
 
@@ -37,6 +40,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         $this->client = static::createClient();
 
         static::getContainer()->set('App\Infrastructure\RateLimiter\LoginRateLimiter', $this->createRateLimiterMock());
+        static::getContainer()->set(TurnstileGatewayContract::class, $this->createTurnstileMock());
     }
 
     public function testLoginReturnsSuccessJsonOnValidCredentials(): void
@@ -84,6 +88,19 @@ final class AuthApiCommandControllerTest extends WebTestCase
 
         self::assertFalse($data['success']);
         self::assertNotEmpty($data['errors']);
+    }
+
+    public function testLoginReturnsUnprocessableWhenTurnstileFails(): void
+    {
+        $this->turnstileVerified = false;
+
+        $this->postJson('/api/auth/login', [
+            'email'    => 'test@example.com',
+            'password' => 'Password1!',
+        ]);
+
+        self::assertResponseStatusCodeSame(422);
+        self::assertArrayHasKey('turnstile', $this->decodeJson()['errors']);
     }
 
     public function testLoginReturnsSuccessResponseBody(): void

@@ -164,6 +164,36 @@ describe('handleDocumentClick()', () => {
     expect(mockedToggleCart).not.toHaveBeenCalled()
   })
 
+  it('should not close cart when openButton is null', async () => {
+    mockedHandleBuy.mockReturnValueOnce(false)
+    mockedHandleRemove.mockResolvedValueOnce(false)
+
+    const sidebar = document.createElement('div')
+    document.body.appendChild(sidebar)
+    const cart = makeCart(sidebar, null)
+
+    await handleDocumentClick(makeMouseEvent(document.createElement('div')), cart)
+
+    expect(mockedToggleCart).not.toHaveBeenCalled()
+  })
+
+  it('should not close cart when opened less than 300ms ago', async () => {
+    mockedHandleBuy.mockReturnValueOnce(false)
+    mockedHandleRemove.mockResolvedValueOnce(false)
+
+    const sidebar = document.createElement('div')
+    const openButton = document.createElement('button')
+    const outsideTarget = document.createElement('span')
+    document.body.append(sidebar, openButton, outsideTarget)
+
+    const cart = makeCart(sidebar, openButton)
+    cart.openedAt = Date.now()
+
+    await handleDocumentClick(makeMouseEvent(outsideTarget), cart)
+
+    expect(mockedToggleCart).not.toHaveBeenCalled()
+  })
+
   it('should not close cart when click happened within 200ms of loading', async () => {
     mockedHandleBuy.mockReturnValueOnce(false)
     mockedHandleRemove.mockResolvedValueOnce(false)

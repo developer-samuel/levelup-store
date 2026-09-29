@@ -1,12 +1,12 @@
-import type { Page, Browser } from '@playwright/test'
+import type { Page } from '@playwright/test'
 import { test, expect } from '@playwright/test'
 
-import { APP_URL } from '@/tests/e2e/config'
+import { APP_URL } from '@/e2e/config'
 
-import { TEST_USER } from '@/tests/e2e/data/users'
 
-import { LoginPage } from '@/tests/e2e/pages/auth/LoginPage'
-import { OrderCreatePage } from '@/tests/e2e/pages/orders/OrderCreatePage'
+import { TEST_USER } from '@/e2e/data/users'
+
+import { OrderCreatePage } from '@/e2e/pages/orders/OrderCreatePage'
 
 const VALID_ORDER = {
   personal: { email: TEST_USER.email, firstName: TEST_USER.firstName, lastName: TEST_USER.lastName },
@@ -14,22 +14,23 @@ const VALID_ORDER = {
   shipping: { country: 1, street: 'Test Shipping 1', postalCode: '12345', city: 'Prague' },
 }
 
-async function loginAndAddProduct(browser: Browser): Promise<Page> {
-  const context = await browser.newContext()
-  const page = await context.newPage()
+async function login(page: Page): Promise<void> {
+  await page.goto(`${APP_URL}/login`, { waitUntil: 'load' })
 
-  const loginPage = new LoginPage(page)
+  const ok = await page.evaluate(
+    async ({ url, email, password }) => {
+      const res = await fetch(`${url}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, cf_turnstile_response: 'test-bypass' }),
+        credentials: 'same-origin',
+      })
+      return res.ok
+    },
+    { url: APP_URL, email: TEST_USER.email, password: TEST_USER.password },
+  )
 
-  await loginPage.goto()
-
-  await loginPage.login(TEST_USER.email, TEST_USER.password)
-
-  await page.waitForURL((url) => !url.pathname.includes('/login'), { waitUntil: 'commit', timeout: 60_000 })
-
-  const cartOk = await addProductToCart(page)
-  if (!cartOk) throw new Error('Failed to add product to cart - no stock or Elasticsearch index empty')
-
-  return page
+  if (!ok) throw new Error('Login failed')
 }
 
 async function addProductToCart(page: Page): Promise<boolean> {
@@ -71,25 +72,13 @@ async function addProductToCart(page: Page): Promise<boolean> {
 test.describe.configure({ mode: 'serial' })
 
 test.describe('Order Create Page', () => {
-  let sharedPage: Page | undefined
   let orderPage: OrderCreatePage
 
-  test.beforeAll(async ({ browser }) => {
-    test.setTimeout(120_000)
+  test.beforeEach(async ({ page }) => {
+    await login(page)
+    await addProductToCart(page)
 
-    if (!TEST_USER.email || !TEST_USER.password) return
-
-    sharedPage = await loginAndAddProduct(browser).catch(() => undefined)
-  })
-
-  test.beforeEach(async () => {
-    if (!TEST_USER.email || !TEST_USER.password || !sharedPage) {
-      test.skip(true, 'Setup skipped: missing credentials or no products in stock (Elasticsearch empty)')
-      return
-    }
-
-    orderPage = new OrderCreatePage(sharedPage)
-
+    orderPage = new OrderCreatePage(page)
     await orderPage.goto()
   })
 
@@ -208,34 +197,20 @@ test.describe('Order Create Page', () => {
 // ── Successful order ───────────────────────────────────────────────────────
 
 test.describe('Order Create Page - submission', () => {
-  let sharedPage: Page | undefined
   let orderPage: OrderCreatePage
 
-  test.beforeAll(async ({ browser }) => {
-    test.setTimeout(120_000)
-
-    if (!TEST_USER.email || !TEST_USER.password) return
-
-    sharedPage = await loginAndAddProduct(browser).catch(() => undefined)
-  })
-
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ page }) => {
     test.setTimeout(90_000)
 
-    if (!TEST_USER.email || !TEST_USER.password || !sharedPage) {
-      test.skip(true, 'TEST_USER_EMAIL / TEST_USER_PASSWORD not set in .env.test')
-      return
-    }
+    await login(page)
 
-    orderPage = new OrderCreatePage(sharedPage)
-
-    // Submission tests need a fresh cart item since placing an order clears the cart
-    const cartOk = await addProductToCart(sharedPage)
+    const cartOk = await addProductToCart(page)
     if (!cartOk) {
-      test.skip(true, 'No products in stock (server returned 5xx)')
+      test.skip(true, 'No products in stock')
       return
     }
 
+    orderPage = new OrderCreatePage(page)
     await orderPage.goto()
   })
 

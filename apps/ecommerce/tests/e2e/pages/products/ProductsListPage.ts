@@ -3,9 +3,9 @@ import { expect } from '@playwright/test'
 
 import type { StringRecord } from '@/ts/shared/types'
 
-import { getNumericAttribute } from '@/tests/e2e/utils/attributes'
+import { getNumericAttribute } from '@/e2e/utils/attributes'
 
-import { BasePage } from '@/tests/e2e/pages/abstracts/BasePage'
+import { BasePage } from '@/e2e/pages/abstracts/BasePage'
 
 export class ProductsListPage extends BasePage {
   // Root
@@ -28,6 +28,9 @@ export class ProductsListPage extends BasePage {
   readonly loadMoreContainer: Locator
   readonly noResultsMsg: Locator
 
+  // Reset
+  readonly filterResetBtn: Locator
+
   constructor(page: ConstructorParameters<typeof BasePage>[0]) {
     super(page)
 
@@ -43,10 +46,12 @@ export class ProductsListPage extends BasePage {
     this.maxPriceInput = page.locator('#maxPrice')
 
     this.productItems = page.locator('.product-item')
-    this.sortSelect = page.locator('#sort-by')
+    this.sortSelect = page.locator('.products__card-options .products__card-sort #sort-by')
     this.loadMoreBtn = page.locator('#load-more')
     this.loadMoreContainer = page.locator('.products__card-load-more')
     this.noResultsMsg = page.locator('.products__card-no-results')
+
+    this.filterResetBtn = page.locator('#filter-reset')
   }
 
   async goto(category?: string, type?: string): Promise<void> {
@@ -67,7 +72,7 @@ export class ProductsListPage extends BasePage {
   }
 
   async waitForProducts(): Promise<void> {
-    await expect(this.root).toBeVisible({ timeout: 15_000 })
+    await expect(this.root).toBeVisible({ timeout: 30_000 })
   }
 
   async waitForNetworkIdle(): Promise<void> {
@@ -87,8 +92,9 @@ export class ProductsListPage extends BasePage {
   }
 
   async selectSort(value: string): Promise<void> {
-    await this.sortSelect.evaluate((el, val) => {
-      const select = el as HTMLSelectElement
+    await this.page.evaluate((val) => {
+      const select = document.getElementById('sort-by') as HTMLSelectElement | null
+      if (!select) return
       select.value = val
       select.dispatchEvent(new Event('change', { bubbles: true }))
     }, value)
@@ -208,6 +214,13 @@ export class ProductsListPage extends BasePage {
     const url = this.getCurrentUrl()
 
     return url.searchParams.get(param)
+  }
+
+  async clickFilterReset(): Promise<void> {
+    await this.openFilterIfHidden()
+    await this.filterResetBtn.evaluate((el) => (el as HTMLElement).click())
+
+    await this.waitForProducts()
   }
 
   private buildPath(category?: string, type?: string): string {

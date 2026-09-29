@@ -1,6 +1,5 @@
 @use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
-@use '@/scss/abstracts/mixins/effects/shadow' as *;
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
@@ -15,12 +14,11 @@
     padding: 2em;
 
     &-data {
-      @include shadow(full, 1);
-
       position: relative;
       width: 1000px;
       height: 100%;
       padding: 1em 0 0;
+      border: 1px solid colors.$border-primary;
       border-radius: 1.5em;
       overflow: hidden;
     }

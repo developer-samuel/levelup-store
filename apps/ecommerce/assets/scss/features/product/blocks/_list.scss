@@ -157,7 +157,7 @@
         text-align: center;
         background: transparent;
         background: colors.$primary;
-        border: 2px solid colors.$border-secondary;
+        border: 1px solid colors.$border-primary;
         border-radius: 1.5em;
         color: colors.$neutral;
         padding: 0.5em 1em;
@@ -250,19 +250,17 @@
         pointer-events: none;
         z-index: 10;
 
-        &::-webkit-slider-thumb,
-        &::-moz-range-thumb {
-          border-radius: 50%;
-          cursor: pointer;
-        }
-
         &::-webkit-slider-thumb {
+          border-radius: 50%;
           cursor: pointer;
           pointer-events: auto;
         }
 
         &::-moz-range-thumb {
           position: relative;
+          border-radius: 50%;
+          cursor: pointer;
+          pointer-events: auto;
         }
       }
     }

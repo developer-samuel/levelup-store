@@ -206,8 +206,8 @@
         top: 75px;
         height: auto;
         background: colors.$neutral;
-        border-left: 1px solid colors.$neutral;
-        border-bottom: 1px solid colors.$neutral;
+        border-left: 1px solid colors.$border-primary;
+        border-bottom: 1px solid colors.$border-primary;
         overflow: hidden;
         cursor: default;
         z-index: z.$user-dropdown;

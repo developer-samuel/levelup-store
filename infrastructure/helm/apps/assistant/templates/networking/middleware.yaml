@@ -10,7 +10,7 @@ spec:
     frameDeny: true
     contentTypeNosniff: true
     forceSTSHeader: true
-    stsSeconds: 31536000  # 1 year — HSTS: browser remembers HTTPS-only for this duration
+    stsSeconds: 31536000  # 1 year - HSTS: browser remembers HTTPS-only for this duration
     stsIncludeSubdomains: true
     stsPreload: true
     referrerPolicy: "strict-origin-when-cross-origin"

@@ -31,9 +31,9 @@ composer db-setup
   Configure the target URL and test user credentials in `.env.test`:
 
   ```env
-  APP_URL=http://127.0.0.1:8000
-  TEST_USER_EMAIL=test@example.com
-  TEST_USER_PASSWORD=Test123@
+  E2E_APP_URL=http://127.0.0.1:8000
+  E2E_USER_EMAIL=test@example.com
+  E2E_USER_PASSWORD=Test123@
   ```
 
 ---

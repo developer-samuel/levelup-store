@@ -13,15 +13,22 @@ use Twig\{
     Loader\FilesystemLoader
 };
 
+use Packages\Test\EnvBridge;
+
 use App\Kernel;
 
 use App\Shared\Renderer\ErrorRenderer;
 
 // Load the Composer autoloader which provides access to all the dependencies
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/packages/server/test/EnvBridge.php';
+
+EnvBridge::bridgeBeforeBootEnv();
 
 // Load environment variables from the .env file
 (new Dotenv())->bootEnv(__DIR__ . '/.env');
+
+EnvBridge::bridgeAfterBootEnv();
 
 // If debug mode is enabled (APP_DEBUG), set file permissions mask and enable debugging
 if ((bool) $_SERVER['APP_DEBUG']) {

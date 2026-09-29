@@ -1,5 +1,6 @@
 @use '@/scss/abstracts/mixins/structure/flex' as *;
 @use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/colors/rgba' as *;
 @use '@/scss/abstracts/mixins/effects/transition' as *;
 @use '@/scss/abstracts/mixins/accessibility/visibility' as *;
 @use '@/scss/abstracts/mixins/fonts/weights' as *;
@@ -135,10 +136,11 @@
       }
 
       &-slider {
+        @include rgba('neutral', 15);
+
         position: relative;
         flex: 1;
         height: 7.5px;
-        background: colors.$border-secondary;
         border-radius: 1em;
 
         &--fill {

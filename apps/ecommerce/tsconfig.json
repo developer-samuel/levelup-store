@@ -18,12 +18,15 @@
   },
   "include": [
     "assets/ts/**/*.ts",
-    "vite/**/*.ts",
+    "packages/vite/**/*.ts",
     "vite.config.ts"
   ],
   "exclude": [
     "assets/vendor",
     "node_modules",
     "vendor"
+  ],
+  "references": [
+    { "path": "./tsconfig.test.json" }
   ]
 }

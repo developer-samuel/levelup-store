@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test'
 
-import { APP_URL } from '@/tests/e2e/config'
+import { APP_URL } from '@/e2e/config'
 
 const COOKIE_DOMAIN = new URL(APP_URL).hostname
 

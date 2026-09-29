@@ -1,7 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["vitest/globals", "node"]
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@/tests/*": ["./tests/vitest/*"],
+      "@/e2e/*": ["./tests/e2e/*"],
+      "@/*": ["./assets/*"]
+    }
   },
   "include": [
     "assets/ts/**/*.ts",

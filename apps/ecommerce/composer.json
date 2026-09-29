@@ -99,7 +99,8 @@
       "Database\\Schemas\\": "database/schemas/",
       "Database\\Types\\": "database/types/",
       "Database\\Validators\\": "database/validators/",
-      "Kit\\": "kit/"
+      "Kit\\": "kit/",
+      "Packages\\": "packages/server/"
     }
   },
   "autoload-dev": {
