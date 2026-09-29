@@ -6,7 +6,7 @@ on:
     paths:
       - 'apps/ecommerce/src/**'
       - 'apps/ecommerce/database/**'
-      - 'apps/ecommerce/kit/**'
+      - 'apps/ecommerce/packages/**'
       - 'apps/ecommerce/config/**'
       - 'apps/ecommerce/bin/**'
       - 'apps/ecommerce/templates/**'

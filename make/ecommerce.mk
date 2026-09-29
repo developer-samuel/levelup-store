@@ -64,7 +64,7 @@ setup:
 
 ## Build ecommerce production image locally (smoke test before push to main)
 build-prod:
-	docker build -f docker/Dockerfile.prod -t levelup-store-ecommerce:prod-test .
+	docker build -f apps/ecommerce/docker/Dockerfile.prod -t levelup-store-ecommerce:prod-test .
 
 ## Verify ecommerce production image has bin/console (run after build-prod)
 test-prod:

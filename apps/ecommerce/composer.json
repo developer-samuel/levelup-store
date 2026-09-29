@@ -129,60 +129,60 @@
     "post-install-cmd": [
       "Composer\\Config::disableProcessTimeout",
       "chmod +x bin/run bin/console bin/phpunit",
-      "bin/run php scripts/symfony/env-generate/launcher.php",
-      "bin/run php scripts/symfony/env-secret/launcher.php",
-      "bin/run php scripts/symfony/jwt-generate/launcher.php",
-      "bin/run php scripts/tasks/prepare-var/launcher.php",
-      "bin/run php ../../scripts/set-permissions/launcher.php",
+      "bin/run --root php scripts/symfony/env-generate/launcher.php",
+      "bin/run --root php scripts/symfony/env-secret/launcher.php",
+      "bin/run --root php scripts/symfony/jwt-generate/launcher.php",
+      "bin/run --root php scripts/tasks/prepare-var/launcher.php",
+      "bin/run --root php ../../scripts/set-permissions/launcher.php",
       "@auto-scripts",
-      "bin/run php scripts/tasks/prepare-temp/launcher.php",
-      "bin/run php scripts/tasks/prepare-assets/launcher.php",
-      "bin/run php ../../scripts/generate-uml/launcher.php"
+      "bin/run --root php scripts/tasks/prepare-temp/launcher.php",
+      "bin/run --root php scripts/tasks/prepare-assets/launcher.php",
+      "bin/run --root php ../../scripts/generate-uml/launcher.php"
     ],
     "post-update-cmd": [
       "Composer\\Config::disableProcessTimeout",
       "chmod +x bin/run bin/console bin/phpunit",
-      "bin/run php scripts/tasks/prepare-var/launcher.php",
-      "bin/run php ../../scripts/set-permissions/launcher.php",
+      "bin/run --root php scripts/tasks/prepare-var/launcher.php",
+      "bin/run --root php ../../scripts/set-permissions/launcher.php",
       "@auto-scripts",
-      "bin/run php scripts/tasks/prepare-temp/launcher.php",
-      "bin/run php scripts/tasks/prepare-assets/launcher.php"
+      "bin/run --root php scripts/tasks/prepare-temp/launcher.php",
+      "bin/run --root php scripts/tasks/prepare-assets/launcher.php"
     ],
     "env:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php scripts/symfony/env-generate/launcher.php"
+      "bin/run --root php scripts/symfony/env-generate/launcher.php"
     ],
     "env:secret": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php scripts/symfony/env-secret/launcher.php"
+      "bin/run --root php scripts/symfony/env-secret/launcher.php"
     ],
     "secrets:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php bin/console secrets:generate-keys"
+      "bin/run --root php bin/console secrets:generate-keys"
     ],
     "jwt:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php scripts/symfony/jwt-generate/launcher.php"
+      "bin/run --root php scripts/symfony/jwt-generate/launcher.php"
     ],
     "var:prepare": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php scripts/tasks/prepare-var/launcher.php"
+      "bin/run --root php scripts/tasks/prepare-var/launcher.php"
     ],
     "permissions:set": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php ../../scripts/set-permissions/launcher.php"
+      "bin/run --root php ../../scripts/set-permissions/launcher.php"
     ],
     "temp:prepare": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php scripts/tasks/prepare-temp/launcher.php"
+      "bin/run --root php scripts/tasks/prepare-temp/launcher.php"
     ],
     "assets:prepare": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php scripts/tasks/prepare-assets/launcher.php"
+      "bin/run --root php scripts/tasks/prepare-assets/launcher.php"
     ],
     "uml:generate": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php ../../scripts/generate-uml/launcher.php"
+      "bin/run --root php ../../scripts/generate-uml/launcher.php"
     ],
     "cache:clear": [
       "Composer\\Config::disableProcessTimeout",
@@ -210,7 +210,7 @@
     ],
     "php-md": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php vendor/bin/phpmd src kit xml phpmd.xml"
+      "bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml"
     ],
     "php-stan": [
       "Composer\\Config::disableProcessTimeout",
@@ -226,11 +226,11 @@
     ],
     "php-cs-fixer:fix": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php scripts/tools/php-cs-fixer/launcher.php"
+      "bin/run --root php scripts/tools/php-cs-fixer/launcher.php"
     ],
     "rector:fix": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php vendor/bin/rector process"
+      "bin/run --root php vendor/bin/rector process"
     ],
     "php-unit": [
       "Composer\\Config::disableProcessTimeout",

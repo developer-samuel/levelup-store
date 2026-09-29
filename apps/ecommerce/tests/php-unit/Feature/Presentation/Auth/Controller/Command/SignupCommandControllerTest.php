@@ -77,7 +77,10 @@ final class SignupCommandControllerTest extends WebTestCase
         $this->client->request('POST', '/signup/store', $this->buildPayload());
 
         self::assertResponseStatusCodeSame(422);
-        self::assertArrayHasKey('turnstile', $this->decodeJson()['errors']);
+        $errors = $this->decodeJson()['errors'];
+
+        self::assertIsArray($errors);
+        self::assertArrayHasKey('turnstile', $errors);
     }
 
     public function testStoreDoesNotReturnRefreshTokenInBody(): void

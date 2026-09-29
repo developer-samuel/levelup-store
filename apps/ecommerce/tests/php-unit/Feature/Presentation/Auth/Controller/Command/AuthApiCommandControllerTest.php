@@ -100,7 +100,10 @@ final class AuthApiCommandControllerTest extends WebTestCase
         ]);
 
         self::assertResponseStatusCodeSame(422);
-        self::assertArrayHasKey('turnstile', $this->decodeJson()['errors']);
+        $errors = $this->decodeJson()['errors'];
+
+        self::assertIsArray($errors);
+        self::assertArrayHasKey('turnstile', $errors);
     }
 
     public function testLoginReturnsSuccessResponseBody(): void

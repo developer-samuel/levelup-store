@@ -14,7 +14,7 @@ This file documents all custom Composer scripts related to static analysis, metr
 
 ### php-md
 
-- **Command**: `bin/run php vendor/bin/phpmd src kit xml phpmd.xml`
+- **Command**: `bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml`
 - **Purpose**: Detects potential problems, unused code, and complexity issues.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running analysis.
 

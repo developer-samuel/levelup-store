@@ -39,10 +39,10 @@ RUN pnpm install --frozen-lockfile
 
 COPY apps/ecommerce/assets/ apps/ecommerce/assets/
 COPY apps/ecommerce/public/ apps/ecommerce/public/
-COPY apps/ecommerce/vite/ apps/ecommerce/vite/
+COPY apps/ecommerce/packages/vite/ apps/ecommerce/packages/vite/
 COPY apps/ecommerce/vite.config.ts apps/ecommerce/tsconfig.json apps/ecommerce/importmap.php apps/ecommerce/
 
-RUN pnpm build
+RUN pnpm --filter ./apps/ecommerce build
 
 # ─────────────────────────────────────────────────────────────────
 # Stage 3: Production image (PHP-FPM + Nginx)
@@ -98,7 +98,7 @@ COPY apps/ecommerce/config/ config/
 COPY apps/ecommerce/database/ database/
 COPY apps/ecommerce/public/ public/
 COPY apps/ecommerce/src/ src/
-COPY apps/ecommerce/kit/ kit/
+COPY apps/ecommerce/packages/ packages/
 COPY apps/ecommerce/scripts/ scripts/
 COPY apps/ecommerce/templates/ templates/
 COPY apps/ecommerce/composer.json apps/ecommerce/composer.lock apps/ecommerce/symfony.lock apps/ecommerce/importmap.php apps/ecommerce/init.php ./
