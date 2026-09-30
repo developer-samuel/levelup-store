@@ -152,9 +152,6 @@ describe('attachFilterListener()', () => {
     attachFilterListener(ctx)
     btn.click()
 
-    expect(mockedUpdateProducts).toHaveBeenCalledWith(
-      expect.objectContaining({ sort: 'price-asc', page: 1 }),
-      ctx,
-    )
+    expect(mockedUpdateProducts).toHaveBeenCalledWith(expect.objectContaining({ sort: 'price-asc', page: 1 }), ctx)
   })
 })

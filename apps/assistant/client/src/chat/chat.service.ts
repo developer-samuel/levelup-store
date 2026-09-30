@@ -30,7 +30,7 @@ export async function streamChat(
 
   if (!res.ok || !res.body) {
     if (res.status === 429) {
-      const body = await res.json().catch(() => ({})) as { message?: string }
+      const body = (await res.json().catch(() => ({}))) as { message?: string }
       throw new Error(body.message ?? 'Too many requests. Please try again later.')
     }
     throw new Error(`HTTP ${res.status}`)
@@ -56,13 +56,10 @@ export async function reattachStream(
 }
 
 export async function cancelChatRequest(requestId: string): Promise<void> {
-  const response = await fetch(
-    `${API_BASE_URL}/chat/requests/${requestId}/cancel`,
-    {
-      method: 'POST',
-      headers: { ...(API_KEY && { 'X-Api-Key': API_KEY }) },
-    },
-  )
+  const response = await fetch(`${API_BASE_URL}/chat/requests/${requestId}/cancel`, {
+    method: 'POST',
+    headers: { ...(API_KEY && { 'X-Api-Key': API_KEY }) },
+  })
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`)
   }

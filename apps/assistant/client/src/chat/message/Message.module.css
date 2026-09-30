@@ -1,7 +1,9 @@
 @reference "../../app/theme/index.css";
 
 @keyframes thinking-pulse {
-  0%, 60%, 100% {
+  0%,
+  60%,
+  100% {
     opacity: 0.3;
     transform: scale(0.8);
   }

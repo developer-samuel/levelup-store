@@ -56,7 +56,11 @@ describe('renderActionButtons()', () => {
 
   it('should set custom attrs on each anchor', () => {
     const td = document.createElement('td')
-    renderActionButtons(td, [{ className: 'btn', text: 'Delete', href: '/delete/3', attrs: { 'data-confirm': 'true' } }], 3)
+    renderActionButtons(
+      td,
+      [{ className: 'btn', text: 'Delete', href: '/delete/3', attrs: { 'data-confirm': 'true' } }],
+      3,
+    )
     expect(td.querySelector('a')?.getAttribute('data-confirm')).toBe('true')
   })
 

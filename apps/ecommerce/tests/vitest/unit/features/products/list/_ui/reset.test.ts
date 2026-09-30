@@ -11,7 +11,7 @@ describe('resetFilterUI()', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     document.body.innerHTML = ''
-    mockedQueryAll.mockReturnValue([])
+    mockedQueryAll.mockReturnValue([] as unknown as NodeListOf<HTMLElement>)
   })
 
   it('should uncheck all brand checkboxes', () => {
@@ -20,8 +20,8 @@ describe('resetFilterUI()', () => {
     cb1.checked = true
     cb2.checked = true
     mockedQueryAll.mockImplementation((selector: string) => {
-      if (selector === 'input[name="brand[]"]') return [cb1, cb2] as HTMLInputElement[]
-      return []
+      if (selector === 'input[name="brand[]"]') return [cb1, cb2] as unknown as NodeListOf<HTMLElement>
+      return [] as unknown as NodeListOf<HTMLElement>
     })
 
     resetFilterUI('100')
@@ -34,8 +34,8 @@ describe('resetFilterUI()', () => {
     const el = document.createElement('div')
     el.classList.add('products__filter-list-item--active')
     mockedQueryAll.mockImplementation((selector: string) => {
-      if (selector === '[data-subtype]') return [el] as HTMLElement[]
-      return []
+      if (selector === '[data-subtype]') return [el] as unknown as NodeListOf<HTMLElement>
+      return [] as unknown as NodeListOf<HTMLElement>
     })
 
     resetFilterUI('100')

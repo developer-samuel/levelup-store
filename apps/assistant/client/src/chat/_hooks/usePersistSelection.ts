@@ -19,7 +19,7 @@ export function usePersistSelection(active: boolean) {
   // Runs synchronously after paint - restore selection AFTER DOM update
   useLayoutEffect(() => {
     const range = savedRange.current
-    
+
     if (!active || !range) return
     if (!document.contains(range.startContainer) || !document.contains(range.endContainer)) return
 

@@ -11,7 +11,12 @@ type UseChatOptions = {
   onConversationReset?: (newId: string) => void
 }
 
-export function useChat({ conversationId: initialConversationId, isAuthenticated, sessionLoaded, onConversationReset }: UseChatOptions) {
+export function useChat({
+  conversationId: initialConversationId,
+  isAuthenticated,
+  sessionLoaded,
+  onConversationReset,
+}: UseChatOptions) {
   const conversationId = useRef<string>(initialConversationId)
   const { messages, setMessages, persist, clearAll } = useChatMessages({
     conversationId: initialConversationId,

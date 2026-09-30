@@ -40,8 +40,10 @@ function renderMarkdown(text: string): ReactNode[] {
       }
       nodes.push(
         <ul key={nodes.length} style={{ paddingLeft: '1.25em', margin: '0.25em 0' }}>
-          {items.map((item, j) => <li key={j}>{inlineParse(item)}</li>)}
-        </ul>
+          {items.map((item, j) => (
+            <li key={j}>{inlineParse(item)}</li>
+          ))}
+        </ul>,
       )
       continue
     }
@@ -63,8 +65,10 @@ function renderMarkdown(text: string): ReactNode[] {
       }
       nodes.push(
         <ol key={nodes.length} style={{ paddingLeft: '1.25em', margin: '0.25em 0' }}>
-          {items.map((item, j) => <li key={j}>{inlineParse(item)}</li>)}
-        </ol>
+          {items.map((item, j) => (
+            <li key={j}>{inlineParse(item)}</li>
+          ))}
+        </ol>,
       )
       continue
     }
@@ -75,7 +79,11 @@ function renderMarkdown(text: string): ReactNode[] {
       continue
     }
 
-    nodes.push(<span key={nodes.length} style={{ display: 'block' }}>{inlineParse(line)}</span>)
+    nodes.push(
+      <span key={nodes.length} style={{ display: 'block' }}>
+        {inlineParse(line)}
+      </span>,
+    )
     i++
   }
 
@@ -132,43 +140,43 @@ export function Message({ message }: Props) {
   return (
     <div className={s.row}>
       <div className={cn(s.messageBody, isUser && s.messageBodyUser, isUser && s.rowReverse)}>
-      <div className={cn(s.avatar, isUser ? s.avatarUser : s.avatarAi)}>
-        {isUser ? <User className={s.avatarIcon} /> : <Bot className={s.avatarIcon} />}
-      </div>
+        <div className={cn(s.avatar, isUser ? s.avatarUser : s.avatarAi)}>
+          {isUser ? <User className={s.avatarIcon} /> : <Bot className={s.avatarIcon} />}
+        </div>
 
-      <div className={cn(s.bubbleWrapper, isUser ? s.bubbleWrapperUser : s.bubbleWrapperAi)}>
-        {ts && (
-          <div className={cn(s.timestamp, isUser && s.timestampUser)}>
-            <span className={s.timestampDate}>{ts.date}</span>
-            <span className={s.timestampTime}>{ts.time}</span>
-          </div>
-        )}
-        <div
-          className={cn(
-            s.bubble,
-            isUser ? s.bubbleUser : s.bubbleAi,
-            message.thinking && !message.content && s.bubbleThinking,
+        <div className={cn(s.bubbleWrapper, isUser ? s.bubbleWrapperUser : s.bubbleWrapperAi)}>
+          {ts && (
+            <div className={cn(s.timestamp, isUser && s.timestampUser)}>
+              <span className={s.timestampDate}>{ts.date}</span>
+              <span className={s.timestampTime}>{ts.time}</span>
+            </div>
           )}
-        >
-          {message.thinking && !message.content ? (
-            <span className={s.dots}>
-              <span className={s.dot} />
-              <span className={s.dot2} />
-              <span className={s.dot3} />
+          <div
+            className={cn(
+              s.bubble,
+              isUser ? s.bubbleUser : s.bubbleAi,
+              message.thinking && !message.content && s.bubbleThinking,
+            )}
+          >
+            {message.thinking && !message.content ? (
+              <span className={s.dots}>
+                <span className={s.dot} />
+                <span className={s.dot2} />
+                <span className={s.dot3} />
+              </span>
+            ) : (
+              <>
+                {renderMarkdown(message.content)}
+                {message.streaming && message.content && <span className={s.cursor} />}
+              </>
+            )}
+          </div>
+          {message.thinking && !message.content && (
+            <span className={s.thinkingSeconds}>
+              Thinking{message.thinkingSeconds !== undefined && ` · ${formatThinkingTime(message.thinkingSeconds)}`}
             </span>
-          ) : (
-            <>
-              {renderMarkdown(message.content)}
-              {message.streaming && message.content && <span className={s.cursor} />}
-            </>
           )}
         </div>
-        {message.thinking && !message.content && (
-          <span className={s.thinkingSeconds}>
-            Thinking{message.thinkingSeconds !== undefined && ` · ${formatThinkingTime(message.thinkingSeconds)}`}
-          </span>
-        )}
-      </div>
       </div>
     </div>
   )

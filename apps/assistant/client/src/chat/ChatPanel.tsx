@@ -20,7 +20,14 @@ type Props = {
   onConversationReset: (newId: string) => void
 }
 
-export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sessionLoaded, onConversationReset }: Props) {
+export function ChatPanel({
+  open,
+  onClose,
+  conversationId,
+  isAuthenticated,
+  sessionLoaded,
+  onConversationReset,
+}: Props) {
   const [tooltipVisible, setTooltipVisible] = useState(false)
   const { messages, loading, queued, queuePosition, error, failedMessage, send, reset, stop } = useChat({
     conversationId,
@@ -35,10 +42,7 @@ export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sess
 
   return (
     <>
-      <div
-        className={cn(s.backdrop, open ? s.backdropOpen : s.backdropClosed)}
-        onClick={onClose}
-      />
+      <div className={cn(s.backdrop, open ? s.backdropOpen : s.backdropClosed)} onClick={onClose} />
 
       <div className={cn(s.panel, open ? s.panelOpen : s.panelClosed)}>
         <div className={s.header}>
@@ -87,7 +91,13 @@ export function ChatPanel({ open, onClose, conversationId, isAuthenticated, sess
 
         {queued && <QueueStatus position={queuePosition} />}
 
-        <ChatInput onSend={send} onStop={stop} loading={loading} disabled={loading || queued} restoredValue={error ? failedMessage : null} />
+        <ChatInput
+          onSend={send}
+          onStop={stop}
+          loading={loading}
+          disabled={loading || queued}
+          restoredValue={error ? failedMessage : null}
+        />
       </div>
     </>
   )

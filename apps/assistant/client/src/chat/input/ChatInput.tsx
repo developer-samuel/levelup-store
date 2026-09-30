@@ -56,7 +56,12 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
   }
 
   return (
-    <div className={s.wrapper} onMouseDown={(e) => { if (e.target !== textareaRef.current) e.preventDefault() }}>
+    <div
+      className={s.wrapper}
+      onMouseDown={(e) => {
+        if (e.target !== textareaRef.current) e.preventDefault()
+      }}
+    >
       <div className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled)} onClick={onFieldClick}>
         <textarea
           ref={textareaRef}

@@ -12,7 +12,7 @@ function handleOutsideClick(event: MouseEvent, cart: CartInstance, loadingElemen
   const timeSinceLoading = Date.now() - lastShown
   if (timeSinceLoading < 200) return
 
-  if (Date.now() - cart.openedAt < 300) return
+  if (cart.openedAt && Date.now() - cart.openedAt < 300) return
 
   const target = event.target instanceof Node ? event.target : null
 
