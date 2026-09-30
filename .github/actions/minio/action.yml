@@ -40,7 +40,7 @@ runs:
         AWS_ACCESS_KEY_ID=${{ inputs.minio-user }} \
         AWS_SECRET_ACCESS_KEY=${{ inputs.minio-password }} \
         AWS_DEFAULT_REGION=us-east-1 \
-        /tmp/moto-venv/bin/moto_server s3 -p ${{ inputs.minio-port }} &>/tmp/minio.log &
+        /tmp/moto-venv/bin/moto_server -p ${{ inputs.minio-port }} &>/tmp/minio.log &
         echo "moto_server started (PID $!)"
 
     - name: Wait for MinIO and create bucket
