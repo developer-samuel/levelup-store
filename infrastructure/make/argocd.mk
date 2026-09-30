@@ -10,7 +10,7 @@ argocd-install:
 	$(call require_bin,kubectl,https://kubernetes.io/docs/tasks/tools/)
 	helm repo add argo https://argoproj.github.io/argo-helm
 	helm repo update
-	helm upgrade --install argocd helm/argocd \
+	helm upgrade --install argocd helm/platform/argocd \
 		--namespace argocd \
 		--create-namespace \
 		--set argo-cd.server.ingress.hostname=argocd.$(APP_DOMAIN) \
@@ -32,7 +32,7 @@ argocd-repo-add:
 	$(call require,ATLANTIS_GH_TOKEN)
 	$(call require,GITHUB_USERNAME)
 	$(call argocd_login)
-	argocd repo add $(REPO_URL) \
+	argocd repo add $(REPO_URL) $(ARGOCD_FLAGS) \
 		--username $(GITHUB_USERNAME) \
 		--password $(ATLANTIS_GH_TOKEN)
 	@echo "✓ GitHub repo added to ArgoCD."

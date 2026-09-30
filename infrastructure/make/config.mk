@@ -2,15 +2,9 @@
 # ⚙️ Variables & Macros
 # ──────────────────────────────────────────────────────────────────────────────
 
-# Loads root .env (one file for both app and infrastructure)
+# Loads root .env (single file for both app and infrastructure)
 ifneq (,$(wildcard ../.env))
   include ../.env
-  export
-endif
-
-# Loads production overrides (K8s hostnames, public URLs)
-ifneq (,$(wildcard ../.env.production))
-  include ../.env.production
   export
 endif
 

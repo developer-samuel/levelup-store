@@ -6,8 +6,9 @@
 
 ## Update Chart.lock for all charts (run after changing Chart.yaml versions)
 helm-deps-update:
-	@for dir in helm/*/; do \
-		if grep -q "dependencies:" "$$dir/Chart.yaml" 2>/dev/null; then \
+	@find helm -name "Chart.yaml" | while read f; do \
+		dir=$$(dirname "$$f"); \
+		if grep -q "dependencies:" "$$f" 2>/dev/null; then \
 			echo "→ $$dir"; \
 			helm dependency update "$$dir"; \
 		fi \
@@ -21,7 +22,7 @@ cert-manager-install:
 	$(call require,MAILER_USER)
 	helm repo add jetstack https://charts.jetstack.io
 	helm repo update
-	helm upgrade --install cert-manager helm/cert-manager \
+	helm upgrade --install cert-manager helm/platform/cert-manager \
 		--namespace cert-manager \
 		--create-namespace \
 		--wait
