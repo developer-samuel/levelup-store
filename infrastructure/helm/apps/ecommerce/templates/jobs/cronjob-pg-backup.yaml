@@ -16,6 +16,10 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           initContainers:
             # Step 1: pg_dump → /backup/dump.sql.gz
             - name: pg-dump

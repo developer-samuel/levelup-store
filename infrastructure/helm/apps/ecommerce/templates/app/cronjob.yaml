@@ -19,6 +19,10 @@ spec:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
             fsGroup: {{ .Values.securityContext.runAsUser }}
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           containers:
             - name: scheduler
               image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"

@@ -16,6 +16,10 @@ spec:
   template:
     spec:
       restartPolicy: OnFailure
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: reindex
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
