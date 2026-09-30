@@ -41,7 +41,7 @@ These tools provide insights into code size, complexity, duplication, and overal
 
 ### 🔍 Linting
 
-- **Twig Lint** - Validates Twig templates for syntax errors via `composer lint:twig`.
+- **Twig Lint** - Validates Twig templates for syntax errors via `composer twig:lint`.
 
 ---
 

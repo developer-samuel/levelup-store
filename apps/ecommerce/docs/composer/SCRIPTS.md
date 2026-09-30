@@ -25,10 +25,6 @@ Each link below points to a dedicated file with detailed descriptions, commands,
 - Backend unit, integration and feature tests (PHPUnit).
 - See: [TESTS.md](scripts/TESTS.md)
 
-### 📊 CodeStats Scripts
-- Custom scripts for counting files, rows, and characters.
-- See: [CODESTATS.md](scripts/CODESTATS.md)
-
 ### 🕒 Misc / Utilities
 - Scheduler, local server, other helpers.
 - See: [MISC.md](scripts/MISC.md)

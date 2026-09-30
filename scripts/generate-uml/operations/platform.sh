@@ -7,6 +7,10 @@ MMDC="./node_modules/.bin/mmdc"
 
 # ────────────── Checks ──────────────
 if [ ! -f "$MMDC" ]; then
+    if ! command -v pnpm &>/dev/null; then
+        echo "  ⚠️  platform: pnpm not available, skipping UML generation"
+        exit 0
+    fi
     echo "📦 mmdc not found, running pnpm install..."
     pnpm install
 fi

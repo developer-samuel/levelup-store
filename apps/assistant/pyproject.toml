@@ -52,4 +52,4 @@ cache_dir = "/tmp/.mypy_cache"
 min_confidence = 80
 paths = ["app/"]
 ignore_decorators = ["@router.get", "@router.post", "@router.put", "@router.delete", "@app.get", "@app.post"]
-ignore_names = ["request"]
+ignore_names = ["request", "cls"]
