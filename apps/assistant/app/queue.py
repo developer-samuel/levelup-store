@@ -88,9 +88,9 @@ async def register_request(payload: dict[str, str]) -> int:
                 _QUEUE_KEY,
                 _cancel_key(payload["request_id"]),
                 payload["request_id"],
-                _PROCESSING_TTL,
+                str(_PROCESSING_TTL),
                 json.dumps(payload),
-                _QUEUE_TTL,
+                str(_QUEUE_TTL),
             ),
         )
     return position
@@ -118,7 +118,7 @@ async def renew_processing(request_id: str) -> bool:
     async with _make_client() as r:
         renewed = await cast(
             Awaitable[int],
-            r.eval(script, 1, _PROCESSING_KEY, request_id, _PROCESSING_TTL),
+            r.eval(script, 1, _PROCESSING_KEY, request_id, str(_PROCESSING_TTL)),
         )
 
     return renewed == 1
@@ -146,7 +146,7 @@ async def finish_processing(request_id: str) -> dict[str, str] | None:
     async with _make_client() as r:
         raw = await cast(
             Awaitable[str | None],
-            r.eval(script, 2, _PROCESSING_KEY, _QUEUE_KEY, request_id, _PROCESSING_TTL),
+            r.eval(script, 2, _PROCESSING_KEY, _QUEUE_KEY, request_id, str(_PROCESSING_TTL)),
         )
 
     return json.loads(raw) if raw is not None else None
@@ -185,7 +185,7 @@ async def cancel_request(request_id: str) -> bool:
                 _QUEUE_KEY,
                 _cancel_key(request_id),
                 request_id,
-                _PROCESSING_TTL,
+                str(_PROCESSING_TTL),
                 _cancel_channel(request_id),
             ),
         )
@@ -211,7 +211,7 @@ async def wait_for_cancellation(request_id: str) -> None:
                 return
     finally:
         await pubsub.unsubscribe(channel)
-        await pubsub.aclose()
+        await cast(_AsyncCloseable, pubsub).aclose()
         await r.aclose()
 
 

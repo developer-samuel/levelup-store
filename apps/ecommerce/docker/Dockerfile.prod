@@ -35,6 +35,7 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/ecommerce/package.json apps/ecommerce/package.json
+COPY apps/assistant/client/package.json apps/assistant/client/package.json
 RUN pnpm install --frozen-lockfile
 
 COPY apps/ecommerce/assets/ apps/ecommerce/assets/

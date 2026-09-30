@@ -45,7 +45,7 @@ jobs:
         run: composer php-md
 
       - name: Lint Twig
-        run: php bin/console lint:twig templates/
+        run: php bin/console twig:lint templates/
 
       - name: Lint YAML
         run: php bin/console lint:yaml config/
