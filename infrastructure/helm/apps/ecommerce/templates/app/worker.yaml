@@ -29,6 +29,10 @@ spec:
         runAsUser: {{ .Values.securityContext.runAsUser }}
         fsGroup: {{ .Values.securityContext.runAsUser }}
       {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: worker
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"

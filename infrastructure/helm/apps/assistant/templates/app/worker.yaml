@@ -26,6 +26,10 @@ spec:
         runAsNonRoot: {{ .Values.app.securityContext.runAsNonRoot }}
         runAsUser: {{ .Values.app.securityContext.runAsUser }}
         fsGroup: {{ .Values.app.securityContext.runAsUser }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: worker
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
