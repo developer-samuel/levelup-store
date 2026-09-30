@@ -58,8 +58,7 @@
 @include resolution(sm, min) {
   @include resolution(md, max) {
     .product-item__box-image {
-      height: 185px;
-      padding-bottom: 0;
+      height: 150px;
     }
   }
 }
@@ -67,14 +66,13 @@
 @include resolution(xs, min) {
   @include resolution(sm, max) {
     .product-item__box-image {
-      height: 175px;
-      padding-bottom: 0;
+      height: 140px;
     }
   }
 }
 
 @include resolution(xs, max) {
   .product-item__box-image {
-    padding-bottom: 80%;
+    height: 130px;
   }
 }

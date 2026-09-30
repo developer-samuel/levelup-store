@@ -319,14 +319,11 @@
         a {
           @include transition('linear');
           @include weights(600);
-
-          text-decoration: underline;
         }
 
         img {
           position: relative;
-          filter: brightness(0) saturate(100%) invert(58%) sepia(0%) saturate(0%) hue-rotate(184deg) brightness(89%)
-            contrast(88%);
+          filter: brightness(0) saturate(100%) invert(58%) sepia(0%) saturate(0%) hue-rotate(184deg) brightness(89%) contrast(88%);
         }
       }
     }

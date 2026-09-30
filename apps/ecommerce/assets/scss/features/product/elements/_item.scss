@@ -46,10 +46,9 @@
     padding: 1em 1.5em;
 
     &-image {
-      @include size(100%, 200px);
+      @include size(100%, 160px);
 
       position: relative;
-      padding-bottom: 75%;
 
       img {
         @include size;
