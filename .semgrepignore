@@ -9,3 +9,8 @@ vendor/
 node_modules/
 venv/
 .venv/
+
+# Ecommerce
+apps/ecommerce/var/log/
+apps/ecommerce/config/jwt/
+apps/ecommerce/router.php
