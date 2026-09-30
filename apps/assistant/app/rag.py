@@ -38,7 +38,7 @@ def get_collection() -> chromadb.Collection:
 
 def reset_collection() -> chromadb.Collection:
     """Delete and recreate the ChromaDB collection to remove stale documents."""
-    
+
     client = _get_chroma_client()
     client.delete_collection(CHROMA_COLLECTION_PRODUCTS)
 

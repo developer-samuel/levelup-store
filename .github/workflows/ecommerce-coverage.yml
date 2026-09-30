@@ -92,6 +92,22 @@ jobs:
           --health-timeout 5s
           --health-retries 10
 
+      minio:
+        image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+        credentials:
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd "curl -sf http://localhost:9000/minio/health/live"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v7
 
@@ -155,10 +171,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Run Vitest with coverage
-        run: pnpm vitest
+        run: pnpm --filter ecommerce vitest
 
       - name: Generate ESLint report for SonarCloud
-        run: pnpm lint:report
+        run: pnpm --filter ecommerce lint:report
 
       - name: Upload JS coverage to Codecov
         uses: codecov/codecov-action@v7

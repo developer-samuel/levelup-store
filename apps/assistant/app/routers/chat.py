@@ -27,14 +27,37 @@ router = APIRouter()
 
 _ASCII_VOWELS = frozenset("aeiouAEIOU")
 
-_FAST_REPLY_WORDS = frozenset({
-    "hi", "hey", "hello", "hiya", "howdy", "sup", "yo",
-    "test", "testing", "ok", "okay", "k", "lol", "lmao",
-    "asdf", "qwerty", "foo", "bar", "baz", "lorem", "ipsum",
-    "hmm", "hm", "ugh",
-})
+_FAST_REPLY_WORDS = frozenset(
+    {
+        "hi",
+        "hey",
+        "hello",
+        "hiya",
+        "howdy",
+        "sup",
+        "yo",
+        "test",
+        "testing",
+        "ok",
+        "okay",
+        "k",
+        "lol",
+        "lmao",
+        "asdf",
+        "qwerty",
+        "foo",
+        "bar",
+        "baz",
+        "lorem",
+        "ipsum",
+        "hmm",
+        "hm",
+        "ugh",
+    }
+)
 
 _GIBBERISH_REPLY = "Hello! How can I help you?"
+
 
 def _is_gibberish(message: str) -> bool:
     """Return True for structurally obvious gibberish that should bypass the LLM.

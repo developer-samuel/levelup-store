@@ -45,7 +45,7 @@ jobs:
         run: composer php-md
 
       - name: Lint Twig
-        run: php bin/console twig:lint templates/
+        run: php bin/console lint:twig templates/
 
       - name: Lint YAML
         run: php bin/console lint:yaml config/
@@ -94,7 +94,7 @@ jobs:
         run: pnpm lint
 
       - name: Stylelint
-        run: pnpm lint-scss
+        run: pnpm --filter ecommerce lint-scss
 
   # ─── PHPUnit Tests ────────────────────────────────────────────────────────
   phpunit:
@@ -177,6 +177,22 @@ jobs:
           --health-timeout 5s
           --health-retries 10
 
+      minio:
+        image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+        credentials:
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd "curl -sf http://localhost:9000/minio/health/live"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     defaults:
       run:
         working-directory: apps/ecommerce
@@ -254,7 +270,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Run Vitest
-        run: pnpm vitest
+        run: pnpm --filter ecommerce vitest
 
       - uses: actions/upload-artifact@v7
         if: failure()

@@ -53,8 +53,9 @@ async def stream_chat(message: str, conversation_id: str) -> AsyncGenerator[str,
 
         history.append({"role": "assistant", "content": "".join(full_response)})
         await save_history(conversation_id, history)
-        yield json.dumps({"success": True, "data": {"done": True, "conversation_id": conversation_id}})
-    except (ConnectError, ollama.ResponseError):
         yield json.dumps(
-            {"success": False, "message": "Something went wrong. The server may be busy - please try again."}
+            {"success": True, "data": {"done": True, "conversation_id": conversation_id}}
         )
+    except (ConnectError, ollama.ResponseError):
+        msg = "Something went wrong. The server may be busy - please try again."
+        yield json.dumps({"success": False, "message": msg})

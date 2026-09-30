@@ -19,4 +19,7 @@
     <rule ref="rulesets/unusedcode.xml">
         <exclude name="UnusedFormalParameter"/>
     </rule>
+
+    <!-- Files that legitimately access superglobals -->
+    <exclude-pattern>packages/server/test/EnvBridge.php</exclude-pattern>
 </ruleset>

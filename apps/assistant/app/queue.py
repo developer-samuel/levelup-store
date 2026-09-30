@@ -9,9 +9,9 @@ import redis.asyncio as aioredis
 
 from app.config import settings
 
-_PROCESSING_TTL = 900   # 15 minutes safety TTL on the processing flag - must be >= _STREAM_TIMEOUT
-_QUEUE_TTL = 3_600      # 1 hour TTL on the per-conversation queue list
-_STREAM_TIMEOUT = 900   # 15 minutes: max wait for first/next chunk from worker
+_PROCESSING_TTL = 900  # 15 minutes safety TTL on the processing flag - must be >= _STREAM_TIMEOUT
+_QUEUE_TTL = 3_600  # 1 hour TTL on the per-conversation queue list
+_STREAM_TIMEOUT = 900  # 15 minutes: max wait for first/next chunk from worker
 
 
 class _AsyncCloseable(Protocol):
@@ -66,7 +66,9 @@ async def register_request(payload: dict[str, str]) -> int:
     Returns 0 when the caller claimed the slot, otherwise the request's
     1-based position behind the currently processing request.
     """
-    script = _PUBLISH_QUEUE_POSITIONS + """
+    script = (
+        _PUBLISH_QUEUE_POSITIONS
+        + """
     if redis.call('EXISTS', KEYS[3]) == 1 then
         return -1
     end
@@ -78,6 +80,7 @@ async def register_request(payload: dict[str, str]) -> int:
     publish_queue_positions(KEYS[2])
     return position
     """
+    )
     async with _make_client() as r:
         position = await cast(
             Awaitable[int],
@@ -127,7 +130,9 @@ async def renew_processing(request_id: str) -> bool:
 async def finish_processing(request_id: str) -> dict[str, str] | None:
     """Hand off or release the worker slot only if this request still owns it."""
 
-    script = _PUBLISH_QUEUE_POSITIONS + """
+    script = (
+        _PUBLISH_QUEUE_POSITIONS
+        + """
 
     if redis.call('GET', KEYS[1]) ~= ARGV[1] then
         return nil
@@ -142,6 +147,7 @@ async def finish_processing(request_id: str) -> dict[str, str] | None:
     redis.call('DEL', KEYS[1])
     return nil
     """
+    )
 
     async with _make_client() as r:
         raw = await cast(
@@ -155,7 +161,9 @@ async def finish_processing(request_id: str) -> dict[str, str] | None:
 async def cancel_request(request_id: str) -> bool:
     """Remove a queued request or signal cancellation to the active worker."""
 
-    script = _PUBLISH_QUEUE_POSITIONS + """
+    script = (
+        _PUBLISH_QUEUE_POSITIONS
+        + """
 
     local items = redis.call('LRANGE', KEYS[2], 0, -1)
     for _, raw in ipairs(items) do
@@ -174,6 +182,7 @@ async def cancel_request(request_id: str) -> bool:
     redis.call('SET', KEYS[3], '1', 'EX', ARGV[2])
     return 3
     """
+    )
 
     async with _make_client() as r:
         result = await cast(
@@ -289,7 +298,7 @@ async def subscribe_stream(
     request_id: str,
 ) -> AsyncGenerator[str, None]:
     """Subscribe and consume in one call - use only when publish already happened."""
-    
+
     r, pubsub = await open_subscription(conversation_id, request_id)
 
     async for chunk in consume_subscription(r, pubsub, conversation_id, request_id):

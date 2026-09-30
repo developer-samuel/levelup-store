@@ -22,16 +22,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Start MinIO
-      shell: bash
-      run: |
-        docker run -d \
-          --name minio \
-          -p ${{ inputs.minio-port }}:9000 \
-          -e MINIO_ROOT_USER=${{ inputs.minio-user }} \
-          -e MINIO_ROOT_PASSWORD=${{ inputs.minio-password }} \
-          minio/minio:RELEASE.2025-09-07T16-13-09Z server /data
-
     - name: Inject MinIO environment
       shell: bash
       run: |
