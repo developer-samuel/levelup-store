@@ -15,10 +15,38 @@ env:
   ASSISTANT_IMAGE: ${{ github.repository }}-assistant
 
 jobs:
+  # ─── Detect changes ───────────────────────────────────────────────────────
+  changes:
+    name: 🔍 Detect changes
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    outputs:
+      ecommerce: ${{ steps.filter.outputs.ecommerce }}
+      assistant: ${{ steps.filter.outputs.assistant }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            ecommerce:
+              - 'apps/ecommerce/**'
+              - 'docker-compose*.yml'
+              - '.env.example'
+            assistant:
+              - 'apps/assistant/**'
+
   # ─── Ecommerce: Build & Push ──────────────────────────────────────────────
   build-ecommerce:
     name: 🐳 Build & Push (Ecommerce)
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.ecommerce == 'true' || github.event_name == 'workflow_dispatch'
 
     permissions:
       contents: read
@@ -67,13 +95,15 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          no-cache: true
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,ignore-error=true
 
   # ─── Assistant: Build & Push ──────────────────────────────────────────────
   build-assistant:
     name: 🐳 Build & Push (Assistant)
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.assistant == 'true' || github.event_name == 'workflow_dispatch'
 
     permissions:
       contents: read
@@ -122,14 +152,15 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          no-cache: true
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,ignore-error=true
 
   # ─── Ecommerce: SBOM ──────────────────────────────────────────────────────
   sbom-ecommerce:
     name: 📋 SBOM (Ecommerce)
     runs-on: ubuntu-latest
     needs: build-ecommerce
+    if: needs.build-ecommerce.result == 'success'
 
     permissions:
       contents: write
@@ -168,6 +199,7 @@ jobs:
     name: 📋 SBOM (Assistant)
     runs-on: ubuntu-latest
     needs: build-assistant
+    if: needs.build-assistant.result == 'success'
 
     permissions:
       contents: write
@@ -206,6 +238,7 @@ jobs:
     name: 🔒 Security Scan (Ecommerce)
     runs-on: ubuntu-latest
     needs: build-ecommerce
+    if: needs.build-ecommerce.result == 'success'
 
     permissions:
       contents: read
@@ -241,6 +274,7 @@ jobs:
     name: 🔒 Security Scan (Assistant)
     runs-on: ubuntu-latest
     needs: build-assistant
+    if: needs.build-assistant.result == 'success'
 
     permissions:
       contents: read
@@ -276,6 +310,7 @@ jobs:
     name: ✍️ Sign Image (Ecommerce)
     runs-on: ubuntu-latest
     needs: [build-ecommerce, scan-ecommerce]
+    if: needs.build-ecommerce.result == 'success'
 
     permissions:
       contents: read
@@ -304,6 +339,7 @@ jobs:
     name: ✍️ Sign Image (Assistant)
     runs-on: ubuntu-latest
     needs: [build-assistant, scan-assistant]
+    if: needs.build-assistant.result == 'success'
 
     permissions:
       contents: read
@@ -332,6 +368,7 @@ jobs:
     name: 🔄 Sync image tags
     runs-on: ubuntu-latest
     needs: [build-ecommerce, scan-ecommerce, sign-ecommerce, build-assistant, scan-assistant, sign-assistant]
+    if: always() && (needs.build-ecommerce.result == 'success' || needs.build-assistant.result == 'success')
 
     permissions:
       contents: write
@@ -348,11 +385,13 @@ jobs:
           chmod +x /usr/local/bin/yq
 
       - name: Update ecommerce image tag
+        if: needs.build-ecommerce.result == 'success'
         run: |
           yq e '.app.image.tag = "${{ needs.build-ecommerce.outputs.image-tag }}"' \
             -i infrastructure/helm/apps/ecommerce/values.prod.yaml
 
       - name: Update assistant image tag
+        if: needs.build-assistant.result == 'success'
         run: |
           yq e '.app.image.tag = "${{ needs.build-assistant.outputs.image-tag }}"' \
             -i infrastructure/helm/apps/assistant/values.prod.yaml
@@ -364,5 +403,5 @@ jobs:
           git add infrastructure/helm/apps/ecommerce/values.prod.yaml \
                   infrastructure/helm/apps/assistant/values.prod.yaml
           git diff --cached --quiet && echo "No changes to commit" && exit 0
-          git commit -m "chore: deploy ${{ needs.build-ecommerce.outputs.image-tag }} [skip ci]"
+          git commit -m "chore: deploy ${{ needs.build-ecommerce.outputs.image-tag || needs.build-assistant.outputs.image-tag }} [skip ci]"
           git push origin main
