@@ -1,0 +1,45 @@
+flowchart TD
+    %% POST /chat - full request lifecycle
+    %% Three paths: gibberish fast-reply, direct stream, queued stream
+
+    classDef decision fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef action   fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef stream   fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef done     fill:#1a7f5a, color:#fff, stroke:#000, stroke-width:2px;
+    classDef error    fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+
+    Start([POST /chat]):::action
+    GibberishCheck{Gibberish?}:::decision
+    FastReply[SSE: thinking → token → done]:::stream
+    RMQCheck{RabbitMQ\nenabled?}:::decision
+    DirectStream[stream_chat directly\nno queue]:::stream
+    Subscribe[Subscribe Redis\npub/sub channel]:::action
+    RegisterRequest[register_request\nRedis atomic slot]:::action
+    CancelledCheck{Request\ncancelled?}:::decision
+    SlotFree{Slot free?\nposition == 0}:::decision
+    QueuedEvent[SSE: queued\nqueue_position N]:::stream
+    ThinkingEvent[SSE: thinking]:::stream
+    PublishRMQ[publish_request\nRabbitMQ]:::action
+    ConsumeStream[consume_subscription\nRedis pub/sub]:::stream
+    Done([SSE: done]):::done
+
+    Start --> GibberishCheck
+    GibberishCheck -->|yes| FastReply
+    GibberishCheck -->|no| RMQCheck
+    RMQCheck -->|no| DirectStream
+    RMQCheck -->|yes| Subscribe
+    Subscribe --> RegisterRequest
+    RegisterRequest --> CancelledCheck
+    CancelledCheck -->|yes - pre-cancelled| Done
+    CancelledCheck -->|no| SlotFree
+    SlotFree -->|no - queued| QueuedEvent
+    SlotFree -->|yes| ThinkingEvent
+    QueuedEvent --> ConsumeStream
+    ThinkingEvent --> PublishRMQ
+    PublishRMQ --> ConsumeStream
+    Timeout([SSE: timeout error]):::error
+
+    ConsumeStream -->|timeout 15min| Timeout
+    ConsumeStream --> Done
+    DirectStream --> Done
+    FastReply --> Done

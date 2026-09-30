@@ -1,20 +1,9 @@
 # ⚒️ Development
 
-## 📦 App Commands
+Platform-level development guide covering the shared Docker stack used by all apps.
+For app-specific commands and health checks see the links at the bottom of this page.
 
-```bash
-# Full local setup: install dependencies + database + cache + serve
-make setup
-
-# Install dependencies and build assets
-make install
-
-# Clear and warmup cache (also flushes Redis if available)
-make cache-clear
-
-# Start local development servers (PHP + frontend)
-make serve
-```
+---
 
 ## 🐳 Docker Commands
 
@@ -46,24 +35,6 @@ make setup-build
 docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 docker compose --profile setup up --build
 docker compose up -d
-```
-
-### Production Commands
-
-Build and test the production Docker image locally before pushing to `main`.
-The production image (`apps/ecommerce/docker/Dockerfile.prod`) includes the full app - PHP-FPM + Nginx + compiled assets.
-CI builds it automatically on every push to `main`, so these commands are for local verification only.
-
-```bash
-# Build production image locally
-make build-prod
-# or
-docker build -f apps/ecommerce/docker/Dockerfile.prod -t levelup-store:prod-test .
-
-# Verify production image has bin/console (run after build-prod)
-make test-prod
-# or
-docker run --rm --entrypoint php levelup-store:prod-test -l /var/www/bin/console
 ```
 
 ### Development Commands
@@ -137,28 +108,21 @@ docker compose logs -f
 make logs-dev
 # or
 docker compose -f docker-compose.yml -f docker-compose.dev.yml logs -f
+
+# Show last 50 lines of setup container logs (ecommerce + assistant)
+make logs-setup
+# or
+docker logs levelup_store_ecommerce_app_setup --tail 50
+docker logs levelup_store_assistant_app_setup --tail 50
+
+# Watch setup container logs live (ecommerce + assistant)
+make setup-watch
+# or
+docker logs levelup_store_ecommerce_app_setup -f &
+docker logs levelup_store_assistant_app_setup -f
 ```
 
-## 🩺 Health Check
+---
 
-Verify that all services (database, cache, mailer, Stripe, disk, wkhtmltopdf) are running correctly:
+See also: [Ecommerce Development](../apps/ecommerce/docs/DEVELOPMENT.md) · [Assistant Development](../apps/assistant/docs/DEVELOPMENT.md)
 
-```
-GET /api/dev/health-check
-```
-
-Example response:
-
-```json
-{
-  "status": "ok",
-  "database": "ok",
-  "cache": "ok",
-  "disk": "ok",
-  "mailer": "ok",
-  "stripe": "ok",
-  "wkhtmltopdf": "ok"
-}
-```
-
-> `wkhtmltopdf` returns `"disabled"` if `WKHTMLTOPDF_ENABLED=false` and does not affect the overall `status`.

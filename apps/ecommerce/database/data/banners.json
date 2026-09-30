@@ -2,7 +2,7 @@
   "discounts": {
     "position": 1,
     "name": "Discounts",
-    "image": "banners/discounts/winter/discounts.webp",
+    "image": "banners/discounts/discounts.webp",
     "url": "discounts",
     "type": "background",
     "is_active": true

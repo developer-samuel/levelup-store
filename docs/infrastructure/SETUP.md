@@ -79,7 +79,7 @@ APP_DOMAIN=127.0.0.1:8000
 APP_DOMAIN=yourdomain.com
 ```
 
-You do not need `.env.production` locally - only needed when running `make secrets` or other
+You do not need `.env.production` locally - only needed when running `make ecommerce-secrets`, `make assistant-secrets` or other
 production commands to ensure the correct production values are used.
 
 ---

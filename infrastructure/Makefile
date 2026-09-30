@@ -20,7 +20,8 @@
 #   make argocd-bootstrap     → root-app → ArgoCD deploys everything automatically
 #   make velero-install       → configure Velero backups (after ArgoCD syncs)
 #   make services-secrets     → K8s secrets for PostgreSQL, Redis, RabbitMQ...
-#   make secrets              → production secrets for the app
+#   make ecommerce-secrets    → production secrets for the ecommerce app
+#   make assistant-secrets    → production secrets for the assistant app
 #   make monitoring-secrets   → Grafana password + Alertmanager email
 # ─────────────────────────────────────────────────────────────────────────────
 

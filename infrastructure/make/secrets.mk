@@ -2,7 +2,7 @@
 # 🔐 Secrets Commands
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: services-secrets jwt-keys-secret secrets monitoring-secrets \
+.PHONY: services-secrets jwt-keys-secret ecommerce-secrets assistant-secrets monitoring-secrets \
         sealed-secrets-cert sealed-secrets-generate
 
 ## Create K8s secrets for standalone service charts + set RabbitMQ username
@@ -65,7 +65,7 @@ jwt-keys-secret:
 	@echo "✓ JWT keys secret created/updated."
 
 ## Set production secrets for levelup-store app via ArgoCD
-secrets:
+ecommerce-secrets:
 	$(call require,APP_DOMAIN)
 	$(call require,APP_URL)
 	$(call require,CORS_ALLOW_ORIGIN)
@@ -143,6 +143,22 @@ secrets:
 		-p app.jwtTtl="$(JWT_TTL)" \
 		-p app.jwtRefreshTtl="$(JWT_REFRESH_TTL)"
 	@echo "✓ App secrets set."
+
+## Set production secrets for levelup-store-assistant app via ArgoCD
+assistant-secrets:
+	$(call require,APP_DOMAIN)
+	$(call require,OPENAI_API_KEY)
+	$(call require,REDIS_URL)
+	$(call require,RABBITMQ_URL)
+	$(call require,ASSISTANT_GHCR_IMAGE)
+	$(call argocd_login)
+	argocd app set levelup-store-assistant $(ARGOCD_FLAGS) \
+		-p app.openaiApiKey="$(OPENAI_API_KEY)" \
+		-p app.redisUrl="$(REDIS_URL)" \
+		-p broker.rabbitmqUrl="$(RABBITMQ_URL)" \
+		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
+		-p ingress.host="assistant.$(APP_DOMAIN)"
+	@echo "✓ Assistant secrets set."
 
 ## Set Grafana password, domain and Alertmanager email via ArgoCD
 monitoring-secrets:

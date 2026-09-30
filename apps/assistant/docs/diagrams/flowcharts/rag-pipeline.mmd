@@ -1,0 +1,34 @@
+flowchart TD
+    %% RAG pipeline - how a message is processed inside stream_chat
+    %% Redis history + ChromaDB vector search + Ollama LLM streaming
+
+    classDef action   fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef decision fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef infra    fill:#6b21a8, color:#fff, stroke:#000, stroke-width:2px;
+    classDef llm      fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef stream   fill:#1a7f5a, color:#fff, stroke:#000, stroke-width:2px;
+    classDef error    fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+
+    Start([message + conversation_id]):::action
+    LoadHistory[load_history\nRedis → last 30 messages]:::infra
+    EmbedQuery[embed query\nOllama nomic-embed-text]:::llm
+    VectorSearch[ChromaDB query\nn=5 nearest products]:::infra
+    BuildPrompt[build messages\nsystem prompt + context + history]:::action
+    OllamaStream[ollama.chat stream=True\ntemperature=0.1]:::llm
+    TokenLoop{more tokens?}:::decision
+    YieldToken[yield token chunk]:::stream
+    SaveHistory[save_history\nRedis - trim to 30]:::infra
+    YieldDone[yield done chunk]:::stream
+    OllamaError[yield error chunk\nConnectError / ResponseError]:::error
+
+    Start --> LoadHistory
+    LoadHistory --> EmbedQuery
+    EmbedQuery --> VectorSearch
+    VectorSearch --> BuildPrompt
+    BuildPrompt --> OllamaStream
+    OllamaStream -->|ok| TokenLoop
+    OllamaStream -->|fail| OllamaError
+    TokenLoop -->|yes| YieldToken
+    YieldToken --> TokenLoop
+    TokenLoop -->|no| SaveHistory
+    SaveHistory --> YieldDone

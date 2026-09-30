@@ -1,62 +1,17 @@
 # 🔒 Project Requirements
 
-**Purpose:** Minimum requirements for development, testing, and optional `Docker` services.
+**Purpose:** Minimum platform-level requirements shared across all apps.
 
 ---
 
-## 1. Mandatory Requirements
+## Platform Requirements
 
-- **PHP** 8.3
-- **Composer** for dependency management
-- **Node.js** (LTS) + **pnpm** or **npm** for frontend assets (Vite, TS build)
 - **Git** version control
-- **Database** (choose at least one)
-  - PostgreSQL 17+ (recommended)
-  - MySQL 8.0+
-- **Web server** (choose at least one)
-  - Nginx (recommended)
-  - Apache
-- **Cron / Scheduler** required for Symfony scheduled tasks
-- **wkhtmltopdf** required for PDF generation
-- **SMTP account** custom or test (Mailpit / Mailtrap)
-- **Stripe account** test keys for payment workflows
-- **External API Access** connectivity to [apicountries.com](https://www.apicountries.com/countries) for data ingestion
-
-> ⚠️ At least one web server and one database are required for application functionality.
-
----
-
-## 2. Optional Requirements (Recommended)
-
-These improve developer experience, monitoring, or enable optional features. Not required for core application functionality:
-
 - **Docker** for containerized environment
-- **WSL 2** strongly recommended for **Windows users** to run Docker and Linux-based tools (Ubuntu) with native performance.
-- **Symfony CLI** for local development commands
 - **Make** (GNU Make) required to run project commands
-- **PHP Coverage Driver** (choose based on need):
-  - **PCOV** - recommended for coverage only (faster, always active, no debugging)
-  - **Xdebug** - required for step debugging (breakpoints in IDE); can coexist with PCOV when `XDEBUG_MODE=off`
-- **Elasticsearch** for full-text product search and filtering
-- **Redis** for caching, sessions, rate limiting
-- **RabbitMQ** for async message queue (email delivery, background tasks)
-- **pgAdmin** lightweight DB management tool
-- **Prometheus** metrics collection
-- **Grafana** dashboards & monitoring
-- **Mercure** for real-time server-sent events (product stock updates, review rating updates)
-- **MinIO** for S3-compatible object storage (product image uploads)
-- **Mailpit** for local email testing
-- **Loki + Alloy** for log aggregation and collection
-- **AlertManager** for Prometheus alert routing and notifications
-- **Dozzle** for real-time container log viewing
-- **SonarQube** for advanced static analysis and quality gate enforcement
+- **Node.js** (LTS) + **pnpm** for frontend assets across all apps
+- **WSL 2** strongly recommended for **Windows users** to run Docker and Linux-based tools (Ubuntu) with native performance.
 
 ---
 
-## 3. Notes
-
-- `Docker` is optional; all services can run locally if preferred
-- `wkhtmltopdf` must be installed either locally or in Docker for PDF generation
-- Optional services (Elasticsearch, Redis, RabbitMQ, pgAdmin, Prometheus, Grafana, Mercure, MinIO, Loki, AlertManager, Dozzle, SonarQube, Mailpit) improve developer experience or monitoring but are not required to run the app - when disabled, Elasticsearch falls back to database queries, Symfony Messenger falls back to a Doctrine-based queue, Mercure disables real-time push updates, and MinIO falls back to local filesystem storage
-- SMTP and Stripe can be sandbox/test accounts for development
-- **For a comprehensive overview of the full [Tech Stack](TECHSTACK.md), architecture, and all Quality Assurance tools, please refer to the documentation.**
+See also: [Ecommerce Requirements](../apps/ecommerce/docs/REQUIREMENTS.md) · [Assistant Requirements](../apps/assistant/docs/REQUIREMENTS.md)

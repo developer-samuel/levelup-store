@@ -1,6 +1,6 @@
 # Maintenance
 
-This document describes **dependency maintenance procedures**.
+This document describes **dependency maintenance procedures** for the monorepo root.  
 It is intended for **existing projects**, not first-time setup.
 
 ⚠️ Important: Do NOT run these commands blindly in production. Always validate changes first.
@@ -15,72 +15,32 @@ It is intended for **existing projects**, not first-time setup.
 composer update
 ```
 
-#### Post-update validation (required)
-
-```bash
-composer php-unit
-composer php-md
-composer php-stan
-```
-
-- Run the full test suite to ensure no regressions were introduced.
-- Static analysis must pass before committing dependency updates.
-- Treat failures as blockers, not warnings.
+Root `composer.json` manages only monorepo-level tools (code statistics).  
+No post-update validation required beyond verifying the tools still run.
 
 ⚠️ If any failures occur, fix them immediately or rollback `composer.lock` before committing.
 
-## 2. Frontend Dependencies (pnpm / npm)
+---
+
+## 2. Frontend Dependencies
 
 #### Update dependencies
 
 ```bash
-# pnpm
 pnpm update
-
-# or npm
-npm run update
 ```
 
 #### Post-update validation (required)
 
 ```bash
-# pnpm
-pnpm vitest
-
-# or npm
-npm run vitest
-```
-
-- All frontend tests must pass after dependency updates
-- If failures occur, resolve them before committing
-
-⚠️ Consider running these commands in a separate branch or environment before merging to main.
-
-#### Quality Checks (Optional)
-
-These checks are recommended but not mandatory for dependency updates.
-
-```bash
-# TypeScript linting (ESLint)
+# TypeScript linting (ESLint) - both apps
 pnpm lint
-pnpm lint:fix
 
 # or npm
 npm run lint
-npm run lint:fix
 ```
 
-```bash
-# SCSS linting (Stylelint)
-pnpm lint-scss
-pnpm lint-scss:fix
-
-# or npm
-npm run lint-scss
-npm run lint-scss:fix
-```
-
-⚠️ `lint:fix` and `lint-scss:fix` may modify code automatically - review changes before committing.
+⚠️ Consider running these commands in a separate branch before merging to main.
 
 ---
 
@@ -89,8 +49,12 @@ npm run lint-scss:fix
 When updating dependencies, always commit together:
 
 - `composer.json` + `composer.lock`
-- `package.json` + `pnpm-lock.yaml` or `package-lock.json`
+- `package.json` + `pnpm-lock.yaml`
 
-Never update dependencies without corresponding test verification.
+Never update dependencies without corresponding validation.
 
 ⚠️ Dependency updates without validation are considered invalid changes.
+
+---
+
+See also: [Ecommerce Maintenance](../apps/ecommerce/docs/MAINTENANCE.md) · [Assistant Maintenance](../apps/assistant/docs/MAINTENANCE.md)

@@ -1,0 +1,71 @@
+# ⚒️ Ecommerce Development
+
+## 📦 App Commands
+
+```bash
+# Full local setup: install dependencies + database + cache + serve
+make setup
+# or manually:
+cd apps/ecommerce
+composer install --no-interaction --prefer-dist --optimize-autoloader
+pnpm install
+# or npm install
+composer db-setup
+
+# Install dependencies and build assets
+make install
+# or manually:
+cd apps/ecommerce
+composer install --no-interaction --prefer-dist --optimize-autoloader
+pnpm install
+# or npm install
+
+# Clear and warmup cache (also flushes Redis if available)
+make cache-clear
+# or manually:
+cd apps/ecommerce
+php bin/console cache:clear
+php bin/console cache:warmup
+
+# Start local development servers (PHP + frontend)
+make serve
+# or manually:
+cd apps/ecommerce
+php -S 127.0.0.1:8000 -t public &
+pnpm dev
+# or npm run dev
+```
+
+---
+
+## 🩺 Health Check
+
+Verify that all services are running correctly:
+
+```
+GET /api/dev/health-check
+```
+
+Example response:
+
+```json
+{
+  "status": "ok",
+  "database": "ok",
+  "cache": "ok",
+  "disk": "ok",
+  "mailer": "ok",
+  "stripe": "ok",
+  "rabbitmq": "ok",
+  "elasticsearch": "ok",
+  "minio": "ok",
+  "mercure": "ok",
+  "wkhtmltopdf": "ok"
+}
+```
+
+> `wkhtmltopdf` returns `"disabled"` if `WKHTMLTOPDF_ENABLED=false` and does not affect the overall `status`.
+
+---
+
+See also: [Platform Development](../../../docs/DEVELOPMENT.md)

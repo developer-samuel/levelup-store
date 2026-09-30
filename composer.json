@@ -15,6 +15,12 @@
     }
   },
   "scripts": {
+    "post-install-cmd": [
+      "@composer install -d apps/ecommerce"
+    ],
+    "post-update-cmd": [
+      "@composer update -d apps/ecommerce"
+    ],
     "count-stats": [
       "Composer\\Config::disableProcessTimeout",
       "php vendor/bin/count-stats"
