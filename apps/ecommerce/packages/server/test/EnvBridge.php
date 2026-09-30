@@ -28,7 +28,9 @@ final class EnvBridge
         }
 
         foreach (self::BOOT_KEYS as $key) {
-            if (false !== ($val = getenv($key))) {
+            $val = getenv($key);
+
+            if (false !== $val) {
                 $_ENV[$key] = $_SERVER[$key] = $val;
             }
         }
@@ -49,7 +51,9 @@ final class EnvBridge
         }
 
         foreach (self::OVERRIDE_KEYS as $key) {
-            if (false !== ($val = getenv($key))) {
+            $val = getenv($key);
+
+            if (false !== $val) {
                 $_ENV[$key] = $_SERVER[$key] = $val;
             }
         }

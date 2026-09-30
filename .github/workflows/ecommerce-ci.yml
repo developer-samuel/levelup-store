@@ -94,7 +94,7 @@ jobs:
         run: pnpm lint
 
       - name: Stylelint
-        run: pnpm lint-scss
+        run: pnpm --filter ecommerce lint-scss
 
   # ─── PHPUnit Tests ────────────────────────────────────────────────────────
   phpunit:
@@ -177,6 +177,19 @@ jobs:
           --health-timeout 5s
           --health-retries 10
 
+      minio:
+        image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd "curl -sf http://localhost:9000/minio/health/live"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     defaults:
       run:
         working-directory: apps/ecommerce
@@ -202,9 +215,19 @@ jobs:
         with:
           rabbitmq-port: '5672'
 
-      - uses: ./.github/actions/minio
-        with:
-          minio-port: '9000'
+      - name: Setup MinIO bucket
+        run: |
+          echo "MINIO_ENABLED=true" >> $GITHUB_ENV
+          echo "MINIO_ROOT_USER=minioadmin" >> $GITHUB_ENV
+          echo "MINIO_ROOT_PASSWORD=minioadmin" >> $GITHUB_ENV
+          echo "MINIO_ENDPOINT=http://127.0.0.1:9000" >> $GITHUB_ENV
+          echo "MINIO_PUBLIC_URL=http://127.0.0.1:9000" >> $GITHUB_ENV
+          echo "MINIO_BUCKET=levelup-store" >> $GITHUB_ENV
+          curl -sSfL https://github.com/minio/mc/releases/download/RELEASE.2025-08-13T08-35-41Z/mc.linux-amd64.RELEASE.2025-08-13T08-35-41Z -o /usr/local/bin/mc
+          chmod +x /usr/local/bin/mc
+          mc alias set ci http://127.0.0.1:9000 minioadmin minioadmin
+          mc mb ci/levelup-store --ignore-existing
+          mc anonymous set download ci/levelup-store
 
       - uses: ./.github/actions/mercure
         with:
@@ -254,7 +277,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Run Vitest
-        run: pnpm vitest
+        run: pnpm --filter ecommerce vitest
 
       - uses: actions/upload-artifact@v7
         if: failure()
