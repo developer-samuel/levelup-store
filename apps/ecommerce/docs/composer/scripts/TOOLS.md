@@ -64,7 +64,7 @@ cd apps/ecommerce
 
 ### php-cs-fixer:fix
 
-- **Command**: `bin/run php scripts/tools/php-cs-fixer/launcher.php`
+- **Command**: `bin/run --root php scripts/tools/php-cs-fixer/launcher.php`
 - **Purpose**: Automatically formats PHP code to comply with defined coding standards.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running formatting tasks.
 
@@ -78,7 +78,7 @@ cd apps/ecommerce
 
 ### rector:fix
 
-- **Command**: `bin/run php vendor/bin/rector process`
+- **Command**: `bin/run --root php vendor/bin/rector process`
 - **Purpose**: Performs automated code refactoring and modernization.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`: for long-running refactoring tasks.
 
@@ -90,8 +90,8 @@ cd apps/ecommerce
 
 ## 🔍 Linting
 
-### lint:twig
+### twig:lint
 
-- **Command**: `bin/run php bin/console lint:twig templates/`
+- **Command**: `bin/run php bin/console twig:lint templates/`
 - **Purpose**: Validates all Twig templates for syntax errors, unknown filters, and unknown functions. Does **not** verify that imported file paths exist.
 - **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
