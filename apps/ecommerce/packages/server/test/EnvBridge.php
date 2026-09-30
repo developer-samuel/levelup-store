@@ -7,7 +7,6 @@ namespace Packages\Test;
 final class EnvBridge
 {
     private const BOOT_KEYS = ['APP_ENV', 'APP_DEBUG'];
-
     private const OVERRIDE_KEYS = [
         'ELASTICSEARCH_ENABLED',
         'ELASTICSEARCH_HOST',

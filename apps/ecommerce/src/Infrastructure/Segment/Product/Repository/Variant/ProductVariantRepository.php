@@ -167,7 +167,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         $qb->select('MAX(v.price - COALESCE(d.price, 0)) AS maxPrice');
 
         $category = $this->normalizeScalar($filter->category);
-        $type     = $this->normalizeScalar($filter->type);
+        $type = $this->normalizeScalar($filter->type);
 
         if ($category !== null) {
             $qb->andWhere("REPLACE(LOWER(c.name), ' ', '-') = :category")->setParameter('category', $category);
