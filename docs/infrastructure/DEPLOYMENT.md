@@ -7,7 +7,7 @@ This guide covers the full deployment from scratch (new VM) and day-to-day opera
 ## Prerequisites
 
 - All tools installed (`make -C infrastructure check-deps`)
-- `.env` and `.env.production` filled in (see [SECRETS.md](SECRETS.md))
+- `.env.production` filled in (see [SECRETS.md](SECRETS.md))
 - OCI API key at `~/.oci/oci_api_key.pem`
 - SSH key at `~/.ssh/id_ed25519`
 

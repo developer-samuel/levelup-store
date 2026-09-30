@@ -146,13 +146,13 @@ ecommerce-secrets:
 ## Set production secrets for levelup-store-assistant app via ArgoCD
 assistant-secrets:
 	$(call require,APP_DOMAIN)
-	$(call require,OPENAI_API_KEY)
+	$(call require,AI_ASSISTANT_API_KEY)
 	$(call require,REDIS_URL)
 	$(call require,RABBITMQ_URL)
 	$(call require,ASSISTANT_GHCR_IMAGE)
 	$(call argocd_login)
 	argocd app set levelup-store-assistant $(ARGOCD_FLAGS) \
-		-p app.openaiApiKey="$(OPENAI_API_KEY)" \
+		-p app.aiAssistantApiKey="$(AI_ASSISTANT_API_KEY)" \
 		-p app.redisUrl="$(REDIS_URL)" \
 		-p broker.rabbitmqUrl="$(RABBITMQ_URL)" \
 		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \

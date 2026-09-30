@@ -48,39 +48,20 @@ These values go into `.env` as `TF_VAR_fingerprint` and `TF_VAR_private_key_path
 
 ---
 
-## Environment files
+## Environment file
 
-The infrastructure uses two env files loaded automatically by the Makefile:
+The Makefile loads `.env.production` from the repo root.
 
-### `.env` (repo root)
-
-Single file for both the app and infrastructure. Copy from the example:
+Generate it with:
 
 ```bash
-cp .env.example .env
+composer env:generate
 ```
 
-Contains all variables - app secrets, database credentials, OCI credentials, Terraform variables.
+This copies `.env.production.example` → `.env.production` and auto-generates empty secrets.
+Fill in the remaining values before running any `make` command.
+
 See [SECRETS.md](SECRETS.md) for a full breakdown of every variable.
-
-### `.env.production` (repo root)
-
-**Optional override file** - only contains variables that differ in production from `.env`.
-Typically: public URLs, domain names, OCI-specific hostnames.
-
-The Makefile loads `.env` first, then `.env.production` on top.
-Any variable defined in `.env.production` overrides the same variable from `.env`.
-
-```bash
-# .env has:
-APP_DOMAIN=127.0.0.1:8000
-
-# .env.production overrides it with:
-APP_DOMAIN=yourdomain.com
-```
-
-You do not need `.env.production` locally - only needed when running `make ecommerce-secrets`, `make assistant-secrets` or other
-production commands to ensure the correct production values are used.
 
 ---
 

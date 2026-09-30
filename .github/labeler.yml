@@ -47,7 +47,6 @@ tests:
   - changed-files:
       - any-glob-to-any-file:
           - 'tests/**'
-          - 'assets/tests/**'
           - 'phpunit.xml.dist'
           - 'playwright.config.ts'
 

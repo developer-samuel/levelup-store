@@ -1,16 +1,21 @@
 # Environment Variables & Secrets
 
-The project uses a single `.env` file (repo root) for everything - app config, infrastructure,
-Terraform variables, and Ansible. Production values override via `.env.production`.
+The project uses `.env.production` (repo root) for all infrastructure and deploy config.
 
-**Never commit `.env` or `.env.production` - both are gitignored.**
+Generate it with:
+
+```bash
+bin/run --root php scripts/env-generate/launcher.php
+```
+
+**Never commit `.env.production` - it is gitignored.**
 
 ---
 
 ## How secrets flow to production
 
 ```
-.env + .env.production
+.env.production
        │
        ▼
 make -C infrastructure ecommerce-secrets   # or assistant-secrets
@@ -30,7 +35,7 @@ The `sealedSecrets.enabled=false` flag disables the alternative path.
 ## make ecommerce-secrets - required variables
 
 `make -C infrastructure ecommerce-secrets` sets all ecommerce app-level secrets via ArgoCD.
-Every variable listed below must be set in `.env` (or `.env.production`) before running it.
+Every variable listed below must be set in `.env.production` before running it.
 
 ### App
 
@@ -145,7 +150,7 @@ Every variable listed below must be set in `.env` (or `.env.production`) before 
 ## make assistant-secrets - required variables
 
 `make -C infrastructure assistant-secrets` sets all assistant app-level secrets via ArgoCD.
-Every variable listed below must be set in `.env` (or `.env.production`) before running it.
+Every variable listed below must be set in `.env.production` before running it.
 
 ```bash
 make -C infrastructure assistant-secrets
@@ -153,13 +158,13 @@ make -C infrastructure assistant-secrets
 
 ### App
 
-| Variable               | Description                                      | Example                                             |
-|------------------------|--------------------------------------------------|-----------------------------------------------------|
-| `APP_DOMAIN`           | Public domain (no protocol)                      | `yourdomain.com`                                    |
-| `ASSISTANT_GHCR_IMAGE` | Full GHCR image path for the assistant container | `ghcr.io/your-username/levelup-store/assistant`     |
-| `OPENAI_API_KEY`       | OpenAI API key                                   | `sk-...`                                            |
-| `REDIS_URL`            | Full Redis DSN                                   | `redis://:password@levelup-store-redis-master:6379` |
-| `RABBITMQ_URL`         | Full AMQP DSN                                    | `amqp://user:pass@levelup-store-rabbitmq:5672//`    |
+| Variable                | Description                                      | Example                                             |
+|-------------------------|--------------------------------------------------|-----------------------------------------------------|
+| `APP_DOMAIN`            | Public domain (no protocol)                      | `yourdomain.com`                                    |
+| `ASSISTANT_GHCR_IMAGE`  | Full GHCR image path for the assistant container | `ghcr.io/your-username/levelup-store/assistant`     |
+| `AI_ASSISTANT_API_KEY ` | OpenAI API key                                   | `sk-...`                                            |
+| `REDIS_URL`             | Full Redis DSN                                   | `redis://:password@levelup-store-redis-master:6379` |
+| `RABBITMQ_URL`          | Full AMQP DSN                                    | `amqp://user:pass@levelup-store-rabbitmq:5672//`    |
 
 > `ingress.host` is derived automatically as `assistant.<APP_DOMAIN>`.
 
@@ -294,34 +299,3 @@ All `TF_VAR_*` variables are loaded from `.env` automatically by Makefile.
 | `TF_VAR_cloudflare_zone_id`   | Cloudflare zone ID                                     |
 | `TF_VAR_velero_bucket`        | OCI bucket name for Velero backups                     |
 
----
-
-## .env vs .env.production - what goes where
-
-`.env` holds dev defaults and is the source of truth for local development.
-`.env.production` only contains values that differ in production. Keep it minimal.
-
-Typical `.env.production` content:
-
-```bash
-APP_ENV=prod
-APP_DEBUG=0
-APP_DOMAIN=yourdomain.com
-APP_URL=https://yourdomain.com
-CORS_ALLOW_ORIGIN=https://yourdomain.com
-
-# K8s internal service hostnames (not available locally)
-DB_HOST=levelup-store-postgresql
-REDIS_HOST=levelup-store-redis-master
-RABBITMQ_HOST=levelup-store-rabbitmq
-ELASTICSEARCH_HOST=levelup-store-elasticsearch
-
-# Rebuilt DSNs with production hostnames
-DATABASE_URL=pgsql://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_DATABASE}?serverVersion=${SERVER_VERSION}
-REDIS_URL=redis://:${REDIS_PASSWORD}@${REDIS_HOST}:6379
-MESSENGER_TRANSPORT_DSN=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@${RABBITMQ_HOST}:5672//
-
-MERCURE_PUBLIC_URL=https://yourdomain.com/.well-known/mercure
-MERCURE_CORS_ORIGINS=https://yourdomain.com
-MINIO_PUBLIC_URL=https://storage.yourdomain.com
-```

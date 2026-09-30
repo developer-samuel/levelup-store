@@ -22,4 +22,4 @@ cd apps/ecommerce
 ### prettier:all:fix
 
 - **Command**: `pnpm prettier:all:fix`
-- **Purpose**: Runs Prettier on both `assets/ts/` and `assets/tests/` and rewrites all files to comply with formatting rules.
+- **Purpose**: Runs Prettier on both `assets/ts/` and `tests/` and rewrites all files to comply with formatting rules.
