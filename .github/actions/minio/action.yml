@@ -59,8 +59,4 @@ runs:
           sleep 2
         done
         echo "MinIO is ready."
-        /tmp/moto-venv/bin/pip install --quiet awscli
-        /tmp/moto-venv/bin/aws --endpoint-url http://127.0.0.1:${{ inputs.minio-port }} \
-          --region us-east-1 \
-          s3 mb s3://${{ inputs.minio-bucket }} 2>/dev/null || true
-        echo "Bucket '${{ inputs.minio-bucket }}' ready."
+        /tmp/moto-venv/bin/python3 -c "import boto3; s3=boto3.client('s3',endpoint_url='http://127.0.0.1:${{ inputs.minio-port }}',aws_access_key_id='${{ inputs.minio-user }}',aws_secret_access_key='${{ inputs.minio-password }}',region_name='us-east-1'); s3.create_bucket(Bucket='${{ inputs.minio-bucket }}'); print('Bucket ${{ inputs.minio-bucket }} ready.')"
