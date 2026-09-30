@@ -54,7 +54,7 @@ async def health() -> JSONResponse:
         asyncio.to_thread(_check_chromadb),
         asyncio.to_thread(_check_postgres),
     )
-    
+
     checks = {"ollama": ollama, "redis": redis, "chromadb": chromadb, "postgres": postgres}
     all_healthy = all(checks.values())
 

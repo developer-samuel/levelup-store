@@ -94,6 +94,9 @@ jobs:
 
       minio:
         image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+        credentials:
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
         env:
           MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
@@ -122,19 +125,9 @@ jobs:
         with:
           rabbitmq-port: '5672'
 
-      - name: Setup MinIO bucket
-        run: |
-          echo "MINIO_ENABLED=true" >> $GITHUB_ENV
-          echo "MINIO_ROOT_USER=minioadmin" >> $GITHUB_ENV
-          echo "MINIO_ROOT_PASSWORD=minioadmin" >> $GITHUB_ENV
-          echo "MINIO_ENDPOINT=http://127.0.0.1:9000" >> $GITHUB_ENV
-          echo "MINIO_PUBLIC_URL=http://127.0.0.1:9000" >> $GITHUB_ENV
-          echo "MINIO_BUCKET=levelup-store" >> $GITHUB_ENV
-          curl -sSfL https://github.com/minio/mc/releases/download/RELEASE.2025-08-13T08-35-41Z/mc.linux-amd64.RELEASE.2025-08-13T08-35-41Z -o /usr/local/bin/mc
-          chmod +x /usr/local/bin/mc
-          mc alias set ci http://127.0.0.1:9000 minioadmin minioadmin
-          mc mb ci/levelup-store --ignore-existing
-          mc anonymous set download ci/levelup-store
+      - uses: ./.github/actions/minio
+        with:
+          minio-port: '9000'
 
       - uses: ./.github/actions/elasticsearch
         with:

@@ -82,7 +82,7 @@ _TOP_REVIEWED_QUERY = """
 
 def fetch_available_products() -> list[tuple[object, ...]]:
     """Return product variants that are available, have stock and an active EAN."""
-    
+
     conn = psycopg2.connect(settings.database_url)
 
     try:
