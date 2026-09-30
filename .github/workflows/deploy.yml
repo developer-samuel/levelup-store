@@ -36,10 +36,13 @@ jobs:
           filters: |
             ecommerce:
               - 'apps/ecommerce/**'
+              - '!apps/ecommerce/docs/**'
+              - '!apps/ecommerce/scripts/**'
+              - '!apps/ecommerce/tests/**'
               - 'docker-compose*.yml'
-              - '.env.example'
             assistant:
               - 'apps/assistant/**'
+              - '!apps/assistant/docs/**'
 
   # ─── Ecommerce: Build & Push ──────────────────────────────────────────────
   build-ecommerce:
