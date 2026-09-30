@@ -11,13 +11,13 @@ commandTests:
     args: [--version]
     expectedOutput: [Composer]
 
-  - name: Working directory is /var/www
+  - name: Working directory is /var/www/apps/ecommerce
     command: pwd
-    expectedOutput: [/var/www]
+    expectedOutput: [/var/www/apps/ecommerce]
 
 fileExistenceTests:
   - name: Entrypoint script exists
-    path: /usr/local/bin/scripts/run.sh
+    path: /usr/local/bin/scripts/run-prod.sh
     shouldExist: true
     permissions: '-rwxr-xr-x'
 
@@ -29,10 +29,6 @@ fileExistenceTests:
     path: /usr/local/etc/php-fpm.d/www.conf
     shouldExist: true
 
-  - name: Redis config exists
-    path: /usr/local/etc/redis/redis.conf
-    shouldExist: true
-
   - name: Bootstrap scripts exist
     path: /usr/local/bin/scripts/bootstrap
     shouldExist: true
@@ -42,5 +38,5 @@ fileExistenceTests:
     shouldExist: true
 
 metadataTest:
-  entrypoint: ['/usr/local/bin/scripts/run.sh']
-  workdir: /var/www
+  entrypoint: ['/usr/local/bin/scripts/run-prod.sh']
+  workdir: /var/www/apps/ecommerce

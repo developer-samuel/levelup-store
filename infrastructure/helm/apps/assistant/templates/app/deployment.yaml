@@ -19,7 +19,9 @@ spec:
         {{- include "levelup-store-assistant.selectorLabels" . | nindent 8 }}
     spec:
       securityContext:
-        {{- toYaml .Values.app.securityContext | nindent 8 }}
+        runAsNonRoot: {{ .Values.app.securityContext.runAsNonRoot }}
+        runAsUser: {{ .Values.app.securityContext.runAsUser }}
+        runAsGroup: {{ .Values.app.securityContext.runAsGroup }}
       containers:
         - name: assistant
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"

@@ -63,6 +63,7 @@ RUN chmod +x /usr/local/bin/scripts/install/*.sh \
     && chmod +x /usr/local/bin/scripts/install/tasks/*.sh \
     && /usr/local/bin/scripts/install/dependencies.sh \
     && apt-get update \
+    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends nginx \
     && rm -rf /var/lib/apt/lists/*
 

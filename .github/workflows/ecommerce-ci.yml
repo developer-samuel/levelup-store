@@ -177,19 +177,6 @@ jobs:
           --health-timeout 5s
           --health-retries 10
 
-      minio:
-        image: bitnami/minio:latest
-        env:
-          MINIO_ROOT_USER: minioadmin
-          MINIO_ROOT_PASSWORD: minioadmin
-        ports:
-          - 9000:9000
-        options: >-
-          --health-cmd "curl -sf http://localhost:9000/minio/health/live"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     defaults:
       run:
         working-directory: apps/ecommerce
@@ -246,7 +233,8 @@ jobs:
 
       - name: Show test log on failure
         if: failure()
-        run: cat var/log/test.log 2>/dev/null || echo "No test log found"
+        working-directory: ${{ github.workspace }}
+        run: cat apps/ecommerce/var/log/test.log 2>/dev/null || echo "No test log found"
 
       - uses: actions/upload-artifact@v7
         if: failure()
