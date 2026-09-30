@@ -84,7 +84,7 @@ jobs:
           load: true
           tags: levelup-store-ecommerce:test
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,ignore-error=true
 
       - name: Install container-structure-test
         run: |
@@ -121,7 +121,7 @@ jobs:
           load: true
           tags: levelup-store-ecommerce:pr
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,ignore-error=true
 
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
@@ -133,7 +133,7 @@ jobs:
           exit-code: 0
 
       - name: Upload SARIF to GitHub Security tab
-        if: always()
+        if: always() && hashFiles('trivy-image.sarif') != ''
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: trivy-image.sarif
