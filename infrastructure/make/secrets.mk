@@ -40,7 +40,7 @@ services-secrets:
 		--from-literal=publisher-jwt-key="$(MERCURE_JWT_SECRET)" \
 		--from-literal=subscriber-jwt-key="$(MERCURE_JWT_SECRET)" \
 		--from-literal=mercure-cors-allowed-origins="$(CORS_ALLOW_ORIGIN)" \
-		--from-literal=extra-directives="anonymous"$'\n'"cors_origins $(CORS_ALLOW_ORIGIN)" \
+		--from-literal=extra-directives="$$(printf 'anonymous\ncors_origins $(CORS_ALLOW_ORIGIN)')" \
 		--from-literal=caddy-extra-config="" \
 		--from-literal=caddy-extra-directives="" \
 		--from-literal=license="" \
@@ -49,8 +49,7 @@ services-secrets:
 	argocd app set rabbitmq $(ARGOCD_FLAGS) \
 		-p rabbitmq.auth.username="$(RABBITMQ_USER)"
 	argocd app set minio $(ARGOCD_FLAGS) \
-		-p minio.ingress.hostname="minio.$(APP_DOMAIN)" \
-		-p "minio.ingress.extraTls[0].hosts[0]=minio.$(APP_DOMAIN)"
+		-p minio.ingress.hostname="minio.$(APP_DOMAIN)"
 	@echo "✓ K8s secrets created and service domains set."
 
 ## Create JWT keypair secret from local config/jwt/*.pem files (run once after keygen)
