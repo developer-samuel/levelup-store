@@ -3,28 +3,22 @@
 This file serves as the central index for all frontend script documentation in this project.  
 Each link below points to a dedicated file with detailed descriptions, commands, and purpose.
 
+Scripts run across **both apps** (ecommerce + assistant) in one command.
+
 ---
 
 ### 🏗️ Build Scripts
-- Vite development server, production build, and watch mode.
+- Vite development server and production build for both apps.
 - See: [BUILD.md](scripts/BUILD.md)
 
 ### 🔎 TypeCheck Scripts
-- TypeScript type-checking for source and test files.
+- TypeScript type-checking for source and test files across both apps.
 - See: [TYPECHECK.md](scripts/TYPECHECK.md)
 
 ### 🔍 Lint Scripts
-- ESLint for TypeScript and Stylelint for SCSS - check and auto-fix.
+- ESLint for TypeScript - check and auto-fix across both apps.
 - See: [LINT.md](scripts/LINT.md)
 
 ### 🎨 Format Scripts
-- Prettier formatting for source and test files.
+- Prettier formatting for source and test files across both apps.
 - See: [FORMAT.md](scripts/FORMAT.md)
-
-### 🧪 Test Scripts
-- Vitest unit tests with coverage - run once, watch mode, or interactive UI.
-- See: [TESTS.md](scripts/TESTS.md)
-
-### 🎭 E2E Scripts
-- Playwright end-to-end tests - full run, fast run, UI, debug, and report.
-- See: [E2E.md](scripts/E2E.md)

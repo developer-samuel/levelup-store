@@ -1,0 +1,43 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🟪 Application - PHP App + Setup
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  ecommerce_app:
+    extends:
+      file: ${PWD}/apps/ecommerce/docker/compose/base.yml
+      service: app-base
+    container_name: levelup_store_ecommerce_app
+    command: []
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      ecommerce_elasticsearch:
+        condition: service_healthy
+      ecommerce_redis:
+        condition: service_healthy
+      ecommerce_rabbitmq:
+        condition: service_healthy
+      ecommerce_mercure:
+        condition: service_healthy
+
+  ecommerce_app_setup:
+    extends:
+      file: ${PWD}/apps/ecommerce/docker/compose/base.yml
+      service: app-base
+    container_name: levelup_store_ecommerce_app_setup
+    profiles: ['setup']
+    command: ['setup']
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      ecommerce_elasticsearch:
+        condition: service_healthy
+      ecommerce_redis:
+        condition: service_healthy
+      ecommerce_rabbitmq:
+        condition: service_healthy
+      ecommerce_minio:
+        condition: service_healthy
+      ecommerce_mercure:
+        condition: service_healthy

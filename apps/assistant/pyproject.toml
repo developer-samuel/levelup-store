@@ -1,0 +1,55 @@
+# ── Dependencies ───────────────────────────────────────────────────────────────
+
+[project]
+name = "levelup-store-assistant"
+version = "0.1.0"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "fastapi==0.115.5",
+    "uvicorn[standard]==0.32.1",
+    "ollama==0.4.4",
+    "pydantic-settings==2.6.1",
+    "chromadb==1.5.9",
+    "numpy==2.2.1",
+    "psycopg2-binary==2.9.10",
+    "slowapi==0.1.9",
+    "redis==5.2.1",
+    "aio-pika==9.5.5",
+    "httpx>=0.27.0,<0.28.0",
+    "sentry-sdk[fastapi]==2.19.2",
+]
+
+[dependency-groups]
+dev = [
+    "ruff==0.8.6",
+    "mypy==1.14.0",
+    "vulture==2.14",
+    "types-psycopg2==2.9.21.20250516",
+]
+
+# ── Quality tools ──────────────────────────────────────────────────────────────
+
+[tool.ruff]
+target-version = "py312"   # minimum Python version to target
+line-length = 100          # max line length
+cache-dir = "/tmp/.ruff_cache"
+
+[tool.ruff.lint]
+select = [
+    "E",   # PEP 8 style errors (indentation, whitespace, ...)
+    "F",   # Pyflakes (unused imports, undefined variables, ...)
+    "I",   # isort (import ordering)
+    "UP",  # pyupgrade (use modern Python syntax)
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true  # enforce type annotations on all functions
+plugins = ["pydantic.mypy"]
+cache_dir = "/tmp/.mypy_cache"
+
+[tool.vulture]
+min_confidence = 80
+paths = ["app/"]
+ignore_decorators = ["@router.get", "@router.post", "@router.put", "@router.delete", "@app.get", "@app.post"]
+ignore_names = ["request"]

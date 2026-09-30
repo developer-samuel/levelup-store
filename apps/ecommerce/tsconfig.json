@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@/*": ["./assets/*"]
+    },
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": [
+    "assets/ts/**/*.ts",
+    "packages/vite/**/*.ts",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "assets/vendor",
+    "node_modules",
+    "vendor"
+  ],
+  "references": [
+    { "path": "./tsconfig.test.json" }
+  ]
+}

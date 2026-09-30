@@ -1,9 +1,0 @@
-{% macro render() %}
-    {% block stylesheets %}
-        {% if block('stylesheets') is defined %}
-            {{ vite_entry_link_tags('styles') }}
-        {% else %}
-            <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
-        {% endif %}
-    {% endblock %}
-{% endmacro %}

@@ -1,0 +1,46 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/effects/shadow' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
+.admin-sidebar {
+  @include flex;
+  @include size(300px, calc(100vh - 55px));
+  @include shadow(right, 1);
+
+  position: fixed;
+  top: 55px;
+  background: colors.$secondary;
+  z-index: z.$footer;
+
+  &__content {
+    width: 100%;
+  }
+
+  &__list {
+    @include flex-col;
+
+    &-item {
+      @include transition;
+
+      background: transparent;
+      padding: 0 0.5em;
+
+      a {
+        @include flex-center-x;
+        @include weights(700);
+
+        color: colors.$primary;
+        font-size: 20px;
+        padding: 0.75em 0;
+      }
+
+      &:hover {
+        background: colors.$secondary-hover;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{% macro render() %}
+    {% block stylesheets %}
+        {{ vite_entry_link_tags('styles') }}
+
+        {% if showAssistant is defined and showAssistant and ai_assistant_enabled is defined and ai_assistant_enabled %}
+            <link rel="stylesheet" href="/dist/assistant/chat.css">
+        {% endif %}
+    {% endblock %}
+{% endmacro %}

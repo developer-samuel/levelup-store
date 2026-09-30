@@ -1,0 +1,123 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/accessibility/user-select' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+.search {
+  &__list {
+    @include flex-col;
+
+    position: relative;
+    width: 100%;
+    gap: 1.5em;
+    padding-bottom: 2.5em;
+
+    &-item {
+      @include flex-col;
+
+      position: relative;
+      background: colors.$primary;
+      border-radius: 1.5em;
+      border: 1px solid colors.$border-primary;
+      overflow: hidden;
+    }
+
+    &-image {
+      @include flex-center;
+      @include size(100%, auto);
+
+      position: relative;
+      padding: 1em 0;
+
+      img {
+        @include size(auto, 100%);
+        @include size(125px, 125px, 'max');
+
+        position: relative;
+      }
+    }
+
+    &-name {
+      position: relative;
+      padding: 0.5em;
+
+      p {
+        @include weights(600);
+
+        color: colors.$neutral;
+        font-size: 20px;
+        text-align: center;
+      }
+    }
+
+    &-price {
+      @include flex-col-center;
+
+      position: relative;
+      height: auto;
+      gap: 0.25em;
+      background: colors.$secondary;
+      color: colors.$primary;
+      margin-top: 1em;
+      padding: 0.5em 0;
+
+      &-current {
+        @include weights(700);
+
+        font-size: 20px;
+      }
+
+      &-old {
+        @include weights(600);
+
+        font-size: 14px;
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  &__content {
+    @include flex-col;
+    @include size(100%, calc(100% - 125px));
+
+    position: relative;
+    gap: 1.25em;
+    overflow-y: auto;
+  }
+
+  &__card {
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+    overflow-y: auto;
+
+    &-title {
+      @include weights(700);
+
+      position: relative;
+      font-size: 24px;
+      color: colors.$neutral;
+      text-align: center;
+      padding: 1em 0;
+    }
+
+    .no-results {
+      @include flex-center-x;
+      @include size;
+      @include user-select;
+
+      position: relative;
+
+      p {
+        @include weights(700);
+
+        position: relative;
+        font-size: 32px;
+        color: colors.$neutral;
+        text-align: center;
+        margin-top: 5em;
+      }
+    }
+  }
+}

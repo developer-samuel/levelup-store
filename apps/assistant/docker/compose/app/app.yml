@@ -1,0 +1,44 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🤖 Assistant - FastAPI + Ollama RAG
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  assistant_app:
+    build:
+      context: ${PWD}/apps/assistant
+      dockerfile: docker/Dockerfile
+    container_name: levelup_store_assistant_app
+    restart: unless-stopped
+    env_file:
+      - ${PWD}/apps/assistant/.env
+    ports:
+      - '8001:8001'
+    volumes: []
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      assistant_chromadb:
+        condition: service_healthy
+      ecommerce_redis:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  assistant_app_setup:
+    build:
+      context: ${PWD}/apps/assistant
+      dockerfile: docker/Dockerfile
+    container_name: levelup_store_assistant_app_setup
+    profiles: ['setup']
+    command: ['python', '-m', 'jobs.ingest']
+    env_file:
+      - ${PWD}/apps/assistant/.env
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      assistant_chromadb:
+        condition: service_healthy
+      ecommerce_app_setup:
+        condition: service_completed_successfully
+    networks:
+      - app-network

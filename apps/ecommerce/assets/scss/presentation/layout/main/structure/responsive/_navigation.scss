@@ -1,0 +1,29 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+@include resolution(lg, min) {
+  .navigation {
+    @include flex;
+  }
+}
+
+@include resolution(md, max) {
+  .navigation__mobile {
+    top: 93px;
+
+    &-wrapper {
+      height: 30px;
+    }
+
+    &-item {
+      &-image {
+        height: 26px;
+      }
+
+      &-name {
+        font-size: 18px;
+      }
+    }
+  }
+}

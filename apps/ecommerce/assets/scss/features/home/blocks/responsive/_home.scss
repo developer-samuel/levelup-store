@@ -1,0 +1,149 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+@include resolution(md, min) {
+  @include resolution(xl, max) {
+    .home-page {
+      &__category-card {
+        flex: 0 0 calc((100% - 2 * 1em) / 3);
+      }
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .home-page {
+    &__category-card {
+      flex: 0 0 100%;
+    }
+  }
+}
+
+@include resolution(md, min) {
+  .home-page {
+    &__banners {
+      gap: 2.5em;
+    }
+
+    &__discount-item img {
+      border-radius: 1.5em;
+    }
+
+    &__swiper {
+      gap: 2.5em;
+
+      &-title {
+        font-size: 28px;
+      }
+    }
+
+    &__categories-title {
+      font-size: 28px;
+    }
+
+    &__category-card {
+      &-header {
+        gap: 0.75em;
+        padding: 2em 1.25em 1.5em;
+      }
+
+      &-icon {
+        @include size(56px, 56px);
+
+        img {
+          @include size(40px, 40px);
+        }
+      }
+
+      &-name {
+        font-size: 15px;
+      }
+
+      &-types {
+        padding: 1.125em 1em;
+        gap: 0.4em;
+      }
+    }
+
+    &__category-type {
+      font-size: 12.5px;
+      padding: 0.275em 0.75em;
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .home-page {
+    &__banners {
+      gap: 2em;
+    }
+
+    &__discount-item img {
+      border-radius: 1em;
+    }
+
+    &__swiper {
+      gap: 2em;
+    }
+  }
+}
+
+@include resolution(sm, min) {
+  @include resolution(xxl, max) {
+    .home-page {
+      padding: 1.5em 1.5em 8em;
+    }
+  }
+}
+
+@include resolution(sm, max) {
+  .home-page {
+    padding: 1em 1em 6em;
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(md, max) {
+    .home-page {
+      &__banners {
+        gap: 2em;
+      }
+
+      &__category-card {
+        &-header {
+          padding: 1.5em 1em;
+        }
+      }
+
+      &__category-type {
+        font-size: 12.5px;
+      }
+
+      &__category-card-icon {
+        @include size(48px, 48px);
+
+        img {
+          @include size(32px, 32px);
+        }
+      }
+    }
+  }
+}
+
+
+@include resolution(xs, max) {
+  .home-page {
+    &__banners {
+      gap: 1.25em;
+    }
+
+    &__swiper-title,
+    &__categories-title {
+      font-size: 20px;
+    }
+
+    &__category-type {
+      font-size: 11px;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# ⏱️ Assistant Cron - re-ingests products into ChromaDB every 15 minutes
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  assistant_cron:
+    build:
+      context: ${PWD}/apps/assistant
+      dockerfile: docker/Dockerfile
+    container_name: levelup_store_assistant_cron
+    restart: unless-stopped
+    command: ['python', '-m', 'jobs.scheduler']
+    env_file:
+      - ${PWD}/apps/assistant/.env
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      assistant_chromadb:
+        condition: service_healthy
+    networks:
+      - app-network

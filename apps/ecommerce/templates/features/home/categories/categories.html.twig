@@ -1,0 +1,40 @@
+{% macro render(categories) %}
+    {% if categories|length > 0 %}
+        <section class="home-page__categories">
+            <h2 class="home-page__categories-title">Browse by Category</h2>
+
+            <div class="home-page__categories-grid">
+                {% for category in categories %}
+                    {% set categorySlug = category.name|lower|replace({' ': '-'}) %}
+
+                    <div class="home-page__category-card">
+                        <a
+                            href="{{ path('products_index', { 'category': categorySlug }) }}"
+                            class="home-page__category-card-header"
+                        >
+                            <div class="home-page__category-card-icon">
+                                <img
+                                    src="{{ asset(category.image) }}"
+                                    alt="{{ category.name }}"
+                                    loading="lazy"
+                                >
+                            </div>
+                            <h3 class="home-page__category-card-name">{{ category.name }}</h3>
+                        </a>
+
+                        <ul class="home-page__category-card-types">
+                            {% for type in category.types %}
+                                <li>
+                                    <a
+                                        href="{{ path('products_index', { 'category': categorySlug, 'type': type.name|lower|replace({' ': '-'}) }) }}"
+                                        class="home-page__category-type"
+                                    >{{ type.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endmacro %}

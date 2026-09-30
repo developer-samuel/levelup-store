@@ -1,0 +1,428 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/accessibility/appearance' as *;
+@use '@/scss/abstracts/mixins/colors/rgba' as *;
+@use '@/scss/abstracts/mixins/effects/backdrop-filter' as *;
+@use '@/scss/abstracts/mixins/effects/shadow' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
+.products {
+  @include flex;
+
+  position: relative;
+  width: 100%;
+
+  &__filter {
+    @include shadow(right, 1);
+
+    color: colors.$neutral;
+    background: colors.$primary;
+    padding-bottom: 2.5em;
+    overflow-y: auto;
+    z-index: 10;
+
+    &-backdrop {
+      @include rgba('neutral', 20);
+      @include backdrop-filter(4);
+      @include transition('ease-in-out', 300, opacity);
+
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100dvh;
+      z-index: z.$cart-backdrop;
+      opacity: 0;
+      pointer-events: none;
+
+      &--active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    &-mobile {
+      @include size(100%, 32.5px);
+      @include shadow(bottom, 1);
+      @include transition('ease-in-out', 300);
+
+      position: fixed;
+      background: colors.$white;
+      z-index: 150;
+
+      &--header-hidden {
+        top: 35px !important;
+      }
+
+      &-icon {
+        @include size(20px, 20px);
+
+        position: relative;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        cursor: pointer;
+      }
+
+      &-sort {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        height: 100%;
+      }
+    }
+
+    &-header {
+      @include flex-end-center;
+
+      position: relative;
+      width: 100%;
+      padding: 0.75em;
+    }
+
+    &-close {
+      @include size(16px, 16px);
+
+      position: relative;
+      cursor: pointer;
+
+      img {
+        @include size;
+
+        position: relative;
+      }
+    }
+
+    &-content {
+      @include flex-col;
+
+      position: relative;
+      gap: 1em;
+    }
+
+    &-reset {
+      padding: 1em;
+
+      &-btn {
+        @include transition('linear');
+        @include weights(700);
+
+        width: 100%;
+        background: colors.$neutral;
+        color: colors.$primary;
+        border: 0;
+        border-radius: 1.5em;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &:hover {
+          background: colors.$neutral-hover;
+        }
+      }
+    }
+
+    &-menu-item {
+      @include flex-col;
+
+      position: relative;
+      border-top: 1px solid colors.$border-primary;
+      padding: 0 1em;
+
+      &:first-child {
+        border-top: 0;
+      }
+    }
+
+    &-title {
+      @include weights(700);
+
+      position: relative;
+      text-align: center;
+      padding: 0.75em 0.5em;
+    }
+
+    &-list {
+      @include flex-col;
+
+      position: relative;
+      gap: 0.5em;
+
+      &-item {
+        @include transition('linear');
+        @include weights(700);
+
+        text-align: center;
+        background: transparent;
+        background: colors.$primary;
+        border: 1px solid colors.$border-primary;
+        border-radius: 1.5em;
+        color: colors.$neutral;
+        padding: 0.5em 1em;
+        cursor: pointer;
+
+        &:not(&--active):hover {
+          @include rgba('secondary', 15);
+        }
+
+        &--active {
+          background: colors.$secondary;
+          border: 2px solid colors.$secondary;
+          color: colors.$primary;
+
+          &:hover {
+            background: colors.$secondary-hover;
+            border: 2px solid colors.$secondary-hover;
+          }
+        }
+      }
+    }
+
+    &-checkbox-list {
+      @include flex-col;
+
+      position: relative;
+      max-height: 260px;
+      gap: 0.5em;
+      overflow: hidden auto;
+
+      &-item {
+        @include flex-center-y;
+
+        position: relative;
+        gap: 0.5em;
+        width: 100%;
+        padding: 0 0.5em;
+      }
+
+      &-input,
+      &-label {
+        cursor: pointer;
+      }
+
+      &-label {
+        position: relative;
+        width: auto;
+      }
+    }
+
+    &-no-results {
+      position: relative;
+      width: 100%;
+      justify-content: center;
+
+      p {
+        @include weights(600);
+
+        position: relative;
+        text-align: center;
+      }
+    }
+
+    &-range-slider {
+      @include flex-col;
+
+      position: relative;
+      gap: 0.5em;
+
+      &::before {
+        @include size(100%, 8px);
+
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 1px solid colors.$border-primary;
+        border-radius: 5px;
+        z-index: 0;
+      }
+
+      input[type='range'] {
+        @include appearance;
+
+        position: absolute;
+        top: -5px;
+        width: 100%;
+        background: none;
+        box-shadow: none;
+        pointer-events: none;
+        z-index: 10;
+
+        &::-webkit-slider-thumb {
+          border-radius: 50%;
+          cursor: pointer;
+          pointer-events: auto;
+        }
+
+        &::-moz-range-thumb {
+          position: relative;
+          border-radius: 50%;
+          cursor: pointer;
+          pointer-events: auto;
+        }
+      }
+    }
+
+    &-price-output {
+      @include flex-between-x;
+      @include weights(700);
+
+      position: relative;
+      text-align: center;
+      width: 100%;
+      margin-top: 1.25em;
+    }
+  }
+
+  &__card {
+    background: colors.$surface;
+
+    &-options {
+      @include flex-between-center;
+      @include transition('ease-in-out', 300);
+
+      position: sticky;
+      height: 40px;
+      background: colors.$white;
+      border-bottom: 1px solid colors.$border-primary;
+      overflow: hidden;
+      z-index: 150;
+
+      &--header-hidden {
+        top: 0 !important;
+      }
+
+      &-list {
+        @include flex-center-y;
+
+        gap: 0.75em;
+        padding: 0 1em;
+      }
+
+      &-item {
+        @include flex-center-y;
+
+        gap: 0.75em;
+
+        &:not([style*='--active']):hover {
+          color: colors.$secondary;
+        }
+
+        &--active {
+          @include weights(700);
+
+          color: colors.$neutral;
+        }
+
+        a {
+          @include transition('linear');
+          @include weights(600);
+        }
+
+        img {
+          position: relative;
+          filter: brightness(0) saturate(100%) invert(58%) sepia(0%) saturate(0%) hue-rotate(184deg) brightness(89%) contrast(88%);
+        }
+      }
+    }
+
+    &-sort {
+      position: relative;
+
+      &-select-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+
+        &::after {
+          @include size(12px, 12px);
+
+          content: '';
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%) rotate(90deg);
+          background: url('/public/img/icons/elements/arrow.png') no-repeat center center;
+          background-size: contain;
+          pointer-events: none;
+        }
+      }
+
+      &-select-field {
+        @include appearance;
+        @include weights(700);
+
+        border: 0;
+        border-left: 1px solid colors.$border-primary;
+        background: colors.$white;
+        color: colors.$neutral;
+        padding: 0.75em 2em 0.75em 1em;
+        width: 100%;
+        outline: 0;
+        cursor: pointer;
+
+        &::-ms-expand {
+          display: none;
+        }
+      }
+    }
+
+    &-title {
+      @include weights(700);
+
+      text-align: center;
+    }
+
+    &-wrapper {
+      position: relative;
+      width: 100%;
+      margin-top: 2.25em;
+    }
+
+    &-list {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &-no-results {
+      position: relative;
+      width: 100%;
+      justify-content: center;
+
+      p {
+        @include weights(700);
+
+        position: relative;
+        text-align: center;
+      }
+    }
+
+    &-load-more {
+      @include flex-center;
+
+      position: relative;
+      width: 100%;
+
+      &--hidden {
+        display: none;
+      }
+
+      button {
+        @include transition('linear');
+        @include weights(700);
+
+        color: colors.$primary;
+        background: colors.$secondary;
+        border-radius: 1.5em;
+        padding: 0.75em 1.5em;
+
+        &:hover {
+          background: colors.$secondary-hover;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# ⚙️ Assistant Worker - RabbitMQ consumer + Redis pub/sub streamer
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  assistant_worker:
+    build:
+      context: ${PWD}/apps/assistant
+      dockerfile: docker/Dockerfile
+    container_name: levelup_store_assistant_worker
+    restart: unless-stopped
+    command: ['python', '-m', 'jobs.worker']
+    env_file:
+      - ${PWD}/apps/assistant/.env
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      assistant_chromadb:
+        condition: service_healthy
+      ecommerce_redis:
+        condition: service_healthy
+      ecommerce_rabbitmq:
+        condition: service_healthy
+    networks:
+      - app-network

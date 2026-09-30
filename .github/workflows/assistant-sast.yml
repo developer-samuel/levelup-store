@@ -1,0 +1,51 @@
+name: 🔬 Assistant SAST
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/assistant/app/**'
+      - 'apps/assistant/jobs/**'
+      - 'apps/assistant/client/src/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/assistant/app/**'
+      - 'apps/assistant/jobs/**'
+      - 'apps/assistant/client/src/**'
+  schedule:
+    - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  # ─── Semgrep Python ───────────────────────────────────────────────────────
+  semgrep-python:
+    name: 🔬 Semgrep (Python)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    container:
+      image: semgrep/semgrep:1.177.0
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run Semgrep
+        run: |
+          semgrep \
+            --config p/python \
+            --config p/secrets \
+            --include 'apps/assistant/**' \
+            --sarif \
+            --output semgrep-python.sarif \
+            --error
+
+      - name: Upload SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: semgrep-python.sarif
+          category: semgrep-python

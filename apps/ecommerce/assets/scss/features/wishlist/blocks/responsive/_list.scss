@@ -1,0 +1,15 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, max) {
+  .wishlist {
+    &__card {
+      &-title {
+        font-size: 22px;
+      }
+    }
+
+    &__wrapper {
+      margin-top: 2.25em;
+    }
+  }
+}

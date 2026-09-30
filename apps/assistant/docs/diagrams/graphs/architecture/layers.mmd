@@ -1,0 +1,46 @@
+graph TD
+    %% Architectural layers - dependency map derived from actual imports
+    %% Arrows = "depends on" / imports
+
+    classDef transport  fill:#000,    color:#fff;
+    classDef service    fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef infra      fill:#6b21a8, color:#fff, stroke:#000, stroke-width:2px;
+    classDef external   fill:#1a7f5a, color:#fff, stroke:#000, stroke-width:2px;
+
+    subgraph Transport["Transport"]
+        Routers[routers/\nchat · health]:::transport
+    end
+
+    subgraph Application["Application"]
+        ChatService[services/chat_service]:::service
+        Middleware[middleware\nrate_limiter]:::service
+    end
+
+    subgraph Infrastructure["Infrastructure"]
+        RAG[rag\nChromaDB + Ollama]:::infra
+        Conversation[conversation\nRedis history]:::infra
+        Queue[queue\nRedis pub/sub + slot]:::infra
+        RabbitMQ[rabbitmq\naio_pika publish]:::infra
+        Repository[repositories/\nproduct_repository]:::infra
+    end
+
+    subgraph External["External"]
+        Ollama[Ollama\nLLM + embeddings]:::external
+        ChromaDB[ChromaDB\nvector store]:::external
+        Redis[Redis\nhistory + streaming]:::external
+        PostgreSQL[PostgreSQL\nproduct catalog]:::external
+        RMQ[RabbitMQ\nrequest queue]:::external
+    end
+
+    Routers      --> ChatService
+    Routers      -.->|rate limit| Middleware
+    ChatService  --> RAG
+    ChatService  --> Conversation
+    ChatService  --> Queue
+    ChatService  --> RabbitMQ
+    RAG          --> Ollama
+    RAG          --> ChromaDB
+    Conversation --> Redis
+    Queue        --> Redis
+    RabbitMQ     --> RMQ
+    Repository   --> PostgreSQL

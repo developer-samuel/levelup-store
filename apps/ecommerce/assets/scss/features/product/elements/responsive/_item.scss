@@ -1,0 +1,78 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+@include resolution(md, max) {
+  .product-item {
+    &__destroy {
+      padding: 0.5em;
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+    &__box {
+      padding: 0.5em 1em;
+
+      &-title {
+        font-size: 20px;
+      }
+
+      &-name {
+        height: auto;
+        max-height: 40px;
+
+        p {
+          font-size: 16px;
+        }
+      }
+
+      &-rating {
+        gap: 0.5em;
+        margin: 1.25em 0 0.25em;
+
+        img {
+          @include size(18px, 18px);
+        }
+      }
+
+      &-price {
+        height: 40px;
+
+        &-current {
+          font-size: 16px;
+        }
+
+        &-old {
+          font-size: 12.5px;
+        }
+      }
+
+      &-btn {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@include resolution(sm, min) {
+  @include resolution(md, max) {
+    .product-item__box-image {
+      height: 150px;
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(sm, max) {
+    .product-item__box-image {
+      height: 140px;
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .product-item__box-image {
+    height: 130px;
+  }
+}

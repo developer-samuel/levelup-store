@@ -1,0 +1,26 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🗄️ Database - PostgreSQL
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  ecommerce_postgres:
+    image: postgres:17
+    container_name: levelup_store_ecommerce_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - '${DB_PORT}:5432'
+    networks:
+      app-network:
+        aliases:
+          - postgres
+    extends:
+      file: ${PWD}/docker/compose/healthcheck.yml
+      service: healthcheck
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U postgres']

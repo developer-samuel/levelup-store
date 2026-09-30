@@ -1,0 +1,58 @@
+{{- if .Values.elasticsearch.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "levelup-store.fullname" . }}-reindex
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+  annotations:
+    # Run after all pods are healthy so Elasticsearch is reachable
+    "helm.sh/hook": post-upgrade,post-install
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: reindex
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          command:
+            - php
+            - /var/www/bin/console
+            - app:elasticsearch:reindex
+          envFrom:
+            - configMapRef:
+                name: {{ include "levelup-store.fullname" . }}
+            - secretRef:
+                name: {{ include "levelup-store.fullname" . }}
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: var-cache
+              mountPath: /var/www/var/cache
+            - name: var-log
+              mountPath: /var/www/var/log
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: var-cache
+          emptyDir: {}
+        - name: var-log
+          emptyDir: {}
+{{- end }}

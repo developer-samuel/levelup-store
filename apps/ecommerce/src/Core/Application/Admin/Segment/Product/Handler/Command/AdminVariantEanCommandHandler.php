@@ -1,0 +1,111 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Core\Application\Admin\Segment\Product\Handler\Command;
+
+use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantEanAssertion;
+
+use App\Core\Domain\{
+    Admin\Product\Payload\AdminVariantEanPayload,
+    Segment\Product\Entity\Variant\ProductVariantEan
+};
+
+use App\Core\Application\Admin\Segment\Product\Handler\Command\Abstract\AbstractAdminVariantCommandHandler;
+
+use App\Core\Ports\{
+    Admin\Segment\Product\Service\Command\AdminVariantEanCommandContract,
+    Admin\Segment\Product\Service\Command\AdminVariantValidationCommandContract,
+    Security\SecurityPolicyContract,
+    Segment\Product\Repository\Variant\ProductVariantEanRepositoryContract,
+    Shared\Logging\AppLoggerContract
+};
+
+final class AdminVariantEanCommandHandler extends AbstractAdminVariantCommandHandler
+{
+    /**
+     * @param ProductVariantEanRepositoryContract $repository
+     * @param AdminVariantEanCommandContract $adminCommand
+     * @param AdminVariantValidationCommandContract $adminVariantValidationCommand
+     * @param SecurityPolicyContract $securityPolicy
+     * @param AppLoggerContract $logger
+    */
+    public function __construct(
+        private readonly ProductVariantEanRepositoryContract $repository,
+        private readonly AdminVariantEanCommandContract $adminCommand,
+        AdminVariantValidationCommandContract $adminVariantValidationCommand,
+        SecurityPolicyContract $securityPolicy,
+        AppLoggerContract $logger,
+    ) {
+        parent::__construct(
+            $adminVariantValidationCommand,
+            $securityPolicy,
+            $logger,
+        );
+    }
+
+    /**
+     * @return string
+    */
+    protected function getPayloadClass(): string
+    {
+        return AdminVariantEanPayload::class;
+    }
+
+    /**
+     * @return string
+    */
+    protected function getEntityName(): string
+    {
+        return 'EAN';
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return ProductVariantEan
+    */
+    protected function getEntityOrFail(int $id): ProductVariantEan
+    {
+        $ean = $this->repository->findById($id);
+        ProductVariantEanAssertion::assertExists($ean);
+
+        return $ean;
+    }
+
+    /**
+     * @param int $variantId
+     * @param object $payload
+     *
+     * @return void
+    */
+    protected function createEntity(int $variantId, object $payload): void
+    {
+        /** @var AdminVariantEanPayload $payload */
+        $this->adminCommand->createEan($variantId, $payload);
+    }
+
+    /**
+     * @param int $id
+     * @param int $variantId
+     * @param object $payload
+     *
+     * @return void
+    */
+    protected function updateEntity(int $id, int $variantId, object $payload): void
+    {
+        /** @var AdminVariantEanPayload $payload */
+        $this->adminCommand->updateEan($id, $variantId, $payload);
+    }
+
+    /**
+     * @param object $entity
+     *
+     * @return void
+    */
+    protected function destroyEntity(object $entity): void
+    {
+        /** @var ProductVariantEan $entity */
+        $this->adminCommand->destroyEan($entity);
+    }
+}

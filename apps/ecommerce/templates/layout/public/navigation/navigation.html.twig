@@ -1,0 +1,7 @@
+{% macro render() %}
+    {% import 'layout/public/navigation/list/list.html.twig' as List %}
+
+    <nav class="navigation">
+        {{ List.render() }}
+    </nav>
+{% endmacro %}

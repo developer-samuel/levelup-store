@@ -1,0 +1,36 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+#gallery-zoom-modal {
+  display: none;
+
+  &.visible {
+    display: flex;
+  }
+}
+
+.modal-zoom {
+  &__body {
+    @include flex-center;
+
+    position: relative;
+  }
+
+  &__img {
+    max-width: calc(100vw - 2em);
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  &__close {
+    @include size(20px, auto);
+    
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    filter: invert(100%);
+    cursor: pointer;
+  }
+}

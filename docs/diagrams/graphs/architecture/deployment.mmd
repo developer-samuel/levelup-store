@@ -1,7 +1,7 @@
 graph TD
     %% CI/CD deployment pipeline - GitHub Actions
-    %% deploy.yml: build → [sbom ∥ scan] → sign → sync
-    %% ci.yml runs independently (same push trigger, not a gate)
+    %% deploy.yml: parallel ecommerce + assistant pipelines → shared sync
+    %% ecommerce-ci.yml + assistant-ci.yml run independently (not gates)
 
     classDef trigger  fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
     classDef ci       fill:#1a7f5a, color:#fff, stroke:#000, stroke-width:2px;
@@ -13,53 +13,65 @@ graph TD
 
     Push[🚀 git push → main]:::trigger
 
-    subgraph CIWorkflow["ci.yml  (independent)"]
+    %% ── Independent CI (not gates) ───────────────────────────────────────────
+
+    subgraph EcommerceCIWorkflow["ecommerce-ci.yml  (independent)"]
         Lint[🔍 PHP-CS-Fixer\nESLint + Stylelint]:::ci
         PHPUnit[🧪 PHPUnit\nUnit + Integration]:::ci
         Vitest[🧪 Vitest\nUnit + Integration]:::ci
         Playwright[🎭 Playwright\nEnd-to-end]:::ci
     end
 
-    subgraph DeployWorkflow["deploy.yml"]
-        subgraph BuildJob["build"]
-            DockerBuild[🐳 docker build\nDockerfile.prod\nlinux/amd64 + arm64]:::build
-            GHCR[📦 push → GHCR]:::registry
-        end
-
-        subgraph SbomJob["sbom  (parallel)"]
-            SBOM[📋 Syft SBOM\nspdx-json]:::sbom
-            Attest[🔗 GitHub Attestation\nSBOM + digest]:::sbom
-        end
-
-        subgraph ScanJob["scan  (parallel)"]
-            Trivy[🔒 Trivy\nCRITICAL + HIGH]:::security
-            SARIF[📊 Upload SARIF\n→ Security tab]:::security
-        end
-
-        subgraph SignJob["sign  (needs: build + scan)"]
-            Cosign[✍️ cosign keyless\nSigstore OIDC]:::security
-        end
-
-        subgraph SyncJob["sync  (needs: build + scan + sign)"]
-            ValuesUpdate[📝 Update image tag\nvalues.prod.yaml]:::gitops
-            GitCommit[💾 git commit + push\nskip ci]:::gitops
-        end
+    subgraph AssistantCIWorkflow["assistant-ci.yml  (independent)"]
+        AiLint[🔍 Ruff lint\nMypy + Vulture]:::ci
+        AiFrontendLint[🔍 ESLint\nTypeScript type-check]:::ci
     end
 
-    Push --> CIWorkflow
-    Push --> BuildJob
+    %% ── deploy.yml ───────────────────────────────────────────────────────────
 
-    DockerBuild --> GHCR
+    subgraph DeployWorkflow["deploy.yml"]
 
-    GHCR --> SbomJob
-    GHCR --> ScanJob
+        subgraph EcommerceTrack["Ecommerce track  (parallel)"]
+            BuildEcommerce[🐳 build-ecommerce\nDockerfile.prod · amd64+arm64]:::build
+            GHCREcommerce[📦 push → GHCR\n*-ecommerce]:::registry
+            SbomEcommerce[📋 sbom-ecommerce\nSyft + GitHub Attestation]:::sbom
+            ScanEcommerce[🔒 scan-ecommerce\nTrivy CRITICAL+HIGH + SARIF]:::security
+            SignEcommerce[✍️ sign-ecommerce\ncosign keyless · Sigstore]:::security
+        end
 
-    SBOM --> Attest
+        subgraph AssistantTrack["Assistant track  (parallel)"]
+            BuildAssistant[🐳 build-assistant\nDockerfile · amd64+arm64]:::build
+            GHCRAssistant[📦 push → GHCR\n*-assistant]:::registry
+            SbomAssistant[📋 sbom-assistant\nSyft + GitHub Attestation]:::sbom
+            ScanAssistant[🔒 scan-assistant\nTrivy CRITICAL+HIGH + SARIF]:::security
+            SignAssistant[✍️ sign-assistant\ncosign keyless · Sigstore]:::security
+        end
 
-    ScanJob  --> SignJob
-    BuildJob --> SignJob
+        subgraph SyncJob["sync  (needs: both sign jobs)"]
+            ValuesUpdate[📝 Update image tags\nvalues.prod.yaml]:::gitops
+            GitCommit[💾 git commit + push\nskip ci]:::gitops
+        end
 
-    Trivy --> SARIF
+    end
 
-    SignJob --> SyncJob
+    Push --> EcommerceCIWorkflow
+    Push --> AssistantCIWorkflow
+    Push --> BuildEcommerce
+    Push --> BuildAssistant
+
+    BuildEcommerce --> GHCREcommerce
+    GHCREcommerce  --> SbomEcommerce
+    GHCREcommerce  --> ScanEcommerce
+    ScanEcommerce  --> SignEcommerce
+    BuildEcommerce --> SignEcommerce
+
+    BuildAssistant --> GHCRAssistant
+    GHCRAssistant  --> SbomAssistant
+    GHCRAssistant  --> ScanAssistant
+    ScanAssistant  --> SignAssistant
+    BuildAssistant --> SignAssistant
+
+    SignEcommerce --> SyncJob
+    SignAssistant --> SyncJob
+
     ValuesUpdate --> GitCommit

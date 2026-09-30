@@ -1,0 +1,98 @@
+@reference "../app/theme/index.css";
+
+.backdrop {
+  @apply fixed inset-0 z-10 bg-black/20 backdrop-blur-sm transition-opacity duration-300;
+}
+
+.backdropOpen {
+  @apply pointer-events-none opacity-0 xs:pointer-events-auto xs:opacity-100;
+}
+
+.backdropClosed {
+  @apply pointer-events-none opacity-0;
+}
+
+.panel {
+  @apply fixed right-0 top-0 z-20 flex w-full xs:max-w-[400px] h-full flex-col bg-surface shadow-2xl transition-transform duration-300 ease-in-out select-none;
+}
+
+.panelOpen {
+  @apply translate-x-0;
+}
+
+.panelClosed {
+  @apply translate-x-full;
+}
+
+.header {
+  @apply flex items-center gap-3 bg-secondary px-4 py-3;
+}
+
+.headerIcon {
+  @apply flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15;
+}
+
+.headerIconSvg {
+  @apply h-4 w-4 text-primary;
+}
+
+.headerMeta {
+  @apply flex-1;
+}
+
+.headerTitle {
+  @apply text-sm font-semibold text-primary;
+}
+
+.headerSubtitle {
+  @apply text-xs text-primary/70;
+}
+
+.headerActions {
+  @apply flex items-center gap-1;
+}
+
+.actionBtn {
+  @apply flex h-8 w-8 items-center justify-center rounded-xl text-primary/70 transition-colors hover:bg-primary/10 hover:text-primary;
+}
+
+.closeBtn {
+  @apply flex h-8 w-8 items-center justify-center rounded-full text-primary/70 transition-colors hover:bg-primary/10 hover:text-primary;
+}
+
+.divider {
+  @apply h-px bg-neutral/10;
+}
+
+.error {
+  @apply mx-4 mb-2 rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-600;
+}
+
+.infoWrapper {
+  @apply relative flex cursor-pointer items-center mr-2;
+}
+
+.infoIcon {
+  @apply h-5 w-5 shrink-0 text-amber-400;
+}
+
+.tooltip {
+  @apply absolute right-0 top-6 z-30 w-64 rounded-lg bg-neutral p-3 opacity-0 shadow-lg
+         select-none pointer-events-none transition-opacity;
+}
+
+.tooltipVisible {
+  @apply opacity-100;
+}
+
+.tooltipTitle {
+  @apply mb-1 text-xs font-semibold text-primary;
+}
+
+.tooltipModel {
+  @apply mb-1.5 text-xs font-semibold text-amber-400;
+}
+
+.tooltipList {
+  @apply list-disc space-y-1 pl-3.5 text-xs text-primary/70;
+}

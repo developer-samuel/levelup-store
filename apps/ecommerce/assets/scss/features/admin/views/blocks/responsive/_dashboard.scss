@@ -1,0 +1,10 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(lg, max) {
+  .admin-dashboard__charts-row {
+    @include flex-col;
+
+    gap: 1em;
+  }
+}

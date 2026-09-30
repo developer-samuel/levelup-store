@@ -1,0 +1,124 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/mixins/accessibility/user-select' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+.product-item {
+  @include flex-col-between-x;
+  @include user-select;
+
+  position: relative;
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid colors.$border-primary;
+  border-radius: 1.5em;
+  overflow: hidden;
+
+  &__destroy {
+    @include transition('ease-out');
+
+    background: colors.$secondary;
+    padding: 1em;
+    margin-bottom: 0.5em;
+    cursor: pointer;
+
+    &:hover {
+      background: colors.$secondary-hover;
+    }
+
+    p {
+      @include weights(800);
+
+      color: colors.$primary;
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+
+  &__box {
+    @include flex-col-between-x;
+
+    gap: 0.5em;
+    height: 100%;
+    background: colors.$primary;
+    padding: 1em 1.5em;
+
+    &-image {
+      @include size(100%, 160px);
+
+      position: relative;
+
+      img {
+        @include size;
+
+        position: absolute;
+        inset: 0;
+        padding: 1em;
+        object-fit: contain;
+      }
+    }
+
+    &-name {
+      height: 67.5px;
+      margin-top: 1em;
+      overflow: hidden;
+
+      p {
+        @include weights(600);
+
+        color: colors.$neutral;
+        font-size: 24px;
+        text-align: center;
+      }
+    }
+
+    &-rating {
+      @include flex-center-x;
+
+      gap: 1em;
+      margin: 1.5em 0 0.75em;
+
+      img {
+        @include size(26px, 26px);
+      }
+    }
+
+    &-price {
+      @include flex-col-center;
+
+      height: 55px;
+      color: colors.$neutral;
+      margin: 0.25em 0;
+
+      &-current {
+        @include weights(700);
+
+        font-size: 24px;
+      }
+
+      &-old {
+        @include weights(600);
+
+        font-size: 16px;
+        text-decoration: line-through;
+      }
+    }
+
+    &-btn {
+      @include transition('linear');
+      @include weights(700);
+
+      background: colors.$success;
+      color: colors.$neutral;
+      font-size: 20px;
+      padding: 0.75em 1.5em;
+      width: 100%;
+
+      &:hover {
+        background: colors.$success-hover;
+      }
+    }
+  }
+}

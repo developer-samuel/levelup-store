@@ -1,0 +1,8 @@
+@theme inline {
+  --color-primary:         #ffffff;
+  --color-secondary:       #0143f7;
+  --color-secondary-hover: #0f63ff;
+  --color-neutral:         #000000;
+  --color-neutral-hover:   #1f1f1f;
+  --color-surface:         #fafafa;
+}

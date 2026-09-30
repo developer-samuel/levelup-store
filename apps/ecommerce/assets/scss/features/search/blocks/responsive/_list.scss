@@ -1,0 +1,41 @@
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, max) {
+  .search {
+    &__list {
+      gap: 1em;
+
+      &-image img {
+        @include size(110px, 110px, 'max');
+      }
+
+      &-name p {
+        font-size: 16px;
+      }
+
+      &-price {
+        &-current {
+          font-size: 18px;
+        }
+
+        &-old {
+          font-size: 12.5px;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  .search__card {
+    width: 400px;
+  }
+}
+
+@include resolution(xs, max) {
+  .search__card {
+    width: 100%;
+    padding: 0 1em;
+  }
+}

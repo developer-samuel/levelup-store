@@ -1,0 +1,41 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+@include resolution(md, max) {
+  .reviews-modal {
+    padding: 0 1rem;
+
+    &__body {
+      width: 100%;
+      gap: 2em;
+      padding: 1em;
+
+      &-close img {
+        @include size(16px, auto);
+      }
+
+      &-title {
+        font-size: 20px;
+      }
+
+      &-form {
+        &-stars {
+          gap: 1em;
+
+          img {
+            @include size(22px, auto);
+          }
+        }
+
+        &-fields {
+          gap: 2.5em;
+        }
+
+        &-switch p,
+        &-action-btn {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

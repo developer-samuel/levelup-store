@@ -1,0 +1,19 @@
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+
+.wishlist {
+  width: 100%;
+
+  &__card {
+    &-title {
+      @include weights(700);
+
+      font-size: 28px;
+      text-align: center;
+      padding-top: 1.75em;
+    }
+  }
+
+  &__wrapper {
+    margin-top: 3.25em;
+  }
+}

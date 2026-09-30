@@ -1,0 +1,24 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+@include resolution(md, max) {
+  .loading {
+    &__body {
+      gap: 0.75rem;
+
+      &-spinner {
+        @include size(36px, 36px);
+
+        border-top: 4px solid colors.$secondary;
+        border-right: 4px solid colors.$secondary;
+        border-bottom: 4px solid colors.$border-primary;
+        border-left: 4px solid colors.$border-primary;
+      }
+
+      &-text p {
+        font-size: 18px;
+      }
+    }
+  }
+}

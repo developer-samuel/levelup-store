@@ -1,0 +1,132 @@
+@reference "../../app/theme/index.css";
+
+@keyframes thinking-pulse {
+  0%, 60%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.row {
+  @apply flex flex-row;
+}
+
+.rowReverse {
+  @apply flex-row-reverse;
+}
+
+.messageBody {
+  @apply flex items-end gap-2;
+}
+
+.messageBodyUser {
+  @apply ml-auto;
+}
+
+.avatar {
+  @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full;
+}
+
+.avatarIcon {
+  @apply h-3.5 w-3.5;
+}
+
+.avatarUser {
+  @apply bg-secondary text-primary;
+}
+
+.avatarAi {
+  @apply bg-neutral/10 text-neutral/60;
+}
+
+.bubble {
+  @apply w-full rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed wrap-break-word select-text
+         [user-drag:none] [-webkit-user-drag:none];
+}
+
+.bubbleThinking {
+  @apply w-fit;
+}
+
+.bubbleUser {
+  @apply rounded-br-sm bg-secondary text-primary selection:bg-primary selection:text-secondary;
+}
+
+.bubbleAi {
+  @apply rounded-bl-sm bg-neutral/8 text-neutral;
+}
+
+.bubbleWrapper {
+  @apply relative flex max-w-75 flex-col gap-1;
+}
+
+.bubbleWrapperUser {
+  @apply ml-auto items-end;
+}
+
+.bubbleWrapperAi {
+  @apply items-start;
+}
+
+.thinking {
+  @apply flex min-w-[5rem] flex-col items-start gap-2;
+}
+
+.thinkingLabel {
+  @apply text-sm font-medium text-neutral/50;
+}
+
+.thinkingSeconds {
+  @apply text-xs text-neutral/40 select-none;
+}
+
+.dots {
+  @apply flex gap-1.5 py-0.5;
+}
+
+.dot,
+.dot2,
+.dot3 {
+  @apply h-1.5 w-1.5 rounded-full bg-neutral/40 animate-[thinking-pulse_1.2s_ease-in-out_infinite];
+}
+
+.dot2 {
+  @apply [animation-delay:0.2s];
+}
+
+.dot3 {
+  @apply [animation-delay:0.4s];
+}
+
+.cursor {
+  @apply ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-current opacity-60;
+}
+
+.timestamp {
+  @apply absolute bottom-full mb-1.5 left-0 min-w-[130px]
+         flex flex-col gap-0.5 select-none pointer-events-none
+         rounded-lg bg-neutral px-2.5 py-2 shadow-lg
+         opacity-0 -translate-y-1
+         transition-[opacity,transform] duration-150 ease-out;
+}
+
+.timestampUser {
+  @apply left-auto right-0;
+}
+
+.timestampDate {
+  @apply text-xs leading-none text-primary/70;
+}
+
+.timestampTime {
+  @apply font-mono text-xs leading-none tabular-nums text-primary;
+}
+
+.messageBody:has(.bubble:hover) .timestamp,
+.messageBody:has(.avatar:hover) .timestamp {
+  @apply opacity-100 translate-y-0;
+}

@@ -1,0 +1,30 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, max) {
+  .admin-home {
+    padding: 1rem;
+
+    &__card {
+      width: 100%;
+
+      &-title {
+        font-size: 22px;
+        margin-bottom: 1.5em;
+      }
+    }
+
+    &__list {
+      &-item a {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .admin-home {
+    &__list {
+      width: 100%;
+    }
+  }
+}

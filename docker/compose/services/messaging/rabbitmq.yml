@@ -1,9 +1,9 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
-# 🐇 Message Broker - RabbitMQ 3
+# 🐇 Message Broker - RabbitMQ
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 services:
-  rabbitmq:
+  ecommerce_rabbitmq:
     image: rabbitmq:4.3.5-management
     container_name: levelup_store_rabbitmq
     restart: unless-stopped
@@ -17,9 +17,12 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
-      - app-network
+      app-network:
+        aliases:
+          - rabbitmq
     extends:
-      file: ../../_base/healthcheck.yml
-      service: healthcheck-base
+      file: ${PWD}/docker/compose/healthcheck.yml
+      service: healthcheck
     healthcheck:
       test: ['CMD', 'rabbitmq-diagnostics', 'ping']
+      start_period: 120s

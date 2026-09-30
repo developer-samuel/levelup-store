@@ -1,0 +1,32 @@
+graph LR
+    %% Async messaging flows - RabbitMQ + Redis pub/sub
+    %% Two flows: request queue (RabbitMQ) and streaming (Redis pub/sub)
+
+    classDef app      fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
+    classDef queue    fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef redis    fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef worker   fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef client   fill:#2c3e50, color:#fff, stroke:#000, stroke-width:2px;
+
+    Browser[🌐 Browser]:::client
+    API[⚙️ FastAPI]:::app
+    Worker[⚙️ Worker]:::worker
+
+    subgraph QueueFlow["Request Queue (RabbitMQ)"]
+        RMQ[🐇 RabbitMQ\nai_requests]:::queue
+    end
+
+    subgraph StreamFlow["Streaming (Redis pub/sub)"]
+        RedisQueue[🟧 Redis\nai:queue / ai:processing]:::redis
+        RedisPubSub[🟧 Redis pub/sub\nai:stream:{conv}:{req}]:::redis
+    end
+
+    Browser -->|POST /chat| API
+    API -->|register_request| RedisQueue
+    API -->|publish_request| RMQ
+    API -->|subscribe| RedisPubSub
+    API -->|SSE stream| Browser
+
+    RMQ -->|consume| Worker
+    Worker -->|stream tokens| RedisPubSub
+    Worker -->|finish_processing| RedisQueue

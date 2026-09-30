@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>LevelUp Store | {% block title %}Home{% endblock %}</title>
+        {% import 'layout/public/head/head.html.twig' as Head %}
+        {{ Head.render() }}
+    </head>
+    <body
+        id="ecommerce"
+        data-authenticated="{{ app.user ? 'true' : 'false' }}"
+        data-user-id="{{ app.user ? app.user.id : '' }}"
+        data-storage-url="{{ storage_url('') }}"
+    >
+        {% import 'components/loading/loading.html.twig' as Loading %}
+        {{ Loading.render() }}
+
+        <div class="cursor" role="presentation" aria-hidden="true"></div>
+
+        {% if not adminPaths %}
+            {% import 'app/init/cookies.html.twig' as Cookies %}
+            {% import 'app/init/reviews.html.twig' as Reviews %}
+            {% import 'app/init/zoom.html.twig' as Zoom %}
+            {% import 'app/init/header.html.twig' as Header %}
+            {% import 'app/init/ai-assistant.html.twig' as AiAssistant %}
+            {% import 'app/init/scroll-to-top.html.twig' as ScrollToTop %}
+            {% import 'app/init/footer.html.twig' as Footer %}
+
+            {{ Cookies.render(app.request) }}
+            {{ Reviews.render(app.request, variant|default(null)) }}
+            {{ Zoom.render(app.request) }}
+            {{ Header.render(showHeader) }}
+            {{ AiAssistant.render() }}
+            {{ ScrollToTop.render() }}
+
+            {% block body %}{% endblock %}
+
+            {{ Footer.render(showFooter) }}
+        {% elseif adminPaths %}
+            {% import 'app/init/admin-structure.html.twig' as AdminLayout %}
+
+            {{ AdminLayout.render(isAdminPath) }}
+
+            {% block admin_body %}{% endblock %}
+        {% endif %}
+    </body>
+</html>

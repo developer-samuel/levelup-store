@@ -1,0 +1,25 @@
+parameters:
+    level: max
+
+    paths:
+        - src
+        - database
+        - packages/server
+        - tests
+
+    treatPhpDocTypesAsCertain: false
+
+    scanFiles:
+        - tools/php-stan/descriptors/BigIntTypeDescriptor.php
+        - tools/php-stan/descriptors/DecimalTypeDescriptor.php
+
+services:
+    -
+        class: Tools\PhpStan\Descriptors\BigIntTypeDescriptor
+        tags:
+            - phpstan.doctrine.typeDescriptor
+    -
+        class: Tools\PhpStan\Descriptors\DecimalTypeDescriptor
+        tags:
+            - phpstan.doctrine.typeDescriptor
+

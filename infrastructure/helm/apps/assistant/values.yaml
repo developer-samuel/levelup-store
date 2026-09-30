@@ -1,0 +1,120 @@
+app:
+  image:
+    repository: ghcr.io/developer-samuel/levelup-store-assistant
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  replicas: 1
+
+  # FastAPI + ChromaDB embedding calls - generous limits for 12GB node
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: [ALL]
+
+worker:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+scheduler:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+
+ingress:
+  enabled: true
+  host: ""            # Required: set in values.prod.yaml
+  tls: true
+  className: traefik
+  path: /assistant
+  clusterIssuer: letsencrypt-prod
+
+chromadb:
+  enabled: true
+  host: chromadb
+  port: 8000
+  image:
+    repository: chromadb/chroma
+    tag: "0.6.3"
+    pullPolicy: IfNotPresent
+  persistence:
+    size: 5Gi
+    storageClass: ""   # cluster default
+  # Vector DB - memory hungry, allow up to 4Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 4Gi
+
+otel:
+  enabled: false
+  endpoint: ""
+
+broker:
+  enabled: true
+
+# Network Policy
+networkPolicy:
+  enabled: true
+
+# LimitRange - namespace-level container defaults
+limitRange:
+  default:
+    cpu: 500m
+    memory: 1Gi
+  defaultRequest:
+    cpu: 50m
+    memory: 128Mi
+  max:
+    cpu: "2"
+    memory: 4Gi
+  min:
+    cpu: 10m
+    memory: 32Mi
+
+# Resource Quota - total namespace ceiling (~10GB target, 12GB node)
+resourceQuota:
+  requests:
+    cpu: "500m"
+    memory: 2Gi
+  limits:
+    cpu: "4"
+    memory: 10Gi
+  pods: "10"
+  pvcs: "5"
+
+# Secrets - injected via ArgoCD parameters / make secrets
+# app.openaiApiKey
+# broker.rabbitmqUrl  (amqp://user:pass@rabbitmq:5672/)  - RabbitMQ job queue
+# app.redisUrl        (redis://redis:6379/0)              - rate limiter, pub/sub, conversation history

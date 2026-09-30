@@ -1,0 +1,8 @@
+# Terraform
+terraform/**/.cache/
+terraform/**/*.tfstate
+terraform/**/*.tfstate.backup
+terraform/**/*.tfstate.lock.info
+
+# Helm
+helm/**/charts/

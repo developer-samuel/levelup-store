@@ -1,0 +1,13 @@
+#!/bin/bash
+
+user="www-data"
+if [ "$1" = "--root" ]; then
+    user="root"
+    shift
+fi
+
+if command -v docker &>/dev/null && docker info &>/dev/null && docker ps --filter "name=levelup_store_ecommerce_app" --filter "status=running" -q 2>/dev/null | grep -q .; then
+    docker exec -u "$user" levelup_store_ecommerce_app "$@"
+else
+    "$@"
+fi

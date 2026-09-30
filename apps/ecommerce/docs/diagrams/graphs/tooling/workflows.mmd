@@ -1,0 +1,43 @@
+graph TD
+    %% Class Styles
+    classDef root fill:#000, color:#fff;
+    classDef ci fill:#1a7f5a, color:#fff, stroke:#000, stroke-width:2px;
+    classDef quality fill:#6b21a8, color:#fff, stroke:#000, stroke-width:2px;
+    classDef security fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
+    classDef validation fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+
+    %% Root
+    GHA[🚀 GitHub Actions]:::root
+
+    %% ── CI ────────────────────────────────────────────────────────────────────
+
+    subgraph CI["CI"]
+        CIYml[🚀 ecommerce-ci.yml - lint, PHPUnit, Vitest, E2E]:::ci
+    end
+
+    %% ── Quality ───────────────────────────────────────────────────────────────
+
+    subgraph Quality["Quality"]
+        Coverage[📊 ecommerce-coverage.yml - coverage, SonarCloud]:::quality
+        FrontendAudit[🏠 ecommerce-frontend-audit.yml - Lighthouse, axe-core, pa11y]:::quality
+        BundleSize[📦 ecommerce-bundle-size.yml - bundle size report]:::quality
+    end
+
+    %% ── Security ──────────────────────────────────────────────────────────────
+
+    subgraph Security["Security"]
+        Zap[🕷️ ecommerce-zap.yml - OWASP ZAP DAST]:::security
+        Sast[🔬 ecommerce-sast.yml - CodeQL]:::security
+    end
+
+    %% ── Validation ────────────────────────────────────────────────────────────
+
+    subgraph Validation["Validation"]
+        DockerValidate[🐳 ecommerce-docker-validate.yml]:::validation
+    end
+
+    %% Connections
+    GHA --> CI
+    GHA --> Quality
+    GHA --> Security
+    GHA --> Validation

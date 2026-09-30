@@ -1,0 +1,411 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+@include resolution(lg, min) {
+  @media (min-height: 750px) {
+    .product-detail {
+      height: max(850px, calc(100vh - 150px));
+    }
+  }
+}
+
+@include resolution(lg, max) {
+  .product-detail {
+    flex-direction: column;
+
+    &__gallery {
+      &-arrow {
+        height: 86px;
+        padding: 0.25em;
+
+        &-img {
+          width: 20px;
+        }
+      }
+
+      &-item {
+        @include size(70px, 70px);
+
+        img {
+          @include size(56px, 56px, 'max');
+        }
+      }
+    }
+
+    &__details {
+      width: 100%;
+
+      &-info {
+        flex-direction: column-reverse;
+
+        &-bottom {
+          flex-direction: column-reverse;
+          border-bottom: 1px solid colors.$border-primary;
+        }
+      }
+
+      &-data {
+        flex-direction: column-reverse;
+        padding: 0.75em 0;
+      }
+
+      &-title {
+        text-align: center;
+      }
+
+      &-subtitle {
+        text-align: center;
+      }
+
+      &-list {
+        @include flex-col-center-y;
+      }
+    }
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .product-detail {
+      &__gallery {
+        height: calc(100vh - 297.5px);
+
+        &-wrapper {
+          height: 86px;
+        }
+      }
+
+      &__details {
+        &-action {
+          height: 80px;
+        }
+
+        &-btn {
+          font-size: 22px;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(md, min) {
+  .product-detail {
+    &__gallery-image-zoom {
+      @include size(32px, 32px);
+
+      bottom: 1.25em;
+      padding: 0.5em;
+    }
+
+    &__gallery-image-dots {
+      bottom: 1.25em;
+
+      &-item {
+        @include size(16px, 16px);
+      }
+    }
+
+    &__details {
+      &-title {
+        font-size: 24px;
+      }
+
+      &-stars,
+      &-wishlist {
+        img {
+          @include size(24px, 24px);
+        }
+      }
+
+      &-description {
+        padding: 1.5em 1.5em 0;
+
+        p {
+          font-size: 16px;
+          max-height: 152.5px;
+          overflow-y: auto;
+        }
+      }
+
+      &-variants {
+        padding: 1.5em;
+      }
+
+      &-list {
+        max-height: max(175px, calc(100vh - 825px));
+        overflow-y: auto;
+      }
+
+      &-subtitle {
+        font-size: 22px;
+      }
+
+      &-item {
+        font-size: 16px;
+      }
+
+      &-stocks {
+        font-size: 24px;
+      }
+
+      &-price {
+        &-current {
+          font-size: 28px;
+        }
+
+        &-old {
+          font-size: 16px;
+        }
+      }
+    }
+
+    &__description {
+      &-item {
+        &-title {
+          font-size: 24px;
+        }
+
+        &-body {
+          font-size: 20px;
+
+          ul li {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .product-detail {
+    &__gallery-image {
+      &-zoom {
+        @include size(26px, 26px);
+
+        bottom: 1em;
+        padding: 6px;
+      }
+
+      &-dots {
+        bottom: 1em;
+        gap: 0.75em;
+      }
+
+      &-wrapper {
+        height: 76px;
+      }
+    }
+
+    &__details {
+      &-title {
+        font-size: 20px;
+        margin-bottom: 1em;
+      }
+
+      &-stars,
+      &-wishlist {
+        img {
+          @include size(20px, 20px);
+        }
+      }
+
+      &-description {
+        font-size: 16px;
+        padding: 1em 1em 0;
+
+        &-show {
+          font-size: 16px;
+        }
+      }
+
+      &-variants {
+        padding: 1em 1em 2em;
+      }
+
+      &-subtitle {
+        font-size: 18px;
+      }
+
+      &-item {
+        font-size: 14px;
+      }
+
+      &-stocks {
+        font-size: 22px;
+      }
+
+      &-row {
+        margin: 1.5em 1em 0.5em;
+      }
+
+      &-price {
+        &-current {
+          font-size: 26px;
+        }
+
+        &-old {
+          font-size: 14px;
+        }
+      }
+
+      &-action {
+        height: 75px;
+      }
+
+      &-btn {
+        font-size: 22px;
+      }
+    }
+
+    &__description {
+      &-item {
+        &-title {
+          font-size: 20px;
+        }
+
+        &-body {
+          font-size: 16px;
+
+          ul li {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(lg, max) {
+  .product-detail__description {
+    width: 100%;
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .product-detail__gallery {
+      min-height: 550px;
+    }
+  }
+}
+
+@include resolution(sm, min) {
+  @include resolution(md, max) {
+    .product-detail__gallery {
+      height: auto;
+
+      &-image {
+        height: 100vw;
+      }
+    }
+  }
+}
+
+@include resolution(sm, min) {
+  .product-detail__gallery-image-track-item {
+    padding: 3.5em;
+  }
+}
+
+@include resolution(sm, max) {
+  .product-detail__gallery {
+    height: auto;
+
+    &-image {
+      height: 100vw;
+
+      &-track-item {
+        padding: 3em 1em;
+      }
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(md, max) {
+    .product-detail {
+      &__gallery-image {
+        &-zoom {
+          @include size(28px, 28px);
+        }
+
+        &-dots {
+          &-item {
+            @include size(14px, 14px);
+          }
+        }
+      }
+
+      &__details {
+        &-title {
+          font-size: 22px;
+        }
+
+        &-description {
+          font-size: 18px;
+
+          &-show {
+            font-size: 18px;
+          }
+        }
+
+        &-subtitle {
+          font-size: 20px;
+        }
+
+        &-item {
+          font-size: 16px;
+        }
+
+        &-stocks {
+          font-size: 24px;
+        }
+
+        &-price {
+          &-current {
+            font-size: 28px;
+          }
+
+          &-old {
+            font-size: 16px;
+          }
+        }
+
+        &-btn {
+          font-size: 24px;
+        }
+      }
+
+      &__description {
+        &-item {
+          &-title {
+            font-size: 22px;
+          }
+
+          &-body {
+            font-size: 18px;
+
+            ul li {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .product-detail {
+    &__details-data {
+      gap: 0.25em;
+    }
+
+    &__gallery-image-dots-item {
+      @include size(12px, 12px);
+    }
+  }
+}

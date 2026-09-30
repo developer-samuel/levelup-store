@@ -1,0 +1,8 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, max) {
+  .row {
+    @include flex-col;
+  }
+}

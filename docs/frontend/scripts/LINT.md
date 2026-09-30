@@ -1,52 +1,39 @@
 # 🔍 Frontend: Lint Scripts
 
-This file documents all linting frontend scripts defined in `package.json`.
+This file documents all lint scripts defined in root `package.json`.  
+Each command runs ESLint across both apps (ecommerce + assistant).
 
 ---
 
 ### lint
 
-- **Command**: `pnpm lint`
-- **Purpose**: Runs ESLint on `assets/ts/` source files and reports violations.
+- **Command**: `pnpm lint` / `npm run lint`
+- **Purpose**: ESLint check on source files for both apps.
 
 ---
 
 ### lint:fix
 
 - **Command**: `pnpm lint:fix`
-- **Purpose**: Runs ESLint on `assets/ts/` source files and automatically fixes fixable violations.
+- **Purpose**: ESLint with auto-fix on source files for both apps.
 
 ---
 
 ### lint:all
 
 - **Command**: `pnpm lint:all`
-- **Purpose**: Runs ESLint on both `assets/ts/` and `assets/tests/` and reports violations.
+- **Purpose**: ESLint check including test files for both apps.
 
 ---
 
 ### lint:all:fix
 
 - **Command**: `pnpm lint:all:fix`
-- **Purpose**: Runs ESLint on both `assets/ts/` and `assets/tests/` and automatically fixes fixable violations.
+- **Purpose**: ESLint with auto-fix including test files for both apps.
 
 ---
 
 ### lint:report
 
 - **Command**: `pnpm lint:report`
-- **Purpose**: Runs ESLint on all source and test files and outputs a JSON report to `var/tools/eslint/report.json`. Errors do not fail the command (`|| true`).
-
----
-
-### lint-scss
-
-- **Command**: `pnpm lint-scss`
-- **Purpose**: Runs Stylelint on `assets/scss/` and reports SCSS violations.
-
----
-
-### lint-scss:fix
-
-- **Command**: `pnpm lint-scss:fix`
-- **Purpose**: Runs Stylelint on `assets/scss/` and automatically fixes fixable SCSS violations.
+- **Purpose**: ESLint JSON report output for both apps. Used in CI for SonarCloud analysis.

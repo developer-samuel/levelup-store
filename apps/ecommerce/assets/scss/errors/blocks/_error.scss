@@ -1,0 +1,65 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+.error-page {
+  @include size;
+
+  position: relative;
+  background: colors.$primary;
+
+  &__card {
+    @include flex-center;
+
+    position: relative;
+    height: 100vh;
+    padding: 0 1em;
+  }
+
+  &__container {
+    @include flex-col;
+
+    position: relative;
+    gap: 1.5em;
+    width: 800px;
+    text-align: center;
+
+    &-title {
+      @include weights(700);
+
+      font-size: 48px;
+    }
+
+    &-body {
+      @include weights(500);
+
+      font-size: 32px;
+    }
+
+    &-action {
+      @include flex-center-x;
+
+      width: 100%;
+      margin-top: 1.5em;
+    }
+
+    &-btn {
+      @include transition('linear');
+      @include weights(700);
+
+      background: colors.$secondary;
+      border: 2px solid colors.$secondary;
+      color: colors.$primary;
+      font-size: 22px;
+      padding: 0.5em 1em;
+      border-radius: 1.5em;
+
+      &:hover {
+        background: colors.$secondary-hover;
+        border: 2px solid colors.$secondary-hover;
+      }
+    }
+  }
+}

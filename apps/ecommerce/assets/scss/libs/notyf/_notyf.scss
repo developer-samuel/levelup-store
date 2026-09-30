@@ -1,0 +1,5 @@
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
+.notyf {
+  z-index: z.$notyf !important;
+}

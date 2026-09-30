@@ -1,0 +1,46 @@
+import { BREAKPOINT_XL } from '@/ts/shared/constants/breakpoints'
+
+const ACTIVE_CLASS = 'products__filter--active'
+const BACKDROP_ACTIVE_CLASS = 'products__filter-backdrop--active'
+const getBackdrop = (): HTMLElement | null => document.getElementById('filter-backdrop')
+
+export function show(filter: HTMLElement | null): void {
+  if (!filter) return
+
+  filter.classList.add(ACTIVE_CLASS)
+
+  if (window.innerWidth < BREAKPOINT_XL) {
+    document.body.style.overflow = 'hidden'
+  }
+
+  const backdrop = getBackdrop()
+
+  if (backdrop) backdrop.classList.add(BACKDROP_ACTIVE_CLASS)
+}
+
+export function hide(filter: HTMLElement | null): void {
+  if (!filter) return
+
+  filter.classList.remove(ACTIVE_CLASS)
+  document.body.style.overflow = ''
+
+  const backdrop = getBackdrop()
+
+  if (backdrop) backdrop.classList.remove(BACKDROP_ACTIVE_CLASS)
+}
+
+export function toggle(filter: HTMLElement | null, condition: boolean): void {
+  if (!filter) return
+
+  filter.classList.toggle(ACTIVE_CLASS, condition)
+
+  const backdrop = getBackdrop()
+
+  if (backdrop) backdrop.classList.toggle(BACKDROP_ACTIVE_CLASS, condition && window.innerWidth < BREAKPOINT_XL)
+}
+
+export function isVisible(element: HTMLElement | null): boolean {
+  if (!element) return false
+
+  return element.classList.contains(ACTIVE_CLASS)
+}

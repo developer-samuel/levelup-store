@@ -1,0 +1,133 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/colors/rgba' as *;
+@use '@/scss/abstracts/mixins/effects/backdrop-filter' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/accessibility/user-select' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
+.search-panel {
+  @include rgba('neutral', 20);
+  @include backdrop-filter;
+  @include transition('ease-in-out', 300, (top, height));
+
+  position: fixed;
+  left: 0;
+  top: 75px;
+  width: 100%;
+  height: calc(100% - 75px);
+  z-index: z.$navigation-overlay;
+  display: none;
+
+  &--header-hidden {
+    top: 67.5px !important;
+    height: calc(100dvh - 67.5px) !important;
+  }
+
+  &__list {
+    @include flex-col;
+
+    position: relative;
+    gap: 1.5em;
+    padding-bottom: 2em;
+
+    &-item {
+      @include flex-col;
+
+      position: relative;
+      background: colors.$primary;
+      border-radius: 1.5em;
+      overflow: hidden;
+    }
+
+    &-image {
+      @include flex-center;
+      @include size(100%, auto);
+
+      position: relative;
+      padding: 1em 0;
+
+      img {
+        @include size(auto, 100%);
+
+        position: relative;
+        max-height: 75px;
+      }
+    }
+
+    &-name {
+      position: relative;
+      padding: 0.5em 1em;
+
+      p {
+        @include weights(600);
+
+        color: colors.$neutral;
+        font-size: 20px;
+        text-align: center;
+      }
+    }
+
+    &-price {
+      @include flex-col-center;
+
+      position: relative;
+      height: auto;
+      gap: 0.25em;
+      color: colors.$primary;
+      background: colors.$secondary;
+      margin-top: 1em;
+      padding: 0.5em 0;
+
+      &-current {
+        @include weights(700);
+
+        font-size: 20px;
+      }
+
+      &-old {
+        @include weights(600);
+
+        font-size: 14px;
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  &__content {
+    @include flex-col;
+    @include size;
+
+    position: relative;
+    gap: 1.25em;
+  }
+
+  &__card {
+    position: relative;
+    width: 400px;
+    height: calc(100% - 4.5em);
+    padding: 0 1em;
+    margin: 2.5em auto 0;
+    overflow-y: auto;
+
+    .no-results {
+      @include flex-center;
+      @include size;
+      @include user-select;
+
+      position: relative;
+
+      p {
+        @include flex-center;
+        @include weights(700);
+
+        position: relative;
+        color: colors.$neutral;
+        font-size: 32px;
+        text-align: center;
+      }
+    }
+  }
+}

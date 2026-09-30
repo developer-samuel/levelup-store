@@ -1,0 +1,82 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/colors/rgba' as *;
+@use '@/scss/abstracts/mixins/effects/backdrop-filter' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/accessibility/user-select' as *;
+@use '@/scss/abstracts/mixins/accessibility/visibility' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
+@use '@/scss/presentation/components/loading/mixins/loading-spinner' as *;
+
+.loading {
+  @include flex-center;
+  @include size(100%, 100vh);
+  @include transition('linear');
+  @include visibility(true, 1, true);
+
+  position: fixed;
+  z-index: z.$loading;
+
+  &__background {
+    @include size;
+
+    position: absolute;
+    background: colors.$primary;
+  }
+
+  &__body {
+    @include flex-col;
+
+    gap: 1.25rem;
+    text-align: center;
+    z-index: 1;
+
+    &-spinner {
+      @include size(56px, 56px);
+      @include loading-spinner;
+
+      border-radius: 50%;
+      border-top: 5px solid colors.$secondary;
+      border-right: 5px solid colors.$secondary;
+      border-bottom: 5px solid colors.$border-primary;
+      border-left: 5px solid colors.$border-primary;
+      margin: 0 auto;
+    }
+
+    &-text p {
+      @include weights(700);
+      @include user-select;
+
+      color: colors.$neutral;
+      font-size: 24px;
+      margin: 0;
+    }
+  }
+
+  &--action {
+    @include transition('ease-in-out', 250);
+
+    .loading {
+      &__background {
+        @include rgba('neutral', 50);
+        @include backdrop-filter(4);
+      }
+
+      &__body {
+        &-spinner {
+          border-bottom: 5px solid colors.$primary;
+          border-left: 5px solid colors.$primary;
+        }
+
+        &-text {
+          p {
+            color: colors.$primary;
+          }
+        }
+      }
+    }
+  }
+}

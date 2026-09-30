@@ -1,0 +1,125 @@
+# ─────────────────────────────────────────────────────────────────
+# Stage 1: PHP vendor dependencies (no dev, no autoloader classmap yet)
+#   Classmap is regenerated in Stage 3 with the correct /var/www paths.
+# ─────────────────────────────────────────────────────────────────
+FROM composer:2 AS composer-deps-bin
+
+FROM php:8.3 AS php-deps
+
+COPY --from=composer-deps-bin /usr/bin/composer /usr/local/bin/composer
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY apps/ecommerce/composer.json apps/ecommerce/composer.lock apps/ecommerce/symfony.lock ./
+
+# --ignore-platform-reqs: ext-opentelemetry and ext-amqp are installed
+# in the final php:8.3-fpm image via dependencies.sh, not in this build stage
+RUN composer install \
+    --no-dev \
+    --no-scripts \
+    --prefer-dist \
+    --no-interaction \
+    --ignore-platform-reqs
+
+# ─────────────────────────────────────────────────────────────────
+# Stage 2: Frontend assets (pnpm build → dist/)
+# ─────────────────────────────────────────────────────────────────
+FROM node:24-alpine AS frontend
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/ecommerce/package.json apps/ecommerce/package.json
+RUN pnpm install --frozen-lockfile
+
+COPY apps/ecommerce/assets/ apps/ecommerce/assets/
+COPY apps/ecommerce/public/ apps/ecommerce/public/
+COPY apps/ecommerce/packages/vite/ apps/ecommerce/packages/vite/
+COPY apps/ecommerce/vite.config.ts apps/ecommerce/tsconfig.json apps/ecommerce/importmap.php apps/ecommerce/
+
+RUN pnpm --filter ./apps/ecommerce build
+
+# ─────────────────────────────────────────────────────────────────
+# Stage 3: Production image (PHP-FPM + Nginx)
+# ─────────────────────────────────────────────────────────────────
+FROM php:8.3-fpm
+
+# Composer binary (needed for dump-autoload in this stage)
+COPY --from=composer-deps-bin /usr/bin/composer /usr/local/bin/composer
+
+# PHP pool configuration (non-root, TCP socket)
+COPY apps/ecommerce/docker/config/php/php.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY apps/ecommerce/docker/_prod/config/php/fpm-pool.conf /usr/local/etc/php-fpm.d/www.conf
+
+# Install system dependencies, PHP extensions, and nginx in one layer
+COPY apps/ecommerce/docker/scripts/install/ /usr/local/bin/scripts/install/
+RUN chmod +x /usr/local/bin/scripts/install/*.sh \
+    && chmod +x /usr/local/bin/scripts/install/tasks/*.sh \
+    && /usr/local/bin/scripts/install/dependencies.sh \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Nginx configuration (non-root, all temp paths under /tmp)
+COPY apps/ecommerce/docker/_prod/config/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY apps/ecommerce/docker/_prod/config/nginx/server.conf /etc/nginx/conf.d/default.conf
+
+# Redirect PHP-FPM pid to /run (emptyDir-mounted in K8s, survives readOnlyRootFilesystem)
+RUN sed -i 's|^pid = .*|pid = /run/php-fpm.pid|' /usr/local/etc/php-fpm.conf 2>/dev/null || true
+
+# Bootstrap and helper scripts
+COPY apps/ecommerce/docker/scripts/helpers/ /usr/local/bin/scripts/helpers/
+COPY apps/ecommerce/docker/scripts/bootstrap/ /usr/local/bin/scripts/bootstrap/
+RUN chmod +x /usr/local/bin/scripts/helpers/*.sh \
+    && chmod +x /usr/local/bin/scripts/bootstrap/*.sh \
+    && chmod +x /usr/local/bin/scripts/bootstrap/composer/*.sh \
+    && chmod +x /usr/local/bin/scripts/bootstrap/services/*.sh
+
+# Production entrypoint (starts php-fpm + nginx)
+COPY apps/ecommerce/docker/_prod/scripts/run.sh /usr/local/bin/scripts/run-prod.sh
+RUN chmod +x /usr/local/bin/scripts/run-prod.sh
+
+# ── Application source code ───────────────────────────────────────
+WORKDIR /var/www/apps/ecommerce
+
+RUN git config --system --add safe.directory /var/www/apps/ecommerce
+
+# Copy vendor first (no classmap yet - will be regenerated below)
+COPY --from=php-deps /app/vendor /var/www/apps/ecommerce/vendor
+
+# Copy application source
+COPY apps/ecommerce/bin/ bin/
+COPY apps/ecommerce/config/ config/
+COPY apps/ecommerce/database/ database/
+COPY apps/ecommerce/public/ public/
+COPY apps/ecommerce/src/ src/
+COPY apps/ecommerce/packages/ packages/
+COPY apps/ecommerce/scripts/ scripts/
+COPY apps/ecommerce/templates/ templates/
+COPY apps/ecommerce/composer.json apps/ecommerce/composer.lock apps/ecommerce/symfony.lock apps/ecommerce/importmap.php apps/ecommerce/init.php ./
+
+# Minimal .env - tells Symfony it's in prod mode without loading dotenv at runtime.
+# Real values (DB, secrets, etc.) come from K8s ConfigMap/Secret and override this.
+RUN printf "APP_ENV=prod\nAPP_DEBUG=0\n" > .env \
+    && chown 1000:1000 .env
+
+# Regenerate autoloader classmap with correct /var/www/... paths
+RUN composer dump-autoload --no-dev --optimize
+
+# Copy compiled frontend assets from Stage 2 into root dist/
+COPY --from=frontend /app/dist/ecommerce /var/www/dist/ecommerce
+
+# Fix permissions/ownership and pre-create var/ dirs
+# (K8s emptyDir volumes mount over var/cache and var/log at runtime)
+RUN chmod +x bin/* \
+    && chown -R 1000:1000 /var/www \
+    && mkdir -p var/cache var/log var/sessions var/tmp \
+    && chown -R 1000:1000 var/
+
+ENTRYPOINT ["/usr/local/bin/scripts/run-prod.sh"]
+CMD []

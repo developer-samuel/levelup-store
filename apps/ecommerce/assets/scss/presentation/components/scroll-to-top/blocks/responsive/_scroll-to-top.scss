@@ -1,0 +1,14 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, max) {
+  #scroll-to-top {
+    right: 1em;
+    bottom: 1em;
+    width: 36px;
+    height: 36px;
+
+    img {
+      padding: 0.5em;
+    }
+  }
+}

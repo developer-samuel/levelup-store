@@ -1,0 +1,20 @@
+# Config Secrets & JWT
+config/secrets/*/*.private.php
+config/secrets/*/*.public.php
+config/jwt/*.pem
+
+# Bin
+bin/*
+!bin/console
+!bin/phpunit
+!bin/run
+
+# Frontend
+assets/vendor/
+public/uploads/
+public/assets/
+public/bundles/
+public/uploads/
+
+# PHP Tools
+phpunit.xml

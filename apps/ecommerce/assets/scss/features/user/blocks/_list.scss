@@ -1,0 +1,138 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+.user {
+  @include size(100%, auto);
+
+  position: relative;
+  padding: 3em 30em;
+
+  &__title {
+    @include weights(700);
+
+    text-align: center;
+    margin-bottom: 1.5em;
+  }
+
+  &__action {
+    @include flex-center-x;
+
+    position: relative;
+
+    &-link {
+      @include transition('linear');
+      @include weights(700);
+
+      position: relative;
+      background: colors.$neutral;
+      color: colors.$primary;
+      border-radius: 1.5em;
+      padding: 0.5em 1em;
+
+      &:hover {
+        background: colors.$neutral-hover;
+      }
+    }
+  }
+
+  &__form {
+    @include flex-col-center-y;
+    @include size;
+
+    position: relative;
+
+    &-item {
+      position: relative;
+      width: 100%;
+    }
+
+    &-checkbox-wrapper {
+      @include flex-center-y;
+
+      position: relative;
+      gap: 0.75em;
+      padding: 0 0.25em;
+      margin-bottom: 3em;
+
+      label,
+      input {
+        cursor: pointer;
+      }
+
+      label {
+        @include weights(700);
+
+        padding: 0;
+      }
+    }
+
+    &-label {
+      @include weights(600);
+
+      padding: 0 0.25em;
+    }
+
+    &-title {
+      @include weights(700);
+
+      text-align: center;
+      margin: 1em 0;
+    }
+
+    &-list {
+      @include flex-col;
+
+      position: relative;
+    }
+
+    &-group {
+      position: relative;
+      width: 100%;
+      margin-bottom: 1em;
+    }
+
+    &-input,
+    &-select {
+      margin-top: 0.5em;
+    }
+
+    &-action {
+      @include flex-center-x;
+
+      margin-top: 1em;
+    }
+
+    &-btn {
+      @include transition('linear');
+      @include weights(700);
+
+      color: colors.$primary;
+      background: colors.$secondary;
+      border-radius: 1.5em;
+      padding: 0.5em 1.25em;
+
+      &:hover {
+        background: colors.$secondary-hover;
+      }
+    }
+  }
+
+  &__destroy {
+    @include flex-end-x;
+
+    &-btn {
+      @include weights(600);
+
+      background: none;
+      color: colors.$red-900;
+      outline: 0;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

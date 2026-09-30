@@ -1,0 +1,17 @@
+{% macro render() %}
+    <div id="cart-backdrop"></div>
+    <aside
+        id="cart-sidebar"
+        class="cart"
+    >
+        {% import 'layout/public/header/cart/snippets/warning.html.twig' as CartWarning %}
+        {% import 'layout/public/header/cart/structure/header/header.html.twig' as CartHeader %}
+        {% import 'layout/public/header/cart/structure/content/content.html.twig' as CartContent %}
+        {% import 'layout/public/header/cart/snippets/summary.html.twig' as CartSummary %}
+
+        {{ CartWarning.render() }}
+        {{ CartHeader.render(totalItems|default(0)) }}
+        {{ CartContent.render(cart) }}
+        {{ CartSummary.render(totalPrice|default(0)) }}
+    </aside>
+{% endmacro %}

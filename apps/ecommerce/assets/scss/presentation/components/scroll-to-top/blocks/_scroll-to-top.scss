@@ -1,0 +1,35 @@
+@use '@/scss/abstracts/mixins/accessibility/visibility' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
+#scroll-to-top {
+  @include visibility(false, 0, false);
+  @include transition;
+
+  position: fixed;
+  right: 1.25em;
+  bottom: 1.25em;
+  width: 48px;
+  height: 48px;
+  background: colors.$secondary;
+  border: 1px solid rgba(0, 0, 0, 0.30);
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: z.$scroll-to-top;
+  cursor: pointer;
+
+  &:hover {
+    background: colors.$secondary-hover;
+    scale: 1.1;
+  }
+
+  img {
+    position: relative;
+    rotate: 270deg;
+    width: 100%;
+    height: 100%;
+    padding: 0.75em;
+    filter: invert(100%);
+  }
+}

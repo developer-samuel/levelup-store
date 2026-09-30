@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/developer-samuel/levelup-store
     targetRevision: main
-    path: infrastructure/helm/blackbox-exporter
+    path: infrastructure/helm/observability/blackbox-exporter
     helm:
       valueFiles:
         - values.yaml

@@ -1,0 +1,103 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+@include resolution(lg, max) {
+  .footer__card {
+    &-top {
+      flex-direction: column;
+      align-items: center;
+
+      &-group {
+        width: 250px;
+        align-items: center;
+
+        &:not(:first-child) {
+          border-top: 1px solid colors.$border-primary;
+          padding-top: 1.5em;
+        }
+
+        &:not(:last-child) {
+          padding-bottom: 1em;
+        }
+      }
+    }
+
+    &-item {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .footer {
+      top: 105px;
+    }
+  }
+}
+
+@include resolution(md, min) {
+  .footer__card {
+    gap: 3em;
+
+    &-top {
+      gap: 1em;
+
+      &-group {
+        gap: 2em;
+      }
+
+      &-heading {
+        font-size: 16px;
+      }
+    }
+
+    &-item {
+      font-size: 16px;
+
+      img {
+        @include size(20px, 20px);
+      }
+    }
+
+    &-demo {
+      font-size: 16px;
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .footer {
+    top: 90px;
+
+    &__card {
+      gap: 1em;
+
+      &-top {
+        gap: 1.5em;
+
+        &-group {
+          gap: 1em;
+        }
+
+        &-heading {
+          font-size: 16px;
+        }
+      }
+
+      &-item {
+        font-size: 14.5px;
+
+        img {
+          @include size(14px, 14px);
+        }
+      }
+
+      &-demo {
+        font-size: 14px;
+      }
+    }
+  }
+}

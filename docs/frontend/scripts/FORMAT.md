@@ -1,17 +1,18 @@
 # 🎨 Frontend: Format Scripts
 
-This file documents all code formatting frontend scripts defined in `package.json`.
+This file documents all Prettier formatting scripts defined in root `package.json`.  
+Each command runs across both apps (ecommerce + assistant).
 
 ---
 
 ### prettier:fix
 
 - **Command**: `pnpm prettier:fix`
-- **Purpose**: Runs Prettier on `assets/ts/` source files and rewrites them to comply with formatting rules.
+- **Purpose**: Auto-formats source files for both apps.
 
 ---
 
 ### prettier:all:fix
 
 - **Command**: `pnpm prettier:all:fix`
-- **Purpose**: Runs Prettier on both `assets/ts/` and `assets/tests/` and rewrites all files to comply with formatting rules.
+- **Purpose**: Auto-formats source and test files for both apps.

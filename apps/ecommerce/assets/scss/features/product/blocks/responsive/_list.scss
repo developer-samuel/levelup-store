@@ -1,0 +1,508 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/effects/shadow' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+
+@include resolution(xl, min) {
+  .products {
+    &__filter-mobile-sort {
+      display: none;
+    }
+
+    &__filter {
+      position: sticky;
+      top: 150px;
+      width: 350px;
+      height: calc(100vh - 150px);
+
+      &-mobile {
+        display: none;
+      }
+
+      &-header {
+        display: none;
+      }
+
+      &-title {
+        font-size: 24px;
+      }
+
+      &-list {
+        margin-top: 0.75em;
+
+        &-item {
+          font-size: 18px;
+        }
+      }
+
+      &-checkbox-list {
+        margin: 0.75em 0 0.5em;
+
+        &-label {
+          font-size: 18px;
+        }
+      }
+
+      &-no-results {
+        padding: 3em 0;
+
+        p {
+          font-size: 22px;
+        }
+      }
+
+      &-range-slider {
+        margin-top: 0.75em;
+
+        input[type='range'] {
+          &::-webkit-slider-thumb {
+            @include size(20px, 20px);
+          }
+
+          &::-moz-range-thumb {
+            @include size(20px, 20px);
+          }
+        }
+      }
+
+      &-price-output {
+        font-size: 16px;
+      }
+    }
+
+    &__card {
+      flex: 1;
+      min-width: 0;
+
+      &-options {
+        top: 150px;
+        gap: 2em;
+
+        &-item {
+          a {
+            font-size: 16px;
+          }
+
+          img {
+            @include size(14px, 14px);
+          }
+        }
+      }
+
+      &-sort {
+        width: 175px;
+
+        &-select-field {
+          font-size: 16px;
+
+          &-option {
+            font-size: 14px;
+          }
+        }
+      }
+
+      &-title {
+        font-size: 28px;
+        padding-top: 1.25em;
+      }
+
+      &-list {
+        gap: 2em;
+        margin: 0 2em 2em;
+      }
+
+      &-no-results {
+        height: calc(100vh - 302.5px);
+
+        p {
+          top: 5.5em;
+          font-size: 38px;
+        }
+      }
+
+      &-load-more {
+        height: 150px;
+
+        button {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .products.no-filter .products__card {
+    position: relative;
+    left: 0;
+    width: 100%;
+  }
+}
+
+@include resolution(xl, max) {
+  .products {
+    &__filter-reset-btn {
+      font-size: 14px;
+      padding: 0.75em 0;
+    }
+
+    &__filter {
+      @include size(100%, calc(100dvh - 137.5px));
+      @include transition('ease-in-out', 300, transform);
+
+      position: fixed;
+      top: 0;
+      z-index: z.$overlay;
+      transform: translateX(-100%);
+
+      &--active {
+        transform: translate(0);
+      }
+
+      &-header {
+        display: block;
+      }
+
+      &-title {
+        font-size: 18px;
+      }
+
+      &-list {
+        margin-top: 0.5em;
+
+        &-item {
+          font-size: 16px;
+        }
+      }
+
+      &-checkbox-list {
+        margin: 0.5em 0 0.25em;
+
+        &-label {
+          font-size: 16px;
+        }
+      }
+
+      &-no-results {
+        padding: 2.5em 0;
+
+        p {
+          font-size: 18px;
+        }
+      }
+
+      &-range-slider {
+        margin-top: 0.5em;
+
+        input[type='range'] {
+          &::-webkit-slider-thumb {
+            @include size(16px, 16px);
+          }
+
+          &::-moz-range-thumb {
+            @include size(16px, 16px);
+          }
+        }
+      }
+
+      &-price-output {
+        font-size: 12.5px;
+      }
+    }
+
+    &__card {
+      position: relative;
+      width: 100%;
+
+      &-options {
+        gap: 1.5em;
+      }
+
+      &-title {
+        padding-top: 3.5em;
+      }
+
+      &-list {
+        gap: 1.5em;
+        margin: 0 1.5em 1.5em;
+      }
+
+      &-no-results {
+        height: calc(100vh - 250px);
+
+        p {
+          top: 4em;
+          font-size: 28px;
+        }
+      }
+
+      &-load-more {
+        height: 125px;
+
+        button {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(lg, min) {
+  @include resolution(xl, max) {
+    .products {
+      &__card-options {
+        top: 150px;
+      }
+
+      &__filter-mobile {
+        top: 190px;
+      }
+    }
+  }
+}
+
+@include resolution(xl, min) {
+  .products__card-options {
+    @include shadow(bottom, 1);
+  }
+
+  .products__filter-reset-btn {
+    font-size: 16px;
+    padding: 1em 0;
+  }
+}
+
+@include resolution(lg, min) {
+  @include resolution(xl, max) {
+    .products {
+      &__card {
+        &-options {
+          &-item {
+            a {
+              font-size: 16px;
+            }
+
+            img {
+              @include size(14px, 14px);
+            }
+          }
+        }
+
+        &-sort {
+          width: 175px;
+
+          &-select {
+            &-field {
+              font-size: 16px;
+            }
+
+            &-option {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(xl, max) {
+    .products {
+      &__filter {
+        width: 350px;
+        height: 100dvh;
+      }
+    }
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(xl, max) {
+    .products__card-title {
+      font-size: 24px;
+    }
+  }
+}
+
+
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .products {
+      &__card {
+        &-options {
+          top: 105px;
+
+          &-item {
+            a {
+              font-size: 14px;
+            }
+
+            img {
+              @include size(12px, 12px);
+            }
+          }
+        }
+
+        &-sort {
+          width: 125px;
+
+          &-select {
+            &-field {
+              font-size: 14px;
+            }
+
+            &-option {
+              font-size: 13px;
+            }
+          }
+        }
+      }
+
+      &__filter-mobile {
+        top: 145px;
+      }
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  .products__filter-mobile-sort {
+    display: none;
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(md, max) {
+    .products {
+      &__filter-mobile {
+        top: 126px;
+      }
+
+      &__card {
+        &-options {
+          top: 93px;
+        }
+
+        &-title {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .products {
+    &__card {
+      &-options {
+        height: 36px;
+
+        &-item {
+          a {
+            font-size: 12.5px;
+          }
+
+          img {
+            @include size(10px, 10px);
+          }
+        }
+      }
+
+      &-sort {
+        height: 100%;
+        width: 100px;
+
+        &-select-wrapper {
+          height: 100%;
+        }
+
+        &-select-field {
+          height: 100%;
+          padding: 0 2em 0 0.75em;
+          font-size: 12px;
+        }
+
+        &-select-option {
+          font-size: 11px;
+        }
+      }
+    }
+
+    &__filter-mobile-icon {
+      @include size(18px, 18px);
+    }
+  }
+}
+
+
+@include resolution(sm, min) {
+  @include resolution(hd, max) {
+    .products__card-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .products {
+    &__filter {
+      transform: translateY(-100%);
+
+      &--active {
+        transform: translate(0);
+      }
+    }
+
+    &__filter-mobile {
+      @include flex-between-center;
+
+      top: 129px;
+      height: 36px;
+      padding: 0 0 0 0.75em;
+      gap: 1em;
+
+      &-icon {
+        @include size(18px, 18px);
+
+        transform: none;
+        left: auto;
+        top: auto;
+      }
+
+      &-sort {
+        @include flex-end-center;
+
+        height: 31px;
+      }
+    }
+
+    &__card {
+      &-options {
+        top: 93px;
+
+        .products__card-sort {
+          display: none;
+        }
+      }
+
+      &-title {
+        font-size: 20px;
+      }
+
+      &-load-more {
+        height: 110px;
+
+        button {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(sm, max) {
+  .products__card-list {
+    grid-template-columns: 1fr;
+  }
+}

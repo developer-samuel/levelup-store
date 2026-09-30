@@ -10,7 +10,10 @@ graph TD
     Customer[👤 Customer]:::user
     Admin[👤 Admin]:::user
 
-    App[⚙️ LevelUp Store]:::system
+    subgraph Platform["LevelUp Platform"]
+        Ecommerce[⚙️ Ecommerce\nShopping + orders]:::system
+        Assistant[🤖 Assistant\nAI assistant]:::system
+    end
 
     subgraph External["External Services"]
         Stripe[💳 Stripe\nPayment processing]:::external
@@ -26,10 +29,13 @@ graph TD
 
     Customer --> Cloudflare
     Admin    --> Cloudflare
-    Cloudflare --> App
+    Cloudflare --> Ecommerce
+    Cloudflare --> Assistant
 
-    App --> Stripe
-    App --> Mailer
-    App --> CountryAPI
-    App --> Sentry
-    App --> Turnstile
+    Ecommerce --> Stripe
+    Ecommerce --> Mailer
+    Ecommerce --> CountryAPI
+    Ecommerce --> Sentry
+    Ecommerce --> Turnstile
+
+    Assistant --> Sentry

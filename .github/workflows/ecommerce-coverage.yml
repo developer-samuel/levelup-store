@@ -1,0 +1,203 @@
+name: 📊 Ecommerce Coverage
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/ecommerce/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/ecommerce/**'
+  workflow_dispatch:
+
+env:
+  PHP_VERSION: ${{ vars.PHP_VERSION }}
+  NODE_VERSION: ${{ vars.NODE_VERSION }}
+
+jobs:
+  # ─── Coverage ─────────────────────────────────────────────────────────────
+  coverage:
+    name: 📊 Upload coverage
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: apps/ecommerce
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: levelup_store_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:8.10.1
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      rabbitmq:
+        image: rabbitmq:4.3.5-management
+        ports:
+          - 5672:5672
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      elasticsearch:
+        image: elasticsearch:8.17.0
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: false
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports:
+          - 9200:9200
+        options: >-
+          --health-cmd "curl -s http://localhost:9200/_cluster/health | grep -q status"
+          --health-interval 15s
+          --health-timeout 10s
+          --health-retries 10
+
+      mercure:
+        image: dunglas/mercure:v0.24.2
+        env:
+          SERVER_NAME: ':80'
+          MERCURE_PUBLISHER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
+          MERCURE_SUBSCRIBER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
+          MERCURE_EXTRA_DIRECTIVES: "cors_origins *\nanonymous\n"
+        ports:
+          - 9300:80
+        options: >-
+          --health-cmd "nc -z localhost 80 || exit 1"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/postgres
+        with:
+          db-name: levelup_store_test
+          db-port: '5432'
+          db-password: secret
+
+      - uses: ./.github/actions/redis
+        with:
+          redis-port: '6379'
+
+      - uses: ./.github/actions/rabbitmq
+        with:
+          rabbitmq-port: '5672'
+
+      - uses: ./.github/actions/minio
+        with:
+          minio-port: '9000'
+
+      - uses: ./.github/actions/elasticsearch
+        with:
+          elasticsearch-port: '9200'
+
+      - uses: ./.github/actions/mercure
+        with:
+          mercure-port: '9300'
+          mercure-jwt-secret: 'test-mercure-jwt-secret-256bit-ok'
+
+      - uses: ./.github/actions/env
+        with:
+          source: .env.test
+
+      - uses: ./.github/actions/php
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo_pgsql, redis, pcov
+          coverage: pcov
+
+      - name: Bootstrap
+        uses: ./.github/actions/bootstrap
+        with:
+          symfony-env: test
+          with-fixtures: 'false'
+          with-reindex: 'true'
+
+      - name: Run PHPUnit with coverage
+        run: composer php-unit
+
+      - name: Upload PHP coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: apps/ecommerce/var/tools/php-unit/coverage.xml
+          flags: phpunit
+          fail_ci_if_error: false
+
+      - uses: ./.github/actions/node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run Vitest with coverage
+        run: pnpm vitest
+
+      - name: Generate ESLint report for SonarCloud
+        run: pnpm lint:report
+
+      - name: Upload JS coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: vitest
+          fail_ci_if_error: false
+
+      - name: Upload coverage reports as artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-reports
+          path: |
+            apps/ecommerce/var/tools/php-unit/coverage.xml
+            apps/ecommerce/var/tools/vitest/coverage/lcov.info
+            apps/ecommerce/var/tools/eslint/report.json
+          retention-days: 1
+
+  # ─── SonarCloud ───────────────────────────────────────────────────────────
+  sonarcloud:
+    name: 🔍 SonarCloud analysis
+    runs-on: ubuntu-latest
+    needs: coverage
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # Full history required for blame information
+
+      - name: Download coverage reports
+        uses: actions/download-artifact@v7
+        with:
+          name: coverage-reports
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

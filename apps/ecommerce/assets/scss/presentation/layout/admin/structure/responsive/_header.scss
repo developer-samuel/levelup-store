@@ -1,0 +1,17 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+@include resolution(lg, max) {
+  .admin-header {
+    @include size(100%, 45px);
+
+    &__link img {
+      @include size(28px, 28px);
+    }
+
+    &__logout-btn {
+      font-size: 14px;
+      padding: 6px 0.75em;
+    }
+  }
+}

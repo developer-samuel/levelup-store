@@ -1,0 +1,17 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🔎 Dev Tool - Elasticvue (Elasticsearch GUI)
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  ecommerce_elasticvue:
+    image: cars10/elasticvue:1.15.0
+    container_name: levelup_store_ecommerce_elasticvue
+    restart: unless-stopped
+    environment:
+      ELASTICVUE_CLUSTERS: '[{"name":"levelup_store","uri":"http://localhost:9200"}]'
+    ports:
+      - '8090:8080'
+    networks:
+      - app-network
+    depends_on:
+      - ecommerce_elasticsearch

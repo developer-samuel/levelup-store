@@ -1,0 +1,15 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .content {
+      top: 105px;
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .content {
+    top: 90px;
+  }
+}

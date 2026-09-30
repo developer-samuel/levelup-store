@@ -1,0 +1,17 @@
+{% macro render(sortOptions, sort, variants) %}
+    {% import 'features/product/catalog/options/snippets/sort/sort.html.twig' as SortOptions %}
+
+    <div class="products__filter-mobile">
+        <img
+            src="{{ asset('img/icons/app/filter.png') }}"
+            alt="Filter"
+            class="products__filter-mobile-icon"
+        >
+
+        {% if variants|length > 0 %}
+            <div class="products__filter-mobile-sort">
+                {{ SortOptions.render(sortOptions, sort) }}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}

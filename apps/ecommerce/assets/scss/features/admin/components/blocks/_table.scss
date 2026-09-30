@@ -1,0 +1,90 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/theme/fonts/weights/weights' as weights;
+
+.admin-table {
+  position: relative;
+
+  &__table {
+    border: 1px solid colors.$neutral;
+    border-collapse: collapse;
+  }
+
+  &__thead {
+    color: colors.$primary;
+    background: colors.$neutral;
+    border-bottom: 1px solid colors.$neutral;
+
+    th {
+      text-align: center !important;
+
+      &:first-child:not(:only-child) {
+        text-align: left !important;
+      }
+
+      a {
+        padding: 0.5em 1em !important;
+      }
+
+      &:first-child {
+        width: 25% !important;
+      }
+
+      &:has(a) {
+        padding: 0 !important;
+      }
+
+      &:not(:has(a)) {
+        padding: 0.5em 1em !important;
+      }
+
+      &:not(:has(a)):last-child {
+        @include flex-end-x;
+      }
+
+      &:has(a):last-child a {
+        @include flex-end-x;
+      }
+    }
+  }
+
+  &__tbody {
+    td {
+      vertical-align: middle;
+      text-align: center;
+      padding: 0.75em 1em !important;
+
+      &:first-child:not(:only-child) {
+        text-align: left !important;
+      }
+
+      &:last-child {
+        @include flex-end-x;
+
+        gap: 0.5em;
+      }
+
+      a {
+        @include flex-center-y;
+
+        padding: 0.25em 0.75em;
+      }
+
+      &[colspan] {
+        display: table-cell !important;
+        width: 100% !important;
+      }
+    }
+  }
+
+  &__table,
+  &__thead,
+  &__tbody {
+    width: 100%;
+  }
+
+  &__thead,
+  &__tbody {
+    font-size: 16px;
+  }
+}

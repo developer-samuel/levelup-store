@@ -1,0 +1,131 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(xl, min) {
+  @include resolution(xxl, max) {
+    .user {
+      padding: 3em;
+    }
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(xl, max) {
+    .user {
+      padding: 3em 1.5em;
+    }
+  }
+}
+
+@include resolution(sm, min) {
+  @include resolution(md, max) {
+    .user {
+      padding: 2.5em 1.25em;
+    }
+  }
+}
+
+@include resolution(sm, max) {
+  .user {
+    padding: 2em 0.75em;
+  }
+}
+
+@include resolution(md, min) {
+  .user {
+    min-height: calc(100vh - 150px);
+
+    &__title {
+      font-size: 28px;
+    }
+
+    &__action {
+      margin-bottom: 3em;
+
+      &-link {
+        font-size: 22px;
+      }
+    }
+
+    &__form {
+      gap: 2.5em;
+
+      &-item {
+        gap: 1em;
+      }
+
+      &-checkbox-label {
+        font-size: 22px;
+      }
+
+      &-title {
+        font-size: 28px;
+      }
+
+      &-label {
+        font-size: 18px;
+      }
+
+      &-btn {
+        font-size: 20px;
+      }
+    }
+
+    &__destroy {
+      margin-top: 3.5em;
+
+      &-btn {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .user {
+    min-height: calc(100vh - 115px);
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__action {
+      margin-bottom: 1.5em;
+
+      &-link {
+        font-size: 16px;
+      }
+    }
+
+    &__form {
+      gap: 1em;
+
+      &-item {
+        gap: 0.75em;
+      }
+
+      &-checkbox-label {
+        font-size: 16px;
+      }
+
+      &-title {
+        font-size: 20px;
+      }
+
+      &-label {
+        font-size: 14px;
+      }
+
+      &-btn {
+        font-size: 16px;
+      }
+    }
+
+    &__destroy {
+      margin-top: 2.5em;
+
+      &-btn {
+        font-size: 15px;
+      }
+    }
+  }
+}

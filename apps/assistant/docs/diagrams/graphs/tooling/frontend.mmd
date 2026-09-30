@@ -1,0 +1,30 @@
+graph TD
+    %% Subgraph styles
+    style TypeChecking fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Linting fill:#eceff1, stroke:#000, stroke-width:2px;
+
+    %% Class Styles
+    classDef tools fill:#000, color:#fff;
+    classDef typecheck fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
+    classDef linting fill:#0f63ff, color:#fff, stroke:#000, stroke-width:2px;
+
+    %% Root
+    Frontend[⚡ Frontend - vite]:::tools
+
+    %% Type Checking
+    subgraph TypeChecking["🔍 Type Checking"]
+        TypeCheck[TypeScript Type Check]
+    end
+
+    %% Linting & Formatting
+    subgraph Linting["✨ Linting & Formatting"]
+        ESLint[ESLint + Prettier]
+    end
+
+    %% Classes
+    class TypeCheck typecheck;
+    class ESLint linting;
+
+    %% Connections
+    Frontend --> TypeChecking
+    Frontend --> Linting

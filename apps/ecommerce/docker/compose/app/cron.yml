@@ -1,0 +1,21 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# ⏱️ Scheduler - Cron / Symfony Scheduler
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+services:
+  ecommerce_cron:
+    extends:
+      file: ${PWD}/apps/ecommerce/docker/compose/base.yml
+      service: app-base
+    container_name: levelup_store_ecommerce_cron
+    restart: unless-stopped
+    entrypoint: ['/usr/local/bin/scripts/entrypoints/app/cron/run-cron.sh']
+    depends_on:
+      ecommerce_postgres:
+        condition: service_healthy
+      ecommerce_elasticsearch:
+        condition: service_healthy
+      ecommerce_redis:
+        condition: service_healthy
+      ecommerce_rabbitmq:
+        condition: service_healthy

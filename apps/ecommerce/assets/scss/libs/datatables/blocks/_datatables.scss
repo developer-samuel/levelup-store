@@ -1,0 +1,78 @@
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+.dataTable {
+  &-wrapper {
+    overflow-x: auto !important;
+
+    &,
+    .dataTables {
+      &-empty,
+      &-loading {
+        @include weights(700, true);
+
+        position: relative !important;
+        display: table-cell !important;
+        font-size: 20px !important;
+        padding: 6em 1em !important;
+        width: 100% !important;
+      }
+    }
+  }
+
+  &-top {
+    padding: 0.5em 0.25em 0.75em !important;
+  }
+
+  &-input {
+    border: 1px solid colors.$border-primary !important;
+    border-radius: 0.75em !important;
+    outline: 0 !important;
+
+    &:focus {
+      box-shadow: 0 0 8px 0 colors.$blue-700 !important;
+    }
+  }
+
+  &-pagination {
+    li {
+      a {
+        @include transition('ease-out', 250, 'all', true);
+
+        border-radius: 1.5em !important;
+      }
+
+      &:not(.active) {
+        &:hover a {
+          background: colors.$blue-200 !important;
+        }
+      }
+
+      &.active a {
+        color: colors.$primary;
+        background: colors.$secondary !important;
+      }
+    }
+  }
+
+  &-selector {
+    margin-right: 0.25em !important;
+    outline: 0 !important;
+  }
+
+  &-dropdown {
+    margin-right: 0.5em !important;
+
+    label {
+      margin-right: 0.25em !important;
+    }
+  }
+
+  &-dropdown label,
+  &-selector,
+  &-input,
+  &-info &-pagination {
+    font-size: 16px !important;
+  }
+}

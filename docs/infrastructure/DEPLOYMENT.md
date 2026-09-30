@@ -64,14 +64,15 @@ make -C infrastructure argocd-notifications  # 8. configure ArgoCD email notific
 make -C infrastructure argocd-repo-add       # 9. add GitHub repo to ArgoCD (private repo access)
 make -C infrastructure argocd-bootstrap      # 10. root-app → ArgoCD deploys everything
 make -C infrastructure services-secrets      # 11. K8s secrets for PostgreSQL, Redis, RabbitMQ...
-make -C infrastructure secrets               # 12. app production secrets
-make -C infrastructure monitoring-secrets    # 13. Grafana + Alertmanager config
-make -C infrastructure blackbox-install      # 14. configure Blackbox Exporter targets
-make -C infrastructure velero-install        # 15. configure Velero backups
+make -C infrastructure ecommerce-secrets     # 12. ecommerce app production secrets
+make -C infrastructure assistant-secrets     # 13. assistant app production secrets
+make -C infrastructure monitoring-secrets    # 14. Grafana + Alertmanager config
+make -C infrastructure blackbox-install      # 15. configure Blackbox Exporter targets
+make -C infrastructure velero-install        # 16. configure Velero backups
 ```
 
 After step 9, ArgoCD takes over and deploys all Helm charts automatically.
-Steps 10-13 configure secrets that the running pods need.
+Steps 10-14 configure secrets that the running pods need.
 
 ---
 
@@ -131,11 +132,14 @@ kubectl get pods -n levelup-store
 When a secret changes (new Stripe key, rotated JWT passphrase, etc.):
 
 1. Update value in `.env.production`
-2. Run `make -C infrastructure secrets`
-3. ArgoCD will trigger a rolling restart automatically
+2. Run the appropriate target - ArgoCD will trigger a rolling restart automatically
 
 ```bash
-make -C infrastructure secrets
+# Ecommerce app
+make -C infrastructure ecommerce-secrets
+
+# Assistant app
+make -C infrastructure assistant-secrets
 ```
 
 ---

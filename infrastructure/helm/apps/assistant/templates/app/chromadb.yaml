@@ -1,0 +1,104 @@
+{{- if .Values.chromadb.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "levelup-store-assistant.fullname" . }}-chromadb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "levelup-store-assistant.labels" . | nindent 4 }}
+    app.kubernetes.io/component: chromadb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.chromadb.persistence.size }}
+  {{- if .Values.chromadb.persistence.storageClass }}
+  storageClassName: {{ .Values.chromadb.persistence.storageClass }}
+  {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "levelup-store-assistant.fullname" . }}-chromadb
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "levelup-store-assistant.labels" . | nindent 4 }}
+    app.kubernetes.io/component: chromadb
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "levelup-store-assistant.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: chromadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "levelup-store-assistant.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: chromadb
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: chromadb
+          image: "{{ .Values.chromadb.image.repository }}:{{ .Values.chromadb.image.tag }}"
+          imagePullPolicy: {{ .Values.chromadb.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: IS_PERSISTENT
+              value: "TRUE"
+            - name: PERSIST_DIRECTORY
+              value: /chroma/chroma
+            - name: ANONYMIZED_TELEMETRY
+              value: "FALSE"
+          livenessProbe:
+            httpGet:
+              path: /api/v1/heartbeat
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/v1/heartbeat
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.chromadb.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /chroma/chroma
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "levelup-store-assistant.fullname" . }}-chromadb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.chromadb.host }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "levelup-store-assistant.labels" . | nindent 4 }}
+    app.kubernetes.io/component: chromadb
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.chromadb.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "levelup-store-assistant.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: chromadb
+{{- end }}

@@ -1,0 +1,39 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+.admin-dashboard {
+  &__card {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__charts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3.5em;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    align-items: start;
+
+    &-row {
+      @include flex-between-x;
+
+      gap: 2.5em;
+    }
+
+    &-item {
+      @include size(100%, auto);
+
+      position: relative;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      display: block;
+    }
+  }
+
+  .apexcharts-canvas svg {
+    @include size(100%, 100%, null, true);
+  }
+}

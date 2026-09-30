@@ -1,0 +1,30 @@
+{% macro render() %}
+    {% import 'layout/public/header/snippets/logo.html.twig' as HeaderLogo %}
+    {% import 'layout/public/header/search/search.html.twig' as HeaderSearch %}
+    {% import 'layout/public/header/user/panel.html.twig' as HeaderPanel %}
+    {% import 'layout/public/header/snippets/mobile/icon.html.twig' as HeaderMobileIcon %}
+    {% import 'layout/public/navigation/navigation.html.twig' as Navigation %}
+    {% import 'layout/public/header/user/dropdown.html.twig' as UserDropdown %}
+    {% import 'layout/public/navigation/menu/menu.html.twig' as NavigationMenu %}
+    {% import 'layout/public/navigation/mobile/content/content.html.twig' as NavigationMobile %}
+    {% import 'layout/public/header/search/panel/panel.html.twig' as Search %}
+
+    <header class="header">
+        <div class="header__main">
+            {{ HeaderLogo.render() }}
+            {{ HeaderSearch.render() }}
+            {{ HeaderPanel.render() }}
+        </div>
+        <div class="header__mobile">
+            {{ HeaderMobileIcon.render() }}
+        </div>
+    </header>
+
+    {{ UserDropdown.render() }}
+
+    {{ Navigation.render() }}
+
+    {{ NavigationMenu.render(categories, maxTypes) }}
+    {{ NavigationMobile.render() }}
+    {{ Search.render() }}
+{% endmacro %}

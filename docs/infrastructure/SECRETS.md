@@ -13,7 +13,7 @@ Terraform variables, and Ansible. Production values override via `.env.productio
 .env + .env.production
        │
        ▼
-make -C infrastructure secrets
+make -C infrastructure ecommerce-secrets   # or assistant-secrets
        │
        ▼
 argocd app set ... -p app.secret="..." -p postgresql.auth.username="..."
@@ -27,9 +27,9 @@ The `sealedSecrets.enabled=false` flag disables the alternative path.
 
 ---
 
-## make secrets - required variables
+## make ecommerce-secrets - required variables
 
-`make -C infrastructure secrets` sets all app-level secrets via ArgoCD.
+`make -C infrastructure ecommerce-secrets` sets all ecommerce app-level secrets via ArgoCD.
 Every variable listed below must be set in `.env` (or `.env.production`) before running it.
 
 ### App
@@ -142,6 +142,29 @@ Every variable listed below must be set in `.env` (or `.env.production`) before 
 
 ---
 
+## make assistant-secrets - required variables
+
+`make -C infrastructure assistant-secrets` sets all assistant app-level secrets via ArgoCD.
+Every variable listed below must be set in `.env` (or `.env.production`) before running it.
+
+```bash
+make -C infrastructure assistant-secrets
+```
+
+### App
+
+| Variable               | Description                                      | Example                                             |
+|------------------------|--------------------------------------------------|-----------------------------------------------------|
+| `APP_DOMAIN`           | Public domain (no protocol)                      | `yourdomain.com`                                    |
+| `ASSISTANT_GHCR_IMAGE` | Full GHCR image path for the assistant container | `ghcr.io/your-username/levelup-store/assistant`     |
+| `OPENAI_API_KEY`       | OpenAI API key                                   | `sk-...`                                            |
+| `REDIS_URL`            | Full Redis DSN                                   | `redis://:password@levelup-store-redis-master:6379` |
+| `RABBITMQ_URL`         | Full AMQP DSN                                    | `amqp://user:pass@levelup-store-rabbitmq:5672//`    |
+
+> `ingress.host` is derived automatically as `assistant.<APP_DOMAIN>`.
+
+---
+
 ## make services-secrets - K8s secrets for services
 
 Run once after the cluster is up, before ArgoCD syncs the service charts.
@@ -203,24 +226,24 @@ make -C infrastructure velero-secret   # creates the K8s secret
 make -C infrastructure velero-install  # sets bucket/region via ArgoCD
 ```
 
-| Variable              | Description                                           |
-|-----------------------|-------------------------------------------------------|
-| `VELERO_ACCESS_KEY`   | OCI Customer Secret Key (access key)                  |
-| `VELERO_SECRET_KEY`   | OCI Customer Secret Key (secret)                      |
-| `VELERO_S3_URL`       | OCI Object Storage S3-compatible endpoint URL         |
-| `TF_VAR_velero_bucket`| OCI bucket name for backups (also used by Terraform)  |
-| `TF_VAR_region`       | OCI region (e.g. `eu-frankfurt-1`)                    |
+| Variable               | Description                                          |
+|------------------------|------------------------------------------------------|
+| `VELERO_ACCESS_KEY`    | OCI Customer Secret Key (access key)                 |
+| `VELERO_SECRET_KEY`    | OCI Customer Secret Key (secret)                     |
+| `VELERO_S3_URL`        | OCI Object Storage S3-compatible endpoint URL        |
+| `TF_VAR_velero_bucket` | OCI bucket name for backups (also used by Terraform) |
+| `TF_VAR_region`        | OCI region (e.g. `eu-frankfurt-1`)                   |
 
 ---
 
 ## GitHub & Ansible
 
-| Variable            | Description                                               |
-|---------------------|-----------------------------------------------------------|
-| `GITHUB_REPO_URL`   | Full GitHub repo URL (used by ArgoCD and `argocd-configure`) |
-| `GITHUB_USERNAME`   | GitHub username (used by `argocd-repo-add`, Atlantis)     |
-| `ANSIBLE_SSH_KEY`   | Path to SSH private key used by Ansible (`~/.ssh/id_ed25519`) |
-| `ANSIBLE_USER`      | SSH user on the VM (e.g. `ubuntu`)                        |
+| Variable          | Description                                                   |
+|-------------------|---------------------------------------------------------------|
+| `GITHUB_REPO_URL` | Full GitHub repo URL (used by ArgoCD and `argocd-configure`)  |
+| `GITHUB_USERNAME` | GitHub username (used by `argocd-repo-add`, Atlantis)         |
+| `ANSIBLE_SSH_KEY` | Path to SSH private key used by Ansible (`~/.ssh/id_ed25519`) |
+| `ANSIBLE_USER`    | SSH user on the VM (e.g. `ubuntu`)                            |
 
 ---
 
@@ -228,11 +251,11 @@ make -C infrastructure velero-install  # sets bucket/region via ArgoCD
 
 Required by `make atlantis-secret` and `make atlantis-install`.
 
-| Variable                    | Description                                                    |
-|-----------------------------|----------------------------------------------------------------|
-| `ATLANTIS_GH_TOKEN`         | GitHub personal access token for Atlantis (repo + webhook scope) |
-| `ATLANTIS_GH_WEBHOOK_SECRET`| Random secret for GitHub webhook verification                  |
-| `ATLANTIS_REPO_WHITELIST`   | Allowed repos pattern (e.g. `github.com/username/levelup-store`) |
+| Variable                     | Description                                                      |
+|------------------------------|------------------------------------------------------------------|
+| `ATLANTIS_GH_TOKEN`          | GitHub personal access token for Atlantis (repo + webhook scope) |
+| `ATLANTIS_GH_WEBHOOK_SECRET` | Random secret for GitHub webhook verification                    |
+| `ATLANTIS_REPO_WHITELIST`    | Allowed repos pattern (e.g. `github.com/username/levelup-store`) |
 
 ---
 
@@ -241,12 +264,12 @@ Required by `make atlantis-secret` and `make atlantis-install`.
 Required only when using `make tf-init-remote` (OCI Object Storage backend).
 Also injected into the Atlantis pod via `make atlantis-secret`.
 
-| Variable               | Description                                      |
-|------------------------|--------------------------------------------------|
-| `TF_BACKEND_BUCKET`    | OCI bucket name for Terraform state              |
-| `TF_BACKEND_ENDPOINT`  | OCI Object Storage S3-compatible endpoint URL    |
-| `TF_BACKEND_ACCESS_KEY`| OCI Customer Secret Key (access key)             |
-| `TF_BACKEND_SECRET_KEY`| OCI Customer Secret Key (secret)                 |
+| Variable                | Description                                   |
+|-------------------------|-----------------------------------------------|
+| `TF_BACKEND_BUCKET`     | OCI bucket name for Terraform state           |
+| `TF_BACKEND_ENDPOINT`   | OCI Object Storage S3-compatible endpoint URL |
+| `TF_BACKEND_ACCESS_KEY` | OCI Customer Secret Key (access key)          |
+| `TF_BACKEND_SECRET_KEY` | OCI Customer Secret Key (secret)              |
 
 ---
 

@@ -1,0 +1,26 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, max) {
+  .dataTable {
+    &-dropdown label,
+    &-selector,
+    &-input,
+    &-info,
+    &-pagination {
+      font-size: 12.5px !important;
+    }
+
+    &-selector {
+      padding: 0.25em !important;
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .dataTable-top {
+    @include flex-between-x;
+
+    gap: 0.5em;
+  }
+}

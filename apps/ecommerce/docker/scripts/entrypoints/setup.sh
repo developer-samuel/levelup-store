@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+TOTAL=8
+source /usr/local/bin/scripts/helpers/step.sh
+
+echo ""
+echo "╔═════════════════════════════════════════════════╗"
+echo "║           LEVELUP STORE - APP SETUP             ║"
+echo "╚═════════════════════════════════════════════════╝"
+
+step "Checking Composer..."
+/usr/local/bin/scripts/bootstrap/check-composer.sh
+
+step "Preparing environment file (.env.example -> .env)"
+/usr/local/bin/scripts/bootstrap/prepare-env.sh
+
+step "Running migrations and seeding database..."
+/usr/local/bin/scripts/entrypoints/app/db-setup.sh
+
+step "Setting up uploads..."
+/usr/local/bin/scripts/bootstrap/uploads-setup.sh
+
+step "Building frontend assets..."
+/usr/local/bin/scripts/entrypoints/app/build.sh
+
+step "Clearing caches and optimizing configuration..."
+/usr/local/bin/scripts/bootstrap/optimize.sh
+
+step "Clearing Redis cache..."
+/usr/local/bin/scripts/entrypoints/app/clear-cache.sh
+
+step "Ingesting products into ChromaDB (assistant)..."
+echo "   ⏳ Waiting for AI Assistant setup to complete..."

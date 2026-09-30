@@ -1,0 +1,40 @@
+graph TD
+    %% Subgraph styles
+    style Quality fill:#eceff1, stroke:#000, stroke-width:2px;
+    style Formatting fill:#eceff1, stroke:#000, stroke-width:2px;
+    style DeadCode fill:#eceff1, stroke:#000, stroke-width:2px;
+
+    %% Class Styles
+    classDef tools fill:#000, color:#fff;
+    classDef quality fill:#ff5c44, color:#fff, stroke:#000, stroke-width:2px;
+    classDef formatting fill:#ffa51c, color:#000, stroke:#000, stroke-width:2px;
+    classDef deadcode fill:#00a676, color:#fff, stroke:#000, stroke-width:2px;
+
+    %% Root
+    Backend[🐍 Backend - uv]:::tools
+
+    %% Quality
+    subgraph Quality["🛡️ Quality"]
+        Ruff[Ruff - lint + isort]
+        Mypy[Mypy - strict type checking]
+    end
+
+    %% Formatting
+    subgraph Formatting["🎨 Formatting"]
+        RuffFormat[Ruff - formatter]
+    end
+
+    %% Dead Code
+    subgraph DeadCode["🔍 Dead Code"]
+        Vulture[Vulture - unused code detection]
+    end
+
+    %% Classes
+    class Ruff,Mypy quality;
+    class RuffFormat formatting;
+    class Vulture deadcode;
+
+    %% Connections
+    Backend --> Quality
+    Backend --> Formatting
+    Backend --> DeadCode

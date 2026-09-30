@@ -1,0 +1,122 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(xxl, max) {
+  .order__card {
+    padding: 1em 0 0;
+
+    &-data {
+      width: 100%;
+      box-shadow: none;
+    }
+  }
+
+  #cart-order {
+    display: none;
+  }
+}
+
+@include resolution(md, min) {
+  .order__card {
+    &-title {
+      font-size: 28px;
+    }
+
+    &-note {
+      padding: 0 1.5em;
+
+      &-title {
+        p {
+          font-size: 18px;
+        }
+      }
+
+      &-text,
+      &-list {
+        p {
+          font-size: 16px;
+        }
+      }
+    }
+
+    &-form {
+      &-data {
+        gap: 1.5em;
+        padding: 0 1.5em;
+      }
+
+      &-title {
+        font-size: 24px;
+      }
+
+      &-label {
+        font-size: 18px;
+      }
+
+      &-radio-label {
+        font-size: 20px;
+      }
+
+      &-checkbox-wrapper-label {
+        font-size: 20px;
+      }
+
+      &-price p,
+      &-btn {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+@include resolution(md, max) {
+  .order__card {
+    &-title {
+      font-size: 24px;
+    }
+
+    &-note {
+      padding: 0 1.25em;
+
+      &-title {
+        p {
+          font-size: 15px;
+        }
+      }
+
+      &-text,
+      &-list {
+        p {
+          font-size: 12.5px;
+        }
+      }
+    }
+
+    &-form {
+      &-data {
+        gap: 1em;
+        padding: 0 1.25em;
+      }
+
+      &-title {
+        font-size: 18px;
+      }
+
+      &-label {
+        font-size: 16px;
+      }
+
+      &-radio-label {
+        font-size: 16px;
+      }
+
+      &-checkbox-wrapper-label {
+        font-size: 16px;
+      }
+
+      &-price p,
+      &-btn {
+        font-size: 18px;
+      }
+    }
+  }
+}

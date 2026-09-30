@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/developer-samuel/levelup-store
     targetRevision: main
-    path: infrastructure/helm/monitoring
+    path: infrastructure/helm/observability/monitoring
     helm:
       valueFiles:
         - values.yaml

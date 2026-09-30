@@ -1,0 +1,56 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(xl, max) {
+  .admin-detail__data {
+    width: 100%;
+    padding: 1.25em;
+  }
+}
+
+@include resolution(lg, min) {
+  .admin-detail {
+    &__data {
+      gap: 2em;
+
+      &-label {
+        font-size: 18px;
+      }
+    }
+
+    &__form-action-btn {
+      font-size: 16px;
+      padding: 0.75em 1.5em;
+    }
+  }
+}
+
+@include resolution(lg, max) {
+  .admin-detail {
+    &__data {
+      gap: 1.5em;
+
+      &-groups,
+      &-label,
+      &-select {
+        font-size: 16px;
+      }
+    }
+
+    &__form-action-btn {
+      font-size: 14px;
+      padding: 0.75em 1.25em;
+    }
+  }
+}
+
+@include resolution(sm, max) {
+  .admin-detail {
+    &__data {
+      &-groups,
+      &-label,
+      &-select {
+        font-size: 14px;
+      }
+    }
+  }
+}

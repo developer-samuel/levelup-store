@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "levelup-store-assistant.fullname" . }}-scheduler
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "levelup-store-assistant.labels" . | nindent 4 }}
+    app.kubernetes.io/component: scheduler
+  annotations:
+    reloader.stakater.com/auto: "true"
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "levelup-store-assistant.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: scheduler
+  template:
+    metadata:
+      labels:
+        {{- include "levelup-store-assistant.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: scheduler
+    spec:
+      securityContext:
+        runAsNonRoot: {{ .Values.app.securityContext.runAsNonRoot }}
+        runAsUser: {{ .Values.app.securityContext.runAsUser }}
+        fsGroup: {{ .Values.app.securityContext.runAsUser }}
+      containers:
+        - name: scheduler
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          command: ["python", "-m", "jobs.scheduler"]
+          securityContext:
+            allowPrivilegeEscalation: {{ .Values.app.securityContext.allowPrivilegeEscalation }}
+            readOnlyRootFilesystem: {{ .Values.app.securityContext.readOnlyRootFilesystem }}
+            capabilities:
+              drop: {{- toYaml .Values.app.securityContext.capabilities.drop | nindent 16 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "levelup-store-assistant.fullname" . }}-config
+            - secretRef:
+                name: {{ include "levelup-store-assistant.fullname" . }}-secret
+          resources:
+            {{- toYaml .Values.scheduler.resources | nindent 12 }}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

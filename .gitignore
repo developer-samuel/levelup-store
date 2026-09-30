@@ -3,23 +3,16 @@
 .env.local
 .env.production
 
-# Config Secrets & JWT
-config/secrets/*/*.private.php
-config/secrets/*/*.public.php
-config/jwt/*.pem
+# Node / npm
+node_modules/
+npm-debug.log
+.pnpm-store/
 
 # Dependencies
 vendor/
 
 # Bin
 bin/*
-!bin/console
-!bin/phpunit
-!bin/run
-
-# Node / npm
-node_modules/
-npm-debug.log
 
 # Cache & Logs
 var/
@@ -30,18 +23,12 @@ var/
 *.tgz
 
 # Frontend Build
-assets/vendor/
-public/assets/
-public/build/
-public/.build/
-public/bundles/
-public/uploads/
+dist/
+build/
+.build/
 
 # Generated UML
 .uml/
-
-# PHP Tools
-phpunit.xml
 
 # Editor
 .vscode/
@@ -52,14 +39,6 @@ phpunit.xml
 
 # Infrastructure root
 infrastructure/*
+!infrastructure/.gitignore
 !infrastructure/Makefile
 !infrastructure/*/
-
-# Terraform
-infrastructure/terraform/**/.cache/
-infrastructure/terraform/**/*.tfstate
-infrastructure/terraform/**/*.tfstate.backup
-infrastructure/terraform/**/*.tfstate.lock.info
-
-# Helm
-infrastructure/helm/**/charts/

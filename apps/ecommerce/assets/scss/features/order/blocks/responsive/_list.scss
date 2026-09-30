@@ -1,0 +1,130 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+@include resolution(md, max) {
+  .orders {
+    padding: 1.5rem 0;
+
+    &__card {
+      width: 100%;
+      padding: 0 1em;
+
+      &-title {
+        font-size: 20px;
+        margin-bottom: 1.25em;
+      }
+
+      &-box {
+        flex-direction: column;
+        gap: 1em;
+        text-align: center;
+
+        &-right {
+          align-items: center;
+        }
+
+        &-payment {
+          &-type {
+            font-size: 18px;
+          }
+
+          &-paid {
+            font-size: 16px;
+          }
+        }
+      }
+
+      &-status {
+        font-size: 18px;
+      }
+
+      &-code {
+        font-size: 14px;
+      }
+
+      &-date {
+        font-size: 16px;
+      }
+
+      &-time {
+        font-size: 12.5px;
+      }
+
+      &-detail {
+        flex-direction: column;
+      }
+
+      &-data {
+        @include flex-col-center-y;
+
+        gap: 1.5em;
+
+        &-button {
+          width: 125px;
+
+          img {
+            @include size(20px, 20px);
+          }
+
+          span {
+            font-size: 16px;
+          }
+        }
+      }
+
+      &-subtitle {
+        font-size: 18px;
+      }
+
+      &-product {
+        text-align: center;
+      }
+
+      #order-basic {
+        font-size: 16px;
+      }
+
+      #order-billing,
+      #order-shipping {
+        font-size: 14px;
+      }
+
+      &-group {
+        font-size: 16px;
+      }
+    }
+  }
+
+  #order-products {
+    margin: 0 auto;
+  }
+}
+
+@include resolution(sm, min) {
+  @include resolution(md, max) {
+    #order-products {
+      @include size(425px, auto);
+
+      margin-top: 1em;
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(sm, max) {
+    #order-products {
+      @include size(405px, auto);
+
+      margin-top: 1em;
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  #order-products {
+    @include size(100%, auto);
+
+    margin-top: 1em;
+  }
+}

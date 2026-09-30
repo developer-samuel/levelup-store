@@ -1,0 +1,10 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+
+@include resolution(md, max) {
+  .modal-zoom {
+    &__close {
+      @include size(16px, auto);
+    }
+  }
+}

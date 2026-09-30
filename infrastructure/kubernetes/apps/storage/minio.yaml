@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/developer-samuel/levelup-store
     targetRevision: main
-    path: infrastructure/helm/minio
+    path: infrastructure/helm/data/minio
     helm:
       valueFiles:
         - values.yaml

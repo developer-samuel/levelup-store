@@ -1,0 +1,225 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+@include resolution(lg, max) {
+  .navigation {
+    display: none;
+  }
+
+  .header {
+    &__main {
+      &-search {
+        display: none;
+      }
+
+      &-panel {
+        gap: 1em;
+      }
+
+      &-login {
+        padding: 0.25em 0.75em;
+      }
+    }
+
+    &__mobile {
+      @include flex;
+    }
+  }
+}
+
+@include resolution(lg, max) {
+  .header {
+    &__main {
+      height: 60px;
+      padding: 0 1rem;
+
+      &-user-dropdown {
+        top: 105px;
+      }
+
+      &-logo-image {
+        height: 36px;
+      }
+
+      &-panel {
+        height: 2.25em;
+      }
+
+      &-login,
+      &-user {
+        &-icon {
+          @include size(16px, 16px);
+        }
+      }
+
+      &-login span {
+        font-size: 14px;
+      }
+
+      &-cart {
+        @include size(30px, 30px);
+
+        &-count {
+          @include size(22px, 22px);
+
+          font-size: 10.5px;
+        }
+      }
+    }
+
+    &__mobile {
+      @include size(100%, 45px);
+
+      &-icon {
+        @include size(24px, 24px);
+      }
+    }
+  }
+}
+
+@include resolution(md, min) {
+  .header__main-user {
+    padding: 0 1em;
+  }
+}
+
+@include resolution(md, max) {
+  .header {
+    &__main {
+      height: 55px;
+      padding: 0 0.75rem;
+
+      &-logo-image {
+        height: 34px;
+      }
+
+      &-user {
+        padding: 0 0.75em;
+
+        &-dropdown {
+          top: 93px;
+        }
+      }
+
+      &-cart {
+        @include size(28px, 28px);
+
+        &-count {
+          @include size(21px, 21px);
+
+          font-size: 10px;
+        }
+      }
+    }
+
+    &__mobile {
+      @include size(100%, 38px);
+
+      &-icon {
+        @include size(22px, 22px);
+      }
+    }
+  }
+}
+
+
+@include resolution(xs, min) {
+  .header {
+    &__main {
+      &-user {
+        &-dropdown {
+          width: 325px;
+          border-bottom-left-radius: 1.5em;
+        }
+      }
+    }
+  }
+}
+
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .header {
+      &__main {
+        &-user {
+          &-item {
+            a,
+            p {
+              font-size: 20px;
+            }
+
+            span {
+              font-size: 22px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(sm, min) {
+  @include resolution(lg, max) {
+    .header {
+      &__main {
+        &-user {
+          &-item {
+            a,
+            p {
+              font-size: 15px;
+            }
+
+            span {
+              font-size: 17px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, min) {
+  @include resolution(lg, max) {
+    .header {
+      &__main {
+        &-user {
+          &-item {
+            a,
+            p {
+              font-size: 17px;
+            }
+
+            span {
+              font-size: 19px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include resolution(xs, max) {
+  .header {
+    &__main {
+      &-user {
+        &-dropdown {
+          width: 100%;
+        }
+
+        &-item {
+          a,
+          p {
+            font-size: 14px;
+          }
+
+          span {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}

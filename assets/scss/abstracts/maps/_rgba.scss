@@ -1,8 +1,0 @@
-@use '@/scss/abstracts/generators/rgba/generate-rgba' as fn;
-@use '@/scss/abstracts/theme/colors/rgba/colors' as rgba;
-
-$rgba-colors: (
-  'black': fn.generate-rgba(rgba.$black),
-  'blue': fn.generate-rgba(rgba.$blue),
-  'white': fn.generate-rgba(rgba.$white),
-);

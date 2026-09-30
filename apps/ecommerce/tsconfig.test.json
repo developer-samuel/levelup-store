@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@/tests/*": ["./tests/vitest/*"],
+      "@/e2e/*": ["./tests/e2e/*"],
+      "@/*": ["./assets/*"]
+    }
+  },
+  "include": [
+    "assets/ts/**/*.ts",
+    "tests/vitest/**/*.ts",
+    "tests/e2e/**/*.ts",
+    "playwright.config.ts"
+  ]
+}

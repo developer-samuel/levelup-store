@@ -1,0 +1,82 @@
+{% macro render(
+    categories,
+    category,
+    types,
+    type,
+    subtypes,
+    brands,
+    maxPrice,
+    filterPriceStep,
+    maxPriceActive,
+    variants,
+    sortOptions,
+    sort
+) %}
+    {% import 'features/product/catalog/filter/layout/header.html.twig' as FilterHeader %}
+    {% import 'features/product/catalog/filter/mobile/icon.html.twig' as FilterMobileIcon %}
+
+    {% import 'features/product/catalog/filter/modules/categories/categories.html.twig' as CategoriesModule %}
+    {% import 'features/product/catalog/filter/modules/types/types.html.twig' as TypesModule %}
+    {% import 'features/product/catalog/filter/modules/subtypes/subtypes.html.twig' as SubtypesModule %}
+    {% import 'features/product/catalog/filter/modules/brands/brands.html.twig' as BrandsModule %}
+    {% import 'features/product/catalog/filter/modules/price/price.html.twig' as PriceModule %}
+
+    {# The filter itself (for desktop and mobile) #}
+    <aside class="products__filter">
+        {{ FilterHeader.render() }}
+
+        <div class="products__filter-reset">
+            <button
+                id="filter-reset"
+                class="products__filter-reset-btn"
+            >
+                Reset
+            </button>
+        </div>
+
+        <div class="products__filter-content">
+            {% if categories|length > 0 %}
+                {{
+                    CategoriesModule.render(
+                        categories,
+                        category ?? null
+                    )
+                }}
+            {% endif %}
+
+            {% if category and types|length > 0 %}
+                {{
+                    TypesModule.render(
+                        types,
+                        category,
+                        type ?? null
+                    )
+                }}
+            {% endif %}
+
+            {% if category and type and subtypes|length > 0 %}
+                {{
+                    SubtypesModule.render(
+                        subtypes,
+                        category,
+                        type,
+                        filterSubtypesActive
+                    )
+                }}
+            {% endif %}
+
+            {% if brands|length > 0 %}
+                {{ BrandsModule.render(brands) }}
+            {% endif %}
+
+            {% if maxPrice > 0 %}
+                {{ PriceModule.render(maxPrice, filterPriceStep) }}
+            {% endif %}
+        </div>
+    </aside>
+
+    <div id="filter-backdrop" class="products__filter-backdrop"></div>
+
+    {# Mobile icon to open filter #}
+    {{ FilterMobileIcon.render(sortOptions, sort, variants) }}
+{% endmacro %}

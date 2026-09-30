@@ -1,0 +1,88 @@
+name: 🤖 Assistant CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/assistant/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/assistant/**'
+  workflow_dispatch:
+
+concurrency:
+  group: assistant-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: '3.12'
+
+jobs:
+  # ─── Lint ────────────────────────────────────────────────────────────────────
+  lint:
+    name: 🧹 Ruff Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/assistant
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/python
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Ruff lint
+        run: uv run ruff check app/
+
+      - name: Ruff format check
+        run: uv run ruff format --check app/
+
+  # ─── Type Check ──────────────────────────────────────────────────────────────
+  type-check:
+    name: 🔬 Mypy Type Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/assistant
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/python
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Mypy
+        run: uv run mypy --explicit-package-bases app/
+
+  # ─── Dead Code ───────────────────────────────────────────────────────────────
+  dead-code:
+    name: 🪦 Vulture Dead Code
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/assistant
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/python
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Vulture
+        run: uv run vulture app/ jobs/
+
+  # ─── Docker Build ─────────────────────────────────────────────────────────────
+  docker-build:
+    name: 🐳 Docker Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build assistant image
+        run: docker build -t levelup-store-assistant:ci -f apps/assistant/docker/Dockerfile apps/assistant/

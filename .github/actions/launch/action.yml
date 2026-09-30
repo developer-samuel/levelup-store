@@ -11,12 +11,12 @@ runs:
   steps:
     - name: Cache warmup
       shell: bash
-      run: php bin/console cache:warmup
+      run: php apps/ecommerce/bin/console cache:warmup
 
     - name: Start PHP server
       shell: bash
       run: |
-        OTEL_PHP_DISABLED_INSTRUMENTATIONS=all PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t public &
+        OTEL_PHP_DISABLED_INSTRUMENTATIONS=all PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8000 -t apps/ecommerce/public &
         for i in $(seq 1 30); do
           curl -sf http://127.0.0.1:8000${{ inputs.health-check-path }} > /dev/null && echo "Server ready after ${i}s" && exit 0
           sleep 1

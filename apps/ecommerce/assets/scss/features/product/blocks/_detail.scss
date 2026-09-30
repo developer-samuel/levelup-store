@@ -1,0 +1,428 @@
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/structure/size' as *;
+@use '@/scss/abstracts/mixins/colors/rgba' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+@use '@/scss/abstracts/mixins/accessibility/user-select' as *;
+@use '@/scss/abstracts/mixins/fonts/weights' as *;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+
+.product-detail {
+  @include flex-between-x;
+  @include size(100%, auto);
+
+  position: relative;
+
+  &__gallery {
+    @include flex-col-between-x;
+    @include size;
+
+    position: relative;
+    border-bottom: 1px solid colors.$border-primary;
+
+    &-image {
+      @include flex-center-x;
+      @include size;
+
+      position: relative;
+      top: 0;
+      background: colors.$primary;
+      overflow: hidden;
+      cursor: pointer;
+
+      &-zoom {
+        @include flex-center;
+        @include size(48px, 48px);
+
+        position: absolute;
+        right: 1em;
+        border-radius: 50%;
+        background: colors.$secondary;
+        padding: 0.75em;
+        opacity: 0.85;
+        z-index: 2;
+        cursor: pointer;
+
+        &-icon {
+          @include size;
+
+          object-fit: contain;
+          filter: invert(100%);
+        }
+      }
+
+      &-dots {
+        @include flex;
+        @include user-select;
+
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        gap: 1em;
+        pointer-events: none;
+        z-index: 1;
+
+        &-item {
+          border: 2px solid colors.$secondary;
+          border-radius: 50%;
+
+          &--active {
+            background: colors.$secondary-hover;
+          }
+        }
+      }
+
+      &-track {
+        @include flex;
+        @include size(100%, auto);
+        @include transition('ease-in-out', 500, transform);
+        @include user-select;
+
+        flex-wrap: nowrap;
+
+        &-item {
+          @include flex-center;
+          @include size(100%, 100%);
+
+          flex-shrink: 0;
+
+          img {
+            @include size(100%, 100%);
+
+            object-fit: contain;
+          }
+        }
+      }
+    }
+
+    &-wrapper {
+      @include flex-between-center;
+      @include size(calc(100% + 1px), 101px);
+
+      position: relative;
+      gap: 0.5em;
+      background: colors.$surface;
+      border-top: 1px solid colors.$border-primary;
+      z-index: 1;
+    }
+
+    &-arrow {
+      @include flex-center;
+      @include transition('ease-in-out', 500);
+
+      height: 101px;
+      background: colors.$secondary;
+      padding: 0.5em;
+      cursor: pointer;
+
+      &:hover {
+        background: colors.$secondary-hover;
+
+        &:last-child {
+          border-right: 1px solid colors.$blue-800;
+        }
+      }
+
+      &:last-child {
+        border-right: 1px solid colors.$secondary;
+      }
+
+      &-img {
+        @include size(24px, auto);
+        @include transition('ease-in-out', 500);
+
+        filter: invert(100%);
+      }
+    }
+
+    &-list {
+      @include flex-center-y;
+
+      position: relative;
+      gap: 0.5em;
+      padding: 0.5em;
+      overflow: auto hidden;
+      scroll-behavior: smooth;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &-item {
+      @include flex-center;
+      @include size(84px, 84px);
+      @include transition('ease-in-out', 250);
+
+      position: relative;
+      flex: 0 0 auto;
+      background: colors.$primary;
+      border: 1px solid colors.$border-primary;
+      overflow: hidden;
+      cursor: pointer;
+
+      img {
+        @include size(auto, auto);
+
+        position: relative;
+        max-width: 64px;
+        max-height: 64px;
+      }
+
+      &--active {
+        border: 2px solid colors.$secondary;
+        scale: 1.05;
+        scroll-margin-inline: center;
+      }
+    }
+  }
+
+  &__details {
+    position: relative;
+    width: 550px;
+    height: 100%;
+    background: colors.$primary;
+    border-left: 1px solid colors.$border-primary;
+    border-bottom: 1px solid colors.$border-primary;
+
+    &-info {
+      @include flex-between-x;
+      @include size;
+
+      position: relative;
+      flex-direction: column;
+
+      &-bottom {
+        @include flex-col;
+
+        position: relative;
+        gap: 1em;
+        width: 100%;
+      }
+    }
+
+    &-data {
+      @include flex-col;
+
+      gap: 0.5em;
+    }
+
+    &-title {
+      @include weights(700);
+
+      position: relative;
+      color: colors.$neutral;
+      padding: 1em 1em 0;
+    }
+
+    &-row {
+      @include flex-between-center;
+
+      gap: 1em;
+      margin: 1.5em 1.5em 0.5em;
+    }
+
+    &-stars {
+      @include flex-col;
+
+      gap: 0.75em;
+
+      &-row {
+        @include flex-between-center;
+
+        gap: 0.75em;
+      }
+
+      &-total {
+        @include transition('linear');
+
+        color: colors.$secondary;
+
+        &:hover {
+          color: colors.$secondary-hover;
+        }
+
+        span {
+          cursor: pointer;
+        }
+      }
+    }
+
+    &-wishlist {
+      @include flex-center-y;
+
+      cursor: pointer;
+
+      img {
+        @include transition('ease', 300, (transform, opacity));
+      }
+
+      &:hover img {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+
+      &--active img {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+
+      &--active:hover img {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    &-description {
+      p {
+        color: colors.$dark-200;
+      }
+
+      &-show {
+        color: colors.$secondary;
+        margin-top: 0.5em;
+
+        span {
+          cursor: pointer;
+        }
+      }
+    }
+
+    &-variants {
+      position: relative;
+      height: auto;
+    }
+
+    &-subtitle {
+      @include weights(500);
+
+      position: relative;
+      padding: 0 2px;
+      color: colors.$neutral;
+    }
+
+    &-list {
+      @include flex-col;
+
+      position: relative;
+      gap: 0.75em;
+      margin-top: 0.75em;
+    }
+
+    &-item {
+      @include transition('linear');
+      @include weights(600);
+
+      padding: 0.5em 1em;
+      background: transparent;
+      border: 2px solid colors.$secondary;
+      border-radius: 1.5em;
+      color: colors.$neutral;
+      width: fit-content;
+      max-width: 100%;
+      cursor: pointer;
+
+      &:not(&--active):hover {
+        @include rgba('secondary', 15);
+      }
+
+      &--active {
+        background: colors.$secondary;
+        color: colors.$primary;
+
+        &:hover {
+          background: colors.$secondary-hover;
+          border: 2px solid colors.$secondary-hover;
+        }
+      }
+    }
+
+    &-stocks {
+      @include weights(600);
+
+      position: relative;
+      text-align: center;
+    }
+
+    &-price {
+      @include flex-col-center;
+
+      position: relative;
+
+      &-current {
+        @include weights(700);
+      }
+
+      &-old {
+        @include weights(500);
+
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+    }
+
+    &-action {
+      @include flex-center-x;
+      @include size(100%, 100px);
+
+      position: relative;
+    }
+
+    &-btn {
+      @include size;
+      @include transition('linear');
+      @include weights(700);
+
+      background: colors.$success;
+      color: colors.$neutral;
+      font-size: 28px;
+      text-transform: uppercase;
+
+      &:hover {
+        background: colors.$success-hover;
+      }
+    }
+  }
+
+  &__description {
+    @include flex-col;
+
+    gap: 2.5em;
+    width: 1050px;
+    padding: 2.5em 1.5em;
+    margin: 0 auto;
+    border-bottom: 1px solid colors.$border-primary;
+
+    &-item {
+      @include flex-col;
+
+      gap: 0.5em;
+
+      &-title {
+        @include weights(700);
+
+        font-size: 24px;
+      }
+
+      &-body {
+        @include weights(500);
+
+        font-size: 20px;
+
+        ul {
+          @include flex-col;
+
+          gap: 0.25em;
+          padding: 0 1em;
+
+          li {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#arrow-left img {
+  rotate: 180deg;
+}
