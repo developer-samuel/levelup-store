@@ -20,18 +20,6 @@ cd apps/ecommerce
 ```
 
 
-### env:secret
-
-- **Command**: `bin/run --root php scripts/symfony/env-secret/launcher.php`
-- **Purpose**: Generates `APP_SECRET`, `HMAC_SECRET` and `JWT_PASSPHRASE` into `.env` if they are empty.
-- **Timeout Disabled** via `Composer\\Config::disableProcessTimeout`.
-
----
-```bash
-cd apps/ecommerce
-```
-
-
 ### secrets:generate
 
 - **Command**: `bin/run --root php bin/console secrets:generate-keys`

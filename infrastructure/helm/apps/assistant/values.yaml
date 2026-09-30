@@ -118,6 +118,6 @@ resourceQuota:
   pvcs: "5"
 
 # Secrets - injected via ArgoCD parameters / make secrets
-# app.openaiApiKey
+# app.aiAssistantApiKey
 # broker.rabbitmqUrl  (amqp://user:pass@rabbitmq:5672/)  - RabbitMQ job queue
 # app.redisUrl        (redis://redis:6379/0)              - rate limiter, pub/sub, conversation history

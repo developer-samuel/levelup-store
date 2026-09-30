@@ -33,7 +33,7 @@ cd apps/ecommerce
 ### lint:all
 
 - **Command**: `pnpm lint:all`
-- **Purpose**: Runs ESLint on both `assets/ts/` and `assets/tests/` and reports violations.
+- **Purpose**: Runs ESLint on both `assets/ts/` and `tests/` and reports violations.
 
 ---
 ```bash
@@ -44,7 +44,7 @@ cd apps/ecommerce
 ### lint:all:fix
 
 - **Command**: `pnpm lint:all:fix`
-- **Purpose**: Runs ESLint on both `assets/ts/` and `assets/tests/` and automatically fixes fixable violations.
+- **Purpose**: Runs ESLint on both `assets/ts/` and `tests/` and automatically fixes fixable violations.
 
 ---
 ```bash

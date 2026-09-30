@@ -130,7 +130,6 @@
       "Composer\\Config::disableProcessTimeout",
       "chmod +x bin/run bin/console bin/phpunit",
       "bin/run --root php scripts/symfony/env-generate/launcher.php",
-      "bin/run --root php scripts/symfony/env-secret/launcher.php",
       "bin/run --root php scripts/symfony/jwt-generate/launcher.php",
       "bin/run --root php scripts/tasks/prepare-var/launcher.php",
       "bin/run --root php ../../scripts/set-permissions/launcher.php",
@@ -151,10 +150,6 @@
     "env:generate": [
       "Composer\\Config::disableProcessTimeout",
       "bin/run --root php scripts/symfony/env-generate/launcher.php"
-    ],
-    "env:secret": [
-      "Composer\\Config::disableProcessTimeout",
-      "bin/run --root php scripts/symfony/env-secret/launcher.php"
     ],
     "secrets:generate": [
       "Composer\\Config::disableProcessTimeout",

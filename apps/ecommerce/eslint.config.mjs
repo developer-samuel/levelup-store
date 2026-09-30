@@ -4,13 +4,13 @@ import { TEST_GLOBALS } from "./tools/eslint/test.js";
 export default [
   ...BASE_TS_RECOMMENDED,
   {
-    files: ["assets/ts/**/*.ts"],
+    files: ["ts/**/*.ts"],
     languageOptions: BASE_LANGUAGE_OPTIONS,
     plugins: BASE_PLUGINS,
     rules: BASE_RULES,
   },
   {
-    files: ["assets/tests/**/*.ts"],
+    files: ["tests/**/*.ts"],
     languageOptions: {
       ...BASE_LANGUAGE_OPTIONS,
       globals: TEST_GLOBALS,

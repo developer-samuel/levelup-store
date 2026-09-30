@@ -88,7 +88,7 @@ jobs:
         run: |
           helm lint infrastructure/helm/apps/assistant \
             --values infrastructure/helm/apps/assistant/values.yaml \
-            --set app.openaiApiKey=dummy \
+            --set app.aiAssistantApiKey=dummy \
             --set broker.rabbitmqUrl=amqp://dummy \
             --set app.redisUrl=redis://dummy
 
@@ -97,7 +97,7 @@ jobs:
           helm lint infrastructure/helm/apps/assistant \
             --values infrastructure/helm/apps/assistant/values.yaml \
             --values infrastructure/helm/apps/assistant/values.prod.yaml \
-            --set app.openaiApiKey=dummy \
+            --set app.aiAssistantApiKey=dummy \
             --set broker.rabbitmqUrl=amqp://dummy \
             --set app.redisUrl=redis://dummy
 
@@ -107,7 +107,7 @@ jobs:
             echo "── Validating $chart ──"
             args="infrastructure/helm/apps/$chart --values infrastructure/helm/apps/$chart/values.yaml"
             if [ "$chart" = "assistant" ]; then
-              args="$args --set app.openaiApiKey=dummy --set broker.rabbitmqUrl=amqp://dummy --set app.redisUrl=redis://dummy"
+              args="$args --set app.aiAssistantApiKey=dummy --set broker.aiAssistantApiKey=amqp://dummy --set app.redisUrl=redis://dummy"
             fi
             helm template levelup-store $args \
               | grep -v "^#" \
@@ -166,7 +166,7 @@ jobs:
         run: |
           helm template levelup-store-assistant infrastructure/helm/apps/assistant \
             --values infrastructure/helm/apps/assistant/values.yaml \
-            --set app.openaiApiKey=dummy \
+            --set app.aiAssistantApiKey=dummy \
             --set broker.rabbitmqUrl=amqp://dummy \
             --set app.redisUrl=redis://dummy \
           | kubeconform \

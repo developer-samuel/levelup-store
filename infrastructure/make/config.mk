@@ -2,9 +2,9 @@
 # ⚙️ Variables & Macros
 # ──────────────────────────────────────────────────────────────────────────────
 
-# Loads root .env (single file for both app and infrastructure)
-ifneq (,$(wildcard ../.env))
-  include ../.env
+# Loads root .env.production (infrastructure deploy config)
+ifneq (,$(wildcard ../.env.production))
+  include ../.env.production
   export
 endif
 
@@ -28,7 +28,7 @@ REPO_URL      := $(shell echo "$(GITHUB_REPO_URL)" | sed 's/\.git$$//')
 
 # require VAR - error if not set in .env - $(call require,VAR_NAME)
 define require
-  @test -n "$($(1))" || (echo "ERROR: $(1) not set in .env"; exit 1)
+  @test -n "$($(1))" || (echo "ERROR: $(1) not set in .env.production"; exit 1)
 endef
 
 define require_bin

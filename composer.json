@@ -21,6 +21,10 @@
     "post-update-cmd": [
       "@composer update -d apps/ecommerce"
     ],
+    "env:generate": [
+      "Composer\\Config::disableProcessTimeout",
+      "php scripts/env-generate/launcher.php"
+    ],
     "count-stats": [
       "Composer\\Config::disableProcessTimeout",
       "php vendor/bin/count-stats"
