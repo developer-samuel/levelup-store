@@ -44,333 +44,45 @@ jobs:
               - 'apps/assistant/**'
               - '!apps/assistant/docs/**'
 
-  # ─── Ecommerce: Build & Push ──────────────────────────────────────────────
+  # ─── Ecommerce: Build, SBOM, Scan, Sign ──────────────────────────────────
   build-ecommerce:
-    name: 🐳 Build & Push (Ecommerce)
-    runs-on: ubuntu-latest
     needs: changes
-    if: needs.changes.outputs.ecommerce == 'true' || github.event_name == 'workflow_dispatch'
-
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: ${{ github.repository }}-ecommerce
+      context: .
+      file: apps/ecommerce/docker/Dockerfile.prod
+      changed: ${{ needs.changes.outputs.ecommerce }}
+      app-name: ecommerce
     permissions:
-      contents: read
+      contents: write
       packages: write
+      id-token: write
+      attestations: write
+      security-events: write
 
-    outputs:
-      image-tag: ${{ steps.sha.outputs.short }}
-      image-digest: ${{ steps.push.outputs.digest }}
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Get short SHA
-        id: sha
-        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Set up QEMU (ARM64 emulation for cross-platform build)
-        uses: docker/setup-qemu-action@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract image metadata
-        id: meta
-        uses: docker/metadata-action@v6
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.ECOMMERCE_IMAGE }}
-          tags: |
-            type=sha,prefix=
-            type=raw,value=latest
-
-      - name: Build and push image (linux/amd64 + linux/arm64)
-        id: push
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: apps/ecommerce/docker/Dockerfile.prod
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max,ignore-error=true
-
-  # ─── Assistant: Build & Push ──────────────────────────────────────────────
+  # ─── Assistant: Build, SBOM, Scan, Sign ───────────────────────────────────
   build-assistant:
-    name: 🐳 Build & Push (Assistant)
-    runs-on: ubuntu-latest
     needs: changes
-    if: needs.changes.outputs.assistant == 'true' || github.event_name == 'workflow_dispatch'
-
-    permissions:
-      contents: read
-      packages: write
-
-    outputs:
-      image-tag: ${{ steps.sha.outputs.short }}
-      image-digest: ${{ steps.push.outputs.digest }}
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Get short SHA
-        id: sha
-        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Set up QEMU (ARM64 emulation for cross-platform build)
-        uses: docker/setup-qemu-action@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract image metadata
-        id: meta
-        uses: docker/metadata-action@v6
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.ASSISTANT_IMAGE }}
-          tags: |
-            type=sha,prefix=
-            type=raw,value=latest
-
-      - name: Build and push image (linux/amd64 + linux/arm64)
-        id: push
-        uses: docker/build-push-action@v7
-        with:
-          context: apps/assistant
-          file: apps/assistant/docker/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max,ignore-error=true
-
-  # ─── Ecommerce: SBOM ──────────────────────────────────────────────────────
-  sbom-ecommerce:
-    name: 📋 SBOM (Ecommerce)
-    runs-on: ubuntu-latest
-    needs: build-ecommerce
-    if: needs.build-ecommerce.result == 'success'
-
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: ${{ github.repository }}-assistant
+      context: apps/assistant
+      file: apps/assistant/docker/Dockerfile
+      changed: ${{ needs.changes.outputs.assistant }}
+      app-name: assistant
     permissions:
       contents: write
       packages: write
       id-token: write
       attestations: write
-
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate SBOM from image
-        uses: anchore/sbom-action@v0
-        with:
-          image: ${{ env.REGISTRY }}/${{ env.ECOMMERCE_IMAGE }}:${{ needs.build-ecommerce.outputs.image-tag }}
-          syft-version: v1.51.1
-          format: spdx-json
-          output-file: sbom.spdx.json
-          upload-artifact: true
-          artifact-name: sbom-ecommerce-${{ needs.build-ecommerce.outputs.image-tag }}
-
-      - name: Attest SBOM
-        uses: actions/attest-sbom@v4
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.ECOMMERCE_IMAGE }}
-          subject-digest: ${{ needs.build-ecommerce.outputs.image-digest }}
-          sbom-path: sbom.spdx.json
-          push-to-registry: true
-
-  # ─── Assistant: SBOM ──────────────────────────────────────────────────────
-  sbom-assistant:
-    name: 📋 SBOM (Assistant)
-    runs-on: ubuntu-latest
-    needs: build-assistant
-    if: needs.build-assistant.result == 'success'
-
-    permissions:
-      contents: write
-      packages: write
-      id-token: write
-      attestations: write
-
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate SBOM from image
-        uses: anchore/sbom-action@v0
-        with:
-          image: ${{ env.REGISTRY }}/${{ env.ASSISTANT_IMAGE }}:${{ needs.build-assistant.outputs.image-tag }}
-          syft-version: v1.51.1
-          format: spdx-json
-          output-file: sbom.spdx.json
-          upload-artifact: true
-          artifact-name: sbom-assistant-${{ needs.build-assistant.outputs.image-tag }}
-
-      - name: Attest SBOM
-        uses: actions/attest-sbom@v4
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.ASSISTANT_IMAGE }}
-          subject-digest: ${{ needs.build-assistant.outputs.image-digest }}
-          sbom-path: sbom.spdx.json
-          push-to-registry: true
-
-  # ─── Ecommerce: Security Scan ─────────────────────────────────────────────
-  scan-ecommerce:
-    name: 🔒 Security Scan (Ecommerce)
-    runs-on: ubuntu-latest
-    needs: build-ecommerce
-    if: needs.build-ecommerce.result == 'success'
-
-    permissions:
-      contents: read
-      packages: read
       security-events: write
-
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Scan image for vulnerabilities
-        uses: aquasecurity/trivy-action@v0.36.0
-        with:
-          image-ref: ${{ env.REGISTRY }}/${{ env.ECOMMERCE_IMAGE }}:${{ needs.build-ecommerce.outputs.image-tag }}
-          format: sarif
-          output: trivy.sarif
-          severity: CRITICAL,HIGH
-          exit-code: 0
-
-      - name: Upload results to GitHub Security tab
-        if: always()
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: trivy.sarif
-          category: trivy-ecommerce
-
-  # ─── Assistant: Security Scan ─────────────────────────────────────────────
-  scan-assistant:
-    name: 🔒 Security Scan (Assistant)
-    runs-on: ubuntu-latest
-    needs: build-assistant
-    if: needs.build-assistant.result == 'success'
-
-    permissions:
-      contents: read
-      packages: read
-      security-events: write
-
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Scan image for vulnerabilities
-        uses: aquasecurity/trivy-action@v0.36.0
-        with:
-          image-ref: ${{ env.REGISTRY }}/${{ env.ASSISTANT_IMAGE }}:${{ needs.build-assistant.outputs.image-tag }}
-          format: sarif
-          output: trivy.sarif
-          severity: CRITICAL,HIGH
-          exit-code: 0
-
-      - name: Upload results to GitHub Security tab
-        if: always()
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: trivy.sarif
-          category: trivy-assistant
-
-  # ─── Ecommerce: Sign Image ────────────────────────────────────────────────
-  sign-ecommerce:
-    name: ✍️ Sign Image (Ecommerce)
-    runs-on: ubuntu-latest
-    needs: [build-ecommerce, scan-ecommerce]
-    if: needs.build-ecommerce.result == 'success'
-
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
-
-    steps:
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v4.1.2
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Sign image
-        run: |
-          cosign sign --yes \
-            ${{ env.REGISTRY }}/${{ env.ECOMMERCE_IMAGE }}@${{ needs.build-ecommerce.outputs.image-digest }}
-
-  # ─── Assistant: Sign Image ────────────────────────────────────────────────
-  sign-assistant:
-    name: ✍️ Sign Image (Assistant)
-    runs-on: ubuntu-latest
-    needs: [build-assistant, scan-assistant]
-    if: needs.build-assistant.result == 'success'
-
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
-
-    steps:
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v4.1.2
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Sign image
-        run: |
-          cosign sign --yes \
-            ${{ env.REGISTRY }}/${{ env.ASSISTANT_IMAGE }}@${{ needs.build-assistant.outputs.image-digest }}
 
   # ─── Sync image tags → ArgoCD auto-syncs ─────────────────────────────────
   sync:
     name: 🔄 Sync image tags
     runs-on: ubuntu-latest
-    needs: [build-ecommerce, scan-ecommerce, sign-ecommerce, build-assistant, scan-assistant, sign-assistant]
+    needs: [build-ecommerce, build-assistant]
     if: always() && (needs.build-ecommerce.result == 'success' || needs.build-assistant.result == 'success')
 
     permissions:
