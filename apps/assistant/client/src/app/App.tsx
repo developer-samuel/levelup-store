@@ -12,11 +12,7 @@ export default function App() {
 
   return (
     <>
-      <button
-        className={s.trigger}
-        onClick={() => setOpen(true)}
-        aria-label="Open chat"
-      >
+      <button className={s.trigger} onClick={() => setOpen(true)} aria-label="Open chat">
         <MessageSquare className={s.triggerIcon} />
       </button>
 

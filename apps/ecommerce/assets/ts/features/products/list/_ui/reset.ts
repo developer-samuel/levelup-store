@@ -1,7 +1,9 @@
 import { queryAll } from '@/ts/shared/utils/dom/query'
 
 export function resetFilterUI(initialMaxPrice: string): void {
-  queryAll<HTMLInputElement>('input[name="brand[]"]').forEach((el) => { el.checked = false })
+  queryAll<HTMLInputElement>('input[name="brand[]"]').forEach((el) => {
+    el.checked = false
+  })
   queryAll<HTMLElement>('[data-subtype]').forEach((el) => el.classList.remove('products__filter-list-item--active'))
 
   const minPrice = document.getElementById('minPrice') as HTMLInputElement | null

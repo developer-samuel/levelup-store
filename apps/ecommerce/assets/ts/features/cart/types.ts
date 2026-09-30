@@ -32,5 +32,5 @@ export type CartAction = 'add' | 'remove'
 export type CartInstance = {
   elements: CartElements | null
   isOpen: boolean
-  openedAt: number
+  openedAt?: number
 }

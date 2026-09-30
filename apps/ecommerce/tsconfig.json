@@ -25,8 +25,5 @@
     "assets/vendor",
     "node_modules",
     "vendor"
-  ],
-  "references": [
-    { "path": "./tsconfig.test.json" }
   ]
 }
