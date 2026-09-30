@@ -35,11 +35,12 @@ runs:
     - name: Start MinIO server
       shell: bash
       run: |
-        pip install --quiet 'moto[s3,server]'
+        python3 -m venv /tmp/moto-venv
+        /tmp/moto-venv/bin/pip install --quiet 'moto[s3,server]'
         AWS_ACCESS_KEY_ID=${{ inputs.minio-user }} \
         AWS_SECRET_ACCESS_KEY=${{ inputs.minio-password }} \
         AWS_DEFAULT_REGION=us-east-1 \
-        moto_server s3 -p ${{ inputs.minio-port }} &>/tmp/minio.log &
+        /tmp/moto-venv/bin/moto_server s3 -p ${{ inputs.minio-port }} &>/tmp/minio.log &
         echo "moto_server started (PID $!)"
 
     - name: Wait for MinIO and create bucket
@@ -58,8 +59,8 @@ runs:
           sleep 2
         done
         echo "MinIO is ready."
-        pip install --quiet awscli
-        aws --endpoint-url http://127.0.0.1:${{ inputs.minio-port }} \
+        /tmp/moto-venv/bin/pip install --quiet awscli
+        /tmp/moto-venv/bin/aws --endpoint-url http://127.0.0.1:${{ inputs.minio-port }} \
           --region us-east-1 \
           s3 mb s3://${{ inputs.minio-bucket }} 2>/dev/null || true
         echo "Bucket '${{ inputs.minio-bucket }}' ready."
