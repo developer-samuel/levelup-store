@@ -178,10 +178,7 @@ jobs:
           --health-retries 10
 
       minio:
-        image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
-        credentials:
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_PASSWORD }}
+        image: bitnami/minio:latest
         env:
           MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
@@ -249,7 +246,7 @@ jobs:
 
       - name: Show test log on failure
         if: failure()
-        run: cat apps/ecommerce/var/log/test.log 2>/dev/null || echo "No test log found"
+        run: cat var/log/test.log 2>/dev/null || echo "No test log found"
 
       - uses: actions/upload-artifact@v7
         if: failure()
