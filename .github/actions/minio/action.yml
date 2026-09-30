@@ -1,5 +1,5 @@
 name: Setup MinIO
-description: Start MinIO server binary, create bucket, and inject environment variables
+description: Start S3-compatible server (moto), create bucket, and inject environment variables
 
 inputs:
   minio-port:
@@ -35,25 +35,19 @@ runs:
     - name: Start MinIO server
       shell: bash
       run: |
-        curl -sSL \
-          "https://dl.min.io/aistor/minio/release/linux-amd64/minio" \
-          -o /usr/local/bin/minio
-        chmod +x /usr/local/bin/minio
-        file /usr/local/bin/minio
-        mkdir -p /tmp/minio-data
-        MINIO_ROOT_USER=${{ inputs.minio-user }} \
-        MINIO_ROOT_PASSWORD=${{ inputs.minio-password }} \
-        /usr/local/bin/minio server /tmp/minio-data \
-          --address ":${{ inputs.minio-port }}" \
-          --quiet &>/tmp/minio.log &
-        echo "MinIO started (PID $!)"
+        pip install --quiet 'moto[s3,server]'
+        AWS_ACCESS_KEY_ID=${{ inputs.minio-user }} \
+        AWS_SECRET_ACCESS_KEY=${{ inputs.minio-password }} \
+        AWS_DEFAULT_REGION=us-east-1 \
+        moto_server s3 -p ${{ inputs.minio-port }} &>/tmp/minio.log &
+        echo "moto_server started (PID $!)"
 
     - name: Wait for MinIO and create bucket
       shell: bash
       run: |
         echo "Waiting for MinIO to be ready..."
         RETRIES=30
-        until curl -sf http://127.0.0.1:${{ inputs.minio-port }}/minio/health/live; do
+        until curl -sf http://127.0.0.1:${{ inputs.minio-port }}/; do
           RETRIES=$((RETRIES - 1))
           if [ "$RETRIES" -le 0 ]; then
             echo "MinIO failed to start. Log:"
@@ -64,9 +58,8 @@ runs:
           sleep 2
         done
         echo "MinIO is ready."
-        curl -sSL https://github.com/minio/mc/releases/download/RELEASE.2025-08-13T08-35-41Z/mc.linux-amd64.RELEASE.2025-08-13T08-35-41Z -o /usr/local/bin/mc
-        chmod +x /usr/local/bin/mc
-        mc alias set ci http://127.0.0.1:${{ inputs.minio-port }} ${{ inputs.minio-user }} ${{ inputs.minio-password }}
-        mc mb ci/${{ inputs.minio-bucket }} --ignore-existing
-        mc anonymous set download ci/${{ inputs.minio-bucket }}
+        pip install --quiet awscli
+        aws --endpoint-url http://127.0.0.1:${{ inputs.minio-port }} \
+          --region us-east-1 \
+          s3 mb s3://${{ inputs.minio-bucket }} 2>/dev/null || true
         echo "Bucket '${{ inputs.minio-bucket }}' ready."
