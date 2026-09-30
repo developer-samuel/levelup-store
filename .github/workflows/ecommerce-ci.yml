@@ -365,7 +365,7 @@ jobs:
           restore-keys: playwright-chromium-
 
       - name: Install Playwright Chromium
-        run: pnpm exec playwright install chromium --with-deps
+        run: pnpm --filter ecommerce exec playwright install chromium --with-deps
 
       - name: Bootstrap
         uses: ./.github/actions/bootstrap
