@@ -13,6 +13,10 @@ TF_VAR_ssh_public_key := $(shell cat $(ANSIBLE_SSH_KEY).pub 2>/dev/null)
 
 # ── Variables ─────────────────────────────────────────────────────────────────
 
+# kubeconfig
+KUBECONFIG    ?= $(HOME)/.kube/config-levelup
+export KUBECONFIG
+
 # dirs
 TERRAFORM_DIR := terraform/oracle
 ANSIBLE_DIR   := ansible

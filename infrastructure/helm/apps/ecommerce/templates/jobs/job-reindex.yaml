@@ -31,7 +31,7 @@ spec:
               drop: [ALL]
           command:
             - php
-            - /var/www/bin/console
+            - /var/www/apps/ecommerce/bin/console
             - app:elasticsearch:reindex
           envFrom:
             - configMapRef:

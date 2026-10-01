@@ -2,6 +2,7 @@
 config/secrets/*/*.private.php
 config/secrets/*/*.public.php
 config/jwt/*.pem
+config/jwt/*.pem.bak
 
 # Bin
 bin/*

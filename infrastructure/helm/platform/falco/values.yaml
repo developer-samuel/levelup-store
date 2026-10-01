@@ -47,7 +47,7 @@ falco:
           and (
             fd.name startswith /etc
             or fd.name startswith /usr/local/bin
-            or fd.name startswith /var/www/.env
+            or fd.name startswith /var/www/apps/ecommerce/.env
           )
           and not proc.name in (php, php-fpm)
         output: >

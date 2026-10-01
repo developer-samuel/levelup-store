@@ -39,7 +39,7 @@ spec:
           imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           command:
             - php
-            - /var/www/bin/console
+            - /var/www/apps/ecommerce/bin/console
             - messenger:consume
             - async
             - --time-limit=3600
