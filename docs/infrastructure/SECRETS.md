@@ -39,16 +39,16 @@ Every variable listed below must be set in `.env.production` before running it.
 
 ### App
 
-| Variable             | Description                                 | Example                                   |
-|----------------------|---------------------------------------------|-------------------------------------------|
-| `APP_DOMAIN`         | Public domain (no protocol)                 | `yourdomain.com`                          |
-| `APP_URL`            | Full public URL                             | `https://yourdomain.com`                  |
-| `APP_SECRET`         | Symfony app secret (random 32+ char string) | `openssl rand -hex 32`                    |
-| `HMAC_SECRET`        | HMAC signing secret                         | `openssl rand -hex 32`                    |
-| `CORS_ALLOW_ORIGIN`  | Allowed CORS origins (regex)                | `https://yourdomain.com`                  |
-| `TRUSTED_PROXIES`    | Trusted proxy IPs for Symfony               | `127.0.0.1,REMOTE_ADDR`                   |
-| `AUDIT_LOGS_ENABLED` | Enable audit logging                        | `true`                                    |
-| `GHCR_IMAGE`         | Full GHCR image path (without tag)          | `ghcr.io/your-username/levelup-store/app` |
+| Variable              | Description                                 | Example                                   |
+|-----------------------|---------------------------------------------|-------------------------------------------|
+| `APP_DOMAIN`          | Public domain (no protocol)                 | `yourdomain.com`                          |
+| `APP_URL`             | Full public URL                             | `https://yourdomain.com`                  |
+| `APP_SECRET`          | Symfony app secret (random 32+ char string) | `openssl rand -hex 32`                    |
+| `HMAC_SECRET`         | HMAC signing secret                         | `openssl rand -hex 32`                    |
+| `CORS_ALLOW_ORIGIN`   | Allowed CORS origins (regex)                | `https://yourdomain.com`                  |
+| `TRUSTED_PROXIES`     | Trusted proxy IPs for Symfony               | `127.0.0.1,REMOTE_ADDR`                   |
+| `AUDIT_LOGS_ENABLED`  | Enable audit logging                        | `true`                                    |
+| `ECOMMERCE_GHCR_IMAGE` | Full GHCR image path (without tag)         | `ghcr.io/your-username/levelup-store/app` |
 
 ### Database (PostgreSQL)
 

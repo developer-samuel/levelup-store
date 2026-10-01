@@ -68,7 +68,7 @@ ecommerce-secrets:
 	$(call require,APP_DOMAIN)
 	$(call require,APP_URL)
 	$(call require,CORS_ALLOW_ORIGIN)
-	$(call require,GHCR_IMAGE)
+	$(call require,ECOMMERCE_GHCR_IMAGE)
 	$(call require,APP_SECRET)
 	$(call require,HMAC_SECRET)
 	$(call require,JWT_PASSPHRASE)
@@ -103,7 +103,7 @@ ecommerce-secrets:
 	$(call argocd_login)
 	argocd app set $(APP_NAME) $(ARGOCD_FLAGS) \
 		-p sealedSecrets.enabled=false \
-		-p app.image.repository="$(GHCR_IMAGE)" \
+		-p app.image.repository="$(ECOMMERCE_GHCR_IMAGE)" \
 		-p app.secret="$(APP_SECRET)" \
 		-p app.hmacSecret="$(HMAC_SECRET)" \
 		-p app.jwtPassphrase="$(JWT_PASSPHRASE)" \
