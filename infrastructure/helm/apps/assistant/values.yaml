@@ -37,8 +37,8 @@ app:
 worker:
   resources:
     requests:
-      cpu: 50m
-      memory: 256Mi
+      cpu: 25m
+      memory: 128Mi
     limits:
       cpu: 500m
       memory: 1Gi
@@ -46,7 +46,7 @@ worker:
 scheduler:
   resources:
     requests:
-      cpu: 50m
+      cpu: 25m
       memory: 128Mi
     limits:
       cpu: 250m
@@ -74,7 +74,7 @@ chromadb:
   # Vector DB
   resources:
     requests:
-      cpu: 50m
+      cpu: 25m
       memory: 512Mi
     limits:
       cpu: 500m

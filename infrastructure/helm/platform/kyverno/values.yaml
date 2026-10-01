@@ -3,11 +3,47 @@ kyverno:
 
   resources:
     requests:
-      cpu: 50m
+      cpu: 25m
       memory: 128Mi
     limits:
       cpu: 500m
       memory: 256Mi
+
+  admissionController:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+
+  backgroundController:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+      limits:
+        cpu: 250m
+        memory: 128Mi
+
+  cleanupController:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+      limits:
+        cpu: 250m
+        memory: 128Mi
+
+  reportsController:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+      limits:
+        cpu: 250m
+        memory: 128Mi
 
   # Audit mode - logs violations without blocking (safe for initial rollout)
   # Switch policies to Enforce after verifying no violations in Grafana/logs
