@@ -68,9 +68,9 @@ spec:
             - name: tmp
               mountPath: /tmp
             - name: var-cache
-              mountPath: /var/www/var/cache
+              mountPath: /var/www/apps/ecommerce/var/cache
             - name: var-log
-              mountPath: /var/www/var/log
+              mountPath: /var/www/apps/ecommerce/var/log
           {{- end }}
           resources:
             requests:
