@@ -34,7 +34,7 @@ spec:
                   drop: [ALL]
               command:
                 - php
-                - /var/www/bin/console
+                - /var/www/apps/ecommerce/bin/console
                 - messenger:consume
                 - scheduler_default
                 - --time-limit=840
