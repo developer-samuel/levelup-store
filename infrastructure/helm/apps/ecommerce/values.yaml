@@ -108,7 +108,7 @@ limitRange:
     cpu: 10m
     memory: 32Mi
 
-# Resource Quota - namespace ceiling (node: 2 CPU / 12Gi RAM)
+# Resource Quota - namespace ceiling
 resourceQuota:
   requests:
     cpu: "1"
