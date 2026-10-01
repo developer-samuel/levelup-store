@@ -77,11 +77,16 @@ spec:
             {{- toYaml .Values.chromadb.resources | nindent 12 }}
           volumeMounts:
             - name: data
-              mountPath: /chroma
+              mountPath: /chroma/chroma
+            - name: tmp
+              mountPath: /chroma/chroma.log
+              subPath: chroma.log
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "levelup-store-assistant.fullname" . }}-chromadb
+        - name: tmp
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
