@@ -64,6 +64,19 @@ chromadb:
   enabled: true
   host: chromadb
   port: 8000
+  # Override default entrypoint to skip --log-config (file not writable in k8s)
+  command:
+    - uvicorn
+    - chromadb.app:app
+    - "--workers"
+    - "1"
+    - "--host"
+    - "0.0.0.0"
+    - "--port"
+    - "8000"
+    - "--proxy-headers"
+    - "--timeout-keep-alive"
+    - "30"
   image:
     repository: chromadb/chroma
     tag: "0.6.3"

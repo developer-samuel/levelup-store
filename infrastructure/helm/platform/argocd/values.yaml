@@ -7,3 +7,33 @@ argo-cd:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       # hostname: set via make argocd-install (argocd.$APP_DOMAIN)
       tls: true
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+
+  repoServer:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+  applicationController:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+  configs:
+    cm:
+      # Check interval - default 3m, increase to reduce CPU spikes
+      timeout.reconciliation: 300s
