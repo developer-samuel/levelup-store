@@ -27,7 +27,7 @@ jobs:
       - name: Run Hadolint
         uses: hadolint/hadolint-action@v3.5.0
         with:
-          dockerfile: apps/ecommerce/docker/Dockerfile.prod
+          dockerfile: docker/Dockerfile.prod
           config: .hadolint.yaml
           format: sarif
           output-file: hadolint.sarif
@@ -80,7 +80,8 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: apps/ecommerce/docker/Dockerfile.prod
+          file: docker/Dockerfile.prod
+          target: ecommerce
           load: true
           tags: levelup-store-ecommerce:test
           cache-from: type=gha
@@ -117,7 +118,8 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: apps/ecommerce/docker/Dockerfile.prod
+          file: docker/Dockerfile.prod
+          target: ecommerce
           load: true
           tags: levelup-store-ecommerce:pr
           cache-from: type=gha

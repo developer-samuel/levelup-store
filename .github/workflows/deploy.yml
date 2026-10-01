@@ -41,12 +41,13 @@ jobs:
               - '!apps/ecommerce/tests/**'
               - '!**/*.md'
               - '!**/*.mmd'
-              - 'docker-compose*.yml'
+              - 'docker/Dockerfile.prod'
             assistant:
               - 'apps/assistant/**'
               - '!apps/assistant/docs/**'
               - '!**/*.md'
               - '!**/*.mmd'
+              - 'docker/Dockerfile.prod'
 
   # ─── Ecommerce: Build, SBOM, Scan, Sign ──────────────────────────────────
   build-ecommerce:
@@ -55,7 +56,8 @@ jobs:
     with:
       image: ${{ github.repository }}-ecommerce
       context: .
-      file: apps/ecommerce/docker/Dockerfile.prod
+      file: docker/Dockerfile.prod
+      target: ecommerce
       changed: ${{ needs.changes.outputs.ecommerce }}
       app-name: ecommerce
     permissions:
@@ -71,8 +73,9 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     with:
       image: ${{ github.repository }}-assistant
-      context: apps/assistant
-      file: apps/assistant/docker/Dockerfile
+      context: .
+      file: docker/Dockerfile.prod
+      target: assistant
       changed: ${{ needs.changes.outputs.assistant }}
       app-name: assistant
     permissions:

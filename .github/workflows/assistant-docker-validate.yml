@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'docker/**'
       - 'apps/assistant/docker/**'
       - '.hadolint.yaml'
   workflow_dispatch:
@@ -24,7 +25,7 @@ jobs:
       - name: Run Hadolint
         uses: hadolint/hadolint-action@v3.5.0
         with:
-          dockerfile: apps/assistant/docker/Dockerfile
+          dockerfile: docker/Dockerfile.prod
           config: .hadolint.yaml
           format: sarif
           output-file: hadolint.sarif
@@ -55,8 +56,9 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v7
         with:
-          context: apps/assistant
-          file: apps/assistant/docker/Dockerfile
+          context: .
+          file: docker/Dockerfile.prod
+          target: assistant
           load: true
           tags: levelup-store-assistant:pr
           cache-from: type=gha

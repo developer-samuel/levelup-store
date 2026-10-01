@@ -88,12 +88,12 @@ CI builds it automatically on every push to `main`, so these commands are for lo
 # Build production image locally
 make build-prod
 # or
-docker build -f apps/ecommerce/docker/Dockerfile.prod -t levelup-store-ecommerce:prod-test .
+docker build -f docker/Dockerfile.prod --target ecommerce -t levelup-store-ecommerce:prod-test .
 
 # Verify production image has bin/console (run after build-prod)
 make test-prod
 # or
-docker run --rm --entrypoint php levelup-store-ecommerce:prod-test -l /var/www/bin/console
+docker run --rm --entrypoint php levelup-store-ecommerce:prod-test -l /var/www/apps/ecommerce/bin/console
 ```
 
 ---
