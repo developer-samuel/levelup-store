@@ -17,12 +17,16 @@ spec:
       labels:
         app: ollama
     spec:
+      securityContext:
+        runAsNonRoot: false
       initContainers:
         {{- range .Values.models }}
         - name: pull-{{ . | replace ":" "-" | replace "/" "-" }}
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           command: ["ollama", "pull", "{{ . }}"]
+          securityContext:
+            allowPrivilegeEscalation: false
           env:
             - name: OLLAMA_MODELS
               value: /root/.ollama/models
@@ -44,6 +48,8 @@ spec:
           ports:
             - name: http
               containerPort: 11434
+          securityContext:
+            allowPrivilegeEscalation: false
           env:
             - name: OLLAMA_MODELS
               value: /root/.ollama/models
