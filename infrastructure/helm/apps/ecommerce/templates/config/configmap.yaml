@@ -47,6 +47,8 @@ data:
   JWT_TTL: {{ .Values.app.jwtTtl | quote }}
   JWT_REFRESH_TTL: {{ .Values.app.jwtRefreshTtl | quote }}
 
+  AI_ASSISTANT_ENABLED: {{ .Values.app.aiAssistantEnabled | default "true" | quote }}
+
   API_COUNTRY_URL: {{ .Values.app.apiCountryUrl | quote }}
   SENTRY_DSN: {{ .Values.app.sentryDsn | default "null" | quote }}
 
