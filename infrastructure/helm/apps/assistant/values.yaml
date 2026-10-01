@@ -97,7 +97,7 @@ limitRange:
     cpu: 500m
     memory: 1Gi
   defaultRequest:
-    cpu: 50m
+    cpu: 25m
     memory: 128Mi
   max:
     cpu: "2"
@@ -109,7 +109,7 @@ limitRange:
 # Resource Quota - total namespace ceiling (~10GB target, 12GB node)
 resourceQuota:
   requests:
-    cpu: "500m"
+    cpu: "250m"
     memory: 2Gi
   limits:
     cpu: "4"
