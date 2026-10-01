@@ -39,10 +39,14 @@ jobs:
               - '!apps/ecommerce/docs/**'
               - '!apps/ecommerce/scripts/**'
               - '!apps/ecommerce/tests/**'
+              - '!**/*.md'
+              - '!**/*.mmd'
               - 'docker-compose*.yml'
             assistant:
               - 'apps/assistant/**'
               - '!apps/assistant/docs/**'
+              - '!**/*.md'
+              - '!**/*.mmd'
 
   # ─── Ecommerce: Build, SBOM, Scan, Sign ──────────────────────────────────
   build-ecommerce:

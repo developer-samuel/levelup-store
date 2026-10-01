@@ -1,6 +1,7 @@
 graph TD
     %% CI/CD deployment pipeline - GitHub Actions
-    %% deploy.yml: parallel ecommerce + assistant pipelines → shared sync
+    %% deploy.yml: orchestrates via build-image.yml (reusable workflow)
+    %% EcommerceTrack + AssistantTrack run inside build-image.yml
     %% ecommerce-ci.yml + assistant-ci.yml run independently (not gates)
 
     classDef trigger  fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
@@ -29,9 +30,9 @@ graph TD
 
     %% ── deploy.yml ───────────────────────────────────────────────────────────
 
-    subgraph DeployWorkflow["deploy.yml"]
+    subgraph DeployWorkflow["deploy.yml + build-image.yml"]
 
-        subgraph EcommerceTrack["Ecommerce track  (parallel)"]
+        subgraph EcommerceTrack["Ecommerce track  (build-image.yml)"]
             BuildEcommerce[🐳 build-ecommerce\nDockerfile.prod · amd64+arm64]:::build
             GHCREcommerce[📦 push → GHCR\n*-ecommerce]:::registry
             SbomEcommerce[📋 sbom-ecommerce\nSyft + GitHub Attestation]:::sbom
@@ -39,7 +40,7 @@ graph TD
             SignEcommerce[✍️ sign-ecommerce\ncosign keyless · Sigstore]:::security
         end
 
-        subgraph AssistantTrack["Assistant track  (parallel)"]
+        subgraph AssistantTrack["Assistant track  (build-image.yml)"]
             BuildAssistant[🐳 build-assistant\nDockerfile · amd64+arm64]:::build
             GHCRAssistant[📦 push → GHCR\n*-assistant]:::registry
             SbomAssistant[📋 sbom-assistant\nSyft + GitHub Attestation]:::sbom
@@ -47,7 +48,7 @@ graph TD
             SignAssistant[✍️ sign-assistant\ncosign keyless · Sigstore]:::security
         end
 
-        subgraph SyncJob["sync  (needs: both sign jobs)"]
+        subgraph SyncJob["sync  (needs: both build-image workflows)"]
             ValuesUpdate[📝 Update image tags\nvalues.prod.yaml]:::gitops
             GitCommit[💾 git commit + push\nskip ci]:::gitops
         end
