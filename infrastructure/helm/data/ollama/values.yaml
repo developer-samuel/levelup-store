@@ -1,0 +1,24 @@
+image:
+  repository: ollama/ollama
+  tag: "0.5.13"
+  pullPolicy: IfNotPresent
+
+# Models to pull on startup (init container)
+models:
+  - mistral
+  - nomic-embed-text
+
+persistence:
+  size: 10Gi
+  storageClass: ""   # cluster default
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 512Mi
+  limits:
+    cpu: "2"
+    memory: 8Gi
+
+service:
+  port: 11434
