@@ -1,133 +1,116 @@
 # 🛒 LevelUp Store
 
-A production-ready **e-commerce platform** built with **Symfony 7.4**, **Vanilla TypeScript**, and **SCSS**.  
-Designed for security, scalability, robustness, observability, and maintainability.
+A production-ready **e-commerce monorepo** with two apps:
 
-- Product catalog with categories, types, subtypes, filters, and sorting
-- Cart, checkout, and order management with Stripe and cash-on-delivery
-- JWT authentication - login, signup, password reset, email verification
-- Admin panel with dashboard analytics, CRUD for products, orders, and users
-- Wishlist, reviews with reactions, PDF invoices, Redis caching, and async email queue via RabbitMQ
-- Real-time product stock and review rating updates via Mercure (SSE)
+- **[Ecommerce](apps/ecommerce/README.md)** - Symfony 7.4, Vanilla TypeScript, SCSS
+- **[Assistant](apps/assistant/README.md)** - FastAPI, React, TypeScript, Tailwind, RAG (ChromaDB)
+
+Both apps are deployed to Kubernetes (k3s on Oracle Cloud) via ArgoCD.
 
 ---
 
 ## 📊 Status
 
 ### CI/CD
-[![CI](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/main.yml?logo=githubactions&label=CI)](https://github.com/developer-samuel/levelup-store/actions/workflows/main.yml)
 [![Deploy](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/deploy.yml?logo=docker&label=Deploy)](https://github.com/developer-samuel/levelup-store/actions/workflows/deploy.yml)
 [![Terraform](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/infrastructure-validate.yml?logo=terraform&label=Terraform)](https://github.com/developer-samuel/levelup-store/actions/workflows/infrastructure-validate.yml)
 
 ### Security
 [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/developer-samuel/levelup-store?logo=github&label=OpenSSF+Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/developer-samuel/levelup-store)
-[![CodeQL](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/sast.yml?logo=github&label=CodeQL)](https://github.com/developer-samuel/levelup-store/actions/workflows/sast.yml)
 [![Supply Chain](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/supply-chain.yml?logo=dependabot&label=Supply+Chain)](https://github.com/developer-samuel/levelup-store/actions/workflows/supply-chain.yml)
 [![CVE Scan](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/cve-scan.yml?logo=trivy&label=CVE+Scan)](https://github.com/developer-samuel/levelup-store/actions/workflows/cve-scan.yml)
 
 ### Coverage
 [![codecov](https://codecov.io/gh/developer-samuel/levelup-store/branch/main/graph/badge.svg)](https://codecov.io/gh/developer-samuel/levelup-store)
-[![Code Quality](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/code-quality.yml?logo=sonar&label=Code+Quality)](https://github.com/developer-samuel/levelup-store/actions/workflows/code-quality.yml)
 
 ---
 
-## 🧱 Architecture
-
-- Hexagonal Architecture (Ports & Adapters)
-- Domain-Driven Design (DDD)
-- CQRS for read/write separation
-- Event-Driven Design
+## 📦 Repository Structure
 
 ```
-src/
-├── Adapters/           # Gateways connecting Core to the outside world
-│   ├── External/       # Stripe, PDF, JWT, Country API, Redis, RabbitMQ, Elasticsearch, Mercure, MinIO
-│   └── Internal/       # Cookie, security, internal cache, order segment
-├── Core/               # Heart of the application - pure business logic
-│   ├── Application/    # Orchestration: services, handlers, inputs, policies
-│   ├── Domain/         # Business rules: entities, value objects, events, specs
-│   └── Ports/          # Contracts: gateways, repositories, renderers, notifiers
-├── Infrastructure/     # Technical implementations: repositories, listeners, mailers
-├── Presentation/       # User-facing layer: controllers, requests, renderers, twig
-├── Scheduler/          # Background tasks and async messages
-└── Shared/             # Cross-cutting: utils, traits, enums, constants
+levelup-store/
+├── apps/
+│   ├── ecommerce/          # Symfony e-commerce app
+│   └── assistant/          # FastAPI AI assistant
+├── infrastructure/
+│   ├── helm/               # Helm charts (ArgoCD managed)
+│   ├── terraform/          # Oracle Cloud provisioning
+│   ├── ansible/            # k3s install + server hardening
+│   └── kubernetes/         # ArgoCD App of Apps
+├── scripts/                # Shared CLI scripts
+└── docs/                   # Shared documentation
 ```
-
-→ Full architecture overview: [docs/runtime/ARCHITECTURE.md](docs/runtime/ARCHITECTURE.md)
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Apps
 
-| Layer          | Stack                                                            |
-|----------------|------------------------------------------------------------------|
-| Backend        | PHP 8.3, Symfony 7.4                                             |
-| Auth           | JWT (LexikJWTAuthenticationBundle)                               |
-| Frontend       | Vanilla TypeScript, SCSS, Vite                                   |
-| Database       | PostgreSQL / MySQL                                               |
-| Cache          | Redis (cache, sessions, rate limiting)                           |
-| Queue          | RabbitMQ / Doctrine (Symfony Messenger)                          |
-| Payments       | Stripe API (card), cash-on-delivery                              |
-| Infrastructure | Docker, Nginx, Prometheus, Grafana, Loki, Mercure, MinIO, Sentry |
-| Testing        | PHPUnit, Vitest, Playwright                                      |
+### 🛒 [Ecommerce](apps/ecommerce/README.md)
 
-→ Full tech stack: [docs/TECHSTACK.md](docs/TECHSTACK.md)
+Symfony 7.4 e-commerce platform with:
+- Product catalog, cart, checkout, orders, Stripe payments
+- JWT auth, admin panel, wishlist, reviews, PDF invoices
+- Redis caching, RabbitMQ async queue, Mercure SSE, MinIO storage
+- Hexagonal Architecture, DDD, CQRS, Event-Driven
+
+### 🤖 [Assistant](apps/assistant/README.md)
+
+FastAPI AI assistant with:
+- RAG pipeline (ChromaDB), RabbitMQ job queue, Redis pub/sub
+- React + TypeScript frontend
 
 ---
 
 ## 🚀 Quick Start
 
-> 📁 **Sample uploads recommended** - download banners and images from [developer-samuel/levelup-store-uploads](https://github.com/developer-samuel/levelup-store-uploads) and place the `uploads/` folder into `public/`.
-
 ```bash
-# Quick start
-make setup
-
-# or step by step:
-
-# 1. Install dependencies
-make install
-# or
+# Install dependencies (generates .env from .env.example)
 composer install
-
 pnpm install
-# or
-npm install
-
-# 2. Setup database
-composer db-setup
-
-# 3. Run application
-make serve
-# or
-composer serve
-
-pnpm dev
-# or
-npm run dev
 ```
 
-→ Full installation guide: [docs/INSTALL.md](docs/INSTALL.md)  
-→ Environment & configuration: [docs/SETUP.md](docs/SETUP.md)  
-→ Docker & Makefile commands: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
+→ Ecommerce setup: [apps/ecommerce/docs/INSTALL.md](apps/ecommerce/docs/INSTALL.md)  
+→ Assistant setup: [apps/assistant/docs/INSTALL.md](apps/assistant/docs/INSTALL.md)
+
+---
+
+## ☸️ Infrastructure & Deploy
+
+```bash
+# Generate .env.production and fill in values
+composer env:generate
+
+# Deploy (from scratch)
+make -C infrastructure bootstrap
+```
+
+→ Full deploy guide: [docs/infrastructure/DEPLOYMENT.md](docs/infrastructure/DEPLOYMENT.md)  
+→ Infrastructure overview: [docs/infrastructure/OVERVIEW.md](docs/infrastructure/OVERVIEW.md)
 
 ---
 
 ## 📚 Documentation
 
-| Document                                        | Description                 |
-|-------------------------------------------------|-----------------------------|
-| [INSTALL.md](docs/INSTALL.md)                   | Installation steps          |
-| [SETUP.md](docs/SETUP.md)                       | Environment & configuration |
-| [REQUIREMENTS.md](docs/REQUIREMENTS.md)         | System requirements         |
-| [DEVELOPMENT.md](docs/DEVELOPMENT.md)           | Docker & Makefile reference |
-| [MAINTENANCE.md](docs/MAINTENANCE.md)           | Dependency maintenance      |
-| [TECHSTACK.md](docs/TECHSTACK.md)               | Full technology stack       |
-| [ARCHITECTURE.md](docs/runtime/ARCHITECTURE.md) | Architecture overview       |
-| [TESTS.md](docs/runtime/TESTS.md)               | Testing guide               |
-| [QUALITY.md](docs/runtime/QUALITY.md)           | Quality tools               |
-| [DEVOPS.md](docs/runtime/DEVOPS.md)             | DevOps & deployment         |
-| [MODEL.md](docs/runtime/MODEL.md)               | Project modeling & diagrams |
+### Shared
+| Document                                                               | Description             |
+|------------------------------------------------------------------------|-------------------------|
+| [docs/INSTALL.md](docs/INSTALL.md)                                     | Installation guide      |
+| [docs/SETUP.md](docs/SETUP.md)                                         | Environment setup       |
+| [docs/TECHSTACK.md](docs/TECHSTACK.md)                                 | Full technology stack   |
+| [docs/runtime/DEVOPS.md](docs/runtime/DEVOPS.md)                       | CI/CD pipelines         |
+| [docs/runtime/ARCHITECTURE.md](docs/runtime/ARCHITECTURE.md)           | Architecture overview   |
+| [docs/infrastructure/DEPLOYMENT.md](docs/infrastructure/DEPLOYMENT.md) | Kubernetes deploy guide |
+| [docs/infrastructure/SECRETS.md](docs/infrastructure/SECRETS.md)       | Secrets & env variables |
+
+### Per App
+| Ecommerce                                                                     | Assistant                                                      |
+|-------------------------------------------------------------------------------|----------------------------------------------------------------|
+| Install | [INSTALL.md](apps/ecommerce/docs/INSTALL.md)                        | [INSTALL.md](apps/assistant/docs/INSTALL.md)                   |
+| Setup | [SETUP.md](apps/ecommerce/docs/SETUP.md)                              | [SETUP.md](apps/assistant/docs/SETUP.md)                       |
+| Tech Stack | [TECHSTACK.md](apps/ecommerce/docs/TECHSTACK.md)                 | [TECHSTACK.md](apps/assistant/docs/TECHSTACK.md)               |
+| DevOps | [DEVOPS.md](apps/ecommerce/docs/runtime/DEVOPS.md)                   | [DEVOPS.md](apps/assistant/docs/runtime/DEVOPS.md)             |
+| Architecture | [ARCHITECTURE.md](apps/ecommerce/docs/runtime/ARCHITECTURE.md) | [ARCHITECTURE.md](apps/assistant/docs/runtime/ARCHITECTURE.md) |
+| Quality | [QUALITY.md](apps/ecommerce/docs/runtime/QUALITY.md)                | [QUALITY.md](apps/assistant/docs/runtime/QUALITY.md)           |
 
 ---
 
@@ -136,7 +119,7 @@ npm run dev
 - **Website:** [samuel-steiner.com](https://samuel-steiner.com)
 - **Links:** [links.samuel-steiner.com](https://links.samuel-steiner.com)
 - **GitHub:** [developer-samuel](https://github.com/developer-samuel)
-- **LinkedIn:** [samuel.programmer](https://www.linkedin.com/in/samuel-programmer)
+- **LinkedIn:** [samuel-programmer](https://www.linkedin.com/in/samuel-programmer)
 - **Instagram:** [samuel.programmer](https://instagram.com/samuel.programmer)
 
 ---

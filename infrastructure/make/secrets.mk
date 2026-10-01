@@ -54,12 +54,12 @@ services-secrets:
 
 ## Create JWT keypair secret from local config/jwt/*.pem files (run once after keygen)
 jwt-keys-secret:
-	@test -f ../config/jwt/private.pem || (echo "ERROR: config/jwt/private.pem not found. Run: php bin/console lexik:jwt:generate-keypair"; exit 1)
-	@test -f ../config/jwt/public.pem  || (echo "ERROR: config/jwt/public.pem not found."; exit 1)
+	@test -f ../apps/ecommerce/config/jwt/private.pem || (echo "ERROR: apps/ecommerce/config/jwt/private.pem not found. Run: cd apps/ecommerce && composer jwt:generate"; exit 1)
+	@test -f ../apps/ecommerce/config/jwt/public.pem  || (echo "ERROR: apps/ecommerce/config/jwt/public.pem not found."; exit 1)
 	kubectl create secret generic levelup-store-jwt-keys \
 		--namespace levelup-store \
-		--from-file=private.pem=../config/jwt/private.pem \
-		--from-file=public.pem=../config/jwt/public.pem \
+		--from-file=private.pem=../apps/ecommerce/config/jwt/private.pem \
+		--from-file=public.pem=../apps/ecommerce/config/jwt/public.pem \
 		--dry-run=client -o yaml | kubectl apply -f -
 	@echo "✓ JWT keys secret created/updated."
 
@@ -163,10 +163,6 @@ assistant-secrets:
 monitoring-secrets:
 	$(call require,APP_DOMAIN)
 	$(call require,GRAFANA_PASSWORD)
-	$(call require,MAILER_USER)
-	$(call require,MAILER_HOST)
-	$(call require,MAILER_PORT)
-	$(call require,MAILER_PASS)
 	$(call argocd_login)
 	argocd app set monitoring $(ARGOCD_FLAGS) \
 		-p kube-prometheus-stack.grafana.adminPassword="$(GRAFANA_PASSWORD)" \

@@ -12,7 +12,7 @@ graph TD
     %% ── Deploy ────────────────────────────────────────────────────────────────
 
     subgraph Deploy["Deploy"]
-        DeployYml[🐳 deploy.yml - build image, SBOM, Trivy, sign, sync ArgoCD]:::deploy
+        DeployYml[🐳 deploy.yml + build-image.yml - build image, SBOM, Trivy, sign, sync ArgoCD]:::deploy
         NotifyYml[🔔 notify.yml - deployment notification]:::deploy
     end
 
