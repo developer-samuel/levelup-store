@@ -77,7 +77,7 @@ spec:
             {{- toYaml .Values.chromadb.resources | nindent 12 }}
           volumeMounts:
             - name: data
-              mountPath: /chroma/chroma
+              mountPath: /chroma
       volumes:
         - name: data
           persistentVolumeClaim:
