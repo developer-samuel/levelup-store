@@ -33,7 +33,7 @@ graph TD
     subgraph DeployWorkflow["deploy.yml + build-image.yml"]
 
         subgraph EcommerceTrack["Ecommerce track  (build-image.yml)"]
-            BuildEcommerce[🐳 build-ecommerce\nDockerfile.prod · amd64+arm64]:::build
+            BuildEcommerce[🐳 build-ecommerce\ndocker/Dockerfile.prod --target ecommerce · amd64+arm64]:::build
             GHCREcommerce[📦 push → GHCR\n*-ecommerce]:::registry
             SbomEcommerce[📋 sbom-ecommerce\nSyft + GitHub Attestation]:::sbom
             ScanEcommerce[🔒 scan-ecommerce\nTrivy CRITICAL+HIGH + SARIF]:::security
@@ -41,7 +41,7 @@ graph TD
         end
 
         subgraph AssistantTrack["Assistant track  (build-image.yml)"]
-            BuildAssistant[🐳 build-assistant\nDockerfile · amd64+arm64]:::build
+            BuildAssistant[🐳 build-assistant\ndocker/Dockerfile.prod --target assistant · amd64+arm64]:::build
             GHCRAssistant[📦 push → GHCR\n*-assistant]:::registry
             SbomAssistant[📋 sbom-assistant\nSyft + GitHub Attestation]:::sbom
             ScanAssistant[🔒 scan-assistant\nTrivy CRITICAL+HIGH + SARIF]:::security

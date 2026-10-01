@@ -23,6 +23,11 @@ on:
         description: App name used for artifact/category labels (e.g. ecommerce)
         required: true
         type: string
+      target:
+        description: Docker build target stage (e.g. ecommerce, assistant)
+        required: false
+        type: string
+        default: ''
     outputs:
       image-tag:
         value: ${{ jobs.build.outputs.image-tag }}
@@ -81,6 +86,7 @@ jobs:
         with:
           context: ${{ inputs.context }}
           file: ${{ inputs.file }}
+          target: ${{ inputs.target }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
