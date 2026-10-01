@@ -102,8 +102,8 @@ limitRange:
     cpu: 50m
     memory: 128Mi
   max:
-    cpu: 500m
-    memory: 1Gi
+    cpu: "4"
+    memory: 10Gi
   min:
     cpu: 10m
     memory: 32Mi
