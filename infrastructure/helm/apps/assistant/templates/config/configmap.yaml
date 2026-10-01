@@ -6,8 +6,11 @@ metadata:
   labels:
     {{- include "levelup-store-assistant.labels" . | nindent 4 }}
 data:
-  CHROMADB_HOST: {{ .Values.chromadb.host | quote }}
-  CHROMADB_PORT: {{ .Values.chromadb.port | quote }}
+  CHROMA_HOST: "http://{{ .Values.chromadb.host }}:{{ .Values.chromadb.port }}"
+  CORS_ORIGINS: {{ .Values.app.corsOrigins | quote }}
+  SUPPORT_EMAIL: {{ .Values.app.supportEmail | quote }}
+  SENTRY_DSN: {{ .Values.app.sentryDsn | quote }}
+  OLLAMA_HOST: {{ .Values.app.ollamaHost | quote }}
   {{- if .Values.otel.enabled }}
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
   OTEL_SERVICE_NAME: "levelup-store-assistant"

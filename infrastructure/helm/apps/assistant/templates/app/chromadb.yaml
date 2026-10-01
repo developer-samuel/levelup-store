@@ -50,6 +50,9 @@ spec:
         - name: chromadb
           image: "{{ .Values.chromadb.image.repository }}:{{ .Values.chromadb.image.tag }}"
           imagePullPolicy: {{ .Values.chromadb.image.pullPolicy }}
+          {{- with .Values.chromadb.command }}
+          command: {{ toJson . }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 8000
@@ -78,15 +81,10 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /chroma/chroma
-            - name: tmp
-              mountPath: /chroma/chroma.log
-              subPath: chroma.log
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "levelup-store-assistant.fullname" . }}-chromadb
-        - name: tmp
-          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
