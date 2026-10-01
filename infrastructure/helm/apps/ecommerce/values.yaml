@@ -4,7 +4,7 @@ imagePullSecrets:
 # Application
 app:
   image:
-    repository: ghcr.io/developer-samuel/levelup-store
+    repository: ghcr.io/developer-samuel/levelup-store-ecommerce
     tag: latest
     pullPolicy: Always
 
