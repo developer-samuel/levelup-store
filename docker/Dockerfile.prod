@@ -46,6 +46,9 @@ COPY apps/ecommerce/vite.config.ts apps/ecommerce/tsconfig.json apps/ecommerce/i
 COPY apps/assistant/client/src/ apps/assistant/client/src/
 COPY apps/assistant/client/vite.config.ts apps/assistant/client/tsconfig.json apps/assistant/client/
 
+ARG VITE_API_URL=/assistant
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN pnpm --filter ecommerce build \
     && pnpm --filter assistant build
 
