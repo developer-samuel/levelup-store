@@ -96,7 +96,7 @@ After ArgoCD syncs MinIO for the first time, seed the bucket with initial upload
 Exec into the running app pod:
 
 ```bash
-kubectl exec -it deployment/levelup-store -n levelup-store -- bash docker/scripts/bootstrap/uploads-setup.sh
+kubectl exec -it deployment/levelup-store -n levelup-store -- /usr/local/bin/scripts/bootstrap/uploads-setup.sh
 ```
 
 The script reads `MINIO_ENABLED`, `MINIO_ENDPOINT`, `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`, and `MINIO_BUCKET`
