@@ -1,0 +1,94 @@
+vault:
+  server:
+    enabled: true
+    replicas: 1
+
+    resources:
+      requests:
+        cpu: 25m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    # Persist Vault data
+    dataStorage:
+      enabled: true
+      size: 2Gi
+      storageClass: ""   # cluster default
+
+    # Standalone mode (single node k3s)
+    standalone:
+      enabled: true
+      config: |
+        ui = true
+
+        listener "tcp" {
+          tls_disable = 1
+          address     = "[::]:8200"
+          cluster_address = "[::]:8201"
+        }
+
+        storage "file" {
+          path = "/vault/data"
+        }
+
+    extraEnvironmentVars:
+      VAULT_LOG_LEVEL: info
+
+    # Auto-unseal via postStart hook - runs after Vault starts, reads keys from K8s secret
+    extraContainers:
+      - name: auto-unseal
+        image: hashicorp/vault:1.18.3
+        command:
+          - sh
+          - -c
+          - |
+            export VAULT_ADDR=http://127.0.0.1:8200
+            echo "Waiting for Vault to be ready..."
+            until vault status 2>/dev/null; do sleep 2; done
+
+            vault status -format=json | grep -q '"sealed":false' && echo "Already unsealed." && exit 0
+
+            KEY1=$(jq -r '.unseal_keys_b64[0]' /vault/init/init.json)
+            KEY2=$(jq -r '.unseal_keys_b64[1]' /vault/init/init.json)
+            vault operator unseal "$KEY1"
+            vault operator unseal "$KEY2"
+            echo "Vault unsealed."
+            exec sleep infinity
+        env:
+          - name: VAULT_ADDR
+            value: http://127.0.0.1:8200
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
+        volumeMounts:
+          - name: vault-init-secret
+            mountPath: /vault/init
+            readOnly: true
+
+    extraVolumes:
+      - name: vault-init-secret
+        secret:
+          secretName: vault-init
+          optional: true   # missing before vault-init is run
+
+    serviceAccount:
+      create: true
+
+    authDelegator:
+      enabled: true
+
+  ui:
+    enabled: true
+    serviceType: ClusterIP
+
+  injector:
+    enabled: false   # using External Secrets Operator instead
+
+  csi:
+    enabled: false
