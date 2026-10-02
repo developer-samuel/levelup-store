@@ -153,6 +153,7 @@ assistant-secrets:
 	$(call require,SUPPORT_EMAIL)
 	$(call require,DATABASE_URL)
 	$(call require,CORS_ALLOW_ORIGIN)
+	$(call require,OLLAMA_HOST)
 	$(call argocd_login)
 	argocd app set levelup-store-assistant $(ARGOCD_FLAGS) \
 		-p app.aiAssistantApiKey="$(AI_ASSISTANT_API_KEY)" \
@@ -160,7 +161,7 @@ assistant-secrets:
 		-p app.databaseUrl="$(DATABASE_URL)" \
 		-p app.corsOrigins="$(CORS_ALLOW_ORIGIN)" \
 		-p app.supportEmail="$(SUPPORT_EMAIL)" \
-		-p app.ollamaHost="http://ollama.levelup-store.svc.cluster.local:11434" \
+		-p app.ollamaHost="$(OLLAMA_HOST)" \
 		-p broker.rabbitmqUrl="$(RABBITMQ_URL)" \
 		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
 		-p ingress.host="assistant.$(APP_DOMAIN)"

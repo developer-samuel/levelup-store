@@ -10,6 +10,7 @@ data:
   CORS_ORIGINS: {{ .Values.app.corsOrigins | quote }}
   SUPPORT_EMAIL: {{ .Values.app.supportEmail | quote }}
   SENTRY_DSN: {{ .Values.app.sentryDsn | quote }}
+  OLLAMA_HOST: {{ .Values.app.ollamaHost | quote }}
   {{- if .Values.otel.enabled }}
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
   OTEL_SERVICE_NAME: "levelup-store-assistant"
