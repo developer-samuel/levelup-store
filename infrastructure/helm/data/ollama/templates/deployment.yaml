@@ -20,11 +20,19 @@ spec:
       securityContext:
         runAsNonRoot: false
       initContainers:
-        {{- range .Values.models }}
-        - name: pull-{{ . | replace ":" "-" | replace "/" "-" }}
-          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
-          imagePullPolicy: {{ $.Values.image.pullPolicy }}
-          command: ["ollama", "pull", "{{ . }}"]
+        - name: pull-models
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              ollama serve &
+              sleep 10
+              {{- range .Values.models }}
+              ollama pull {{ . }}
+              {{- end }}
+              kill %1
           securityContext:
             allowPrivilegeEscalation: false
           env:
@@ -35,7 +43,6 @@ spec:
               mountPath: /root/.ollama
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        {{- end }}
       containers:
         - name: ollama
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
