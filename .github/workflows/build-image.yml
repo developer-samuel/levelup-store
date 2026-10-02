@@ -91,8 +91,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max,ignore-error=true
+          cache-from: type=registry,ref=ghcr.io/${{ inputs.image }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ inputs.image }}:buildcache,mode=max,image-manifest=true,oci-mediatypes=true,ignore-error=true
 
   sbom:
     name: 📋 SBOM
