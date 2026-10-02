@@ -1,9 +1,13 @@
-# ─────────────────────────────────────────────────────────────────
-# Stage 1: PHP vendor dependencies
-#   Classmap is regenerated in the ecommerce stage with /var/www paths.
-# ─────────────────────────────────────────────────────────────────
+# Shared production Dockerfile for all apps.
+# Build a specific app with: docker build --target <app> -t <tag> .
+#
+#   Shared stages:  composer-deps-bin · php-deps · frontend
+#   App targets:    ecommerce (PHP-FPM + Nginx) · assistant (Python)
+
+# ── Stage: composer-deps-bin ─────────────────────────────────────────────────
 FROM composer:2 AS composer-deps-bin
 
+# ── Stage: php-deps ──────────────────────────────────────────────────────────
 FROM php:8.3 AS php-deps
 
 COPY --from=composer-deps-bin /usr/bin/composer /usr/local/bin/composer
@@ -24,9 +28,7 @@ RUN composer install \
     --no-interaction \
     --ignore-platform-reqs
 
-# ─────────────────────────────────────────────────────────────────
-# Stage 2: Frontend assets (pnpm workspace → dist/)
-# ─────────────────────────────────────────────────────────────────
+# ── Stage: frontend ──────────────────────────────────────────────────────────
 FROM node:24-alpine AS frontend
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -45,16 +47,12 @@ COPY apps/ecommerce/vite.config.ts apps/ecommerce/tsconfig.json apps/ecommerce/i
 
 COPY apps/assistant/client/src/ apps/assistant/client/src/
 COPY apps/assistant/client/vite.config.ts apps/assistant/client/tsconfig.json apps/assistant/client/
-
-ARG VITE_API_URL=/assistant
-ENV VITE_API_URL=$VITE_API_URL
+COPY apps/assistant/client/.env.example apps/assistant/client/.env
 
 RUN pnpm --filter ecommerce build \
     && pnpm --filter assistant build
 
-# ─────────────────────────────────────────────────────────────────
-# Target: ecommerce — PHP-FPM + Nginx
-# ─────────────────────────────────────────────────────────────────
+# ── Target: ecommerce ────────────────────────────────────────────────────────
 FROM php:8.3-fpm AS ecommerce
 
 COPY --from=composer-deps-bin /usr/bin/composer /usr/local/bin/composer
@@ -118,9 +116,7 @@ RUN chmod +x bin/* \
 ENTRYPOINT ["/usr/local/bin/scripts/run-prod.sh"]
 CMD []
 
-# ─────────────────────────────────────────────────────────────────
-# Target: assistant — Python backend
-# ─────────────────────────────────────────────────────────────────
+# ── Target: assistant ────────────────────────────────────────────────────────
 FROM python:3.12-slim AS assistant
 
 WORKDIR /app
