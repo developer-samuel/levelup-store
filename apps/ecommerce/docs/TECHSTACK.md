@@ -131,7 +131,7 @@ Tools that run exclusively in GitHub Actions pipelines - not available as local 
 | Checkov                  | IaC security scanning (Terraform, Helm, K8s)          | `infrastructure-validate.yml`                                 |
 | ShellCheck               | Shell script static analysis                          | `infrastructure-lint.yml`                                     |
 | ansible-lint             | Ansible playbook linting                              | `infrastructure-lint.yml`                                     |
-| Lighthouse               | Frontend performance auditing                         | `ecommerce-frontend-audit.yml`                                |
+| Lighthouse CI            | Frontend performance auditing + budget enforcement    | `ecommerce-lighthouse.yml`, `ecommerce-frontend-audit.yml`    |
 | axe-core + pa11y         | Accessibility testing on PRs                          | `ecommerce-frontend-audit.yml`                                |
 | SonarCloud               | Cloud static analysis + ESLint + coverage             | `ecommerce-coverage.yml`                                      |
 | Codecov                  | PHP + JS coverage tracking and reporting              | `ecommerce-coverage.yml`                                      |
