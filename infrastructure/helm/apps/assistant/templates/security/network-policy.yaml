@@ -65,6 +65,18 @@ spec:
           protocol: TCP
     {{- end }}
 
+    # Ollama - levelup-store namespace
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: levelup-store
+          podSelector:
+            matchLabels:
+              app: ollama
+      ports:
+        - port: 11434
+          protocol: TCP
+
     # External HTTPS - OpenAI API
     - ports:
         - port: 443
