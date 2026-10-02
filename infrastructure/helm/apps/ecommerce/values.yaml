@@ -112,10 +112,10 @@ limitRange:
 resourceQuota:
   requests:
     cpu: "1"
-    memory: 3Gi
+    memory: 4Gi
   limits:
     cpu: "6"
-    memory: 8Gi
+    memory: 12Gi
   pods: "20"
   pvcs: "10"
 
