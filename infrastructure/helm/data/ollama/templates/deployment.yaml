@@ -32,7 +32,7 @@ spec:
               {{- range .Values.models }}
               ollama pull {{ . }}
               {{- end }}
-              kill %1
+              kill %1 2>/dev/null || true
           securityContext:
             allowPrivilegeEscalation: false
           env:
