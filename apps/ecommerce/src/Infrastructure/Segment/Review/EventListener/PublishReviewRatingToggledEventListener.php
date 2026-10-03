@@ -16,20 +16,11 @@ use App\Core\Ports\{
 #[AsEventListener(event: ReviewRatingToggledEvent::class)]
 final readonly class PublishReviewRatingToggledEventListener
 {
-    /**
-     * @param MercureHubGatewayContract $mercureHubGateway
-     * @param ReviewRatingRepositoryContract $reviewRatingRepository
-    */
     public function __construct(
         private MercureHubGatewayContract $mercureHubGateway,
         private ReviewRatingRepositoryContract $reviewRatingRepository,
     ) {}
 
-    /**
-     * @param ReviewRatingToggledEvent $event
-     *
-     * @return void
-    */
     public function __invoke(ReviewRatingToggledEvent $event): void
     {
         $likesCount = $this->reviewRatingRepository->countByType($event->reviewId, 'like');

@@ -11,9 +11,7 @@ use Predis\Client as PredisClient;
 
 use App\Adapters\External\Cache\RedisCacheAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\External\Cache\RedisCacheAdapter
-*/
+/** @coversDefaultClass \App\Adapters\External\Cache\RedisCacheAdapter */
 final class RedisCacheAdapterTest extends TestCase
 {
     private const REDIS_URL = 'redis://localhost:6379';

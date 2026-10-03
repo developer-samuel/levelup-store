@@ -17,9 +17,6 @@ final class UniqueEmail extends Constraint
 
     public ?int $ignoreUserId;
 
-    /**
-     * @param int|null $ignoreUserId
-    */
     public function __construct(
         ?int $ignoreUserId = null,
     ) {
@@ -28,17 +25,12 @@ final class UniqueEmail extends Constraint
         $this->ignoreUserId = $ignoreUserId;
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return UniqueEmailValidator::class;

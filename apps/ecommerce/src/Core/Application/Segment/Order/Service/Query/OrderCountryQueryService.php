@@ -22,18 +22,10 @@ use App\Core\Ports\{
 
 final readonly class OrderCountryQueryService implements OrderCountryQueryContract
 {
-    /**
-     * @param CountryRepositoryContract $countryRepository
-    */
     public function __construct(
         private CountryRepositoryContract $countryRepository,
     ) {}
 
-    /**
-     * @param OrderBillingObject|OrderShippingObject $data
-     *
-     * @return Country
-    */
     public function getCountryFromData(OrderBillingObject|OrderShippingObject $data): Country
     {
         $countryIdRaw = $data->country;
@@ -49,36 +41,18 @@ final readonly class OrderCountryQueryService implements OrderCountryQueryContra
         return $country;
     }
 
-    /**
-     * @param int|string|null $countryIdRaw
-     *
-     * @return void
-    */
     private function validateCountryId(int|string|null $countryIdRaw): void
     {
         IdAssertion::assertType($countryIdRaw, 'Country ID');
         IdAssertion::assertNumeric($countryIdRaw, 'Country ID');
     }
 
-    /**
-     * @param int $countryId
-     * @param Country|null $country
-     *
-     * @return void
-    */
     private function validateCountryForOrderShipping(int $countryId, ?Country $country): void
     {
         $this->checkShippingCountryExists($countryId);
         CountryAssertion::assertExistsForId($country, $countryId);
     }
 
-    /**
-     * @param int|null $countryId
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     private function checkShippingCountryExists(?int $countryId): void
     {
         if ($countryId === null || $this->countryRepository->findById($countryId) === null) {

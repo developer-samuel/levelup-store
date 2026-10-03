@@ -43,13 +43,7 @@ class AuditLog
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $metadata;
 
-    /**
-     * @param AuditAction $action
-     * @param string $entity
-     * @param int $entityId
-     * @param array<string, mixed> $metadata
-     * @param User|null $user
-    */
+    /** @param array<string, mixed> $metadata */
     public function __construct(
         AuditAction $action,
         string $entity,
@@ -64,41 +58,27 @@ class AuditLog
         $this->user = $user;
     }
 
-    /**
-     * @return User|null
-    */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    /**
-     * @return AuditAction
-    */
     public function getAction(): AuditAction
     {
         return AuditAction::from($this->action);
     }
 
-    /**
-     * @return string
-    */
     public function getEntity(): string
     {
         return $this->entity;
     }
 
-    /**
-     * @return int
-    */
     public function getEntityId(): int
     {
         return $this->entityId;
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getMetadata(): array
     {
         if ($this->metadata === null) {

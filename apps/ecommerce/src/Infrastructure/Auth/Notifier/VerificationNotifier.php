@@ -17,21 +17,11 @@ use App\Core\Ports\Auth\Notifier\VerificationNotifierContract;
 
 final readonly class VerificationNotifier implements VerificationNotifierContract
 {
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EventDispatcherInterface $dispatcher
-    */
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private EventDispatcherInterface $dispatcher,
     ) {}
 
-    /**
-     * @param User $user
-     * @param string $token
-     *
-     * @return void
-    */
     public function send(User $user, string $token): void
     {
         $url = $this->urlGenerator->generate(
@@ -41,6 +31,7 @@ final readonly class VerificationNotifier implements VerificationNotifierContrac
         );
 
         $event = new VerificationRequestedEvent($user, $url);
+
         $this->dispatcher->dispatch($event);
     }
 }

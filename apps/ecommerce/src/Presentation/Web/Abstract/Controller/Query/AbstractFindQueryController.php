@@ -17,11 +17,6 @@ abstract class AbstractFindQueryController extends AbstractQueryController
 {
     protected object $repository;
 
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
@@ -36,21 +31,8 @@ abstract class AbstractFindQueryController extends AbstractQueryController
         $this->repository = $this->getRepository();
     }
 
-    /**
-     * @return object
-    */
     abstract protected function getRepository(): object;
 
-    /**
-     * Render edit page by ID
-     *
-     * @param int $id
-     * @param string $template
-     * @param string|null $redirectRoute
-     * @param string $entityName
-     *
-     * @return Response
-    */
     protected function renderFindById(
         int $id,
         string $template,

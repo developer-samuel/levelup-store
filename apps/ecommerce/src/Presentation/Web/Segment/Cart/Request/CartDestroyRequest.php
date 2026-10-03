@@ -19,18 +19,10 @@ final class CartDestroyRequest extends AbstractRequest
 {
     use CartDestroyInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-     */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -38,11 +30,6 @@ final class CartDestroyRequest extends AbstractRequest
         $this->itemId = $data->getInt('item_id');
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {

@@ -23,13 +23,6 @@ use App\Core\Ports\{
 
 final readonly class CartItemCommandService implements CartItemCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param CartItemAvailabilityPolicyContract $cartItemPolicy
-     * @param CartItemQueryContract $cartItemQuery
-     * @param CartRenderQueryContract $cartRenderQuery
-     * @param CartControlCommandContract $cartControlCommand
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private CartItemAvailabilityPolicyContract $cartItemPolicy,
@@ -38,12 +31,7 @@ final readonly class CartItemCommandService implements CartItemCommandContract
         private CartControlCommandContract $cartControlCommand,
     ) {}
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function addProductToCart(User $user, int $variantId): array
     {
         $itemData = $this->cartItemQuery->getCartAndVariant($user, $variantId);
@@ -68,12 +56,7 @@ final readonly class CartItemCommandService implements CartItemCommandContract
         return $this->cartItemQuery->buildCartResponse($user, CartAction::ADD);
     }
 
-    /**
-     * @param User $user
-     * @param int $itemId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function removeProductFromCart(User $user, int $itemId): array
     {
         $item = $this->cartItemQuery->getValidatedCartItem($itemId);
@@ -86,12 +69,7 @@ final readonly class CartItemCommandService implements CartItemCommandContract
         return $this->cartItemQuery->buildCartResponse($user, CartAction::REMOVE);
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param CartItem[] $cartItems
-     *
-     * @return void
-    */
+    /** @param CartItem[] $cartItems */
     public function removeVariant(ProductVariant $variant, array $cartItems): void
     {
         $cart = null;
@@ -110,21 +88,11 @@ final readonly class CartItemCommandService implements CartItemCommandContract
         }
     }
 
-    /**
-     * @param Cart $cart
-     *
-     * @return void
-    */
     private function refreshCart(Cart $cart): void
     {
         $this->cartControlCommand->flushAndRefreshCart($cart);
     }
 
-    /**
-     * @param Cart|null $cart
-     *
-     * @return void
-    */
     private function refreshCartIfExists(?Cart $cart): void
     {
         if ($cart !== null) {

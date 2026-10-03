@@ -8,16 +8,10 @@ use Twig\Environment;
 
 final readonly class CartStateClearer
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
-
-    /**
-     * @return void
-    */
+    
     public function clear(): void
     {
         $this->twig->addGlobal('cart', []);

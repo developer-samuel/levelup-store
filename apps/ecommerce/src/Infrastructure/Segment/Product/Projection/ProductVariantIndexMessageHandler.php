@@ -13,20 +13,11 @@ use App\Core\Ports\Segment\Product\Repository\Variant\ProductVariantRepositoryCo
 #[AsMessageHandler]
 final readonly class ProductVariantIndexMessageHandler
 {
-    /**
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param ProductVariantProjector $projector
-    */
     public function __construct(
         private ProductVariantRepositoryContract $variantRepository,
         private ProductVariantProjector $projector,
     ) {}
 
-    /**
-     * @param ProductVariantIndexMessage $message
-     *
-     * @return void
-    */
     public function __invoke(ProductVariantIndexMessage $message): void
     {
         $variant = $this->variantRepository->findById($message->variantId);

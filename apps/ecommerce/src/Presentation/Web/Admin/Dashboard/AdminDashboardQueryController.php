@@ -20,12 +20,6 @@ use App\Presentation\{
 
 final class AdminDashboardQueryController extends AbstractQueryController
 {
-    /**
-     * @param AdminDashboardQueryHandler $adminDashboardQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private AdminDashboardQueryHandler $adminDashboardQueryHandler,
         SecurityProviderContract $securityProvider,
@@ -39,9 +33,6 @@ final class AdminDashboardQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function index(): Response
     {
         $data = $this->adminDashboardQueryHandler->handle();

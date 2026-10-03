@@ -17,11 +17,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiProductSubtypeResource
 {
-    /**
-     * @param ProductSubtype $subtype
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(ProductSubtype $subtype): array
     {
         return [

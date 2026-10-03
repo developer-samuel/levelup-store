@@ -27,12 +27,6 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
 {
     private const CART_STOCK_REMOVED_MSG = 'Your cart has been updated. Some products are no longer in stock and have been removed.';
 
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param ProductVariantEanRepositoryContract $eanRepository
-     * @param OrderItemQueryContract $orderItemQuery
-     * @param CartItemCommandContract $cartItemCommand
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private ProductVariantEanRepositoryContract $eanRepository,
@@ -40,12 +34,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
         private CartItemCommandContract $cartItemCommand,
     ) {}
 
-    /**
-     * @param Order $order
-     * @param CartItem[] $cartItems
-     *
-     * @return void
-    */
+    /** @param CartItem[] $cartItems */
     public function processOrderItems(Order $order, array $cartItems): void
     {
         $variantCounts = $this->aggregateVariants($cartItems);
@@ -60,13 +49,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
         }
     }
 
-    /**
-     * @param CartItem[] $cartItems
-     *
-     * @return void
-     *
-     * @throws ConflictException
-    */
+    /** @param CartItem[] $cartItems */
     public function validateAllItemsInStock(array $cartItems): void
     {
         $variantCounts = $this->aggregateVariants($cartItems);
@@ -120,16 +103,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
         return $variantCounts;
     }
 
-    /**
-     * @param Order $order
-     * @param ProductVariant $variant
-     * @param int $quantityInCart
-     * @param CartItem[] $cartItems
-     *
-     * @return void
-     *
-     * @throws ConflictException
-    */
+    /** @param CartItem[] $cartItems */
     private function createOrderItemsForVariant(
         Order $order,
         ProductVariant $variant,
@@ -152,15 +126,8 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
     }
 
     /**
-     * @param ProductVariant $variant
      * @param CartItem[] $cartItems
-     * @param ProductVariantStock $stock
      * @param ProductVariantEan[] $availableEans
-     * @param int $quantityInCart
-     *
-     * @return void
-     *
-     * @throws ConflictException
     */
     private function validateStockOrRemove(
         ProductVariant $variant,
@@ -181,14 +148,7 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
         }
     }
 
-    /**
-     * @param Order $order
-     * @param ProductVariant $variant
-     * @param ProductVariantEan[] $availableEans
-     * @param int $quantityToReserve
-     *
-     * @return void
-    */
+    /** @param ProductVariantEan[] $availableEans */
     private function reserveEansAndCreateItems(Order $order, ProductVariant $variant, array $availableEans, int $quantityToReserve): void
     {
         for ($i = 0; $i < $quantityToReserve; $i++) {
@@ -207,12 +167,6 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
         }
     }
 
-    /**
-     * @param ProductVariantStock $stock
-     * @param int $quantityToReserve
-     *
-     * @return void
-    */
     private function updateStock(ProductVariantStock $stock, int $quantityToReserve): void
     {
         $stock->reserveQuantity($quantityToReserve);

@@ -25,27 +25,16 @@ use App\Core\Ports\{
 
 use App\Shared\Enum\AddressType;
 
-/**
- * @phpstan-import-type CartItemsResult from OrderValidatorQueryContract
-*/
+/** @phpstan-import-type CartItemsResult from OrderValidatorQueryContract */
 final readonly class OrderValidatorQueryService implements OrderValidatorQueryContract
 {
-    /**
-     * @param CartRepositoryContract $cartRepository
-     * @param CountryRepositoryContract $countryRepository
-     * @param CartItemQueryContract $cartItemQuery
-    */
     public function __construct(
         private CartRepositoryContract $cartRepository,
         private CountryRepositoryContract $countryRepository,
         private CartItemQueryContract $cartItemQuery,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function getCartItemsOrFail(User $user): array
     {
         $data = $this->validateUserAndGetCartItems($user);
@@ -57,11 +46,7 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
         return $cartItems;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return CartItemsResult
-    */
+    /** @return CartItemsResult */
     public function validateUserAndGetCartItems(User $user): array
     {
         $userId = IdAssertion::assert(
@@ -91,25 +76,11 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
         ];
     }
 
-    /**
-     * @param OrderBillingObject $billing
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public function validateBillingData(OrderBillingObject $billing): void
     {
         $this->validateAddressFields($billing, AddressType::BILLING);
     }
 
-    /**
-     * @param OrderShippingObject|null $shipping
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public function validateShippingData(?OrderShippingObject $shipping): void
     {
         if ($shipping === null) {
@@ -119,14 +90,6 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
         $this->validateAddressFields($shipping, AddressType::SHIPPING);
     }
 
-    /**
-     * @param OrderBillingObject|OrderShippingObject $address
-     * @param AddressType $type
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     private function validateAddressFields(
         OrderBillingObject|OrderShippingObject $address,
         AddressType $type,
@@ -142,11 +105,7 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
         }
     }
 
-    /**
-     * @param OrderBillingObject|OrderShippingObject $address
-     *
-     * @return string[]
-    */
+    /** @return string[] */
     private function collectMissingFields(OrderBillingObject|OrderShippingObject $address): array
     {
         $missing = [];
@@ -164,11 +123,6 @@ final readonly class OrderValidatorQueryService implements OrderValidatorQueryCo
         return $missing;
     }
 
-    /**
-     * @param OrderBillingObject|OrderShippingObject $address
-     *
-     * @return bool
-    */
     private function isCountryMissing(OrderBillingObject|OrderShippingObject $address): bool
     {
         return !isset($address->country) || $this->countryRepository->findById($address->country) === null;

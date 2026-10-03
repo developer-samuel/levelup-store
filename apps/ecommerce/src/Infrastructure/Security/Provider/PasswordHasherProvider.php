@@ -12,17 +12,10 @@ use App\Core\Ports\Security\Provider\PasswordHasherProviderContract;
 
 final readonly class PasswordHasherProvider implements PasswordHasherProviderContract
 {
-    /**
-     * @param UserPasswordHasherInterface $passwordHasher
-    */
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,
     ) {}
 
-    /**
-     * @param User $user
-     * @param string $password
-    */
     public function hash(User $user, string $password): string
     {
         return $this->passwordHasher->hashPassword(
@@ -31,12 +24,6 @@ final readonly class PasswordHasherProvider implements PasswordHasherProviderCon
         );
     }
 
-    /**
-     * @param User $user
-     * @param string $password
-     *
-     * @return bool
-    */
     public function isPasswordValid(User $user, string $password): bool
     {
         return $this->passwordHasher->isPasswordValid($user, $password);

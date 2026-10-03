@@ -28,9 +28,7 @@ use App\Core\Ports\{
     Shared\RateLimiter\RateLimiterContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LoginHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LoginHandler */
 final class LoginHandlerTest extends TestCase
 {
     private UserRepositoryContract&MockObject $userRepository;
@@ -184,9 +182,7 @@ final class LoginHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @param array<string, mixed> $result
-    */
+    /** @param array<string, mixed> $result */
     private function assertInvalidCredentials(array $result): void
     {
         self::assertSame('error', $result['status']);

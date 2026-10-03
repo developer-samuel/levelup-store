@@ -20,18 +20,12 @@ use App\Core\Ports\{
 */
 final readonly class ProductRecommendedQueryService implements ProductRecommendedQueryContract
 {
-    /**
-     * @param ProductVariantRecommendedRepositoryContract $productRecommendedRepository
-     * @param ReviewQueryContract $reviewQuery
-    */
     public function __construct(
         private ProductVariantRecommendedRepositoryContract $productRecommendedRepository,
         private ReviewQueryContract $reviewQuery,
     ) {}
 
-    /**
-     * @return array<int, ProductRecommendedShape>
-    */
+    /** @return array<int, ProductRecommendedShape> */
     public function findAll(): array
     {
         $variants = array_values(
@@ -41,9 +35,7 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
         return $this->convertVariantsToViewData($variants);
     }
 
-    /**
-     * @return array<string|int, ProductVariantRecommended>
-    */
+    /** @return array<string|int, ProductVariantRecommended> */
     private function getAllRecommendedVariants(): array
     {
         return $this->productRecommendedRepository->findAll();
@@ -93,7 +85,6 @@ final readonly class ProductRecommendedQueryService implements ProductRecommende
     }
 
     /**
-     * @param ProductVariantRecommended $variant
      * @param array<int, float> $ratings
      *
      * @return ResourceArray

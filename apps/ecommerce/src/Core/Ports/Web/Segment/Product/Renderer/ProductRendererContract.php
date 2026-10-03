@@ -13,24 +13,9 @@ use App\Core\Domain\{
 
 interface ProductRendererContract
 {
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return Response
-    */
+    /** @param array<string, mixed> $data */
     public function renderProducts(array $data): Response;
 
-    /**
-     * @param ProductListObject $data
-     *
-     * @return Response
-    */
     public function renderProductsList(ProductListObject $data): Response;
-
-    /**
-     * @param ProductDetailObject $detail
-     *
-     * @return Response
-    */
     public function renderProductDetail(ProductDetailObject $detail): Response;
 }

@@ -10,18 +10,11 @@ use App\Core\Ports\Web\Segment\Order\Renderer\OrderInvoicePdfRendererContract;
 
 final readonly class OrderInvoicePdfRenderer implements OrderInvoicePdfRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return string
-    */
+    /** @param array<string, mixed> $data */
     public function render(array $data): string
     {
         return $this->twig->render('documents/orders-invoice.html.twig', $data);

@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class AdminApiBannerQueryController extends AbstractAdminApiQueryController
 {
-    /**
-     * @param AdminApiBannerListQueryHandler $bannerListQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly AdminApiBannerListQueryHandler $bannerListQueryHandler,
         SecurityProviderContract $securityProvider,

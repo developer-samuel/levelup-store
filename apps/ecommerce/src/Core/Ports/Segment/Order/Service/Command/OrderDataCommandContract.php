@@ -11,11 +11,5 @@ use App\Core\Domain\{
 
 interface OrderDataCommandContract
 {
-    /**
-     * @param Order $order
-     * @param OrderCreatePayload $payload
-     *
-     * @return void
-    */
     public function attachOrderData(Order $order, OrderCreatePayload $payload): void;
 }

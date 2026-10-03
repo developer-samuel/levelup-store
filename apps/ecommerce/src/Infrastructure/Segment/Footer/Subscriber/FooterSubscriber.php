@@ -23,20 +23,13 @@ use App\Core\Ports\{
 
 final readonly class FooterSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @param Environment $twig
-     * @param AppLoggerContract $logger
-     * @param FooterLinkRepositoryContract $footerLinkRepository
-    */
     public function __construct(
         private Environment $twig,
         private AppLoggerContract $logger,
         private FooterLinkRepositoryContract $footerLinkRepository,
     ) {}
 
-    /**
-     * @return array<string, string>
-    */
+    /** @return array<string, string> */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -44,11 +37,6 @@ final readonly class FooterSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -89,11 +77,7 @@ final readonly class FooterSubscriber implements EventSubscriberInterface
         return $grouped;
     }
 
-    /**
-     * @param array<string, FooterLink[]> $footerLinks
-     *
-     * @return void
-    */
+    /** @param array<string, FooterLink[]> $footerLinks */
     private function addGlobalVariablesToTwig(array $footerLinks): void
     {
         $this->twig->addGlobal('footerLinks', $footerLinks);

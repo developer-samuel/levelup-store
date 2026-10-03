@@ -11,17 +11,6 @@ use App\Core\Domain\{
 
 interface VerificationQueryContract
 {
-    /**
-     * @param string $token
-     *
-     * @return UserVerificationToken|null
-    */
     public function getValidToken(string $token): ?UserVerificationToken;
-
-    /**
-     * @param User|null $user
-     *
-     * @return bool
-    */
     public function isUserVerifiable(?User $user): bool;
 }

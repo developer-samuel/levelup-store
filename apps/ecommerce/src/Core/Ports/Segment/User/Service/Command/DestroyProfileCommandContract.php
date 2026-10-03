@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface DestroyProfileCommandContract
 {
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function destroyProfile(User $user): void;
 }

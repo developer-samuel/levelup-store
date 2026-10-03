@@ -13,9 +13,6 @@ enum OrderPaymentMethod: string
     case CARD = 'card';
     case CASH = 'cash';
 
-    /**
-     * @return string
-    */
     public function getLabel(): string
     {
         return match ($this) {
@@ -24,9 +21,7 @@ enum OrderPaymentMethod: string
         };
     }
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     public static function toArray(): array
     {
         return [

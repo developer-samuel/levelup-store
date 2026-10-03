@@ -18,11 +18,6 @@ use App\Presentation\{
 
 final class ForgotPasswordQueryController extends AbstractQueryController
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
@@ -35,9 +30,6 @@ final class ForgotPasswordQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function show(): Response
     {
         $user = $this->securityProvider->getCurrentUser();

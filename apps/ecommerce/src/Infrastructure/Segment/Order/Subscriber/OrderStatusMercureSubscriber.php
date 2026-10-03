@@ -24,18 +24,10 @@ final class OrderStatusMercureSubscriber
     /** @var Order[] */
     private array $pendingOrders = [];
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-    */
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
 
-    /**
-     * @param OnFlushEventArgs $args
-     *
-     * @return void
-    */
     public function onFlush(OnFlushEventArgs $args): void
     {
         $uow = $args->getObjectManager()->getUnitOfWork();
@@ -53,17 +45,16 @@ final class OrderStatusMercureSubscriber
         }
     }
 
-    /**
-     * @return void
-     */
     public function postFlush(): void
     {
         if ($this->pendingOrders === []) {
             return;
         }
+        
         foreach ($this->pendingOrders as $order) {
             $this->eventDispatcher->dispatch(new OrderStatusUpdatedEvent($order));
         }
+
         $this->pendingOrders = [];
     }
 }

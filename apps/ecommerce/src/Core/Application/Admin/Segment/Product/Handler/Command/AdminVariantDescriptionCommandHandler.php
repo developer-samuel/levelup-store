@@ -23,13 +23,6 @@ use App\Core\Ports\{
 
 final class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCommandHandler
 {
-    /**
-     * @param ProductVariantDescriptionRepositoryContract $variantDescriptionRepository
-     * @param AdminVariantDescriptionCommandContract $adminVariantDescriptionCommand
-     * @param AdminVariantValidationCommandContract $adminVariantValidationCommand
-     * @param SecurityPolicyContract $securityPolicy
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductVariantDescriptionRepositoryContract $variantDescriptionRepository,
         private readonly AdminVariantDescriptionCommandContract $adminVariantDescriptionCommand,
@@ -44,27 +37,16 @@ final class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCo
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getPayloadClass(): string
     {
         return AdminVariantDescriptionPayload::class;
     }
 
-    /**
-     * @return string
-    */
     protected function getEntityName(): string
     {
         return 'Description';
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariantDescription
-    */
     protected function getEntityOrFail(int $id): ProductVariantDescription
     {
         $entity = $this->variantDescriptionRepository->findById($id);
@@ -73,36 +55,18 @@ final class AdminVariantDescriptionCommandHandler extends AbstractAdminVariantCo
         return $entity;
     }
 
-    /**
-     * @param int $variantId
-     * @param object $payload
-     *
-     * @return void
-    */
     protected function createEntity(int $variantId, object $payload): void
     {
         /** @var AdminVariantDescriptionPayload $payload */
         $this->adminVariantDescriptionCommand->createDescription($variantId, $payload);
     }
 
-    /**
-     * @param int $id
-     * @param int $variantId
-     * @param object $payload
-     *
-     * @return void
-    */
     protected function updateEntity(int $id, int $variantId, object $payload): void
     {
         /** @var AdminVariantDescriptionPayload $payload */
         $this->adminVariantDescriptionCommand->updateDescription($id, $variantId, $payload);
     }
 
-    /**
-     * @param object $entity
-     *
-     * @return void
-    */
     protected function destroyEntity(object $entity): void
     {
         /** @var ProductVariantDescription $entity */

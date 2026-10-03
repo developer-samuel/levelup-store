@@ -34,16 +34,6 @@ final class AuthApiCommandController extends AbstractCrudCommandController
 {
     private const REFRESH_TOKEN_COOKIE = 'refresh_token';
 
-    /**
-     * @param LoginHandlerContract $loginHandler
-     * @param RefreshTokenHandlerContract $refreshTokenHandler
-     * @param LogoutHandlerContract $logoutHandler
-     * @param RefreshTokenCookieManager $refreshTokenCookieManager
-     * @param TurnstileGatewayContract $turnstile
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly LoginHandlerContract $loginHandler,
         private readonly RefreshTokenHandlerContract $refreshTokenHandler,
@@ -149,11 +139,7 @@ final class AuthApiCommandController extends AbstractCrudCommandController
         });
     }
 
-    /**
-     * @param LoginRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleLogin(LoginRequest $request): array
     {
         $payload = new LoginPayload(
@@ -164,12 +150,7 @@ final class AuthApiCommandController extends AbstractCrudCommandController
         return $this->loginHandler->handle($payload);
     }
 
-    /**
-     * @param array<string, mixed> $result
-     * @param bool $secure
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $result */
     private function buildTokenResponse(array $result, bool $secure): JsonResponse
     {
         $refreshToken = $result[self::REFRESH_TOKEN_COOKIE] ?? null;
@@ -184,12 +165,7 @@ final class AuthApiCommandController extends AbstractCrudCommandController
         return $response;
     }
 
-    /**
-     * @param array<string, mixed> $result
-     * @param bool $secure
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $result */
     private function clearTokenResponse(array $result, bool $secure): JsonResponse
     {
         $response = HttpResponder::success($result);

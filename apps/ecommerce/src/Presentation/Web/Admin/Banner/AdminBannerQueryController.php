@@ -20,11 +20,6 @@ use App\Presentation\{
 
 final class AdminBannerQueryController extends AbstractQueryController
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
@@ -37,17 +32,11 @@ final class AdminBannerQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function index(): Response
     {
         return $this->renderPage('features/admin/views/banner/index.html.twig');
     }
 
-    /**
-     * @return Response
-    */
     public function create(): Response
     {
         return $this->renderPage('admin/pages/banners/create.html.twig', [

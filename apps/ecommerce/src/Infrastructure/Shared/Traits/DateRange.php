@@ -8,14 +8,6 @@ use Doctrine\ORM\QueryBuilder;
 
 trait DateRange
 {
-    /**
-     * @param QueryBuilder $qb
-     * @param string $alias
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     *
-     * @return QueryBuilder
-     */
     private function applyDateRange(
         QueryBuilder $qb,
         string $alias,

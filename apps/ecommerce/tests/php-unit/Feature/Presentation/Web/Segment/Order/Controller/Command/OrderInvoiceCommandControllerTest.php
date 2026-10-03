@@ -22,9 +22,7 @@ use App\Core\Ports\Segment\Order\Handler\Command\GenerateOrderInvoiceHandlerCont
 
 use Tests\Support\Provides\Persistence;
 
-/**
- * @coversDefaultClass \App\Presentation\Web\Segment\Order\Controller\Command\OrderInvoiceCommandController
-*/
+/** @coversDefaultClass \App\Presentation\Web\Segment\Order\Controller\Command\OrderInvoiceCommandController */
 final class OrderInvoiceCommandControllerTest extends WebTestCase
 {
     use Persistence;

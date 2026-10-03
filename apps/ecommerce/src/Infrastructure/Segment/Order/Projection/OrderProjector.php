@@ -14,20 +14,11 @@ use App\Core\Ports\{
 
 final readonly class OrderProjector implements ReindexableInterface
 {
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-     * @param OrderRepositoryContract $orderRepository
-    */
     public function __construct(
         private ElasticsearchGatewayContract $elasticsearch,
         private OrderRepositoryContract $orderRepository,
     ) {}
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     public function index(Order $order): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -37,11 +28,6 @@ final readonly class OrderProjector implements ReindexableInterface
         $this->elasticsearch->indexDocument(OrderProjection::NAME, $order->getId(), $this->buildDocument($order));
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     public function remove(Order $order): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -51,9 +37,6 @@ final readonly class OrderProjector implements ReindexableInterface
         $this->elasticsearch->removeDocument(OrderProjection::NAME, $order->getId());
     }
 
-    /**
-     * @return int
-    */
     public function reindexAll(): int
     {
         $this->elasticsearch->ensureIndexExists(OrderProjection::NAME, OrderProjection::mapping());
@@ -69,19 +52,12 @@ final readonly class OrderProjector implements ReindexableInterface
         return $indexed;
     }
 
-    /**
-     * @return string
-    */
     public function getIndexName(): string
     {
         return OrderProjection::NAME;
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function buildDocument(Order $order): array
     {
         return [

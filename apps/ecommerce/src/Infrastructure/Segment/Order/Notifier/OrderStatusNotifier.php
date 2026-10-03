@@ -15,21 +15,14 @@ use App\Core\Ports\Segment\Order\Notifier\OrderStatusNotifierContract;
 
 final readonly class OrderStatusNotifier implements OrderStatusNotifierContract
 {
-    /**
-     * @param EventDispatcherInterface $dispatcher
-    */
     public function __construct(
         private EventDispatcherInterface $dispatcher,
     ) {}
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     public function send(Order $order): void
     {
         $event = new OrderStatusChangedEvent($order);
+        
         $this->dispatcher->dispatch($event);
     }
 }

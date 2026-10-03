@@ -18,10 +18,6 @@ use App\Core\Ports\{
 
 final class AdminApiOrderHistoryListQueryHandler extends AbstractApiOrderListQueryHandler
 {
-    /**
-     * @param OrderRepositoryContract $orderRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         OrderRepositoryContract $orderRepository,
         AppLoggerContract $logger,
@@ -32,17 +28,12 @@ final class AdminApiOrderHistoryListQueryHandler extends AbstractApiOrderListQue
         );
     }
 
-    /**
-     * @return OrderStatus[]
-    */
+    /** @return OrderStatus[] */
     protected function getFilterStatuses(): array
     {
         return $this->mapStatuses(OrderStatus::completedStatuses());
     }
 
-    /**
-     * @return string
-    */
     protected function getResourceClass(): string
     {
         return AdminApiOrderResource::class;

@@ -8,12 +8,7 @@ trait MaxValue
 {
     use SingleResult;
 
-    /**
-     * @param string $field
-     * @param array<string, mixed> $criteria
-     *
-     * @return int
-     */
+    /** @param array<string, mixed> $criteria */
     private function getMaxValue(string $field, array $criteria = []): int
     {
         $qb = $this->createQueryBuilder($this->getAlias())

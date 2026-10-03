@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Order\ValueObject\Stripe\StripeLineItemObject;
 
 interface OrderPriceQueryContract
 {
-    /**
-     * @param StripeLineItemObject[] $lineItems
-     *
-     * @return float
-    */
+    /** @param StripeLineItemObject[] $lineItems */
     public function calculateTotalPrice(array $lineItems): float;
 }

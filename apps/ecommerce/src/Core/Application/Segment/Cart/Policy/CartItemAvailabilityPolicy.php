@@ -16,19 +16,10 @@ use App\Core\Ports\{
 
 final readonly class CartItemAvailabilityPolicy implements CartItemAvailabilityPolicyContract
 {
-    /**
-     * @param CartItemQueryContract $cartItemQuery
-    */
     public function __construct(
         private CartItemQueryContract $cartItemQuery,
     ) {}
 
-    /**
-     * @param Cart $cart
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function isAvailable(Cart $cart, ProductVariant $variant): bool
     {
         $existingQuantity = $this->cartItemQuery->getExistingQuantity($cart, $variant);

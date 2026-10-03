@@ -19,9 +19,7 @@ use App\Core\Application\Segment\Cart\Service\Query\CartPriceQueryService;
 
 use App\Core\Ports\Segment\Product\Service\Query\ProductPriceQueryContract;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartPriceQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartPriceQueryService */
 final class CartPriceQueryServiceTest extends TestCase
 {
     private ProductPriceQueryContract&MockObject $productPriceQuery;

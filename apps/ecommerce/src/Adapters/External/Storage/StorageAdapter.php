@@ -18,15 +18,6 @@ final class StorageAdapter implements StorageGatewayContract
 {
     private Filesystem $filesystem;
 
-    /**
-     * @param bool $minioEnabled
-     * @param string $publicUrl
-     * @param string $bucket
-     * @param string $endpoint
-     * @param string $rootUser
-     * @param string $rootPassword
-     * @param string $uploadsPath
-    */
     public function __construct(
         private readonly bool $minioEnabled,
         private readonly string $publicUrl,
@@ -52,17 +43,11 @@ final class StorageAdapter implements StorageGatewayContract
         $this->filesystem = new Filesystem(new AwsS3V3Adapter($client, $this->bucket));
     }
 
-    /**
-     * @return bool
-    */
     public function isEnabled(): bool
     {
         return $this->minioEnabled;
     }
 
-    /**
-     * @return bool
-    */
     public function isConnected(): bool
     {
         if (!$this->minioEnabled) {
@@ -90,32 +75,16 @@ final class StorageAdapter implements StorageGatewayContract
         return true;
     }
 
-    /**
-     * @param string $path
-     * @param string $content
-     *
-     * @return void
-    */
     public function upload(string $path, string $content): void
     {
         $this->filesystem->write($path, $content);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return void
-    */
     public function delete(string $path): void
     {
         $this->filesystem->delete($path);
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-    */
     public function url(string $path): string
     {
         $bare = ltrim($path, '/');
@@ -130,11 +99,6 @@ final class StorageAdapter implements StorageGatewayContract
         return '/uploads/' . $bare;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-    */
     public function exists(string $path): bool
     {
         return $this->filesystem->fileExists($path);

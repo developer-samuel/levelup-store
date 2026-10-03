@@ -59,38 +59,22 @@ class Banner
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $isActive = false;
 
-    /**
-     * @return BannerType
-    */
     public function getType(): BannerType
     {
         return $this->type;
     }
 
-    /**
-     * @param BannerType $type
-     *
-     * @return self
-    */
     public function setType(BannerType $type): self
     {
         $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return string|null
-    */
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * @param string|null $url
-     *
-     * @return self
-    */
     public function setUrl(?string $url): self
     {
         $this->url = $url;

@@ -20,9 +20,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Command\CartControlCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Command\CartControlCommandService */
 final class CartControlCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;

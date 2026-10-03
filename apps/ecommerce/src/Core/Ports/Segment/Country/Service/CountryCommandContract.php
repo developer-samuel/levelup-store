@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Country\ValueObject\CountryObject;
 
 interface CountryCommandContract
 {
-    /**
-     * @param CountryObject[] $countries
-     *
-     * @return void
-    */
+    /** @param CountryObject[] $countries */
     public function saveCountries(array $countries): void;
 }

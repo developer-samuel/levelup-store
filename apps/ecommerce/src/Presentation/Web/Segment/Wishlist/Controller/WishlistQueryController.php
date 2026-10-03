@@ -20,12 +20,6 @@ use App\Presentation\{
 
 final class WishlistQueryController extends AbstractQueryController
 {
-    /**
-     * @param WishlistQueryContract $wishlistQuery
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly WishlistQueryContract $wishlistQuery,
         SecurityProviderContract $securityProvider,
@@ -39,9 +33,6 @@ final class WishlistQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function index(): Response
     {
         $user = $this->securityProvider->getCurrentUser();

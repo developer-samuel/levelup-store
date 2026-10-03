@@ -24,11 +24,6 @@ abstract class AbstractCrudCommandController extends AbstractCommandController
 {
     protected ?ValidatorInterface $validator;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface|null $validator
-    */
     public function __construct(
         protected readonly CsrfTokenManagerInterface $csrfTokenManager,
         AppLoggerContract $logger,
@@ -39,14 +34,6 @@ abstract class AbstractCrudCommandController extends AbstractCommandController
         $this->validator = $validator;
     }
 
-    /**
-     * @param Request $request
-     * @param string $requestClass
-     * @param callable $handler
-     * @param bool $redirect
-     *
-     * @return JsonResponse
-    */
     protected function executeCommand(
         Request $request,
         string $requestClass,
@@ -70,12 +57,7 @@ abstract class AbstractCrudCommandController extends AbstractCommandController
         });
     }
 
-    /**
-     * @param Request $request
-     * @param callable(int): array<string, mixed> $handler
-     *
-     * @return JsonResponse
-    */
+    /** @param callable(int): array<string, mixed> $handler */
     protected function executeDeleteCommand(Request $request, callable $handler): JsonResponse
     {
         return $this->handleCommand(function () use ($request, $handler) {
@@ -88,12 +70,7 @@ abstract class AbstractCrudCommandController extends AbstractCommandController
         });
     }
 
-    /**
-     * @param callable $handler
-     * @param AbstractRequest $crudRequest
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function executeHandler(callable $handler, AbstractRequest $crudRequest): array
     {
         /** @var array<string, mixed> $result */

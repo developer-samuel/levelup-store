@@ -6,9 +6,6 @@ namespace App\Core\Domain\Segment\Product\Message;
 
 final readonly class ProductVariantIndexMessage
 {
-    /**
-     * @param int $variantId
-    */
     public function __construct(
         public int $variantId,
     ) {}

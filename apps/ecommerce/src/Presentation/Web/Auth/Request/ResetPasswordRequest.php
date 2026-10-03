@@ -25,18 +25,10 @@ final class ResetPasswordRequest extends AbstractRequest
     use TokenTrait;
     use ResetPasswordInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -46,22 +38,12 @@ final class ResetPasswordRequest extends AbstractRequest
         $this->password_confirmation = $data->getString('password_confirmation');
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {
         $this->validateCsrfToken('reset_password_store', $context);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validatePasswordsMatch(ExecutionContextInterface $context): void
     {

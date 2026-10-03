@@ -33,76 +33,44 @@ trait AddressTrait
     )]
     protected ?Country $country = null;
 
-    /**
-     * @return Country|null
-    */
     public function getCountry(): ?Country
     {
         return $this->country;
     }
 
-    /**
-     * @param Country|null $country
-     *
-     * @return self
-    */
     public function setCountry(?Country $country): self
     {
         $this->country = $country;
         return $this;
     }
 
-    /**
-     * @return string|null
-    */
     public function getStreet(): ?string
     {
         return $this->street;
     }
 
-    /**
-     * @param string $street
-     *
-     * @return self
-    */
     public function setStreet(string $street): self
     {
         $this->street = $street;
         return $this;
     }
 
-    /**
-     * @return string|null
-    */
     public function getPostalCode(): ?string
     {
         return $this->postalCode;
     }
 
-    /**
-     * @param string $postalCode
-     *
-     * @return self
-    */
     public function setPostalCode(string $postalCode): self
     {
         $this->postalCode = $postalCode;
         return $this;
     }
 
-    /**
-     * @return string|null
-    */
     public function getCity(): ?string
     {
         return $this->city;
     }
 
-    /**
-     * @param string $city
-     *
-     * @return self
-    */
     public function setCity(string $city): self
     {
         $this->city = $city;

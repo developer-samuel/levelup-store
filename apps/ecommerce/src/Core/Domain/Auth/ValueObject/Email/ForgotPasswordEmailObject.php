@@ -14,18 +14,12 @@ use App\Core\Domain\Segment\User\Entity\User;
 */
 final readonly class ForgotPasswordEmailObject
 {
-    /**
-     * @param string $resetUrl
-     * @param User $user
-     */
     public function __construct(
         public string $resetUrl,
         public User $user,
     ) {}
 
-    /**
-     * @return ObjectArray
-    */
+    /** @return ObjectArray */
     public function toArray(): array
     {
         return [

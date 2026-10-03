@@ -6,11 +6,6 @@ namespace App\Shared\Utils\Calculator;
 
 final class LengthCalculator
 {
-    /**
-     * @param mixed $value
-     *
-     * @return int|null
-    */
     public static function getLength(mixed $value): ?int
     {
         if (is_string($value)) {

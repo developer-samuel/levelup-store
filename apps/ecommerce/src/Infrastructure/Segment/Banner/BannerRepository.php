@@ -20,17 +20,12 @@ use App\Infrastructure\{
     Shared\Traits\IterableQuery
 };
 
-/**
- * @extends AbstractRepository<Banner>
-*/
+/** @extends AbstractRepository<Banner> */
 final class BannerRepository extends AbstractRepository implements BannerRepositoryContract
 {
     use MaxValue;
     use IterableQuery;
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -39,33 +34,22 @@ final class BannerRepository extends AbstractRepository implements BannerReposit
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'b';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'position';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @return Banner[]
-    */
+    /** @return Banner[] */
     public function findAllActive(): array
     {
         $qb = $this->createActiveQueryBuilder();
@@ -78,17 +62,11 @@ final class BannerRepository extends AbstractRepository implements BannerReposit
         );
     }
 
-    /**
-     * @return int
-    */
     public function findMaxPosition(): int
     {
         return $this->getMaxValue('position');
     }
 
-    /**
-     * @return QueryBuilder
-    */
     private function createActiveQueryBuilder(): QueryBuilder
     {
         return $this->createBaseQueryBuilder()

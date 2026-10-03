@@ -28,9 +28,7 @@ use App\Core\Ports\{
     Shared\RateLimiter\RateLimiterContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\SignupHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Handler\Command\SignupHandler */
 final class SignupHandlerTest extends TestCase
 {
     private SignupCommandContract&MockObject $signupCommand;
@@ -179,9 +177,7 @@ final class SignupHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleSuccessfully(
         string $accessToken = 'access-abc',
         string $refreshToken = 'refresh-xyz',

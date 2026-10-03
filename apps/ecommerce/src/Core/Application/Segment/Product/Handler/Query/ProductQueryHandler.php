@@ -19,22 +19,12 @@ use App\Core\Ports\{
 
 final readonly class ProductQueryHandler implements ProductQueryHandlerContract
 {
-    /**
-     * @param ProductQueryContract $productQuery
-     * @param ReviewQueryContract $reviewQuery
-    */
     public function __construct(
         private ProductQueryContract $productQuery,
         private ReviewQueryContract $reviewQuery,
     ) {}
 
-    /**
-     * @param ProductFilterObject $filter
-     * @param int $currentPage
-     * @param ProductSortOption $sort
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(
         ProductFilterObject $filter,
         int $currentPage = 1,
@@ -49,11 +39,7 @@ final readonly class ProductQueryHandler implements ProductQueryHandlerContract
         return $data;
     }
 
-    /**
-     * @param mixed $products
-     *
-     * @return array<array<string, mixed>>
-    */
+    /** @return array<array<string, mixed>> */
     private function processProducts(mixed $products): array
     {
         if (!is_array($products)) {
@@ -92,11 +78,7 @@ final readonly class ProductQueryHandler implements ProductQueryHandlerContract
         );
     }
 
-    /**
-     * @param array<string, mixed> $item
-     *
-     * @return float
-    */
+    /** @param array<string, mixed> $item */
     private function getAverageRatingForItem(array $item): float
     {
         $variantId = DataSanitizer::sanitizeInt($item['variantId'] ?? null);
@@ -106,11 +88,7 @@ final readonly class ProductQueryHandler implements ProductQueryHandlerContract
             : 0;
     }
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $data */
     private function sanitizeData(array &$data): void
     {
         $data['showLoadMore'] = DataSanitizer::sanitizeBoolean($data['showLoadMore'] ?? false);

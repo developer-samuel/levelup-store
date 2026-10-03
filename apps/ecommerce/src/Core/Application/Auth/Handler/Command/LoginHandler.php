@@ -27,15 +27,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class LoginHandler extends AbstractCommandHandler implements LoginHandlerContract
 {
-    /**
-     * @param UserRepositoryContract $userRepository
-     * @param PasswordHasherProviderContract $passwordHasherProvider
-     * @param LoginCommandContract $loginCommand
-     * @param LoginRedirectQueryContract $loginRedirectQuery
-     * @param RateLimiterContract $rateLimiter
-     * @param AuditLoggerContract $audit
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly UserRepositoryContract $userRepository,
         private readonly PasswordHasherProviderContract $passwordHasherProvider,
@@ -48,11 +39,7 @@ final class LoginHandler extends AbstractCommandHandler implements LoginHandlerC
         parent::__construct($logger);
     }
 
-    /**
-     * @param LoginPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(LoginPayload $payload): array
     {
         return $this->execute(function () use ($payload) {
@@ -76,13 +63,6 @@ final class LoginHandler extends AbstractCommandHandler implements LoginHandlerC
         });
     }
 
-    /**
-     * @param LoginPayload $payload
-     *
-     * @return User
-     *
-     * @throws \DomainException
-    */
     private function validateCredentials(LoginPayload $payload): User
     {
         $user = $this->userRepository->findByEmail($payload->email);

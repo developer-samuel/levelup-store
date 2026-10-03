@@ -16,14 +16,9 @@ use App\Core\Domain\{
 
 use App\Core\Ports\Segment\Order\Repository\OrderPersonalRepositoryContract;
 
-/**
- * @extends ServiceEntityRepository<OrderPersonal>
-*/
+/** @extends ServiceEntityRepository<OrderPersonal> */
 final class OrderPersonalRepository extends ServiceEntityRepository implements OrderPersonalRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -32,11 +27,6 @@ final class OrderPersonalRepository extends ServiceEntityRepository implements O
         );
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return OrderPersonal|null
-    */
     public function findOneByOrder(Order $order): ?OrderPersonal
     {
         return $this->findOneBy(['order' => $order]);

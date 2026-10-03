@@ -10,10 +10,5 @@ use App\Core\Domain\Cookie\CookieObject;
 
 interface CookieGatewayContract
 {
-    /**
-     * @param CookieObject $cookie
-     *
-     * @return Cookie
-    */
     public function apply(CookieObject $cookie): Cookie;
 }

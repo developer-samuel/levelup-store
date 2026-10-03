@@ -13,18 +13,10 @@ use App\Infrastructure\Auth\Email\VerificationEmail;
 #[AsEventListener(event: VerificationRequestedEvent::class)]
 final readonly class SendVerificationEmailEventListener
 {
-    /**
-     * @param VerificationEmail $verificationEmail
-    */
     public function __construct(
         private VerificationEmail $verificationEmail,
     ) {}
 
-    /**
-     * @param VerificationRequestedEvent $event
-     *
-     * @return void
-    */
     public function __invoke(VerificationRequestedEvent $event): void
     {
         $this->verificationEmail->send(

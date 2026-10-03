@@ -18,20 +18,13 @@ use App\Core\Ports\{
 
 final readonly class FilterSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @param Environment $twig
-     * @param AppLoggerContract $logger
-     * @param FilterCacheQueryContract $filterCacheQuery
-    */
     public function __construct(
         private Environment $twig,
         private AppLoggerContract $logger,
         private FilterCacheQueryContract $filterCacheQuery,
     ) {}
 
-    /**
-     * @return array<class-string, string>
-    */
+    /** @return array<class-string, string> */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -39,11 +32,6 @@ final readonly class FilterSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -73,9 +61,6 @@ final readonly class FilterSubscriber implements EventSubscriberInterface
     /**
      * @param array<int, string> $subtypesActive
      * @param array<int, string> $brandsActive
-     * @param int $step
-     *
-     * @return void
     */
     private function setGlobalVariablesInTwig(array $subtypesActive, array $brandsActive, int $step): void
     {

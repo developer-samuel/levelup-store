@@ -18,21 +18,11 @@ final readonly class RefreshTokenCookieManager
 {
     private const COOKIE_NAME = 'refresh_token';
 
-    /**
-     * @param CookieGatewayContract $cookieGateway
-     * @param int $refreshTokenTtl
-    */
     public function __construct(
         private CookieGatewayContract $cookieGateway,
         private int $refreshTokenTtl,
     ) {}
 
-    /**
-     * @param string $token
-     * @param bool $secure
-     *
-     * @return Cookie
-    */
     public function create(string $token, bool $secure): Cookie
     {
         $cookie = new CookieObject(
@@ -48,13 +38,7 @@ final readonly class RefreshTokenCookieManager
         return $this->cookieGateway->apply($cookie);
     }
 
-    /**
-     * @param array<string, mixed> $result
-     * @param JsonResponse $response
-     * @param bool $secure
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $result */
     public function attach(array &$result, JsonResponse $response, bool $secure): void
     {
         $raw = $result['refresh_token'] ?? null;
@@ -65,12 +49,6 @@ final readonly class RefreshTokenCookieManager
         }
     }
 
-    /**
-     * @param ResponseHeaderBag $headers
-     * @param bool $secure
-     *
-     * @return void
-    */
     public function clear(ResponseHeaderBag $headers, bool $secure): void
     {
         $headers->clearCookie(self::COOKIE_NAME, '/', null, $secure, true);

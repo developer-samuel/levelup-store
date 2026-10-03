@@ -37,8 +37,6 @@ use App\Core\Application\{
 final class OrderInvoiceResource
 {
     /**
-     * @param Order $order
-     *
      * @return array{
      *     order: OrderSummary,
      *     personal: PersonalSnake,
@@ -47,7 +45,6 @@ final class OrderInvoiceResource
      *     hasShipping: bool,
      *     products: list<InvoiceProduct>
      * }
-     *
     */
     public static function toArray(Order $order): array
     {
@@ -61,11 +58,7 @@ final class OrderInvoiceResource
         ];
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return OrderSummary
-    */
+    /** @return OrderSummary */
     private static function orderData(Order $order): array
     {
         return [
@@ -77,9 +70,7 @@ final class OrderInvoiceResource
         ];
     }
 
-    /**
-     * @return list<InvoiceProduct>
-    */
+    /** @return list<InvoiceProduct> */
     private static function productsData(Order $order): array
     {
         $grouped = [];

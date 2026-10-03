@@ -13,13 +13,6 @@ use App\Core\Domain\{
 
 final readonly class OrderCreatePayload
 {
-    /**
-     * @param OrderPersonalObject $personal
-     * @param bool $sendShipping
-     * @param OrderPaymentMethod $paymentMethod
-     * @param OrderBillingObject $billing
-     * @param OrderShippingObject|null $shipping
-    */
     public function __construct(
         public OrderPersonalObject $personal,
         public bool $sendShipping,
@@ -28,9 +21,6 @@ final readonly class OrderCreatePayload
         public ?OrderShippingObject $shipping = null,
     ) {}
 
-    /**
-     * @return bool
-    */
     public function shouldSendShipping(): bool
     {
         return $this->sendShipping;

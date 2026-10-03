@@ -22,9 +22,7 @@ use Tests\Support\{
     Provides\DecodesJson
 };
 
-/**
- * @coversDefaultClass \App\Presentation\Web\Auth\Controller\Command\SignupCommandController
-*/
+/** @coversDefaultClass \App\Presentation\Web\Auth\Controller\Command\SignupCommandController */
 final class SignupCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
@@ -123,9 +121,7 @@ final class SignupCommandControllerTest extends WebTestCase
         self::assertNotEmpty($data['errors']);
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function setHandlerMock(array $returnValue): void
     {
         static::getContainer()->set(
@@ -134,9 +130,7 @@ final class SignupCommandControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function buildPayload(): array
     {
         return [
@@ -149,9 +143,7 @@ final class SignupCommandControllerTest extends WebTestCase
         ];
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function createSignupHandlerMock(array $returnValue): SignupHandlerContract&MockObject
     {
         $handler = $this->createMock(SignupHandlerContract::class);

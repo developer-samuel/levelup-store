@@ -13,9 +13,7 @@ use Elastic\{
 
 use App\Adapters\External\Search\ElasticsearchAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\External\Search\ElasticsearchAdapter
-*/
+/** @coversDefaultClass \App\Adapters\External\Search\ElasticsearchAdapter */
 final class ElasticsearchAdapterTest extends TestCase
 {
     private string $host;

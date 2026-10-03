@@ -8,9 +8,6 @@ trait DecryptedId
 {
     private int $decryptedId;
 
-    /**
-     * @return int
-    */
     public function getDecryptedId(): int
     {
         return $this->decryptedId;

@@ -13,28 +13,17 @@ use App\Core\Ports\Gateways\External\Realtime\MercureHubGatewayContract;
 
 final readonly class MercureHubAdapter implements MercureHubGatewayContract
 {
-    /**
-     * @param HubInterface $hub
-     * @param bool $enabled
-     * @param string $hubUrl
-    */
     public function __construct(
         private HubInterface $hub,
         private bool $enabled,
         private string $hubUrl,
     ) {}
 
-    /**
-     * @return bool
-    */
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * @return bool
-    */
     public function isConnected(): bool
     {
         if (!$this->enabled) {
@@ -62,12 +51,6 @@ final readonly class MercureHubAdapter implements MercureHubGatewayContract
         return true;
     }
 
-    /**
-     * @param string $topic
-     * @param string $data
-     *
-     * @return void
-    */
     public function publish(string $topic, string $data): void
     {
         if (!$this->enabled) {

@@ -37,9 +37,6 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
 
     private const VARIANT_CONDITION = 'r.variant = :variantId';
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -48,36 +45,22 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'r';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'createdAt';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::DESC;
     }
 
-    /**
-     * @param int $variantId
-     * @param int|null $authUserId
-     *
-     * @return Review[]
-    */
+    /** @return Review[] */
     public function findAllByVariant(int $variantId, ?int $authUserId = null): array
     {
         $qb = $this->createBaseQueryForVariantAndType($variantId);
@@ -98,12 +81,6 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
         );
     }
 
-    /**
-     * @param int $variantId
-     * @param User $user
-     *
-     * @return bool
-    */
     public function existsByVariantAndUser(int $variantId, User $user): bool
     {
         $qb = $this->createExistsQueryForVariantAndUser($variantId, $user);
@@ -111,21 +88,11 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
         return $this->getResultOrNull($qb) !== null;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Review|null
-    */
     public function findById(int $id): ?Review
     {
         return $this->find($id);
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return Review|null
-    */
     public function getLastReviewByVariant(int $variantId): ?Review
     {
         $qb = $this->createBaseQueryForVariantAndType($variantId)
@@ -136,11 +103,6 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
         return $review instanceof Review ? $review : null;
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return ReviewsSummary
-    */
     public function getReviewsAndAverageByVariant(int $variantId): array
     {
         $reviews = $this->fetchReviewsByVariant($variantId);
@@ -177,11 +139,6 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
         return $ratings;
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return QueryBuilder
-    */
     private function createBaseQueryForVariantAndType(int $variantId): QueryBuilder
     {
         return $this->createQueryBuilder('r')
@@ -191,12 +148,6 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
             ->setParameter('type', ReviewType::FEEDBACK->value);
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param int $authUserId
-     *
-     * @return void
-    */
     private function applyAuthUserOrdering(QueryBuilder $qb, int $authUserId): void
     {
         $qb->addSelect("(CASE WHEN r.user = :authUserId THEN 0 ELSE 1 END) AS HIDDEN user_order")
@@ -205,12 +156,6 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
             ->addOrderBy('r.createdAt', SortDirection::DESC->sort());
     }
 
-    /**
-     * @param int $variantId
-     * @param User $user
-     *
-     * @return QueryBuilder
-    */
     private function createExistsQueryForVariantAndUser(int $variantId, User $user): QueryBuilder
     {
         return $this->createQueryBuilder('r')
@@ -222,11 +167,7 @@ final class ReviewRepository extends AbstractRepository implements ReviewReposit
             ->setMaxResults(1);
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return Review[]
-    */
+    /** @return Review[] */
     private function fetchReviewsByVariant(int $variantId): array
     {
         $qb = $this->createQueryBuilder('r')

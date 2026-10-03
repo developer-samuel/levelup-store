@@ -46,9 +46,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderPaymentCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderPaymentCommandService */
 final class OrderPaymentCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;
@@ -253,9 +251,7 @@ final class OrderPaymentCommandServiceTest extends TestCase
         );
     }
 
-    /**
-     * @return object[]
-    */
+    /** @return object[] */
     private function capturePersistedOnProcessSuccess(string $sessionId = 'sess_abc'): array
     {
         $persisted = [];

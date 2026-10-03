@@ -17,17 +17,8 @@ use App\Core\Domain\{
 */
 interface OrderDetailQueryContract
 {
-    /**
-     * @param string $code
-     *
-     * @return Order|null
-    */
     public function fetchOrder(string $code): ?Order;
 
-    /**
-     * @param Order $order
-     *
-     * @return ItemsWithTotal
-    */
+    /** @return ItemsWithTotal */
     public function buildItemsWithTotal(Order $order): array;
 }

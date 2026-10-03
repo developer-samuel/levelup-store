@@ -34,18 +34,10 @@ final class UpdateProfileRequest extends AbstractRequest
     use BillingAddressInput;
     use ShippingAddressInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -66,33 +58,18 @@ final class UpdateProfileRequest extends AbstractRequest
         $this->use_shipping = $data->getBoolean('use_shipping');
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {
         $this->validateCsrfToken('profile_update', $context);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateOptionalAddressFields(ExecutionContextInterface $context): void
     {
         AddressCheckFields::validateOptionalForType($context, $this->createAddress(AddressType::SHIPPING), AddressType::SHIPPING, $this->use_shipping ?? false);
     }
 
-    /**
-     * @param AddressType $type
-     *
-     * @return AddressObject
-    */
     private function createAddress(AddressType $type): AddressObject
     {
         return match ($type) {

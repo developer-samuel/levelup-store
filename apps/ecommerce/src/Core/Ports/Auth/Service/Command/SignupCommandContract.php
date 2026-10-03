@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface SignupCommandContract
 {
-    /**
-     * @param SignupPayload $payload
-     *
-     * @return User
-    */
     public function signup(SignupPayload $payload): User;
 }

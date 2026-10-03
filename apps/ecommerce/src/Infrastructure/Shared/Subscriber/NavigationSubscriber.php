@@ -17,18 +17,12 @@ final readonly class NavigationSubscriber implements EventSubscriberInterface
 {
     private const MAX_TYPES = 6;
 
-    /**
-     * @param Environment $twig
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private Environment $twig,
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @return array<class-string, string>
-    */
+    /** @return array<class-string, string> */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -36,11 +30,6 @@ final readonly class NavigationSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -59,9 +48,6 @@ final readonly class NavigationSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @return void
-    */
     private function setGlobalVariablesInTwig(): void
     {
         $this->twig->addGlobal('maxTypes', self::MAX_TYPES);

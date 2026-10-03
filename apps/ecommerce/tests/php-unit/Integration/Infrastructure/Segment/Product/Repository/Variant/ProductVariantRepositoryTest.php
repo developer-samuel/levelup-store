@@ -32,9 +32,7 @@ use App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantReposito
 
 use Tests\Support\Provides\Persistence;
 
-/**
- * @coversDefaultClass \App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository
-*/
+/** @coversDefaultClass \App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository */
 final class ProductVariantRepositoryTest extends KernelTestCase
 {
     use Persistence;

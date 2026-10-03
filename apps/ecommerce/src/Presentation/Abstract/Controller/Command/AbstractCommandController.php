@@ -15,18 +15,11 @@ use App\Presentation\Shared\Responder\HttpResponder;
 
 abstract class AbstractCommandController extends AbstractController
 {
-    /**
-     * @param AppLoggerContract $logger
-    */
     protected function __construct(
         protected readonly AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param callable(): JsonResponse $callback
-     *
-     * @return JsonResponse
-    */
+    /** @param callable(): JsonResponse $callback */
     protected function handleCommand(callable $callback): JsonResponse
     {
         try {

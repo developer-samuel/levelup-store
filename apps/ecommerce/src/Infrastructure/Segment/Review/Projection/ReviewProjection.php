@@ -10,9 +10,7 @@ final class ReviewProjection extends AbstractProjection
 {
     public const NAME = 'reviews';
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     protected static function properties(): array
     {
         return [

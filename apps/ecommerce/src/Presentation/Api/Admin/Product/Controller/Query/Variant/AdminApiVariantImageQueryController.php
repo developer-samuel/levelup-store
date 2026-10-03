@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class AdminApiVariantImageQueryController extends AbstractAdminApiQueryController
 {
-    /**
-     * @param AdminApiVariantImageListQueryHandler $imageListQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly AdminApiVariantImageListQueryHandler $imageListQueryHandler,
         SecurityProviderContract $securityProvider,

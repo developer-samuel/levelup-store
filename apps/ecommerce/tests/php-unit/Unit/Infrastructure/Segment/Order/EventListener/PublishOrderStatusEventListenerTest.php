@@ -19,9 +19,7 @@ use App\Core\Ports\Gateways\External\Realtime\MercureHubGatewayContract;
 
 use App\Infrastructure\Segment\Order\EventListener\PublishOrderStatusEventListener;
 
-/**
- * @coversDefaultClass \App\Infrastructure\Segment\Order\EventListener\PublishOrderStatusEventListener
-*/
+/** @coversDefaultClass \App\Infrastructure\Segment\Order\EventListener\PublishOrderStatusEventListener */
 final class PublishOrderStatusEventListenerTest extends TestCase
 {
     private MercureHubGatewayContract&MockObject $mercureHubGateway;

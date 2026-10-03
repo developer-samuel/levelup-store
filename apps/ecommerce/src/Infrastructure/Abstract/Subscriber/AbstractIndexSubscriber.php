@@ -18,59 +18,30 @@ abstract class AbstractIndexSubscriber
     /** @var array<int, int> */
     private array $pendingRemoveIds = [];
 
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-     * @param MessageBusInterface $bus
-    */
     public function __construct(
         protected readonly ElasticsearchGatewayContract $elasticsearch,
         protected readonly MessageBusInterface $bus,
     ) {}
 
-    /**
-     * @return class-string
-    */
+    /** @return class-string */
     abstract protected function getEntityClass(): string;
 
-    /**
-     * @param int $id
-     *
-     * @return object
-    */
     abstract protected function createIndexMessage(int $id): object;
-
-    /**
-     * @param int $id
-     *
-     * @return object
-    */
     abstract protected function createRemoveMessage(int $id): object;
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postPersist(LifecycleEventArgs $args): void
     {
         $this->dispatchIndex($args->getObject());
     }
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postUpdate(LifecycleEventArgs $args): void
     {
         $this->dispatchIndex($args->getObject());
     }
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function preRemove(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
@@ -88,11 +59,7 @@ abstract class AbstractIndexSubscriber
         $this->pendingRemoveIds[spl_object_id($entity)] = $entityId;
     }
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postRemove(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
@@ -114,11 +81,6 @@ abstract class AbstractIndexSubscriber
         $this->bus->dispatch($this->createRemoveMessage($id));
     }
 
-    /**
-     * @param object $entity
-     *
-     * @return void
-    */
     private function dispatchIndex(object $entity): void
     {
         $class = $this->getEntityClass();
@@ -128,7 +90,7 @@ abstract class AbstractIndexSubscriber
         }
 
         assert(method_exists($entity, 'getId'));
-        
+
         /** @var int $id */
         $id = $entity->getId();
 

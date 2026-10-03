@@ -41,9 +41,7 @@ use App\Core\Ports\{
 
 use Tests\Support\Provides\AssertsPersisted;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderDataCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderDataCommandService */
 final class OrderDataCommandServiceTest extends TestCase
 {
     use AssertsPersisted;
@@ -153,9 +151,7 @@ final class OrderDataCommandServiceTest extends TestCase
             ->willReturn($this->createMock(Country::class));
     }
 
-    /**
-     * @return object[]
-    */
+    /** @return object[] */
     private function attachAndCapturePersisted(OrderCreatePayload $payload): array
     {
         $persisted = [];

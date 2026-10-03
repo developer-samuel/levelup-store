@@ -18,11 +18,6 @@ use App\Presentation\{
 
 final class AuthQueryController extends AbstractQueryController
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
@@ -35,17 +30,11 @@ final class AuthQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function login(): Response
     {
         return $this->render('features/auth/login/login.html.twig');
     }
-
-    /**
-     * @return Response
-    */
+    
     public function signup(): Response
     {
         return $this->renderPage('features/auth/signup/signup.html.twig');

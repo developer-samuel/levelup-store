@@ -10,9 +10,7 @@ final class ProductVariantProjection extends AbstractProjection
 {
     public const NAME = 'product_variants';
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     protected static function properties(): array
     {
         return [

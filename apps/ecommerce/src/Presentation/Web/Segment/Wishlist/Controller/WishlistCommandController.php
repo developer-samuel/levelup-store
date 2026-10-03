@@ -26,12 +26,6 @@ use App\Presentation\{
 
 final class WishlistCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param ToggleWishlistHandlerContract $toggleWishlistHandler
-     * @param DestroyWishlistHandlerContract $destroyWishlistHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ToggleWishlistHandlerContract $toggleWishlistHandler,
         private readonly DestroyWishlistHandlerContract $destroyWishlistHandler,
@@ -44,11 +38,6 @@ final class WishlistCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function toggle(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -58,11 +47,6 @@ final class WishlistCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function destroy(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -72,11 +56,7 @@ final class WishlistCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param WishlistToggleRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleToggle(WishlistToggleRequest $request): array
     {
         $payload = new WishlistPayload($request->variantId);
@@ -85,11 +65,7 @@ final class WishlistCommandController extends AbstractCrudCommandController
         return ['exists' => $exists];
     }
 
-    /**
-     * @param WishlistDestroyRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleDestroy(WishlistDestroyRequest $request): array
     {
         $payload = new WishlistPayload($request->variantId);

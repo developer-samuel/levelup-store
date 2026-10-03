@@ -17,23 +17,12 @@ use App\Core\Ports\{
 
 final readonly class ProductVariantProjector implements ReindexableInterface
 {
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param ReviewRepositoryContract $reviewRepository
-    */
     public function __construct(
         private ElasticsearchGatewayContract $elasticsearch,
         private ProductVariantRepositoryContract $variantRepository,
         private ReviewRepositoryContract $reviewRepository,
     ) {}
 
-    /**
-     * @param ProductVariant $variant
-     * @param float $avgRating
-     *
-     * @return void
-    */
     public function index(ProductVariant $variant, float $avgRating = 0.0): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -43,11 +32,6 @@ final readonly class ProductVariantProjector implements ReindexableInterface
         $this->elasticsearch->indexDocument(ProductVariantProjection::NAME, $variant->getId(), $this->buildDocument($variant, $avgRating));
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return void
-    */
     public function remove(ProductVariant $variant): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -57,9 +41,6 @@ final readonly class ProductVariantProjector implements ReindexableInterface
         $this->elasticsearch->removeDocument(ProductVariantProjection::NAME, $variant->getId());
     }
 
-    /**
-     * @return int
-    */
     public function reindexAll(): int
     {
         $this->elasticsearch->ensureIndexExists(ProductVariantProjection::NAME, ProductVariantProjection::mapping());
@@ -79,20 +60,12 @@ final readonly class ProductVariantProjector implements ReindexableInterface
         return $indexed;
     }
 
-    /**
-     * @return string
-    */
     public function getIndexName(): string
     {
         return ProductVariantProjection::NAME;
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param float $avgRating
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function buildDocument(ProductVariant $variant, float $avgRating): array
     {
         $product = $variant->getProduct();

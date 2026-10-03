@@ -10,11 +10,6 @@ use App\Core\Ports\Segment\Product\Service\Query\ProductRouteQueryContract;
 
 final class ProductRouteQueryService implements ProductRouteQueryContract
 {
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
     public function generateRoute(string $path): string
     {
         return match (true) {
@@ -24,11 +19,6 @@ final class ProductRouteQueryService implements ProductRouteQueryContract
         };
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-    */
     private function isProductPath(string $path): bool
     {
         return str_starts_with($path, '/products') && $path !== '/product/show';

@@ -24,9 +24,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\GenerateOrderInvoiceHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\GenerateOrderInvoiceHandler */
 final class GenerateOrderInvoiceHandlerTest extends TestCase
 {
     private SecurityPolicyContract&MockObject $securityPolicy;

@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface OrderCacheCommandContract
 {
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function invalidateOrdersCache(User $user): void;
 }

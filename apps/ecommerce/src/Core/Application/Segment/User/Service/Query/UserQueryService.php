@@ -18,20 +18,10 @@ use App\Core\Ports\{
 
 final readonly class UserQueryService implements UserQueryContract
 {
-    /**
-     * @param UserRepositoryContract $userRepository
-    */
     public function __construct(
         private UserRepositoryContract $userRepository,
     ) {}
 
-    /**
-     * @param string $email
-     *
-     * @return User
-     *
-     * @throws \InvalidArgumentException
-    */
     public function findUserByEmailOrFail(string $email): User
     {
         $user = $this->userRepository->findByEmail($email);
@@ -40,11 +30,6 @@ final readonly class UserQueryService implements UserQueryContract
         return $user;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return bool
-    */
     public function isAdmin(User $user): bool
     {
         return $user->getRole() === UserRole::ADMIN;

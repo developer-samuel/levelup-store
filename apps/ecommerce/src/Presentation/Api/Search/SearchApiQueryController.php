@@ -21,11 +21,6 @@ use App\Presentation\Shared\Responder\ExceptionResponder;
 
 final class SearchApiQueryController extends AbstractController
 {
-    /**
-     * @param SearchRenderQueryHandlerContract $searchRenderQueryHandler
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SearchRenderQueryHandlerContract $searchRenderQueryHandler,
         private readonly ExceptionResponder $exceptionResponder,

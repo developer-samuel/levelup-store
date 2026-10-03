@@ -25,12 +25,6 @@ use App\Presentation\{
 
 final class ResetPasswordCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param ResetPasswordCommandHandlerContract $resetPasswordCommandHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly ResetPasswordCommandHandlerContract $resetPasswordCommandHandler,
         CsrfTokenManagerInterface $csrfTokenManager,
@@ -44,11 +38,6 @@ final class ResetPasswordCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
     public function store(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -58,11 +47,7 @@ final class ResetPasswordCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param ResetPasswordRequest $request
-     *
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     private function handleStore(ResetPasswordRequest $request): array
     {
         $payload = $this->createPayload($request);
@@ -70,11 +55,6 @@ final class ResetPasswordCommandController extends AbstractCrudCommandController
         return $this->resetPasswordCommandHandler->handle($payload);
     }
 
-    /**
-     * @param ResetPasswordRequest $request
-     *
-     * @return ResetPasswordPayload
-    */
     private function createPayload(ResetPasswordRequest $request): ResetPasswordPayload
     {
         return new ResetPasswordPayload(

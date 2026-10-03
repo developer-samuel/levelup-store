@@ -23,24 +23,13 @@ use App\Core\Ports\{
 
 final readonly class OrderBuildCommandService implements OrderBuildCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param OrderCommandBuilder $orderCommandBuilder
-     * @param OrderQueryBuilder $orderQueryBuilder
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private OrderCommandBuilder $orderCommandBuilder,
         private OrderQueryBuilder $orderQueryBuilder,
     ) {}
 
-    /**
-     * @param User $user
-     * @param OrderCreatePayload $payload
-     * @param CartItem[] $items
-     *
-     * @return Order
-    */
+    /** @param CartItem[] $items */
     public function build(User $user, OrderCreatePayload $payload, array $items): Order
     {
         $order = $this->orderCommandBuilder->orderPreparationCommand->prepareOrder($user, $payload);

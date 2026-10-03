@@ -23,20 +23,11 @@ use App\Shared\Constants\PathConstants;
 )]
 final readonly class GuestCheckerListener
 {
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param UrlGeneratorInterface $urlGenerator
-    */
     public function __construct(
         private TokenStorageInterface $tokenStorage,
         private UrlGeneratorInterface $urlGenerator,
     ) {}
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         $request = $event->getRequest();
@@ -54,11 +45,6 @@ final readonly class GuestCheckerListener
         }
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-    */
     private function isGuestPath(string $path): bool
     {
         return in_array($path, PathConstants::GUEST_PATHS, true);

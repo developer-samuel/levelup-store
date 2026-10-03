@@ -8,11 +8,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class JsonResponder
 {
-    /**
-     * @param string $message
-     *
-     * @return JsonResponse
-     */
     public static function notFound(
         string $message = 'Not found',
     ): JsonResponse {

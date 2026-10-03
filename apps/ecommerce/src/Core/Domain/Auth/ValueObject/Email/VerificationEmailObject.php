@@ -14,18 +14,12 @@ use App\Core\Domain\Segment\User\Entity\User;
 */
 final readonly class VerificationEmailObject
 {
-    /**
-     * @param string $verificationUrl
-     * @param User $user
-    */
     public function __construct(
         public string $verificationUrl,
         public User $user,
     ) {}
 
-    /**
-     * @return ObjectArray
-    */
+    /** @return ObjectArray */
     public function toArray(): array
     {
         return [

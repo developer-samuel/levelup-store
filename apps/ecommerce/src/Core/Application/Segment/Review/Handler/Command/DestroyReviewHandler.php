@@ -19,11 +19,6 @@ use App\Core\Ports\{
 
 final class DestroyReviewHandler extends AbstractCommandHandler implements DestroyReviewHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param ReviewCommandContract $reviewCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly ReviewCommandContract $reviewCommand,
@@ -32,11 +27,7 @@ final class DestroyReviewHandler extends AbstractCommandHandler implements Destr
         parent::__construct($logger);
     }
 
-    /**
-     * @param ReviewDestroyPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(ReviewDestroyPayload $payload): array
     {
         return $this->execute(function () use ($payload) {

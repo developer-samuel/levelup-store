@@ -12,11 +12,5 @@ use App\Core\Domain\{
 
 interface OrderPreparationCommandContract
 {
-    /**
-     * @param User $user
-     * @param OrderCreatePayload $payload
-     *
-     * @return Order
-    */
     public function prepareOrder(User $user, OrderCreatePayload $payload): Order;
 }

@@ -11,24 +11,9 @@ use App\Core\Domain\{
 
 interface ProductVariantDescriptionRepositoryContract
 {
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariantDescription[]
-    */
+    /** @return ProductVariantDescription[] */
     public function findAllByVariant(ProductVariant $variant): array;
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariantDescription|null
-    */
     public function findById(int $id): ?ProductVariantDescription;
-
-    /**
-     * @param int $variantId
-     *
-     * @return int
-    */
     public function getMaxPositionByVariantId(int $variantId): int;
 }

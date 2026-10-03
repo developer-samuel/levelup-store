@@ -12,18 +12,8 @@ use App\Core\Domain\{
 
 interface OrderItemRepositoryContract
 {
-    /**
-     * @param Order $order
-     *
-     * @return OrderItem[]
-     */
+    /** @return OrderItem[] */
     public function findByOrder(Order $order): array;
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     public function hasPurchasedVariant(User $user, int $variantId): bool;
 }

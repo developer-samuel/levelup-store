@@ -20,11 +20,6 @@ use App\Core\Ports\{
 
 final readonly class UpdateVerificationHandler implements UpdateVerificationHandlerContract
 {
-    /**
-     * @param VerificationCommandContract $verificationCommand
-     * @param AuditLoggerContract $audit
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private VerificationCommandContract $verificationCommand,
         private LoginCommandContract $loginCommand,
@@ -32,11 +27,6 @@ final readonly class UpdateVerificationHandler implements UpdateVerificationHand
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param UpdateVerificationPayload $payload
-     *
-     * @return JwtTokenObject|null
-    */
     public function handle(UpdateVerificationPayload $payload): ?JwtTokenObject
     {
         try {

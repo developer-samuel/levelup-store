@@ -31,9 +31,7 @@ use App\Core\Ports\{
 
 use Tests\Support\Stub\UserStub;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartItemQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartItemQueryService */
 final class CartItemQueryServiceTest extends TestCase
 {
     use UserStub;
@@ -202,9 +200,7 @@ final class CartItemQueryServiceTest extends TestCase
         );
     }
 
-    /**
-     * @param object[] $items
-    */
+    /** @param object[] $items */
     private function createCartWithItems(array $items): Cart
     {
         $cart = $this->createMock(Cart::class);
@@ -213,9 +209,7 @@ final class CartItemQueryServiceTest extends TestCase
         return $cart;
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function buildExpected(int $totalItems, string $totalPrice, string $message): array
     {
         return [

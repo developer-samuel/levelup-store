@@ -6,10 +6,6 @@ namespace App\Core\Ports\Search\Handler\Query;
 
 interface SearchRenderQueryHandlerContract
 {
-    /**
-     * @param string $query
-     *
-     * @return string[]
-    */
+    /** @return string[] */
     public function handle(string $query): array;
 }

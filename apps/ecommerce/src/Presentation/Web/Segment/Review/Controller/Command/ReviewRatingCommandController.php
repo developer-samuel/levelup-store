@@ -26,12 +26,6 @@ use App\Presentation\{
 
 final class ReviewRatingCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param HmacFieldDecoderContract $hmacFieldDecoder
-     * @param ToggleReviewRatingHandlerContract $toggleReviewRatingHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly HmacFieldDecoderContract $hmacFieldDecoder,
         private readonly ToggleReviewRatingHandlerContract $toggleReviewRatingHandler,
@@ -44,11 +38,6 @@ final class ReviewRatingCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function toggle(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -58,11 +47,7 @@ final class ReviewRatingCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param ReviewRatingRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleToggle(ReviewRatingRequest $request): array
     {
         $decodedReviewId = $this->decodeReviewId($request);
@@ -75,11 +60,6 @@ final class ReviewRatingCommandController extends AbstractCrudCommandController
         return $this->toggleReviewRatingHandler->handle($payload);
     }
 
-    /**
-     * @param ReviewRatingRequest $request
-     *
-     * @return int
-    */
     private function decodeReviewId(ReviewRatingRequest $request): int
     {
         return IdDecoder::decode(

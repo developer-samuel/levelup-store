@@ -15,9 +15,6 @@ final class NumberConstraint extends Constraint
 {
     public string $message;
 
-    /**
-     * @param string $label
-    */
     public function __construct(string $label)
     {
         parent::__construct();
@@ -25,17 +22,12 @@ final class NumberConstraint extends Constraint
         $this->message = $label . ' must contain at least one number.';
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return NumberConstraintValidator::class;
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

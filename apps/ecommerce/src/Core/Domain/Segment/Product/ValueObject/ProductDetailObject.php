@@ -13,14 +13,8 @@ use App\Core\Domain\{
 final readonly class ProductDetailObject
 {
     /**
-     * @param ProductVariant $variant
      * @param ProductVariant[] $variants
-     * @param ProductVariantStock $stocks
-     * @param ProductPriceObject $price
      * @param array<int, array<string, mixed>> $descriptions
-     * @param bool $wishlistExists
-     * @param string|null $firstImage
-     * @param ReviewListObject|null $reviewData
     */
     public function __construct(
         public ProductVariant $variant,

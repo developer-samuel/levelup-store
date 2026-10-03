@@ -19,11 +19,6 @@ use App\Core\Ports\{
 
 final class AdminApiVariantEanListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
-    /**
-     * @param ProductVariantEanRepositoryContract $eanRepository
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private ProductVariantEanRepositoryContract $eanRepository,
         ProductVariantRepositoryContract $variantRepository,
@@ -35,11 +30,7 @@ final class AdminApiVariantEanListQueryHandler extends AbstractAdminApiVariantQu
         );
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return array<int, ProductVariantEan>
-    */
+    /** @return array<int, ProductVariantEan> */
     protected function getItemsForVariant(int $variantId): array
     {
         $variant = $this->findVariant($variantId);
@@ -52,9 +43,6 @@ final class AdminApiVariantEanListQueryHandler extends AbstractAdminApiVariantQu
         return array_values($eans);
     }
 
-    /**
-     * @return string
-    */
     protected function getResourceClass(): string
     {
         return AdminApiVariantEanResource::class;

@@ -24,9 +24,7 @@ use Tests\Support\{
     Provides\DecodesJson
 };
 
-/**
- * @coversDefaultClass \App\Presentation\Api\Auth\AuthApiCommandController
-*/
+/** @coversDefaultClass \App\Presentation\Api\Auth\AuthApiCommandController */
 final class AuthApiCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
@@ -196,9 +194,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function postLogin(array $returnValue): void
     {
         static::getContainer()->set(
@@ -212,9 +208,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         ]);
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function postRefresh(array $returnValue): void
     {
         static::getContainer()->set(
@@ -227,9 +221,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         ]);
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function postLogout(array $returnValue): void
     {
         static::getContainer()->set(
@@ -242,9 +234,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         ]);
     }
 
-    /**
-     * @param array<string, mixed> $payload
-    */
+    /** @param array<string, mixed> $payload */
     private function postJson(string $uri, array $payload): void
     {
         $this->client->request('POST', $uri, [], [], [
@@ -252,9 +242,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         ], (string) json_encode($payload));
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function createLoginHandlerMock(array $returnValue): LoginHandlerContract&MockObject
     {
         $handler = $this->createMock(LoginHandlerContract::class);
@@ -263,9 +251,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         return $handler;
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function createRefreshHandlerMock(array $returnValue): RefreshTokenHandlerContract&MockObject
     {
         $handler = $this->createMock(RefreshTokenHandlerContract::class);
@@ -274,9 +260,7 @@ final class AuthApiCommandControllerTest extends WebTestCase
         return $handler;
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function createLogoutHandlerMock(array $returnValue): LogoutHandlerContract&MockObject
     {
         $handler = $this->createMock(LogoutHandlerContract::class);

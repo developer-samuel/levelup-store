@@ -18,9 +18,7 @@ use App\Core\Ports\{
 
 use App\Infrastructure\Segment\Review\EventListener\PublishReviewRatingToggledEventListener;
 
-/**
- * @coversDefaultClass \App\Infrastructure\Segment\Review\EventListener\PublishReviewRatingToggledEventListener
-*/
+/** @coversDefaultClass \App\Infrastructure\Segment\Review\EventListener\PublishReviewRatingToggledEventListener */
 final class PublishReviewRatingToggledEventListenerTest extends TestCase
 {
     private MercureHubGatewayContract&MockObject $mercureHubGateway;

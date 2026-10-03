@@ -18,11 +18,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiVariantEanResource
 {
-    /**
-     * @param ProductVariantEan $ean
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(ProductVariantEan $ean): array
     {
         return [

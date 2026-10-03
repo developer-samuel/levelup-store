@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class AdminApiProductQueryController extends AbstractAdminApiQueryController
 {
-    /**
-     * @param AdminApiProductListQueryHandler $productListQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly AdminApiProductListQueryHandler $productListQueryHandler,
         SecurityProviderContract $securityProvider,

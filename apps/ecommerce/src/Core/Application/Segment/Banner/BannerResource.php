@@ -19,11 +19,7 @@ use App\Core\Domain\Segment\Banner\Entity\Banner;
 */
 final class BannerResource
 {
-    /**
-     * @param Banner $banner
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(Banner $banner): array
     {
         return [

@@ -26,9 +26,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderPreparationCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderPreparationCommandService */
 final class OrderPreparationCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;

@@ -31,12 +31,6 @@ final readonly class RateLimiter implements RateLimiterContract
         5  => 60,   // 60s
     ];
 
-    /**
-     * @param CacheItemPoolInterface $cache
-     * @param RequestStack $requestStack
-     * @param string $keyPrefix
-     * @param int $recordTtl
-    */
     public function __construct(
         private CacheItemPoolInterface $cache,
         private RequestStack $requestStack,
@@ -44,11 +38,6 @@ final readonly class RateLimiter implements RateLimiterContract
         private int $recordTtl = 86400,
     ) {}
 
-    /**
-     * @return void
-     *
-     * @throws TooManyRequestsException
-    */
     public function track(): void
     {
         $item = $this->cache->getItem($this->buildKey());
@@ -73,19 +62,12 @@ final readonly class RateLimiter implements RateLimiterContract
         $this->saveItem($item, $data);
     }
 
-    /**
-     * @return void
-    */
     public function reset(): void
     {
         $this->cache->deleteItem($this->buildKey());
     }
 
-    /**
-     * @param CacheItemInterface $item
-     *
-     * @return array<string, int|null>
-    */
+    /** @return array<string, int|null> */
     private function resolveData(CacheItemInterface $item): array
     {
         /** @var array<string, int|null> $data */
@@ -94,11 +76,6 @@ final readonly class RateLimiter implements RateLimiterContract
         return $data;
     }
 
-    /**
-     * @param int $attempts
-     *
-     * @return int
-    */
     private function resolveLockout(int $attempts): int
     {
         if (isset(self::LOCKOUT_THRESHOLDS[$attempts])) {
@@ -115,12 +92,7 @@ final readonly class RateLimiter implements RateLimiterContract
         return 0;
     }
 
-    /**
-     * @param CacheItemInterface $item
-     * @param array<string, int|null> $data
-     *
-     * @return void
-    */
+    /** @param array<string, int|null> $data */
     private function saveItem(CacheItemInterface $item, array $data): void
     {
         $item->set($data);
@@ -129,9 +101,6 @@ final readonly class RateLimiter implements RateLimiterContract
         $this->cache->save($item);
     }
 
-    /**
-     * @return string
-    */
     private function buildKey(): string
     {
         $ip = RequestMetadata::fromRequestStack($this->requestStack)->ip;

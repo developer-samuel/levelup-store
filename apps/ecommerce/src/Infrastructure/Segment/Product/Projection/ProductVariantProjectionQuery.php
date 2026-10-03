@@ -18,19 +18,11 @@ use App\Core\Ports\Segment\Product\Projection\ProductVariantProjectionQueryContr
 
 final readonly class ProductVariantProjectionQuery implements ProductVariantProjectionQueryContract
 {
-    /**
-     * @param Client $client
-    */
     public function __construct(
         private Client $client,
     ) {}
 
-    /**
-     * @param string $term
-     * @param int $limit
-     *
-     * @return array{ids: int[], total: int}
-    */
+    /** @return array{ids: int[], total: int} */
     public function search(string $term, int $limit): array
     {
         /** @var Elasticsearch $response */
@@ -63,14 +55,7 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
         return $this->extractResult($response->asArray());
     }
 
-    /**
-     * @param ProductFilterObject $filter
-     * @param int $page
-     * @param int $limit
-     * @param ProductSortOption|null $sort
-     *
-     * @return array{ids: int[], total: int}
-    */
+    /** @return array{ids: int[], total: int} */
     public function filter(
         ProductFilterObject $filter,
         int $page,
@@ -91,11 +76,7 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
         return $this->extractResult($response->asArray());
     }
 
-    /**
-     * @param ProductFilterObject $filter
-     *
-     * @return array<int, array<string, mixed>>
-    */
+    /** @return array<int, array<string, mixed>> */
     private function buildFilterClauses(ProductFilterObject $filter): array
     {
         $clauses = [['term' => ['is_available' => true]]];
@@ -128,11 +109,7 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
         return $clauses;
     }
 
-    /**
-     * @param ProductFilterObject $filter
-     *
-     * @return array<string, float>|null
-    */
+    /** @return array<string, float>|null */
     private function buildPriceRange(ProductFilterObject $filter): ?array
     {
         $range = [];
@@ -148,11 +125,7 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
         return $range === [] ? null : $range;
     }
 
-    /**
-     * @param ProductSortOption $sort
-     *
-     * @return array<int, array<string, mixed>>
-    */
+    /** @return array<int, array<string, mixed>> */
     private function buildSortClause(ProductSortOption $sort): array
     {
         return match ($sort) {

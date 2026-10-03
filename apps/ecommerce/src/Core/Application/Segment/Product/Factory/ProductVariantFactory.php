@@ -14,13 +14,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 
 final class ProductVariantFactory
 {
-    /**
-     * @param ProductVariant $variant
-     * @param array<string, float> $prices
-     * @param float $averageRating
-     *
-     * @return ProductVariantObject
-    */
+    /** @param array<string, float> $prices */
     public function fromObject(
         ProductVariant $variant,
         array $prices,

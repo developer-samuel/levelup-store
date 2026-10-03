@@ -13,10 +13,6 @@ use App\Core\Ports\{
 
 abstract class AbstractAdminFormCommandHandler extends AbstractCommandHandler
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         protected readonly SecurityPolicyContract $securityPolicy,
         AppLoggerContract $logger,

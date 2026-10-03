@@ -22,18 +22,10 @@ final class SignupRequest extends AbstractRequest
 {
     use SignupInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -47,22 +39,12 @@ final class SignupRequest extends AbstractRequest
         $this->terms_and_conditions = $data->getBoolean('terms_and_conditions');
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {
         $this->validateCsrfToken('signup_store', $context);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validatePasswordsMatch(ExecutionContextInterface $context): void
     {

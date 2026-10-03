@@ -75,9 +75,7 @@ class Product
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
     private string $name;
 
-    /**
-     * @var Collection<int, ProductVariant>
-    */
+    /** @var Collection<int, ProductVariant> */
     #[ORM\OneToMany(
         mappedBy: 'product',
         targetEntity: ProductVariant::class,
@@ -90,9 +88,7 @@ class Product
     )]
     private Collection $variants;
 
-    /**
-     * @var Collection<int, ProductSubtype>
-    */
+    /** @var Collection<int, ProductSubtype> */
     #[ORM\OneToMany(
         mappedBy: 'product',
         targetEntity: ProductSubtype::class,

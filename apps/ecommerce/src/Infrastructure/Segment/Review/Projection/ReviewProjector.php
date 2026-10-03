@@ -14,20 +14,11 @@ use App\Core\Ports\{
 
 final readonly class ReviewProjector implements ReindexableInterface
 {
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-     * @param ReviewRepositoryContract $reviewRepository
-    */
     public function __construct(
         private ElasticsearchGatewayContract $elasticsearch,
         private ReviewRepositoryContract $reviewRepository,
     ) {}
 
-    /**
-     * @param Review $review
-     *
-     * @return void
-    */
     public function index(Review $review): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -37,11 +28,6 @@ final readonly class ReviewProjector implements ReindexableInterface
         $this->elasticsearch->indexDocument(ReviewProjection::NAME, $review->getId(), $this->buildDocument($review));
     }
 
-    /**
-     * @param Review $review
-     *
-     * @return void
-    */
     public function remove(Review $review): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -51,9 +37,6 @@ final readonly class ReviewProjector implements ReindexableInterface
         $this->elasticsearch->removeDocument(ReviewProjection::NAME, $review->getId());
     }
 
-    /**
-     * @return int
-    */
     public function reindexAll(): int
     {
         $this->elasticsearch->ensureIndexExists(ReviewProjection::NAME, ReviewProjection::mapping());
@@ -69,19 +52,12 @@ final readonly class ReviewProjector implements ReindexableInterface
         return $indexed;
     }
 
-    /**
-     * @return string
-    */
     public function getIndexName(): string
     {
         return ReviewProjection::NAME;
     }
 
-    /**
-     * @param Review $review
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function buildDocument(Review $review): array
     {
         return [

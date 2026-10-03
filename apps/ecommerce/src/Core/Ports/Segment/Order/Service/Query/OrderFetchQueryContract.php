@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\Order\Entity\Order;
 
 interface OrderFetchQueryContract
 {
-    /**
-     * @param string $code
-     *
-     * @return Order
-    */
     public function getOrderByCodeOrFail(string $code): Order;
 }

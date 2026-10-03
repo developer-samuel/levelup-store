@@ -11,11 +11,6 @@ use App\Core\Domain\{
 
 interface ReviewRatingQueryContract
 {
-    /**
-     * @param Review $review
-     * @param User|null $user
-     *
-     * @return array<string, int|string>
-    */
+    /** @return array<string, int|string> */
     public function getReviewFeedbackStats(Review $review, ?User $user): array;
 }

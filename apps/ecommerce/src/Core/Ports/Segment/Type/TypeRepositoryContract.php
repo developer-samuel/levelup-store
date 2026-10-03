@@ -11,18 +11,6 @@ use App\Core\Domain\{
 
 interface TypeRepositoryContract
 {
-    /**
-     * @param string $name
-     *
-     * @return Type|null
-    */
     public function findByName(string $name): ?Type;
-
-    /**
-     * @param Category $category
-     * @param string $name
-     *
-     * @return Type|null
-    */
     public function findByCategoryAndName(Category $category, string $name): ?Type;
 }

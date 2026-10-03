@@ -28,12 +28,7 @@ use App\Core\Domain\{
 */
 final class ProductRecommendedResource
 {
-    /**
-     * @param ProductVariantRecommended $variantRecommended
-     * @param float $averageRating
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(ProductVariantRecommended $variantRecommended, float $averageRating = 0): array
     {
         $variant = $variantRecommended->getVariant();
@@ -52,11 +47,7 @@ final class ProductRecommendedResource
         ];
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return PriceData
-    */
+    /** @return PriceData */
     private static function getPriceData(ProductVariant $variant): array
     {
         $discountEntity = $variant->getDiscount();
@@ -72,11 +63,6 @@ final class ProductRecommendedResource
         ];
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return string
-    */
     private static function resolveImagePath(ProductVariant $variant): string
     {
         $image = $variant->getImage();

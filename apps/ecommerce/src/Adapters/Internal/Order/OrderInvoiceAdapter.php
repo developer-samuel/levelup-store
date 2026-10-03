@@ -12,20 +12,12 @@ use App\Core\Ports\{
 
 final readonly class OrderInvoiceAdapter implements OrderInvoiceGatewayContract
 {
-    /**
-     * @param SnappyPdfGeneratorGatewayContract $pdfGeneratorAdapter
-     * @param OrderInvoicePdfRendererContract $renderer
-    */
     public function __construct(
         private SnappyPdfGeneratorGatewayContract $pdfGeneratorAdapter,
         private OrderInvoicePdfRendererContract $renderer,
     ) {}
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return string
-    */
+    /** @param array<string, mixed> $data */
     public function generate(array $data): string
     {
         try {

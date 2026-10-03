@@ -23,15 +23,6 @@ use App\Shared\Responder\ErrorResponder;
 
 final class OrderQueryController extends AbstractQueryController
 {
-    /**
-     * @param GetOrderListQueryHandlerContract $getOrderListQueryHandler
-     * @param GetOrderDetailQueryHandlerContract $getOrderDetailQueryHandler
-     * @param GetOrderCreateQueryHandlerContract $getOrderCreateQueryHandler
-     * @param ErrorResponder $errorResponder
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly GetOrderListQueryHandlerContract $getOrderListQueryHandler,
         private readonly GetOrderDetailQueryHandlerContract $getOrderDetailQueryHandler,
@@ -48,9 +39,6 @@ final class OrderQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function index(): Response
     {
         $orders = $this->getOrderListQueryHandler->handle();
@@ -60,11 +48,6 @@ final class OrderQueryController extends AbstractQueryController
         ]);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Response
-    */
     public function show(string $code): Response
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -83,9 +66,6 @@ final class OrderQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function create(): Response
     {
         $data = $this->getOrderCreateQueryHandler->handle();

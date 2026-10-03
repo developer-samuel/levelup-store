@@ -12,20 +12,11 @@ use App\Core\Ports\{
 
 final readonly class LogoutCommandService implements LogoutCommandContract
 {
-    /**
-     * @param RefreshTokenRepositoryContract $refreshTokenRepository
-     * @param TokenBlacklistContract $tokenBlacklist
-    */
     public function __construct(
         private RefreshTokenRepositoryContract $refreshTokenRepository,
         private TokenBlacklistContract $tokenBlacklist,
     ) {}
 
-    /**
-     * @param string|null $refreshToken
-     *
-     * @return void
-    */
     public function execute(?string $refreshToken): void
     {
         if ($refreshToken === null || $refreshToken === '') {

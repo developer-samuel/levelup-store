@@ -19,18 +19,11 @@ use App\Core\Ports\Web\Segment\Product\Renderer\ProductRendererContract;
 
 final readonly class ProductRenderer implements ProductRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return Response
-    */
+    /** @param array<string, mixed> $data */
     public function renderProducts(array $data): Response
     {
         $content = $this->twig->render('features/product/catalog/index.html.twig', $data);
@@ -38,11 +31,6 @@ final readonly class ProductRenderer implements ProductRendererContract
         return new Response($content);
     }
 
-    /**
-     * @param ProductListObject $data
-     *
-     * @return Response
-    */
     public function renderProductsList(ProductListObject $data): Response
     {
         $content = $this->twig->render(
@@ -53,11 +41,6 @@ final readonly class ProductRenderer implements ProductRendererContract
         return new Response($content);
     }
 
-    /**
-     * @param ProductDetailObject $detail
-     *
-     * @return Response
-    */
     public function renderProductDetail(ProductDetailObject $detail): Response
     {
         $content = $this->twig->render(

@@ -12,27 +12,12 @@ use App\Core\Domain\{
 
 interface CartItemCommandContract
 {
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function addProductToCart(User $user, int $variantId): array;
 
-    /**
-     * @param User $user
-     * @param int $itemId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function removeProductFromCart(User $user, int $itemId): array;
 
-    /**
-     * @param ProductVariant $variant
-     * @param CartItem[] $cartItems
-     *
-     * @return void
-    */
+    /** @param CartItem[] $cartItems */
     public function removeVariant(ProductVariant $variant, array $cartItems): void;
 }

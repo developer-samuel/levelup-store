@@ -25,12 +25,6 @@ use App\Presentation\{
 
 final class ChangePasswordCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param ChangePasswordCommandHandlerContract $changePasswordCommandHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly ChangePasswordCommandHandlerContract $changePasswordCommandHandler,
         CsrfTokenManagerInterface $csrfTokenManager,
@@ -44,11 +38,6 @@ final class ChangePasswordCommandController extends AbstractCrudCommandControlle
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-    */
     public function update(Request $request): Response {
         return $this->executeCommand(
             $request,
@@ -57,11 +46,7 @@ final class ChangePasswordCommandController extends AbstractCrudCommandControlle
         );
     }
 
-    /**
-     * @param ChangePasswordRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleUpdate(ChangePasswordRequest $request): array
     {
         $payload = $this->createPayload($request);
@@ -69,11 +54,6 @@ final class ChangePasswordCommandController extends AbstractCrudCommandControlle
         return $this->changePasswordCommandHandler->handle($payload);
     }
 
-    /**
-     * @param ChangePasswordRequest $request
-     *
-     * @return ChangePasswordPayload
-    */
     private function createPayload(ChangePasswordRequest $request): ChangePasswordPayload
     {
         return new ChangePasswordPayload(

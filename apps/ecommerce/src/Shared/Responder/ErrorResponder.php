@@ -10,18 +10,10 @@ use App\Shared\Renderer\ErrorRenderer;
 
 final readonly class ErrorResponder
 {
-    /**
-     * @param ErrorRenderer $errorRenderer
-    */
     public function __construct(
         private ErrorRenderer $errorRenderer,
     ) {}
 
-    /**
-     * @param string $message
-     *
-     * @return Response
-    */
     public function renderNotFound(string $message = 'Page not found'): Response
     {
         return new Response(
@@ -30,11 +22,6 @@ final readonly class ErrorResponder
         );
     }
 
-    /**
-     * @param string $message
-     *
-     * @return Response
-    */
     public function renderUnauthorized(string $message = 'You must be logged in to view this page.'): Response
     {
         return new Response(
@@ -43,11 +30,6 @@ final readonly class ErrorResponder
         );
     }
 
-    /**
-     * @param string $message
-     *
-     * @return Response
-    */
     public function renderInternalServerError(string $message = 'Internal Server Error'): Response
     {
         return new Response(

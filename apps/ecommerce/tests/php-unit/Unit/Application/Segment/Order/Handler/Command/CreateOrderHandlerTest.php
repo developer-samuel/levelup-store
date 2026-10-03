@@ -31,9 +31,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\CreateOrderHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\CreateOrderHandler */
 final class CreateOrderHandlerTest extends TestCase
 {
     private SecurityPolicyContract&MockObject $securityPolicy;

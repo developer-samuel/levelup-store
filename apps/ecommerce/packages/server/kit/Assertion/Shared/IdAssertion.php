@@ -8,15 +8,7 @@ use Packages\Kit\Utils\Shared\DataSanitizer;
 
 final class IdAssertion
 {
-    /**
-     * @param int|null $id
-     * @param string $name
-     * @param class-string<\Throwable> $exceptionClass
-     *
-     * @return int
-     *
-     * @throws \Throwable
-    */
+    /** @param class-string<\Throwable> $exceptionClass */
     public static function assert(
         ?int $id,
         string $name = 'ID',
@@ -30,14 +22,6 @@ final class IdAssertion
         return $id;
     }
 
-    /**
-     * @param int|string|null $id
-     * @param string $name
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public static function assertNumeric(int|string|null $id, string $name = 'ID'): void
     {
         if (DataSanitizer::sanitizeInt($id) === null) {
@@ -45,14 +29,6 @@ final class IdAssertion
         }
     }
 
-    /**
-     * @param mixed $idRaw
-     * @param string $name
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public static function assertType(mixed $idRaw, string $name = 'ID'): void
     {
         if (!is_int($idRaw) && !is_string($idRaw) && !is_null($idRaw)) {

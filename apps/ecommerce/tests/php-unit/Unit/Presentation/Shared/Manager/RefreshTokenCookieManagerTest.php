@@ -21,9 +21,7 @@ use App\Core\Ports\Gateways\Internal\Cookie\CookieGatewayContract;
 
 use App\Presentation\Shared\Manager\RefreshTokenCookieManager;
 
-/**
- * @coversDefaultClass \App\Presentation\Shared\Manager\RefreshTokenCookieManager
-*/
+/** @coversDefaultClass \App\Presentation\Shared\Manager\RefreshTokenCookieManager */
 final class RefreshTokenCookieManagerTest extends TestCase
 {
     private CookieGatewayContract&MockObject $cookieGateway;
@@ -121,9 +119,7 @@ final class RefreshTokenCookieManagerTest extends TestCase
         self::assertSame('refresh_token', $cookies[0]->getName());
     }
 
-    /**
-     * @return array{0: array<string, mixed>, 1: JsonResponse}
-    */
+    /** @return array{0: array<string, mixed>, 1: JsonResponse} */
     private function performAttachWithToken(): array
     {
         $this->cookieGateway->method('apply')->willReturn($this->buildCookie());

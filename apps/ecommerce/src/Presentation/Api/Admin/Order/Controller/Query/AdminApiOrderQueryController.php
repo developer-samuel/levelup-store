@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class AdminApiOrderQueryController extends AbstractAdminApiQueryController
 {
-    /**
-     * @param AdminApiOrderListQueryHandler $orderListQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly AdminApiOrderListQueryHandler $orderListQueryHandler,
         SecurityProviderContract $securityProvider,

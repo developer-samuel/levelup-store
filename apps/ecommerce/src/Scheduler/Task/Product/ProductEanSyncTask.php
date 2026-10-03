@@ -25,18 +25,10 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<ProductVariantStock>
-*/
+/** @extends AbstractTask<ProductVariantStock> */
 #[AsMessageHandler]
 final class ProductEanSyncTask extends AbstractTask
 {
-    /**
-     * @param ProductVariantStockRepositoryContract $stockRepository
-     * @param ProductVariantEanRepositoryContract $eanRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductVariantStockRepositoryContract $stockRepository,
         private readonly ProductVariantEanRepositoryContract $eanRepository,
@@ -46,37 +38,22 @@ final class ProductEanSyncTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param ProductEanSyncMessage $message
-     *
-     * @return void
-    */
     public function __invoke(ProductEanSyncMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'ProductEanSyncTask';
     }
 
-    /**
-     * @return iterable<ProductVariantStock>
-    */
+    /** @return iterable<ProductVariantStock> */
     protected function fetchItems(): iterable
     {
         return $this->stockRepository->findAll();
     }
 
-    /**
-     * @param ProductVariantStock $stock
-     *
-     * @return bool
-    */
     protected function processSingleItem(mixed $stock): bool
     {
         $quantities = $this->calculateQuantities($stock);
@@ -91,11 +68,7 @@ final class ProductEanSyncTask extends AbstractTask
         return true;
     }
 
-    /**
-     * @param ProductVariantStock $stock
-     *
-     * @return array<string, int>
-    */
+    /** @return array<string, int> */
     private function calculateQuantities(ProductVariantStock $stock): array
     {
         $variant = $stock->getVariant();
@@ -107,12 +80,6 @@ final class ProductEanSyncTask extends AbstractTask
         ];
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param ProductVariantEanStatus $status
-     *
-     * @return int
-    */
     private function countByEanStatus(ProductVariant $variant, ProductVariantEanStatus $status): int
     {
         $items = iterator_to_array(
@@ -123,12 +90,7 @@ final class ProductEanSyncTask extends AbstractTask
         return count($items);
     }
 
-    /**
-     * @param ProductVariantStock $stock
-     * @param array<string, int> $quantities
-     *
-     * @return bool
-    */
+    /** @param array<string, int> $quantities */
     private function needsUpdate(ProductVariantStock $stock, array $quantities): bool
     {
         if ($stock->getQuantityAvailable() !== $quantities['available']) {
@@ -142,12 +104,7 @@ final class ProductEanSyncTask extends AbstractTask
         return $stock->getQuantityRefunded() !== $quantities['refunded'];
     }
 
-    /**
-     * @param ProductVariantStock $stock
-     * @param array<string, int> $quantities
-     *
-     * @return void
-    */
+    /** @param array<string, int> $quantities */
     private function updateStock(ProductVariantStock $stock, array $quantities): void
     {
         $stock->setQuantityAvailable($quantities['available']);

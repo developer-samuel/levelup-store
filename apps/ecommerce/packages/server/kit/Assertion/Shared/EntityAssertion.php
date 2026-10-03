@@ -10,12 +10,9 @@ final class EntityAssertion
      * @template T of object
      *
      * @param T|null $entity
-     * @param int|string $id
      * @param class-string<T> $className
      *
      * @return T
-     *
-     * @throws \RuntimeException
     */
     public static function assertExists(
         ?object $entity,

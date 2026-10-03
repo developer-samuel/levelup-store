@@ -8,15 +8,6 @@ use App\Core\Ports\Shared\Proxy\CacheProxyContract;
 
 interface RedisCacheGatewayContract
 {
-    /**
-     * @return bool
-    */
     public function isRedisEnabled(): bool;
-
-    /**
-     * @param string $namespace
-     *
-     * @return CacheProxyContract
-    */
     public function createRedisCache(string $namespace): CacheProxyContract;
 }

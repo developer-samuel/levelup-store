@@ -21,9 +21,7 @@ use App\Core\Ports\{
     Segment\Review\Service\Query\ReviewQueryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Product\Handler\Query\ProductQueryHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Product\Handler\Query\ProductQueryHandler */
 final class ProductQueryHandlerTest extends TestCase
 {
     private ProductQueryContract&MockObject $productQuery;

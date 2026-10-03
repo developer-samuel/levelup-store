@@ -15,14 +15,9 @@ use App\Infrastructure\{
     Shared\Enum\SortDirection
 };
 
-/**
- * @extends AbstractRepository<Product>
-*/
+/** @extends AbstractRepository<Product> */
 final class ProductRepository extends AbstractRepository implements ProductRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -31,35 +26,21 @@ final class ProductRepository extends AbstractRepository implements ProductRepos
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'p';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'id';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Product|null
-    */
     public function findById(int $id): ?Product
     {
         return $this->find($id);

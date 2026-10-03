@@ -20,21 +20,11 @@ use App\Core\Ports\Segment\User\Repository\UserRepositoryContract;
 
 final class UniqueEmailValidator extends AbstractConstraintValidator
 {
-    /**
-     * @param Security $security
-     * @param UserRepositoryContract $userRepository
-    */
     public function __construct(
         private readonly Security $security,
         private readonly UserRepositoryContract $userRepository,
     ) {}
 
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     *
-     * @return void
-    */
     public function validate(mixed $value, Constraint $constraint): void
     {
         $this->assertConstraintType($constraint, UniqueEmail::class);
@@ -64,11 +54,6 @@ final class UniqueEmailValidator extends AbstractConstraintValidator
         }
     }
 
-    /**
-     * @param string $email
-     *
-     * @return bool
-    */
     private function isCurrentUserEmail(string $email): bool
     {
         $currentUser = $this->security->getUser();
@@ -79,11 +64,6 @@ final class UniqueEmailValidator extends AbstractConstraintValidator
         return $currentUser->getUserIdentifier() === $email;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return bool
-    */
     private function emailExists(string $email): bool
     {
         return $this->userRepository->findByEmail($email) !== null;

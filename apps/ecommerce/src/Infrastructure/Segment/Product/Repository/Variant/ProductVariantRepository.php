@@ -33,19 +33,12 @@ use App\Infrastructure\{
     Shared\Traits\SingleResult
 };
 
-/**
- * @extends AbstractRepository<ProductVariant>
-*/
+/** @extends AbstractRepository<ProductVariant> */
 final class ProductVariantRepository extends AbstractRepository implements ProductVariantRepositoryContract
 {
     use OrderedQuery;
     use SingleResult;
 
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-     * @param ProductVariantProjectionQueryContract $projectionQuery
-     * @param ManagerRegistry $registry
-    */
     public function __construct(
         private readonly ElasticsearchGatewayContract $elasticsearch,
         private readonly ProductVariantProjectionQueryContract $projectionQuery,
@@ -57,36 +50,22 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'v';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'createdAt';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::DESC;
     }
 
     /**
-     * @param ProductFilterObject $filter
-     * @param int $page
-     * @param int $limit
-     * @param ProductSortOption|null $sort
-     *
      * @return array{
      *     items: ProductVariant[],
      *     total: int
@@ -136,11 +115,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         ];
     }
 
-    /**
-     * @param Product $product
-     *
-     * @return ProductVariant[]
-    */
+    /** @return ProductVariant[] */
     public function findAllByProduct(?Product $product = null): array
     {
         $qb = $this->createQueryBuilder('v')
@@ -155,11 +130,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return $results;
     }
 
-    /**
-     * @param ProductFilterObject $filter
-     *
-     * @return float
-    */
     public function getMaxPriceForFilter(ProductFilterObject $filter): float
     {
         $qb = $this->createAvailableVariantsQueryBuilder();
@@ -180,11 +150,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return (float) $qb->getQuery()->getSingleScalarResult();
     }
 
-    /**
-     * @param string $searchTerm
-     *
-     * @return ProductVariant[]
-    */
+    /** @return ProductVariant[] */
     public function searchByName(string $searchTerm): array
     {
         if ($this->elasticsearch->isEnabled()) {
@@ -209,11 +175,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return $results;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return ProductVariant|null
-    */
     public function findOneByUrl(string $url): ?ProductVariant
     {
         $qb = $this->createQueryBuilder('v')
@@ -228,21 +189,12 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return ProductVariantAvailabilitySpecification::findOneInStock($variant);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariant|null
-    */
     public function findById(int $id): ?ProductVariant
     {
         return $this->find($id);
     }
 
-    /**
-     * @param int[] $excludedVariantIds
-     *
-     * @return ProductVariant|null
-    */
+    /** @param int[] $excludedVariantIds */
     public function findRandomAvailableExcluding(array $excludedVariantIds): ?ProductVariant
     {
         $qb = $this->createQueryBuilder('v');
@@ -264,9 +216,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return $results[array_rand($results)];
     }
 
-    /**
-     * @return QueryBuilder
-    */
     private function createAvailableVariantsQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('v')
@@ -281,21 +230,11 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
             ->addSelect('v', 'p', 'd', 'b', 't', 'c', 'ps', 'st', 'vi');
     }
 
-    /**
-     * @param QueryBuilder $qb
-     *
-     * @return void
-    */
     private function applyEffectivePrice(QueryBuilder $qb): void
     {
         $qb->addSelect('(v.price - COALESCE(d.price, 0)) AS HIDDEN effectivePrice');
     }
 
-    /**
-     * @param QueryBuilder $qb
-     *
-     * @return void
-    */
     private function applyAverageRating(QueryBuilder $qb): void
     {
         $qb->addSelect('(
@@ -305,12 +244,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         ) AS HIDDEN avgRating');
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param ProductFilterObject $filter
-     *
-     * @return void
-    */
     private function applyFilters(QueryBuilder $qb, ProductFilterObject $filter): void
     {
         $brands = $this->normalizeArray($filter->brands);
@@ -349,11 +282,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         }
     }
 
-    /**
-     * @param QueryBuilder $qb
-     *
-     * @return int
-    */
     private function getTotalCount(QueryBuilder $qb): int
     {
         $countQb = clone $qb;
@@ -377,11 +305,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return array_values(array_unique(array_filter($normalized, static fn(string $s): bool => $s !== '')));
     }
 
-    /**
-     * @param string|null $value
-     *
-     * @return string|null
-    */
     private function normalizeScalar(?string $value): ?string
     {
         if ($value === null || $value === '') {
@@ -391,12 +314,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return StringNormalizer::toLowerCase($value);
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param ProductSortOption $sort
-     *
-     * @return void
-    */
     private function applySorting(QueryBuilder $qb, ProductSortOption $sort): void
     {
         match ($sort) {
@@ -407,13 +324,6 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         };
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param int $page
-     * @param int $limit
-     *
-     * @return void
-    */
     private function applyPagination(QueryBuilder $qb, int $page, int $limit): void
     {
         $qb->setFirstResult(($page - 1) * $limit)

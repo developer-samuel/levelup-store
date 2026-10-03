@@ -28,12 +28,6 @@ use App\Presentation\{
 
 final class VerificationCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param StoreVerificationHandlerContract $storeVerificationHandler
-     * @param UpdateVerificationHandlerContract $updateVerificationHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly StoreVerificationHandlerContract $storeVerificationHandler,
         private readonly UpdateVerificationHandlerContract $updateVerificationHandler,
@@ -47,11 +41,6 @@ final class VerificationCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -61,11 +50,6 @@ final class VerificationCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-    */
     public function update(Request $request): Response
     {
         $payload = new UpdateVerificationPayload(

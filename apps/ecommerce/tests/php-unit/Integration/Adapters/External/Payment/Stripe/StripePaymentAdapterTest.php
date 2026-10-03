@@ -369,9 +369,7 @@ final class StripePaymentAdapterTest extends TestCase
         );
     }
 
-    /**
-     * @param array<int, mixed> $args
-    */
+    /** @param array<int, mixed> $args */
     private function callPrivate(string $method, array $args = []): mixed
     {
         $reflection = new \ReflectionMethod($this->adapter, $method);
@@ -379,9 +377,7 @@ final class StripePaymentAdapterTest extends TestCase
         return $reflection->invokeArgs($this->adapter, $args);
     }
 
-    /**
-     * @param array<string, mixed> $responseData
-    */
+    /** @param array<string, mixed> $responseData */
     private function buildStripeHttpMock(array $responseData): ClientInterface
     {
         return new class($responseData) implements ClientInterface {

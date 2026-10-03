@@ -17,11 +17,7 @@ use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariantDescription;
 */
 final class ProductDescriptionResource
 {
-    /**
-     * @param ProductVariantDescription $description
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(ProductVariantDescription $description): array
     {
         $variant = $description->getVariant();

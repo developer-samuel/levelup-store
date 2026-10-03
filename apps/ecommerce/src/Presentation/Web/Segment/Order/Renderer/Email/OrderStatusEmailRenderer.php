@@ -15,19 +15,10 @@ use App\Core\Ports\Web\Segment\Order\Renderer\Email\OrderStatusEmailRendererCont
 
 final readonly class OrderStatusEmailRenderer implements OrderStatusEmailRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param Order $order
-     * @param string $url
-     *
-     * @return string
-    */
     public function renderOrderStatusEmail(Order $order, string $url): string
     {
         $data = new OrderStatusEmailObject($order, $url);

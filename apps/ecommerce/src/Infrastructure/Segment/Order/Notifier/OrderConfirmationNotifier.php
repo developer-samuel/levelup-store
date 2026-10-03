@@ -31,15 +31,6 @@ use App\Core\Ports\{
 
 final readonly class OrderConfirmationNotifier implements OrderConfirmationNotifierContract
 {
-    /**
-     * @param EventDispatcherInterface $dispatcher
-     * @param OrderRepositoryContract $orderRepository
-     * @param OrderItemRepositoryContract $orderItemRepository
-     * @param OrderPaymentRepositoryContract $orderPaymentRepository
-     * @param OrderPersonalRepositoryContract $orderPersonalRepository
-     * @param OrderBillingRepositoryContract $orderBillingRepository
-     * @param OrderShippingRepositoryContract $orderShippingRepository
-    */
     public function __construct(
         private EventDispatcherInterface $dispatcher,
         public OrderRepositoryContract $orderRepository,
@@ -50,11 +41,6 @@ final readonly class OrderConfirmationNotifier implements OrderConfirmationNotif
         public OrderShippingRepositoryContract $orderShippingRepository,
     ) {}
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     public function send(Order $order): void
     {
         $personal = $this->orderPersonalRepository->findOneByOrder($order);
@@ -95,11 +81,6 @@ final readonly class OrderConfirmationNotifier implements OrderConfirmationNotif
         );
     }
 
-    /**
-     * @param OrderItem $item
-     *
-     * @return OrderItemEmailObject
-    */
     private function createEmailObject(OrderItem $item): OrderItemEmailObject
     {
         return new OrderItemEmailObject(
@@ -109,11 +90,6 @@ final readonly class OrderConfirmationNotifier implements OrderConfirmationNotif
         );
     }
 
-    /**
-     * @param OrderItem $item
-     *
-     * @return OrderVariantEmailObject
-    */
     private function createEmailVariantObject(OrderItem $item): OrderVariantEmailObject
     {
         $variant = $item->getVariant();

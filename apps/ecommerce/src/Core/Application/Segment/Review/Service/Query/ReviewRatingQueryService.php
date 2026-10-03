@@ -16,19 +16,11 @@ use App\Core\Ports\{
 
 final readonly class ReviewRatingQueryService implements ReviewRatingQueryContract
 {
-    /**
-     * @param ReviewRatingRepositoryContract $reviewRatingRepository
-    */
     public function __construct(
         private ReviewRatingRepositoryContract $reviewRatingRepository,
     ) {}
 
-    /**
-     * @param Review $review
-     * @param User|null $user
-     *
-     * @return array<string, int|string>
-    */
+    /** @return array<string, int|string> */
     public function getReviewFeedbackStats(Review $review, ?User $user): array
     {
         $likes = $this->getRatingCount($review, 'like');
@@ -42,12 +34,6 @@ final readonly class ReviewRatingQueryService implements ReviewRatingQueryContra
         ];
     }
 
-    /**
-     * @param Review $review
-     * @param string $type
-     *
-     * @return int
-    */
     private function getRatingCount(Review $review, string $type): int
     {
         $reviewId = $review->getId();
@@ -55,12 +41,6 @@ final readonly class ReviewRatingQueryService implements ReviewRatingQueryContra
         return $this->reviewRatingRepository->countByType($reviewId, $type);
     }
 
-    /**
-     * @param Review $review
-     * @param User $user
-     *
-     * @return string
-    */
     private function getUserRatingType(Review $review, ?User $user): string
     {
         if ($user === null) {

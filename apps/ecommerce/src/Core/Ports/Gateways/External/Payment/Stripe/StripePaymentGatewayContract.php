@@ -12,18 +12,8 @@ use App\Core\Domain\{
 
 interface StripePaymentGatewayContract
 {
-    /**
-     * @param StripeLineItemObject[] $lineItems
-     * @param OrderCreatePayload $payload
-     *
-     * @return string
-    */
+    /** @param StripeLineItemObject[] $lineItems */
     public function initiateCheckout(array $lineItems, OrderCreatePayload $payload): string;
 
-    /**
-     * @param string $sessionId
-     *
-     * @return StripeCheckoutObject
-    */
     public function retrieveCheckoutSession(string $sessionId): StripeCheckoutObject;
 }

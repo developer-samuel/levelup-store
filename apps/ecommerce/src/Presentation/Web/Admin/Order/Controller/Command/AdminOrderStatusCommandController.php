@@ -24,12 +24,6 @@ use App\Presentation\{
 
 final class AdminOrderStatusCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param AdminOrderCommandHandler $updateOrderHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly AdminOrderCommandHandler $updateOrderHandler,
         CsrfTokenManagerInterface $csrfTokenManager,
@@ -43,11 +37,6 @@ final class AdminOrderStatusCommandController extends AbstractCrudCommandControl
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function update(Request $request): JsonResponse {
         return $this->executeCommand(
             $request,
@@ -56,11 +45,7 @@ final class AdminOrderStatusCommandController extends AbstractCrudCommandControl
         );
     }
 
-    /**
-     * @param AdminOrderStatusRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleUpdate(AdminOrderStatusRequest $request): array
     {
         $payload = $this->createPayload($request);
@@ -68,9 +53,6 @@ final class AdminOrderStatusCommandController extends AbstractCrudCommandControl
         return $this->updateOrderHandler->handle($payload);
     }
 
-    /**
-     * @param AdminOrderStatusRequest $request
-    */
     private function createPayload(AdminOrderStatusRequest $request): AdminOrderStatusPayload
     {
         return new AdminOrderStatusPayload(

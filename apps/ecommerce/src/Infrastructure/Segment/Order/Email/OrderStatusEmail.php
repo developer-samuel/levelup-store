@@ -17,12 +17,6 @@ use App\Infrastructure\Abstract\Email\AbstractEmail;
 
 final class OrderStatusEmail extends AbstractEmail
 {
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param OrderStatusEmailRendererContract $renderer
-     * @param MailerInterface $mailer
-     * @param string $fromEmail
-    */
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly OrderStatusEmailRendererContract $renderer,
@@ -32,12 +26,6 @@ final class OrderStatusEmail extends AbstractEmail
         parent::__construct($mailer, $fromEmail);
     }
 
-    /**
-     * @param string $toEmail
-     * @param Order $order
-     *
-     * @return void
-    */
     public function send(string $toEmail, Order $order): void
     {
         $email = $this->createBaseEmail(
@@ -49,11 +37,6 @@ final class OrderStatusEmail extends AbstractEmail
         $this->sendEmail($email);
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return string
-    */
     private function buildOrderUrl(Order $order): string
     {
         return $this->urlGenerator->generate(

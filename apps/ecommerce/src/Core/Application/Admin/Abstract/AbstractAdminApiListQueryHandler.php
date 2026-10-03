@@ -10,9 +10,6 @@ use App\Core\Ports\Shared\Logging\AppLoggerContract;
 
 abstract class AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         protected readonly AppLoggerContract $logger,
     ) {}
@@ -21,12 +18,9 @@ abstract class AbstractAdminApiListQueryHandler
      * @param array<string, mixed> $context
      *
      * @return array<array-key, object>
-     */
+    */
     abstract protected function getRepositoryClass(array $context = []): array;
 
-    /**
-     * @return string
-     */
     abstract protected function getResourceClass(): string;
 
     /**
@@ -52,7 +46,6 @@ abstract class AbstractAdminApiListQueryHandler
 
     /**
      * @param array<array-key, object> $items
-     * @param string $resourceClass
      *
      * @return array<int, array<string, mixed>>
     */

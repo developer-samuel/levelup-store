@@ -19,22 +19,11 @@ use App\Core\Ports\Web\Segment\Order\Renderer\Email\OrderConfirmationEmailRender
 
 final readonly class OrderConfirmationEmailRenderer implements OrderConfirmationEmailRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param Order $order
-     * @param OrderPersonal $personal
-     * @param OrderBilling $billing
-     * @param OrderShipping|null $shipping
-     * @param OrderItemEmailObject[] $items
-     *
-     * @return string
-    */
+    /** @param OrderItemEmailObject[] $items */
     public function renderOrderConfirmationEmail(
         Order $order,
         OrderPersonal $personal,
@@ -50,15 +39,7 @@ final readonly class OrderConfirmationEmailRenderer implements OrderConfirmation
         );
     }
 
-    /**
-     * @param Order $order
-     * @param OrderPersonal $personal
-     * @param OrderBilling $billing
-     * @param OrderShipping|null $shipping
-     * @param OrderItemEmailObject[] $items
-     *
-     * @return OrderConfirmationEmailObject
-    */
+    /** @param OrderItemEmailObject[] $items */
     private function createEmailData(
         Order $order,
         OrderPersonal $personal,

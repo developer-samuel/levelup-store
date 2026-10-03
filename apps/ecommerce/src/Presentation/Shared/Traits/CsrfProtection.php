@@ -14,17 +14,8 @@ trait CsrfProtection
 {
     public string $csrfToken;
 
-    /**
-     * @return CsrfTokenManagerInterface
-    */
     abstract protected function resolveCsrfTokenManager(): CsrfTokenManagerInterface;
 
-    /**
-     * @param string $tokenId
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     public function validateCsrfToken(string $tokenId, ExecutionContextInterface $context): void
     {
         if ($this->csrfToken !== '' && !$this->resolveCsrfTokenManager()->isTokenValid(new CsrfToken($tokenId, $this->csrfToken))) {

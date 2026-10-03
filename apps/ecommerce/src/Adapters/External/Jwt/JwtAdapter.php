@@ -12,18 +12,10 @@ use App\Core\Ports\Gateways\External\Jwt\JwtGatewayContract;
 
 final readonly class JwtAdapter implements JwtGatewayContract
 {
-    /**
-     * @param JWTTokenManagerInterface $jwtManager
-    */
     public function __construct(
         private JWTTokenManagerInterface $jwtManager,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return string
-    */
     public function generateAccessToken(User $user): string
     {
         return $this->jwtManager->create($user);

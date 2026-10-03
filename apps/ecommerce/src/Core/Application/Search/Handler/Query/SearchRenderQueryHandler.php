@@ -12,20 +12,12 @@ use App\Core\Ports\{
 
 final readonly class SearchRenderQueryHandler implements SearchRenderQueryHandlerContract
 {
-    /**
-     * @param SearchQueryContract $searchQuery
-     * @param SearchRendererContract $searchRenderer
-    */
     public function __construct(
         private SearchQueryContract $searchQuery,
         private SearchRendererContract $searchRenderer,
     ) {}
 
-    /**
-     * @param string $query
-     *
-     * @return string[]
-    */
+    /** @return string[] */
     public function handle(string $query): array
     {
         $query = trim($query);

@@ -15,9 +15,7 @@ use Symfony\{
 
 use App\Adapters\External\Realtime\MercureHubAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\External\Realtime\MercureHubAdapter
-*/
+/** @coversDefaultClass \App\Adapters\External\Realtime\MercureHubAdapter */
 final class MercureHubAdapterTest extends TestCase
 {
     private string $hubUrl;

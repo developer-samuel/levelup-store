@@ -8,13 +8,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 interface SessionProxyContract
 {
-    /**
-     * @return SessionInterface
-    */
     public function get(): SessionInterface;
-
-    /**
-     * @return void
-    */
     public function invalidate(): void;
 }

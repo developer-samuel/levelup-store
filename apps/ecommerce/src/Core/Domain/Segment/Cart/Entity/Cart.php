@@ -19,11 +19,7 @@ use App\Core\Domain\{
     Shared\Traits\Timestamps\UpdatedTimestampTrait
 };
 
-/**
- * @SuppressWarnings("UnusedPrivateField")
- *
- * @property Collection<int, CartItem> $items
-*/
+/** @SuppressWarnings("UnusedPrivateField") */
 #[ORM\Entity]
 #[ORM\Table(name: 'carts')]
 #[ORM\HasLifecycleCallbacks]
@@ -34,9 +30,7 @@ class Cart
     use CreatedTimestampTrait;
     use UpdatedTimestampTrait;
 
-    /**
-     * @use ItemCollectionTrait<CartItem>
-    */
+    /** @use ItemCollectionTrait<CartItem> */
     use ItemCollectionTrait;
 
     #[ORM\Id]
@@ -56,9 +50,7 @@ class Cart
     )]
     private User $user;
 
-    /**
-     * @var Collection<int, CartItem>
-    */
+    /** @var Collection<int, CartItem> */
     #[ORM\OneToMany(
         mappedBy: 'cart',
         targetEntity: CartItem::class,
@@ -79,17 +71,11 @@ class Cart
         $this->items = new ArrayCollection();
     }
 
-    /**
-     * @return \DateTimeImmutable|null
-    */
     public function getReminderSentAt(): ?\DateTimeImmutable
     {
         return $this->reminderSentAt;
     }
 
-    /**
-     * @return self
-    */
     public function markReminderSent(): self
     {
         $this->reminderSentAt = new \DateTimeImmutable();

@@ -14,20 +14,11 @@ use App\Core\Ports\{
 
 final readonly class UserProjector implements ReindexableInterface
 {
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-     * @param UserRepositoryContract $userRepository
-    */
     public function __construct(
         private ElasticsearchGatewayContract $elasticsearch,
         private UserRepositoryContract $userRepository,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function index(User $user): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -37,11 +28,6 @@ final readonly class UserProjector implements ReindexableInterface
         $this->elasticsearch->indexDocument(UserProjection::NAME, $user->getId(), $this->buildDocument($user));
     }
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function remove(User $user): void
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -51,9 +37,6 @@ final readonly class UserProjector implements ReindexableInterface
         $this->elasticsearch->removeDocument(UserProjection::NAME, $user->getId());
     }
 
-    /**
-     * @return int
-    */
     public function reindexAll(): int
     {
         $this->elasticsearch->ensureIndexExists(UserProjection::NAME, UserProjection::mapping());
@@ -69,19 +52,12 @@ final readonly class UserProjector implements ReindexableInterface
         return $indexed;
     }
 
-    /**
-     * @return string
-    */
     public function getIndexName(): string
     {
         return UserProjection::NAME;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function buildDocument(User $user): array
     {
         return [

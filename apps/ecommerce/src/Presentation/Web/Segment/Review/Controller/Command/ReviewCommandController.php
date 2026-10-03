@@ -32,14 +32,6 @@ use App\Presentation\{
 
 final class ReviewCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param HmacFieldDecoderContract $hmacFieldDecoder
-     * @param ReviewCommandHandlerContract $reviewCommandHandler
-     * @param DestroyReviewHandlerContract $destroyReviewHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly HmacFieldDecoderContract $hmacFieldDecoder,
         private readonly ReviewCommandHandlerContract $reviewCommandHandler,
@@ -55,11 +47,6 @@ final class ReviewCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -69,11 +56,6 @@ final class ReviewCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function destroy(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -83,11 +65,7 @@ final class ReviewCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param ReviewStoreRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleStore(ReviewStoreRequest $request): array
     {
         $variantId = $this->decodeVariantId($request);
@@ -97,11 +75,7 @@ final class ReviewCommandController extends AbstractCrudCommandController
         return $this->reviewCommandHandler->handle($payload);
     }
 
-    /**
-     * @param ReviewDestroyRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleDestroy(ReviewDestroyRequest $request): array
     {
         $reviewId = $this->decodeReviewId($request);
@@ -111,11 +85,6 @@ final class ReviewCommandController extends AbstractCrudCommandController
         return $this->destroyReviewHandler->handle($payload);
     }
 
-    /**
-     * @param ReviewStoreRequest $request
-     *
-     * @return int
-    */
     private function decodeVariantId(ReviewStoreRequest $request): int
     {
         return IdDecoder::decode(
@@ -125,11 +94,6 @@ final class ReviewCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param ReviewDestroyRequest $request
-     *
-     * @return int
-    */
     private function decodeReviewId(ReviewDestroyRequest $request): int
     {
         return IdDecoder::decode(
@@ -139,12 +103,6 @@ final class ReviewCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param ReviewStoreRequest $request
-     * @param int $decodedVariantId
-     *
-     * @return ReviewCreatePayload
-    */
     private function createPayload(ReviewStoreRequest $request, int $decodedVariantId): ReviewCreatePayload
     {
         return new ReviewCreatePayload(
@@ -155,12 +113,7 @@ final class ReviewCommandController extends AbstractCrudCommandController
             body: $request->body,
         );
     }
-
-    /**
-     * @param int $decodedReviewId
-     *
-     * @return ReviewDestroyPayload
-    */
+    
     private function createDestroyPayload(int $decodedReviewId): ReviewDestroyPayload
     {
         return new ReviewDestroyPayload(

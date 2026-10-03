@@ -54,28 +54,17 @@ class ProductVariantStock
     )]
     private ProductStockStatus $status = ProductStockStatus::IN_STOCK;
 
-    /**
-     * @return ProductStockStatus
-    */
     public function getStatus(): ProductStockStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param ProductStockStatus $status
-     *
-     * @return self
-    */
     public function setStatus(ProductStockStatus $status): self
     {
         $this->status = $status;
         return $this;
     }
 
-    /**
-     * @return bool
-    */
     public function isAvailable(): bool
     {
         if ($this->status === ProductStockStatus::OUT_OF_STOCK) {

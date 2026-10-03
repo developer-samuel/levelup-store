@@ -18,8 +18,6 @@ final class EnvBridge
      * Bridge APP_ENV / APP_DEBUG into $_ENV before Symfony's bootEnv runs.
      * PHP cli-server does not populate $_ENV/$_SERVER from the process environment,
      * and bootEnv checks only $_ENV/$_SERVER for APP_ENV.
-     *
-     * @return void
     */
     public static function bridgeBeforeBootEnv(): void
     {
@@ -41,8 +39,6 @@ final class EnvBridge
      * Must run after bootEnv so that DATABASE_URL (with variable references like
      * $DB_CONNECTION://...) is expanded by Symfony Dotenv first, not overwritten
      * with the unexpanded literal from Node.js dotenv in the playwright process env.
-     *
-     * @return void
     */
     public static function bridgeAfterBootEnv(): void
     {

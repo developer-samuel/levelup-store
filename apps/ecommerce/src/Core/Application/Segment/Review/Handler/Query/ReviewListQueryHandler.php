@@ -26,13 +26,6 @@ use App\Core\Ports\{
 */
 final readonly class ReviewListQueryHandler implements ReviewListQueryHandlerContract
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ProductVariantQueryContract $productVariantQuery
-     * @param ReviewFormatterQueryContract $reviewFormatterQuery
-     * @param ReviewPermissionQueryContract $reviewPermissionQuery
-     * @param ReviewListFactory $reviewListFactory
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
         private ProductVariantQueryContract $productVariantQuery,
@@ -41,11 +34,6 @@ final readonly class ReviewListQueryHandler implements ReviewListQueryHandlerCon
         private ReviewListFactory $reviewListFactory,
     ) {}
 
-    /**
-     * @param string $url
-     *
-     * @return ReviewListWithVariantObject|null
-    */
     public function handle(string $url): ?ReviewListWithVariantObject
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -68,11 +56,7 @@ final readonly class ReviewListQueryHandler implements ReviewListQueryHandlerCon
 
     /**
      * @param array<int, ReviewWithRatings> $reviewsWithRatings
-     * @param bool $reviewExists
      * @param ReviewData $reviewData
-     * @param ProductVariant $variant
-     *
-     * @return ReviewListWithVariantObject
     */
     private function buildReviewList(
         array $reviewsWithRatings,
@@ -88,12 +72,6 @@ final readonly class ReviewListQueryHandler implements ReviewListQueryHandlerCon
         );
     }
 
-    /**
-     * @param User|null $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     private function canCreateReview(?User $user, int $variantId): bool
     {
         return $user !== null && $this->reviewPermissionQuery->canUserCreateReview($user, $variantId);

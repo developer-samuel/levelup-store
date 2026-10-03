@@ -18,11 +18,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiBannerResource
 {
-    /**
-     * @param Banner $banner
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(Banner $banner): array
     {
         return [

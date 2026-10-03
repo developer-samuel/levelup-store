@@ -35,21 +35,12 @@ use App\Core\Ports\{
 */
 final class StripePaymentAdapter implements StripePaymentGatewayContract
 {
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param StripeSdkContract $stripeSdk
-    */
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private StripeSdkContract $stripeSdk,
     ) {}
 
-    /**
-     * @param StripeLineItemObject[] $lineItems
-     * @param OrderCreatePayload $payload
-     *
-     * @return string
-    */
+    /** @param StripeLineItemObject[] $lineItems */
     public function initiateCheckout(array $lineItems, OrderCreatePayload $payload): string
     {
         $this->stripeSdk->initialize();
@@ -61,11 +52,6 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
         return $this->extractCheckoutUrl($checkoutSession);
     }
 
-    /**
-     * @param string $sessionId
-     *
-     * @return StripeCheckoutObject
-    */
     public function retrieveCheckoutSession(string $sessionId): StripeCheckoutObject
     {
         $this->stripeSdk->initialize();
@@ -82,7 +68,6 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
 
     /**
      * @param StripeLineItemObject[] $lineItems
-     * @param OrderCreatePayload $payload
      *
      * @return array{
      *     payment_method_types: list<string>,
@@ -130,11 +115,6 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
         return $result;
     }
 
-    /**
-     * @param string $route
-     *
-     * @return string
-    */
     private function generateUrl(string $route): string
     {
         return $this->urlGenerator->generate(
@@ -144,11 +124,7 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
         );
     }
 
-    /**
-     * @param OrderCreatePayload $payload
-     *
-     * @return array<string, string>
-    */
+    /** @return array<string, string> */
     private function buildMetadata(OrderCreatePayload $payload): array
     {
         $meta = [
@@ -172,13 +148,6 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
         return $meta;
     }
 
-    /**
-     * @param StripeSession $session
-     *
-     * @return string
-     *
-     * @throws \Exception
-    */
     private function extractCheckoutUrl(StripeSession $session): string
     {
         $url = $session->url;
@@ -189,13 +158,7 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
         return $url;
     }
 
-    /**
-     * @param StripeSession $session
-     *
-     * @return array<string, string>
-     *
-     * @throws \InvalidArgumentException
-    */
+    /** @return array<string, string> */
     private function extractMetadata(StripeSession $session): array
     {
         $metadata = $session->metadata;
@@ -212,11 +175,6 @@ final class StripePaymentAdapter implements StripePaymentGatewayContract
         return $metadata;
     }
 
-    /**
-     * @param StripeSession $session
-     *
-     * @return string|null
-    */
     private function extractPaymentIntent(StripeSession $session): ?string
     {
         return is_string($session->payment_intent) ? $session->payment_intent : null;

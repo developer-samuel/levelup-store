@@ -34,19 +34,11 @@ final class OrderRequest extends AbstractRequest
     use BillingAddressInput;
     use ShippingAddressInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
     {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -69,22 +61,12 @@ final class OrderRequest extends AbstractRequest
         $this->send_shipping = $data->getBoolean('send_shipping');
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {
         $this->validateCsrfToken('orders_store', $context);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateAddressFields(ExecutionContextInterface $context): void
     {
@@ -103,9 +85,6 @@ final class OrderRequest extends AbstractRequest
         }
     }
 
-    /**
-     * @return AddressObject
-    */
     private function buildBillingAddress(): AddressObject
     {
         return new AddressObject(
@@ -117,9 +96,6 @@ final class OrderRequest extends AbstractRequest
         );
     }
 
-    /**
-     * @return AddressObject
-    */
     private function buildShippingAddress(): AddressObject
     {
         return new AddressObject(
@@ -131,11 +107,6 @@ final class OrderRequest extends AbstractRequest
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return string
-    */
     private function sanitizeId(int $id): string
     {
         return $id > 0 ? (string) $id : '';

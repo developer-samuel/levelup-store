@@ -11,32 +11,7 @@ use App\Core\Domain\{
 
 interface AdminOrderValidationQueryContract
 {
-    /**
-     * @param Order $order
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return void
-     *
-     * @throws \DomainException
-    */
     public function checkSameStatus(Order $order, AdminOrderStatusPayload $payload): void;
-
-    /**
-     * @param Order $order
-     *
-     * @return void
-     *
-     * @throws \DomainException
-    */
     public function checkRefundedStatus(Order $order): void;
-
-    /**
-     * @param Order $order
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return void
-     *
-     * @throws \DomainException
-    */
     public function checkCompletedStatus(Order $order, AdminOrderStatusPayload $payload): void;
 }

@@ -26,9 +26,7 @@ use App\Core\Ports\{
     Web\Segment\Product\Renderer\ProductRendererContract
 };
 
-/**
- * @coversDefaultClass \App\Presentation\Web\Segment\Product\Controller\ProductQueryController
-*/
+/** @coversDefaultClass \App\Presentation\Web\Segment\Product\Controller\ProductQueryController */
 final class ProductQueryControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
@@ -122,9 +120,7 @@ final class ProductQueryControllerTest extends WebTestCase
     private function createRendererStub(): ProductRendererContract
     {
         return new class implements ProductRendererContract {
-            /**
-             * @param array<string, mixed> $data
-            */
+            /** @param array<string, mixed> $data */
             public function renderProducts(array $data): Response
             {
                 return new Response('<html>products</html>');

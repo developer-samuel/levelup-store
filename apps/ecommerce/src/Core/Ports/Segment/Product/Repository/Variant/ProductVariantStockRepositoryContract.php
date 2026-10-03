@@ -8,8 +8,6 @@ use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariantStock;
 
 interface ProductVariantStockRepositoryContract
 {
-    /**
-     * @return ProductVariantStock[]
-    */
+    /** @return ProductVariantStock[] */
     public function findAll(): array;
 }

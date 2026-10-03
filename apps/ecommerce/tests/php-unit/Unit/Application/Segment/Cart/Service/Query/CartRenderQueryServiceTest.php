@@ -25,9 +25,7 @@ use App\Core\Ports\{
 
 use Tests\Support\Stub\UserStub;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartRenderQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartRenderQueryService */
 final class CartRenderQueryServiceTest extends TestCase
 {
     use UserStub;

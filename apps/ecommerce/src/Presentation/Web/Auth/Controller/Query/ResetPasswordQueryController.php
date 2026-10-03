@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class ResetPasswordQueryController extends AbstractQueryController
 {
-    /**
-     * @param ResetPasswordQueryContract $resetPasswordQuery
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ResetPasswordQueryContract $resetPasswordQuery,
         SecurityProviderContract $securityProvider,
@@ -41,11 +35,6 @@ final class ResetPasswordQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param string $token
-     *
-     * @return Response
-    */
     public function show(string $token): Response
     {
         $tokenEntity = $this->resetPasswordQuery->getValidToken($token);

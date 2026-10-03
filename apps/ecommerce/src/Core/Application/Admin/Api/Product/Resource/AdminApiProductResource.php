@@ -21,11 +21,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiProductResource
 {
-    /**
-     * @param Product $product
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(Product $product): array
     {
         return [

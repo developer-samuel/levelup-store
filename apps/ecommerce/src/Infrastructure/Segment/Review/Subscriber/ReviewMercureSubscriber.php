@@ -27,62 +27,41 @@ final class ReviewMercureSubscriber
     /** @var array<int, array{variantId: int, reviewId: int}> */
     private array $pendingRatings = [];
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-    */
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postPersist(LifecycleEventArgs $args): void
     {
         $this->collect($args->getObject());
     }
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postUpdate(LifecycleEventArgs $args): void
     {
         $this->collect($args->getObject());
     }
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postRemove(LifecycleEventArgs $args): void
     {
         $this->collect($args->getObject());
     }
 
-    /**
-     * @return void
-     */
     public function postFlush(): void
     {
         if ($this->pendingRatings === []) {
             return;
         }
+
         foreach ($this->pendingRatings as ['variantId' => $variantId, 'reviewId' => $reviewId]) {
             $this->eventDispatcher->dispatch(new ReviewRatingToggledEvent($variantId, $reviewId));
         }
+
         $this->pendingRatings = [];
     }
 
-    /**
-     * @param object $entity
-     *
-     * @return void
-    */
     private function collect(object $entity): void
     {
         if (!$entity instanceof ReviewRating) {

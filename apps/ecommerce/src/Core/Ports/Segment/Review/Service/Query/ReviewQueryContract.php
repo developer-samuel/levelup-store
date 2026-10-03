@@ -13,11 +13,6 @@ use App\Core\Domain\{
 
 interface ReviewQueryContract
 {
-    /**
-     * @param int $variantId
-     *
-     * @return float
-    */
     public function getAverageRatingByVariant(int $variantId): float;
 
     /**
@@ -27,19 +22,7 @@ interface ReviewQueryContract
     */
     public function getAverageRatingsForVariants(array $variantIds): array;
 
-    /**
-     * @param ProductVariant $variant
-     * @param User|null $user
-     *
-     * @return ReviewListObject
-    */
     public function getLastReviewData(ProductVariant $variant, ?User $user): ReviewListObject;
-
-    /**
-     * @param Review $review
-     *
-     * @return bool
-    */
     public function hasDetails(Review $review): bool;
 
     /**

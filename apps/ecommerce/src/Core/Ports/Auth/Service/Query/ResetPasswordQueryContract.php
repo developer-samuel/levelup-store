@@ -12,20 +12,6 @@ use App\Core\Domain\{
 
 interface ResetPasswordQueryContract
 {
-    /**
-     * @param string|null $token
-     *
-     * @return User
-     *
-     * @throws \InvalidArgumentException
-     * @throws NotFoundException
-    */
     public function getValidUserWithToken(?string $token): User;
-
-    /**
-     * @param string|null $token
-     *
-     * @return PasswordResetToken|null
-    */
     public function getValidToken(?string $token): ?PasswordResetToken;
 }

@@ -19,12 +19,6 @@ use App\Presentation\{
 
 final class AdminVariantImageQueryController extends AbstractFindQueryController
 {
-    /**
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductVariantRepositoryContract $variantRepository,
         SecurityProviderContract $securityProvider,
@@ -38,11 +32,6 @@ final class AdminVariantImageQueryController extends AbstractFindQueryController
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Response
-    */
     public function index(int $id): Response
     {
         return $this->renderFindById(
@@ -53,9 +42,6 @@ final class AdminVariantImageQueryController extends AbstractFindQueryController
         );
     }
 
-    /**
-     * @return ProductVariantRepositoryContract
-    */
     protected function getRepository(): ProductVariantRepositoryContract
     {
         return $this->variantRepository;

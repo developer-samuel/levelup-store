@@ -22,13 +22,7 @@ use App\Core\Domain\{
 */
 final readonly class OrderConfirmationEmailObject
 {
-    /**
-     * @param Order $order
-     * @param OrderPersonal $personal
-     * @param OrderBilling $billing
-     * @param OrderShipping|null $shipping
-     * @param OrderItemEmailObject[] $items
-     */
+    /** @param OrderItemEmailObject[] $items */
     public function __construct(
         public Order $order,
         public OrderPersonal $personal,
@@ -37,9 +31,7 @@ final readonly class OrderConfirmationEmailObject
         public array $items,
     ) {}
 
-    /**
-     * @return ObjectArray
-    */
+    /** @return ObjectArray */
     public function toArray(): array
     {
         return [

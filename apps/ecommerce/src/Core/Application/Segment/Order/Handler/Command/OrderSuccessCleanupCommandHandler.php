@@ -21,13 +21,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class OrderSuccessCleanupCommandHandler extends AbstractCommandHandler implements OrderSuccessCleanupCommandHandlerContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param CartControlQueryContract $cartControlQuery
-     * @param CartControlCommandContract $cartControlCommand
-     * @param OrderPaymentCommandContract $orderPaymentCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly EntityPersistenceContract $entityPersistence,
         private readonly CartControlQueryContract $cartControlQuery,
@@ -38,12 +31,7 @@ final class OrderSuccessCleanupCommandHandler extends AbstractCommandHandler imp
         parent::__construct($logger);
     }
 
-    /**
-     * @param string|null $sessionId
-     * @param User $user
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(?string $sessionId, User $user): array
     {
         return $this->execute(function () use ($sessionId, $user) {
@@ -61,11 +49,6 @@ final class OrderSuccessCleanupCommandHandler extends AbstractCommandHandler imp
         });
     }
 
-    /**
-     * @param string|null $sessionId
-     *
-     * @return void
-    */
     private function handlePaymentSuccess(?string $sessionId): void
     {
         if ($sessionId === null) {

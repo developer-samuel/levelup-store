@@ -41,20 +41,13 @@ final class ReviewStatistics
         ];
     }
 
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     private static function initializeRatingsCount(): array
     {
         return array_fill(1, 5, 0);
     }
 
-    /**
-     * @param int[] $ratingsCount
-     * @param float $value
-     *
-     * @return void
-    */
+    /** @param int[] $ratingsCount */
     private static function incrementRatingsCount(array &$ratingsCount, float $value): void
     {
         $intValue = (int) $value;
@@ -64,15 +57,7 @@ final class ReviewStatistics
         }
     }
 
-    /**
-     * @param string $type
-     * @param float $value
-     * @param int &$totalRatings
-     * @param int &$totalFeedbacks
-     * @param float[] &$allValuesForAverage
-     *
-     * @return void
-    */
+    /** @param float[] &$allValuesForAverage */
     private static function incrementTotals(
         string $type,
         float $value,
@@ -89,11 +74,7 @@ final class ReviewStatistics
         }
     }
 
-    /**
-     * @param float[] $values
-     *
-     * @return float
-    */
+    /** @param float[] $values */
     private static function calculateAverage(array $values): float
     {
         return $values !== [] ? round(array_sum($values) / count($values), 2) : 0.0;

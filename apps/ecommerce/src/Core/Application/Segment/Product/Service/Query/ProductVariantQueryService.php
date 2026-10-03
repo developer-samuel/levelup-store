@@ -18,11 +18,6 @@ use App\Core\Ports\{
 
 final readonly class ProductVariantQueryService implements ProductVariantQueryContract
 {
-    /**
-     * @param ReviewQueryContract $reviewQuery
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param ProductVariantAssemblerContract $productVariantAssembler
-    */
     public function __construct(
         private ReviewQueryContract $reviewQuery,
         private ProductVariantRepositoryContract $variantRepository,
@@ -43,21 +38,12 @@ final readonly class ProductVariantQueryService implements ProductVariantQueryCo
         );
     }
 
-    /**
-     * @param string $url
-     *
-     * @return ProductVariant|null
-    */
     public function getVariantOrNull(string $url): ?ProductVariant
     {
         return $this->variantRepository->findOneByUrl($url);
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariant[]
-    */
+    /** @return ProductVariant[] */
     public function getAllVariantsOrNull(ProductVariant $variant): array
     {
         return array_values(

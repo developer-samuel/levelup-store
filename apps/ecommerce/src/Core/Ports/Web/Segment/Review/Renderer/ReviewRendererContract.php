@@ -13,11 +13,5 @@ use App\Core\Domain\{
 
 interface ReviewRendererContract
 {
-    /**
-     * @param ReviewListObject $list
-     * @param ProductVariant $variant
-     *
-     * @return Response
-    */
     public function renderListForVariant(ReviewListObject $list, ProductVariant $variant): Response;
 }

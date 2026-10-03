@@ -12,18 +12,10 @@ use App\Core\Ports\Web\Auth\Renderer\ResetPasswordEmailRendererContract;
 
 final readonly class ResetPasswordEmailRenderer implements ResetPasswordEmailRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return string
-    */
     public function renderResetPasswordEmail(User $user): string
     {
         return $this->twig->render(

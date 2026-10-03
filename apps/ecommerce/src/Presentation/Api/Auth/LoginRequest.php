@@ -17,19 +17,11 @@ final class LoginRequest extends AbstractRequest
 {
     use LoginInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
     {
         parent::__construct($csrfTokenManager);
     }
-
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
+    
     protected function populateData(Request $request): void
     {
         $decoded = json_decode($request->getContent(), true);

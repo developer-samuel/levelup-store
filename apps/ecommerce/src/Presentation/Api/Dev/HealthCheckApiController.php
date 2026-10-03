@@ -32,15 +32,6 @@ final class HealthCheckApiController extends AbstractController
     private const DISK_MIN_FREE_BYTES = 1024 * 1024 * 1024;
     private const MAILER_TIMEOUT = 3;
 
-    /**
-     * @param Connection $connection
-     * @param CacheInterface $cache
-     * @param RabbitMQGatewayContract $rabbitMQ
-     * @param ElasticsearchGatewayContract $elasticsearch
-     * @param StorageGatewayContract $storage
-     * @param MercureHubGatewayContract $mercure
-     * @param HealthCheckConfig $config
-    */
     public function __construct(
         private readonly Connection $connection,
         private readonly CacheInterface $cache,
@@ -95,9 +86,6 @@ final class HealthCheckApiController extends AbstractController
         ]);
     }
 
-    /**
-     * @return string
-    */
     private function checkDatabase(): string
     {
         try {
@@ -109,9 +97,6 @@ final class HealthCheckApiController extends AbstractController
         }
     }
 
-    /**
-     * @return string
-    */
     private function checkCache(): string
     {
         try {
@@ -127,9 +112,6 @@ final class HealthCheckApiController extends AbstractController
         }
     }
 
-    /**
-     * @return string
-    */
     private function checkDisk(): string
     {
         $free = disk_free_space('/');
@@ -141,9 +123,6 @@ final class HealthCheckApiController extends AbstractController
         return 'ok';
     }
 
-    /**
-     * @return string
-    */
     private function checkMailer(): string
     {
         $connection = fsockopen(
@@ -187,9 +166,6 @@ final class HealthCheckApiController extends AbstractController
         }
     }
 
-    /**
-     * @return string
-    */
     private function checkStripe(): string
     {
         try {
@@ -204,9 +180,6 @@ final class HealthCheckApiController extends AbstractController
         }
     }
 
-    /**
-     * @return string
-    */
     private function checkRabbitMQ(): string
     {
         if (!$this->rabbitMQ->isEnabled()) {
@@ -216,9 +189,6 @@ final class HealthCheckApiController extends AbstractController
         return $this->rabbitMQ->isConnected() ? 'ok' : 'error';
     }
 
-    /**
-     * @return string
-    */
     private function checkElasticsearch(): string
     {
         if (!$this->elasticsearch->isEnabled()) {
@@ -228,9 +198,6 @@ final class HealthCheckApiController extends AbstractController
         return $this->elasticsearch->isConnected() ? 'ok' : 'error';
     }
 
-    /**
-     * @return string
-    */
     private function checkMinIO(): string
     {
         if (!$this->storage->isEnabled()) {
@@ -240,9 +207,6 @@ final class HealthCheckApiController extends AbstractController
         return $this->storage->isConnected() ? 'ok' : 'error';
     }
 
-    /**
-     * @return string
-    */
     private function checkMercure(): string
     {
         if (!$this->mercure->isEnabled()) {
@@ -252,9 +216,6 @@ final class HealthCheckApiController extends AbstractController
         return $this->mercure->isConnected() ? 'ok' : 'error';
     }
 
-    /**
-     * @return string
-    */
     private function checkWkhtmltopdf(): string
     {
         if (!$this->config->wkhtmltopdfEnabled) {

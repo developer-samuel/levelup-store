@@ -6,13 +6,6 @@ namespace Packages\Kit\Assertion\Domain\Order;
 
 final class OrderPaymentAssertion
 {
-    /**
-     * @param mixed $paymentIntent
-     *
-     * @return string
-     *
-     * @throws \InvalidArgumentException
-    */
     public static function assertPaymentIntent(mixed $paymentIntent): string
     {
         if (

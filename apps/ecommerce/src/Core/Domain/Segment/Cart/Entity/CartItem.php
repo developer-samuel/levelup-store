@@ -47,38 +47,22 @@ class CartItem
         $this->variant = $variant;
     }
 
-    /**
-     * @return int|null
-    */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     *
-     * @return self
-    */
     public function setId(?int $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return Cart|null
-    */
     public function getCart(): ?Cart
     {
         return $this->cart;
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function hasVariant(ProductVariant $variant): bool
     {
         return $this->variant->getId() === $variant->getId();

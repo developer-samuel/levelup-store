@@ -31,12 +31,6 @@ use App\Core\Ports\{
 
 final readonly class ReviewCommandService implements ReviewCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param ReviewRepositoryContract $reviewRepository
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param ReviewQueryContract $reviewQuery
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private ReviewRepositoryContract $reviewRepository,
@@ -44,12 +38,6 @@ final readonly class ReviewCommandService implements ReviewCommandContract
         private ReviewQueryContract $reviewQuery,
     ) {}
 
-    /**
-     * @param ReviewCreatePayload $payload
-     * @param User $user
-     *
-     * @return void
-    */
     public function add(ReviewCreatePayload $payload, User $user): void
     {
         $variant = $this->variantRepository->findById($payload->variantId);
@@ -67,15 +55,6 @@ final readonly class ReviewCommandService implements ReviewCommandContract
         $this->entityPersistence->persist($review, true);
     }
 
-    /**
-     * @param int $id
-     * @param User $user
-     *
-     * @return void
-     *
-     * @throws NotFoundException
-     * @throws AccessDeniedException
-    */
     public function remove(int $id, User $user): void
     {
         $review = $this->reviewRepository->findById($id);
@@ -88,13 +67,6 @@ final readonly class ReviewCommandService implements ReviewCommandContract
         $this->entityPersistence->remove($review, true);
     }
 
-    /**
-     * @param User $user
-     * @param ProductVariant $variant
-     * @param int $value
-     *
-     * @return Review
-    */
     private function createReview(User $user, ProductVariant $variant, int $value): Review
     {
         return (new Review())
@@ -104,13 +76,7 @@ final readonly class ReviewCommandService implements ReviewCommandContract
             ->setType(ReviewType::RATING);
     }
 
-    /**
-     * @param Review $review
-     * @param string[] $details
-     * @param ReviewDetailType $type
-     *
-     * @return void
-    */
+    /** @param string[] $details */
     private function createDetails(Review $review, array $details, ReviewDetailType $type): void
     {
         $details = $this->reviewQuery->limitDetails($details);
@@ -127,13 +93,6 @@ final readonly class ReviewCommandService implements ReviewCommandContract
         }
     }
 
-    /**
-     * @param Review $review
-     * @param string $body
-     * @param ReviewDetailType $type
-     *
-     * @return ReviewDetail
-    */
     private function buildDetail(Review $review, string $body, ReviewDetailType $type): ReviewDetail
     {
         return (new ReviewDetail())

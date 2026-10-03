@@ -11,15 +11,9 @@ use App\Core\Domain\{
 
 interface FooterLinkRepositoryContract
 {
-    /**
-     * @return FooterLink[]
-    */
+    /** @return FooterLink[] */
     public function findAllOrderedByGroup(): array;
 
-    /**
-     * @param FooterLinkGroup $group
-     *
-     * @return FooterLink[]
-    */
+    /** @return FooterLink[] */
     public function findByGroup(FooterLinkGroup $group): array;
 }

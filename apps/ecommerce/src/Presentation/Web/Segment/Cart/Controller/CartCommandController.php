@@ -26,11 +26,6 @@ use App\Presentation\{
 
 final class CartCommandController extends AbstractCommandController
 {
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param CartMutationCommandContract $cartMutationCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly CartMutationCommandContract $cartMutationCommand,
@@ -39,11 +34,6 @@ final class CartCommandController extends AbstractCommandController
         parent::__construct($logger);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         return $this->executeCartCommand(
@@ -53,11 +43,6 @@ final class CartCommandController extends AbstractCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function destroy(Request $request): JsonResponse
     {
         return $this->executeCartCommand(
@@ -67,13 +52,6 @@ final class CartCommandController extends AbstractCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     * @param string $requestClass
-     * @param bool $add
-     *
-     * @return JsonResponse
-    */
     private function executeCartCommand(Request $request, string $requestClass, bool $add): JsonResponse
     {
         return $this->handleCommand(function () use ($request, $requestClass, $add) {
@@ -93,11 +71,6 @@ final class CartCommandController extends AbstractCommandController
         });
     }
 
-    /**
-     * @param CartStoreRequest|CartDestroyRequest $cartRequest
-     *
-     * @return int
-    */
     private function getCartRequestId(CartStoreRequest|CartDestroyRequest $cartRequest): int
     {
         if ($cartRequest instanceof CartStoreRequest) {
@@ -107,11 +80,7 @@ final class CartCommandController extends AbstractCommandController
         return $cartRequest->itemId;
     }
 
-    /**
-     * @param array<string, mixed> $result
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $result */
     private function createCartResponse(array $result): JsonResponse
     {
         $message = DataSanitizer::sanitizeString($result['message'] ?? '');

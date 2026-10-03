@@ -24,9 +24,7 @@ use App\Core\Ports\{
 )]
 final class ElasticsearchReindexCommand extends Command
 {
-    /**
-     * @param iterable<ReindexableInterface> $reindexables
-    */
+    /** @param iterable<ReindexableInterface> $reindexables */
     public function __construct(
         private readonly ElasticsearchGatewayContract $elasticsearch,
         private readonly ConsoleLoggerContract $logger,
@@ -36,12 +34,6 @@ final class ElasticsearchReindexCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int
-    */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->elasticsearch->isEnabled()) {

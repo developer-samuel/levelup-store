@@ -23,29 +23,17 @@ use App\Infrastructure\Abstract\Subscriber\AbstractIndexSubscriber;
 #[AsDoctrineListener(event: Events::postRemove)]
 final class OrderIndexSubscriber extends AbstractIndexSubscriber
 {
-    /**
-     * @return class-string
-    */
+    /** @return class-string */
     protected function getEntityClass(): string
     {
         return Order::class;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return OrderIndexMessage
-    */
     protected function createIndexMessage(int $id): object
     {
         return new OrderIndexMessage($id);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return OrderRemoveMessage
-    */
     protected function createRemoveMessage(int $id): object
     {
         return new OrderRemoveMessage($id);

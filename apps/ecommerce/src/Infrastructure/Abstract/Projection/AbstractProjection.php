@@ -23,18 +23,14 @@ abstract class AbstractProjection
 
     /** @var array<string, string> */
     protected const TEXT = ['type' => 'text'];
-    
+
     /** @var array<string, mixed> */
     protected const TEXT_WITH_KEYWORD = ['type' => 'text', 'fields' => ['keyword' => ['type' => 'keyword']]];
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     abstract protected static function properties(): array;
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public static function mapping(): array
     {
         return [

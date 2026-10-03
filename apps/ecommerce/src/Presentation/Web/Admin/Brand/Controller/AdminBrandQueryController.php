@@ -19,12 +19,6 @@ use App\Presentation\{
 
 final class AdminBrandQueryController extends AbstractFindQueryController
 {
-    /**
-     * @param BrandRepositoryContract $brandRepository
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly BrandRepositoryContract $brandRepository,
         SecurityProviderContract $securityProvider,
@@ -38,27 +32,16 @@ final class AdminBrandQueryController extends AbstractFindQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function index(): Response
     {
         return $this->renderPage('features/admin/views/brand/index.html.twig');
     }
 
-    /**
-     * @return Response
-    */
     public function create(): Response
     {
         return $this->renderPage('features/admin/views/brand/create.html.twig');
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Response
-    */
     public function edit(int $id): Response
     {
         return $this->renderFindById(
@@ -69,9 +52,6 @@ final class AdminBrandQueryController extends AbstractFindQueryController
         );
     }
 
-    /**
-     * @return BrandRepositoryContract
-    */
     protected function getRepository(): BrandRepositoryContract
     {
         return $this->brandRepository;

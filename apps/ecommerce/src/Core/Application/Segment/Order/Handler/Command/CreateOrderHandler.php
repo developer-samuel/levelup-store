@@ -21,11 +21,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class CreateOrderHandler extends AbstractCommandHandler implements CreateOrderHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param OrderMutationCommandContract $orderMutationCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly SecurityProviderContract $securityProvider,
@@ -36,11 +31,7 @@ final class CreateOrderHandler extends AbstractCommandHandler implements CreateO
         parent::__construct($logger);
     }
 
-    /**
-     * @param OrderCreatePayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(OrderCreatePayload $payload): array
     {
         $result = $this->execute(function () use ($payload) {

@@ -28,13 +28,6 @@ use App\Presentation\{
 
 final class AdminVariantEanCommandController extends AbstractAdminVariantCommandController
 {
-    /**
-     * @param AdminVariantEanCommandHandler $adminVariantEanHandler
-     * @param HmacFieldDecoderContract $hmacFieldDecoder
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly AdminVariantEanCommandHandler $adminVariantEanHandler,
         HmacFieldDecoderContract $hmacFieldDecoder,
@@ -50,21 +43,11 @@ final class AdminVariantEanCommandController extends AbstractAdminVariantCommand
         );
     }
 
-    /**
-     * @param string $action
-     *
-     * @return string
-    */
     protected function getSuccessMessage(string $action): string
     {
         return sprintf('EAN %s successfully.', $action);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -78,11 +61,6 @@ final class AdminVariantEanCommandController extends AbstractAdminVariantCommand
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function update(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -96,11 +74,6 @@ final class AdminVariantEanCommandController extends AbstractAdminVariantCommand
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function destroy(Request $request): JsonResponse
     {
         return $this->executeDeleteCommand(
@@ -109,12 +82,6 @@ final class AdminVariantEanCommandController extends AbstractAdminVariantCommand
         );
     }
 
-    /**
-     * @param AdminVariantEanStoreRequest|AdminVariantEanUpdateRequest $req
-     * @param string|null $id
-     *
-     * @return AdminVariantEanPayload
-    */
     private function createPayload(
         AdminVariantEanStoreRequest|AdminVariantEanUpdateRequest $req,
         ?string $id = null,

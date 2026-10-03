@@ -15,19 +15,10 @@ use App\Core\Ports\Web\Auth\Renderer\ForgotPasswordEmailRendererContract;
 
 final readonly class ForgotPasswordEmailRenderer implements ForgotPasswordEmailRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param string $resetUrl
-     * @param User $user
-     *
-     * @return string
-    */
     public function renderForgotPasswordEmail(string $resetUrl, User $user): string
     {
         $data = new ForgotPasswordEmailObject($resetUrl, $user);

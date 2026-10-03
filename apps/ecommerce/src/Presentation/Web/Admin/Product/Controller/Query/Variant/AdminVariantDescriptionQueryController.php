@@ -24,12 +24,6 @@ use App\Presentation\{
 
 final class AdminVariantDescriptionQueryController extends AbstractFindQueryController
 {
-    /**
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductVariantRepositoryContract $variantRepository,
         SecurityProviderContract $securityProvider,
@@ -43,11 +37,6 @@ final class AdminVariantDescriptionQueryController extends AbstractFindQueryCont
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Response
-    */
     public function index(int $id): Response
     {
         return $this->renderFindById(
@@ -58,11 +47,6 @@ final class AdminVariantDescriptionQueryController extends AbstractFindQueryCont
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Response
-    */
     public function create(int $id): Response
     {
         return $this->renderFindById(
@@ -73,12 +57,6 @@ final class AdminVariantDescriptionQueryController extends AbstractFindQueryCont
         );
     }
 
-    /**
-     * @param int $variantId
-     * @param int $descriptionId
-     *
-     * @return Response
-    */
     public function edit(int $variantId, int $descriptionId): Response
     {
         $variant = $this->getVariantOrThrow($variantId);
@@ -93,19 +71,11 @@ final class AdminVariantDescriptionQueryController extends AbstractFindQueryCont
         );
     }
 
-    /**
-     * @return ProductVariantRepositoryContract
-    */
     protected function getRepository(): ProductVariantRepositoryContract
     {
         return $this->variantRepository;
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return ProductVariant
-    */
     private function getVariantOrThrow(int $variantId): ProductVariant
     {
         $variant = $this->variantRepository->findById($variantId);
@@ -116,12 +86,6 @@ final class AdminVariantDescriptionQueryController extends AbstractFindQueryCont
         return $variant;
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param int $descriptionId
-     *
-     * @return ProductVariantDescription
-    */
     private function findDescriptionOrThrow(ProductVariant $variant, int $descriptionId): ProductVariantDescription
     {
         $description = $variant->getDescriptions()->filter(

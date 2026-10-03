@@ -16,9 +16,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LogoutHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LogoutHandler */
 final class LogoutHandlerTest extends TestCase
 {
     private const TOKEN = 'some-token';

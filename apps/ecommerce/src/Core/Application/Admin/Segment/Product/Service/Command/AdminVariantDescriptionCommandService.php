@@ -26,11 +26,6 @@ use App\Core\Ports\{
 
 final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCommandService implements AdminVariantDescriptionCommandContract
 {
-    /**
-     * @param ProductVariantDescriptionRepositoryContract $variantDescriptionRepository
-     * @param EntityPersistenceContract $entityPersistence
-     * @param ProductVariantRepositoryContract $variantRepository
-    */
     public function __construct(
         private readonly ProductVariantDescriptionRepositoryContract $variantDescriptionRepository,
         EntityPersistenceContract $entityPersistence,
@@ -42,12 +37,6 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
         );
     }
 
-    /**
-     * @param int $variantId
-     * @param AdminVariantDescriptionPayload $payload
-     *
-     * @return ProductVariantDescription
-    */
     public function createDescription(int $variantId, AdminVariantDescriptionPayload $payload): ProductVariantDescription
     {
         $variant = $this->resolveVariant($variantId);
@@ -61,13 +50,6 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
         return $description;
     }
 
-    /**
-     * @param int $descriptionId
-     * @param int $variantId
-     * @param AdminVariantDescriptionPayload $payload
-     *
-     * @return ProductVariantDescription
-    */
     public function updateDescription(int $descriptionId, int $variantId, AdminVariantDescriptionPayload $payload): ProductVariantDescription
     {
         $this->resolveVariant($variantId);
@@ -81,32 +63,16 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
         return $description;
     }
 
-    /**
-     * @param ProductVariantDescription $description
-     *
-     * @return void
-    */
     public function destroyDescription(ProductVariantDescription $description): void
     {
         $this->entityPersistence->remove($description, true);
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return int
-    */
     private function getNextDescriptionPosition(int $variantId): int
     {
         return $this->variantDescriptionRepository->getMaxPositionByVariantId($variantId) + 1;
     }
 
-    /**
-     * @param ProductVariantDescription $description
-     * @param AdminVariantDescriptionPayload $payload
-     *
-     * @return void
-    */
     private function updateDescriptionEntity(ProductVariantDescription $description, AdminVariantDescriptionPayload $payload): void
     {
         $description->setTitle($payload->title)
@@ -114,13 +80,6 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
             ->setUpdatedAt();
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param int $position
-     * @param AdminVariantDescriptionPayload $payload
-     *
-     * @return ProductVariantDescription
-    */
     private function buildDescriptionEntity(
         ProductVariant $variant,
         int $position,
@@ -133,11 +92,6 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
             ->setBody($payload->body);
     }
 
-    /**
-     * @param int $descriptionId
-     *
-     * @return ProductVariantDescription
-    */
     private function getDescription(int $descriptionId): ProductVariantDescription
     {
         $description = EntityAssertion::assertExists(

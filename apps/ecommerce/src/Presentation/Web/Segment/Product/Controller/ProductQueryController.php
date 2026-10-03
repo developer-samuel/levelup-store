@@ -37,14 +37,6 @@ use App\Presentation\{
 
 final class ProductQueryController extends AbstractQueryController
 {
-    /**
-     * @param ProductQueryHandlerContract $productQueryHandler
-     * @param ProductDetailQueryHandlerContract $productDetailQueryHandler
-     * @param ProductRendererContract $productRenderer
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductQueryHandlerContract $productQueryHandler,
         private readonly ProductDetailQueryHandlerContract $productDetailQueryHandler,
@@ -60,13 +52,6 @@ final class ProductQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param Request $request
-     * @param ?string $category
-     * @param ?string $type
-     *
-     * @return Response
-    */
     public function index(Request $request, ?string $category = null, ?string $type = null): Response
     {
         $query = $request->query->all();
@@ -97,11 +82,6 @@ final class ProductQueryController extends AbstractQueryController
         return $this->productRenderer->renderProducts($data);
     }
 
-    /**
-     * @param string $url
-     *
-     * @return Response
-    */
     public function show(string $url): Response
     {
         $result = $this->productDetailQueryHandler->handle($url);
@@ -112,11 +92,7 @@ final class ProductQueryController extends AbstractQueryController
         return $this->productRenderer->renderProductDetail($result);
     }
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return ProductListObject
-    */
+    /** @param array<string, mixed> $data */
     private function createProductList(array $data): ProductListObject
     {
         /** @var array<int, ProductVariant> $variants */
@@ -132,11 +108,7 @@ final class ProductQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param mixed $raw
-     *
-     * @return string[]
-    */
+    /** @return string[] */
     private function normalizeValues(mixed $raw): array
     {
         return $this->mapNormalizedItems(
@@ -144,11 +116,7 @@ final class ProductQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param mixed $raw
-     *
-     * @return string[]
-    */
+    /** @return string[] */
     private function resolveRawItems(mixed $raw): array
     {
         $sanitizedString = DataSanitizer::sanitizeString($raw);
@@ -174,11 +142,6 @@ final class ProductQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param string $item
-     *
-     * @return string
-    */
     private function normalizeItem(string $item): string
     {
         return StringNormalizer::normalize($item);
@@ -186,12 +149,8 @@ final class ProductQueryController extends AbstractQueryController
 
     /**
      * @param array<string, mixed> $query
-     * @param string|null $category
-     * @param string|null $type
      * @param string[] $brands
      * @param string[] $subtypes
-     *
-     * @return ProductFilterObject
     */
     private function createFilter(
         array $query,
@@ -212,12 +171,7 @@ final class ProductQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param array<string, mixed> $query
-     * @param string $priceKey
-     *
-     * @return float|null
-    */
+    /** @param array<string, mixed> $query */
     private function getPriceFromQuery(array $query, string $priceKey): ?float
     {
         $value = $query[$priceKey] ?? null;
@@ -227,7 +181,6 @@ final class ProductQueryController extends AbstractQueryController
 
     /**
      * @param array<string, mixed> $data
-     * @param ProductFilterObject $filter
      * @param string[] $brands
      * @param string[] $subtypes
      *
@@ -247,11 +200,7 @@ final class ProductQueryController extends AbstractQueryController
         return $data;
     }
 
-    /**
-     * @param array<string, mixed> $query
-     *
-     * @return ProductSortOption
-    */
+    /** @param array<string, mixed> $query */
     private function resolveSort(array $query): ProductSortOption
     {
         if (!isset($query['sort']) || !is_string($query['sort'])) {
@@ -262,12 +211,9 @@ final class ProductQueryController extends AbstractQueryController
     }
 
     /**
-     * @param Request $request
      * @param array<string, mixed> $data
      * @param array<string, mixed> $params
-     *
-     * @return string|null
-     */
+    */
     private function determineRedirectUrl(Request $request, array $data, array $params): ?string
     {
         $currentPage = $this->getCurrentPageFromData($data);
@@ -286,11 +232,7 @@ final class ProductQueryController extends AbstractQueryController
         return null;
     }
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return int
-    */
+    /** @param array<string, mixed> $data */
     private function getCurrentPageFromData(array $data): int
     {
         $pagination = $data['pagination'] ?? null;
@@ -321,12 +263,7 @@ final class ProductQueryController extends AbstractQueryController
         return $params;
     }
 
-    /**
-     * @param Request $request
-     * @param array<string, mixed> $params
-     *
-     * @return string
-    */
+    /** @param array<string, mixed> $params */
     private function buildRedirectUri(Request $request, array $params): string
     {
         return $request->getUriForPath($request->getPathInfo())

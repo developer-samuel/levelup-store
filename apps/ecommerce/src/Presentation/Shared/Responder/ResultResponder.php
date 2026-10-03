@@ -12,32 +12,19 @@ use Packages\Kit\Utils\Shared\DataSanitizer;
 
 final class ResultResponder
 {
-    /**
-     * @param array<string, mixed> $result
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $result */
     public static function success(array $result): JsonResponse
     {
         return self::renderSuccessInternal($result, false);
     }
 
-    /**
-     * @param array<string, mixed> $result
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $result */
     public static function successWithRedirect(array $result): JsonResponse
     {
         return self::renderSuccessInternal($result, true);
     }
 
-    /**
-     * @param array<string, mixed> $result
-     * @param bool $redirect
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $result */
     private static function renderSuccessInternal(array $result, bool $redirect): JsonResponse
     {
         $errorResponse = self::renderError($result);
@@ -52,11 +39,7 @@ final class ResultResponder
             : HttpResponder::success([], $message);
     }
 
-    /**
-     * @param array<string, mixed> $result
-     *
-     * @return JsonResponse|null
-    */
+    /** @param array<string, mixed> $result */
     private static function renderError(array $result): ?JsonResponse
     {
         if (isset($result['status']) && $result['status'] === 'error') {
@@ -67,11 +50,7 @@ final class ResultResponder
         return null;
     }
 
-    /**
-     * @param array<string, mixed> $result
-     *
-     * @return int
-    */
+    /** @param array<string, mixed> $result */
     private static function resolveStatusCode(array $result): int
     {
         $default = JsonResponse::HTTP_UNPROCESSABLE_ENTITY;

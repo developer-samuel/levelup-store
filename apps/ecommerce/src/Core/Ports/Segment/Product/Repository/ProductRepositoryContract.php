@@ -8,15 +8,8 @@ use App\Core\Domain\Segment\Product\Entity\Product;
 
 interface ProductRepositoryContract
 {
-    /**
-     * @return Product[]
-    */
+    /** @return Product[] */
     public function findAll(): array;
 
-    /**
-     * @param int $id
-     *
-     * @return Product|null
-    */
     public function findById(int $id): ?Product;
 }

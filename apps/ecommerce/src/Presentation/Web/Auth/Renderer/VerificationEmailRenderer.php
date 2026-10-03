@@ -15,19 +15,10 @@ use App\Core\Ports\Web\Auth\Renderer\VerificationEmailRendererContract;
 
 final readonly class VerificationEmailRenderer implements VerificationEmailRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param string $verificationUrl
-     * @param User $user
-     *
-     * @return string
-    */
     public function renderVerificationEmail(string $verificationUrl, User $user): string
     {
         $data = new VerificationEmailObject($verificationUrl, $user);

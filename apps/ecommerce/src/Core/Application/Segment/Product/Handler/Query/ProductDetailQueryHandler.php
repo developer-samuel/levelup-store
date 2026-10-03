@@ -23,14 +23,6 @@ use App\Core\Ports\{
 
 final readonly class ProductDetailQueryHandler implements ProductDetailQueryHandlerContract
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ProductDescriptionQueryContract $productDescriptionQuery
-     * @param ProductVariantQueryContract $productVariantQuery
-     * @param ProductPriceQueryContract $productPriceQuery
-     * @param ReviewQueryContract $reviewQuery
-     * @param WishlistQueryContract $wishlistQuery
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
         private ProductDescriptionQueryContract $productDescriptionQuery,
@@ -40,11 +32,6 @@ final readonly class ProductDetailQueryHandler implements ProductDetailQueryHand
         private WishlistQueryContract $wishlistQuery,
     ) {}
 
-    /**
-     * @param string $url
-     *
-     * @return ProductDetailObject|null
-    */
     public function handle(string $url): ?ProductDetailObject
     {
         $variant = $this->productVariantQuery->getVariantOrNull($url);
@@ -65,13 +52,7 @@ final readonly class ProductDetailQueryHandler implements ProductDetailQueryHand
         return $this->createFormattedDetail($variant, $variants, $stock);
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param ProductVariant[] $variants
-     * @param ProductVariantStock $stock
-     *
-     * @return ProductDetailObject
-    */
+    /** @param ProductVariant[] $variants */
     private function createFormattedDetail(
         ProductVariant $variant,
         array $variants,

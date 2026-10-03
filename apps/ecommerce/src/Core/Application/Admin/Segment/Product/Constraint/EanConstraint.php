@@ -18,9 +18,6 @@ final class EanConstraint extends Constraint
 
     public int $length;
 
-    /**
-     * @param int $length
-    */
     public function __construct(int $length)
     {
         parent::__construct();
@@ -28,17 +25,12 @@ final class EanConstraint extends Constraint
         $this->length = $length;
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return EanConstraintValidator::class;
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

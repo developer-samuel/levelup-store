@@ -16,14 +16,9 @@ use App\Core\Domain\{
 
 use App\Core\Ports\Segment\Cart\Repository\CartItemRepositoryContract;
 
-/**
- * @extends ServiceEntityRepository<CartItem>
-*/
+/** @extends ServiceEntityRepository<CartItem> */
 final class CartItemRepository extends ServiceEntityRepository implements CartItemRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -32,29 +27,18 @@ final class CartItemRepository extends ServiceEntityRepository implements CartIt
         );
     }
 
-    /**
-     * @param int $itemId
-     *
-     * @return CartItem|null
-    */
     public function getItem(int $itemId): ?CartItem
     {
         return $this->find($itemId);
     }
 
-    /**
-     * @param Cart $cart
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function findByCart(Cart $cart): array
     {
         return $this->findBy(['cart' => $cart]);
     }
 
-    /**
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function findAllWithVariant(): array
     {
         /** @var CartItem[] $result */

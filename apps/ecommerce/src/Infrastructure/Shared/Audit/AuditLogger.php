@@ -20,26 +20,13 @@ use App\Infrastructure\Shared\Http\RequestMetadata;
 
 final readonly class AuditLogger implements AuditLoggerContract
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     * @param RequestStack $requestStack
-     * @param bool $enabled
-    */
     public function __construct(
         private EntityManagerInterface $entityManager,
         private RequestStack $requestStack,
         private bool $enabled,
     ) {}
 
-    /**
-     * @param AuditAction $action
-     * @param string $entity
-     * @param int $entityId
-     * @param array<string, mixed> $metadata
-     * @param User|null $user
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $metadata */
     public function log(
         AuditAction $action,
         string $entity,

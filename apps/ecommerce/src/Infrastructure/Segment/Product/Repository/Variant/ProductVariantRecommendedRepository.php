@@ -15,14 +15,9 @@ use App\Infrastructure\{
     Shared\Enum\SortDirection
 };
 
-/**
- * @extends AbstractRepository<ProductVariantRecommended>
-*/
+/** @extends AbstractRepository<ProductVariantRecommended> */
 final class ProductVariantRecommendedRepository extends AbstractRepository implements ProductVariantRecommendedRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -31,25 +26,16 @@ final class ProductVariantRecommendedRepository extends AbstractRepository imple
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'vh';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'position';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::DESC;

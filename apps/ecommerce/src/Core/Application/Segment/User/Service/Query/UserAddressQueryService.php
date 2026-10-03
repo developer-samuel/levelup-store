@@ -13,9 +13,7 @@ use App\Core\Domain\{
 
 use App\Core\Ports\Segment\User\Service\Query\UserAddressQueryContract;
 
-/**
- * @phpstan-import-type AddressData from UserAddressQueryContract
-*/
+/** @phpstan-import-type AddressData from UserAddressQueryContract */
 final class UserAddressQueryService implements UserAddressQueryContract
 {
     /**
@@ -38,11 +36,6 @@ final class UserAddressQueryService implements UserAddressQueryContract
         ];
     }
 
-    /**
-     * @param UserBilling|UserShipping $entity
-     *
-     * @return bool
-    */
     public function shouldRemoveEntity(UserBilling|UserShipping $entity): bool
     {
         $streetEmpty = $entity->getStreet() === '';

@@ -39,9 +39,7 @@ class Brand
     #[ORM\Column(type: 'string', length: 50, nullable: false)]
     private string $name;
 
-    /**
-     * @var Collection<int, Product>
-    */
+    /** @var Collection<int, Product> */
     #[ORM\OneToMany(mappedBy: 'brand', targetEntity: Product::class)]
     private Collection $products;
 

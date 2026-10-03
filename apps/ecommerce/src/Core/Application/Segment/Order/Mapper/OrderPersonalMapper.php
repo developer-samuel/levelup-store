@@ -33,11 +33,7 @@ use App\Core\Application\{
 */
 final class OrderPersonalMapper
 {
-    /**
-     * @param Order $order
-     *
-     * @return PersonalCamel
-    */
+    /** @return PersonalCamel */
     public static function mapToCamelCase(Order $order): array
     {
         /** @var PersonalCamel $data */
@@ -46,11 +42,7 @@ final class OrderPersonalMapper
         return $data;
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return PersonalSnake
-    */
+    /** @return PersonalSnake */
     public static function mapToSnakeCase(Order $order): array
     {
         /** @var PersonalSnake $data */
@@ -59,12 +51,7 @@ final class OrderPersonalMapper
         return $data;
     }
 
-    /**
-     * @param Order $order
-     * @param CaseType $case
-     *
-     * @return PersonalCamel|PersonalSnake
-    */
+    /** @return PersonalCamel|PersonalSnake */
     private static function mapPersonal(Order $order, CaseType $case): array
     {
         $personal = $order->getPersonal();
@@ -80,11 +67,7 @@ final class OrderPersonalMapper
         return ArrayMapper::mapValuesToKeys($values, $keys);
     }
 
-    /**
-     * @param OrderPersonal $personal
-     *
-     * @return InternalPersonalValues
-    */
+    /** @return InternalPersonalValues */
     private static function extractPersonalValues(OrderPersonal $personal): array
     {
         return [
@@ -94,11 +77,7 @@ final class OrderPersonalMapper
         ];
     }
 
-    /**
-     * @param CaseType $case
-     *
-     * @return InternalPersonalValues
-    */
+    /** @return InternalPersonalValues */
     private static function getKeysByCase(CaseType $case): array
     {
         return $case === CaseType::CAMEL

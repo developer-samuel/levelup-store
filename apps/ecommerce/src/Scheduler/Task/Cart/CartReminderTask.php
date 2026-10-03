@@ -25,22 +25,13 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<Cart>
-*/
+/** @extends AbstractTask<Cart> */
 #[AsMessageHandler]
 final class CartReminderTask extends AbstractTask
 {
     private const INACTIVE_HOURS = 24;
     private const EXPIRY_DAYS = 7;
 
-    /**
-     * @param CartRepositoryContract $cartRepository
-     * @param CartReminderEmailContract $cartReminderEmail
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly CartRepositoryContract $cartRepository,
         private readonly CartReminderEmailContract $cartReminderEmail,
@@ -51,27 +42,17 @@ final class CartReminderTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param CartReminderMessage $message
-     *
-     * @return void
-    */
     public function __invoke(CartReminderMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'CartReminderTask';
     }
 
-    /**
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     protected function fetchItems(): iterable
     {
         $from = new \DateTimeImmutable(sprintf('-%d hours', self::INACTIVE_HOURS));
@@ -80,11 +61,7 @@ final class CartReminderTask extends AbstractTask
         return $this->cartRepository->findAbandonedForReminder($from, $to);
     }
 
-    /**
-     * @param iterable<Cart> $items
-     *
-     * @return int
-    */
+    /** @param iterable<Cart> $items */
     protected function processItems(iterable $items): int
     {
         $count = 0;
@@ -106,11 +83,6 @@ final class CartReminderTask extends AbstractTask
         return $count;
     }
 
-    /**
-     * @param Cart $cart
-     *
-     * @return int
-    */
     private function calculateDaysRemaining(Cart $cart): int
     {
         $updatedAt = $cart->getUpdatedAt() ?? $cart->getCreatedAt();

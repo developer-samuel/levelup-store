@@ -28,13 +28,6 @@ use App\Shared\Responder\ErrorResponder;
 
 final class ProfileQueryController extends AbstractQueryController
 {
-    /**
-     * @param CountryCacheQueryContract $countryCacheQuery
-     * @param ErrorResponder $errorResponder
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly CountryCacheQueryContract $countryCacheQuery,
         private readonly ErrorResponder $errorResponder,
@@ -49,9 +42,6 @@ final class ProfileQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function show(): Response
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -68,14 +58,7 @@ final class ProfileQueryController extends AbstractQueryController
         return $this->renderProfilePage($user, $countries, $billing, $shipping);
     }
 
-    /**
-     * @param User $user
-     * @param Country[] $countries
-     * @param UserBilling|null $billing
-     * @param UserShipping|null $shipping
-     *
-     * @return Response
-    */
+    /** @param Country[] $countries */
     private function renderProfilePage(
         User $user,
         array $countries,

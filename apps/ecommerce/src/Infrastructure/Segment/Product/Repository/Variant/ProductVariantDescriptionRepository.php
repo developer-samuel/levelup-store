@@ -16,16 +16,11 @@ use App\Infrastructure\{
     Shared\Traits\MaxValue
 };
 
-/**
- * @extends AbstractVariantRepository<ProductVariantDescription>
-*/
+/** @extends AbstractVariantRepository<ProductVariantDescription> */
 final class ProductVariantDescriptionRepository extends AbstractVariantRepository implements ProductVariantDescriptionRepositoryContract
 {
     use MaxValue;
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -34,45 +29,26 @@ final class ProductVariantDescriptionRepository extends AbstractVariantRepositor
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariantDescription|null
-    */
     public function findById(int $id): ?ProductVariantDescription
     {
         return $this->find($id);
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return int
-    */
     public function getMaxPositionByVariantId(int $variantId): int
     {
         return $this->getMaxValue('position', ['variant' => $variantId]);
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'pvd';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'position';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;

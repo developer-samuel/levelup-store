@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Review\Payload\ReviewDestroyPayload;
 
 interface DestroyReviewHandlerContract
 {
-    /**
-     * @param ReviewDestroyPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(ReviewDestroyPayload $payload): array;
 }

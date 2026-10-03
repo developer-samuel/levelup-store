@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface OrderPersonalRepositoryContract
 {
-    /**
-     * @param Order $order
-     *
-     * @return OrderPersonal|null
-    */
     public function findOneByOrder(Order $order): ?OrderPersonal;
 }

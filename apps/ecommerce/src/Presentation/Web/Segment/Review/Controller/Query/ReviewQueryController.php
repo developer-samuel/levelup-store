@@ -20,13 +20,6 @@ use App\Presentation\{
 
 final class ReviewQueryController extends AbstractQueryController
 {
-    /**
-     * @param ReviewListQueryHandlerContract $reviewListQueryHandler
-     * @param ReviewRendererContract $reviewRenderer
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ReviewListQueryHandlerContract $reviewListQueryHandler,
         private readonly ReviewRendererContract $reviewRenderer,
@@ -41,11 +34,6 @@ final class ReviewQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param string $url
-     *
-     * @return Response
-    */
     public function index(string $url): Response
     {
         $result = $this->reviewListQueryHandler->handle($url);

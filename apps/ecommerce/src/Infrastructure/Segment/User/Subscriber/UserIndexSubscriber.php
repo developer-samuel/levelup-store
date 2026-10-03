@@ -23,29 +23,17 @@ use App\Infrastructure\Abstract\Subscriber\AbstractIndexSubscriber;
 #[AsDoctrineListener(event: Events::postRemove)]
 final class UserIndexSubscriber extends AbstractIndexSubscriber
 {
-    /**
-     * @return class-string
-    */
+    /** @return class-string */
     protected function getEntityClass(): string
     {
         return User::class;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return UserIndexMessage
-    */
     protected function createIndexMessage(int $id): object
     {
         return new UserIndexMessage($id);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return UserRemoveMessage
-    */
     protected function createRemoveMessage(int $id): object
     {
         return new UserRemoveMessage($id);

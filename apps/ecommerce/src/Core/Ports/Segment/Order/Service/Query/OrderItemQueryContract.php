@@ -19,10 +19,5 @@ interface OrderItemQueryContract
     */
     public function prepareLineItems(array $items): array;
 
-    /**
-     * @param ProductVariantStock|null $stock
-     *
-     * @return bool
-    */
     public function isStockAvailable(?ProductVariantStock $stock): bool;
 }

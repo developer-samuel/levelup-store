@@ -19,22 +19,13 @@ use App\Core\Ports\{
 
 final readonly class SearchQueryService implements SearchQueryContract
 {
-    /**
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param ReviewQueryContract $reviewQuery
-     * @param SearchResultFactory $factory
-    */
     public function __construct(
         private ProductVariantRepositoryContract $variantRepository,
         private ReviewQueryContract $reviewQuery,
         private SearchResultFactory $factory,
     ) {}
 
-    /**
-     * @param string $query
-     *
-     * @return array<int, array<string, mixed>>
-    */
+    /** @return array<int, array<string, mixed>> */
     public function searchByTerm(string $query): array
     {
         $variants = $this->variantRepository->searchByName($query);
@@ -78,12 +69,7 @@ final readonly class SearchQueryService implements SearchQueryContract
         return $results;
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param array<int, float> $ratings
-     *
-     * @return SearchResultObject
-    */
+    /** @param array<int, float> $ratings */
     private function transformResult(ProductVariant $variant, array $ratings): SearchResultObject
     {
         $averageRating = (float) ($ratings[$variant->getId()] ?? 0.0);

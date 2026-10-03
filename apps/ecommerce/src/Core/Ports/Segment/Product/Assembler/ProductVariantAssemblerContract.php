@@ -13,12 +13,6 @@ use App\Core\Ports\Segment\Review\Service\Query\ReviewQueryContract;
 
 interface ProductVariantAssemblerContract
 {
-    /**
-     * @param ProductVariant $variant
-     * @param ReviewQueryContract $reviewQuery
-     *
-     * @return ProductVariantObject
-    */
     public function toObject(
         ProductVariant $variant,
         ReviewQueryContract $reviewQuery,

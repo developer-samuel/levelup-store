@@ -26,20 +26,11 @@ final readonly class ReviewQueryService implements ReviewQueryContract
 {
     private const MAX_DETAILS = 5;
 
-    /**
-     * @param OrderItemRepositoryContract $orderItemRepository
-     * @param ReviewRepositoryContract $reviewRepository
-    */
     public function __construct(
         private OrderItemRepositoryContract $orderItemRepository,
         private ReviewRepositoryContract $reviewRepository,
     ) {}
 
-    /**
-     * @param int $variantId
-     *
-     * @return float
-    */
     public function getAverageRatingByVariant(int $variantId): float
     {
         $reviewData = $this->reviewRepository->getReviewsAndAverageByVariant($variantId);
@@ -61,14 +52,6 @@ final readonly class ReviewQueryService implements ReviewQueryContract
         return $this->reviewRepository->getAverageRatingsByVariantIds($variantIds);
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param User|null $user
-     *
-     * @return ReviewListObject
-     *
-     * @throws \LogicException
-    */
     public function getLastReviewData(ProductVariant $variant, ?User $user): ReviewListObject
     {
         $variantId = $this->assertVariantId($variant);
@@ -98,11 +81,6 @@ final readonly class ReviewQueryService implements ReviewQueryContract
         );
     }
 
-    /**
-     * @param Review $review
-     *
-     * @return bool
-    */
     public function hasDetails(Review $review): bool
     {
         return !$review->getDetails()->isEmpty();
@@ -118,11 +96,6 @@ final readonly class ReviewQueryService implements ReviewQueryContract
         return array_slice($details, 0, self::MAX_DETAILS);
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return int
-    */
     private function assertVariantId(ProductVariant $variant): int
     {
         return IdAssertion::assert(
@@ -132,12 +105,6 @@ final readonly class ReviewQueryService implements ReviewQueryContract
         );
     }
 
-    /**
-     * @param User|null $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     private function canUserReview(?User $user, int $variantId): bool
     {
         if (!$user instanceof User) {
@@ -168,8 +135,6 @@ final readonly class ReviewQueryService implements ReviewQueryContract
     }
 
     /**
-     * @param int $variantId
-     *
      * @return array{
      *     lastReview: ReviewObject|null,
      *     details: ReviewDetail[]
@@ -193,11 +158,6 @@ final readonly class ReviewQueryService implements ReviewQueryContract
         ];
     }
 
-    /**
-     * @param Review $review
-     *
-     * @return ReviewObject
-    */
     private function mapSingleReviewToObject(Review $review): ReviewObject
     {
         return new ReviewObject(

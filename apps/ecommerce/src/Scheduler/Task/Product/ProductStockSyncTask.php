@@ -23,17 +23,10 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<ProductVariantStock>
-*/
+/** @extends AbstractTask<ProductVariantStock> */
 #[AsMessageHandler]
 final class ProductStockSyncTask extends AbstractTask
 {
-    /**
-     * @param ProductVariantStockRepositoryContract $stockRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductVariantStockRepositoryContract $stockRepository,
         EntityManagerInterface $entityManager,
@@ -42,37 +35,22 @@ final class ProductStockSyncTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param ProductStockSyncMessage $message
-     *
-     * @return void
-    */
     public function __invoke(ProductStockSyncMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'ProductStockSyncTask';
     }
 
-    /**
-     * @return iterable<ProductVariantStock>
-    */
+    /** @return iterable<ProductVariantStock> */
     protected function fetchItems(): iterable
     {
         return $this->stockRepository->findAll();
     }
 
-    /**
-     * @param ProductVariantStock $stock
-     *
-     * @return bool
-    */
     protected function processSingleItem(mixed $stock): bool
     {
         if ($stock->getQuantityAvailable() === 0 && $stock->getStatus() !== ProductStockStatus::OUT_OF_STOCK) {

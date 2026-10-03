@@ -13,16 +13,11 @@ use App\Core\Ports\Shared\Encryption\HmacGeneratorContract;
 
 final class HmacExtension extends AbstractExtension
 {
-    /**
-     * @param HmacGeneratorContract $hmacGenerator
-    */
     public function __construct(
         private readonly HmacGeneratorContract $hmacGenerator,
     ) {}
 
-    /**
-     * @return TwigFunction[]
-    */
+    /** @return TwigFunction[] */
     public function getFunctions(): array
     {
         return [
@@ -33,11 +28,6 @@ final class HmacExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param int $value
-     *
-     * @return string
-    */
     private function encryptValue(int $value): string
     {
         return $this->hmacGenerator->encrypt($value);

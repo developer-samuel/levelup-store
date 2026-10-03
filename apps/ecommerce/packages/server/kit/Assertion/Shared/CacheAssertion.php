@@ -9,12 +9,9 @@ final class CacheAssertion
     /**
      * @template T of object
      *
-     * @param mixed $data
      * @param class-string<T> $className
      *
      * @return T
-     *
-     * @throws \LogicException
     */
     public static function assertValidType(mixed $data, string $className): object
     {

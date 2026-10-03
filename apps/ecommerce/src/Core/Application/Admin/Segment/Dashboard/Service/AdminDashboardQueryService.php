@@ -16,10 +16,6 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
 {
     private \DateTimeImmutable $now;
 
-    /**
-     * @param OrderRepositoryContract $orderRepository
-     * @param UserRepositoryContract $userRepository
-    */
     public function __construct(
         private OrderRepositoryContract $orderRepository,
         private UserRepositoryContract $userRepository,
@@ -27,9 +23,7 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
         $this->now = new \DateTimeImmutable();
     }
 
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     public function getOrdersPerDayCurrentMonth(): array
     {
         return $this->countPerDay(
@@ -38,9 +32,7 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
         );
     }
 
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     public function getOrdersPaidUnpaidCurrentMonth(): array
     {
         $interval = $this->getCurrentMonthInterval();
@@ -51,9 +43,7 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
         ];
     }
 
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     public function getUsersCountLast7Days(): array
     {
         return $this->countPerDay(
@@ -62,9 +52,7 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
         );
     }
 
-    /**
-     * @return array<int, DateIntervalObject>
-    */
+    /** @return array<int, DateIntervalObject> */
     private function generateDailyIntervalsCurrentMonth(): array
     {
         $startDay = $this->now->modify('first day of this month')->setTime(0, 0, 0);
@@ -73,11 +61,7 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
         return $this->generateDailyIntervals($daysInMonth, $startDay);
     }
 
-    /**
-     * @param int $days
-     *
-     * @return array<int, DateIntervalObject>
-    */
+    /** @return array<int, DateIntervalObject> */
     private function generateLastNDaysIntervals(int $days): array
     {
         $startDay = $this->now->modify(sprintf('-%d days', $days - 1))->setTime(0, 0, 0);
@@ -85,12 +69,7 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
         return $this->generateDailyIntervals($days, $startDay);
     }
 
-    /**
-     * @param int $days
-     * @param \DateTimeImmutable $startDay
-     *
-     * @return array<int, DateIntervalObject>
-    */
+    /** @return array<int, DateIntervalObject> */
     private function generateDailyIntervals(int $days, \DateTimeImmutable $startDay): array
     {
         $intervals = [];
@@ -104,9 +83,6 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
         return $intervals;
     }
 
-    /**
-     * @return DateIntervalObject
-    */
     private function getCurrentMonthInterval(): DateIntervalObject
     {
         $start = $this->now->modify('first day of this month')->setTime(0, 0, 0);

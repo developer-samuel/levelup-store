@@ -8,8 +8,6 @@ use App\Core\Domain\Segment\Country\Entity\Country;
 
 interface CountryCacheQueryContract
 {
-    /**
-     * @return Country[]
-    */
+    /** @return Country[] */
     public function getAllCountries(): array;
 }

@@ -6,15 +6,6 @@ namespace App\Presentation\Api\Dev;
 
 final readonly class HealthCheckConfig
 {
-    /**
-     * @param string $stripeSecretKey
-     * @param string $mailerUser
-     * @param string $mailerPass
-     * @param string $mailerHost
-     * @param int $mailerPort
-     * @param bool $wkhtmltopdfEnabled
-     * @param string $wkhtmltopdfPath
-    */
     public function __construct(
         public string $stripeSecretKey,
         public string $mailerUser,

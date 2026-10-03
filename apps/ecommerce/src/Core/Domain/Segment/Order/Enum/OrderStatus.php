@@ -36,9 +36,7 @@ enum OrderStatus: string
         self::REFUNDED,
     ];
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     public static function getAvailableStatuses(): array
     {
         return array_map(
@@ -47,9 +45,7 @@ enum OrderStatus: string
         );
     }
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     public static function activeStatuses(): array
     {
         return array_map(
@@ -58,9 +54,7 @@ enum OrderStatus: string
         );
     }
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     public static function completedStatuses(): array
     {
         return array_map(
@@ -69,19 +63,11 @@ enum OrderStatus: string
         );
     }
 
-    /**
-     * @return bool
-    */
     public function isFinalStatus(): bool
     {
         return in_array($this, self::FINAL_STATUSES, true);
     }
 
-    /**
-     * @param string $status
-     *
-     * @return bool
-    */
     public static function isValidStatus(string $status): bool
     {
         return in_array($status, self::getAvailableStatuses(), true);

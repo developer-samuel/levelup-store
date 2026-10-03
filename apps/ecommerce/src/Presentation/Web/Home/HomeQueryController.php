@@ -19,12 +19,6 @@ use App\Presentation\{
 
 final class HomeQueryController extends AbstractQueryController
 {
-    /**
-     * @param HomeCacheQueryContract $homeCacheQuery
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly HomeCacheQueryContract $homeCacheQuery,
         SecurityProviderContract $securityProvider,
@@ -37,10 +31,7 @@ final class HomeQueryController extends AbstractQueryController
             $logger,
         );
     }
-
-    /**
-     * @return Response
-    */
+    
     public function index(): Response
     {
         $data = $this->homeCacheQuery->getHomeData();

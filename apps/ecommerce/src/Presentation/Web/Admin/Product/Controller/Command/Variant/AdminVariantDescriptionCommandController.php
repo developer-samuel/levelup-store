@@ -28,13 +28,6 @@ use App\Presentation\{
 
 final class AdminVariantDescriptionCommandController extends AbstractAdminVariantCommandController
 {
-    /**
-     * @param AdminVariantDescriptionCommandHandler $adminVariantDescriptionHandler
-     * @param HmacFieldDecoderContract $hmacFieldDecoder
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly AdminVariantDescriptionCommandHandler $adminVariantDescriptionHandler,
         HmacFieldDecoderContract $hmacFieldDecoder,
@@ -50,21 +43,11 @@ final class AdminVariantDescriptionCommandController extends AbstractAdminVarian
         );
     }
 
-    /**
-     * @param string $action
-     *
-     * @return string
-    */
     protected function getSuccessMessage(string $action): string
     {
         return sprintf('Description %s successfully.', $action);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -78,11 +61,6 @@ final class AdminVariantDescriptionCommandController extends AbstractAdminVarian
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function update(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -96,11 +74,6 @@ final class AdminVariantDescriptionCommandController extends AbstractAdminVarian
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function destroy(Request $request): JsonResponse
     {
         return $this->executeDeleteCommand(
@@ -109,12 +82,6 @@ final class AdminVariantDescriptionCommandController extends AbstractAdminVarian
         );
     }
 
-    /**
-     * @param AdminVariantDescriptionStoreRequest|AdminVariantDescriptionUpdateRequest $req
-     * @param string|null $id
-     *
-     * @return AdminVariantDescriptionPayload
-    */
     private function createPayload(
         AdminVariantDescriptionStoreRequest|AdminVariantDescriptionUpdateRequest $req,
         ?string $id = null,

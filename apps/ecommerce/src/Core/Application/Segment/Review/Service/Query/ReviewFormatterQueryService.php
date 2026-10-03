@@ -21,21 +21,12 @@ use App\Core\Ports\{
 */
 final readonly class ReviewFormatterQueryService implements ReviewFormatterQueryContract
 {
-    /**
-     * @param ReviewRepositoryContract $reviewRepository
-     * @param ReviewRatingQueryContract $reviewRatingQuery
-    */
     public function __construct(
         private ReviewRepositoryContract $reviewRepository,
         private ReviewRatingQueryContract $reviewRatingQuery,
     ) {}
 
-    /**
-     * @param int $variantId
-     * @param User|null $user
-     *
-     * @return array<int, ReviewWithRatings>
-    */
+    /** @return array<int, ReviewWithRatings> */
     public function getFormattedReviewsForVariant(int $variantId, ?User $user): array
     {
         $authUserId = $user?->getId();
@@ -45,11 +36,7 @@ final readonly class ReviewFormatterQueryService implements ReviewFormatterQuery
         return $this->formatReviewsWithRatings($reviews, $user);
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return ReviewData
-    */
+    /** @return ReviewData */
     public function getFormattedReviewData(int $variantId): array
     {
         $rawData = $this->reviewRepository->getReviewsAndAverageByVariant($variantId);
@@ -61,7 +48,6 @@ final readonly class ReviewFormatterQueryService implements ReviewFormatterQuery
 
     /**
      * @param Review[] $reviews
-     * @param User|null $user
      *
      * @return array<int, ReviewWithRatings>
     */
@@ -91,12 +77,7 @@ final readonly class ReviewFormatterQueryService implements ReviewFormatterQuery
         ];
     }
 
-    /**
-     * @param Review $review
-     * @param User|null $user
-     *
-     * @return ReviewWithRatings
-    */
+    /** @return ReviewWithRatings */
     private function formatSingleReviewWithRatings(Review $review, ?User $user): array
     {
         $stats = $this->reviewRatingQuery->getReviewFeedbackStats($review, $user);

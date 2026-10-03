@@ -23,12 +23,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class UpdateProfileHandler extends AbstractCommandHandler implements UpdateProfileHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param ProfileCommandContract $profileCommand
-     * @param AuditLoggerContract $audit
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly ProfileCommandContract $profileCommand,
@@ -38,11 +32,7 @@ final class UpdateProfileHandler extends AbstractCommandHandler implements Updat
         parent::__construct($logger);
     }
 
-    /**
-     * @param ProfilePayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(ProfilePayload $payload): array
     {
         return $this->execute(function() use ($payload) {

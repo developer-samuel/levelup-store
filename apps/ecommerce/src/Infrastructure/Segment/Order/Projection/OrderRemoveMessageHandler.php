@@ -14,18 +14,10 @@ use App\Core\Ports\Gateways\External\Search\ElasticsearchGatewayContract;
 #[AsMessageHandler]
 final readonly class OrderRemoveMessageHandler
 {
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-    */
     public function __construct(
         private ElasticsearchGatewayContract $elasticsearch,
     ) {}
 
-    /**
-     * @param OrderRemoveMessage $message
-     *
-     * @return void
-    */
     public function __invoke(OrderRemoveMessage $message): void
     {
         if (!$this->elasticsearch->isEnabled()) {

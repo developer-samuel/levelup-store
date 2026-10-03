@@ -20,10 +20,6 @@ use App\Presentation\{
 
 final class AssistantApiQueryController extends AbstractCommandController
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SecurityProviderContract $securityProvider,
         AppLoggerContract $logger,

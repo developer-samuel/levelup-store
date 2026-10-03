@@ -8,10 +8,6 @@ use App\Core\Domain\Auth\Payload\LoginPayload;
 
 interface LoginHandlerContract
 {
-    /**
-     * @param LoginPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(LoginPayload $payload): array;
 }

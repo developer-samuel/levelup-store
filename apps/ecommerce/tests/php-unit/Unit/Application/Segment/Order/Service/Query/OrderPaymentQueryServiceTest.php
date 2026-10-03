@@ -27,9 +27,7 @@ use App\Core\Ports\{
     Segment\Cart\Repository\CartRepositoryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderPaymentQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderPaymentQueryService */
 final class OrderPaymentQueryServiceTest extends TestCase
 {
     private CartRepositoryContract&MockObject $cartRepository;
@@ -209,9 +207,7 @@ final class OrderPaymentQueryServiceTest extends TestCase
         );
     }
 
-    /**
-     * @param array<string, string> $overrides
-    */
+    /** @param array<string, string> $overrides */
     private function buildSession(array $overrides = []): StripeCheckoutObject
     {
         return new StripeCheckoutObject(

@@ -20,10 +20,6 @@ use App\Core\Ports\{
 
 final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param ProductSubtypeRepositoryContract $productSubtypeRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductSubtypeRepositoryContract $productSubtypeRepository,
         AppLoggerContract $logger,
@@ -35,8 +31,6 @@ final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQ
      * @param array<string, mixed> $context
      *
      * @return ProductSubtype[]
-     *
-     * @throws \InvalidArgumentException
     */
     protected function getRepositoryClass(array $context = []): array
     {
@@ -50,9 +44,6 @@ final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQ
         return $this->productSubtypeRepository->findAllByProductId($productId);
     }
 
-    /**
-     * @return string
-    */
     protected function getResourceClass(): string
     {
         return AdminApiProductSubtypeResource::class;

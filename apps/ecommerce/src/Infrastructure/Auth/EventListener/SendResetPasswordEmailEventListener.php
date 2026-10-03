@@ -18,20 +18,11 @@ use App\Infrastructure\Auth\Email\ResetPasswordEmail;
 #[AsEventListener(event: ResetPasswordCompletedEvent::class)]
 final readonly class SendResetPasswordEmailEventListener
 {
-    /**
-     * @param ResetPasswordEmail $resetPasswordEmail
-     * @param AuditLoggerContract $audit
-    */
     public function __construct(
         private ResetPasswordEmail $resetPasswordEmail,
         private AuditLoggerContract $audit,
     ) {}
 
-    /**
-     * @param ResetPasswordCompletedEvent $event
-     *
-     * @return void
-    */
     public function __invoke(ResetPasswordCompletedEvent $event): void
     {
         $this->audit->log(

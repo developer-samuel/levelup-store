@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class AdminApiVariantDescriptionQueryController extends AbstractAdminApiQueryController
 {
-    /**
-     * @param AdminApiVariantDescriptionListQueryHandler $descriptionListQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly AdminApiVariantDescriptionListQueryHandler $descriptionListQueryHandler,
         SecurityProviderContract $securityProvider,

@@ -20,12 +20,6 @@ use App\Shared\Responder\ErrorResponder;
 
 final class VerificationQueryController extends AbstractQueryController
 {
-    /**
-     * @param ErrorResponder $errorResponder
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ErrorResponder $errorResponder,
         SecurityProviderContract $securityProvider,
@@ -39,9 +33,6 @@ final class VerificationQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function show(): Response
     {
         $user = $this->securityProvider->getCurrentUser();

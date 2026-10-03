@@ -23,17 +23,10 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<CountryObject>
-*/
+/** @extends AbstractTask<CountryObject> */
 #[AsMessageHandler]
 final class CountrySyncTask extends AbstractTask
 {
-    /**
-     * @param CountryApiGatewayContract $countryApiAdapter
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly CountryApiGatewayContract $countryApiAdapter,
         EntityManagerInterface $entityManager,
@@ -42,37 +35,23 @@ final class CountrySyncTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param CountrySyncMessage $message
-     *
-     * @return void
-    */
     public function __invoke(CountrySyncMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'CountrySyncTask';
     }
 
-    /**
-     * @return CountryObject[]
-    */
+    /** @return CountryObject[] */
     protected function fetchItems(): iterable
     {
         return $this->countryApiAdapter->getAllCountries() ?? [];
     }
 
-    /**
-     * @param iterable<CountryObject> $items
-     *
-     * @return int
-    */
+    /** @param iterable<CountryObject> $items */
     protected function processItems(iterable $items): int
     {
         $addedCount = 0;
@@ -90,11 +69,6 @@ final class CountrySyncTask extends AbstractTask
         return $addedCount;
     }
 
-    /**
-     * @param CountryObject $countryObject
-     *
-     * @return bool
-    */
     private function processSingleCountry(CountryObject $countryObject): bool
     {
         if ($this->countryApiAdapter->countryExists($countryObject->code)) {
@@ -106,11 +80,6 @@ final class CountrySyncTask extends AbstractTask
         return true;
     }
 
-    /**
-     * @param CountryObject $countryObject
-     *
-     * @return Country
-    */
     private function createCountry(CountryObject $countryObject): Country
     {
         return (new Country())

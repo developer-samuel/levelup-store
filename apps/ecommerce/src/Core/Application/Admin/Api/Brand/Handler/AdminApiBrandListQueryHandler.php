@@ -18,10 +18,6 @@ use App\Core\Ports\{
 
 final class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param BrandRepositoryContract $brandRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly BrandRepositoryContract $brandRepository,
         AppLoggerContract $logger,
@@ -39,9 +35,7 @@ final class AdminApiBrandListQueryHandler extends AbstractAdminApiListQueryHandl
         return $this->brandRepository->findAll();
     }
 
-    /**
-     * @return class-string<AdminApiBrandResource>
-    */
+    /** @return class-string<AdminApiBrandResource> */
     protected function getResourceClass(): string
     {
         return AdminApiBrandResource::class;

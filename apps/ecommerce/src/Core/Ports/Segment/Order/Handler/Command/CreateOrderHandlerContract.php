@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Order\Payload\OrderCreatePayload;
 
 interface CreateOrderHandlerContract
 {
-    /**
-     * @param OrderCreatePayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(OrderCreatePayload $payload): array;
 }

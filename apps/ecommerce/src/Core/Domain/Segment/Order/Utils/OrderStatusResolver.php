@@ -8,11 +8,7 @@ use App\Core\Domain\Segment\Order\Enum\OrderStatus;
 
 final class OrderStatusResolver
 {
-    /**
-     * @param OrderStatus $status
-     *
-     * @return OrderStatus[]
-    */
+    /** @return OrderStatus[] */
     public static function resolveAvailableStatuses(OrderStatus $status): array
     {
         $activeStatuses = self::getActiveStatuses();
@@ -26,9 +22,7 @@ final class OrderStatusResolver
         };
     }
 
-    /**
-     * @return OrderStatus[]
-    */
+    /** @return OrderStatus[] */
     private static function getActiveStatuses(): array
     {
         return array_map(

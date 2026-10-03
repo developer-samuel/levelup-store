@@ -11,17 +11,6 @@ use App\Core\Domain\{
 
 interface VerificationCommandContract
 {
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function createAndSaveTokenForUser(User $user): void;
-
-    /**
-     * @param UpdateVerificationPayload $payload
-     *
-     * @return User|null
-    */
     public function verifyUserByToken(UpdateVerificationPayload $payload): ?User;
 }

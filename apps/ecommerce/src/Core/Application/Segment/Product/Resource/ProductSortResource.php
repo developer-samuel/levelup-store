@@ -14,11 +14,7 @@ use App\Core\Domain\Segment\Product\Enum\ProductSortOption;
 */
 final class ProductSortResource
 {
-    /**
-     * @param ProductSortOption $option
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(ProductSortOption $option): array
     {
         return [

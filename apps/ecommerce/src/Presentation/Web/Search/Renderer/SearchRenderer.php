@@ -10,18 +10,11 @@ use App\Core\Ports\Web\Search\Renderer\SearchRendererContract;
 
 final readonly class SearchRenderer implements SearchRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param array<int, mixed>|null $results
-     *
-     * @return string
-    */
+    /** @param array<int, mixed>|null $results */
     public function renderIndexView(?array $results): string
     {
         return $this->twig->render(
@@ -30,11 +23,7 @@ final readonly class SearchRenderer implements SearchRendererContract
         );
     }
 
-    /**
-     * @param array<int, mixed>|null $results
-     *
-     * @return string
-    */
+    /** @param array<int, mixed>|null $results */
     public function renderSearchPanelView(?array $results): string
     {
         return $this->twig->render(

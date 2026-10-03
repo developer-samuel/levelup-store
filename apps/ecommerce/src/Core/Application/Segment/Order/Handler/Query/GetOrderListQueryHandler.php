@@ -14,18 +14,12 @@ use App\Core\Ports\{
 
 final readonly class GetOrderListQueryHandler implements GetOrderListQueryHandlerContract
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param OrderCacheQueryContract $orderCacheQuery
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
         private OrderCacheQueryContract $orderCacheQuery,
     ) {}
 
-    /**
-     * @return Order[]
-    */
+    /** @return Order[] */
     public function handle(): array
     {
         $user = $this->securityProvider->getCurrentUser();

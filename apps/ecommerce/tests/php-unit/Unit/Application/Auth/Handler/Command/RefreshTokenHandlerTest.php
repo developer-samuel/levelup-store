@@ -18,9 +18,7 @@ use App\Core\Ports\{
     Shared\Logging\AppLoggerContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\RefreshTokenHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Handler\Command\RefreshTokenHandler */
 final class RefreshTokenHandlerTest extends TestCase
 {
     private RefreshTokenCommandContract&MockObject $refreshTokenCommand;
@@ -106,9 +104,7 @@ final class RefreshTokenHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleWithValidToken(): array
     {
         $this->refreshTokenCommand
@@ -118,9 +114,7 @@ final class RefreshTokenHandlerTest extends TestCase
         return $this->handler->handle('valid-token');
     }
 
-    /**
-     * @param array<string, mixed> $result
-    */
+    /** @param array<string, mixed> $result */
     private function assertUnauthenticated(array $result): void
     {
         self::assertSame('error', $result['status']);

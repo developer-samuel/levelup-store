@@ -8,12 +8,6 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface CartRenderQueryContract
 {
-    /**
-     * @param User $user
-     * @param string $message
-     * @param bool $isError
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function buildCartResponse(User $user, string $message, bool $isError = false): array;
 }

@@ -29,13 +29,6 @@ use App\Shared\Enum\AddressType;
 
 final class ProfileCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param UpdateProfileHandlerContract $updateProfileHandler
-     * @param DestroyProfileHandlerContract $destroyProfileHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly UpdateProfileHandlerContract $updateProfileHandler,
         private readonly DestroyProfileHandlerContract $destroyProfileHandler,
@@ -50,11 +43,6 @@ final class ProfileCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function update(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -64,11 +52,7 @@ final class ProfileCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param UpdateProfileRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleUpdate(UpdateProfileRequest $request): array
     {
         $payload = $this->createPayload($request);
@@ -76,11 +60,6 @@ final class ProfileCommandController extends AbstractCrudCommandController
         return $this->updateProfileHandler->handle($payload);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function destroy(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -90,11 +69,6 @@ final class ProfileCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param UpdateProfileRequest $request
-     *
-     * @return ProfilePayload
-    */
     private function createPayload(UpdateProfileRequest $request): ProfilePayload
     {
         return new ProfilePayload(
@@ -106,12 +80,7 @@ final class ProfileCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param UpdateProfileRequest $request
-     * @param AddressType $type
-     *
-     * @return array<string, int|string|null>
-    */
+    /** @return array<string, int|string|null> */
     private function createAddress(UpdateProfileRequest $request, AddressType $type): array
     {
         $prefix = $type->value;

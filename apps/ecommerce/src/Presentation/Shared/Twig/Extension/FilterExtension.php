@@ -13,9 +13,7 @@ use Packages\Kit\Utils\Shared\StringNormalizer;
 
 final class FilterExtension extends AbstractExtension
 {
-    /**
-     * @return TwigFilter[]
-    */
+    /** @return TwigFilter[] */
     public function getFilters(): array
     {
         return [

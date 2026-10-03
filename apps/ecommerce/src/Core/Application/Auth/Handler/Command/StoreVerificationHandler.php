@@ -22,11 +22,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class StoreVerificationHandler extends AbstractCommandHandler implements StoreVerificationHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param VerificationCommandContract $verificationCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly VerificationCommandContract $verificationCommand,
@@ -35,9 +30,7 @@ final class StoreVerificationHandler extends AbstractCommandHandler implements S
         parent::__construct($logger);
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(): array
     {
         return $this->execute(function() {
@@ -51,11 +44,6 @@ final class StoreVerificationHandler extends AbstractCommandHandler implements S
         });
     }
 
-    /**
-     * @return User
-     *
-     * @throws ConflictException
-    */
     private function getValidUser(): User
     {
         $user = $this->securityPolicy->checkAccess();

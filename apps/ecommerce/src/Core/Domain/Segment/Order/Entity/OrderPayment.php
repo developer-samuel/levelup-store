@@ -44,19 +44,11 @@ class OrderPayment
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private float $price = 0.00;
 
-    /**
-     * @return string
-    */
     public function getTransactionUnique(): string
     {
         return $this->transactionUnique;
     }
 
-    /**
-     * @param string $transactionUnique
-     *
-     * @return self
-    */
     public function setTransactionUnique(string $transactionUnique): self
     {
         $this->transactionUnique = $transactionUnique;

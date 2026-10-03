@@ -15,11 +15,7 @@ use App\Core\Ports\Segment\Product\Service\Query\ProductDescriptionQueryContract
 
 final class ProductDescriptionQueryService implements ProductDescriptionQueryContract
 {
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return array<int, array<string, mixed>>
-    */
+    /** @return array<int, array<string, mixed>> */
     public function getProductDescriptions(ProductVariant $variant): array
     {
         $descriptions = $this->getDescriptionsFromVariant($variant);
@@ -27,11 +23,7 @@ final class ProductDescriptionQueryService implements ProductDescriptionQueryCon
         return $this->mapDescriptionsToResources($descriptions);
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariantDescription[]
-    */
+    /** @return ProductVariantDescription[] */
     private function getDescriptionsFromVariant(ProductVariant $variant): array
     {
         return $variant->getDescriptions()->toArray();

@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class AdminApiVariantQueryController extends AbstractAdminApiQueryController
 {
-    /**
-     * @param AdminApiVariantListQueryHandler $variantListQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly AdminApiVariantListQueryHandler $variantListQueryHandler,
         SecurityProviderContract $securityProvider,

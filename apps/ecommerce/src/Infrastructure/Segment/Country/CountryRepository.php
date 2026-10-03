@@ -15,14 +15,9 @@ use App\Infrastructure\{
     Shared\Enum\SortDirection
 };
 
-/**
- * @extends AbstractRepository<Country>
-*/
+/** @extends AbstractRepository<Country> */
 final class CountryRepository extends AbstractRepository implements CountryRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -31,45 +26,27 @@ final class CountryRepository extends AbstractRepository implements CountryRepos
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'c';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'id';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Country[]
-    */
+    /** @return Country[] */
     public function findAllByCode(string $code): array
     {
         return $this->findBy(['code' => $code]);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Country|null
-    */
     public function findById(int $id): ?Country
     {
         return $this->find($id);

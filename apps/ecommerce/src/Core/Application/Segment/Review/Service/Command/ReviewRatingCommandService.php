@@ -23,26 +23,12 @@ use App\Core\Ports\{
 
 final readonly class ReviewRatingCommandService implements ReviewRatingCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param ReviewRepositoryContract $reviewRepository
-     * @param ReviewRatingRepositoryContract $reviewRatingRepository
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private ReviewRepositoryContract $reviewRepository,
         private ReviewRatingRepositoryContract $reviewRatingRepository,
     ) {}
 
-    /**
-     * @param int $id
-     * @param User $user
-     * @param string|null $type
-     *
-     * @return bool
-     *
-     * @throws NotFoundException
-    */
     public function toggle(int $id, User $user, ?string $type): bool
     {
         $review = $this->reviewRepository->findById($id);
@@ -59,13 +45,6 @@ final readonly class ReviewRatingCommandService implements ReviewRatingCommandCo
         return false;
     }
 
-    /**
-     * @param Review $review
-     * @param User $user
-     * @param string $type
-     *
-     * @return void
-    */
     private function add(Review $review, User $user, string $type): void
     {
         if ($type === '') {
@@ -83,12 +62,6 @@ final readonly class ReviewRatingCommandService implements ReviewRatingCommandCo
         $this->entityPersistence->persist($reviewRating, true);
     }
 
-    /**
-     * @param Review $review
-     * @param User $user
-     *
-     * @return void
-    */
     private function remove(Review $review, User $user): void
     {
         $item = $this->reviewRatingRepository->findOneByReviewAndUser($review, $user);
@@ -98,13 +71,6 @@ final readonly class ReviewRatingCommandService implements ReviewRatingCommandCo
         }
     }
 
-    /**
-     * @param Review $review
-     * @param User $user
-     * @param ReviewRatingType $ratingType
-     *
-     * @return ReviewRating
-    */
     private function createReviewRating(Review $review, User $user, ReviewRatingType $ratingType): ReviewRating
     {
         return (new ReviewRating())

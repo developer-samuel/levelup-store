@@ -8,30 +8,14 @@ use App\Core\Domain\Segment\Cart\Entity\Cart;
 
 interface CartRepositoryContract
 {
-    /**
-     * @param int $userId
-     *
-     * @return Cart|null
-    */
     public function findCartForUser(int $userId): ?Cart;
 
-    /**
-     * @param \DateTimeImmutable $threshold
-     *
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     public function findInactiveSince(\DateTimeImmutable $threshold): array;
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     *
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     public function findAbandonedForReminder(\DateTimeImmutable $from, \DateTimeImmutable $to): array;
 
-    /**
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     public function findEmpty(): array;
 }

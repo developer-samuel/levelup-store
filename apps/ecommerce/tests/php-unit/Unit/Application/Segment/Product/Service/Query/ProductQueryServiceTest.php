@@ -24,9 +24,7 @@ use App\Core\Ports\{
     Segment\Product\Service\Query\ProductVariantQueryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductQueryService */
 final class ProductQueryServiceTest extends TestCase
 {
     private BrandRepositoryContract&MockObject $brandRepository;

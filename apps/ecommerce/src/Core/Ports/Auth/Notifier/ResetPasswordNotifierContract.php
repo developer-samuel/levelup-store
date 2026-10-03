@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface ResetPasswordNotifierContract
 {
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function send(User $user): void;
 }

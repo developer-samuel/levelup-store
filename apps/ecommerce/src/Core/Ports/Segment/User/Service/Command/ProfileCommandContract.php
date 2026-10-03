@@ -11,9 +11,5 @@ use App\Core\Domain\{
 
 interface ProfileCommandContract
 {
-    /**
-     * @param User $user
-     * @param ProfilePayload $payload
-    */
     public function updateProfile(User $user, ProfilePayload $payload): void;
 }

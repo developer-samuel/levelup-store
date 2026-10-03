@@ -13,18 +13,11 @@ use App\Core\Ports\{
 
 final class CartPriceQueryService implements CartPriceQueryContract
 {
-    /**
-     * @param ProductPriceQueryContract $productPriceQuery
-    */
     public function __construct(
         private ProductPriceQueryContract $productPriceQuery,
     ) {}
 
-    /**
-     * @param CartItemObject[] $items
-     *
-     * @return float
-    */
+    /** @param CartItemObject[] $items */
     public function calculateTotalPrice(array $items): float
     {
         $total = 0.0;

@@ -12,12 +12,7 @@ use Symfony\{
 
 abstract class AbstractConstraintValidator extends ConstraintValidator
 {
-    /**
-     * @param mixed $constraint
-     * @param class-string<Constraint> $expectedConstraint
-     *
-     * @throws UnexpectedTypeException
-    */
+    /** @param class-string<Constraint> $expectedConstraint */
     protected function assertConstraintType(mixed $constraint, string $expectedConstraint): void
     {
         if (!$constraint instanceof $expectedConstraint) {
@@ -25,22 +20,12 @@ abstract class AbstractConstraintValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return bool
-    */
     protected function shouldValidate(mixed $value): bool
     {
         return !($value === null || $value === '');
     }
 
-    /**
-     * @param string $message
-     * @param array<string,string> $parameters
-     *
-     * @return void
-    */
+    /** @param array<string,string> $parameters */
     protected function addViolation(string $message, array $parameters = []): void
     {
         $builder = $this->context->buildViolation($message);

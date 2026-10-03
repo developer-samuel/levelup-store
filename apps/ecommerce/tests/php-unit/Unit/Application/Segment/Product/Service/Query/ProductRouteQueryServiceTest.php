@@ -8,9 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 use App\Core\Application\Segment\Product\Service\Query\ProductRouteQueryService;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductRouteQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductRouteQueryService */
 final class ProductRouteQueryServiceTest extends TestCase
 {
     private ProductRouteQueryService $service;

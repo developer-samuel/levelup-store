@@ -18,11 +18,6 @@ use App\Presentation\{
 
 final class AdminProductQueryController extends AbstractQueryController
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         SecurityProviderContract $securityProvider,
         ExceptionResponder $exceptionResponder,
@@ -35,9 +30,6 @@ final class AdminProductQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function index(): Response
     {
         return $this->renderPage('features/admin/views/product/main/index.html.twig');

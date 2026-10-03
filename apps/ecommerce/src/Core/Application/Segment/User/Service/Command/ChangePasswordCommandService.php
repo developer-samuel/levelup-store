@@ -14,21 +14,11 @@ use App\Core\Ports\{
 
 final readonly class ChangePasswordCommandService implements ChangePasswordCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param PasswordHasherProviderContract $passwordHasherProxy
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private PasswordHasherProviderContract $passwordHasherProxy,
     ) {}
 
-    /**
-     * @param User $user
-     * @param string $newPassword
-     *
-     * @return void
-    */
     public function changeUserPassword(User $user, string $newPassword): void
     {
         $hashedPassword = $this->passwordHasherProxy->hash($user, $newPassword);

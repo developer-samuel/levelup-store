@@ -16,10 +16,6 @@ final class AllMaxLengthConstraint extends Constraint
     public string $message;
     public int $max;
 
-    /**
-     * @param string $label
-     * @param int $max
-    */
     public function __construct(string $label, int $max)
     {
         parent::__construct();
@@ -28,17 +24,12 @@ final class AllMaxLengthConstraint extends Constraint
         $this->message = $label . ' cannot be longer than {{ limit }} characters.';
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return AllMaxLengthConstraintValidator::class;
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

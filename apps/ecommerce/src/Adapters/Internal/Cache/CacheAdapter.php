@@ -16,18 +16,10 @@ use App\Infrastructure\Shared\Proxy\CacheProxy;
 
 final readonly class CacheAdapter implements CacheGatewayContract
 {
-    /**
-     * @param RedisCacheGatewayContract $redis
-    */
     public function __construct(
         private RedisCacheGatewayContract $redis,
     ) {}
 
-    /**
-     * @param string $namespace
-     *
-     * @return CacheProxyContract
-    */
     public function getCache(string $namespace = ''): CacheProxyContract
     {
         if ($this->redis->isRedisEnabled()) {
@@ -37,11 +29,6 @@ final readonly class CacheAdapter implements CacheGatewayContract
         return $this->createFilesystemCache($namespace);
     }
 
-    /**
-     * @param string $namespace
-     *
-     * @return CacheProxyContract
-    */
     public function createFilesystemCache(string $namespace): CacheProxyContract
     {
         $filesystem = new FilesystemAdapter(namespace: $namespace);

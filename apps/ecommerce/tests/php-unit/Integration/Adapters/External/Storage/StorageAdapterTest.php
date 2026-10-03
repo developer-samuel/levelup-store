@@ -8,9 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 use App\Adapters\External\Storage\StorageAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\External\Storage\StorageAdapter
-*/
+/** @coversDefaultClass \App\Adapters\External\Storage\StorageAdapter */
 final class StorageAdapterTest extends TestCase
 {
     private string $endpoint;

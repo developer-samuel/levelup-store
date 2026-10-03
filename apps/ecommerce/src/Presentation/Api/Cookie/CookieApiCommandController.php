@@ -22,11 +22,6 @@ use App\Presentation\{
 
 final class CookieApiCommandController extends AbstractCommandController
 {
-    /**
-     * @param CookieGatewayContract $cookieGateway
-     * @param CookieFactory $cookieFactory
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly CookieGatewayContract $cookieGateway,
         private readonly CookieFactory $cookieFactory,

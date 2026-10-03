@@ -25,18 +25,10 @@ final class ChangePasswordRequest extends AbstractRequest
     use TokenTrait;
     use ChangePasswordInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -46,22 +38,12 @@ final class ChangePasswordRequest extends AbstractRequest
         $this->new_password_confirmation = $data->getString('new_password_confirmation');
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {
         $this->validateCsrfToken('change_password_update', $context);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validatePasswordsMatch(ExecutionContextInterface $context): void
     {

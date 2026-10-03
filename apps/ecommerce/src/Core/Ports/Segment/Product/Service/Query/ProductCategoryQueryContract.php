@@ -22,35 +22,14 @@ use App\Core\Domain\{
 */
 interface ProductCategoryQueryContract
 {
-    /**
-     * @param string|null $categoryName
-     * @param string|null $typeName
-     *
-     * @return TypesAndSubtypes
-    */
+    /** @return TypesAndSubtypes */
     public function getTypesForCategory(?string $categoryName, ?string $typeName): array;
 
-    /**
-     * @param Category $category
-     * @param string $typeName
-     *
-     * @return Type|null
-    */
     public function findTypeByNameAndCategory(Category $category, string $typeName): ?Type;
 
-    /**
-     * @param string|null $category
-     * @param string|null $type
-     *
-     * @return TypesAndSubtypesNames
-    */
+    /** @return TypesAndSubtypesNames */
     public function getTypesAndSubtypes(?string $category, ?string $type): array;
 
-    /**
-     * @param Category $categoryEntity
-     * @param string|null $type
-     *
-     * @return Type[]
-    */
+    /** @return Type[] */
     public function resolveTypesForCategory(Category $categoryEntity, ?string $type): array;
 }

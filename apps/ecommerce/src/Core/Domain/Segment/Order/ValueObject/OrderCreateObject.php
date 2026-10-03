@@ -15,13 +15,8 @@ use App\Core\Domain\{
 final readonly class OrderCreateObject
 {
     /**
-     * @param User $personal
      * @param Country[] $countries
      * @param OrderPaymentMethod[] $paymentMethods
-     * @param bool $cartEmpty
-     * @param bool $useShipping
-     * @param UserBilling|null $billing
-     * @param UserShipping|null $shipping
     */
     public function __construct(
         public User $personal,

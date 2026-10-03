@@ -11,15 +11,7 @@ use App\Core\Domain\{
 
 interface AuditLoggerContract
 {
-    /**
-     * @param AuditAction $action
-     * @param string $entity
-     * @param int $entityId
-     * @param array<string, mixed> $metadata
-     * @param User|null $user
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $metadata */
     public function log(
         AuditAction $action,
         string $entity,

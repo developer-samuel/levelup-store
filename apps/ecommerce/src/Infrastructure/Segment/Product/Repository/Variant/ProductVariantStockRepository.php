@@ -15,14 +15,9 @@ use App\Infrastructure\{
     Shared\Enum\SortDirection
 };
 
-/**
- * @extends AbstractRepository<ProductVariantStock>
-*/
+/** @extends AbstractRepository<ProductVariantStock> */
 final class ProductVariantStockRepository extends AbstractRepository implements ProductVariantStockRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -31,25 +26,16 @@ final class ProductVariantStockRepository extends AbstractRepository implements 
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'vs';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'createdAt';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::DESC;

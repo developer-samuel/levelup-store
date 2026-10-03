@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class AdminApiVariantEanQueryController extends AbstractAdminApiQueryController
 {
-    /**
-     * @param AdminApiVariantEanListQueryHandler $eanListQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly AdminApiVariantEanListQueryHandler $eanListQueryHandler,
         SecurityProviderContract $securityProvider,

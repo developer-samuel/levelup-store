@@ -8,10 +8,6 @@ use App\Core\Domain\Auth\Payload\ForgotPasswordPayload;
 
 interface ForgotPasswordCommandHandlerContract
 {
-    /**
-     * @param ForgotPasswordPayload $payload
-     *
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     public function handle(ForgotPasswordPayload $payload): array;
 }

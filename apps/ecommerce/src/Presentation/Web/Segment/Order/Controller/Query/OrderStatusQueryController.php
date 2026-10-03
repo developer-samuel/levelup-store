@@ -25,13 +25,6 @@ use App\Presentation\{
 
 final class OrderStatusQueryController extends AbstractQueryController
 {
-    /**
-     * @param OrderSuccessCleanupCommandHandlerContract $orderSuccessCleanupCommandHandler
-     * @param CartStateClearer $cartStateClearer
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly OrderSuccessCleanupCommandHandlerContract $orderSuccessCleanupCommandHandler,
         private readonly CartStateClearer $cartStateClearer,
@@ -46,11 +39,6 @@ final class OrderStatusQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-    */
     public function success(Request $request): Response
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -67,17 +55,11 @@ final class OrderStatusQueryController extends AbstractQueryController
         return $this->renderPage('features/order/status/success.html.twig');
     }
 
-    /**
-     * @return Response
-    */
     public function cancel(): Response
     {
         return $this->renderPage('features/order/status/cancel.html.twig');
     }
 
-    /**
-     * @return Response
-    */
     public function error(): Response
     {
         return $this->renderPage('features/order/status/error.html.twig');

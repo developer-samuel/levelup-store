@@ -22,12 +22,6 @@ use App\Presentation\{
 
 final class SearchQueryController extends AbstractQueryController
 {
-    /**
-     * @param SearchPageQueryHandlerContract $searchPageQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SearchPageQueryHandlerContract $searchPageQueryHandler,
         SecurityProviderContract $securityProvider,
@@ -41,11 +35,6 @@ final class SearchQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-    */
     public function index(Request $request): Response
     {
         $query = $request->query->getString('query');

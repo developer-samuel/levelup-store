@@ -14,15 +14,7 @@ use App\Core\Domain\{
 
 interface OrderConfirmationEmailRendererContract
 {
-    /**
-     * @param Order $order
-     * @param OrderPersonal $personal
-     * @param OrderBilling $billing
-     * @param OrderShipping|null $shipping
-     * @param OrderItemEmailObject[] $items
-     *
-     * @return string
-    */
+    /** @param OrderItemEmailObject[] $items */
     public function renderOrderConfirmationEmail(
         Order $order,
         OrderPersonal $personal,

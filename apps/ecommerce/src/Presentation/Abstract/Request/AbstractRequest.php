@@ -16,33 +16,18 @@ abstract class AbstractRequest
 {
     use CsrfProtection;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(
         protected CsrfTokenManagerInterface $csrfTokenManager,
     ) {}
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     abstract protected function populateData(Request $request): void;
 
-    /**
-     * @return CsrfTokenManagerInterface
-    */
     protected final function resolveCsrfTokenManager(): CsrfTokenManagerInterface
     {
         return $this->csrfTokenManager;
     }
 
-    /**
-     * @param ValidatorInterface|null $validator
-     *
-     * @return array<string, string>
-    */
+    /** @return array<string, string> */
     final public function errors(?ValidatorInterface $validator): array
     {
         if ($validator === null) {
@@ -59,12 +44,6 @@ abstract class AbstractRequest
         return $result;
     }
 
-    /**
-     * @param Request $request
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     *
-     * @return static
-    */
     public static function fromHttpRequest(
         Request $request,
         CsrfTokenManagerInterface $csrfTokenManager,

@@ -45,9 +45,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderMutationCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderMutationCommandService */
 final class OrderMutationCommandServiceTest extends TestCase
 {
     private SecurityProviderContract&MockObject $securityProvider;

@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\Order\Entity\Order;
 
 interface OrderStatusNotifierContract
 {
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     public function send(Order $order): void;
 }

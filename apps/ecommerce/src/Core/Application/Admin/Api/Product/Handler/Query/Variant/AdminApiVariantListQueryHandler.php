@@ -21,20 +21,12 @@ use App\Core\Ports\{
 
 final readonly class AdminApiVariantListQueryHandler
 {
-    /**
-     * @param ProductRepositoryContract $productRepository
-     * @param ProductVariantRepositoryContract $variantRepository
-    */
     public function __construct(
         private ProductRepositoryContract $productRepository,
         private ProductVariantRepositoryContract $variantRepository,
     ) {}
 
-    /**
-     * @param int $productId
-     *
-     * @return list<array<string, mixed>>
-     */
+    /** @return list<array<string, mixed>> */
     public function handle(int $productId): array
     {
         $product = $this->getProduct($productId);
@@ -50,11 +42,6 @@ final readonly class AdminApiVariantListQueryHandler
         );
     }
 
-    /**
-     * @param int $productId
-     *
-     * @return Product|null
-    */
     private function getProduct(int $productId): ?Product
     {
         $product = $this->productRepository->findById($productId);
@@ -62,11 +49,7 @@ final readonly class AdminApiVariantListQueryHandler
         return $product instanceof Product ? $product : null;
     }
 
-    /**
-     * @param Product $product
-     *
-     * @return array<int, ProductVariant>
-    */
+    /** @return array<int, ProductVariant> */
     private function getVariants(Product $product): array
     {
         return array_values($this->variantRepository->findAllByProduct($product));

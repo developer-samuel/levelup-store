@@ -19,9 +19,7 @@ use App\Core\Domain\{
 
 use App\Core\Application\Segment\Order\Service\Query\OrderItemQueryService;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderItemQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderItemQueryService */
 final class OrderItemQueryServiceTest extends TestCase
 {
     private OrderItemQueryService $service;

@@ -16,11 +16,6 @@ final readonly class ElasticsearchAdapter implements ElasticsearchGatewayContrac
 {
     private Client $client;
 
-    /**
-     * @param bool $enabled
-     * @param string $host
-     * @param int $port
-    */
     public function __construct(
         private bool $enabled,
         private string $host,
@@ -31,25 +26,16 @@ final readonly class ElasticsearchAdapter implements ElasticsearchGatewayContrac
             ->build();
     }
 
-    /**
-     * @return Client
-    */
     public function getClient(): Client
     {
         return $this->client;
     }
 
-    /**
-     * @return bool
-    */
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * @return bool
-    */
     public function isConnected(): bool
     {
         if (!$this->enabled) {
@@ -69,13 +55,7 @@ final readonly class ElasticsearchAdapter implements ElasticsearchGatewayContrac
         return true;
     }
 
-    /**
-     * @param string $index
-     * @param int $id
-     * @param array<string, mixed> $document
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $document */
     public function indexDocument(string $index, int $id, array $document): void
     {
         $this->client->index([
@@ -85,12 +65,6 @@ final readonly class ElasticsearchAdapter implements ElasticsearchGatewayContrac
         ]);
     }
 
-    /**
-     * @param string $index
-     * @param int $id
-     *
-     * @return void
-    */
     public function removeDocument(string $index, int $id): void
     {
         $this->client->delete([
@@ -99,12 +73,7 @@ final readonly class ElasticsearchAdapter implements ElasticsearchGatewayContrac
         ]);
     }
 
-    /**
-     * @param string $index
-     * @param array<string, mixed> $mapping
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $mapping */
     public function ensureIndexExists(string $index, array $mapping): void
     {
         /** @var Elasticsearch $exists */

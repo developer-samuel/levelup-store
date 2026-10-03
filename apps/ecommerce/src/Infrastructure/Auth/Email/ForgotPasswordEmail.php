@@ -14,11 +14,6 @@ use App\Infrastructure\Abstract\Email\AbstractEmail;
 
 final class ForgotPasswordEmail extends AbstractEmail
 {
-    /**
-     * @param ForgotPasswordEmailRendererContract $renderer
-     * @param MailerInterface $mailer
-     * @param string $fromEmail
-    */
     public function __construct(
         private readonly ForgotPasswordEmailRendererContract $renderer,
         MailerInterface $mailer,
@@ -27,13 +22,6 @@ final class ForgotPasswordEmail extends AbstractEmail
         parent::__construct($mailer, $fromEmail);
     }
 
-    /**
-     * @param string $toEmail
-     * @param string $resetUrl
-     * @param User $user
-     *
-     * @return void
-    */
     public function send(string $toEmail, string $resetUrl, User $user): void
     {
         $email = $this->createBaseEmail(

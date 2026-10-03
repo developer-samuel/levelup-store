@@ -19,18 +19,10 @@ final class AdminBrandStoreRequest extends AbstractRequest
 {
     use AdminBrandStoreInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -38,11 +30,6 @@ final class AdminBrandStoreRequest extends AbstractRequest
         $this->name = trim($data->getString('name'));
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {

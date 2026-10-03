@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\Wishlist\Payload\WishlistPayload;
 
 interface DestroyWishlistHandlerContract
 {
-    /**
-     * @param WishlistPayload $payload
-     *
-     * @return bool
-    */
     public function handle(WishlistPayload $payload): bool;
 }

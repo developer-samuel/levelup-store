@@ -27,12 +27,6 @@ use App\Shared\Responder\ErrorResponder;
 )]
 final readonly class AdminCheckerListener
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param UserQueryContract $userQuery
-     * @param ErrorResponder $errorResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
         private UserQueryContract $userQuery,
@@ -40,11 +34,6 @@ final readonly class AdminCheckerListener
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param RequestEvent $event
-     *
-     * @return void
-    */
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
@@ -63,21 +52,11 @@ final readonly class AdminCheckerListener
         }
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-    */
     private function isAdminPath(string $path): bool
     {
         return $path === '/admin' || str_starts_with($path, '/admin/');
     }
 
-    /**
-     * @param User|null $user
-     *
-     * @return Response|null
-    */
     private function getAdminAccessResponse(?User $user): ?Response
     {
         if (!$this->isValidAdminUser($user)) {
@@ -87,11 +66,6 @@ final readonly class AdminCheckerListener
         return null;
     }
 
-    /**
-     * @param User|null $user
-     *
-     * @return bool
-    */
     private function isValidAdminUser(?User $user): bool
     {
         if (!$user instanceof User) {
@@ -101,12 +75,6 @@ final readonly class AdminCheckerListener
         return $this->userQuery->isAdmin($user);
     }
 
-    /**
-     * @param User|null $user
-     * @param string $path
-     *
-     * @return void
-    */
     private function logAccessBlocked(?User $user, string $path): void
     {
         $this->logger->warning(

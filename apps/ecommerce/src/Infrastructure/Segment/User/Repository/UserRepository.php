@@ -17,17 +17,12 @@ use App\Infrastructure\{
     Shared\Traits\SingleResult
 };
 
-/**
- * @extends AbstractRepository<User>
-*/
+/** @extends AbstractRepository<User> */
 final class UserRepository extends AbstractRepository implements UserRepositoryContract
 {
     use DateRange;
     use SingleResult;
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -36,56 +31,31 @@ final class UserRepository extends AbstractRepository implements UserRepositoryC
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'u';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'id';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return User|null
-    */
     public function findById(int $id): ?User
     {
         return $this->find($id);
     }
 
-    /**
-     * @param string $email
-     *
-     * @return User|null
-    */
     public function findByEmail(string $email): ?User
     {
         return $this->findOneByColumn('email', $email);
     }
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     *
-     * @return int
-    */
     public function countUsersBetween(\DateTimeImmutable $from, \DateTimeImmutable $to): int
     {
         $qb = $this->applyDateRange(

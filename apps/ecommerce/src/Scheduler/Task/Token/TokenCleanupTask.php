@@ -21,19 +21,10 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<CleanableTokenRepositoryContract>
-*/
+/** @extends AbstractTask<CleanableTokenRepositoryContract> */
 #[AsMessageHandler]
 final class TokenCleanupTask extends AbstractTask
 {
-    /**
-     * @param RefreshTokenRepositoryContract $refreshTokenRepository
-     * @param PasswordResetTokenRepositoryContract $passwordResetTokenRepository
-     * @param UserVerificationTokenRepositoryContract $userVerificationTokenRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly RefreshTokenRepositoryContract $refreshTokenRepository,
         private readonly PasswordResetTokenRepositoryContract $passwordResetTokenRepository,
@@ -44,27 +35,17 @@ final class TokenCleanupTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param TokenCleanupMessage $message
-     *
-     * @return void
-    */
     public function __invoke(TokenCleanupMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'TokenCleanupTask';
     }
 
-    /**
-     * @return iterable<CleanableTokenRepositoryContract>
-    */
+    /** @return iterable<CleanableTokenRepositoryContract> */
     protected function fetchItems(): iterable
     {
         return [
@@ -74,11 +55,7 @@ final class TokenCleanupTask extends AbstractTask
         ];
     }
 
-    /**
-     * @param iterable<CleanableTokenRepositoryContract> $items
-     *
-     * @return int
-    */
+    /** @param iterable<CleanableTokenRepositoryContract> $items */
     protected function processItems(iterable $items): int
     {
         $deletedCount = 0;

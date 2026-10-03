@@ -20,19 +20,12 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<Cart>
-*/
+/** @extends AbstractTask<Cart> */
 #[AsMessageHandler]
 final class CartCleanupTask extends AbstractTask
 {
     private const INACTIVE_DAYS = 7;
 
-    /**
-     * @param CartRepositoryContract $cartRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly CartRepositoryContract $cartRepository,
         EntityManagerInterface $entityManager,
@@ -41,27 +34,17 @@ final class CartCleanupTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param CartCleanupMessage $message
-     *
-     * @return void
-    */
     public function __invoke(CartCleanupMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'CartCleanupTask';
     }
 
-    /**
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     protected function fetchItems(): iterable
     {
         $threshold = new \DateTimeImmutable(sprintf('-%d days', self::INACTIVE_DAYS));
@@ -69,11 +52,7 @@ final class CartCleanupTask extends AbstractTask
         return $this->cartRepository->findInactiveSince($threshold);
     }
 
-    /**
-     * @param iterable<Cart> $items
-     *
-     * @return int
-    */
+    /** @param iterable<Cart> $items */
     protected function processItems(iterable $items): int
     {
         $count = 0;
@@ -92,9 +71,6 @@ final class CartCleanupTask extends AbstractTask
         return $count;
     }
 
-    /**
-     * @return int
-    */
     private function removeEmptyCarts(): int
     {
         $emptyCarts = $this->cartRepository->findEmpty();

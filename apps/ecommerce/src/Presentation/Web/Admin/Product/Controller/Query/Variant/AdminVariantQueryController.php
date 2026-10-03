@@ -19,12 +19,6 @@ use App\Presentation\{
 
 final class AdminVariantQueryController extends AbstractFindQueryController
 {
-    /**
-     * @param ProductRepositoryContract $productRepository
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductRepositoryContract $productRepository,
         SecurityProviderContract $securityProvider,
@@ -38,11 +32,6 @@ final class AdminVariantQueryController extends AbstractFindQueryController
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Response
-    */
     public function index(int $id): Response
     {
         return $this->renderFindById(
@@ -53,9 +42,6 @@ final class AdminVariantQueryController extends AbstractFindQueryController
         );
     }
 
-    /**
-     * @return ProductRepositoryContract
-    */
     protected function getRepository(): ProductRepositoryContract
     {
         return $this->productRepository;

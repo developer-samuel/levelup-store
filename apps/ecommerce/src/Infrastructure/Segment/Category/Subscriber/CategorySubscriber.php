@@ -20,20 +20,13 @@ use App\Core\Ports\{
 
 final readonly class CategorySubscriber implements EventSubscriberInterface
 {
-    /**
-     * @param Environment $twig
-     * @param AppLoggerContract $logger
-     * @param CategoryRepositoryContract $categoryRepository
-    */
     public function __construct(
         private Environment $twig,
         private AppLoggerContract $logger,
         private CategoryRepositoryContract $categoryRepository,
     ) {}
 
-    /**
-     * @return array<string, string>
-    */
+    /** @return array<string, string> */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -41,11 +34,6 @@ final readonly class CategorySubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -66,11 +54,7 @@ final readonly class CategorySubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param Category[] $categories
-     *
-     * @return void
-    */
+    /** @param Category[] $categories */
     private function addGlobalVariablesToTwig(array $categories): void
     {
         $this->twig->addGlobal('categories', $categories);

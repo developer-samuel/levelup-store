@@ -14,44 +14,22 @@ use App\Core\Ports\{
 
 final readonly class ReviewPermissionQueryService implements ReviewPermissionQueryContract
 {
-    /**
-     * @param OrderItemRepositoryContract $orderItemRepository
-     * @param ReviewRepositoryContract $reviewRepository
-    */
     public function __construct(
         private OrderItemRepositoryContract $orderItemRepository,
         private ReviewRepositoryContract $reviewRepository,
     ) {}
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     public function canUserCreateReview(User $user, int $variantId): bool
     {
         return $this->hasPurchasedVariant($user, $variantId)
             && $this->hasNotReviewedVariant($user, $variantId);
     }
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     private function hasPurchasedVariant(User $user, int $variantId): bool
     {
         return $this->orderItemRepository->hasPurchasedVariant($user, $variantId);
     }
-
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
+    
     private function hasNotReviewedVariant(User $user, int $variantId): bool
     {
         return !$this->reviewRepository->existsByVariantAndUser($variantId, $user);

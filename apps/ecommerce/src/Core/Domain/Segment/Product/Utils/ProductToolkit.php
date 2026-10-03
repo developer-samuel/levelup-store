@@ -13,11 +13,6 @@ use App\Core\Domain\Segment\Product\Entity\Variant\{
 
 final class ProductToolkit
 {
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return string
-    */
     public static function getFirstImagePath(ProductVariant $variant): string
     {
         $image = $variant->getImage();
@@ -35,8 +30,6 @@ final class ProductToolkit
     }
 
     /**
-     * @param ProductVariant $variant
-     *
      * @return array{
      *     hasDiscount: bool,
      *     discountPrice: float|null

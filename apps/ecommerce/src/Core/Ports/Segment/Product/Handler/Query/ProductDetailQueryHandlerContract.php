@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\Product\ValueObject\ProductDetailObject;
 
 interface ProductDetailQueryHandlerContract
 {
-    /**
-     * @param string $url
-     *
-     * @return ProductDetailObject|null
-    */
     public function handle(string $url): ?ProductDetailObject;
 }

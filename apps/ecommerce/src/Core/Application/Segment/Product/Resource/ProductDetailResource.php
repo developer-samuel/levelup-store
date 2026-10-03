@@ -33,11 +33,7 @@ use App\Core\Application\Segment\Review\Resource\ReviewListResource;
 */
 final class ProductDetailResource
 {
-    /**
-     * @param ProductDetailObject $detail
-     *
-     * @return ProductDetailShape
-    */
+    /** @return ProductDetailShape */
     public static function toArray(ProductDetailObject $detail): array
     {
         /** @var array<int, ProductVariant> $variants */
@@ -55,11 +51,7 @@ final class ProductDetailResource
         ];
     }
 
-    /**
-     * @param ProductDetailObject $detail
-     *
-     * @return ProductPriceShape
-    */
+    /** @return ProductPriceShape */
     private static function priceData(ProductDetailObject $detail): array
     {
         return [

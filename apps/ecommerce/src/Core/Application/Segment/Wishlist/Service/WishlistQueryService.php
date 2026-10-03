@@ -21,33 +21,17 @@ use App\Core\Ports\{
 
 final readonly class WishlistQueryService implements WishlistQueryContract
 {
-    /**
-     * @param SecurityProviderContract $securityProvider,
-     * @param WishlistRepositoryContract $wishlistRepository
-     * @param ReviewQueryContract $reviewQuery
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
         private WishlistRepositoryContract $wishlistRepository,
         private ReviewQueryContract $reviewQuery,
     ) {}
 
-    /**
-     * @param User $user
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function exists(User $user, ProductVariant $variant): bool
     {
         return $this->wishlistRepository->exists($user, $variant);
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function inCurrentUserWishlist(ProductVariant $variant): bool
     {
         $currentUser = $this->securityProvider->getCurrentUser();
@@ -55,11 +39,7 @@ final readonly class WishlistQueryService implements WishlistQueryContract
         return $currentUser instanceof User && $this->exists($currentUser, $variant);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return list<array<string, mixed>>
-    */
+    /** @return list<array<string, mixed>> */
     public function fetchAllForUser(User $user): array
     {
         $wishlists = $this->wishlistRepository->findAllByUser($user);

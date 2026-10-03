@@ -20,9 +20,7 @@ use Tests\{
     Support\Provides\Persistence
 };
 
-/**
- * @coversDefaultClass \App\Infrastructure\Auth\Repository\RefreshTokenRepository
-*/
+/** @coversDefaultClass \App\Infrastructure\Auth\Repository\RefreshTokenRepository */
 final class RefreshTokenRepositoryTest extends KernelTestCase
 {
     use Persistence;

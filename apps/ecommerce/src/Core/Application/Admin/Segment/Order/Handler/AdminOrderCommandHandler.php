@@ -23,13 +23,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler
 {
-    /**
-     * @param OrderFetchQueryContract $orderFetchQuery
-     * @param AdminOrderCommandContract $adminOrderCommand
-     * @param AdminOrderValidationQueryContract $adminOrderValidationQuery
-     * @param SecurityPolicyContract $securityPolicy
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly OrderFetchQueryContract $orderFetchQuery,
         private readonly AdminOrderCommandContract $adminOrderCommand,
@@ -43,11 +36,7 @@ final class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler
         );
     }
 
-    /**
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(AdminOrderStatusPayload $payload): array
     {
         return $this->executeAdmin(function() use ($payload) {
@@ -61,12 +50,6 @@ final class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler
         });
     }
 
-    /**
-     * @param Order $order
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return void
-    */
     private function assertStatusCanBeUpdated(Order $order, AdminOrderStatusPayload $payload): void
     {
         $this->adminOrderValidationQuery->checkSameStatus($order, $payload);

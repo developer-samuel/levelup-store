@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Cart\ValueObject\CartItemObject;
 
 interface CartPriceQueryContract
 {
-    /**
-     * @param CartItemObject[] $items
-     *
-     * @return float
-    */
+    /** @param CartItemObject[] $items */
     public function calculateTotalPrice(array $items): float;
 }

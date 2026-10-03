@@ -19,22 +19,11 @@ use App\Core\Ports\{
 
 final readonly class ReviewValidatorQueryService implements ReviewValidatorQueryContract
 {
-    /**
-     * @param OrderItemRepositoryContract $orderItemRepository
-     * @param ReviewRepositoryContract $reviewRepository
-    */
     public function __construct(
         private OrderItemRepositoryContract $orderItemRepository,
         private ReviewRepositoryContract $reviewRepository,
     ) {}
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     * @param int $value
-     *
-     * @return void
-    */
     public function validate(User $user, int $variantId, int $value): void
     {
         $this->validateValue($value);
@@ -42,13 +31,6 @@ final readonly class ReviewValidatorQueryService implements ReviewValidatorQuery
         $this->validateAlreadyReviewed($user, $variantId);
     }
 
-    /**
-     * @param int $value
-     *
-     * @return void
-     *
-     * @throws \DomainException
-    */
     private function validateValue(int $value): void
     {
         if ($value < 1 || $value > 5) {
@@ -56,14 +38,6 @@ final readonly class ReviewValidatorQueryService implements ReviewValidatorQuery
         }
     }
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return void
-     *
-     * @throws AccessDeniedException
-    */
     private function validatePurchase(User $user, int $variantId): void
     {
         if (!$this->orderItemRepository->hasPurchasedVariant($user, $variantId)) {
@@ -73,14 +47,6 @@ final readonly class ReviewValidatorQueryService implements ReviewValidatorQuery
         }
     }
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return void
-     *
-     * @throws ConflictException
-    */
     private function validateAlreadyReviewed(User $user, int $variantId): void
     {
         if ($this->reviewRepository->existsByVariantAndUser($variantId, $user)) {

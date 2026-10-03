@@ -14,14 +14,6 @@ use App\Core\Ports\Admin\Segment\Order\Service\Query\AdminOrderValidationQueryCo
 
 final class AdminOrderValidationQueryService implements AdminOrderValidationQueryContract
 {
-    /**
-     * @param Order $order
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return void
-     *
-     * @throws \DomainException
-    */
     public function checkSameStatus(Order $order, AdminOrderStatusPayload $payload): void
     {
         if ($order->getStatus() === $payload->status) {
@@ -31,13 +23,6 @@ final class AdminOrderValidationQueryService implements AdminOrderValidationQuer
         }
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-     *
-     * @throws \DomainException
-    */
     public function checkRefundedStatus(Order $order): void
     {
         if ($order->getStatus() === OrderStatus::REFUNDED) {
@@ -47,14 +32,6 @@ final class AdminOrderValidationQueryService implements AdminOrderValidationQuer
         }
     }
 
-    /**
-     * @param Order $order
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return void
-     *
-     * @throws \DomainException
-    */
     public function checkCompletedStatus(Order $order, AdminOrderStatusPayload $payload): void
     {
         if ($order->getStatus() === OrderStatus::COMPLETED && $payload->status !== OrderStatus::REFUNDED) {

@@ -17,15 +17,12 @@ use App\Infrastructure\Shared\Traits\SingleResult;
  * @template TEntity of object
  *
  * @extends ServiceEntityRepository<TEntity>
- */
+*/
 abstract class AbstractTokenRepository extends ServiceEntityRepository
 {
     use SingleResult;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param class-string<TEntity> $entityClass
-     */
+    /** @param class-string<TEntity> $entityClass */
     public function __construct(
         ManagerRegistry $registry,
         string $entityClass,
@@ -36,16 +33,8 @@ abstract class AbstractTokenRepository extends ServiceEntityRepository
         );
     }
 
-    /**
-     * @return string
-    */
     abstract protected function getAlias(): string;
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     final public function removeTokensByUser(User $user): void
     {
         $this->getEntityManager()->createQueryBuilder()
@@ -56,9 +45,6 @@ abstract class AbstractTokenRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    /**
-     * @return int
-    */
     final public function deleteExpired(): int
     {
         /** @var int $deleted */
@@ -72,11 +58,7 @@ abstract class AbstractTokenRepository extends ServiceEntityRepository
         return $deleted;
     }
 
-    /**
-     * @param string $token
-     *
-     * @return TEntity|null
-    */
+    /** @return TEntity|null */
     public function findByToken(string $token): ?object
     {
         $qb = $this->createQueryBuilder($this->getAlias())

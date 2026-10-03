@@ -27,13 +27,6 @@ use App\Presentation\{
 
 final class ForgotPasswordCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param ForgotPasswordCommandHandlerContract $forgotPasswordCommandHandler
-     * @param TurnstileGatewayContract $turnstile
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly ForgotPasswordCommandHandlerContract $forgotPasswordCommandHandler,
         private readonly TurnstileGatewayContract $turnstile,
@@ -48,11 +41,6 @@ final class ForgotPasswordCommandController extends AbstractCrudCommandControlle
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         $turnstileToken = $request->request->getString('cf-turnstile-response');
@@ -68,11 +56,7 @@ final class ForgotPasswordCommandController extends AbstractCrudCommandControlle
         );
     }
 
-    /**
-     * @param ForgotPasswordRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleStore(ForgotPasswordRequest $request): array
     {
         $payload = new ForgotPasswordPayload(

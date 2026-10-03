@@ -13,17 +13,6 @@ use App\Core\Ports\Shared\Repository\CleanableTokenRepositoryContract;
 
 interface UserVerificationTokenRepositoryContract extends CleanableTokenRepositoryContract
 {
-    /**
-     * @param string $token
-     *
-     * @return UserVerificationToken|null
-    */
     public function findByToken(string $token): ?UserVerificationToken;
-
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function removeTokensByUser(User $user): void;
 }

@@ -32,20 +32,12 @@ use App\Shared\Utils\Formatter\PriceFormatter;
 */
 final readonly class CartSummaryQueryService implements CartSummaryQueryContract
 {
-    /**
-     * @param CartRepositoryContract $cartRepository
-     * @param ReviewQueryContract $reviewQuery
-    */
     public function __construct(
         private CartRepositoryContract $cartRepository,
         private ReviewQueryContract $reviewQuery,
     ) {}
 
-    /**
-     * @param int $userId
-     *
-     * @return CartSummary
-    */
+    /** @return CartSummary */
     public function getCartSummary(int $userId): array
     {
         $cart = $this->cartRepository->findCartForUser($userId);
@@ -75,11 +67,7 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
         ];
     }
 
-    /**
-     * @param int $userId
-     *
-     * @return CartItemObject[]
-    */
+    /** @return CartItemObject[] */
     public function findCartItemsForUser(int $userId): array
     {
         $summary = $this->getCartSummary($userId);
@@ -88,8 +76,6 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
     }
 
     /**
-     * @param string $message
-     * @param string $html
      * @param CartTotals $summary
      *
      * @return CartResponse
@@ -100,10 +86,7 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
     }
 
     /**
-     * @param string $message
-     * @param string $html
      * @param CartTotals $summary
-     * @param int $status
      *
      * @return CartResponse
     */
@@ -112,9 +95,7 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
         return $this->formatCartResponse($message, $html, $summary, true, $status);
     }
 
-    /**
-     * @return CartSummary
-    */
+    /** @return CartSummary */
     private function getEmptyCartSummary(): array
     {
         return [
@@ -124,24 +105,11 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
         ];
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     private function hasAvailableStock(ProductVariant $variant): bool
     {
         return ProductVariantAvailabilitySpecification::findOneInStock($variant) !== null;
     }
 
-    /**
-     * @param CartItem $item
-     * @param ProductVariant $variant
-     *
-     * @return CartItemObject
-     *
-     * @throws \LogicException
-    */
     private function buildCartItemObject(CartItem $item, ProductVariant $variant): CartItemObject
     {
         $id = IdAssertion::assert(
@@ -166,11 +134,6 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
         );
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return string|null
-    */
     private function formatDiscountPrice(ProductVariant $variant): ?string
     {
         if ($variant->getDiscount() === null) {
@@ -181,11 +144,7 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
     }
 
     /**
-     * @param string $message
-     * @param string $html
      * @param CartTotals $summary
-     * @param bool $isError
-     * @param int|null $status
      *
      * @return CartResponse
     */

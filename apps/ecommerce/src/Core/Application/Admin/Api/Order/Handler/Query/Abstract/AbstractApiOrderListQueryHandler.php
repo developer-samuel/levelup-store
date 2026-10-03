@@ -18,10 +18,6 @@ use App\Core\Ports\{
 
 abstract class AbstractApiOrderListQueryHandler extends AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param OrderRepositoryContract $orderRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         protected readonly OrderRepositoryContract $orderRepository,
         AppLoggerContract $logger,
@@ -29,9 +25,7 @@ abstract class AbstractApiOrderListQueryHandler extends AbstractAdminApiListQuer
         parent::__construct($logger);
     }
 
-    /**
-     * @return OrderStatus[]
-    */
+    /** @return OrderStatus[] */
     abstract protected function getFilterStatuses(): array;
 
     /**
@@ -49,7 +43,7 @@ abstract class AbstractApiOrderListQueryHandler extends AbstractAdminApiListQuer
 
     /**
      * @param array<string, mixed> $context
-     * 
+     *
      * @return array<int, Order>
     */
     protected function getRepositoryClass(array $context = []): array

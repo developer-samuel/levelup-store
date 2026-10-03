@@ -6,8 +6,6 @@ namespace App\Core\Ports\Home;
 
 interface HomeCacheQueryContract
 {
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getHomeData(): array;
 }

@@ -16,33 +16,19 @@ use App\Core\Ports\{
     Segment\Order\Service\Query\OrderDetailQueryContract
 };
 
-/**
- * @phpstan-import-type ItemsWithTotal from OrderDetailQueryContract
-*/
+/** @phpstan-import-type ItemsWithTotal from OrderDetailQueryContract */
 final class OrderDetailQueryService implements OrderDetailQueryContract
 {
-    /**
-     * @param OrderRepositoryContract $orderRepository
-    */
     public function __construct(
         private OrderRepositoryContract $orderRepository,
     ) {}
 
-    /**
-     * @param string $code
-     *
-     * @return Order|null
-    */
     public function fetchOrder(string $code): ?Order
     {
         return $this->orderRepository->findOne(['code' => $code]);
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return ItemsWithTotal
-    */
+    /** @return ItemsWithTotal */
     public function buildItemsWithTotal(Order $order): array
     {
         $itemsViewData = [];
@@ -61,11 +47,6 @@ final class OrderDetailQueryService implements OrderDetailQueryContract
         ];
     }
 
-    /**
-     * @param OrderItem $item
-     *
-     * @return OrderItemObject
-    */
     private function mapItemToView(OrderItem $item): OrderItemObject
     {
         $variant = $item->getVariant();

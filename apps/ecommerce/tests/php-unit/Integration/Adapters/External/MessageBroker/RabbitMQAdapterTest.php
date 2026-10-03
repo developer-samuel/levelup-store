@@ -8,9 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 use App\Adapters\External\MessageBroker\RabbitMQAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\External\MessageBroker\RabbitMQAdapter
-*/
+/** @coversDefaultClass \App\Adapters\External\MessageBroker\RabbitMQAdapter */
 final class RabbitMQAdapterTest extends TestCase
 {
     private string $host;

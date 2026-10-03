@@ -15,24 +15,12 @@ use App\Core\Ports\{
 
 final readonly class RefreshTokenCommandService implements RefreshTokenCommandContract
 {
-    /**
-     * @param JwtGatewayContract $jwtGateway
-     * @param RefreshTokenRepositoryContract $refreshTokenRepository
-     * @param TokenBlacklistContract $tokenBlacklist
-    */
     public function __construct(
         private JwtGatewayContract $jwtGateway,
         private RefreshTokenRepositoryContract $refreshTokenRepository,
         private TokenBlacklistContract $tokenBlacklist,
     ) {}
 
-    /**
-     * @param string $refreshToken
-     *
-     * @return JwtTokenObject
-     *
-     * @throws \DomainException
-    */
     public function execute(string $refreshToken): JwtTokenObject
     {
         if ($this->tokenBlacklist->isBlacklisted($refreshToken)) {

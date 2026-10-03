@@ -20,12 +20,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class DestroyProfileHandler extends AbstractCommandHandler implements DestroyProfileHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param DestroyProfileCommandContract $destroyProfileCommand
-     * @param AuditLoggerContract $audit
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly DestroyProfileCommandContract $destroyProfileCommand,
@@ -35,9 +29,7 @@ final class DestroyProfileHandler extends AbstractCommandHandler implements Dest
         parent::__construct($logger);
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(): array
     {
         return $this->execute(function () {

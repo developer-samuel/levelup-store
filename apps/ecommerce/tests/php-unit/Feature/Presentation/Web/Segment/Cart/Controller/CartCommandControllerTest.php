@@ -22,9 +22,7 @@ use App\Core\Ports\{
 
 use App\Presentation\Web\Segment\Cart\Controller\CartCommandController;
 
-/**
- * @coversDefaultClass \App\Presentation\Web\Segment\Cart\Controller\CartCommandController
-*/
+/** @coversDefaultClass \App\Presentation\Web\Segment\Cart\Controller\CartCommandController */
 final class CartCommandControllerTest extends TestCase
 {
     private CsrfTokenManagerInterface&MockObject $csrfTokenManager;
@@ -164,9 +162,7 @@ final class CartCommandControllerTest extends TestCase
         self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
-    /**
-     * @param array<string, mixed> $params
-    */
+    /** @param array<string, mixed> $params */
     private function buildRequest(array $params): Request
     {
         return Request::create('/', 'POST', $params);

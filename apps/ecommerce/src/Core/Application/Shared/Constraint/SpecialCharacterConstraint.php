@@ -15,9 +15,6 @@ final class SpecialCharacterConstraint extends Constraint
 {
     public string $message;
 
-    /**
-     * @param string $label
-    */
     public function __construct(string $label)
     {
         parent::__construct();
@@ -25,17 +22,12 @@ final class SpecialCharacterConstraint extends Constraint
         $this->message = $label . ' must contain at least one special character.';
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return SpecialCharacterConstraintValidator::class;
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

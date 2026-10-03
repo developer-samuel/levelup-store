@@ -13,20 +13,11 @@ use App\Core\Ports\Segment\Review\Repository\ReviewRepositoryContract;
 #[AsMessageHandler]
 final readonly class ReviewIndexMessageHandler
 {
-    /**
-     * @param ReviewRepositoryContract $reviewRepository
-     * @param ReviewProjector $projector
-    */
     public function __construct(
         private ReviewRepositoryContract $reviewRepository,
         private ReviewProjector $projector,
     ) {}
 
-    /**
-     * @param ReviewIndexMessage $message
-     *
-     * @return void
-    */
     public function __invoke(ReviewIndexMessage $message): void
     {
         $review = $this->reviewRepository->findById($message->reviewId);

@@ -19,12 +19,6 @@ use App\Presentation\{
 
 final class AdminOrderQueryController extends AbstractQueryController
 {
-    /**
-     * @param GetOrderDetailQueryHandlerContract $getOrderDetailQueryHandler
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly GetOrderDetailQueryHandlerContract $getOrderDetailQueryHandler,
         SecurityProviderContract $securityProvider,
@@ -38,19 +32,11 @@ final class AdminOrderQueryController extends AbstractQueryController
         );
     }
 
-    /**
-     * @return Response
-    */
     public function index(): Response
     {
         return $this->renderPage('features/admin/views/order/main/index.html.twig');
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Response
-    */
     public function show(string $code): Response
     {
         $result = $this->getOrderDetailQueryHandler->handle($code);

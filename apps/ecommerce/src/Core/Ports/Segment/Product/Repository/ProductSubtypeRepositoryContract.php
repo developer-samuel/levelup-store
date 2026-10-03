@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Product\Entity\ProductSubtype;
 
 interface ProductSubtypeRepositoryContract
 {
-    /**
-     * @param int $productId
-     *
-     * @return ProductSubtype[]
-    */
+    /** @return ProductSubtype[] */
     public function findAllByProductId(int $productId): array;
 }

@@ -11,9 +11,7 @@ use Twig\{
 
 final class ReviewExtension extends AbstractExtension
 {
-    /**
-     * @return TwigFunction[]
-    */
+    /** @return TwigFunction[] */
     public function getFunctions(): array
     {
         return [
@@ -21,11 +19,6 @@ final class ReviewExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param float $value
-     *
-     * @return string
-    */
     private static function resolveValueText(float $value): string
     {
         return match (true) {

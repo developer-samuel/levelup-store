@@ -18,20 +18,11 @@ use App\Infrastructure\Segment\Order\Email\OrderConfirmationEmail;
 #[AsEventListener(event: OrderConfirmationRequestedEvent::class)]
 final readonly class SendOrderConfirmationEmailEventListener
 {
-    /**
-     * @param OrderConfirmationEmail $orderConfirmationEmail
-     * @param AuditLoggerContract $audit
-    */
     public function __construct(
         private OrderConfirmationEmail $orderConfirmationEmail,
         private AuditLoggerContract $audit,
     ) {}
 
-    /**
-     * @param OrderConfirmationRequestedEvent $event
-     *
-     * @return void
-    */
     public function __invoke(OrderConfirmationRequestedEvent $event): void
     {
         $this->audit->log(

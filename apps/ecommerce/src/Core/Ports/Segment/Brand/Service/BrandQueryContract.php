@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\Brand\Brand;
 
 interface BrandQueryContract
 {
-    /**
-     * @param int $id
-     *
-     * @return Brand
-    */
     public function getBrandByIdOrFail(int $id): Brand;
 }

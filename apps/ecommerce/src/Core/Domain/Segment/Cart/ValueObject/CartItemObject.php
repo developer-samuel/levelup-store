@@ -20,17 +20,6 @@ use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 */
 final readonly class CartItemObject
 {
-    /**
-     * @param int $id
-     * @param int $cartId
-     * @param ProductVariant $variant
-     * @param string $formattedPrice
-     * @param bool $hasDiscount
-     * @param float $averageRating
-     * @param float|null $discountPrice
-     * @param string|null $formattedDiscountPrice
-     * @param string|null $imagePath
-    */
     public function __construct(
         public int $id,
         public int $cartId,
@@ -43,9 +32,7 @@ final readonly class CartItemObject
         public ?string $imagePath = null,
     ) {}
 
-    /**
-     * @return ObjectArray
-    */
+    /** @return ObjectArray */
     public function toArray(): array
     {
         return [

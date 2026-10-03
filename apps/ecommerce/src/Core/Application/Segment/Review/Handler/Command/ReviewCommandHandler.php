@@ -20,11 +20,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class ReviewCommandHandler extends AbstractCommandHandler implements ReviewCommandHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param ReviewValidatorQueryContract $reviewValidatorQuery
-     * @param ReviewCommandContract $reviewCommand
-    */
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly ReviewValidatorQueryContract $reviewValidatorQuery,
@@ -34,11 +29,7 @@ final class ReviewCommandHandler extends AbstractCommandHandler implements Revie
         parent::__construct($logger);
     }
 
-    /**
-     * @param ReviewCreatePayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(ReviewCreatePayload $payload): array
     {
         return $this->execute(function () use ($payload) {

@@ -16,19 +16,11 @@ use App\Core\Ports\{
 
 final readonly class CacheProxy implements CacheProxyContract
 {
-    /**
-     * @param CacheInterface $cache
-    */
     public function __construct(
         private CacheInterface $cache,
     ) {}
 
-    /**
-     * @param string $key
-     * @param callable(CacheItemProxyContract): mixed $callback
-     *
-     * @return mixed
-    */
+    /** @param callable(CacheItemProxyContract): mixed $callback */
     public function get(string $key, callable $callback): mixed
     {
         return $this->cache->get($key, function (ItemInterface $item) use ($callback) {
@@ -38,11 +30,6 @@ final readonly class CacheProxy implements CacheProxyContract
         });
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-    */
     public function delete(string $key): bool
     {
         return $this->cache->delete($key);

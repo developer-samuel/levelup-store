@@ -17,9 +17,7 @@ final readonly class HomeCacheObject
         public array $banners,
     ) {}
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function toArray(): array
     {
         return [

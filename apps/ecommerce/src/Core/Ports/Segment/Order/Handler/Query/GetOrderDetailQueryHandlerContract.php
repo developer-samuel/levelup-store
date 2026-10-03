@@ -11,11 +11,5 @@ use App\Core\Domain\{
 
 interface GetOrderDetailQueryHandlerContract
 {
-    /**
-     * @param string $code
-     * @param User|null $user
-     *
-     * @return OrderDetailObject|null
-    */
     public function handle(string $code, ?User $user = null): ?OrderDetailObject;
 }

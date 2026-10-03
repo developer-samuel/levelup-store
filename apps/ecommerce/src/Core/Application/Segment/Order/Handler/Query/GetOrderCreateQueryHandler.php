@@ -25,13 +25,6 @@ use App\Core\Ports\{
 
 final readonly class GetOrderCreateQueryHandler implements GetOrderCreateQueryHandlerContract
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param CountryCacheQueryContract $countryCacheQuery
-     * @param CartControlQueryContract $cartControlQuery
-     * @param CartControlCommandContract $cartControlCommand
-     * @param EntityPersistenceContract $entityPersistence
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
         private CountryCacheQueryContract $countryCacheQuery,
@@ -40,11 +33,6 @@ final readonly class GetOrderCreateQueryHandler implements GetOrderCreateQueryHa
         private EntityPersistenceContract $entityPersistence,
     ) {}
 
-    /**
-     * @return OrderCreateObject
-     *
-     * @throws AccessDeniedException
-    */
     public function handle(): OrderCreateObject
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -73,21 +61,12 @@ final readonly class GetOrderCreateQueryHandler implements GetOrderCreateQueryHa
         );
     }
 
-    /**
-     * @param User $user
-     *
-     * @return Cart|null
-    */
     private function getUserCart(User $user): ?Cart
     {
         return $this->cartControlQuery->getUserCart($user);
     }
 
-    /**
-     * @param Cart|null $cart
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     private function getCartItems(?Cart $cart): array
     {
         if ($cart === null) {
@@ -125,11 +104,7 @@ final readonly class GetOrderCreateQueryHandler implements GetOrderCreateQueryHa
         ));
     }
 
-    /**
-     * @param CartItem[] $items
-     *
-     * @return void
-    */
+    /** @param CartItem[] $items */
     private function removeItems(array $items): void
     {
         $cart = null;

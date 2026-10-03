@@ -19,9 +19,7 @@ use Tests\{
     Support\Provides\Persistence
 };
 
-/**
- * @coversDefaultClass \App\Infrastructure\Segment\Cart\Repository\CartRepository
-*/
+/** @coversDefaultClass \App\Infrastructure\Segment\Cart\Repository\CartRepository */
 final class CartRepositoryTest extends KernelTestCase
 {
     use Persistence;

@@ -33,13 +33,6 @@ use App\Presentation\{
 
 final class AdminBrandCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param HmacFieldDecoderContract $hmacFieldDecoder
-     * @param AdminBrandCommandHandler $adminBrandHandler
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly HmacFieldDecoderContract $hmacFieldDecoder,
         private readonly AdminBrandCommandHandler $adminBrandHandler,
@@ -54,11 +47,6 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -68,11 +56,6 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function update(Request $request): JsonResponse
     {
         return $this->executeCommand(
@@ -82,11 +65,6 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function destroy(Request $request): JsonResponse
     {
         return $this->executeDeleteCommand(
@@ -95,11 +73,7 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param AdminBrandStoreRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleCreate(AdminBrandStoreRequest $request): array
     {
         $payload = $this->createPayload($request);
@@ -107,11 +81,7 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         return $this->adminBrandHandler->handleCreate($payload);
     }
 
-    /**
-     * @param AdminBrandUpdateRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleUpdate(AdminBrandUpdateRequest $request): array
     {
         $id = $this->decodeId($request);
@@ -121,11 +91,6 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         return $this->adminBrandHandler->handleUpdate($payload);
     }
 
-    /**
-     * @param AdminBrandUpdateRequest $request
-     *
-     * @return int
-    */
     private function decodeId(AdminBrandUpdateRequest $request): int
     {
         $decoded = DataSanitizer::sanitizeInt(
@@ -138,12 +103,6 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param AdminBrandStoreRequest|AdminBrandUpdateRequest $request
-     * @param int|null $id
-     *
-     * @return AdminBrandPayload
-    */
     private function createPayload(AdminBrandStoreRequest|AdminBrandUpdateRequest $request, ?int $id = null): AdminBrandPayload
     {
         return new AdminBrandPayload(

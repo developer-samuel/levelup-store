@@ -23,10 +23,6 @@ final class CountryCacheQueryService implements CountryCacheQueryContract
 
     private CacheProxyContract $cache;
 
-    /**
-     * @param CountryRepositoryContract $countryRepository
-     * @param CacheGatewayContract $cacheGateway
-    */
     public function __construct(
         private readonly CountryRepositoryContract $countryRepository,
         CacheGatewayContract $cacheGateway,
@@ -34,9 +30,7 @@ final class CountryCacheQueryService implements CountryCacheQueryContract
         $this->cache = $cacheGateway->getCache(self::CACHE_POOL);
     }
 
-    /**
-     * @return Country[]
-    */
+    /** @return Country[] */
     public function getAllCountries(): array
     {
         $cacheKey = $this->getCacheKey();
@@ -46,19 +40,12 @@ final class CountryCacheQueryService implements CountryCacheQueryContract
         return array_values($data);
     }
 
-    /**
-     * @return string
-    */
     private function getCacheKey(): string
     {
         return self::CACHE_KEY;
     }
 
-    /**
-     * @param string $cacheKey
-     *
-     * @return Country[]
-    */
+    /** @return Country[] */
     private function fetchCachedData(string $cacheKey): array
     {
         /** @var Country[] $data */
@@ -70,11 +57,7 @@ final class CountryCacheQueryService implements CountryCacheQueryContract
         return $data;
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     *
-     * @return Country[]
-    */
+    /** @return Country[] */
     private function fetchCountries(CacheItemProxyContract $item): array
     {
         $this->configureCacheItem($item);
@@ -82,11 +65,6 @@ final class CountryCacheQueryService implements CountryCacheQueryContract
         return $this->countryRepository->findAll();
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     *
-     * @return void
-    */
     private function configureCacheItem(CacheItemProxyContract $item): void
     {
         $item->expiresAfter(CacheTTLConstants::HALF_YEAR);

@@ -20,46 +20,17 @@ use App\Core\Domain\{
 */
 interface ReviewRepositoryContract
 {
-    /**
-     * @return Review[]
-    */
+    /** @return Review[] */
     public function findAll(): array;
 
-    /**
-     * @param int $variantId
-     * @param int|null $authUserId
-     *
-     * @return Review[]
-    */
+    /** @return Review[] */
     public function findAllByVariant(int $variantId, ?int $authUserId = null): array;
 
-    /**
-     * @param int $variantId
-     * @param User $user
-     *
-     * @return bool
-    */
     public function existsByVariantAndUser(int $variantId, User $user): bool;
-
-    /**
-     * @param int $id
-     *
-     * @return Review|null
-    */
     public function findById(int $id): ?Review;
-
-    /**
-     * @param int $variantId
-     *
-     * @return Review|null
-    */
     public function getLastReviewByVariant(int $variantId): ?Review;
 
-    /**
-     * @param int $variantId
-     *
-     * @return ReviewsSummary
-    */
+    /** @return ReviewsSummary */
     public function getReviewsAndAverageByVariant(int $variantId): array;
 
     /**

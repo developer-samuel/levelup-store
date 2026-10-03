@@ -19,9 +19,6 @@ final class RequestProcessor
      * @template T of object
      *
      * @param T $request
-     * @param ValidatorInterface|null $validator
-     *
-     * @return JsonResponse|null
     */
     public static function process(object $request, ?ValidatorInterface $validator = null): ?JsonResponse
     {

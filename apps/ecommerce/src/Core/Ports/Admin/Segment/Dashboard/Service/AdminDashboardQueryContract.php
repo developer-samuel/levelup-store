@@ -6,18 +6,12 @@ namespace App\Core\Ports\Admin\Segment\Dashboard\Service;
 
 interface AdminDashboardQueryContract
 {
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     public function getOrdersPerDayCurrentMonth(): array;
 
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     public function getOrdersPaidUnpaidCurrentMonth(): array;
 
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     public function getUsersCountLast7Days(): array;
 }

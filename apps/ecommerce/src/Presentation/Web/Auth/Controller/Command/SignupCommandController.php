@@ -29,14 +29,6 @@ use App\Presentation\{
 
 final class SignupCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param SignupHandlerContract $signupHandler
-     * @param RefreshTokenCookieManager $refreshTokenCookieManager
-     * @param TurnstileGatewayContract $turnstile
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         private readonly SignupHandlerContract $signupHandler,
         private readonly RefreshTokenCookieManager $refreshTokenCookieManager,
@@ -52,11 +44,6 @@ final class SignupCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
     public function store(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {
@@ -82,11 +69,7 @@ final class SignupCommandController extends AbstractCrudCommandController
         });
     }
 
-    /**
-     * @param SignupRequest $request
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleStore(SignupRequest $request): array
     {
         $payload = $this->createPayload($request);
@@ -94,11 +77,6 @@ final class SignupCommandController extends AbstractCrudCommandController
         return $this->signupHandler->handle($payload);
     }
 
-    /**
-     * @param SignupRequest $request
-     *
-     * @return SignupPayload
-    */
     private function createPayload(SignupRequest $request): SignupPayload
     {
         return new SignupPayload(

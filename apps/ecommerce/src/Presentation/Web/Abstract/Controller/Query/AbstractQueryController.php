@@ -18,24 +18,13 @@ use App\Presentation\Shared\Responder\ExceptionResponder;
 
 abstract class AbstractQueryController extends AbstractController
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ExceptionResponder $exceptionResponder
-     * @param AppLoggerContract $logger
-    */
     protected function __construct(
         protected readonly SecurityProviderContract $securityProvider,
         protected readonly ExceptionResponder $exceptionResponder,
         protected readonly AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param string $template
-     * @param array<string, mixed> $data
-     *
-     * @return Response
-     *
-    */
+    /** @param array<string, mixed> $data */
     protected function renderPage(string $template, array $data = []): Response
     {
         $user = $this->securityProvider->getCurrentUser();

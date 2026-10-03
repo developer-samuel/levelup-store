@@ -23,13 +23,6 @@ use App\Core\Ports\{
 
 final class AdminVariantEanCommandHandler extends AbstractAdminVariantCommandHandler
 {
-    /**
-     * @param ProductVariantEanRepositoryContract $repository
-     * @param AdminVariantEanCommandContract $adminCommand
-     * @param AdminVariantValidationCommandContract $adminVariantValidationCommand
-     * @param SecurityPolicyContract $securityPolicy
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductVariantEanRepositoryContract $repository,
         private readonly AdminVariantEanCommandContract $adminCommand,
@@ -44,27 +37,16 @@ final class AdminVariantEanCommandHandler extends AbstractAdminVariantCommandHan
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getPayloadClass(): string
     {
         return AdminVariantEanPayload::class;
     }
 
-    /**
-     * @return string
-    */
     protected function getEntityName(): string
     {
         return 'EAN';
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariantEan
-    */
     protected function getEntityOrFail(int $id): ProductVariantEan
     {
         $ean = $this->repository->findById($id);
@@ -73,36 +55,18 @@ final class AdminVariantEanCommandHandler extends AbstractAdminVariantCommandHan
         return $ean;
     }
 
-    /**
-     * @param int $variantId
-     * @param object $payload
-     *
-     * @return void
-    */
     protected function createEntity(int $variantId, object $payload): void
     {
         /** @var AdminVariantEanPayload $payload */
         $this->adminCommand->createEan($variantId, $payload);
     }
 
-    /**
-     * @param int $id
-     * @param int $variantId
-     * @param object $payload
-     *
-     * @return void
-    */
     protected function updateEntity(int $id, int $variantId, object $payload): void
     {
         /** @var AdminVariantEanPayload $payload */
         $this->adminCommand->updateEan($id, $variantId, $payload);
     }
 
-    /**
-     * @param object $entity
-     *
-     * @return void
-    */
     protected function destroyEntity(object $entity): void
     {
         /** @var ProductVariantEan $entity */

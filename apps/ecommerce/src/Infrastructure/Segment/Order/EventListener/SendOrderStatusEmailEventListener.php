@@ -18,20 +18,11 @@ use App\Infrastructure\Segment\Order\Email\OrderStatusEmail;
 #[AsEventListener(event: OrderStatusChangedEvent::class)]
 final readonly class SendOrderStatusEmailEventListener
 {
-    /**
-     * @param OrderStatusEmail $orderStatusEmail
-     * @param AuditLoggerContract $audit
-    */
     public function __construct(
         private OrderStatusEmail $orderStatusEmail,
         private AuditLoggerContract $audit,
     ) {}
 
-    /**
-     * @param OrderStatusChangedEvent $event
-     *
-     * @return void
-    */
     public function __invoke(OrderStatusChangedEvent $event): void
     {
         $this->audit->log(

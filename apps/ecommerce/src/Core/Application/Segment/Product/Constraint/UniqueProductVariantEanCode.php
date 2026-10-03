@@ -19,17 +19,12 @@ final class UniqueProductVariantEanCode extends Constraint
         parent::__construct();
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return UniqueProductVariantEanCodeValidator::class;

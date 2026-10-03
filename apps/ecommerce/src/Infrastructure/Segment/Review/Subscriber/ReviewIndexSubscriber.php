@@ -23,29 +23,17 @@ use App\Infrastructure\Abstract\Subscriber\AbstractIndexSubscriber;
 #[AsDoctrineListener(event: Events::postRemove)]
 final class ReviewIndexSubscriber extends AbstractIndexSubscriber
 {
-    /**
-     * @return class-string
-    */
+    /** @return class-string */
     protected function getEntityClass(): string
     {
         return Review::class;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ReviewIndexMessage
-    */
     protected function createIndexMessage(int $id): object
     {
         return new ReviewIndexMessage($id);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ReviewRemoveMessage
-    */
     protected function createRemoveMessage(int $id): object
     {
         return new ReviewRemoveMessage($id);

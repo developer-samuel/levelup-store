@@ -18,18 +18,10 @@ use App\Core\Ports\{
 
 final readonly class CartControlQueryService implements CartControlQueryContract
 {
-    /**
-     * @param CartRepositoryContract $cartRepository
-    */
     public function __construct(
         private CartRepositoryContract $cartRepository,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return Cart|null
-    */
     public function getUserCart(User $user): ?Cart
     {
         $userId = IdAssertion::assert(

@@ -11,19 +11,6 @@ use App\Core\Domain\{
 
 interface ReviewCommandContract
 {
-    /**
-     * @param ReviewCreatePayload $payload
-     * @param User $user
-     *
-     * @return void
-    */
     public function add(ReviewCreatePayload $payload, User $user): void;
-
-    /**
-     * @param int $id
-     * @param User $user
-     *
-     * @return void
-    */
     public function remove(int $id, User $user): void;
 }

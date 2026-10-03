@@ -66,9 +66,7 @@ class ProductVariant
     #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
     private string $url;
 
-    /**
-     * @var Collection<int, ProductVariantDescription>
-    */
+    /** @var Collection<int, ProductVariantDescription> */
     #[ORM\OneToMany(
         targetEntity: ProductVariantDescription::class,
         mappedBy: 'variant',
@@ -81,9 +79,7 @@ class ProductVariant
     )]
     private Collection $descriptions;
 
-    /**
-     * @var Collection<int, ProductVariantEan>
-    */
+    /** @var Collection<int, ProductVariantEan> */
     #[ORM\OneToMany(
         mappedBy: 'variant',
         targetEntity: ProductVariantEan::class,
@@ -96,9 +92,7 @@ class ProductVariant
     )]
     private Collection $eans;
 
-    /**
-     * @var Collection<int, ProductVariantImage>
-    */
+    /** @var Collection<int, ProductVariantImage> */
     #[ORM\OneToMany(
         targetEntity: ProductVariantImage::class,
         mappedBy: 'variant',

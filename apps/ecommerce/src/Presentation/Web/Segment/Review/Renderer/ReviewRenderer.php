@@ -19,19 +19,10 @@ use App\Core\Ports\Web\Segment\Review\Renderer\ReviewRendererContract;
 
 final readonly class ReviewRenderer implements ReviewRendererContract
 {
-    /**
-     * @param Environment $twig
-    */
     public function __construct(
         private Environment $twig,
     ) {}
 
-    /**
-     * @param ReviewListObject $list
-     * @param ProductVariant $variant
-     *
-     * @return Response
-    */
     public function renderListForVariant(ReviewListObject $list, ProductVariant $variant): Response
     {
         $content = $this->twig->render(

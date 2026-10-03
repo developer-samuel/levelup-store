@@ -38,11 +38,7 @@ use App\Core\Domain\{
 */
 final class ProductCatalogResource
 {
-    /**
-     * @param ProductCatalogObject $catalog
-     *
-     * @return ResourceArray
-     */
+    /** @return ResourceArray */
     public static function toArray(ProductCatalogObject $catalog): array
     {
         return [
@@ -55,11 +51,7 @@ final class ProductCatalogResource
         ];
     }
 
-    /**
-     * @param ProductCatalogObject $catalog
-     *
-     * @return ProductFilterShape
-    */
+    /** @return ProductFilterShape */
     private static function filterData(ProductCatalogObject $catalog): array
     {
         $filter = $catalog->filter;
@@ -75,11 +67,7 @@ final class ProductCatalogResource
         ];
     }
 
-    /**
-     * @param ProductCatalogObject $catalog
-     *
-     * @return ProductPaginationShape
-    */
+    /** @return ProductPaginationShape */
     private static function paginationData(ProductCatalogObject $catalog): array
     {
         $pagination = $catalog->pagination;

@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface OrderShippingRepositoryContract
 {
-    /**
-     * @param Order $order
-     *
-     * @return OrderShipping|null
-    */
     public function findOneByOrder(Order $order): ?OrderShipping;
 }

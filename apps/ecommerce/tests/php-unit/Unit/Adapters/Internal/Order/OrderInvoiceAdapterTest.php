@@ -16,9 +16,7 @@ use App\Core\Ports\{
 
 use App\Adapters\Internal\Order\OrderInvoiceAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\Internal\Order\OrderInvoiceAdapter
-*/
+/** @coversDefaultClass \App\Adapters\Internal\Order\OrderInvoiceAdapter */
 final class OrderInvoiceAdapterTest extends TestCase
 {
     private SnappyPdfGeneratorGatewayContract&MockObject $pdfGenerator;

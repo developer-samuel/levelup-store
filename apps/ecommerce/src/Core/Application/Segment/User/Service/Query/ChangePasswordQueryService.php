@@ -16,21 +16,10 @@ use App\Core\Ports\{
 
 final readonly class ChangePasswordQueryService implements ChangePasswordQueryContract
 {
-    /**
-     * @param PasswordHasherProviderContract $passwordHasherProxy
-    */
     public function __construct(
         private PasswordHasherProviderContract $passwordHasherProxy,
     ) {}
 
-    /**
-     * @param ChangePasswordPayload $payload
-     * @param User $user
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public function requireOldPassword(ChangePasswordPayload $payload, User $user): void
     {
         $this->checkPassword(
@@ -41,12 +30,6 @@ final readonly class ChangePasswordQueryService implements ChangePasswordQueryCo
         );
     }
 
-    /**
-     * @param ChangePasswordPayload $payload
-     * @param User $user
-     *
-     * @return void
-    */
     public function requireNewPassword(ChangePasswordPayload $payload, User $user): void
     {
         $this->checkPassword(
@@ -57,17 +40,6 @@ final readonly class ChangePasswordQueryService implements ChangePasswordQueryCo
         );
     }
 
-    /**
-     * @param User $user
-     * @param mixed $password
-     * @param bool $shouldBeDifferent
-     * @param string $errorMessage
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-     * @throws \DomainException
-    */
     private function checkPassword(User $user, mixed $password, bool $shouldBeDifferent, string $errorMessage): void
     {
         if (!is_string($password) || $password === '') {

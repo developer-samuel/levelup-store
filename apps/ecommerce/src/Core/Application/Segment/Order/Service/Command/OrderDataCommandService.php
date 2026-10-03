@@ -26,23 +26,12 @@ use App\Core\Ports\{
 
 final readonly class OrderDataCommandService implements OrderDataCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param CountryRepositoryContract $countryRepository
-     * @param OrderQueryBuilder $orderQueryBuilder
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private CountryRepositoryContract $countryRepository,
         private OrderQueryBuilder $orderQueryBuilder,
     ) {}
 
-    /**
-     * @param Order $order
-     * @param OrderCreatePayload $payload
-     *
-     * @return void
-    */
     public function attachOrderData(Order $order, OrderCreatePayload $payload): void
     {
         $this->createPersonalData($order, $payload->personal);
@@ -53,12 +42,6 @@ final readonly class OrderDataCommandService implements OrderDataCommandContract
         }
     }
 
-    /**
-     * @param Order $order
-     * @param OrderPersonalObject $personal
-     *
-     * @return void
-    */
     private function createPersonalData(Order $order, OrderPersonalObject $personal): void
     {
         $personal = (new OrderPersonal())
@@ -70,12 +53,6 @@ final readonly class OrderDataCommandService implements OrderDataCommandContract
         $this->entityPersistence->persist($personal);
     }
 
-    /**
-     * @param Order $order
-     * @param OrderBillingObject $billing
-     *
-     * @return void
-    */
     private function createBillingData(Order $order, OrderBillingObject $billing): void
     {
         $this->orderQueryBuilder->orderValidatorQuery->validateBillingData($billing);
@@ -92,12 +69,6 @@ final readonly class OrderDataCommandService implements OrderDataCommandContract
         $this->entityPersistence->persist($billing);
     }
 
-    /**
-     * @param Order $order
-     * @param OrderShippingObject $shipping
-     *
-     * @return void
-    */
     private function createShippingData(Order $order, OrderShippingObject $shipping): void
     {
         $this->orderQueryBuilder->orderValidatorQuery->validateShippingData($shipping);
@@ -108,13 +79,6 @@ final readonly class OrderDataCommandService implements OrderDataCommandContract
         $this->entityPersistence->persist($shipping);
     }
 
-    /**
-     * @param Order $order
-     * @param Country $country
-     * @param OrderShippingObject $shipping
-     *
-     * @return OrderShipping
-    */
     private function createOrderShippingEntity(Order $order, Country $country, OrderShippingObject $shipping): OrderShipping
     {
         return (new OrderShipping())

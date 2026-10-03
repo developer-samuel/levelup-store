@@ -24,17 +24,10 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<CartItem>
-*/
+/** @extends AbstractTask<CartItem> */
 #[AsMessageHandler]
 final class CartStockCleanupTask extends AbstractTask
 {
-    /**
-     * @param CartItemRepositoryContract $cartItemRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly CartItemRepositoryContract $cartItemRepository,
         EntityManagerInterface $entityManager,
@@ -43,37 +36,22 @@ final class CartStockCleanupTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param CartStockCleanupMessage $message
-     *
-     * @return void
-    */
     public function __invoke(CartStockCleanupMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'CartStockCleanupTask';
     }
 
-    /**
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     protected function fetchItems(): iterable
     {
         return $this->cartItemRepository->findAllWithVariant();
     }
 
-    /**
-     * @param iterable<CartItem> $items
-     *
-     * @return int
-    */
     protected function processItems(iterable $items): int
     {
         $count = 0;
@@ -106,11 +84,7 @@ final class CartStockCleanupTask extends AbstractTask
         return $count;
     }
 
-    /**
-     * @param Cart[] $carts
-     *
-     * @return void
-    */
+    /** @param Cart[] $carts */
     private function removeEmptyCarts(array $carts): void
     {
         foreach ($carts as $cart) {

@@ -34,13 +34,6 @@ use App\Presentation\{
 
 final class OrderCommandController extends AbstractCommandController
 {
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param ValidatorInterface $validator
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param CreateOrderHandlerContract $createOrderHandler
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
         private readonly ValidatorInterface $validator,
@@ -51,11 +44,6 @@ final class OrderCommandController extends AbstractCommandController
         parent::__construct($logger);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-    */
     public function store(Request $request): Response {
         return $this->handleCommand(function () use ($request) {
             $orderRequest = OrderRequest::fromHttpRequest(
@@ -78,13 +66,6 @@ final class OrderCommandController extends AbstractCommandController
         });
     }
 
-    /**
-     * @param OrderRequest $request
-     *
-     * @return OrderCreatePayload
-     *
-     * @throws \InvalidArgumentException
-    */
     private function createPayload(OrderRequest $request): OrderCreatePayload
     {
         $sendShipping = $request->send_shipping;
@@ -99,11 +80,6 @@ final class OrderCommandController extends AbstractCommandController
         );
     }
 
-    /**
-     * @param OrderRequest $request
-     *
-     * @return OrderPersonalObject
-    */
     private function createPersonalObject(OrderRequest $request): OrderPersonalObject
     {
         return new OrderPersonalObject(
@@ -113,11 +89,6 @@ final class OrderCommandController extends AbstractCommandController
         );
     }
 
-    /**
-     * @param OrderRequest $request
-     *
-     * @return OrderBillingObject
-    */
     private function createBillingObject(OrderRequest $request): OrderBillingObject
     {
         return new OrderBillingObject(
@@ -128,11 +99,6 @@ final class OrderCommandController extends AbstractCommandController
         );
     }
 
-    /**
-     * @param OrderRequest $request
-     *
-     * @return OrderShippingObject
-    */
     private function createShippingObject(OrderRequest $request): OrderShippingObject
     {
         return new OrderShippingObject(
@@ -143,13 +109,6 @@ final class OrderCommandController extends AbstractCommandController
         );
     }
 
-    /**
-     * @param string $paymentMethod
-     *
-     * @return OrderPaymentMethod
-     *
-     * @throws \InvalidArgumentException
-    */
     private function validateAndMapPaymentMethod(string $paymentMethod): OrderPaymentMethod
     {
         $method = OrderPaymentMethod::tryFrom($paymentMethod);

@@ -21,21 +21,11 @@ use App\Core\Ports\{
 
 final readonly class ProfileCommandService implements ProfileCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param UserAddressCommandContract $userAddressCommand
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private UserAddressCommandContract $userAddressCommand,
     ) {}
 
-    /**
-     * @param User $user
-     * @param ProfilePayload $payload
-     *
-     * @return void
-    */
     public function updateProfile(User $user, ProfilePayload $payload): void
     {
         $this->updateUserBasicInfo($user, $payload);
@@ -44,12 +34,6 @@ final readonly class ProfileCommandService implements ProfileCommandContract
         $this->entityPersistence->persist($user, true);
     }
 
-    /**
-     * @param User $user
-     * @param ProfilePayload $payload
-     *
-     * @return void
-    */
     private function updateUserBasicInfo(User $user, ProfilePayload $payload): void
     {
         $firstName = NameFormatter::formatName($payload->firstName);
@@ -61,12 +45,6 @@ final readonly class ProfileCommandService implements ProfileCommandContract
         $user->setUpdatedAt();
     }
 
-    /**
-     * @param User $user
-     * @param ProfilePayload $payload
-     *
-     * @return void
-    */
     private function processUserAddresses(User $user, ProfilePayload $payload): void
     {
         $this->userAddressCommand->processAddressEntity(

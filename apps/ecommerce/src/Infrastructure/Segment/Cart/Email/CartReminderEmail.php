@@ -17,11 +17,6 @@ use App\Infrastructure\Abstract\Email\AbstractEmail;
 
 final class CartReminderEmail extends AbstractEmail implements CartReminderEmailContract
 {
-    /**
-     * @param CartReminderEmailRendererContract $renderer
-     * @param MailerInterface $mailer
-     * @param string $fromEmail
-    */
     public function __construct(
         private readonly CartReminderEmailRendererContract $renderer,
         MailerInterface $mailer,
@@ -29,14 +24,7 @@ final class CartReminderEmail extends AbstractEmail implements CartReminderEmail
     ) {
         parent::__construct($mailer, $fromEmail);
     }
-
-    /**
-     * @param User $user
-     * @param int $daysRemaining
-     * @param string $cartUrl
-     *
-     * @return void
-    */
+    
     public function send(User $user, int $daysRemaining, string $cartUrl): void
     {
         $email = $this->createBaseEmail(

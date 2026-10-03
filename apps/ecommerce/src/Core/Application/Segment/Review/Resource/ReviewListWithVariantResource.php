@@ -11,15 +11,10 @@ use App\Core\Domain\{
     Segment\Review\ValueObject\ReviewObject
 };
 
-/**
- * @phpstan-import-type ResourceArray from ReviewListResource
- */
+/** @phpstan-import-type ResourceArray from ReviewListResource */
 final class ReviewListWithVariantResource
 {
     /**
-     * @param ReviewListObject|null $list
-     * @param ProductVariant $variant
-     *
      * @return array{
      *     reviewExists: bool,
      *     averageRating: float,

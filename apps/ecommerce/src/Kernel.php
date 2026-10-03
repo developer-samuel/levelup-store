@@ -14,11 +14,6 @@ final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    /**
-     * @param RoutingConfigurator $routes
-     *
-     * @return void
-    */
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $routes->import($this->getProjectDir() . '/config/routes/api.php');

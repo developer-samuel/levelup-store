@@ -23,38 +23,22 @@ use App\Core\Ports\{
 
 final readonly class OrderPreparationQueryService implements OrderPreparationQueryContract
 {
-    /**
-     * @param CartSummaryQueryContract $cartSummaryQuery
-    */
     public function __construct(
         private CartSummaryQueryContract $cartSummaryQuery,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return int
-    */
     public function validateUserId(User $user): int
     {
         return IdAssertion::assert($user->getId(), 'User ID');
     }
 
-    /**
-     * @param int $userId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getCartSummary(int $userId): array
     {
         return $this->cartSummaryQuery->getCartSummary($userId);
     }
 
-    /**
-     * @param array<string, mixed> $cartSummary
-     *
-     * @return float
-    */
+    /** @param array<string, mixed> $cartSummary */
     public function extractTotalPrice(array $cartSummary): float
     {
         if (!isset($cartSummary['totalPrice'])) {
@@ -64,11 +48,6 @@ final readonly class OrderPreparationQueryService implements OrderPreparationQue
         return DataSanitizer::sanitizeFloat($cartSummary['totalPrice']) ?? 0.0;
     }
 
-    /**
-     * @param OrderCreatePayload $payload
-     *
-     * @return OrderPaymentMethod
-    */
     public function resolvePaymentMethod(OrderCreatePayload $payload): OrderPaymentMethod
     {
         $method = StringNormalizer::toLowerCase(trim($payload->paymentMethod->value));
@@ -85,11 +64,6 @@ final readonly class OrderPreparationQueryService implements OrderPreparationQue
         return $resolved;
     }
 
-    /**
-     * @param string $paymentMethod
-     *
-     * @return OrderPaymentMethod
-    */
     public function getPaymentMethod(string $paymentMethod): OrderPaymentMethod
     {
         return OrderPaymentMethod::from(StringNormalizer::toLowerCase($paymentMethod));

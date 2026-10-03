@@ -18,10 +18,6 @@ use App\Core\Ports\{
 
 final class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param UserRepositoryContract $userRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly UserRepositoryContract $userRepository,
         AppLoggerContract $logger,
@@ -31,7 +27,7 @@ final class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandle
 
     /**
      * @param array<string, mixed> $context
-     * 
+     *
      * @return User[]
     */
     protected function getRepositoryClass(array $context = []): array
@@ -39,9 +35,6 @@ final class AdminApiUserListQueryHandler extends AbstractAdminApiListQueryHandle
         return $this->userRepository->findAll();
     }
 
-    /**
-     * @return string
-    */
     protected function getResourceClass(): string
     {
         return AdminApiUserResource::class;

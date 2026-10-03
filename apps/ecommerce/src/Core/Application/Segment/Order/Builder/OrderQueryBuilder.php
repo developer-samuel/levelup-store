@@ -16,15 +16,6 @@ use App\Core\Ports\{
 
 final readonly class OrderQueryBuilder
 {
-    /**
-     * @param OrderCountryQueryContract $orderCountryQuery
-     * @param OrderPreparationQueryContract $orderPreparationQuery
-     * @param OrderItemQueryContract $orderItemQuery
-     * @param OrderPriceQueryContract $orderPriceQuery
-     * @param OrderPaymentQueryContract $orderPaymentQuery
-     * @param OrderValidatorQueryContract $orderValidatorQuery
-     * @param OrderCacheQueryContract $orderCacheQuery
-    */
     public function __construct(
         public OrderCountryQueryContract $orderCountryQuery,
         public OrderPreparationQueryContract $orderPreparationQuery,

@@ -16,22 +16,12 @@ use App\Core\Ports\{
 
 final readonly class DestroyProfileCommandService implements DestroyProfileCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param TokenStorageInterface $tokenStorage
-     * @param RefreshTokenRepositoryContract $refreshTokenRepository
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private TokenStorageInterface $tokenStorage,
         private RefreshTokenRepositoryContract $refreshTokenRepository,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function destroyProfile(User $user): void
     {
         $this->refreshTokenRepository->removeTokensByUser($user);

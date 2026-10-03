@@ -25,9 +25,7 @@ use Tests\{
     Support\Provides\Persistence
 };
 
-/**
- * @coversDefaultClass \App\Presentation\Web\Segment\Order\Controller\Command\OrderCommandController
-*/
+/** @coversDefaultClass \App\Presentation\Web\Segment\Order\Controller\Command\OrderCommandController */
 final class OrderCommandControllerTest extends WebTestCase
 {
     use DecodesJson;
@@ -137,9 +135,7 @@ final class OrderCommandControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(403);
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function loginWithHandler(array $returnValue): void
     {
         $this->client->loginUser($this->user);
@@ -166,9 +162,7 @@ final class OrderCommandControllerTest extends WebTestCase
         return $user;
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function buildOrderPayload(string $paymentMethod = 'card'): array
     {
         return [
@@ -184,9 +178,7 @@ final class OrderCommandControllerTest extends WebTestCase
         ];
     }
 
-    /**
-     * @param array<string, mixed> $returnValue
-    */
+    /** @param array<string, mixed> $returnValue */
     private function createHandlerMock(array $returnValue): CreateOrderHandlerContract&MockObject
     {
         $handler = $this->createMock(CreateOrderHandlerContract::class);

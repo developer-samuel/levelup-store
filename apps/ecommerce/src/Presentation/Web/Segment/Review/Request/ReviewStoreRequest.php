@@ -21,18 +21,10 @@ final class ReviewStoreRequest extends AbstractRequest
 {
     use ReviewStoreInput;
 
-    /**
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-    */
     public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
         parent::__construct($csrfTokenManager);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return void
-    */
     protected function populateData(Request $request): void
     {
         $data = $request->request;
@@ -44,11 +36,6 @@ final class ReviewStoreRequest extends AbstractRequest
         $this->negatives = DataSanitizer::sanitizeStringArray($data->all('negatives'));
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-    */
     #[Assert\Callback]
     public function validateCsrf(ExecutionContextInterface $context): void
     {

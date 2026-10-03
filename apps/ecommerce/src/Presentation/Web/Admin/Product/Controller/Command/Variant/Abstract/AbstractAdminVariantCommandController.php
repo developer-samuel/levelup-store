@@ -23,12 +23,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 abstract class AbstractAdminVariantCommandController extends AbstractCrudCommandController
 {
-    /**
-     * @param HmacFieldDecoderContract $hmacFieldDecoder
-     * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param AppLoggerContract $logger
-     * @param ValidatorInterface $validator
-    */
     public function __construct(
         protected readonly HmacFieldDecoderContract $hmacFieldDecoder,
         CsrfTokenManagerInterface $csrfTokenManager,
@@ -42,11 +36,6 @@ abstract class AbstractAdminVariantCommandController extends AbstractCrudCommand
         );
     }
 
-    /**
-     * @param string $action
-     *
-     * @return string
-    */
     abstract protected function getSuccessMessage(string $action): string;
 
     /**
@@ -92,32 +81,16 @@ abstract class AbstractAdminVariantCommandController extends AbstractCrudCommand
         return ApiResultFormatter::success($this->getSuccessMessage('updated'));
     }
 
-    /**
-     * @param object $request
-     *
-     * @return string
-    */
     private function prepareVariantId(object $request): string
     {
         return $this->ensureProperty($request, 'variantId');
     }
 
-    /**
-     * @param object $request
-     *
-     * @return string
-    */
     private function prepareId(object $request): string
     {
         return $this->ensureProperty($request, 'id');
     }
 
-    /**
-     * @param object $request
-     * @param string $propertyName
-     *
-     * @return string
-    */
     private function ensureProperty(object $request, string $propertyName): string
     {
         $decoded = match ($propertyName) {
@@ -134,11 +107,6 @@ abstract class AbstractAdminVariantCommandController extends AbstractCrudCommand
         return $decodedString;
     }
 
-    /**
-     * @param object $request
-     *
-     * @return int
-    */
     private function decodeVariantId(object $request): int
     {
         return IdDecoder::decode(
@@ -148,11 +116,6 @@ abstract class AbstractAdminVariantCommandController extends AbstractCrudCommand
         );
     }
 
-    /**
-     * @param object $request
-     *
-     * @return int
-    */
     private function decodeId(object $request): int
     {
         return IdDecoder::decode(

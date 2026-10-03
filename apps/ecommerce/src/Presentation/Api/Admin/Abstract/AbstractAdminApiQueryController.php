@@ -13,12 +13,7 @@ use App\Presentation\{
 
 abstract class AbstractAdminApiQueryController extends AbstractQueryController
 {
-    /**
-     * @param array<array<string, mixed>>|null $data
-     * @param string $key
-     *
-     * @return JsonResponse
-    */
+    /** @param array<array<string, mixed>>|null $data */
     protected function respondWithList(?array $data, string $key): JsonResponse
     {
         if ($data === null || $data === []) {
