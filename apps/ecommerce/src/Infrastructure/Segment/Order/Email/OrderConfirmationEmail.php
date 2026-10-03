@@ -14,7 +14,7 @@ use App\Core\Domain\{
     Segment\Order\ValueObject\Email\OrderItemEmailObject
 };
 
-use App\Core\Ports\Segment\Order\Renderer\Email\OrderConfirmationEmailRendererContract;
+use App\Core\Ports\Web\Segment\Order\Renderer\Email\OrderConfirmationEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 

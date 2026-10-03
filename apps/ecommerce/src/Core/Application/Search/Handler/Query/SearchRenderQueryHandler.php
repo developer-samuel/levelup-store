@@ -6,8 +6,8 @@ namespace App\Core\Application\Search\Handler\Query;
 
 use App\Core\Ports\{
     Search\Handler\Query\SearchRenderQueryHandlerContract,
-    Search\Renderer\SearchRendererContract,
-    Search\Service\SearchQueryContract
+    Search\Service\SearchQueryContract,
+    Web\Search\Renderer\SearchRendererContract
 };
 
 final readonly class SearchRenderQueryHandler implements SearchRenderQueryHandlerContract

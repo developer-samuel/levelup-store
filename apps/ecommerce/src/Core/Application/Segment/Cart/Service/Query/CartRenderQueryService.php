@@ -14,10 +14,10 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Cart\Resource\CartSummaryResource;
 
 use App\Core\Ports\{
-    Segment\Cart\Renderer\CartRendererContract,
     Segment\Cart\Service\Query\CartPriceQueryContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
-    Segment\Cart\Service\Query\CartSummaryQueryContract
+    Segment\Cart\Service\Query\CartSummaryQueryContract,
+    Web\Segment\Cart\Renderer\CartRendererContract
 };
 
 /**

@@ -11,7 +11,7 @@ use Symfony\{
 
 use App\Core\Domain\Segment\Order\Entity\Order;
 
-use App\Core\Ports\Segment\Order\Renderer\Email\OrderStatusEmailRendererContract;
+use App\Core\Ports\Web\Segment\Order\Renderer\Email\OrderStatusEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 

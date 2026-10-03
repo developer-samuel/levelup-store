@@ -21,6 +21,7 @@ final class Kernel extends BaseKernel
     */
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
+        $routes->import($this->getProjectDir() . '/config/routes/api.php');
         $routes->import($this->getProjectDir() . '/config/routes/web.php');
     }
 }

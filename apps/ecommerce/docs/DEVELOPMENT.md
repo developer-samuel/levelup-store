@@ -27,6 +27,11 @@ cd apps/ecommerce
 php bin/console cache:clear
 php bin/console cache:warmup
 
+# List all registered routes (name, method, path)
+make routes
+# or manually:
+cd apps/ecommerce && php bin/console debug:router
+
 # Start local development servers (PHP + frontend)
 make serve
 # or manually:

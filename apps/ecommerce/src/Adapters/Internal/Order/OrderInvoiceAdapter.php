@@ -7,7 +7,7 @@ namespace App\Adapters\Internal\Order;
 use App\Core\Ports\{
     Gateways\Internal\Order\OrderInvoiceGatewayContract,
     Gateways\External\Pdf\SnappyPdfGeneratorGatewayContract,
-    Segment\Order\Renderer\OrderInvoicePdfRendererContract
+    Web\Segment\Order\Renderer\OrderInvoicePdfRendererContract
 };
 
 final readonly class OrderInvoiceAdapter implements OrderInvoiceGatewayContract
