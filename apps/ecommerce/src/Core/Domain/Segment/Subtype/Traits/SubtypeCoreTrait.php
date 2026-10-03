@@ -19,7 +19,6 @@ trait SubtypeCoreTrait
 
     public function hasVariants(): bool
     {
-        /** @var ProductSubtype $productSubtype */
         foreach ($this->productSubtypes as $productSubtype) {
             $product = $productSubtype->getProduct();
             if ($product !== null && !$product->getVariants()->isEmpty()) {
