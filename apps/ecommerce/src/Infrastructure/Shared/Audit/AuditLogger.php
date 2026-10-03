@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Segment\Audit;
+namespace App\Infrastructure\Shared\Audit;
 
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
 use App\Core\Domain\{
-    Segment\Audit\Entity\AuditLog,
-    Segment\Audit\Enum\AuditAction,
+    Shared\Audit\Entity\AuditLog,
+    Shared\Audit\Enum\AuditAction,
     Segment\User\Entity\User
 };
 
-use App\Core\Ports\Segment\Audit\AuditLoggerContract;
+use App\Core\Ports\Shared\Audit\AuditLoggerContract;
 
 use App\Infrastructure\Shared\Http\RequestMetadata;
 

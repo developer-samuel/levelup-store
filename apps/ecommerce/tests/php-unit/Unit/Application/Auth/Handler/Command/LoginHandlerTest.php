@@ -22,8 +22,8 @@ use App\Core\Ports\{
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
     Security\Provider\PasswordHasherProviderContract,
-    Segment\Audit\AuditLoggerContract,
     Segment\User\Repository\UserRepositoryContract,
+    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract,
     Shared\RateLimiter\RateLimiterContract
 };

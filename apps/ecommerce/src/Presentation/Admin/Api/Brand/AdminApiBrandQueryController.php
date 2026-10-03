@@ -6,6 +6,8 @@ namespace App\Presentation\Admin\Api\Brand;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Application\Admin\Api\Brand\Handler\AdminApiBrandListQueryHandler;
 
 use App\Core\Ports\{
@@ -39,9 +41,17 @@ final class AdminApiBrandQueryController extends AbstractAdminApiQueryController
         );
     }
 
-    /**
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/admin/brands/list',
+        summary: 'List all brands',
+        tags: ['Admin - Brands'],
+        responses: [
+            new OA\Response(response: 200, description: 'Brands list'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 403, description: 'Insufficient permissions'),
+            new OA\Response(response: 404, description: 'Resource not found'),
+        ],
+    )]
     public function list(): JsonResponse
     {
         $brands = $this->brandListQueryHandler->handle();

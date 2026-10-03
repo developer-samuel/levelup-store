@@ -6,7 +6,7 @@ namespace App\Core\Application\Auth\Handler\Command;
 
 use App\Core\Domain\{
     Auth\Payload\LoginPayload,
-    Segment\Audit\Enum\AuditAction,
+    Shared\Audit\Enum\AuditAction,
     Segment\User\Entity\User
 };
 
@@ -17,7 +17,7 @@ use App\Core\Ports\{
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
     Security\Provider\PasswordHasherProviderContract,
-    Segment\Audit\AuditLoggerContract,
+    Shared\Audit\AuditLoggerContract,
     Segment\User\Repository\UserRepositoryContract,
     Shared\Logging\AppLoggerContract,
     Shared\RateLimiter\RateLimiterContract

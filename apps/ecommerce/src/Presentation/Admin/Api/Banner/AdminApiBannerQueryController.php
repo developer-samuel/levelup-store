@@ -6,6 +6,8 @@ namespace App\Presentation\Admin\Api\Banner;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Application\Admin\Api\Banner\Handler\AdminApiBannerListQueryHandler;
 
 use App\Core\Ports\{
@@ -39,9 +41,17 @@ final class AdminApiBannerQueryController extends AbstractAdminApiQueryControlle
         );
     }
 
-    /**
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/admin/banners/list',
+        summary: 'List all banners',
+        tags: ['Admin - Banners'],
+        responses: [
+            new OA\Response(response: 200, description: 'Banners list'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 403, description: 'Insufficient permissions'),
+            new OA\Response(response: 404, description: 'Resource not found'),
+        ],
+    )]
     public function list(): JsonResponse
     {
         $banners = $this->bannerListQueryHandler->handle();

@@ -10,6 +10,8 @@ use Symfony\{
     Component\HttpFoundation\Request
 };
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Ports\{
     Search\Handler\Query\SearchRenderQueryHandlerContract,
     Shared\Logging\AppLoggerContract
@@ -30,11 +32,19 @@ final class SearchApiQueryController extends AbstractController
         private readonly AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/search',
+        summary: 'Search products',
+        tags: ['Search'],
+        security: [],
+        parameters: [
+            new OA\Parameter(name: 'query', in: 'query', required: true, schema: new OA\Schema(type: 'string')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Search results'),
+            new OA\Response(response: 500, description: 'Internal server error'),
+        ],
+    )]
    public function search(Request $request): JsonResponse
     {
         $query = $request->query->getString('query');

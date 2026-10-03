@@ -6,6 +6,8 @@ namespace App\Presentation\Admin\Api\Product\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Application\Admin\Api\Product\Handler\Query\AdminApiProductSubtypeListQueryHandler;
 
 use App\Core\Ports\{
@@ -39,11 +41,20 @@ final class AdminApiProductSubtypeQueryController extends AbstractAdminApiQueryC
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/admin/products/subtypes/list/{id}',
+        summary: 'List product subtypes for a given product',
+        tags: ['Admin - Products'],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Subtypes list'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 403, description: 'Insufficient permissions'),
+            new OA\Response(response: 404, description: 'Resource not found'),
+        ],
+    )]
     public function list(int $id): JsonResponse
     {
         $subtypes = $this->subtypeListQueryHandler->handle(['id' => $id]);

@@ -120,6 +120,16 @@ make setup-watch
 # or
 docker logs levelup_store_ecommerce_app_setup -f &
 docker logs levelup_store_assistant_app_setup -f
+
+# Restart ecommerce app containers (app + worker + cron + nginx)
+make restart-app-ecommerce
+# or
+docker compose --env-file apps/ecommerce/.env --env-file apps/assistant/.env restart ecommerce_app ecommerce_worker ecommerce_cron nginx
+
+# Restart assistant app containers (app + worker + cron)
+make restart-app-assistant
+# or
+docker compose --env-file apps/ecommerce/.env --env-file apps/assistant/.env restart assistant_app assistant_worker assistant_cron
 ```
 
 ---

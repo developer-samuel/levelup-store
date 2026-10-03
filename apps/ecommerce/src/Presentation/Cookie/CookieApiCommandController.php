@@ -6,6 +6,8 @@ namespace App\Presentation\Cookie;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Application\Cookie\CookieFactory;
 
 use App\Core\Ports\{
@@ -33,9 +35,15 @@ final class CookieApiCommandController extends AbstractCommandController
         parent::__construct($logger);
     }
 
-    /**
-     * @return JsonResponse
-    */
+    #[OA\Post(
+        path: '/api/cookies/store',
+        summary: 'Save cookie consent preferences',
+        tags: ['Cookies'],
+        security: [],
+        responses: [
+            new OA\Response(response: 200, description: 'Cookie preferences saved'),
+        ],
+    )]
     public function store(): JsonResponse
     {
         return $this->handleCommand(function () {

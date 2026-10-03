@@ -7,11 +7,11 @@ namespace App\Infrastructure\Segment\Order\EventListener;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 use App\Core\Domain\{
-    Segment\Audit\Enum\AuditAction,
+    Shared\Audit\Enum\AuditAction,
     Segment\Order\Event\OrderStatusChangedEvent
 };
 
-use App\Core\Ports\Segment\Audit\AuditLoggerContract;
+use App\Core\Ports\Shared\Audit\AuditLoggerContract;
 
 use App\Infrastructure\Segment\Order\Email\OrderStatusEmail;
 

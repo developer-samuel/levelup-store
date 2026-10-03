@@ -158,3 +158,13 @@ Internally runs in this order:
 13. `monitoring-secrets`
 14. `blackbox-install`
 15. `velero-install`
+
+---
+
+## Load Testing
+
+k6 scripts live in `infrastructure/k6/`. `APP_URL` is auto-loaded from `.env.production`.
+
+| Command             | Description                                                                  |
+|---------------------|------------------------------------------------------------------------------|
+| `make k6-ecommerce` | Load test all ecommerce endpoints (auth, search, assistant, health, cookies) |

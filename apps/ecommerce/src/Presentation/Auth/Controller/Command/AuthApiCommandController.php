@@ -11,6 +11,8 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Domain\Auth\Payload\LoginPayload;
 
 use App\Core\Ports\{
@@ -59,11 +61,25 @@ final class AuthApiCommandController extends AbstractCrudCommandController
         );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
+    #[OA\Post(
+        path: '/api/auth/login',
+        summary: 'Login with email and password',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(properties: [
+                new OA\Property(property: 'email', type: 'string', format: 'email'),
+                new OA\Property(property: 'password', type: 'string', format: 'password'),
+                new OA\Property(property: 'cf_turnstile_response', type: 'string'),
+                new OA\Property(property: '_csrf_token', type: 'string'),
+            ]),
+        ),
+        tags: ['Auth'],
+        security: [],
+        responses: [
+            new OA\Response(response: 200, description: 'JWT token issued'),
+            new OA\Response(response: 422, description: 'Validation error or turnstile failed'),
+        ],
+    )]
     public function login(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {
@@ -91,11 +107,16 @@ final class AuthApiCommandController extends AbstractCrudCommandController
         });
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
+    #[OA\Post(
+        path: '/api/auth/refresh',
+        summary: 'Refresh JWT using refresh_token cookie',
+        tags: ['Auth'],
+        security: [],
+        responses: [
+            new OA\Response(response: 200, description: 'New JWT token issued'),
+            new OA\Response(response: 401, description: 'Invalid or missing refresh token'),
+        ],
+    )]
     public function refresh(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {
@@ -108,11 +129,14 @@ final class AuthApiCommandController extends AbstractCrudCommandController
         });
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-    */
+    #[OA\Post(
+        path: '/api/auth/logout',
+        summary: 'Logout and invalidate refresh token',
+        tags: ['Auth'],
+        responses: [
+            new OA\Response(response: 200, description: 'Logged out successfully'),
+        ],
+    )]
     public function logout(Request $request): JsonResponse
     {
         return $this->handleCommand(function () use ($request) {

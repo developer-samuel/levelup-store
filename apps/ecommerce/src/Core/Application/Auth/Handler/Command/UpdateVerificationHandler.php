@@ -7,14 +7,14 @@ namespace App\Core\Application\Auth\Handler\Command;
 use App\Core\Domain\{
     Auth\Payload\UpdateVerificationPayload,
     Auth\ValueObject\JwtTokenObject,
-    Segment\Audit\Enum\AuditAction
+    Shared\Audit\Enum\AuditAction
 };
 
 use App\Core\Ports\{
     Auth\Handler\Command\UpdateVerificationHandlerContract,
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Command\VerificationCommandContract,
-    Segment\Audit\AuditLoggerContract,
+    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract
 };
 

@@ -6,6 +6,8 @@ namespace App\Presentation\Dev;
 
 use Doctrine\DBAL\Connection;
 
+use OpenApi\Attributes as OA;
+
 use Stripe\{
     Stripe,
     StripeClient
@@ -25,7 +27,7 @@ use App\Core\Ports\{
     Gateways\External\Storage\StorageGatewayContract
 };
 
-final class HealthCheckController extends AbstractController
+final class HealthCheckApiController extends AbstractController
 {
     private const DISK_MIN_FREE_BYTES = 1024 * 1024 * 1024;
     private const MAILER_TIMEOUT = 3;
@@ -49,9 +51,27 @@ final class HealthCheckController extends AbstractController
         private readonly HealthCheckConfig $config,
     ) {}
 
-    /**
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/dev/health-check',
+        summary: 'System health check',
+        tags: ['Dev'],
+        security: [],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Health status of all system components',
+                content: new OA\JsonContent(properties: [
+                    new OA\Property(property: 'status', type: 'string', enum: ['ok', 'error']),
+                    new OA\Property(property: 'database', type: 'string', enum: ['ok', 'error']),
+                    new OA\Property(property: 'cache', type: 'string', enum: ['ok', 'error']),
+                    new OA\Property(property: 'rabbitmq', type: 'string', enum: ['ok', 'error', 'disabled']),
+                    new OA\Property(property: 'elasticsearch', type: 'string', enum: ['ok', 'error', 'disabled']),
+                    new OA\Property(property: 'minio', type: 'string', enum: ['ok', 'error', 'disabled']),
+                    new OA\Property(property: 'mercure', type: 'string', enum: ['ok', 'error', 'disabled']),
+                ]),
+            ),
+        ],
+    )]
     public function check(): JsonResponse
     {
         $checks = [

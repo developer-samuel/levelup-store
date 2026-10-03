@@ -6,7 +6,7 @@ namespace App\Core\Application\Auth\Handler\Command;
 
 use App\Core\Domain\{
     Auth\Payload\SignupPayload,
-    Segment\Audit\Enum\AuditAction
+    Shared\Audit\Enum\AuditAction
 };
 
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
@@ -17,7 +17,7 @@ use App\Core\Ports\{
     Auth\Service\Command\SignupCommandContract,
     Auth\Service\Command\VerificationCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
-    Segment\Audit\AuditLoggerContract,
+    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract,
     Shared\RateLimiter\RateLimiterContract
 };

@@ -6,6 +6,8 @@ namespace App\Presentation\Admin\Api\Order\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Application\Admin\Api\Order\Handler\Query\AdminApiOrderHistoryListQueryHandler;
 
 use App\Core\Ports\{
@@ -39,9 +41,17 @@ final class AdminApiOrderHistoryQueryController extends AbstractAdminApiQueryCon
         );
     }
 
-    /**
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/admin/orders/history/list',
+        summary: 'List order history',
+        tags: ['Admin - Orders'],
+        responses: [
+            new OA\Response(response: 200, description: 'Order history list'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 403, description: 'Insufficient permissions'),
+            new OA\Response(response: 404, description: 'Resource not found'),
+        ],
+    )]
     public function list(): JsonResponse
     {
         $orders = $this->orderHistoryListQueryHandler->handle();

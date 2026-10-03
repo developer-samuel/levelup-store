@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Ports\Segment\Audit;
+namespace App\Core\Ports\Shared\Audit;
 
 use App\Core\Domain\{
-    Segment\Audit\Enum\AuditAction,
+    Shared\Audit\Enum\AuditAction,
     Segment\User\Entity\User
 };
 

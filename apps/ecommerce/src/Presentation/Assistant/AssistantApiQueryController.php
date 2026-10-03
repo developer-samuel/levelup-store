@@ -6,6 +6,8 @@ namespace App\Presentation\Assistant;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Ports\{
     Security\Provider\SecurityProviderContract,
     Shared\Logging\AppLoggerContract
@@ -29,9 +31,23 @@ final class AssistantApiQueryController extends AbstractCommandController
         parent::__construct($logger);
     }
 
-    /**
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/assistant/session',
+        summary: 'Get current assistant session',
+        tags: ['Assistant'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Session info',
+                content: new OA\JsonContent(properties: [
+                    new OA\Property(property: 'success', type: 'boolean', example: true),
+                    new OA\Property(property: 'data', properties: [
+                        new OA\Property(property: 'conversation_id', type: 'string', nullable: true, example: 'user-42'),
+                    ], type: 'object'),
+                ]),
+            ),
+        ],
+    )]
     public function session(): JsonResponse
     {
         return $this->handleCommand(function () {

@@ -5,11 +5,13 @@
 .PHONY: clean-all build-cache setup-build \
         dev dev-build-force dev-down dev-down-clean \
         dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
+        restart-app-ecommerce restart-app-assistant \
         logs logs-dev logs-setup setup-watch status
 
 ECOMMERCE_ENV := apps/ecommerce/.env
+ASSISTANT_ENV := apps/assistant/.env
 
-DC := docker compose --env-file $(ECOMMERCE_ENV)
+DC := docker compose --env-file $(ECOMMERCE_ENV) --env-file $(ASSISTANT_ENV)
 
 DC_DEV := $(DC) \
 	-f docker-compose.yml \
@@ -87,6 +89,16 @@ dev-setup-restart-build-without-cache:
 	$(MAKE) dev-down-clean
 	$(DC_DEV) build --no-cache
 	$(MAKE) dev-setup-build
+
+# ── 🔄 Restart ────────────────────────────────────────────────────────────────
+
+## Restart ecommerce app containers (reloads ENV)
+restart-app-ecommerce:
+	$(DC) restart ecommerce_app ecommerce_worker ecommerce_cron nginx
+
+## Restart assistant app containers (reloads ENV)
+restart-app-assistant:
+	$(DC) restart assistant_app assistant_worker assistant_cron
 
 # ── 🔍 Utility ────────────────────────────────────────────────────────────────
 

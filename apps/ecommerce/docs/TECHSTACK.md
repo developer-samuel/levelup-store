@@ -18,6 +18,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Task Scheduling:** Symfony Scheduler & Cron
 - **Emailing:** Symfony Mailer (SMTP)
 - **Real-time:** Mercure (SSE hub for server-sent events)
+- **API Documentation:** nelmio/api-doc-bundle (Swagger UI at `/api/docs`, PHP 8 attributes)
 
 ---
 
@@ -89,17 +90,17 @@ We maintain 100% focus on code quality using these tools:
 
 ### Backend QA
 
-| Tool         | Purpose                                        | Execution (via Composer)  |
-|--------------|------------------------------------------------|---------------------------|
-| Deptrac      | Architectural dependency enforcement           | composer deptrac          |
-| PHPMD        | PHP Mess Detector (using `phpmd.xml`)          | composer php-md           |
-| PHPStan      | Static analysis (Level 10+)                    | composer php-stan         |
-| PHPMetrics   | Visual quality metrics and complexity analysis | composer php-metrics      |
-| PDepend      | Design metrics and software artifacts          | composer pdepend          |
-| PHP CS Fixer | Coding standards enforcement                   | composer php-cs-fixer:fix |
-| Rector       | Automated refactoring and upgrades             | composer rector:fix       |
-| PHPUnit      | Unit, Integration and Feature testing          | composer php-unit         |
-| SonarQube    | Local static analysis dashboard                | composer sonar            |
+| Tool                  | Purpose                                        | Execution (via Composer)  |
+|-----------------------|------------------------------------------------|---------------------------|
+| Deptrac               | Architectural dependency enforcement           | composer deptrac          |
+| PHPMD                 | PHP Mess Detector (using `phpmd.xml`)          | composer php-md           |
+| PHPStan               | Static analysis (Level 10+)                    | composer php-stan         |
+| PHPMetrics            | Visual quality metrics and complexity analysis | composer php-metrics      |
+| PDepend               | Design metrics and software artifacts          | composer pdepend          |
+| PHP CS Fixer          | Coding standards enforcement                   | composer php-cs-fixer:fix |
+| Rector                | Automated refactoring and upgrades             | composer rector:fix       |
+| PHPUnit               | Unit, Integration and Feature testing          | composer php-unit         |
+| SonarQube             | Local static analysis dashboard                | composer sonar            |
 
 ### Frontend QA
 

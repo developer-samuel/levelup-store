@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Application\Segment\User\Handler\Command;
 
 use App\Core\Domain\{
-    Segment\Audit\Enum\AuditAction,
+    Shared\Audit\Enum\AuditAction,
     Segment\User\Entity\User,
     Segment\User\Payload\ChangePasswordPayload
 };
@@ -14,7 +14,7 @@ use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
     Security\SecurityPolicyContract,
-    Segment\Audit\AuditLoggerContract,
+    Shared\Audit\AuditLoggerContract,
     Segment\User\Handler\Command\ChangePasswordCommandHandlerContract,
     Segment\User\Service\Command\ChangePasswordCommandContract,
     Segment\User\Service\Query\ChangePasswordQueryContract,

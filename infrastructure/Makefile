@@ -33,6 +33,7 @@ include make/helm.mk
 include make/secrets.mk
 include make/vault.mk
 include make/addons.mk
+include make/k6.mk
 
 # ── Definitions ───────────────────────────────────────────────────────────────
 

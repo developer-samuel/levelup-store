@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Domain\Segment\Audit\Enum;
+namespace App\Core\Domain\Shared\Audit\Enum;
 
 enum AuditAction: string
 {

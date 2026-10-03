@@ -6,6 +6,8 @@ namespace App\Presentation\Admin\Api\Product\Controller\Query\Variant;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Application\Admin\Api\Product\Handler\Query\Variant\AdminApiVariantDescriptionListQueryHandler;
 
 use App\Core\Ports\{
@@ -39,11 +41,20 @@ final class AdminApiVariantDescriptionQueryController extends AbstractAdminApiQu
         );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/admin/variants/descriptions/list/{id}',
+        summary: 'List variant descriptions',
+        tags: ['Admin - Products'],
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'Descriptions list'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 403, description: 'Insufficient permissions'),
+            new OA\Response(response: 404, description: 'Resource not found'),
+        ],
+    )]
     public function list(int $id): JsonResponse
     {
         $descriptions = $this->descriptionListQueryHandler->handle(['variantId' => $id]);

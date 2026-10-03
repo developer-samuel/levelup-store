@@ -6,6 +6,8 @@ namespace App\Presentation\Admin\Api\Product\Controller\Query;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use OpenApi\Attributes as OA;
+
 use App\Core\Application\Admin\Api\Product\Handler\Query\AdminApiProductListQueryHandler;
 
 use App\Core\Ports\{
@@ -39,9 +41,17 @@ final class AdminApiProductQueryController extends AbstractAdminApiQueryControll
         );
     }
 
-    /**
-     * @return JsonResponse
-    */
+    #[OA\Get(
+        path: '/api/admin/products/list',
+        summary: 'List all products',
+        tags: ['Admin - Products'],
+        responses: [
+            new OA\Response(response: 200, description: 'Products list'),
+            new OA\Response(response: 401, description: 'Unauthenticated'),
+            new OA\Response(response: 403, description: 'Insufficient permissions'),
+            new OA\Response(response: 404, description: 'Resource not found'),
+        ],
+    )]
     public function list(): JsonResponse
     {
         $products = $this->productListQueryHandler->handle();

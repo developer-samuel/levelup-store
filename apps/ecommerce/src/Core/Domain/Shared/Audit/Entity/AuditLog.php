@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Domain\Segment\Audit\Entity;
+namespace App\Core\Domain\Shared\Audit\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 use App\Core\Domain\{
-    Segment\Audit\Enum\AuditAction,
+    Shared\Audit\Enum\AuditAction,
     Segment\User\Entity\User,
     Shared\Traits\Identity\IdTrait,
     Shared\Traits\Timestamps\CreatedTimestampTrait
