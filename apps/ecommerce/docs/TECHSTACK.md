@@ -18,7 +18,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Task Scheduling:** Symfony Scheduler & Cron
 - **Emailing:** Symfony Mailer (SMTP)
 - **Real-time:** Mercure (SSE hub for server-sent events)
-- **API Documentation:** nelmio/api-doc-bundle (Swagger UI at `/api/docs`, PHP 8 attributes)
+- **API Documentation:** nelmio/api-doc-bundle (Swagger UI at `/api/dev/docs`, local/dev only, PHP 8 attributes)
 
 ---
 

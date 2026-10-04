@@ -9,16 +9,16 @@ make setup
 cd apps/ecommerce
 composer install --no-interaction --prefer-dist --optimize-autoloader
 pnpm install
-# or npm install
 composer db-setup
 
-# Install dependencies and build assets
+# Install dependencies, build assets and enable git hooks
 make install
 # or manually:
 cd apps/ecommerce
 composer install --no-interaction --prefer-dist --optimize-autoloader
 pnpm install
-# or npm install
+git config core.hooksPath .githooks
+git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 # Clear and warmup cache (also flushes Redis if available)
 make cache-clear

@@ -2,6 +2,8 @@
 
 This file describes the **installation steps** for the ecommerce app on a fresh checkout.
 
+> Install pnpm if not available: `npm install -g pnpm`
+
 ---
 
 ## 1. Install Dependencies

@@ -8,7 +8,7 @@
 
 - **PHP** 8.3
 - **Composer** for dependency management
-- **Node.js** (LTS) + **pnpm** or **npm** for frontend assets (Vite, TS build)
+- **Node.js** (LTS) + **pnpm** for frontend assets (Vite, TS build)
 - **Git** version control
 - **Database** (choose at least one)
   - PostgreSQL 17+ (recommended)
