@@ -22,6 +22,8 @@ src/
 │   └── Ports/          # Contracts: gateways, repositories, renderers, notifiers
 ├── Infrastructure/     # Technical implementations: repositories, listeners, mailers
 ├── Presentation/       # User-facing layer: controllers, requests, renderers, twig
+│   ├── Api/            # JSON API endpoints (Admin, Auth, Assistant, Search, Cookie, Dev)
+│   └── Web/            # Server-rendered pages (Segment, Admin, Auth, Home, Search)
 ├── Scheduler/          # Background tasks and async messages
 └── Shared/             # Cross-cutting: utils, traits, enums, constants
 ```
