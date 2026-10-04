@@ -20,13 +20,6 @@ use Database\{
 
 final class CreateAuditLogsTable
 {
-    /**
-     * Build the entire schema definition for the 'audit_logs' table.
-     *
-     * @param Schema $schema
-     *
-     * @return void
-    */
     public static function build(Schema $schema): void
     {
         $table = $schema->createTable('audit_logs');
@@ -37,13 +30,6 @@ final class CreateAuditLogsTable
         self::addIndexes($table);
     }
 
-    /**
-     * Add columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addColumns(Table $table): void
     {
         IdMacro::addBigIdColumn($table);
@@ -55,13 +41,6 @@ final class CreateAuditLogsTable
         DateMacro::datetime($table, 'created_at');
     }
 
-    /**
-     * Add foreign keys to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addForeignKeys(Table $table): void
     {
         ForeignKeyMacro::addForeignKeys(
@@ -73,13 +52,6 @@ final class CreateAuditLogsTable
         );
     }
 
-    /**
-     * Add indexes for common query patterns.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addIndexes(Table $table): void
     {
         $table->addIndex(['user_id'], 'idx_audit_logs_user_id');

@@ -6,18 +6,8 @@ namespace App\Core\Ports\Shared\Proxy;
 
 interface CacheProxyContract
 {
-    /**
-     * @param string $key
-     * @param callable(CacheItemProxyContract): mixed $callback
-     *
-     * @return mixed
-    */
+    /** @param callable(CacheItemProxyContract): mixed $callback */
     public function get(string $key, callable $callback): mixed;
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-    */
     public function delete(string $key): bool;
 }

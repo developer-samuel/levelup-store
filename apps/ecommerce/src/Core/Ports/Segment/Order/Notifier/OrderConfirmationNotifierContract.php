@@ -10,10 +10,5 @@ use App\Core\Domain\{
 
 interface OrderConfirmationNotifierContract
 {
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     public function send(Order $order): void;
 }

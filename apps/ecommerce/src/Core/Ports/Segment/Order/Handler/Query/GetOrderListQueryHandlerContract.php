@@ -8,8 +8,6 @@ use App\Core\Domain\Segment\Order\Entity\Order;
 
 interface GetOrderListQueryHandlerContract
 {
-    /**
-     * @return Order[]
-    */
+    /** @return Order[] */
     public function handle(): array;
 }

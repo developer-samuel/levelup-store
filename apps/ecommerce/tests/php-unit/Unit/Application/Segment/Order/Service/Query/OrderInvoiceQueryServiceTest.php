@@ -26,9 +26,7 @@ use App\Core\Application\Segment\Order\Service\Query\OrderInvoiceQueryService;
 
 use App\Core\Ports\Segment\Order\Repository\OrderRepositoryContract;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderInvoiceQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderInvoiceQueryService */
 final class OrderInvoiceQueryServiceTest extends TestCase
 {
     private OrderRepositoryContract&MockObject $orderRepository;
@@ -112,9 +110,7 @@ final class OrderInvoiceQueryServiceTest extends TestCase
         $this->service = new OrderInvoiceQueryService($this->orderRepository);
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function fetchInvoice(Order $order, string $code = 'ORDER-001'): array
     {
         $this->orderRepository->method('getOrderByCode')->willReturn($order);

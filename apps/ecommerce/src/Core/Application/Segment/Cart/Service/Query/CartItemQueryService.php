@@ -33,14 +33,6 @@ use App\Core\Ports\{
 */
 final readonly class CartItemQueryService implements CartItemQueryContract
 {
-    /**
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param ProductVariantEanRepositoryContract $variantEanRepository
-     * @param CartRepositoryContract $cartRepository
-     * @param CartControlQueryContract $cartControlQuery
-     * @param CartItemRepositoryContract $cartItemRepository
-     * @param CartRenderQueryContract $cartRenderQuery
-    */
     public function __construct(
         private ProductVariantRepositoryContract $variantRepository,
         private ProductVariantEanRepositoryContract $variantEanRepository,
@@ -50,11 +42,7 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         private CartRenderQueryContract $cartRenderQuery,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function getItems(User $user): array
     {
         $userId = $user->getId();
@@ -64,12 +52,7 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         return $this->extractCartItems($cart);
     }
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return CartAndVariant
-    */
+    /** @return CartAndVariant */
     public function getCartAndVariant(User $user, int $variantId): array
     {
         $variant = $this->getVariant($variantId);
@@ -84,11 +67,6 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         ];
     }
 
-    /**
-     * @param int $itemId
-     *
-     * @return CartItem
-    */
     public function getValidatedCartItem(int $itemId): CartItem
     {
         $item = $this->getItem($itemId);
@@ -97,11 +75,6 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         return $item;
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return int
-    */
     public function getAvailableEansCount(ProductVariant $variant): int
     {
         $availableEans = $this->variantEanRepository->findAvailableByVariant($variant);
@@ -113,12 +86,6 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         return count($availableEans);
     }
 
-    /**
-     * @param Cart $cart
-     * @param ProductVariant $variant
-     *
-     * @return int
-    */
     public function getExistingQuantity(Cart $cart, ProductVariant $variant): int
     {
         $items = $cart->getItems();
@@ -133,12 +100,7 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         return $quantity;
     }
 
-    /**
-     * @param User $user
-     * @param CartAction $action
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function buildCartResponse(User $user, CartAction $action): array
     {
         return $this->cartRenderQuery->buildCartResponse(
@@ -147,11 +109,7 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         );
     }
 
-    /**
-     * @param Cart|null $cart
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     private function extractCartItems(?Cart $cart): array
     {
         if ($cart === null) {
@@ -161,21 +119,11 @@ final readonly class CartItemQueryService implements CartItemQueryContract
         return $cart->getItems()->toArray();
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return ProductVariant|null
-    */
     private function getVariant(int $variantId): ?ProductVariant
     {
         return $this->variantRepository->findById($variantId);
     }
 
-    /**
-     * @param int $itemId
-     *
-     * @return CartItem|null
-    */
     private function getItem(int $itemId): ?CartItem
     {
         return $this->cartItemRepository->getItem($itemId);

@@ -13,12 +13,6 @@ use App\Core\Domain\{
 
 interface OrderBuildCommandContract
 {
-    /**
-     * @param User $user
-     * @param OrderCreatePayload $payload
-     * @param CartItem[] $items
-     *
-     * @return Order
-    */
+    /** @param CartItem[] $items */
     public function build(User $user, OrderCreatePayload $payload, array $items): Order;
 }

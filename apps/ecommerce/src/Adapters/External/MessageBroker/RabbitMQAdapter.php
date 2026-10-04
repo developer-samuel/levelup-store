@@ -12,14 +12,6 @@ final readonly class RabbitMQAdapter implements RabbitMQGatewayContract
 
     private string $dsn;
 
-    /**
-     * @param bool   $enabled
-     * @param string $host
-     * @param int    $port
-     * @param string $user
-     * @param string $pass
-     * @param string $vhost
-    */
     public function __construct(
         private bool $enabled,
         private string $host,
@@ -38,25 +30,16 @@ final readonly class RabbitMQAdapter implements RabbitMQGatewayContract
         );
     }
 
-    /**
-     * @return bool
-    */
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * @return string
-    */
     public function getMessengerDsn(): string
     {
         return $this->enabled ? $this->dsn : self::FALLBACK_DSN;
     }
 
-    /**
-     * @return bool
-    */
     public function isConnected(): bool
     {
         set_error_handler(static fn() => true);
@@ -72,9 +55,6 @@ final readonly class RabbitMQAdapter implements RabbitMQGatewayContract
         return true;
     }
 
-    /**
-     * @return string
-    */
     public function getConnectionDsn(): string
     {
         return $this->dsn;

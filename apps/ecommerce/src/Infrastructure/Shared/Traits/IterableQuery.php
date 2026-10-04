@@ -8,11 +8,7 @@ use Doctrine\ORM\QueryBuilder;
 
 trait IterableQuery
 {
-    /**
-     * @param QueryBuilder $qb
-     *
-     * @return iterable<mixed>
-    */
+    /** @return iterable<mixed> */
     private function getIterableResult(QueryBuilder $qb): iterable
     {
         return $qb->getQuery()

@@ -24,9 +24,7 @@ use App\Core\Ports\{
     Segment\Type\TypeRepositoryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductCategoryQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductCategoryQueryService */
 final class ProductCategoryQueryServiceTest extends TestCase
 {
     private CategoryRepositoryContract&MockObject $categoryRepository;
@@ -179,18 +177,14 @@ final class ProductCategoryQueryServiceTest extends TestCase
         $this->categoryRepository->method('findByName')->willReturn($category);
     }
 
-    /**
-     * @param array<string, mixed> $result
-    */
+    /** @param array<string, mixed> $result */
     private function assertEmptyTypesAndSubtypes(array $result): void
     {
         self::assertSame([], $result['types']);
         self::assertSame([], $result['subtypes']);
     }
 
-    /**
-     * @param array<int, Type> $types
-    */
+    /** @param array<int, Type> $types */
     private function buildCategoryMock(array $types): Category&MockObject
     {
         $category = $this->createMock(Category::class);
@@ -199,9 +193,7 @@ final class ProductCategoryQueryServiceTest extends TestCase
         return $category;
     }
 
-    /**
-     * @param array<int, Subtype> $subtypes
-    */
+    /** @param array<int, Subtype> $subtypes */
     private function buildTypeMock(array $subtypes): Type&MockObject
     {
         $type = $this->createMock(Type::class);

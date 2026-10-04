@@ -8,11 +8,5 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface VerificationNotifierContract
 {
-    /**
-     * @param User $user
-     * @param string $token
-     *
-     * @return void
-    */
     public function send(User $user, string $token): void;
 }

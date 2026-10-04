@@ -23,9 +23,7 @@ use App\Core\Ports\{
     Gateways\Internal\Auth\TokenBlacklistContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Service\Command\RefreshTokenCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Service\Command\RefreshTokenCommandService */
 final class RefreshTokenCommandServiceTest extends TestCase
 {
     private JwtGatewayContract&MockObject $jwtGateway;

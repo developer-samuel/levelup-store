@@ -24,13 +24,6 @@ use Database\{
 
 final class CreateProductVariantImagesTable
 {
-    /**
-     * Build the entire schema definition for the 'product_variant_images' table.
-     *
-     * @param Schema $schema
-     *
-     * @return void
-    */
     public static function build(Schema $schema): void
     {
         $table = $schema->createTable('product_variant_images');
@@ -43,13 +36,6 @@ final class CreateProductVariantImagesTable
         self::addCheckConstraints($table);
     }
 
-    /**
-     * Add columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addColumns(Table $table): void
     {
         IdMacro::addBigIdColumn($table);
@@ -58,87 +44,38 @@ final class CreateProductVariantImagesTable
         self::addTimestamps($table);
     }
 
-    /**
-     * Add variant_id column to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addStandardColumn(Table $table): void
     {
         IntegerMacro::unsignedInteger($table, 'variant_id');
     }
 
-    /**
-     * Add additional columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addAdditionalColumns(Table $table): void
     {
         SmallIntegerMacro::smallInteger($table, 'position');
         StringMacro::string($table, 'path');
     }
 
-    /**
-     * Add timestamp columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addTimestamps(Table $table): void
     {
         TimestampMacro::created($table);
         TimestampMacro::updated($table);
     }
 
-    /**
-     * Add unique index to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addUniqueIndex(Table $table): void
     {
         UniqueKeyMacro::add($table, ['path'], 'unique_path_product_variant_images');
     }
 
-    /**
-     * Add predefined index to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addIndex(Table $table): void
     {
         IndexMacro::add($table, ['variant_id'], 'idx_product_variant_images_variant_id');
     }
 
-    /**
-     * Add foreign key to the table using ForeignKeyMacro with dynamic parameters.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addForeignKey(Table $table): void
     {
         ForeignKeyMacro::addForeignKeys($table, 'product_variants', ['variant_id'], ['id']);
     }
 
-    /**
-     * Add check constraints to ensure data validity.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addCheckConstraints(Table $table): void
     {
         CheckConstraintMacro::add(

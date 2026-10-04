@@ -47,19 +47,11 @@ class ReviewDetail
     )]
     private ReviewDetailType $type = ReviewDetailType::POSITIVE;
 
-    /**
-     * @return ReviewDetailType
-    */
     public function getType(): ReviewDetailType
     {
         return $this->type;
     }
 
-    /**
-     * @param ReviewDetailType $type
-     *
-     * @return self
-    */
     public function setType(ReviewDetailType $type): self
     {
         $this->type = $type;

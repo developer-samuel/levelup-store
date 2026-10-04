@@ -27,23 +27,13 @@ use App\Core\Domain\Segment\Cart\ValueObject\CartItemObject;
 */
 interface CartSummaryQueryContract
 {
-    /**
-     * @param int $userId
-     *
-     * @return CartSummary
-    */
+    /** @return CartSummary */
     public function getCartSummary(int $userId): array;
 
-    /**
-     * @param int $userId
-     *
-     * @return CartItemObject[] $items
-    */
+    /** @return CartItemObject[] $items */
     public function findCartItemsForUser(int $userId): array;
 
     /**
-     * @param string $message
-     * @param string $html
      * @param CartTotals $summary
      *
      * @return CartResponse
@@ -51,10 +41,7 @@ interface CartSummaryQueryContract
     public function buildSuccessResponse(string $message, string $html, array $summary): array;
 
     /**
-     * @param string $message
-     * @param string $html
      * @param CartTotals $summary
-     * @param int $status
      *
      * @return CartResponse
     */

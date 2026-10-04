@@ -17,20 +17,11 @@ use App\Core\Ports\{
 
 final readonly class LoginCommandService implements LoginCommandContract
 {
-    /**
-     * @param JwtGatewayContract $jwtGateway
-     * @param RefreshTokenRepositoryContract $refreshTokenRepository
-    */
     public function __construct(
         private JwtGatewayContract $jwtGateway,
         private RefreshTokenRepositoryContract $refreshTokenRepository,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return JwtTokenObject
-    */
     public function execute(User $user): JwtTokenObject
     {
         $accessToken = $this->jwtGateway->generateAccessToken($user);

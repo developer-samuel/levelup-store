@@ -22,20 +22,11 @@ use App\Core\Ports\{
 
 final readonly class AdminBrandCommandService implements AdminBrandCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param BrandRepositoryContract $brandRepository
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private BrandRepositoryContract $brandRepository,
     ) {}
 
-    /**
-     * @param AdminBrandPayload $payload
-     *
-     * @return Brand
-    */
     public function createBrand(AdminBrandPayload $payload): Brand
     {
         $brand = (new Brand())
@@ -46,12 +37,6 @@ final readonly class AdminBrandCommandService implements AdminBrandCommandContra
         return $brand;
     }
 
-    /**
-     * @param int $id
-     * @param AdminBrandPayload $payload
-     *
-     * @return Brand
-    */
     public function updateBrand(int $id, AdminBrandPayload $payload): Brand
     {
         $brand = EntityAssertion::assertExists(
@@ -68,23 +53,11 @@ final readonly class AdminBrandCommandService implements AdminBrandCommandContra
         return $brand;
     }
 
-    /**
-     * @param Brand $brand
-     *
-     * @return void
-    */
     public function destroyBrand(Brand $brand): void
     {
         $this->entityPersistence->remove($brand, true);
     }
 
-    /**
-     * @param AdminBrandPayload $payload
-     *
-     * @return int
-     *
-     * @throws \InvalidArgumentException
-    */
     public function validateId(AdminBrandPayload $payload): int
     {
         $id = DataSanitizer::sanitizeInt($payload->id);

@@ -28,11 +28,6 @@ use App\Core\Ports\{
 
 final class AdminVariantEanCommandService extends AbstractAdminVariantCommandService implements AdminVariantEanCommandContract
 {
-    /**
-     * @param ProductVariantEanRepositoryContract $variantEanRepository
-     * @param EntityPersistenceContract $entityPersistence
-     * @param ProductVariantRepositoryContract $variantRepository
-    */
     public function __construct(
         private readonly ProductVariantEanRepositoryContract $variantEanRepository,
         EntityPersistenceContract $entityPersistence,
@@ -44,12 +39,6 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
         );
     }
 
-    /**
-     * @param int $variantId
-     * @param AdminVariantEanPayload $payload
-     *
-     * @return ProductVariantEan
-    */
     public function createEan(int $variantId, AdminVariantEanPayload $payload): ProductVariantEan
     {
         $variant = $this->resolveVariant($variantId);
@@ -63,13 +52,6 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
         return $ean;
     }
 
-    /**
-     * @param int $eanId
-     * @param int $variantId
-     * @param AdminVariantEanPayload $payload
-     *
-     * @return ProductVariantEan
-    */
     public function updateEan(int $eanId, int $variantId, AdminVariantEanPayload $payload): ProductVariantEan
     {
         $this->resolveVariant($variantId);
@@ -83,11 +65,6 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
         return $ean;
     }
 
-    /**
-     * @param ProductVariantEan $ean
-     *
-     * @return void
-    */
     public function destroyEan(ProductVariantEan $ean): void
     {
         $adjustedStock = $this->adjustStockForDestroy($ean);
@@ -99,12 +76,6 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
         $this->entityPersistence->remove($ean, true);
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param AdminVariantEanPayload $payload
-     *
-     * @return ProductVariantEan
-    */
     private function buildEanEntity(ProductVariant $variant, AdminVariantEanPayload $payload): ProductVariantEan
     {
         return (new ProductVariantEan())
@@ -112,23 +83,12 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
             ->setCode($payload->code);
     }
 
-    /**
-     * @param ProductVariantEan $ean
-     * @param AdminVariantEanPayload $payload
-     *
-     * @return void
-    */
     private function updateEanEntity(ProductVariantEan $ean, AdminVariantEanPayload $payload): void
     {
         $ean->setCode($payload->code)
             ->setUpdatedAt();
     }
 
-    /**
-     * @param ProductVariantEan $ean
-     *
-     * @return ProductVariantStock|null
-    */
     private function adjustStockForDestroy(ProductVariantEan $ean): ?ProductVariantStock
     {
         $stock = $ean->getVariant()->getStock();
@@ -146,11 +106,6 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
         return $stock;
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return void
-    */
     private function adjustStockForCreate(ProductVariant $variant): void
     {
         $stock = $variant->getStock();
@@ -159,11 +114,6 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
         }
     }
 
-    /**
-     * @param int $eanId
-     *
-     * @return ProductVariantEan
-    */
     private function getEan(int $eanId): ProductVariantEan
     {
         $ean = EntityAssertion::assertExists(

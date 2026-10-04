@@ -19,11 +19,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class ResetPasswordCommandHandler extends AbstractCommandHandler implements ResetPasswordCommandHandlerContract
 {
-    /**
-     * @param ResetPasswordQueryContract $resetPasswordQuery
-     * @param ResetPasswordCommandContract $resetPasswordCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ResetPasswordQueryContract $resetPasswordQuery,
         private readonly ResetPasswordCommandContract $resetPasswordCommand,
@@ -32,11 +27,7 @@ final class ResetPasswordCommandHandler extends AbstractCommandHandler implement
         parent::__construct($logger);
     }
 
-    /**
-     * @param ResetPasswordPayload $payload
-     *
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     public function handle(ResetPasswordPayload $payload): array
     {
         return $this->execute(function() use ($payload) {

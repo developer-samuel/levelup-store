@@ -24,14 +24,11 @@ use App\Core\Domain\{
 final readonly class OrderDetailObject
 {
     /**
-     * @param Order $order
-     * @param float $totalPrice
      * @param OrderStatus[] $statuses
      * @param OrderItemObject[] $items
      * @param array<string, mixed> $personal
      * @param array<string, mixed> $billing
      * @param array<string, mixed>|null $shipping
-     * @param bool $pdfEnabled
     */
     public function __construct(
         public Order $order,
@@ -44,9 +41,7 @@ final readonly class OrderDetailObject
         public bool $pdfEnabled = false,
     ) {}
 
-    /**
-     * @return ObjectArray
-    */
+    /** @return ObjectArray */
     public function toArray(): array
     {
         return [

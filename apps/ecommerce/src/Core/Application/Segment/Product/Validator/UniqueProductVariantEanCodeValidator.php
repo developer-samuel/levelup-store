@@ -15,19 +15,10 @@ use App\Core\Ports\Segment\Product\Repository\Variant\ProductVariantEanRepositor
 
 final class UniqueProductVariantEanCodeValidator extends AbstractConstraintValidator
 {
-    /**
-     * @param ProductVariantEanRepositoryContract $variantRepository
-    */
     public function __construct(
         private readonly ProductVariantEanRepositoryContract $variantRepository,
     ) {}
 
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     *
-     * @return void
-    */
     public function validate(mixed $value, Constraint $constraint): void
     {
         $this->assertConstraintType($constraint, UniqueProductVariantEanCode::class);

@@ -17,9 +17,7 @@ use Tests\Support\Stub\UserStub;
 
 use App\Core\Ports\Segment\Cart\Repository\CartRepositoryContract;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartControlQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartControlQueryService */
 final class CartControlQueryServiceTest extends TestCase
 {
     use UserStub;

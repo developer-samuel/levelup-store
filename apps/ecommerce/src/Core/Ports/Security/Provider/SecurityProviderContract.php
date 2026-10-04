@@ -8,8 +8,5 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface SecurityProviderContract
 {
-    /**
-     * @return User|null
-     */
     public function getCurrentUser(): ?User;
 }

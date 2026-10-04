@@ -33,12 +33,6 @@ final readonly class ProductQueryService implements ProductQueryContract
 {
     private const LIMIT = 12;
 
-    /**
-     * @param BrandRepositoryContract $brandRepository
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param ProductVariantQueryContract $productVariantQuery
-     * @param ProductCategoryQueryContract $productCategoryQuery
-    */
     public function __construct(
         private BrandRepositoryContract $brandRepository,
         private ProductVariantRepositoryContract $variantRepository,
@@ -46,13 +40,7 @@ final readonly class ProductQueryService implements ProductQueryContract
         private ProductCategoryQueryContract $productCategoryQuery,
     ) {}
 
-    /**
-     * @param ProductFilterObject $filter
-     * @param int $currentPage
-     * @param ProductSortOption $sort
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getFilteredAndSortedData(
         ProductFilterObject $filter,
         int $currentPage = 1,
@@ -95,8 +83,6 @@ final readonly class ProductQueryService implements ProductQueryContract
     }
 
     /**
-     * @param ProductFilterObject $filter
-     *
      * @return array{
      *     0: string|null,
      *     1: string|null
@@ -110,11 +96,6 @@ final readonly class ProductQueryService implements ProductQueryContract
         ];
     }
 
-    /**
-     * @param string|null $value
-     *
-     * @return string|null
-    */
     private function normalizeSlug(?string $value): ?string
     {
         if ($value === null) {
@@ -128,12 +109,6 @@ final readonly class ProductQueryService implements ProductQueryContract
         return $value === '' ? null : $value;
     }
 
-    /**
-     * @param int $currentPage
-     * @param int $limit
-     *
-     * @return ProductPaginationObject
-    */
     private function buildPagination(int $currentPage, int $limit): ProductPaginationObject
     {
         $offset = ($currentPage - 1) * $limit;
@@ -146,7 +121,6 @@ final readonly class ProductQueryService implements ProductQueryContract
     }
 
     /**
-     * @param ProductFilterObject $filter
      * @param array{
      *     isDiscountRoute: bool,
      *     category: string|null,
@@ -157,7 +131,6 @@ final readonly class ProductQueryService implements ProductQueryContract
      *     pagination: ProductPaginationObject,
      *     totalCount: int
      * } $data
-     * @param ProductSortOption $sort
      *
      * @return array<string, mixed>
     */
@@ -175,12 +148,6 @@ final readonly class ProductQueryService implements ProductQueryContract
         return ProductCatalogResource::toArray($catalog);
     }
 
-    /**
-     * @param ProductPaginationObject $pagination
-     * @param int $totalCount
-     *
-     * @return ProductCatalogPaginationObject
-    */
     private function createPagination(ProductPaginationObject $pagination, int $totalCount): ProductCatalogPaginationObject
     {
         $limit = self::LIMIT;
@@ -197,7 +164,6 @@ final readonly class ProductQueryService implements ProductQueryContract
     }
 
     /**
-     * @param ProductFilterObject $filter
      * @param array{
      *     types: string[],
      *     subtypes: string[],
@@ -205,8 +171,6 @@ final readonly class ProductQueryService implements ProductQueryContract
      *     category: string|null,
      *     type: string|null
      * } $data
-     *
-     * @return ProductCatalogFilterObject
     */
     private function createFilter(ProductFilterObject $filter, array $data): ProductCatalogFilterObject
     {
@@ -221,9 +185,7 @@ final readonly class ProductQueryService implements ProductQueryContract
         );
     }
 
-    /**
-     * @return array<int, string[]>
-    */
+    /** @return array<int, string[]> */
     private function getSortOptions(): array
     {
         return array_map(

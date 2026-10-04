@@ -9,7 +9,6 @@ final readonly class FilterCacheObject
     /**
      * @param list<string> $subtypesActive
      * @param list<string> $brandsActive
-     * @param int $step
     */
     public function __construct(
         public array $subtypesActive,

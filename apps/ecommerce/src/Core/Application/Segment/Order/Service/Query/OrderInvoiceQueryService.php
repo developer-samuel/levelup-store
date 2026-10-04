@@ -21,18 +21,11 @@ use App\Core\Ports\{
 
 final readonly class OrderInvoiceQueryService implements OrderInvoiceQueryContract
 {
-    /**
-     * @param OrderRepositoryContract $orderRepository
-    */
     public function __construct(
         private OrderRepositoryContract $orderRepository,
     ) {}
 
-    /**
-     * @param string $code
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getInvoiceDetails(string $code): array
     {
         $order = $this->orderRepository->getOrderByCode($code);
@@ -43,13 +36,6 @@ final readonly class OrderInvoiceQueryService implements OrderInvoiceQueryContra
         return OrderInvoiceResource::toArray($order);
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-     *
-     * @throws \LogicException
-    */
     private function assertOrderIntegrity(Order $order): void
     {
         OrderPersonalAssertion::assertExists($order->getPersonal());

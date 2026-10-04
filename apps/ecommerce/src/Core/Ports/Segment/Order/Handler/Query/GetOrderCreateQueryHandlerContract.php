@@ -8,8 +8,5 @@ use App\Core\Domain\Segment\Order\ValueObject\OrderCreateObject;
 
 interface GetOrderCreateQueryHandlerContract
 {
-    /**
-     * @return OrderCreateObject
-    */
     public function handle(): OrderCreateObject;
 }

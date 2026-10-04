@@ -15,9 +15,6 @@ final class TermsAcceptedConstraint extends Constraint
 {
     public string $message;
 
-    /**
-     * @param string $message
-    */
     public function __construct(
         string $message = 'You must accept the terms and conditions.',
     ) {
@@ -25,17 +22,12 @@ final class TermsAcceptedConstraint extends Constraint
         $this->message = $message;
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return TermsAcceptedConstraintValidator::class;
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

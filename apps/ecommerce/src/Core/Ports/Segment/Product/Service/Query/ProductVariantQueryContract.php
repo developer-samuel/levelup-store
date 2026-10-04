@@ -18,17 +18,8 @@ interface ProductVariantQueryContract
     */
     public function mapVariantsToData(array $variants): array;
 
-    /**
-     * @param string $url
-     *
-     * @return ProductVariant|null
-    */
     public function getVariantOrNull(string $url): ?ProductVariant;
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariant[]
-    */
+    /** @return ProductVariant[] */
     public function getAllVariantsOrNull(ProductVariant $variant): array;
 }

@@ -18,8 +18,6 @@ namespace App\Core\Ports\Segment\Product\Service\Query;
 */
 interface ProductRecommendedQueryContract
 {
-    /**
-     * @return array<int, ProductRecommendedShape>
-    */
+    /** @return array<int, ProductRecommendedShape> */
     public function findAll(): array;
 }

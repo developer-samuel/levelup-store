@@ -12,12 +12,6 @@ use App\Core\Domain\{
 
 final class SearchResultFactory
 {
-    /**
-     * @param ProductVariant $variant
-     * @param float $averageRating
-     *
-     * @return SearchResultObject
-    */
     public function create(ProductVariant $variant, float $averageRating = 0.0): SearchResultObject
     {
         $imagePath = ProductToolkit::getFirstImagePath($variant);

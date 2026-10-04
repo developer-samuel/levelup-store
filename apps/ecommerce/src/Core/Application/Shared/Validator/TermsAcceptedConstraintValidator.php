@@ -16,14 +16,6 @@ use App\Core\Application\{
 
 final class TermsAcceptedConstraintValidator extends AbstractConstraintValidator
 {
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     *
-     * @return void
-     *
-     * @throws UnexpectedTypeException
-     */
     public function validate(mixed $value, Constraint $constraint): void
     {
         $this->assertConstraintType($constraint, TermsAcceptedConstraint::class);

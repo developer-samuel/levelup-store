@@ -18,16 +18,14 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Cart\Service\Query\CartRenderQueryService;
 
 use App\Core\Ports\{
-    Segment\Cart\Renderer\CartRendererContract,
     Segment\Cart\Service\Query\CartPriceQueryContract,
-    Segment\Cart\Service\Query\CartSummaryQueryContract
+    Segment\Cart\Service\Query\CartSummaryQueryContract,
+    Web\Segment\Cart\Renderer\CartRendererContract
 };
 
 use Tests\Support\Stub\UserStub;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartRenderQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartRenderQueryService */
 final class CartRenderQueryServiceTest extends TestCase
 {
     use UserStub;

@@ -17,21 +17,11 @@ use App\Core\Ports\Auth\Notifier\ForgotPasswordNotifierContract;
 
 final readonly class ForgotPasswordNotifier implements ForgotPasswordNotifierContract
 {
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EventDispatcherInterface $dispatcher
-    */
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private EventDispatcherInterface $dispatcher,
     ) {}
 
-    /**
-     * @param User $user
-     * @param string $token
-     *
-     * @return void
-    */
     public function send(User $user, string $token): void
     {
         $resetUrl = $this->urlGenerator->generate(
@@ -41,6 +31,7 @@ final readonly class ForgotPasswordNotifier implements ForgotPasswordNotifierCon
         );
 
         $event = new ForgotPasswordRequestedEvent($user, $resetUrl);
+
         $this->dispatcher->dispatch($event);
     }
 }

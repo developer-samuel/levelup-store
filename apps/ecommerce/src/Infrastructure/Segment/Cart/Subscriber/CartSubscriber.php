@@ -23,12 +23,6 @@ use App\Shared\Utils\Formatter\PriceFormatter;
 
 final readonly class CartSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @param Security $security
-     * @param Environment $twig
-     * @param CartSummaryQueryContract $cartSummaryQuery
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private Security $security,
         private Environment $twig,
@@ -36,9 +30,7 @@ final readonly class CartSubscriber implements EventSubscriberInterface
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @return array<string, string>
-    */
+    /** @return array<string, string> */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -46,11 +38,6 @@ final readonly class CartSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -75,8 +62,6 @@ final readonly class CartSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param User $user
-     *
      * @return array{
      *     items: array<mixed>,
      *     totalPrice: float,
@@ -102,14 +87,7 @@ final readonly class CartSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param User $user
-     * @param array<mixed> $items
-     * @param float $totalPrice
-     * @param int $totalItems
-     *
-     * @return void
-    */
+    /** @param array<mixed> $items */
     private function addGlobalVariablesToTwig(
         User $user,
         array $items,

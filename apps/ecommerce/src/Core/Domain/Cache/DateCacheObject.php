@@ -15,13 +15,6 @@ namespace App\Core\Domain\Cache;
 */
 final readonly class DateCacheObject
 {
-    /**
-     * @param string $currentDate
-     * @param string $currentDay
-     * @param string $currentWeek
-     * @param string $currentMonth
-     * @param string $currentYear
-    */
     public function __construct(
         public string $currentDate,
         public string $currentDay,
@@ -30,11 +23,6 @@ final readonly class DateCacheObject
         public string $currentYear,
     ) {}
 
-    /**
-     * @param \DateTime $date
-     *
-     * @return self
-    */
     public static function fromDate(\DateTime $date): self
     {
         return new self(
@@ -46,9 +34,7 @@ final readonly class DateCacheObject
         );
     }
 
-    /**
-     * @return ObjectArray
-    */
+    /** @return ObjectArray */
     public function toArray(): array
     {
         return [

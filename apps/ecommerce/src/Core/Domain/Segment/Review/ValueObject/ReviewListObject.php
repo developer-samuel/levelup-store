@@ -11,15 +11,9 @@ use App\Core\Domain\{
 final readonly class ReviewListObject
 {
     /**
-     * @param bool $reviewExists
      * @param ReviewObject[] $reviews
-     * @param float $averageRating
-     * @param int $totalRatings
-     * @param int $totalFeedbacks
-     * @param int $totalCount
      * @param array<string, int> $ratingsCount
      * @param ReviewDetail[] $lastReviewDetails
-     * @param ReviewObject|null $lastReview
     */
     public function __construct(
         public bool $reviewExists,

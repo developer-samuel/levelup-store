@@ -6,8 +6,5 @@ namespace App\Core\Ports\Payment\Stripe;
 
 interface StripeSdkContract
 {
-    /**
-     * @return void
-    */
     public function initialize(): void;
 }

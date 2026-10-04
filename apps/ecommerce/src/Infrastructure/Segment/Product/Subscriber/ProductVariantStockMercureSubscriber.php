@@ -27,38 +27,23 @@ final class ProductVariantStockMercureSubscriber
     /** @var array<int, array{quantityAvailable: int, inStock: bool}> */
     private array $pendingStocks = [];
 
-    /**
-     * @param EventDispatcherInterface $eventDispatcher
-    */
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postPersist(LifecycleEventArgs $args): void
     {
         $this->collect($args->getObject());
     }
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postUpdate(LifecycleEventArgs $args): void
     {
         $this->collect($args->getObject());
     }
 
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $args
-     *
-     * @return void
-    */
+    /** @param LifecycleEventArgs<EntityManagerInterface> $args */
     public function postRemove(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
@@ -73,14 +58,12 @@ final class ProductVariantStockMercureSubscriber
         ];
     }
 
-    /**
-     * @return void
-     */
     public function postFlush(): void
     {
         if ($this->pendingStocks === []) {
             return;
         }
+
         foreach ($this->pendingStocks as $variantId => $data) {
             $this->eventDispatcher->dispatch(new ProductStockUpdatedEvent(
                 $variantId,
@@ -88,14 +71,10 @@ final class ProductVariantStockMercureSubscriber
                 $data['inStock'],
             ));
         }
+
         $this->pendingStocks = [];
     }
 
-    /**
-     * @param object $entity
-     *
-     * @return void
-    */
     private function collect(object $entity): void
     {
         if (!$entity instanceof ProductVariantStock) {

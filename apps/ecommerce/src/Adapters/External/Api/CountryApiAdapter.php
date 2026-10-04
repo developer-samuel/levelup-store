@@ -31,12 +31,6 @@ use App\Core\Ports\{
 */
 final readonly class CountryApiAdapter implements CountryApiGatewayContract
 {
-    /**
-     * @param HttpClientInterface $httpClient
-     * @param AppLoggerContract $logger
-     * @param CountryRepositoryContract $countryRepository
-     * @param string $countryUrl
-    */
     public function __construct(
         private HttpClientInterface $httpClient,
         private AppLoggerContract $logger,
@@ -44,9 +38,7 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
         private string $countryUrl,
     ) {}
 
-    /**
-     * @return CountryObject[]|null
-    */
+    /** @return CountryObject[]|null */
     public function getAllCountries(): ?array
     {
         $response = $this->makeRequest('GET', $this->countryUrl);
@@ -62,11 +54,6 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
         return $this->sortCountriesByName($countries);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return bool
-    */
     public function countryExists(string $code): bool
     {
         $existingCountry = $this->countryRepository->findAllByCode($code);
@@ -74,12 +61,6 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
         return $existingCountry !== [];
     }
 
-    /**
-     * @param string $method
-     * @param string $url
-     *
-     * @return ResponseInterface|null
-    */
     private function makeRequest(string $method, string $url): ?ResponseInterface
     {
         try {
@@ -98,23 +79,11 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
         }
     }
 
-    /**
-     * @param ResponseInterface $response
-     *
-     * @return bool
-    */
     private function isResponseSuccessful(ResponseInterface $response): bool
     {
         return $response->getStatusCode() === Response::HTTP_OK;
     }
 
-    /**
-     * @param ResponseInterface $response
-     * @param string $method
-     * @param string $url
-     *
-     * @return void
-    */
     private function logHttpError(ResponseInterface $response, string $method, string $url): void
     {
         $this->logger->error(
@@ -127,13 +96,7 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
         );
     }
 
-    /**
-     * @param ResponseInterface $response
-     *
-     * @return array<int, CountryItem>
-     *
-     * @throws \RuntimeException
-    */
+    /** @return array<int, CountryItem> */
     private function getResponseData(ResponseInterface $response): array
     {
         try {

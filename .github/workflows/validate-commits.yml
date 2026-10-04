@@ -19,8 +19,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: ./.github/actions/node
+
       - name: Install commitlint
-        run: npm install --no-save @commitlint/cli @commitlint/config-conventional
+        run: pnpm add --no-save @commitlint/cli @commitlint/config-conventional
 
       - name: Validate commit messages
         run: |

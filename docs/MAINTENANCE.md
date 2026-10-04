@@ -35,9 +35,6 @@ pnpm update
 ```bash
 # TypeScript linting (ESLint) - both apps
 pnpm lint
-
-# or npm
-npm run lint
 ```
 
 ⚠️ Consider running these commands in a separate branch before merging to main.

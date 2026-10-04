@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface LoginCommandContract
 {
-    /**
-     * @param User $user
-     *
-     * @return JwtTokenObject
-    */
     public function execute(User $user): JwtTokenObject;
 }

@@ -28,11 +28,6 @@ final readonly class GenerateOrderInvoiceHandler implements GenerateOrderInvoice
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param string $code
-     *
-     * @return string
-    */
     public function handle(string $code): string
     {
         $user = UserAssertion::assertInstance(

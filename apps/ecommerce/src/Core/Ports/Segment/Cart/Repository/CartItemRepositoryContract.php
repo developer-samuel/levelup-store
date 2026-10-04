@@ -11,22 +11,11 @@ use App\Core\Domain\{
 
 interface CartItemRepositoryContract
 {
-    /**
-     * @param int $itemId
-     *
-     * @return CartItem|null
-    */
     public function getItem(int $itemId): ?CartItem;
 
-    /**
-     * @param Cart $cart
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function findByCart(Cart $cart): array;
 
-    /**
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function findAllWithVariant(): array;
 }

@@ -27,13 +27,6 @@ use App\Core\Domain\Segment\Product\Enum\Variant\ProductVariantStatus;
 
 final class CreateProductVariantsTable
 {
-    /**
-     * Build the entire schema definition for the 'product_variants' table.
-     *
-     * @param Schema $schema
-     *
-     * @return void
-    */
     public static function build(Schema $schema): void
     {
         $table = $schema->createTable('product_variants');
@@ -46,13 +39,6 @@ final class CreateProductVariantsTable
         self::addCheckConstraints($table);
     }
 
-    /**
-     * Add columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addColumns(Table $table): void
     {
         IdMacro::addIdColumn($table);
@@ -62,25 +48,11 @@ final class CreateProductVariantsTable
         self::addTimestamps($table);
     }
 
-    /**
-     * Add product_id column to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addStandardColumn(Table $table): void
     {
         IntegerMacro::unsignedInteger($table, 'product_id');
     }
 
-    /**
-     * Add additional columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addAdditionalColumns(Table $table): void
     {
         StringMacro::string($table, 'sku', 100);
@@ -90,13 +62,6 @@ final class CreateProductVariantsTable
         StringMacro::string($table, 'url');
     }
 
-    /**
-     * Add enum column to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addEnumColumn(Table $table): void
     {
         EnumMacro::add(
@@ -108,26 +73,12 @@ final class CreateProductVariantsTable
         );
     }
 
-    /**
-     * Add timestamp columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addTimestamps(Table $table): void
     {
         TimestampMacro::created($table);
         TimestampMacro::updated($table);
     }
 
-    /**
-     * Add unique indexes to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addUniqueIndexes(Table $table): void
     {
         UniqueKeyMacro::add($table, ['sku'], 'unique_sku_product_variants');
@@ -135,37 +86,16 @@ final class CreateProductVariantsTable
         UniqueKeyMacro::add($table, ['url'], 'unique_url_product_variants');
     }
 
-    /**
-     * Add predefined index to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addIndex(Table $table): void
     {
         IndexMacro::add($table, ['product_id'], 'idx_product_variants_product_id');
     }
 
-    /**
-     * Add foreign key to the table using ForeignKeyMacro with dynamic parameters.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addForeignKey(Table $table): void
     {
         ForeignKeyMacro::addForeignKeys($table, 'products', ['product_id'], ['id']);
     }
 
-    /**
-     * Add check constraints to ensure data validity.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addCheckConstraints(Table $table): void
     {
         CheckConstraintMacro::add(

@@ -12,14 +12,9 @@ use App\Core\Ports\Segment\User\Repository\UserVerificationTokenRepositoryContra
 
 use App\Infrastructure\Abstract\Repository\AbstractTokenRepository;
 
-/**
- * @extends AbstractTokenRepository<UserVerificationToken>
-*/
+/** @extends AbstractTokenRepository<UserVerificationToken> */
 final class UserVerificationTokenRepository extends AbstractTokenRepository implements UserVerificationTokenRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -28,19 +23,11 @@ final class UserVerificationTokenRepository extends AbstractTokenRepository impl
         );
     }
 
-    /**
-     * @param string $token
-     *
-     * @return UserVerificationToken|null
-    */
     public function findByToken(string $token): ?UserVerificationToken
     {
         return parent::findByToken($token);
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'uvt';

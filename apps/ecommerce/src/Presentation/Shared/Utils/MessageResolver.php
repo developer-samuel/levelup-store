@@ -6,12 +6,7 @@ namespace App\Presentation\Shared\Utils;
 
 final class MessageResolver
 {
-    /**
-     * @param array<string, mixed> $result
-     * @param string|null $message
-     *
-     * @return string|null
-    */
+    /** @param array<string, mixed> $result */
     public static function resolve(array $result, ?string $message = null): ?string
     {
         if (self::isNonEmptyString($message)) {
@@ -25,13 +20,7 @@ final class MessageResolver
             : null;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return bool
-     *
-     * @phpstan-assert-if-true string $value
-    */
+    /** @phpstan-assert-if-true string $value */
     private static function isNonEmptyString(mixed $value): bool
     {
         return is_string($value) && $value !== '';

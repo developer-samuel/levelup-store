@@ -15,14 +15,9 @@ use App\Infrastructure\{
     Shared\Enum\SortDirection
 };
 
-/**
- * @extends AbstractRepository<Category>
-*/
+/** @extends AbstractRepository<Category> */
 final class CategoryRepository extends AbstractRepository implements CategoryRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -31,35 +26,21 @@ final class CategoryRepository extends AbstractRepository implements CategoryRep
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'c';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'id';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Category|null
-    */
     public function findByName(string $name): ?Category
     {
         return $this->findOneByColumn('name', $name);

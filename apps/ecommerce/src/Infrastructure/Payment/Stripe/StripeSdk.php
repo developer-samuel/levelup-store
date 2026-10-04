@@ -10,18 +10,10 @@ use App\Core\Ports\Payment\Stripe\StripeSdkContract;
 
 final class StripeSdk implements StripeSdkContract
 {
-    /**
-     * @param string $secretKey
-    */
     public function __construct(
         private string $secretKey,
     ) {}
 
-    /**
-     * @return void
-     *
-     * @throws \LogicException
-    */
     public function initialize(): void
     {
         if (trim($this->secretKey) === '') {

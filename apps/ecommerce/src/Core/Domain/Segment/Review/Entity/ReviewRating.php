@@ -57,19 +57,11 @@ class ReviewRating
     )]
     private ReviewRatingType $type = ReviewRatingType::LIKE;
 
-    /**
-     * @return ReviewRatingType
-    */
     public function getType(): ReviewRatingType
     {
         return $this->type;
     }
 
-    /**
-     * @param ReviewRatingType $type
-     *
-     * @return self
-    */
     public function setType(ReviewRatingType $type): self
     {
         $this->type = $type;

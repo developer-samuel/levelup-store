@@ -13,14 +13,9 @@ use App\Core\Domain\Segment\Cart\Entity\Cart;
 
 use App\Core\Ports\Segment\Cart\Repository\CartRepositoryContract;
 
-/**
- * @extends ServiceEntityRepository<Cart>
-*/
+/** @extends ServiceEntityRepository<Cart> */
 final class CartRepository extends ServiceEntityRepository implements CartRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -29,21 +24,12 @@ final class CartRepository extends ServiceEntityRepository implements CartReposi
         );
     }
 
-    /**
-     * @param int $userId
-     *
-     * @return Cart|null
-    */
     public function findCartForUser(int $userId): ?Cart
     {
         return $this->findOneBy(['user' => $userId]);
     }
 
-    /**
-     * @param \DateTimeImmutable $threshold
-     *
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     public function findInactiveSince(\DateTimeImmutable $threshold): array
     {
         /** @var Cart[] $result */
@@ -56,12 +42,7 @@ final class CartRepository extends ServiceEntityRepository implements CartReposi
         return $result;
     }
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     *
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     public function findAbandonedForReminder(\DateTimeImmutable $from, \DateTimeImmutable $to): array
     {
         /** @var Cart[] $result */
@@ -79,9 +60,7 @@ final class CartRepository extends ServiceEntityRepository implements CartReposi
         return $result;
     }
 
-    /**
-     * @return Cart[]
-    */
+    /** @return Cart[] */
     public function findEmpty(): array
     {
         /** @var Cart[] $result */

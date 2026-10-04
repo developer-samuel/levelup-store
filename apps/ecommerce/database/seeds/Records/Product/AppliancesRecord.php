@@ -15,9 +15,7 @@ final class AppliancesRecord extends AbstractDataRecord implements ProductRecord
     private const FOLDER = __DIR__ . '/../../../data/products/records/appliances/';
     private const FILES = __DIR__ . '/../../../data/products/files/appliances.json';
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     protected function getFilePaths(): array
     {
         return PathResolver::fromJson(self::FOLDER, self::FILES);

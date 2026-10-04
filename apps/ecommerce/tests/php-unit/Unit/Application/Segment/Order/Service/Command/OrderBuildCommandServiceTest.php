@@ -40,9 +40,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderBuildCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderBuildCommandService */
 final class OrderBuildCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;

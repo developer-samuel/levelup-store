@@ -15,14 +15,6 @@ use App\Core\Domain\{
 
 trait ProductFactory
 {
-    /**
-     * @param string $productName
-     * @param Category $category
-     * @param Type $type
-     * @param Brand $brand
-     *
-     * @return Product
-    */
     private function createProduct(
         string $productName,
         Category $category,

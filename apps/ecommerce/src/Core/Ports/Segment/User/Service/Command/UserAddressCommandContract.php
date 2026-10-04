@@ -13,12 +13,8 @@ use App\Core\Domain\{
 interface UserAddressCommandContract
 {
     /**
-     * @param User $user
-     * @param UserBilling|UserShipping|null $entity
      * @param array<string, int|string|null> $data
      * @param class-string<UserBilling|UserShipping> $entityClass
-     *
-     * @return void
     */
     public function processAddressEntity(
         User $user,

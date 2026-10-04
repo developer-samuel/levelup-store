@@ -10,18 +10,10 @@ final readonly class HmacGenerator implements HmacGeneratorContract
 {
     private const HMAC_ALGO = 'sha256';
 
-    /**
-     * @param string $secretKey
-    */
     public function __construct(
         private string $secretKey,
     ) {}
 
-    /**
-     * @param int $value
-     *
-     * @return string
-    */
     public function encrypt(int $value): string
     {
         $rawValue = (string) $value;
@@ -30,11 +22,6 @@ final readonly class HmacGenerator implements HmacGeneratorContract
         return $this->encodePayload(['value' => $rawValue, 'hmac' => $signature]);
     }
 
-    /**
-     * @param string $encoded
-     *
-     * @return int|string|null
-    */
     public function decrypt(string $encoded): int|string|null
     {
         $decoded = $this->decodePayload($encoded);
@@ -45,21 +32,12 @@ final readonly class HmacGenerator implements HmacGeneratorContract
         return $this->validateAndReturnValue($decoded);
     }
 
-    /**
-     * @param int|string $value
-     *
-     * @return string
-    */
     private function generateHmac(int|string $value): string
     {
         return hash_hmac(self::HMAC_ALGO, (string) $value, $this->secretKey);
     }
 
-    /**
-     * @param string[] $payload
-     *
-     * @return string
-    */
+    /** @param string[] $payload */
     private function encodePayload(array $payload): string
     {
         $json = json_encode($payload, JSON_THROW_ON_ERROR);
@@ -67,11 +45,7 @@ final readonly class HmacGenerator implements HmacGeneratorContract
         return base64_encode($json);
     }
 
-    /**
-     * @param string $encoded
-     *
-     * @return string[]|null
-    */
+    /** @return string[]|null */
     private function decodePayload(string $encoded): ?array
     {
         $json = base64_decode($encoded, true);
@@ -82,11 +56,7 @@ final readonly class HmacGenerator implements HmacGeneratorContract
         return $this->parseAndValidateJson($json);
     }
 
-    /**
-     * @param string $json
-     *
-     * @return string[]|null
-    */
+    /** @return string[]|null */
     private function parseAndValidateJson(string $json): ?array
     {
         try {
@@ -122,22 +92,14 @@ final readonly class HmacGenerator implements HmacGeneratorContract
         return $validated;
     }
 
-    /**
-     * @param string[] $decoded
-     *
-     * @return bool
-    */
+    /** @param string[] $decoded */
     private function isValidPayload(array $decoded): bool
     {
         return isset($decoded['value'], $decoded['hmac'])
             && hash_equals($this->generateHmac($decoded['value']), $decoded['hmac']);
     }
 
-    /**
-     * @param string[] $decoded
-     *
-     * @return int|string
-    */
+    /** @param string[] $decoded */
     private function validateAndReturnValue(array $decoded): int|string
     {
         $value = $decoded['value'];

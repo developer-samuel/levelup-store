@@ -13,11 +13,6 @@ use App\Core\Ports\Segment\Product\Service\Query\ProductPriceQueryContract;
 
 final class ProductPriceQueryService implements ProductPriceQueryContract
 {
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductPriceObject
-    */
     public function getPrice(ProductVariant $variant): ProductPriceObject
     {
         $originalPrice = $variant->getPrice();

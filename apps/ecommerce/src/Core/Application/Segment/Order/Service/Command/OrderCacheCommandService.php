@@ -21,18 +21,10 @@ final class OrderCacheCommandService implements OrderCacheCommandContract
 {
     private CacheProxyContract $cache;
 
-    /**
-     * @param CacheGatewayContract $cacheGateway
-    */
     public function __construct(CacheGatewayContract $cacheGateway) {
         $this->cache = $cacheGateway->getCache(OrderCachePool::ORDERS_USER->value);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function invalidateOrdersCache(User $user): void
     {
         $cacheKey = OrderCacheKeyPrefix::ORDERS_USER->value . $user->getId();

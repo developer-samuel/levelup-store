@@ -10,7 +10,7 @@ terraform {
     }
   }
 
-  required_version = ">= 1.5.0"
+  required_version = "~> 1.5"
 
   # Backend config is never hardcoded here - it would end up in git.
   # All backend config (bucket, endpoint, keys) goes into secrets/ files (gitignored).

@@ -30,9 +30,7 @@ use App\Core\Ports\{
 
 use Tests\Support\Provides\AssertsPersisted;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderItemCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderItemCommandService */
 final class OrderItemCommandServiceTest extends TestCase
 {
     use AssertsPersisted;
@@ -311,9 +309,7 @@ final class OrderItemCommandServiceTest extends TestCase
         return $cartItem;
     }
 
-    /**
-     * @return array{0: CartItem&MockObject, 1: ProductVariantStock&MockObject}
-    */
+    /** @return array{0: CartItem&MockObject, 1: ProductVariantStock&MockObject} */
     private function buildValidCartItemWithStock(): array
     {
         $stock = $this->createMock(ProductVariantStock::class);
@@ -325,9 +321,7 @@ final class OrderItemCommandServiceTest extends TestCase
         return [$cartItem, $stock];
     }
 
-    /**
-     * @return array{0: CartItem&MockObject, 1: ProductVariant&MockObject}
-    */
+    /** @return array{0: CartItem&MockObject, 1: ProductVariant&MockObject} */
     private function buildCartItemWithoutStock(): array
     {
         $variant = $this->buildVariantMock(stock: null);
@@ -352,9 +346,7 @@ final class OrderItemCommandServiceTest extends TestCase
         return [$cartItem, $variant, $stock];
     }
 
-    /**
-     * @param ProductVariantEan[] $eans
-    */
+    /** @param ProductVariantEan[] $eans */
     private function setupStockCheck(bool $isAvailable, array $eans): void
     {
         $this->orderItemQuery->method('isStockAvailable')->willReturn($isAvailable);

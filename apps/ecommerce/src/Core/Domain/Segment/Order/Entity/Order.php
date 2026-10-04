@@ -24,11 +24,7 @@ use App\Core\Domain\{
     Shared\Traits\Timestamps\UpdatedTimestampTrait
 };
 
-/**
- * @SuppressWarnings("UnusedPrivateField")
- *
- * @property Collection<int, OrderItem> $items
-*/
+/** @SuppressWarnings("UnusedPrivateField") */
 #[ORM\Entity]
 #[ORM\Table(name: 'orders')]
 #[ORM\HasLifecycleCallbacks]
@@ -42,9 +38,7 @@ class Order
     use CreatedTimestampTrait;
     use UpdatedTimestampTrait;
 
-    /**
-     * @use ItemCollectionTrait<OrderItem>
-    */
+    /** @use ItemCollectionTrait<OrderItem> */
     use ItemCollectionTrait;
 
     #[ORM\Id]
@@ -115,9 +109,7 @@ class Order
     )]
     private ?OrderShipping $shipping = null;
 
-    /**
-     * @var Collection<int, OrderItem>
-    */
+    /** @var Collection<int, OrderItem> */
     #[ORM\OneToMany(
         mappedBy: 'order',
         targetEntity: OrderItem::class,
@@ -130,156 +122,91 @@ class Order
         $this->items = new ArrayCollection();
     }
 
-    /**
-     * @return OrderPaymentMethod
-    */
     public function getPayment(): OrderPaymentMethod
     {
         return $this->payment;
     }
 
-    /**
-     * @param OrderPaymentMethod $payment
-     *
-     * @return self
-    */
     public function setPayment(OrderPaymentMethod $payment): self
     {
         $this->payment = $payment;
         return $this;
     }
 
-    /**
-     * @return OrderStatus
-    */
     public function getStatus(): OrderStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param OrderStatus $status
-     *
-     * @return self
-    */
     public function setStatus(OrderStatus $status): self
     {
         $this->status = $status;
         return $this;
     }
 
-    /**
-     * @return bool
-    */
     public function getSendShipping(): bool
     {
         return $this->sendShipping;
     }
 
-    /**
-     * @param bool $sendShipping
-     *
-     * @return void
-    */
     public function setSendShipping(bool $sendShipping): void
     {
         $this->sendShipping = $sendShipping;
     }
 
-    /**
-     * @return OrderPayment|null
-    */
     public function getOrderPayment(): ?OrderPayment
     {
         return $this->orderPayment;
     }
 
-    /**
-     * @param OrderPayment|null $orderPayment
-     *
-     * @return self
-    */
     public function setOrderPayment(?OrderPayment $orderPayment): self
     {
         $this->orderPayment = $orderPayment;
         return $this;
     }
 
-    /**
-     * @return bool
-    */
     public function hasPayment(): bool
     {
         return $this->orderPayment !== null;
     }
 
-    /**
-     * @return bool
-    */
     public function isCashPayment(): bool
     {
         return $this->getPayment() === OrderPaymentMethod::CASH;
     }
 
-    /**
-     * @return bool
-    */
     public function isCardPayment(): bool
     {
         return $this->getPayment() === OrderPaymentMethod::CARD;
     }
 
-    /**
-     * @return OrderPersonal|null
-    */
     public function getPersonal(): ?OrderPersonal
     {
         return $this->personal;
     }
 
-    /**
-     * @param OrderPersonal|null $personal
-     *
-     * @return self
-    */
     public function setPersonal(?OrderPersonal $personal): self
     {
         $this->personal = $personal;
         return $this;
     }
 
-    /**
-     * @return OrderBilling|null
-    */
     public function getBilling(): ?OrderBilling
     {
         return $this->billing;
     }
 
-    /**
-     * @param OrderBilling|null $billing
-     *
-     * @return self
-    */
     public function setBilling(?OrderBilling $billing): self
     {
         $this->billing = $billing;
         return $this;
     }
 
-    /**
-     * @return OrderShipping|null
-    */
     public function getShipping(): ?OrderShipping
     {
         return $this->shipping;
     }
 
-    /**
-     * @param OrderShipping|null $shipping
-     *
-     * @return self
-    */
     public function setShipping(?OrderShipping $shipping): self
     {
         $this->shipping = $shipping;

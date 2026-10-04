@@ -8,14 +8,7 @@ use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
 final readonly class ProductListObject
 {
-    /**
-     * @param ProductVariant[] $variants
-     * @param int $maxPages
-     * @param int $currentPage
-     * @param string $sort
-     * @param int $totalCount
-     * @param bool $showLoadMore
-    */
+    /** @param ProductVariant[] $variants */
     public function __construct(
         public array $variants,
         public int $maxPages,

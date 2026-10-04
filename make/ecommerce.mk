@@ -2,7 +2,8 @@
 # 🛒 Ecommerce Commands (Symfony/PHP)
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: install generate-uml fix-permissions cache-clear serve setup \
+.PHONY: install generate-uml fix-permissions cache-clear routes \
+        serve setup \
         build-prod test-prod
 
 # ── 💻 Dev ────────────────────────────────────────────────────────────────────
@@ -19,6 +20,9 @@ install:
 	else \
 		npm install && npm run build; \
 	fi
+	git config core.hooksPath .githooks
+	git config blame.ignoreRevsFile .git-blame-ignore-revs
+	@echo "✅ Git hooks enabled."
 
 ## Generate UML diagrams from source code
 generate-uml:
@@ -27,12 +31,11 @@ generate-uml:
 ## Set correct file permissions - fixes root-owned files (WSL2)
 fix-permissions:
 	@bash scripts/set-permissions/entrypoints/run.sh
-	cd apps/ecommerce && bash scripts/set-permissions/entrypoints/run.sh
-	$(MAKE) cache-clear
 	@if command -v docker > /dev/null 2>&1 && docker info > /dev/null 2>&1 && docker ps --filter "name=levelup_store_ecommerce_app" --filter "status=running" -q 2>/dev/null | grep -q .; then \
 		echo "🔧 Fixing var/ permissions inside app container..."; \
 		docker exec levelup_store_ecommerce_app chown -R www-data:www-data /var/www/apps/ecommerce/var/; \
 	fi
+	$(MAKE) cache-clear
 
 ## Clear and warmup Symfony cache (flushes Redis if available)
 cache-clear:
@@ -42,6 +45,10 @@ cache-clear:
 	@if command -v redis-cli > /dev/null 2>&1; then \
 		redis-cli -h "$$REDIS_HOST" -p "$$REDIS_PORT" flushall 2>/dev/null || true; \
 	fi
+
+## List all registered routes (name, method, path)
+routes:
+	cd apps/ecommerce && php bin/console debug:router
 
 ## Start local development servers (PHP + frontend)
 serve:

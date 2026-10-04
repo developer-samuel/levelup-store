@@ -11,10 +11,6 @@ use App\Core\Domain\{
 
 interface OrderCacheQueryContract
 {
-    /**
-     * @param User|null $user
-     *
-     * @return Order[]
-    */
+    /** @return Order[] */
     public function getOrders(?User $user): array;
 }

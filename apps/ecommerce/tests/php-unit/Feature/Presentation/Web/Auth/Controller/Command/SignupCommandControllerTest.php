@@ -1,0 +1,154 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\Presentation\Web\Auth\Controller\Command;
+
+use Symfony\{
+    Bundle\FrameworkBundle\KernelBrowser,
+    Bundle\FrameworkBundle\Test\WebTestCase
+};
+
+use PHPUnit\Framework\MockObject\MockObject;
+
+use App\Core\Ports\{
+    Auth\Handler\Command\SignupHandlerContract,
+    Gateways\External\Turnstile\TurnstileGatewayContract
+};
+
+use Tests\Support\{
+    Mocks\RateLimiterMock,
+    Mocks\TurnstileMock,
+    Provides\DecodesJson
+};
+
+/** @coversDefaultClass \App\Presentation\Web\Auth\Controller\Command\SignupCommandController */
+final class SignupCommandControllerTest extends WebTestCase
+{
+    use DecodesJson;
+    use RateLimiterMock;
+    use TurnstileMock;
+
+    private KernelBrowser $client;
+
+    protected function setUp(): void
+    {
+        $this->client = static::createClient();
+
+        static::getContainer()->set('App\Infrastructure\RateLimiter\SignupRateLimiter', $this->createRateLimiterMock());
+        static::getContainer()->set(TurnstileGatewayContract::class, $this->createTurnstileMock());
+    }
+
+    public function testStoreReturnsSuccessJson(): void
+    {
+        $this->setHandlerMock([
+            'status'        => 'success',
+            'access_token'  => 'access-token-abc',
+            'refresh_token' => 'refresh-token-xyz',
+            'redirect'      => '/',
+        ]);
+
+        $this->client->request('POST', '/signup/store', $this->buildPayload());
+
+        self::assertResponseIsSuccessful();
+        self::assertTrue($this->decodeJson()['success']);
+    }
+
+    public function testStoreSetsRefreshTokenCookie(): void
+    {
+        $this->setHandlerMock([
+            'status'        => 'success',
+            'access_token'  => 'access-token-abc',
+            'refresh_token' => 'refresh-token-xyz',
+            'redirect'      => '/',
+        ]);
+
+        $this->client->request('POST', '/signup/store', $this->buildPayload());
+
+        self::assertNotNull($this->client->getCookieJar()->get('refresh_token'));
+    }
+
+    public function testStoreReturnsUnprocessableWhenTurnstileFails(): void
+    {
+        $this->turnstileVerified = false;
+
+        $this->client->request('POST', '/signup/store', $this->buildPayload());
+
+        self::assertResponseStatusCodeSame(422);
+        $errors = $this->decodeJson()['errors'];
+
+        self::assertIsArray($errors);
+        self::assertArrayHasKey('turnstile', $errors);
+    }
+
+    public function testStoreDoesNotReturnRefreshTokenInBody(): void
+    {
+        $this->setHandlerMock([
+            'status'        => 'success',
+            'access_token'  => 'access-token-abc',
+            'refresh_token' => 'refresh-token-xyz',
+            'redirect'      => '/',
+        ]);
+
+        $this->client->request('POST', '/signup/store', $this->buildPayload());
+
+        self::assertArrayNotHasKey('refresh_token', $this->decodeJson());
+    }
+
+    public function testStoreReturnsJsonResponse(): void
+    {
+        $this->setHandlerMock([
+            'status'        => 'success',
+            'access_token'  => 'at',
+            'refresh_token' => 'rt',
+            'redirect'      => '/',
+        ]);
+
+        $this->client->request('POST', '/signup/store', $this->buildPayload());
+
+        self::assertResponseHeaderSame('Content-Type', 'application/json');
+    }
+
+    public function testStoreReturnsUnprocessableOnValidationErrors(): void
+    {
+        $this->client->request('POST', '/signup/store', []);
+
+        self::assertResponseStatusCodeSame(422);
+
+        $data = $this->decodeJson();
+
+        self::assertFalse($data['success']);
+        self::assertNotEmpty($data['errors']);
+    }
+
+    /** @param array<string, mixed> $returnValue */
+    private function setHandlerMock(array $returnValue): void
+    {
+        static::getContainer()->set(
+            SignupHandlerContract::class,
+            $this->createSignupHandlerMock($returnValue),
+        );
+    }
+
+    /** @return array<string, mixed> */
+    private function buildPayload(): array
+    {
+        return [
+            'email'                 => 'signup-' . uniqid() . '@test.com',
+            'first_name'            => 'John',
+            'last_name'             => 'Doe',
+            'password'              => 'Password1!',
+            'password_confirmation' => 'Password1!',
+            'terms_and_conditions'  => '1',
+        ];
+    }
+
+    /** @param array<string, mixed> $returnValue */
+    private function createSignupHandlerMock(array $returnValue): SignupHandlerContract&MockObject
+    {
+        $handler = $this->createMock(SignupHandlerContract::class);
+        $handler->method('handle')->willReturn($returnValue);
+
+        return $handler;
+    }
+}

@@ -13,16 +13,11 @@ use App\Core\Ports\Gateways\External\Storage\StorageGatewayContract;
 
 final class StorageExtension extends AbstractExtension
 {
-    /**
-     * @param StorageGatewayContract $storage
-    */
     public function __construct(
         private readonly StorageGatewayContract $storage,
     ) {}
 
-    /**
-     * @return TwigFunction[]
-    */
+    /** @return TwigFunction[] */
     public function getFunctions(): array
     {
         return [

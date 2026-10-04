@@ -13,13 +13,7 @@ use App\Core\Domain\{
 
 trait TypeFactory
 {
-    /**
-     * @param ObjectManager $manager
-     * @param Category $category
-     * @param string[] $types
-     *
-     * @return void
-    */
+    /** @param string[] $types */
     private function createAndPersistTypes(
         ObjectManager $manager,
         Category $category,
@@ -32,12 +26,6 @@ trait TypeFactory
         }
     }
 
-    /**
-     * @param Category $category
-     * @param string $name
-     *
-     * @return Type
-    */
     private function createType(Category $category, string $name): Type
     {
         return (new Type())

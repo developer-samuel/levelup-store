@@ -16,12 +16,6 @@ use App\Core\Ports\{
 
 final readonly class ResetPasswordCommandService implements ResetPasswordCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param PasswordHasherProviderContract $passwordHasherProxy
-     * @param PasswordResetTokenRepositoryContract $tokenRepository
-     * @param ResetPasswordNotifierContract $notifier
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private PasswordHasherProviderContract $passwordHasherProxy,
@@ -29,12 +23,6 @@ final readonly class ResetPasswordCommandService implements ResetPasswordCommand
         private ResetPasswordNotifierContract $notifier,
     ) {}
 
-    /**
-     * @param User $user
-     * @param string $password
-     *
-     * @return void
-    */
     public function resetPassword(User $user, string $password): void
     {
         $this->changePassword($user, $password);
@@ -43,12 +31,6 @@ final readonly class ResetPasswordCommandService implements ResetPasswordCommand
         $this->notifier->send($user);
     }
 
-    /**
-     * @param User $user
-     * @param string $newPassword
-     *
-     * @return void
-    */
     private function changePassword(User $user, string $newPassword): void
     {
         $hashedPassword = $this->passwordHasherProxy->hash($user, $newPassword);

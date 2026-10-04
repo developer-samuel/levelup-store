@@ -19,20 +19,13 @@ use App\Core\Ports\{
 
 final readonly class ProductSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @param Environment $twig
-     * @param AppLoggerContract $logger
-     * @param ProductCacheQueryContract $productCacheQuery
-    */
     public function __construct(
         private Environment $twig,
         private AppLoggerContract $logger,
         private ProductCacheQueryContract $productCacheQuery,
     ) {}
 
-    /**
-     * @return array<string, string>
-    */
+    /** @return array<string, string> */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -40,11 +33,6 @@ final readonly class ProductSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -76,12 +64,6 @@ final readonly class ProductSubscriber implements EventSubscriberInterface
         $this->addGlobalVariablesToTwig($title, $route);
     }
 
-    /**
-     * @param Request $request
-     * @param string $key
-     *
-     * @return string|null
-    */
     private function getStringQueryParam(Request $request, string $key): ?string
     {
         $value = $request->query->get($key);
@@ -89,22 +71,11 @@ final readonly class ProductSubscriber implements EventSubscriberInterface
         return is_string($value) ? $value : null;
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return bool
-    */
     private function isDiscountRoute(ControllerEvent $event): bool
     {
         return str_contains($event->getRequest()->getPathInfo(), '/discounts');
     }
 
-    /**
-     * @param string $title
-     * @param string $route
-     *
-     * @return void
-    */
     private function addGlobalVariablesToTwig(string $title, string $route): void
     {
         $this->twig->addGlobal('productsTitle', $title);

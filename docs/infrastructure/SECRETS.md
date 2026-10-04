@@ -27,8 +27,10 @@ argocd app set ... -p app.secret="..." -p postgresql.auth.username="..."
 ArgoCD syncs → Helm renders values → K8s Secret → pod env vars
 ```
 
-Secrets are passed directly to ArgoCD as Helm values - no Sealed Secrets or Vault needed.
-The `sealedSecrets.enabled=false` flag disables the alternative path.
+Secrets are passed directly to ArgoCD as Helm values.
+App secrets (ecommerce, assistant) flow through ArgoCD parameters.
+Infrastructure secrets (services) are stored as raw K8s secrets.
+Vault + External Secrets Operator provide an alternative path for secret management.
 
 ---
 
@@ -275,6 +277,59 @@ Also injected into the Atlantis pod via `make atlantis-secret`.
 | `TF_BACKEND_ENDPOINT`   | OCI Object Storage S3-compatible endpoint URL |
 | `TF_BACKEND_ACCESS_KEY` | OCI Customer Secret Key (access key)          |
 | `TF_BACKEND_SECRET_KEY` | OCI Customer Secret Key (secret)              |
+
+---
+
+## make vault-init / vault-setup / vault-status
+
+HashiCorp Vault runs in the `vault` namespace and auto-unseals on every pod restart via a sidecar container that reads unseal keys from the `vault-init` K8s secret.
+
+### First-time setup (run once after initial deploy)
+
+```bash
+make -C infrastructure vault-init    # initialize Vault, store unseal keys in K8s secret
+make -C infrastructure vault-unseal  # manual unseal (only needed before vault-init auto-unseal kicks in)
+make -C infrastructure vault-setup   # enable KV-v2, Kubernetes auth, ESO policy + apply ClusterSecretStore
+```
+
+After `vault-setup`, the External Secrets Operator can read secrets from Vault via the `vault` ClusterSecretStore.
+
+### Ongoing
+
+```bash
+make -C infrastructure vault-status  # check Vault seal status
+```
+
+Vault **auto-unseals** on pod restart - no manual intervention needed after initial setup.
+
+### Writing secrets to Vault
+
+```bash
+kubectl exec -n vault vault-0 -c vault -- vault kv put secret/myapp key=value
+```
+
+### Reading secrets via External Secrets Operator
+
+Create an `ExternalSecret` resource in any namespace:
+
+```yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: my-secret
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: vault
+    kind: ClusterSecretStore
+  target:
+    name: my-k8s-secret
+  data:
+    - secretKey: key
+      remoteRef:
+        key: secret/myapp
+        property: key
+```
 
 ---
 

@@ -7,12 +7,6 @@ use Packages\Kit\Constants\CharacterConstants;
 
 final class IdentifierGenerator
 {
-     /**
-     * @param string $name
-     * @param int $lettersPerWord
-     *
-     * @return string
-    */
     public static function generatePrefix(string $name, int $lettersPerWord = 1): string
     {
         $split = preg_split('/\s+/', trim($name));
@@ -26,11 +20,6 @@ final class IdentifierGenerator
         return $prefix;
     }
 
-    /**
-     * @param int $length
-     *
-     * @return string
-    */
     public static function generateRandomAlphanumeric(int $length): string
     {
         $chars = CharacterConstants::UPPERCASE . CharacterConstants::DIGITS;

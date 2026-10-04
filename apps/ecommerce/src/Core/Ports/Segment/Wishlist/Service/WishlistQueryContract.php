@@ -11,25 +11,9 @@ use App\Core\Domain\{
 
 interface WishlistQueryContract
 {
-    /**
-     * @param User $user
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function exists(User $user, ProductVariant $variant): bool;
-
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function inCurrentUserWishlist(ProductVariant $variant): bool;
 
-    /**
-     * @param User $user
-     *
-     * @return array<array<string, mixed>>
-    */
+    /** @return array<array<string, mixed>> */
     public function fetchAllForUser(User $user): array;
 }

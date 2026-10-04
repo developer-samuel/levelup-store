@@ -11,12 +11,6 @@ use App\Core\Domain\{
 
 trait VariantRecommendedFactory
 {
-    /**
-     * @param ProductVariant $variant
-     * @param int $position
-     *
-     * @return ProductVariantRecommended
-    */
     private function createVariant(ProductVariant $variant, int $position): ProductVariantRecommended
     {
         return (new ProductVariantRecommended())

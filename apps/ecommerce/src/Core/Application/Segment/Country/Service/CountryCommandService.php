@@ -18,22 +18,13 @@ use App\Core\Ports\{
 
 final readonly class CountryCommandService implements CountryCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param CountryApiGatewayContract $countryApiAdapter
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private CountryApiGatewayContract $countryApiAdapter,
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param CountryObject[] $countries
-     *
-     * @return void
-    */
+    /** @param CountryObject[] $countries */
     public function saveCountries(array $countries): void
     {
         foreach ($countries as $apiCountry) {
@@ -49,11 +40,7 @@ final readonly class CountryCommandService implements CountryCommandContract
         $this->flushAndLog();
     }
 
-    /**
-     * @param CountryObject $country
-     *
-     * @return Country
-    */
+    /** @param CountryObject $country */
     private function createCountry(CountryObject $country): Country
     {
         return (new Country())
@@ -61,9 +48,6 @@ final readonly class CountryCommandService implements CountryCommandContract
             ->setName($country->name);
     }
 
-    /**
-     * @return void
-    */
     private function flushAndLog(): void
     {
         try {

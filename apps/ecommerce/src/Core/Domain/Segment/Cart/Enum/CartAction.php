@@ -13,9 +13,6 @@ enum CartAction: string
     case ADD = 'add';
     case REMOVE = 'remove';
 
-    /**
-     * @return string
-    */
     public function successMessage(): string
     {
         return match ($this) {

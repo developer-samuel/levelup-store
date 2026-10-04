@@ -23,9 +23,7 @@ use App\Core\Ports\{
     Segment\Review\Service\Query\ReviewQueryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductVariantQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductVariantQueryService */
 final class ProductVariantQueryServiceTest extends TestCase
 {
     private ReviewQueryContract&MockObject $reviewQuery;

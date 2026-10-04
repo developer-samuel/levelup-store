@@ -18,13 +18,14 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Task Scheduling:** Symfony Scheduler & Cron
 - **Emailing:** Symfony Mailer (SMTP)
 - **Real-time:** Mercure (SSE hub for server-sent events)
+- **API Documentation:** nelmio/api-doc-bundle (Swagger UI at `/api/dev/docs`, local/dev only, PHP 8 attributes)
 
 ---
 
 ## 2. Frontend & Design
 
 - **Runtime:** Node.js (LTS)
-- **Package Manager:** pnpm / npm
+- **Package Manager:** pnpm
 - **Build Tool:** Vite
 - **Asset Management:** Symfony AssetMapper
 - **TypeScript**: Vanilla TypeScript
@@ -89,28 +90,28 @@ We maintain 100% focus on code quality using these tools:
 
 ### Backend QA
 
-| Tool         | Purpose                                        | Execution (via Composer)  |
-|--------------|------------------------------------------------|---------------------------|
-| Deptrac      | Architectural dependency enforcement           | composer deptrac          |
-| PHPMD        | PHP Mess Detector (using `phpmd.xml`)          | composer php-md           |
-| PHPStan      | Static analysis (Level 10+)                    | composer php-stan         |
-| PHPMetrics   | Visual quality metrics and complexity analysis | composer php-metrics      |
-| PDepend      | Design metrics and software artifacts          | composer pdepend          |
-| PHP CS Fixer | Coding standards enforcement                   | composer php-cs-fixer:fix |
-| Rector       | Automated refactoring and upgrades             | composer rector:fix       |
-| PHPUnit      | Unit, Integration and Feature testing          | composer php-unit         |
-| SonarQube    | Local static analysis dashboard                | composer sonar            |
+| Tool                  | Purpose                                        | Execution (via Composer)  |
+|-----------------------|------------------------------------------------|---------------------------|
+| Deptrac               | Architectural dependency enforcement           | composer deptrac          |
+| PHPMD                 | PHP Mess Detector (using `phpmd.xml`)          | composer php-md           |
+| PHPStan               | Static analysis (Level 10+)                    | composer php-stan         |
+| PHPMetrics            | Visual quality metrics and complexity analysis | composer php-metrics      |
+| PDepend               | Design metrics and software artifacts          | composer pdepend          |
+| PHP CS Fixer          | Coding standards enforcement                   | composer php-cs-fixer:fix |
+| Rector                | Automated refactoring and upgrades             | composer rector:fix       |
+| PHPUnit               | Unit, Integration and Feature testing          | composer php-unit         |
+| SonarQube             | Local static analysis dashboard                | composer sonar            |
 
 ### Frontend QA
 
-| Tool              | Purpose                                   | Execution                            |
-|-------------------|-------------------------------------------|--------------------------------------|
-| Vitest            | Unit, Integration and Functional testing  | pnpm vitest / npm run vitest         |
-| Playwright        | End-to-end testing                        | pnpm e2e / npm run e2e               |
-| TypeScript        | Static type checking                      | pnpm type-check / npm run type-check |
-| ESLint + Prettier | TS linting and automated code formatting  | pnpm lint / npm run lint             |
-| Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss / npm run lint-scss   |
-| SLOC              | Source Lines of Code analysis (TS & SCSS) | npx sloc assets/ts assets/scss       |
+| Tool              | Purpose                                   | Execution                      |
+|-------------------|-------------------------------------------|--------------------------------|
+| Vitest            | Unit, Integration and Functional testing  | pnpm vitest                    |
+| Playwright        | End-to-end testing                        | pnpm e2e                       |
+| TypeScript        | Static type checking                      | pnpm type-check                |
+| ESLint + Prettier | TS linting and automated code formatting  | pnpm lint                      |
+| Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss                 |
+| SLOC              | Source Lines of Code analysis (TS & SCSS) | npx sloc assets/ts assets/scss |
 
 ### CI/CD Tooling
 
@@ -131,7 +132,7 @@ Tools that run exclusively in GitHub Actions pipelines - not available as local 
 | Checkov                  | IaC security scanning (Terraform, Helm, K8s)          | `infrastructure-validate.yml`                                 |
 | ShellCheck               | Shell script static analysis                          | `infrastructure-lint.yml`                                     |
 | ansible-lint             | Ansible playbook linting                              | `infrastructure-lint.yml`                                     |
-| Lighthouse               | Frontend performance auditing                         | `ecommerce-frontend-audit.yml`                                |
+| Lighthouse CI            | Frontend performance auditing + budget enforcement    | `ecommerce-lighthouse.yml`, `ecommerce-frontend-audit.yml`    |
 | axe-core + pa11y         | Accessibility testing on PRs                          | `ecommerce-frontend-audit.yml`                                |
 | SonarCloud               | Cloud static analysis + ESLint + coverage             | `ecommerce-coverage.yml`                                      |
 | Codecov                  | PHP + JS coverage tracking and reporting              | `ecommerce-coverage.yml`                                      |

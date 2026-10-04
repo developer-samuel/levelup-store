@@ -6,6 +6,7 @@ namespace App\Core\Application\Segment\Review\Service\Query;
 
 use App\Core\Domain\{
     Segment\Review\Entity\Review,
+    Segment\Review\Enum\ReviewRatingType,
     Segment\User\Entity\User
 };
 
@@ -16,23 +17,15 @@ use App\Core\Ports\{
 
 final readonly class ReviewRatingQueryService implements ReviewRatingQueryContract
 {
-    /**
-     * @param ReviewRatingRepositoryContract $reviewRatingRepository
-    */
     public function __construct(
         private ReviewRatingRepositoryContract $reviewRatingRepository,
     ) {}
 
-    /**
-     * @param Review $review
-     * @param User|null $user
-     *
-     * @return array<string, int|string>
-    */
+    /** @return array<string, int|string> */
     public function getReviewFeedbackStats(Review $review, ?User $user): array
     {
-        $likes = $this->getRatingCount($review, 'like');
-        $dislikes = $this->getRatingCount($review, 'dislike');
+        $likes = $this->getRatingCount($review, ReviewRatingType::LIKE);
+        $dislikes = $this->getRatingCount($review, ReviewRatingType::DISLIKE);
         $userRatingType = $this->getUserRatingType($review, $user);
 
         return [
@@ -42,25 +35,13 @@ final readonly class ReviewRatingQueryService implements ReviewRatingQueryContra
         ];
     }
 
-    /**
-     * @param Review $review
-     * @param string $type
-     *
-     * @return int
-    */
-    private function getRatingCount(Review $review, string $type): int
+    private function getRatingCount(Review $review, ReviewRatingType $type): int
     {
         $reviewId = $review->getId();
 
         return $this->reviewRatingRepository->countByType($reviewId, $type);
     }
 
-    /**
-     * @param Review $review
-     * @param User $user
-     *
-     * @return string
-    */
     private function getUserRatingType(Review $review, ?User $user): string
     {
         if ($user === null) {

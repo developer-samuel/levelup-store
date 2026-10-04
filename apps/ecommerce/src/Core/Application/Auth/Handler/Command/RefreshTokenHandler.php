@@ -16,10 +16,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class RefreshTokenHandler extends AbstractCommandHandler implements RefreshTokenHandlerContract
 {
-    /**
-     * @param RefreshTokenCommandContract $refreshTokenCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly RefreshTokenCommandContract $refreshTokenCommand,
         AppLoggerContract $logger,
@@ -27,11 +23,7 @@ final class RefreshTokenHandler extends AbstractCommandHandler implements Refres
         parent::__construct($logger);
     }
 
-    /**
-     * @param string|null $refreshToken
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(?string $refreshToken): array
     {
         return $this->execute(function () use ($refreshToken) {

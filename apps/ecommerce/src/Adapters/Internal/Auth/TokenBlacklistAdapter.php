@@ -18,9 +18,6 @@ final readonly class TokenBlacklistAdapter implements TokenBlacklistContract
 
     private ?CacheProxyContract $cache;
 
-    /**
-     * @param RedisCacheGatewayContract $redis
-    */
     public function __construct(
         RedisCacheGatewayContract $redis,
     ) {
@@ -29,12 +26,6 @@ final readonly class TokenBlacklistAdapter implements TokenBlacklistContract
             : null;
     }
 
-    /**
-     * @param string $token
-     * @param \DateTimeImmutable $expiresAt
-     *
-     * @return void
-    */
     public function blacklist(string $token, \DateTimeImmutable $expiresAt): void
     {
         if ($this->cache === null) {
@@ -52,11 +43,6 @@ final readonly class TokenBlacklistAdapter implements TokenBlacklistContract
         });
     }
 
-    /**
-     * @param string $token
-     *
-     * @return bool
-    */
     public function isBlacklisted(string $token): bool
     {
         if ($this->cache === null) {
@@ -72,11 +58,6 @@ final readonly class TokenBlacklistAdapter implements TokenBlacklistContract
         return $result === 1;
     }
 
-    /**
-     * @param string $token
-     *
-     * @return string
-    */
     private function hash(string $token): string
     {
         return hash('sha256', $token);

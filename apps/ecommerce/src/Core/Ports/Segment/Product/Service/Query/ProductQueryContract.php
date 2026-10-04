@@ -11,13 +11,7 @@ use App\Core\Domain\{
 
 interface ProductQueryContract
 {
-    /**
-     * @param ProductFilterObject $filter
-     * @param int $page
-     * @param ProductSortOption $sort
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getFilteredAndSortedData(
         ProductFilterObject $filter,
         int $page = 1,

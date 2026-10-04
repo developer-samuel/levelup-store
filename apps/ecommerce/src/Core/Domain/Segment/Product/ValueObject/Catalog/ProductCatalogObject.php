@@ -9,12 +9,8 @@ use App\Core\Domain\Segment\Product\ValueObject\ProductVariantObject;
 final readonly class ProductCatalogObject
 {
     /**
-     * @param bool $isDiscountRoute
-     * @param ProductCatalogFilterObject $filter
-     * @param ProductCatalogPaginationObject $pagination
      * @param ProductVariantObject[] $variants
      * @param array<int, string[]> $sortOptions
-     * @param string $sort
     */
     public function __construct(
         public bool $isDiscountRoute,

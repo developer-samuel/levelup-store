@@ -18,20 +18,13 @@ use App\Core\Ports\{
 
 final readonly class DateSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @param Environment $twig
-     * @param AppLoggerContract $logger
-     * @param DateCacheQueryContract $dateCacheQuery
-    */
     public function __construct(
         private Environment $twig,
         private AppLoggerContract $logger,
         private DateCacheQueryContract $dateCacheQuery,
     ) {}
 
-    /**
-     * @return array<class-string, string>
-    */
+    /** @return array<class-string, string> */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -39,11 +32,6 @@ final readonly class DateSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -64,11 +52,7 @@ final readonly class DateSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param array<string, mixed> $values
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $values */
     private function addGlobalVariablesToTwig(array $values): void
     {
         foreach ($values as $key => $value) {

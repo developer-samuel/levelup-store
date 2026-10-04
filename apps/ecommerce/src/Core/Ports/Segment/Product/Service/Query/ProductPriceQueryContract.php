@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface ProductPriceQueryContract
 {
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductPriceObject
-    */
     public function getPrice(ProductVariant $variant): ProductPriceObject;
 }

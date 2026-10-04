@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface CartControlQueryContract
 {
-    /**
-     * @param User $user
-     *
-     * @return Cart|null
-    */
     public function getUserCart(User $user): ?Cart;
 }

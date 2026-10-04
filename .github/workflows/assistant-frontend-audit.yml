@@ -37,13 +37,13 @@ jobs:
 
       - name: Serve built assets
         run: |
-          npm install -g serve
+          pnpm add -g serve
           serve -s dist/assistant -l 5174 &
           sleep 2
 
       - name: Run axe-core
         run: |
-          npm install -g @axe-core/cli
+          pnpm add -g @axe-core/cli
           axe http://127.0.0.1:5174 \
             --tags wcag2a,wcag2aa \
             --reporter cli \
@@ -51,7 +51,7 @@ jobs:
 
       - name: Run pa11y
         run: |
-          npm install -g pa11y
+          pnpm add -g pa11y
           pa11y http://127.0.0.1:5174 \
             --standard WCAG2AA \
             --reporter cli || true
@@ -77,7 +77,7 @@ jobs:
 
       - name: Serve built assets
         run: |
-          npm install -g serve
+          pnpm add -g serve
           serve -s dist/assistant -l 5174 &
           sleep 2
 

@@ -116,7 +116,7 @@ services:
     arguments:
       $logger: '@monolog.logger.app_logger'
 
-  App\Infrastructure\Segment\Audit\AuditLogger:
+  App\Infrastructure\Shared\Audit\AuditLogger:
     arguments:
       $enabled: '%env(bool:AUDIT_LOGS_ENABLED)%'
 
@@ -141,7 +141,7 @@ services:
     resource: '../src/Presentation/'
     tags: ['controller.service_arguments']
 
-  App\Presentation\Dev\HealthCheckConfig:
+  App\Presentation\Api\Dev\HealthCheckConfig:
     arguments:
       $stripeSecretKey: '%env(STRIPE_SECRET)%'
       $mailerUser: '%env(MAILER_USER)%'
@@ -151,11 +151,11 @@ services:
       $wkhtmltopdfEnabled: '%env(bool:WKHTMLTOPDF_ENABLED)%'
       $wkhtmltopdfPath: '%env(WKHTMLTOPDF_PATH)%'
 
-  App\Presentation\Auth\Manager\RefreshTokenCookieManager:
+  App\Presentation\Shared\Manager\RefreshTokenCookieManager:
     arguments:
       $refreshTokenTtl: '%env(int:JWT_REFRESH_TTL)%'
 
-  App\Presentation\Segment\Review\Twig\ReviewExtension:
+  App\Presentation\Web\Segment\Review\Twig\ReviewExtension:
     tags:
       - { name: twig.extension }
 

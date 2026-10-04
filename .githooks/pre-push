@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+echo "🔍 [ecommerce] Running PHPStan..."
+(cd apps/ecommerce && bin/run php vendor/bin/phpstan analyse --memory-limit=1G)
+
+echo "🔍 [ecommerce] Running PHPMd..."
+(cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml)
+
+echo "🔍 [ecommerce] Running Deptrac..."
+(cd apps/ecommerce && bin/run php scripts/tools/deptrac/launcher.php)
+
+echo "🔍 [ecommerce] Running TypeScript type-check..."
+pnpm --filter ecommerce type-check
+
+echo "🔍 [assistant] Running mypy..."
+(cd apps/assistant && uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/)
+
+echo "🔍 [assistant] Running TypeScript type-check..."
+pnpm --filter assistant type-check
+
+echo "✅ Pre-push checks passed."

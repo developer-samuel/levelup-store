@@ -15,20 +15,10 @@ use App\Core\Ports\Shared\Logging\AppLoggerContract;
 
 final readonly class ExceptionResponder
 {
-    /**
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param \Throwable $throwable
-     * @param User|null $user
-     * @param string|null $message
-     *
-     * @return Response
-    */
     public function renderInternalServerError(
         \Throwable $throwable,
         ?User $user = null,
@@ -42,13 +32,6 @@ final readonly class ExceptionResponder
         );
     }
 
-    /**
-     * @param \Throwable $throwable
-     * @param User|null $user
-     * @param string|null $message
-     *
-     * @return JsonResponse
-    */
     public function renderInternalServerErrorJson(
         \Throwable $throwable,
         ?User $user = null,
@@ -65,12 +48,6 @@ final readonly class ExceptionResponder
         );
     }
 
-    /**
-     * @param \Throwable $throwable
-     * @param User|null $user
-     *
-     * @return void
-    */
     private function logCritical(\Throwable $throwable, ?User $user = null): void
     {
         $normalizedException = $this->normalizeException($throwable);
@@ -82,11 +59,6 @@ final readonly class ExceptionResponder
         );
     }
 
-    /**
-     * @param \Throwable $throwable
-     *
-     * @return \Exception
-    */
     private function normalizeException(\Throwable $throwable): \Exception
     {
         return $throwable instanceof \Exception

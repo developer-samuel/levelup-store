@@ -22,12 +22,6 @@ use App\Core\Ports\{
 
 final readonly class VerificationCommandService implements VerificationCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param UserVerificationTokenRepositoryContract $tokenRepository
-     * @param VerificationQueryContract $verificationQuery
-     * @param VerificationNotifierContract $notifier
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private UserVerificationTokenRepositoryContract $tokenRepository,
@@ -35,11 +29,6 @@ final readonly class VerificationCommandService implements VerificationCommandCo
         private VerificationNotifierContract $notifier,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function createAndSaveTokenForUser(User $user): void
     {
         $this->tokenRepository->removeTokensByUser($user);
@@ -54,11 +43,6 @@ final readonly class VerificationCommandService implements VerificationCommandCo
         $this->notifier->send($user, $token);
     }
 
-    /**
-     * @param UpdateVerificationPayload $payload
-     *
-     * @return User|null
-    */
     public function verifyUserByToken(UpdateVerificationPayload $payload): ?User
     {
         $userVerificationToken = $this->verificationQuery->getValidToken($payload->token);
@@ -77,13 +61,6 @@ final readonly class VerificationCommandService implements VerificationCommandCo
         return $user;
     }
 
-    /**
-     * @param User $user
-     * @param string $token
-     * @param \DateTimeImmutable $expiresAt
-     *
-     * @return UserVerificationToken
-    */
     private function createTokenEntity(
         User $user,
         string $token,
@@ -95,11 +72,6 @@ final readonly class VerificationCommandService implements VerificationCommandCo
             ->setExpiresAt($expiresAt);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     private function verifyUser(User $user): void
     {
         $user->setEmailVerifiedAt(new \DateTimeImmutable());

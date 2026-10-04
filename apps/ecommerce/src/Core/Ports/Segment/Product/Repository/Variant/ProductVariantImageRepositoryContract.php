@@ -11,10 +11,6 @@ use App\Core\Domain\{
 
 interface ProductVariantImageRepositoryContract
 {
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariantImage[]
-    */
+    /** @return ProductVariantImage[] */
     public function findAllByVariant(ProductVariant $variant): array;
 }

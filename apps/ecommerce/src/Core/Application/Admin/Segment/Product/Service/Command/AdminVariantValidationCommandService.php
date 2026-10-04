@@ -10,13 +10,6 @@ use App\Core\Ports\Admin\Segment\Product\Service\Command\AdminVariantValidationC
 
 final class AdminVariantValidationCommandService implements AdminVariantValidationCommandContract
 {
-    /**
-     * @param object $payload
-     *
-     * @return int
-     *
-     * @throws \DomainException
-    */
     public function extractAndValidateId(object $payload, string $field = 'id'): int
     {
         $vars = get_object_vars($payload);
@@ -25,13 +18,6 @@ final class AdminVariantValidationCommandService implements AdminVariantValidati
         return $this->validatePositiveInt($id, 'ID');
     }
 
-    /**
-     * @param object $payload
-     *
-     * @return int
-     *
-     * @throws \DomainException
-    */
     public function extractAndValidateVariantId(object $payload): int
     {
         $variantId = DataSanitizer::sanitizeInt($payload->variantId ?? null);
@@ -39,14 +25,6 @@ final class AdminVariantValidationCommandService implements AdminVariantValidati
         return $this->validatePositiveInt($variantId, 'Variant ID');
     }
 
-    /**
-     * @param mixed $value
-     * @param string $name
-     *
-     * @return int
-     *
-     * @throws \DomainException
-    */
     private function validatePositiveInt(mixed $value, string $name): int
     {
         if (!is_int($value) || $value <= 0) {

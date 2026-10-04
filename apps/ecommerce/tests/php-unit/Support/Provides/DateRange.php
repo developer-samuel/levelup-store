@@ -6,9 +6,7 @@ namespace Tests\Support\Provides;
 
 trait DateRange
 {
-    /**
-     * @return array{\DateTimeImmutable, \DateTimeImmutable}
-    */
+    /** @return array{\DateTimeImmutable, \DateTimeImmutable} */
     private function dateRangeNow(): array
     {
         return [
@@ -17,9 +15,7 @@ trait DateRange
         ];
     }
 
-    /**
-     * @return array{\DateTimeImmutable, \DateTimeImmutable}
-    */
+    /** @return array{\DateTimeImmutable, \DateTimeImmutable} */
     private function dateRangeFuture(): array
     {
         return [

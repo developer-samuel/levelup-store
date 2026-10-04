@@ -1,0 +1,19 @@
+FROM jenkins/jenkins:lts
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        docker.io \
+    && curl -fsSL https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_linux_amd64 \
+        -o /usr/local/bin/yq \
+    && chmod +x /usr/local/bin/yq \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+USER jenkins
+
+RUN jenkins-plugin-cli --plugins \
+    pipeline-utility-steps \
+    workflow-aggregator \
+    git \
+    credentials-binding \
+    github

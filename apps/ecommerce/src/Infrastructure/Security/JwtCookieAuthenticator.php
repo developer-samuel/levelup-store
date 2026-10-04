@@ -24,30 +24,15 @@ final class JwtCookieAuthenticator extends AbstractAuthenticator implements Auth
 {
     private const COOKIE_NAME = 'refresh_token';
 
-    /**
-     * @param RefreshTokenRepositoryContract $refreshTokenRepository
-    */
     public function __construct(
         private readonly RefreshTokenRepositoryContract $refreshTokenRepository,
     ) {}
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-    */
     public function supports(Request $request): bool
     {
         return $request->cookies->has(self::COOKIE_NAME);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Passport
-     *
-     * @throws CustomUserMessageAuthenticationException
-    */
     public function authenticate(Request $request): Passport
     {
         $rawToken = $request->cookies->getString(self::COOKIE_NAME);
@@ -63,24 +48,11 @@ final class JwtCookieAuthenticator extends AbstractAuthenticator implements Auth
         );
     }
 
-    /**
-     * @param Request $request
-     * @param TokenInterface $token
-     * @param string $firewallName
-     *
-     * @return Response|null
-    */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return null;
     }
 
-    /**
-     * @param Request $request
-     * @param AuthenticationException $exception
-     *
-     * @return Response|null
-    */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         if (!str_starts_with($request->getPathInfo(), '/api/')) {
@@ -93,12 +65,6 @@ final class JwtCookieAuthenticator extends AbstractAuthenticator implements Auth
         ], Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * @param Request $request
-     * @param AuthenticationException|null $authException
-     *
-     * @return Response
-    */
     public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new JsonResponse([

@@ -6,10 +6,6 @@ namespace App\Core\Ports\Gateways\Internal\Order;
 
 interface OrderInvoiceGatewayContract
 {
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return string
-    */
+    /** @param array<string, mixed> $data */
     public function generate(array $data): string;
 }

@@ -10,11 +10,7 @@ use App\Core\Ports\Segment\Order\Service\Query\OrderPriceQueryContract;
 
 final class OrderPriceQueryService implements OrderPriceQueryContract
 {
-    /**
-     * @param StripeLineItemObject[] $lineItems
-     *
-     * @return float
-    */
+    /** @param StripeLineItemObject[] $lineItems */
     public function calculateTotalPrice(array $lineItems): float
     {
         $totalPrice = 0.0;

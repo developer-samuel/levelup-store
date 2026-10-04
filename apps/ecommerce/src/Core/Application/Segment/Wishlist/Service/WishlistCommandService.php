@@ -20,12 +20,6 @@ use App\Core\Ports\{
 
 final readonly class WishlistCommandService implements WishlistCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param WishlistRepositoryContract $wishlistRepository
-     * @param WishlistQueryContract $wishlistQuery
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private ProductVariantRepositoryContract $variantRepository,
@@ -33,12 +27,6 @@ final readonly class WishlistCommandService implements WishlistCommandContract
         private WishlistQueryContract $wishlistQuery,
     ) {}
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     public function toggle(User $user, int $variantId): bool
     {
         $variant = $this->variantRepository->findById($variantId);
@@ -56,12 +44,6 @@ final readonly class WishlistCommandService implements WishlistCommandContract
         return true;
     }
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     public function remove(User $user, int $variantId): bool
     {
         $variant = $this->variantRepository->findById($variantId);
@@ -78,12 +60,6 @@ final readonly class WishlistCommandService implements WishlistCommandContract
         return true;
     }
 
-    /**
-     * @param User $user
-     * @param ProductVariant $variant
-     *
-     * @return void
-    */
     private function add(User $user, ProductVariant $variant): void
     {
         if ($this->wishlistQuery->exists($user, $variant)) {

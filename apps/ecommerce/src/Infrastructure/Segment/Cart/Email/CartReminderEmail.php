@@ -10,18 +10,13 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 use App\Core\Ports\{
     Segment\Cart\Email\CartReminderEmailContract,
-    Segment\Cart\Renderer\CartReminderEmailRendererContract
+    Web\Segment\Cart\Renderer\CartReminderEmailRendererContract
 };
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
 final class CartReminderEmail extends AbstractEmail implements CartReminderEmailContract
 {
-    /**
-     * @param CartReminderEmailRendererContract $renderer
-     * @param MailerInterface $mailer
-     * @param string $fromEmail
-    */
     public function __construct(
         private readonly CartReminderEmailRendererContract $renderer,
         MailerInterface $mailer,
@@ -29,14 +24,7 @@ final class CartReminderEmail extends AbstractEmail implements CartReminderEmail
     ) {
         parent::__construct($mailer, $fromEmail);
     }
-
-    /**
-     * @param User $user
-     * @param int $daysRemaining
-     * @param string $cartUrl
-     *
-     * @return void
-    */
+    
     public function send(User $user, int $daysRemaining, string $cartUrl): void
     {
         $email = $this->createBaseEmail(

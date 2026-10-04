@@ -17,9 +17,7 @@ final class NavigationExtension extends AbstractExtension
 {
     private const MAX_TYPES = 6;
 
-    /**
-     * @return TwigFunction[]
-    */
+    /** @return TwigFunction[] */
     public function getFunctions(): array
     {
         return [
@@ -34,12 +32,7 @@ final class NavigationExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param mixed $types
-     * @param mixed $max
-     *
-     * @return array<int, string>
-    */
+    /** @return array<int, string> */
     private function sliceTypes(mixed $types, mixed $max): array
     {
         $typesArray = $this->normalizeTypes($types);
@@ -47,11 +40,7 @@ final class NavigationExtension extends AbstractExtension
         return array_slice($typesArray, 0, $normalizedMax);
     }
 
-    /**
-     * @param mixed $types
-     *
-     * @return array<int, string>
-    */
+    /** @return array<int, string> */
     private function normalizeTypes(mixed $types): array
     {
         if ($types instanceof Collection) {
@@ -66,12 +55,7 @@ final class NavigationExtension extends AbstractExtension
                 static fn($t): bool => is_string($t),
             )) : [];
     }
-
-    /**
-     * @param mixed $max
-     *
-     * @return int
-    */
+    
     private function normalizeMax(mixed $max): int
     {
         $sanitized = DataSanitizer::sanitizeInt($max);

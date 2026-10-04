@@ -26,18 +26,13 @@ use App\Infrastructure\{
     Shared\Traits\SingleResult
 };
 
-/**
- * @extends AbstractRepository<Order>
-*/
+/** @extends AbstractRepository<Order> */
 final class OrderRepository extends AbstractRepository implements OrderRepositoryContract
 {
     use DateRange;
     use OrderedQuery;
     use SingleResult;
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -46,55 +41,32 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'o';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'createdAt';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::DESC;
     }
 
-    /**
-     * @param int $orderId
-     *
-     * @return Order|null
-    */
     public function getOrder(int $orderId): ?Order
     {
         return $this->find($orderId);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Order|null
-    */
     public function getOrderByCode(string $code): ?Order
     {
         return $this->findOneBy(['code' => $code]);
     }
 
-    /**
-     * @param array<string, mixed> $criteria
-     *
-     * @return Order|null
-    */
+    /** @param array<string, mixed> $criteria */
     public function findOne(array $criteria): ?Order
     {
         $qb = $this->createFindOneQueryBuilder($criteria);
@@ -119,11 +91,7 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         return $this->getOrdersFromQueryBuilder($qb);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return Order[]
-    */
+    /** @return Order[] */
     public function findAllForUser(User $user): array
     {
         $qb = $this->createQueryBuilder('o')
@@ -133,44 +101,22 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         return $this->getOrdersFromQueryBuilder($qb);
     }
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     *
-     * @return int
-    */
     public function countOrdersBetween(\DateTimeImmutable $from, \DateTimeImmutable $to): int
     {
         return $this->countOrdersInRange($from, $to);
     }
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     *
-     * @return int
-    */
     public function countPaidOrdersBetween(\DateTimeImmutable $from, \DateTimeImmutable $to): int
     {
         return $this->countOrdersInRange($from, $to, OrderPaymentMethod::CARD, true);
     }
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     *
-     * @return int
-    */
     public function countUnpaidOrdersBetween(\DateTimeImmutable $from, \DateTimeImmutable $to): int
     {
         return $this->countOrdersInRange($from, $to, null, false);
     }
 
-    /**
-     * @param array<string, mixed> $criteria
-     *
-     * @return QueryBuilder
-    */
+    /** @param array<string, mixed> $criteria */
     private function createFindOneQueryBuilder(array $criteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder('o')
@@ -198,12 +144,7 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         );
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param string $alias
-     *
-     * @return Order[]
-    */
+    /** @return Order[] */
     private function getOrdersFromQueryBuilder(QueryBuilder $qb, string $alias = 'o'): array
     {
         /** @var Order[] $results */
@@ -218,14 +159,6 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         return $results;
     }
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     * @param OrderPaymentMethod|null $paymentMethod
-     * @param bool|null $paid
-     *
-     * @return int
-    */
     private function countOrdersInRange(
         \DateTimeImmutable $from,
         \DateTimeImmutable $to,
@@ -247,13 +180,6 @@ final class OrderRepository extends AbstractRepository implements OrderRepositor
         return $this->getScalarIntResult($qb);
     }
 
-    /**
-     * @param \DateTimeImmutable $from
-     * @param \DateTimeImmutable $to
-     * @param OrderPaymentMethod|null $paymentMethod
-     *
-     * @return QueryBuilder
-    */
     private function buildDateRangeQuery(
         \DateTimeImmutable $from,
         \DateTimeImmutable $to,

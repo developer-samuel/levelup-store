@@ -23,11 +23,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiOrderResource
 {
-    /**
-     * @param Order $order
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(Order $order): array
     {
         return [

@@ -19,12 +19,6 @@ use App\Core\Ports\{
 
 final readonly class CartMutationCommandService implements CartMutationCommandContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param CartControlQueryContract $cartControlQuery
-     * @param CartControlCommandContract $cartControlCommand
-     * @param CartItemCommandContract $cartItemCommand
-    */
     public function __construct(
         private SecurityPolicyContract $securityPolicy,
         private CartControlQueryContract $cartControlQuery,
@@ -32,32 +26,19 @@ final readonly class CartMutationCommandService implements CartMutationCommandCo
         private CartItemCommandContract $cartItemCommand,
     ) {}
 
-    /**
-     * @param int $variantId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function addToCart(int $variantId): array
     {
         return $this->updateCart($variantId, CartAction::ADD);
     }
 
-    /**
-     * @param int $itemId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function removeFromCart(int $itemId): array
     {
         return $this->updateCart($itemId, CartAction::REMOVE);
     }
 
-    /**
-     * @param int $itemId
-     * @param CartAction $action
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function updateCart(int $itemId, CartAction $action): array
     {
         $user = $this->securityPolicy->checkIfEmailVerified();
@@ -72,11 +53,6 @@ final readonly class CartMutationCommandService implements CartMutationCommandCo
         };
     }
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     private function ensureUserHasCart(User $user): void
     {
         $cart = $this->cartControlQuery->getUserCart($user);

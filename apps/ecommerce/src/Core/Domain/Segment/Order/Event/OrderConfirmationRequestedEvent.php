@@ -14,13 +14,7 @@ use App\Core\Domain\{
 
 final readonly class OrderConfirmationRequestedEvent
 {
-    /**
-     * @param Order $order
-     * @param OrderPersonal $personal
-     * @param OrderBilling $billing
-     * @param OrderShipping|null $shipping
-     * @param OrderItemEmailObject[] $items
-    */
+    /** @param OrderItemEmailObject[] $items */
     public function __construct(
         public Order $order,
         public OrderPersonal $personal,

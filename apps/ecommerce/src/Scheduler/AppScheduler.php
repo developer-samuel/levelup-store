@@ -27,16 +27,11 @@ use App\Scheduler\{
 final class AppScheduler implements ScheduleProviderInterface
 {
     private const EVERY_15_MINUTES = '15 minutes';
-    /**
-     * @param CacheInterface $cache
-    */
+
     public function __construct(
         private CacheInterface $cache,
     ) {}
 
-    /**
-     * @return Schedule
-    */
     public function getSchedule(): Schedule
     {
         return (new Schedule())
@@ -45,9 +40,7 @@ final class AppScheduler implements ScheduleProviderInterface
             ->add(...$this->buildMessages());
     }
 
-    /**
-     * @return RecurringMessage[]
-    */
+    /** @return RecurringMessage[] */
     private function buildMessages(): array
     {
         return [

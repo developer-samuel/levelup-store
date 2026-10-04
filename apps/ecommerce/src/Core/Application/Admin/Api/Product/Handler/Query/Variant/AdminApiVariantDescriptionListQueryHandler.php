@@ -19,11 +19,6 @@ use App\Core\Ports\{
 
 final class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
-    /**
-     * @param ProductVariantDescriptionRepositoryContract $descriptionRepository
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private ProductVariantDescriptionRepositoryContract $descriptionRepository,
         ProductVariantRepositoryContract $variantRepository,
@@ -35,11 +30,7 @@ final class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiV
         );
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return array<int, ProductVariantDescription>
-    */
+    /** @return array<int, ProductVariantDescription> */
     protected function getItemsForVariant(int $variantId): array
     {
         $variant = $this->findVariant($variantId);
@@ -52,9 +43,6 @@ final class AdminApiVariantDescriptionListQueryHandler extends AbstractAdminApiV
         return array_values($descriptions);
     }
 
-    /**
-     * @return string
-    */
     protected function getResourceClass(): string
     {
         return AdminApiVariantDescriptionResource::class;

@@ -24,11 +24,7 @@ use App\Core\Domain\{
 */
 final class ReviewListResource
 {
-    /**
-     * @param ReviewListObject|null $list
-     *
-     * @return ResourceArray|null
-    */
+    /** @return ResourceArray|null */
     public static function toArray(?ReviewListObject $list): ?array
     {
         if ($list === null) {

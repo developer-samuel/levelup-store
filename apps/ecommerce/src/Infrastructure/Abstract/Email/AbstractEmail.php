@@ -14,10 +14,6 @@ abstract class AbstractEmail
     protected MailerInterface $mailer;
     protected string $fromEmail;
 
-    /**
-     * @param MailerInterface $mailer
-     * @param string $fromEmail
-    */
     public function __construct(
         MailerInterface $mailer,
         string $fromEmail,
@@ -26,12 +22,6 @@ abstract class AbstractEmail
         $this->fromEmail = $fromEmail;
     }
 
-    /**
-     * @param string $toEmail
-     * @param string $subject
-     *
-     * @return Email
-    */
     protected function createBaseEmail(string $toEmail, string $subject): Email
     {
         return (new Email())
@@ -40,11 +30,6 @@ abstract class AbstractEmail
             ->subject($subject);
     }
 
-    /**
-     * @param Email $email
-     *
-     * @return void
-    */
     protected function sendEmail(Email $email): void
     {
         $this->mailer->send($email);

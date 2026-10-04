@@ -28,12 +28,6 @@ final class TypeFixture extends AbstractFixture implements DependentFixtureInter
     use HasCategory;
     use TypeFactory;
 
-    /**
-     * @param CategoryRepositoryContract $categoryRepository
-     * @param TypeRecord $typeRecord
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly CategoryRepositoryContract $categoryRepository,
         private readonly TypeRecord $typeRecord,
@@ -46,9 +40,7 @@ final class TypeFixture extends AbstractFixture implements DependentFixtureInter
         );
     }
 
-    /**
-     * @return array<class-string<FixtureInterface>>
-    */
+    /** @return array<class-string<FixtureInterface>> */
     public function getDependencies(): array
     {
         return [
@@ -74,12 +66,6 @@ final class TypeFixture extends AbstractFixture implements DependentFixtureInter
         }
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         /**

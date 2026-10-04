@@ -26,9 +26,7 @@ use App\Core\Ports\{
     Segment\Country\CountryRepositoryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderValidatorQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderValidatorQueryService */
 final class OrderValidatorQueryServiceTest extends TestCase
 {
     private CartRepositoryContract&MockObject $cartRepository;
@@ -217,9 +215,7 @@ final class OrderValidatorQueryServiceTest extends TestCase
         return $user;
     }
 
-    /**
-     * @return array{0: Cart&MockObject, 1: list<CartItem&MockObject>}
-    */
+    /** @return array{0: Cart&MockObject, 1: list<CartItem&MockObject>} */
     private function withCartAndItems(): array
     {
         $cart = $this->createMock(Cart::class);

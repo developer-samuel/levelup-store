@@ -13,18 +13,10 @@ use App\Core\Ports\Gateways\External\Realtime\MercureHubGatewayContract;
 #[AsEventListener(event: ProductStockUpdatedEvent::class)]
 final readonly class PublishProductStockUpdatedEventListener
 {
-    /**
-     * @param MercureHubGatewayContract $mercureHubGateway
-    */
     public function __construct(
         private MercureHubGatewayContract $mercureHubGateway,
     ) {}
 
-    /**
-     * @param ProductStockUpdatedEvent $event
-     *
-     * @return void
-    */
     public function __invoke(ProductStockUpdatedEvent $event): void
     {
         $this->mercureHubGateway->publish(

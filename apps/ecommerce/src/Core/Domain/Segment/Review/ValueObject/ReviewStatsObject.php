@@ -6,10 +6,6 @@ namespace App\Core\Domain\Segment\Review\ValueObject;
 
 final readonly class ReviewStatsObject
 {
-    /**
-     * @param int $totalRatings
-     * @param int $totalFeedbacks
-    */
     public function __construct(
         public int $totalRatings,
         public int $totalFeedbacks,
@@ -20,8 +16,6 @@ final readonly class ReviewStatsObject
      *     totalRatings?: int,
      *     totalFeedbacks?: int
      * } $reviewData
-     *
-     * @return self
     */
     public static function fromArray(array $reviewData): self
     {
@@ -31,9 +25,6 @@ final readonly class ReviewStatsObject
         );
     }
 
-    /**
-     * @return int
-    */
     public function getTotalCount(): int
     {
         return $this->totalRatings + $this->totalFeedbacks;

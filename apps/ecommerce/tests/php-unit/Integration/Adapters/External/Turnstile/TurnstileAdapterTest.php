@@ -10,9 +10,7 @@ use Symfony\Component\HttpClient\HttpClient;
 
 use App\Adapters\External\Turnstile\TurnstileAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\External\Turnstile\TurnstileAdapter
-*/
+/** @coversDefaultClass \App\Adapters\External\Turnstile\TurnstileAdapter */
 final class TurnstileAdapterTest extends TestCase
 {
     private string $secretKey;

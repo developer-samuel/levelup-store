@@ -11,14 +11,7 @@ final class EnumMacro
     /**
      * Add a Doctrine custom ENUM column.
      *
-     * @param Table $table
-     * @param string $column
      * @param \BackedEnum[] $enumCases
-     * @param string|null $default
-     * @param int $length
-     * @param bool $nullable
-     *
-     * @return void
     */
     public static function add(
         Table $table,
@@ -51,11 +44,7 @@ final class EnumMacro
         ));
     }
 
-    /**
-     * @param array<int, string|int> $values
-     *
-     * @return string
-    */
+    /** @param array<int, string|int> $values */
     private static function buildEnumDefinition(array $values): string
     {
         return sprintf(
@@ -67,13 +56,7 @@ final class EnumMacro
         );
     }
 
-    /**
-     * @param array<int, string|int> $values
-     * @param string|null $default
-     * @param bool $nullable
-     *
-     * @return string|null
-    */
+    /** @param array<int, string|int> $values */
     private static function resolveDefaultValue(array $values, ?string $default, bool $nullable): ?string
     {
         if ($nullable) {

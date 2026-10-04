@@ -14,11 +14,7 @@ use App\Core\Domain\Segment\Country\Entity\Country;
 */
 final class CountryTransformer
 {
-    /**
-     * @param Country|null $country
-     *
-     * @return CountryData|null
-    */
+    /** @return CountryData|null */
     public static function transformCountry(?Country $country): ?array
     {
         if ($country === null) {
@@ -28,11 +24,7 @@ final class CountryTransformer
         return self::extractData($country);
     }
 
-    /**
-     * @param Country $country
-     *
-     * @return CountryData
-    */
+    /** @return CountryData */
     private static function extractData(Country $country): array
     {
         $id = $country->getId();

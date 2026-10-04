@@ -8,10 +8,6 @@ use App\Core\Domain\Auth\Payload\ResetPasswordPayload;
 
 interface ResetPasswordCommandHandlerContract
 {
-    /**
-     * @param ResetPasswordPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(ResetPasswordPayload $payload): array;
 }

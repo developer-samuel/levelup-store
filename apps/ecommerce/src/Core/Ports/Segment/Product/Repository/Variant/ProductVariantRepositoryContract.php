@@ -13,17 +13,10 @@ use App\Core\Domain\{
 
 interface ProductVariantRepositoryContract
 {
-    /**
-     * @return ProductVariant[]
-    */
+    /** @return ProductVariant[] */
     public function findAll(): array;
 
     /**
-     * @param ProductFilterObject $filter
-     * @param int $page
-     * @param int $limit
-     * @param ProductSortOption|null $sort
-     *
      * @return array{
      *     items: ProductVariant[],
      *     total: int
@@ -36,45 +29,17 @@ interface ProductVariantRepositoryContract
         ?ProductSortOption $sort = null,
     ): array;
 
-    /**
-     * @param Product $product
-     *
-     * @return ProductVariant[]
-    */
+    /** @return ProductVariant[] */
     public function findAllByProduct(Product $product): array;
 
-    /**
-     * @param ProductFilterObject $filter
-     *
-     * @return float
-    */
     public function getMaxPriceForFilter(ProductFilterObject $filter): float;
 
-    /**
-     * @param string $searchTerm
-     *
-     * @return ProductVariant[]
-    */
+    /** @return ProductVariant[] */
     public function searchByName(string $searchTerm): array;
 
-    /**
-     * @param string $url
-     *
-     * @return ProductVariant|null
-    */
     public function findOneByUrl(string $url): ?ProductVariant;
-
-    /**
-     * @param int $id
-     *
-     * @return ProductVariant|null
-    */
     public function findById(int $id): ?ProductVariant;
 
-    /**
-     * @param int[] $excludedVariantIds
-     *
-     * @return ProductVariant|null
-    */
+    /** @param int[] $excludedVariantIds */
     public function findRandomAvailableExcluding(array $excludedVariantIds): ?ProductVariant;
 }

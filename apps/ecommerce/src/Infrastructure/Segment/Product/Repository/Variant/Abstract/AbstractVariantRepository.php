@@ -20,10 +20,7 @@ use App\Infrastructure\Shared\Enum\SortDirection;
 */
 abstract class AbstractVariantRepository extends ServiceEntityRepository
 {
-    /**
-     * @param ManagerRegistry $registry
-     * @param class-string<T> $entityClass
-    */
+    /** @param class-string<T> $entityClass */
     public function __construct(
         ManagerRegistry $registry,
         string $entityClass,
@@ -34,13 +31,7 @@ abstract class AbstractVariantRepository extends ServiceEntityRepository
         );
     }
 
-    /**
-     * Finds all entities by variant.
-     *
-     * @param ProductVariant $variant
-     *
-     * @return T[]
-    */
+    /** @return T[] */
     final public function findAllByVariant(ProductVariant $variant): array
     {
         /** @var T[] $results */

@@ -23,14 +23,12 @@ use App\Core\Ports\{
     Auth\Service\Command\SignupCommandContract,
     Auth\Service\Command\VerificationCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
-    Segment\Audit\AuditLoggerContract,
+    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract,
     Shared\RateLimiter\RateLimiterContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\SignupHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Handler\Command\SignupHandler */
 final class SignupHandlerTest extends TestCase
 {
     private SignupCommandContract&MockObject $signupCommand;
@@ -179,9 +177,7 @@ final class SignupHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function handleSuccessfully(
         string $accessToken = 'access-abc',
         string $refreshToken = 'refresh-xyz',

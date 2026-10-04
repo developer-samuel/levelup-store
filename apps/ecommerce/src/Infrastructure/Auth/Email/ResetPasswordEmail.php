@@ -8,17 +8,12 @@ use Symfony\Component\Mailer\MailerInterface;
 
 use App\Core\Domain\Segment\User\Entity\User;
 
-use App\Core\Ports\Auth\Renderer\ResetPasswordEmailRendererContract;
+use App\Core\Ports\Web\Auth\Renderer\ResetPasswordEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
 final class ResetPasswordEmail extends AbstractEmail
 {
-    /**
-     * @param ResetPasswordEmailRendererContract $renderer
-     * @param MailerInterface $mailer
-     * @param string $fromEmail
-    */
     public function __construct(
         private readonly ResetPasswordEmailRendererContract $renderer,
         MailerInterface $mailer,
@@ -27,12 +22,6 @@ final class ResetPasswordEmail extends AbstractEmail
         parent::__construct($mailer, $fromEmail);
     }
 
-    /**
-     * @param string $toEmail
-     * @param User $user
-     *
-     * @return void
-    */
     public function send(string $toEmail, User $user): void
     {
         $email = $this->createBaseEmail(

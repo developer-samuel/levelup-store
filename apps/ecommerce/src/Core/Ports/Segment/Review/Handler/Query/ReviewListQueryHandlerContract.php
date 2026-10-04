@@ -8,10 +8,5 @@ use App\Core\Domain\Segment\Review\ValueObject\ReviewListWithVariantObject;
 
 interface ReviewListQueryHandlerContract
 {
-    /**
-     * @param string $url
-     *
-     * @return ReviewListWithVariantObject|null
-    */
     public function handle(string $url): ?ReviewListWithVariantObject;
 }

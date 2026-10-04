@@ -20,35 +20,12 @@ use App\Core\Domain\{
 */
 interface OrderValidatorQueryContract
 {
-    /**
-     * @param User $user
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function getCartItemsOrFail(User $user): array;
 
-    /**
-     * @param User $user
-     *
-     * @return CartItemsResult
-    */
+    /** @return CartItemsResult */
     public function validateUserAndGetCartItems(User $user): array;
 
-   /**
-     * @param OrderBillingObject $billing
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public function validateBillingData(OrderBillingObject $billing): void;
-
-    /**
-     * @param OrderShippingObject|null $shipping
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public function validateShippingData(?OrderShippingObject $shipping): void;
 }

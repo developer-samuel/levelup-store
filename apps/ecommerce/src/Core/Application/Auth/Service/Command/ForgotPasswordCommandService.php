@@ -20,22 +20,12 @@ use App\Core\Ports\{
 
 final readonly class ForgotPasswordCommandService implements ForgotPasswordCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param PasswordResetTokenRepositoryContract $tokenRepository
-     * @param ForgotPasswordNotifierContract $notifier
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private PasswordResetTokenRepositoryContract $tokenRepository,
         private ForgotPasswordNotifierContract $notifier,
     ) {}
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     public function createAndSaveTokenForUser(User $user): void
     {
         $this->removeExistingTokens($user);
@@ -50,23 +40,11 @@ final readonly class ForgotPasswordCommandService implements ForgotPasswordComma
         $this->notifier->send($user, $token);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return void
-    */
     private function removeExistingTokens(User $user): void
     {
         $this->tokenRepository->removeTokensByUser($user);
     }
 
-    /**
-     * @param User $user
-     * @param string $token
-     * @param \DateTimeImmutable $expiresAt
-     *
-     * @return PasswordResetToken
-    */
     private function createTokenEntity(
         User $user,
         string $token,

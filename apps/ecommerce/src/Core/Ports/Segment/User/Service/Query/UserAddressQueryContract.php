@@ -26,10 +26,5 @@ interface UserAddressQueryContract
     */
     public function extractAndSanitizeAddressData(array $data): array;
 
-    /**
-     * @param UserBilling|UserShipping $entity
-     *
-     * @return bool
-    */
     public function shouldRemoveEntity(UserBilling|UserShipping $entity): bool;
 }

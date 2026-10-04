@@ -30,21 +30,10 @@ use App\Core\Ports\{
 */
 final readonly class ProductVariantAssembler implements ProductVariantAssemblerContract
 {
-    /**
-     * @param ProductVariantFactory $variantFactory
-    */
     public function __construct(
         private ProductVariantFactory $variantFactory,
     ) {}
 
-    /**
-     * @param ProductVariant $variant
-     * @param ReviewQueryContract $reviewQuery
-     *
-     * @return ProductVariantObject
-     *
-     * @throws \LogicException
-    */
     public function toObject(
         ProductVariant $variant,
         ReviewQueryContract $reviewQuery,
@@ -57,13 +46,7 @@ final readonly class ProductVariantAssembler implements ProductVariantAssemblerC
         return $this->createProductVariantObject($variant, $prices, $averageRating);
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param array<string, float> $prices
-     * @param float $averageRating
-     *
-     * @return ProductVariantObject
-    */
+    /** @param array<string, float> $prices */
     private function createProductVariantObject(
         ProductVariant $variant,
         array $prices,

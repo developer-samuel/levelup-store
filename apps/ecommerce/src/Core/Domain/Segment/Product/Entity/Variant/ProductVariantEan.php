@@ -52,19 +52,11 @@ class ProductVariantEan
     )]
     private ProductVariantEanStatus $status = ProductVariantEanStatus::ACTIVE;
 
-    /**
-     * @return ProductVariantEanStatus
-    */
     public function getStatus(): ProductVariantEanStatus
     {
         return $this->status;
     }
 
-    /**
-     * @param ProductVariantEanStatus $status
-     *
-     * @return self
-    */
     public function setStatus(ProductVariantEanStatus $status): self
     {
         $this->status = $status;

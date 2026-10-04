@@ -16,12 +16,6 @@ use App\Core\Domain\{
 
 final class ProductVariantAvailabilitySpecification
 {
-    /**
-     * @param QueryBuilder $qb
-     * @param string $alias
-     *
-     * @return QueryBuilder
-    */
     public static function applyInStock(QueryBuilder $qb, string $alias): QueryBuilder
     {
         return self::applyInStockAndActiveEan($qb, $alias)
@@ -31,11 +25,6 @@ final class ProductVariantAvailabilitySpecification
             ->setParameter('activeEan', ProductVariantEanStatus::ACTIVE);
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariant|null
-    */
     public static function findOneInStock(ProductVariant $variant): ?ProductVariant
     {
         $filtered = self::filterInStock([$variant]);
@@ -43,12 +32,6 @@ final class ProductVariantAvailabilitySpecification
         return $filtered[0] ?? null;
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param string $alias
-     *
-     * @return QueryBuilder
-    */
     private static function applyInStockAndActiveEan(QueryBuilder $qb, string $alias): QueryBuilder
     {
         $qb->innerJoin($alias . '.stock', 's')
@@ -77,11 +60,6 @@ final class ProductVariantAvailabilitySpecification
         );
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     private static function isInStock(ProductVariant $variant): bool
     {
         $stock = $variant->getStock();
@@ -93,11 +71,6 @@ final class ProductVariantAvailabilitySpecification
             && self::hasActiveEan($variant);
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     private static function hasActiveEan(ProductVariant $variant): bool
     {
         return $variant->getEans()

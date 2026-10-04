@@ -19,12 +19,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
 {
-    /**
-     * @param BrandQueryContract $brandQuery
-     * @param AdminBrandCommandContract $adminBrandCommand
-     * @param SecurityPolicyContract $securityPolicy
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly BrandQueryContract $brandQuery,
         private readonly AdminBrandCommandContract $adminBrandCommand,
@@ -37,11 +31,7 @@ final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
         );
     }
 
-    /**
-     * @param AdminBrandPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handleCreate(AdminBrandPayload $payload): array
     {
         return $this->executeAdmin(function() use ($payload) {
@@ -51,11 +41,7 @@ final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
         });
     }
 
-    /**
-     * @param AdminBrandPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handleUpdate(AdminBrandPayload $payload): array
     {
         return $this->execute(function() use ($payload) {
@@ -67,11 +53,7 @@ final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
         });
     }
 
-    /**
-     * @param int $brandId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handleDestroy(int $brandId): array
     {
         return $this->execute(function() use ($brandId) {

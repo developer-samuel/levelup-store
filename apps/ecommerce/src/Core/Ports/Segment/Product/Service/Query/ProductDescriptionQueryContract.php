@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
 interface ProductDescriptionQueryContract
 {
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return array<int, array<string, mixed>>
-    */
+    /** @return array<int, array<string, mixed>> */
     public function getProductDescriptions(ProductVariant $variant): array;
 }

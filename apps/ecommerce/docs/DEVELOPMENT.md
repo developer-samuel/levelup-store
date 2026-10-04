@@ -9,16 +9,16 @@ make setup
 cd apps/ecommerce
 composer install --no-interaction --prefer-dist --optimize-autoloader
 pnpm install
-# or npm install
 composer db-setup
 
-# Install dependencies and build assets
+# Install dependencies, build assets and enable git hooks
 make install
 # or manually:
 cd apps/ecommerce
 composer install --no-interaction --prefer-dist --optimize-autoloader
 pnpm install
-# or npm install
+git config core.hooksPath .githooks
+git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 # Clear and warmup cache (also flushes Redis if available)
 make cache-clear
@@ -27,13 +27,17 @@ cd apps/ecommerce
 php bin/console cache:clear
 php bin/console cache:warmup
 
+# List all registered routes (name, method, path)
+make routes
+# or manually:
+cd apps/ecommerce && php bin/console debug:router
+
 # Start local development servers (PHP + frontend)
 make serve
 # or manually:
 cd apps/ecommerce
 php -S 127.0.0.1:8000 -t public &
 pnpm dev
-# or npm run dev
 ```
 
 ---

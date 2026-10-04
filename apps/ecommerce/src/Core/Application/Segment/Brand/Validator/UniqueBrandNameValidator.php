@@ -15,19 +15,10 @@ use App\Core\Ports\Segment\Brand\BrandRepositoryContract;
 
 final class UniqueBrandNameValidator extends AbstractConstraintValidator
 {
-    /**
-     * @param BrandRepositoryContract $brandRepository
-    */
     public function __construct(
         private readonly BrandRepositoryContract $brandRepository,
     ) {}
 
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     *
-     * @return void
-    */
     public function validate(mixed $value, Constraint $constraint): void
     {
         $this->assertConstraintType($constraint, UniqueBrandName::class);

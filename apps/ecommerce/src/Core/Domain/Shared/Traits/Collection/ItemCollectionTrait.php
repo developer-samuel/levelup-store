@@ -6,16 +6,10 @@ namespace App\Core\Domain\Shared\Traits\Collection;
 
 use Doctrine\Common\Collections\Collection;
 
-/**
- * @template T as object
- *
- * @property Collection<int, T> $items
- */
+/** @template T as object */
 trait ItemCollectionTrait
 {
-    /**
-     * @return Collection<int, T>
-    */
+    /** @return Collection<int, T> */
     public function getItems(): Collection
     {
         return $this->items;

@@ -11,9 +11,7 @@ use App\Adapters\{
     Internal\Auth\TokenBlacklistAdapter
 };
 
-/**
- * @coversDefaultClass \App\Adapters\Internal\Auth\TokenBlacklistAdapter
-*/
+/** @coversDefaultClass \App\Adapters\Internal\Auth\TokenBlacklistAdapter */
 final class TokenBlacklistAdapterTest extends TestCase
 {
     private TokenBlacklistAdapter $adapter;

@@ -12,31 +12,17 @@ use Doctrine\{
 
 final class BigIntType extends Type
 {
-    /**
-     * @return string
-    */
     public function getName(): string
     {
         return Types::BIGINT;
     }
 
-    /**
-     * @param mixed[] $column
-     * @param AbstractPlatform $platform
-     *
-     * @return string
-    */
+    /** @param mixed[] $column */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getBigIntTypeDeclarationSQL($column);
     }
 
-    /**
-     * @param mixed $value
-     * @param AbstractPlatform $platform
-     *
-     * @return int|null
-    */
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?int
     {
         if ($value === null) {

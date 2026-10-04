@@ -51,15 +51,11 @@ class Type
     #[ORM\Column(type: 'string', length: 100, nullable: false)]
     private string $name;
 
-    /**
-     * @var Collection<int, Product>
-    */
+    /** @var Collection<int, Product> */
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Product::class)]
     private Collection $products;
 
-    /**
-     * @var Collection<int, Subtype>
-    */
+    /** @var Collection<int, Subtype> */
     #[ORM\OneToMany(
         mappedBy: 'type',
         targetEntity: Subtype::class,

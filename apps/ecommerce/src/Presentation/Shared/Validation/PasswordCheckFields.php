@@ -8,16 +8,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class PasswordCheckFields
 {
-    /**
-     * @param ExecutionContextInterface $context
-     * @param mixed $value1
-     * @param mixed $value2
-     * @param string $field1
-     * @param string $field2
-     * @param string $message
-     *
-     * @return void
-    */
     public static function validatePasswordsMatch(
         ExecutionContextInterface $context,
         mixed $value1,
@@ -31,14 +21,6 @@ final class PasswordCheckFields
         }
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param string $field1
-     * @param string $field2
-     * @param string $message
-     *
-     * @return void
-    */
     private static function addViolationForFields(
         ExecutionContextInterface $context,
         string $field1,

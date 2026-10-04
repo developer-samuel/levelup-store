@@ -16,12 +16,7 @@ use App\Presentation\{
 
 final class HttpResponder
 {
-    /**
-     * @param array<string, mixed> $data
-     * @param string|null $message
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $data */
     public static function success(array $data = [], ?string $message = ''): JsonResponse
     {
         return self::createResponse(
@@ -30,12 +25,7 @@ final class HttpResponder
         );
     }
 
-    /**
-     * @param array<string, mixed> $result
-     * @param string|null $message
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $result */
     public static function successWithRedirect(array $result, ?string $message = ''): JsonResponse
     {
         $message = MessageResolver::resolve($result, $message);
@@ -46,12 +36,7 @@ final class HttpResponder
         );
     }
 
-    /**
-     * @param array<string, mixed> $errors
-     * @param string|null $message
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $errors */
     public static function unprocessableEntity(array $errors = [], ?string $message = ''): JsonResponse
     {
         return self::createResponse(
@@ -60,11 +45,6 @@ final class HttpResponder
         );
     }
 
-    /**
-     * @param string|null $message
-     *
-     * @return JsonResponse
-    */
     public static function unauthorized(?string $message = 'User is not authenticated'): JsonResponse
     {
         return self::createResponse(
@@ -73,11 +53,6 @@ final class HttpResponder
         );
     }
 
-    /**
-     * @param string|null $message
-     *
-     * @return JsonResponse
-    */
     public static function accessDenied(?string $message = 'Access denied'): JsonResponse
     {
         return self::createResponse(
@@ -86,11 +61,6 @@ final class HttpResponder
         );
     }
 
-    /**
-     * @param string|null $message
-     *
-     * @return JsonResponse
-    */
     public static function internalServerError(
         ?string $message = 'An error occurred while processing your request.',
     ): JsonResponse {
@@ -100,12 +70,7 @@ final class HttpResponder
         );
     }
 
-    /**
-     * @param array<string, mixed> $data
-     * @param int $status
-     *
-     * @return JsonResponse
-    */
+    /** @param array<string, mixed> $data */
     private static function createResponse(array $data, int $status): JsonResponse
     {
         return new JsonResponse($data, $status);

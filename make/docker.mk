@@ -5,11 +5,14 @@
 .PHONY: clean-all build-cache setup-build \
         dev dev-build-force dev-down dev-down-clean \
         dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
-        logs logs-dev logs-setup setup-watch status
+        restart-app-ecommerce restart-app-assistant \
+        jenkins jenkins-build jenkins-down jenkins-password \
+        logs logs-dev logs-setup setup-watch status \
 
 ECOMMERCE_ENV := apps/ecommerce/.env
+ASSISTANT_ENV := apps/assistant/.env
 
-DC := docker compose --env-file $(ECOMMERCE_ENV)
+DC := docker compose --env-file $(ECOMMERCE_ENV) --env-file $(ASSISTANT_ENV)
 
 DC_DEV := $(DC) \
 	-f docker-compose.yml \
@@ -87,6 +90,34 @@ dev-setup-restart-build-without-cache:
 	$(MAKE) dev-down-clean
 	$(DC_DEV) build --no-cache
 	$(MAKE) dev-setup-build
+
+# ── 🔄 Restart ────────────────────────────────────────────────────────────────
+
+## Restart ecommerce app containers (reloads ENV)
+restart-app-ecommerce:
+	$(DC) restart ecommerce_app ecommerce_worker ecommerce_cron nginx
+
+## Restart assistant app containers (reloads ENV)
+restart-app-assistant:
+	$(DC) restart assistant_app assistant_worker assistant_cron
+
+# ── 🚀 CD ─────────────────────────────────────────────────────────────────────
+
+## Build Jenkins image (includes yq and docker)
+jenkins-build:
+	docker compose -f docker/compose/services/jenkins/jenkins.yml build
+
+## Start Jenkins (http://localhost:8088)
+jenkins:
+	docker compose -f docker/compose/services/jenkins/jenkins.yml up -d
+
+## Stop Jenkins
+jenkins-down:
+	docker compose -f docker/compose/services/jenkins/jenkins.yml down
+
+## Show Jenkins initial admin password (first run)
+jenkins-password:
+	@docker exec levelup_store_jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
 # ── 🔍 Utility ────────────────────────────────────────────────────────────────
 

@@ -14,35 +14,22 @@ use App\Core\Domain\{
 use App\Core\Application\Segment\Cart\Resource\CartSummaryResource;
 
 use App\Core\Ports\{
-    Segment\Cart\Renderer\CartRendererContract,
     Segment\Cart\Service\Query\CartPriceQueryContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
-    Segment\Cart\Service\Query\CartSummaryQueryContract
+    Segment\Cart\Service\Query\CartSummaryQueryContract,
+    Web\Segment\Cart\Renderer\CartRendererContract
 };
 
-/**
- * @phpstan-import-type ObjectArray from CartItemObject
-*/
+/** @phpstan-import-type ObjectArray from CartItemObject */
 final readonly class CartRenderQueryService implements CartRenderQueryContract
 {
-    /**
-     * @param CartSummaryQueryContract $cartSummaryQuery
-     * @param CartPriceQueryContract $cartPriceQuery
-     * @param CartRendererContract $cartRenderer
-    */
     public function __construct(
         private CartSummaryQueryContract $cartSummaryQuery,
         private CartPriceQueryContract $cartPriceQuery,
         private CartRendererContract $cartRenderer,
     ) {}
 
-    /**
-     * @param User $user
-     * @param string $message
-     * @param bool $isError
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function buildCartResponse(User $user, string $message, bool $isError = false): array
     {
         $userId = $user->getId();

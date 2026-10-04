@@ -20,20 +20,11 @@ use App\Core\Ports\{
 
 final readonly class SignupCommandService implements SignupCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param PasswordHasherProviderContract $passwordHasherProvider
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private PasswordHasherProviderContract $passwordHasherProvider,
     ) {}
 
-    /**
-     * @param SignupPayload $payload
-     *
-     * @return User
-    */
     public function signup(SignupPayload $payload): User
     {
         $user = $this->createUser($payload);
@@ -43,11 +34,6 @@ final readonly class SignupCommandService implements SignupCommandContract
         return $user;
     }
 
-    /**
-     * @param SignupPayload $payload
-     *
-     * @return User
-    */
     private function createUser(SignupPayload $payload): User
     {
         $user = new User();

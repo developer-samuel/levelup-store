@@ -12,26 +12,9 @@ use App\Core\Domain\{
 
 interface WishlistRepositoryContract
 {
-    /**
-     * @param User $user
-     *
-     * @return Wishlist[]
-    */
+    /** @return Wishlist[] */
     public function findAllByUser(User $user): array;
 
-    /**
-     * @param User $user
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function exists(User $user, ProductVariant $variant): bool;
-
-    /**
-     * @param User $user
-     * @param ProductVariant $variant
-     *
-     * @return Wishlist|null
-    */
     public function findOneByUserAndVariant(User $user, ProductVariant $variant): ?Wishlist;
 }

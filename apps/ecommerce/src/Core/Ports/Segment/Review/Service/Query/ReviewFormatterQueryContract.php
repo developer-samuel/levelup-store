@@ -25,18 +25,9 @@ use App\Core\Domain\{
 */
 interface ReviewFormatterQueryContract
 {
-    /**
-     * @param int $variantId
-     * @param User|null $user
-     *
-     * @return array<int, ReviewWithRatings>
-    */
+    /** @return array<int, ReviewWithRatings> */
     public function getFormattedReviewsForVariant(int $variantId, ?User $user): array;
 
-    /**
-     * @param int $variantId
-     *
-     * @return ReviewData
-    */
+    /** @return ReviewData */
     public function getFormattedReviewData(int $variantId): array;
 }

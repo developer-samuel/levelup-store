@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Review\Payload\ReviewRatingPayload;
 
 interface ToggleReviewRatingHandlerContract
 {
-    /**
-     * @param ReviewRatingPayload $payload
-     *
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     public function handle(ReviewRatingPayload $payload): array;
 }

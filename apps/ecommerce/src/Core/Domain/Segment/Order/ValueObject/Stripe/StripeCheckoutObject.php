@@ -6,11 +6,7 @@ namespace App\Core\Domain\Segment\Order\ValueObject\Stripe;
 
 final readonly class StripeCheckoutObject
 {
-    /**
-     * @param array<string, string> $metadata
-     * @param int $amountTotal
-     * @param string|null $paymentIntent
-    */
+    /** @param array<string, string> $metadata */
     public function __construct(
         public array $metadata,
         public int $amountTotal,

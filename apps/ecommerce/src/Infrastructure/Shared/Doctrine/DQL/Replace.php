@@ -18,11 +18,6 @@ final class Replace extends FunctionNode
     private Node $search;
     private Node $replace;
 
-    /**
-     * @param Parser $parser
-     *
-     * @return void
-    */
     public function parse(Parser $parser): void
     {
         $parser->match(TokenType::T_IDENTIFIER);
@@ -41,11 +36,6 @@ final class Replace extends FunctionNode
         $parser->match(TokenType::T_CLOSE_PARENTHESIS);
     }
 
-    /**
-     * @param SqlWalker $sqlWalker
-     *
-     * @return string
-    */
     public function getSql(SqlWalker $sqlWalker): string
     {
         return sprintf(

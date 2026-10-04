@@ -6,11 +6,6 @@ namespace Packages\Kit\Utils\Shared;
 
 final class DataSanitizer
 {
-    /**
-     * @param mixed $value
-     *
-     * @return int|null
-     */
     public static function sanitizeInt(mixed $value): ?int
     {
         if (is_int($value)) {
@@ -28,11 +23,6 @@ final class DataSanitizer
         return null;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return float|null
-     */
     public static function sanitizeFloat(mixed $value): ?float
     {
         if (is_float($value)) {
@@ -50,21 +40,11 @@ final class DataSanitizer
         return null;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return bool
-    */
     public static function sanitizeBoolean(mixed $value): bool
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return string
-    */
     public static function sanitizeString(mixed $value): string
     {
         if (is_string($value)) {
@@ -78,12 +58,7 @@ final class DataSanitizer
         return '';
     }
 
-    /**
-     *
-     * @param mixed $value
-     *
-     * @return array<int|string, mixed>
-    */
+    /** @return array<int|string, mixed> */
     public static function sanitizeArray(mixed $value): array
     {
         if (!is_array($value)) {
@@ -96,11 +71,7 @@ final class DataSanitizer
         );
     }
 
-    /**
-     * @param mixed $values
-     *
-     * @return string[]
-    */
+    /** @return string[] */
     public static function sanitizeStringArray(mixed $values): array
     {
         if (!is_array($values)) {
@@ -115,11 +86,6 @@ final class DataSanitizer
         );
     }
 
-    /**
-     * @param string $value
-     *
-     * @return int|null
-    */
     private static function intFromString(string $value): ?int
     {
         $trim = trim($value);
@@ -139,11 +105,6 @@ final class DataSanitizer
         return null;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return float|null
-    */
     private static function floatFromString(string $value): ?float
     {
         $trim = trim($value);

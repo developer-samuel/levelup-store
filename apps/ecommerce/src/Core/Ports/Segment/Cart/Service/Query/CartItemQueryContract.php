@@ -20,48 +20,15 @@ use App\Core\Domain\{
 */
 interface CartItemQueryContract
 {
-    /**
-     * @param User $user
-     *
-     * @return CartItem[]
-    */
+    /** @return CartItem[] */
     public function getItems(User $user): array;
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return CartAndVariant
-    */
+    /** @return CartAndVariant */
     public function getCartAndVariant(User $user, int $variantId): array;
-
-    /**
-     * @param int $itemId
-     *
-     * @return CartItem
-    */
     public function getValidatedCartItem(int $itemId): CartItem;
-
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return int
-    */
     public function getAvailableEansCount(ProductVariant $variant): int;
-
-    /**
-     * @param Cart $cart
-     * @param ProductVariant $variant
-     *
-     * @return int
-    */
     public function getExistingQuantity(Cart $cart, ProductVariant $variant): int;
 
-    /**
-     * @param User $user
-     * @param CartAction $action
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function buildCartResponse(User $user, CartAction $action): array;
 }

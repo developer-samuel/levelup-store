@@ -43,21 +43,15 @@ class Category
     #[ORM\Column(type: 'string', length: 20, nullable: false)]
     private string $name;
 
-    /**
-     * @var Collection<int, Product>
-    */
+    /** @var Collection<int, Product> */
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
 
-    /**
-     * @var Collection<int, Type>
-    */
+    /** @var Collection<int, Type> */
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Type::class)]
     private Collection $types;
 
-    /**
-     * @var Collection<int, Subtype>
-    */
+    /** @var Collection<int, Subtype> */
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Subtype::class)]
     private Collection $subtypes;
 

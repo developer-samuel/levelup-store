@@ -12,21 +12,11 @@ use App\Core\Ports\Shared\Logging\AppLoggerContract;
 
 final readonly class AppLogger implements AppLoggerContract
 {
-    /**
-     * @param LoggerInterface $logger
-    */
     public function __construct(
         private LoggerInterface $logger,
     ) {}
 
-    /**
-     * @param string $message
-     * @param \Throwable|null $throwable
-     * @param User|null $user
-     * @param array<string, mixed> $context
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $context */
     public function alert(
         string $message,
         ?\Throwable $throwable = null,
@@ -36,14 +26,7 @@ final readonly class AppLogger implements AppLoggerContract
         $this->log('alert', $message, $throwable, $user, $context);
     }
 
-    /**
-     * @param string $message
-     * @param \Throwable|null $throwable
-     * @param User|null $user
-     * @param array<string, mixed> $context
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $context */
     public function logThrowable(
         string $message,
         ?\Throwable $throwable = null,
@@ -58,14 +41,7 @@ final readonly class AppLogger implements AppLoggerContract
         $this->error('Throwable in ' . $message, $throwable, $user);
     }
 
-    /**
-     * @param string $message
-     * @param \Throwable|null $throwable
-     * @param User|null $user
-     * @param array<string, mixed> $context
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $context */
     public function critical(
         string $message,
         ?\Throwable $throwable = null,
@@ -75,14 +51,7 @@ final readonly class AppLogger implements AppLoggerContract
         $this->log('critical', $message, $throwable, $user, $context);
     }
 
-    /**
-     * @param string $message
-     * @param \Throwable|null $throwable
-     * @param User|null $user
-     * @param array<string, mixed> $context
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $context */
     public function error(
         string $message,
         ?\Throwable $throwable = null,
@@ -92,27 +61,13 @@ final readonly class AppLogger implements AppLoggerContract
         $this->log('error', $message, $throwable, $user, $context);
     }
 
-    /**
-     * @param string $message
-     * @param User|null $user
-     * @param array<string, mixed> $context
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $context */
     public function warning(string $message, ?User $user = null, array $context = []): void
     {
         $this->log('warning', $message, null, $user, $context);
     }
 
-    /**
-     * @param string $level
-     * @param string $message
-     * @param \Throwable|null $throwable
-     * @param User|null $user
-     * @param array<string, mixed> $context
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $context */
     private function log(
         string $level,
         string $message,

@@ -8,11 +8,6 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface OrderSuccessCleanupCommandHandlerContract
 {
-    /**
-     * @param string|null $sessionId
-     * @param User $user
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(?string $sessionId, User $user): array;
 }

@@ -15,17 +15,12 @@ final class ExistingEmail extends Constraint
 {
     public string $message = 'No user exists with the provided email.';
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;
     }
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return ExistingEmailValidator::class;

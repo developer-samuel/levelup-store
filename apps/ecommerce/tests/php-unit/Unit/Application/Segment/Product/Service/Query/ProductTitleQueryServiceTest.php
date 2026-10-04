@@ -8,9 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 use App\Core\Application\Segment\Product\Service\Query\ProductTitleQueryService;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductTitleQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductTitleQueryService */
 final class ProductTitleQueryServiceTest extends TestCase
 {
     private ProductTitleQueryService $service;

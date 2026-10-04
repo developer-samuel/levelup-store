@@ -8,8 +8,6 @@ use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariantRecommended;
 
 interface ProductVariantRecommendedRepositoryContract
 {
-    /**
-     * @return ProductVariantRecommended[]
-    */
+    /** @return ProductVariantRecommended[] */
     public function findAll(): array;
 }

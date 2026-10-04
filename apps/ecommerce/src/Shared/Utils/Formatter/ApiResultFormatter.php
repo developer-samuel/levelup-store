@@ -21,9 +21,7 @@ namespace App\Shared\Utils\Formatter;
 final class ApiResultFormatter
 {
     /**
-     * @param string $message
      * @param array<string, mixed>|null $data
-     * @param string|null $redirect
      *
      * @return ApiSuccessResult
     */
@@ -49,8 +47,6 @@ final class ApiResultFormatter
     }
 
     /**
-     * @param int $code
-     * @param string $message
      * @param array<string, mixed>|null $errors
      *
      * @return ApiErrorResult

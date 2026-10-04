@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Shared\Traits\Enum;
 
-/**
- * @method static static[] cases()
-*/
+/** @method static static[] cases() */
 trait HasEnumValue
 {
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     public static function values(): array
     {
         return array_map(

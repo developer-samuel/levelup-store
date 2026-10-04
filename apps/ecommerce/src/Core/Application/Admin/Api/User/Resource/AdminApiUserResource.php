@@ -23,11 +23,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiUserResource
 {
-    /**
-     * @param User $user
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(User $user): array
     {
         return [

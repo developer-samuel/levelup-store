@@ -18,7 +18,6 @@ final class CartSummaryResource
 {
     /**
      * @param CartItemObject[] $items
-     * @param float $totalPrice
      *
      * @return ResourceArray
     */

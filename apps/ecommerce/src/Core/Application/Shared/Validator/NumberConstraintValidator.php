@@ -13,12 +13,6 @@ use App\Core\Application\{
 
 final class NumberConstraintValidator extends AbstractConstraintValidator
 {
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     *
-     * @return void
-    */
     public function validate(mixed $value, Constraint $constraint): void
     {
         $this->assertConstraintType($constraint, NumberConstraint::class);

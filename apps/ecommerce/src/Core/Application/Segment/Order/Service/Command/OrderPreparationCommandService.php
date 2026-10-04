@@ -22,21 +22,11 @@ use App\Core\Ports\{
 
 final readonly class OrderPreparationCommandService implements OrderPreparationCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param OrderPreparationQueryContract $orderPreparationQuery
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private OrderPreparationQueryContract $orderPreparationQuery,
     ) {}
 
-    /**
-     * @param User $user
-     * @param OrderCreatePayload $payload
-     *
-     * @return Order
-    */
     public function prepareOrder(User $user, OrderCreatePayload $payload): Order
     {
         $userId = $this->orderPreparationQuery->validateUserId($user);
@@ -54,12 +44,6 @@ final readonly class OrderPreparationCommandService implements OrderPreparationC
         return $order;
     }
 
-    /**
-     * @param User $user
-     * @param float $totalPrice
-     *
-     * @return Order
-    */
     private function initializeOrder(User $user, float $totalPrice): Order
     {
         return (new Order())
@@ -68,13 +52,6 @@ final readonly class OrderPreparationCommandService implements OrderPreparationC
             ->setPrice($totalPrice);
     }
 
-    /**
-     * @param Order $order
-     * @param OrderPaymentMethod $paymentMethod
-     * @param OrderCreatePayload $payload
-     *
-     * @return void
-    */
     private function populateOrderDetails(Order $order, OrderPaymentMethod $paymentMethod, OrderCreatePayload $payload): void
     {
         $order->setPayment($paymentMethod)

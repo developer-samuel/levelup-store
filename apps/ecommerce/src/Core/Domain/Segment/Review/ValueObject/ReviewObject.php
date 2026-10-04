@@ -11,13 +11,7 @@ use App\Core\Domain\{
 
 final readonly class ReviewObject
 {
-    /**
-     * @param Review $review
-     * @param ReviewDetail[] $details
-     * @param int $likesCount
-     * @param int $dislikesCount
-     * @param string|null $userRatingType
-    */
+    /** @param ReviewDetail[] $details */
     public function __construct(
         public Review $review,
         public array $details,

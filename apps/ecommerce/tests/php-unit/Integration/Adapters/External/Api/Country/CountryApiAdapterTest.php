@@ -24,9 +24,7 @@ use App\Core\Ports\{
 
 use App\Adapters\External\Api\CountryApiAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\External\Api\CountryApiAdapter
-*/
+/** @coversDefaultClass \App\Adapters\External\Api\CountryApiAdapter */
 final class CountryApiAdapterTest extends TestCase
 {
     private HttpClientInterface&MockObject $httpClient;

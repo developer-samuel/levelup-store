@@ -31,11 +31,7 @@ final class ReviewListFactory
 {
     /**
      * @param array<int, ReviewWithRatings> $reviewsWithRatings
-     * @param bool $reviewExists
      * @param ReviewData $reviewData
-     * @param ProductVariant $variant
-     *
-     * @return ReviewListWithVariantObject
     */
     public function fromObject(
         array $reviewsWithRatings,
@@ -75,10 +71,7 @@ final class ReviewListFactory
 
     /**
      * @param ReviewObject[] $reviews
-     * @param bool $reviewExists
      * @param ReviewData $reviewData
-     *
-     * @return ReviewListObject
     */
     private function createReviewList(
         array $reviews,

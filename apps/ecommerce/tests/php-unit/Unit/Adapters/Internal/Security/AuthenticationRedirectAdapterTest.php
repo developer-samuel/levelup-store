@@ -18,9 +18,7 @@ use App\Core\Domain\Auth\Enum\AuthenticationRedirect;
 
 use App\Adapters\Internal\Security\AuthenticationRedirectAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\Internal\Security\AuthenticationRedirectAdapter
-*/
+/** @coversDefaultClass \App\Adapters\Internal\Security\AuthenticationRedirectAdapter */
 final class AuthenticationRedirectAdapterTest extends TestCase
 {
     private RouterInterface&MockObject $router;

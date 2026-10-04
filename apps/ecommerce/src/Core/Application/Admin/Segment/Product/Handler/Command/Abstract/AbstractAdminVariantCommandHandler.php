@@ -16,11 +16,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormCommandHandler
 {
-    /**
-     * @param AdminVariantValidationCommandContract $adminVariantValidationCommand
-     * @param SecurityPolicyContract $securityPolicy
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         protected readonly AdminVariantValidationCommandContract $adminVariantValidationCommand,
         SecurityPolicyContract $securityPolicy,
@@ -32,54 +27,13 @@ abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormComma
         );
     }
 
-    /**
-     * @return string
-    */
     abstract protected function getPayloadClass(): string;
-
-    /**
-     * @return string
-    */
     abstract protected function getEntityName(): string;
-
-    /**
-     * @param int $id
-     *
-     * @return object
-    */
     abstract protected function getEntityOrFail(int $id): object;
-
-    /**
-     * @param int $variantId
-     * @param object $payload
-     *
-     * @return void
-    */
     abstract protected function createEntity(int $variantId, object $payload): void;
-
-    /**
-     * @param int $id
-     * @param int $variantId
-     * @param object $payload
-     *
-     * @return void
-    */
     abstract protected function updateEntity(int $id, int $variantId, object $payload): void;
-
-    /**
-     * @param object $entity
-     *
-     * @return void
-    */
     abstract protected function destroyEntity(object $entity): void;
 
-    /**
-     * @param object $payload
-     *
-     * @return void
-     *
-     * @throws \LogicException
-    */
     protected function assertPayloadType(object $payload): void
     {
         $expectedClass = $this->getPayloadClass();
@@ -91,11 +45,7 @@ abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormComma
         }
     }
 
-    /**
-     * @param object $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handleCreate(object $payload): array
     {
         return $this->executeAdmin(function() use ($payload) {
@@ -126,11 +76,7 @@ abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormComma
         });
     }
 
-    /**
-     * @param int $id
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handleDestroy(int $id): array
     {
         return $this->execute(function() use ($id) {
@@ -141,11 +87,6 @@ abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormComma
         });
     }
 
-    /**
-     * @param string $action
-     *
-     * @return string
-    */
     private function formatMessage(string $action): string
     {
         return sprintf('%s %s successfully.', $this->getEntityName(), $action);

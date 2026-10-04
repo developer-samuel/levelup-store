@@ -7,7 +7,6 @@ namespace App\Presentation\Shared\Utils;
 final class ResponseFormatter
 {
     /**
-     * @param string|null $message
      * @param array<string, mixed> $data
      *
      * @return array<string, mixed>
@@ -21,9 +20,7 @@ final class ResponseFormatter
     }
 
     /**
-     * @param string|null $message
      * @param array<string, mixed> $errors
-     * @param int|null $status
      *
      * @return array<string, mixed>
     */

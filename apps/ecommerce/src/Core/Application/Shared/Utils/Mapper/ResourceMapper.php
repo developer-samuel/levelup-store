@@ -9,11 +9,8 @@ final class ResourceMapper
     /**
      * @param object[] $entities
      * @param class-string $class
-     * @param mixed ...$extra
      *
      * @return list<array<string, mixed>>
-     *
-     * @throws \LogicException
     */
     public static function collection(array $entities, string $class, mixed ...$extra): array
     {
@@ -26,13 +23,9 @@ final class ResourceMapper
     }
 
     /**
-     * @param object $entity
      * @param class-string $class
-     * @param mixed ...$extra
      *
      * @return array<string, mixed>
-     *
-     * @throws \LogicException
     */
     private static function mapEntity(object $entity, string $class, mixed ...$extra): array
     {
@@ -46,13 +39,7 @@ final class ResourceMapper
         return self::ensureStringKeys($result, $class);
     }
 
-    /**
-     * @param class-string $class
-     *
-     * @return void
-     *
-     * @throws \LogicException
-    */
+    /** @param class-string $class */
     private static function validateCallback(string $class): void
     {
         if (!method_exists($class, 'toArray')) {
@@ -65,8 +52,6 @@ final class ResourceMapper
      * @param class-string $class
      *
      * @return array<string, mixed>
-     *
-     * @throws \LogicException
     */
     private static function ensureStringKeys(array $data, string $class): array
     {

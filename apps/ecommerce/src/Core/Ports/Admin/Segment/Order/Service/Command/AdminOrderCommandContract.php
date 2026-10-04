@@ -11,11 +11,5 @@ use App\Core\Domain\{
 
 interface AdminOrderCommandContract
 {
-    /**
-     * @param Order $order
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return void
-    */
     public function updateOrderStatus(Order $order, AdminOrderStatusPayload $payload): void;
 }

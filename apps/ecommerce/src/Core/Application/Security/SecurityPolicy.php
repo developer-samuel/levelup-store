@@ -19,44 +19,26 @@ use App\Core\Ports\{
 
 final readonly class SecurityPolicy implements SecurityPolicyContract
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
     ) {}
 
-    /**
-     * @return User
-    */
     public function checkAccess(): User
     {
         return $this->runChecks(['user']);
     }
 
-    /**
-     * @return User
-    */
     public function checkIfEmailVerified(): User
     {
         return $this->runChecks(['user', 'email']);
     }
 
-    /**
-     * @return User
-    */
     public function checkAdminAccess(): User
     {
         return $this->runChecks(['user', 'email', 'admin']);
     }
 
-    /**
-     * @param array<int, string> $checks
-     *
-     * @return User
-     *
-     * @throws AccessDeniedException
-    */
+    /** @param array<int, string> $checks */
     private function runChecks(array $checks): User
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -76,13 +58,6 @@ final readonly class SecurityPolicy implements SecurityPolicyContract
         return $user;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return User
-     *
-     * @throws AccessDeniedException
-    */
     private function validateUser(User $user): User
     {
         if (!$this->validateRoles($user, array_values(UserRole::values()))) {
@@ -92,13 +67,6 @@ final readonly class SecurityPolicy implements SecurityPolicyContract
         return $user;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return User
-     *
-     * @throws AccessDeniedException
-    */
     private function validateEmailVerified(User $user): User
     {
         if ($user->getEmailVerifiedAt() === null) {
@@ -108,13 +76,6 @@ final readonly class SecurityPolicy implements SecurityPolicyContract
         return $user;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return User
-     *
-     * @throws AccessDeniedException
-    */
     private function validateAdminRole(User $user): User
     {
         if (!$this->validateRoles($user, [UserRole::ADMIN->value])) {
@@ -124,12 +85,7 @@ final readonly class SecurityPolicy implements SecurityPolicyContract
         return $user;
     }
 
-    /**
-     * @param User $user
-     * @param array<int, string> $allowedRoles
-     *
-     * @return bool
-    */
+    /** @param array<int, string> $allowedRoles */
     private function validateRoles(User $user, array $allowedRoles): bool
     {
         $roles = $user->getRoles();

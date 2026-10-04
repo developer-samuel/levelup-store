@@ -11,19 +11,6 @@ use App\Core\Domain\{
 
 interface ChangePasswordQueryContract
 {
-    /**
-     * @param ChangePasswordPayload $payload
-     * @param User $user
-     *
-     * @return void
-    */
     public function requireOldPassword(ChangePasswordPayload $payload, User $user): void;
-
-    /**
-     * @param ChangePasswordPayload $payload
-     * @param User $user
-     *
-     * @return void
-    */
     public function requireNewPassword(ChangePasswordPayload $payload, User $user): void;
 }

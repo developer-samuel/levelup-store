@@ -23,20 +23,11 @@ use App\Shared\Constants\PathConstants;
 )]
 final readonly class VerificationCheckerListener
 {
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param UrlGeneratorInterface $urlGenerator
-    */
     public function __construct(
         private TokenStorageInterface $tokenStorage,
         private UrlGeneratorInterface $urlGenerator,
     ) {}
 
-    /**
-     * @param ControllerEvent $event
-     *
-     * @return void
-    */
     public function onKernelController(ControllerEvent $event): void
     {
         $request = $event->getRequest();
@@ -64,11 +55,6 @@ final readonly class VerificationCheckerListener
         }
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-    */
     private function isVerificationPaths(string $path): bool
     {
         if ($path === PathConstants::VERIFY_BASE_PATH) {
@@ -86,25 +72,16 @@ final readonly class VerificationCheckerListener
         return $path === $this->getVerificationUpdatePath();
     }
 
-    /**
-     * @return string
-    */
     private function getMustVerifyPath(): string
     {
         return $this->urlGenerator->generate('must_verify', [], UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 
-    /**
-     * @return string
-    */
     private function getVerificationStorePath(): string
     {
         return $this->urlGenerator->generate('verification_store', [], UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 
-    /**
-     * @return string
-    */
     private function getVerificationUpdatePath(): string
     {
         return $this->urlGenerator->generate('verification_update', [], UrlGeneratorInterface::ABSOLUTE_PATH);

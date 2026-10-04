@@ -126,4 +126,5 @@ jobs:
                   infrastructure/helm/apps/assistant/values.prod.yaml
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: deploy ${{ needs.build-ecommerce.outputs.image-tag || needs.build-assistant.outputs.image-tag }} [skip ci]"
+          git pull --rebase origin main
           git push origin main

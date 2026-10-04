@@ -18,10 +18,6 @@ use App\Core\Ports\{
 
 final class AdminApiBannerListQueryHandler extends AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param BannerRepositoryContract $bannerRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly BannerRepositoryContract $bannerRepository,
         AppLoggerContract $logger,
@@ -39,9 +35,7 @@ final class AdminApiBannerListQueryHandler extends AbstractAdminApiListQueryHand
         return $this->bannerRepository->findAll();
     }
 
-    /**
-     * @return class-string<AdminApiBannerResource>
-    */
+    /** @return class-string<AdminApiBannerResource> */
     protected function getResourceClass(): string
     {
         return AdminApiBannerResource::class;

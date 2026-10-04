@@ -17,20 +17,11 @@ use App\Core\Ports\{
 
 final readonly class CartControlCommandService implements CartControlCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param CartItemRepositoryContract $cartItemRepository
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private CartItemRepositoryContract $cartItemRepository,
     ) {}
 
-    /**
-     * @param Cart $cart
-     *
-     * @return void
-    */
     public function clearCart(Cart $cart): void
     {
         $this->clearItemsOrCart($cart);
@@ -38,11 +29,6 @@ final readonly class CartControlCommandService implements CartControlCommandCont
         $this->entityPersistence->remove($cart, true);
     }
 
-    /**
-     * @param Cart $cart
-     *
-     * @return void
-    */
     public function flushAndRefreshCart(Cart $cart): void
     {
         $cart->setUpdatedAt();
@@ -55,11 +41,6 @@ final readonly class CartControlCommandService implements CartControlCommandCont
         $this->entityPersistence->flush();
     }
 
-    /**
-     * @param User $user
-     *
-     * @return Cart
-    */
     public function createNewCart(User $user): Cart
     {
         $cart = new Cart($user);
@@ -69,11 +50,6 @@ final readonly class CartControlCommandService implements CartControlCommandCont
         return $cart;
     }
 
-    /**
-     * @param Cart $cart
-     *
-     * @return void
-    */
     private function clearItemsOrCart(Cart $cart): void
     {
         $remainingItems = $this->cartItemRepository->findByCart($cart);

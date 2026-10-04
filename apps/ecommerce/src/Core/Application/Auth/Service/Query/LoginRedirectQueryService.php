@@ -13,11 +13,6 @@ use App\Core\Ports\Auth\Service\Query\LoginRedirectQueryContract;
 
 final class LoginRedirectQueryService implements LoginRedirectQueryContract
 {
-    /**
-     * @param User $user
-     *
-     * @return string
-    */
     public function getRedirectRoute(User $user): string
     {
         return $user->getRole()->value === UserRole::ADMIN->value ? '/admin' : '/';

@@ -13,5 +13,6 @@ data:
   OLLAMA_HOST: {{ .Values.app.ollamaHost | quote }}
   {{- if .Values.otel.enabled }}
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
+  OTEL_EXPORTER_OTLP_PROTOCOL: {{ .Values.otel.protocol | quote }}
   OTEL_SERVICE_NAME: "levelup-store-assistant"
   {{- end }}

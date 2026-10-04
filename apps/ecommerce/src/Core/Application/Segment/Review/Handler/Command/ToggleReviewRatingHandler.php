@@ -19,11 +19,6 @@ use App\Core\Ports\{
 
 final class ToggleReviewRatingHandler extends AbstractCommandHandler implements ToggleReviewRatingHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param ReviewRatingCommandContract $reviewRatingCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly ReviewRatingCommandContract $reviewRatingCommand,
@@ -32,11 +27,7 @@ final class ToggleReviewRatingHandler extends AbstractCommandHandler implements 
         parent::__construct($logger);
     }
 
-    /**
-     * @param ReviewRatingPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(ReviewRatingPayload $payload): array
     {
         return $this->execute(function () use ($payload) {

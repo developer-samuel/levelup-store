@@ -24,18 +24,10 @@ use App\Scheduler\{
     Task\Abstract\AbstractTask
 };
 
-/**
- * @extends AbstractTask<ProductVariantRecommended>
-*/
+/** @extends AbstractTask<ProductVariantRecommended> */
 #[AsMessageHandler]
 final class ProductRecommendedSyncTask extends AbstractTask
 {
-    /**
-     * @param ProductVariantRecommendedRepositoryContract $recommendedRepository
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ConsoleLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductVariantRecommendedRepositoryContract $recommendedRepository,
         private readonly ProductVariantRepositoryContract $variantRepository,
@@ -45,37 +37,23 @@ final class ProductRecommendedSyncTask extends AbstractTask
         parent::__construct($entityManager, $logger);
     }
 
-    /**
-     * @param ProductRecommendedSyncMessage $message
-     *
-     * @return void
-    */
     public function __invoke(ProductRecommendedSyncMessage $message): void
     {
         $this->execute();
     }
 
-    /**
-     * @return string
-    */
     protected function getTaskName(): string
     {
         return 'ProductRecommendedSyncTask';
     }
 
-    /**
-     * @return ProductVariantRecommended[]
-    */
+    /** @return ProductVariantRecommended[] */
     protected function fetchItems(): iterable
     {
         return $this->recommendedRepository->findAll();
     }
 
-    /**
-     * @param iterable<ProductVariantRecommended> $items
-     *
-     * @return int
-    */
+    /** @param iterable<ProductVariantRecommended> $items */
     protected function processItems(iterable $items): int
     {
         $count = 0;
@@ -106,9 +84,7 @@ final class ProductRecommendedSyncTask extends AbstractTask
         return $count;
     }
 
-    /**
-     * @return int[]
-    */
+    /** @return int[] */
     private function getCurrentVariantIds(): array
     {
         return array_map(

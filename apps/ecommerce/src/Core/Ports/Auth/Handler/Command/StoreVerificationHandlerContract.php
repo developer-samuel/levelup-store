@@ -6,8 +6,6 @@ namespace App\Core\Ports\Auth\Handler\Command;
 
 interface StoreVerificationHandlerContract
 {
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(): array;
 }

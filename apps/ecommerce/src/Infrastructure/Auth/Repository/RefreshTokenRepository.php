@@ -15,15 +15,9 @@ use App\Core\Ports\Auth\Repository\RefreshTokenRepositoryContract;
 
 use App\Infrastructure\Abstract\Repository\AbstractTokenRepository;
 
-/**
- * @extends AbstractTokenRepository<RefreshToken>
-*/
+/** @extends AbstractTokenRepository<RefreshToken> */
 final class RefreshTokenRepository extends AbstractTokenRepository implements RefreshTokenRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-     * @param int $refreshTokenTtl
-    */
     public function __construct(
         ManagerRegistry $registry,
         private readonly int $refreshTokenTtl,
@@ -31,11 +25,6 @@ final class RefreshTokenRepository extends AbstractTokenRepository implements Re
         parent::__construct($registry, RefreshToken::class);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return RefreshToken
-    */
     public function create(User $user): RefreshToken
     {
         $token = (new RefreshToken())
@@ -50,11 +39,6 @@ final class RefreshTokenRepository extends AbstractTokenRepository implements Re
         return $token;
     }
 
-    /**
-     * @param string $token
-     *
-     * @return RefreshToken|null
-    */
     public function findByToken(string $token): ?RefreshToken
     {
         /** @var RefreshToken|null $result */
@@ -63,11 +47,6 @@ final class RefreshTokenRepository extends AbstractTokenRepository implements Re
         return $result;
     }
 
-    /**
-     * @param RefreshToken $token
-     *
-     * @return void
-    */
     public function revoke(RefreshToken $token): void
     {
         $em = $this->getEntityManager();
@@ -75,9 +54,6 @@ final class RefreshTokenRepository extends AbstractTokenRepository implements Re
         $em->flush();
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'rt';

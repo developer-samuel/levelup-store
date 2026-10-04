@@ -8,9 +8,6 @@ use Database\Seeds\Abstract\AbstractDataRecord;
 
 final class SubtypeRecord extends AbstractDataRecord
 {
-    /**
-     * @return string
-    */
     protected function getFilePaths(): string
     {
         return __DIR__ . '/../../data/subtypes.json';

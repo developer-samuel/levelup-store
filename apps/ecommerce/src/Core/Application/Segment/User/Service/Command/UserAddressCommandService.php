@@ -21,11 +21,6 @@ use App\Core\Ports\{
 
 final readonly class UserAddressCommandService implements UserAddressCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param CountryRepositoryContract $countryRepository
-     * @param UserAddressQueryContract $userAddressQuery
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private CountryRepositoryContract $countryRepository,
@@ -33,12 +28,8 @@ final readonly class UserAddressCommandService implements UserAddressCommandCont
     ) {}
 
     /**
-     * @param User $user
-     * @param UserBilling|UserShipping|null $entity
      * @param array<string, int|string|null> $data
      * @param class-string<UserBilling|UserShipping> $entityClass
-     *
-     * @return void
     */
     public function processAddressEntity(
         User $user,
@@ -70,17 +61,7 @@ final readonly class UserAddressCommandService implements UserAddressCommandCont
         $this->entityPersistence->persist($entity);
     }
 
-    /**
-     * @param User $user
-     * @param UserBilling|UserShipping|null $entity
-     * @param int $countryId
-     * @param string $street
-     * @param string $postalCode
-     * @param string $city
-     * @param class-string<UserBilling|UserShipping> $entityClass
-     *
-     * @return UserBilling|UserShipping|null
-    */
+    /** @param class-string<UserBilling|UserShipping> $entityClass */
     private function createEntityIfNeeded(
         User $user,
         UserBilling|UserShipping|null $entity,
@@ -97,12 +78,7 @@ final readonly class UserAddressCommandService implements UserAddressCommandCont
         return $entity;
     }
 
-    /**
-     * @param User $user
-     * @param class-string<UserBilling|UserShipping> $entityClass
-     *
-     * @return UserBilling|UserShipping
-    */
+    /** @param class-string<UserBilling|UserShipping> $entityClass */
     private function createNewAddressEntity(User $user, string $entityClass): UserBilling|UserShipping
     {
         $entity = new $entityClass();
@@ -113,15 +89,6 @@ final readonly class UserAddressCommandService implements UserAddressCommandCont
         return $entity;
     }
 
-    /**
-     * @param UserBilling|UserShipping $entity
-     * @param int|null $countryId
-     * @param string|null $street
-     * @param string|null $postalCode
-     * @param string|null $city
-     *
-     * @return void
-    */
     private function updateOrRemoveAddressEntity(
         UserBilling|UserShipping $entity,
         ?int $countryId,
@@ -133,12 +100,6 @@ final readonly class UserAddressCommandService implements UserAddressCommandCont
         $this->updateAddressFields($entity, $street, $postalCode, $city);
     }
 
-    /**
-     * @param UserBilling|UserShipping $entity
-     * @param int|null $countryId
-     *
-     * @return void
-    */
     private function updateCountry(UserBilling|UserShipping $entity, ?int $countryId): void
     {
         if ($countryId === null || $countryId === 0) {
@@ -152,14 +113,6 @@ final readonly class UserAddressCommandService implements UserAddressCommandCont
         $entity->setCountry($country);
     }
 
-    /**
-     * @param UserBilling|UserShipping $entity
-     * @param string|null $street
-     * @param string|null $postalCode
-     * @param string|null $city
-     *
-     * @return void
-    */
     private function updateAddressFields(
         UserBilling|UserShipping $entity,
         ?string $street,

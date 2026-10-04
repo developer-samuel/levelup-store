@@ -10,9 +10,6 @@ use App\Core\Application\Shared\Constants\CookieConstants;
 
 final class CookieFactory
 {
-    /**
-     * @return CookieObject
-    */
     public function fromObject(): CookieObject
     {
         $expires = $this->calculateExpirationTime();
@@ -27,9 +24,6 @@ final class CookieFactory
         );
     }
 
-    /**
-     * @return int
-    */
     private function calculateExpirationTime(): int
     {
         $timestamp = strtotime(CookieConstants::DURATION);
@@ -40,9 +34,6 @@ final class CookieFactory
         return $timestamp;
     }
 
-    /**
-     * @return int
-    */
     private function defaultDuration(): int
     {
         return time() + (365 * 24 * 3600);

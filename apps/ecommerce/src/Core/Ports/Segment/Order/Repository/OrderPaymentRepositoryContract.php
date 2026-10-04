@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface OrderPaymentRepositoryContract
 {
-    /**
-     * @param Order $order
-     *
-     * @return OrderPayment|null
-     */
     public function getByOrder(Order $order): ?OrderPayment;
 }

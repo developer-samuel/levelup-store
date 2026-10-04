@@ -11,10 +11,5 @@ use App\Core\Domain\{
 
 interface UpdateVerificationHandlerContract
 {
-    /**
-     * @param UpdateVerificationPayload $payload
-     *
-     * @return JwtTokenObject|null
-    */
     public function handle(UpdateVerificationPayload $payload): ?JwtTokenObject;
 }

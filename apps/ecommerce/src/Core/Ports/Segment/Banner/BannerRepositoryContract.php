@@ -8,18 +8,11 @@ use App\Core\Domain\Segment\Banner\Entity\Banner;
 
 interface BannerRepositoryContract
 {
-    /**
-     * @return Banner[]
-    */
+    /** @return Banner[] */
     public function findAll(): array;
 
-    /**
-     * @return Banner[]
-    */
+    /** @return Banner[] */
     public function findAllActive(): array;
 
-    /**
-     * @return int
-    */
     public function findMaxPosition(): int;
 }

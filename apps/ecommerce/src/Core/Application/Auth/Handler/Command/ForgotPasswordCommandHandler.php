@@ -20,12 +20,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class ForgotPasswordCommandHandler extends AbstractCommandHandler implements ForgotPasswordCommandHandlerContract
 {
-    /**
-     * @param ForgotPasswordCommandContract $forgotPasswordCommand
-     * @param UserQueryContract $userQuery
-     * @param RateLimiterContract $rateLimiter
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ForgotPasswordCommandContract $forgotPasswordCommand,
         private readonly UserQueryContract $userQuery,
@@ -35,11 +29,7 @@ final class ForgotPasswordCommandHandler extends AbstractCommandHandler implemen
         parent::__construct($logger);
     }
 
-    /**
-     * @param ForgotPasswordPayload $payload
-     *
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     public function handle(ForgotPasswordPayload $payload): array
     {
         return $this->execute(function() use ($payload) {

@@ -24,9 +24,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\OrderSuccessCleanupCommandHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Handler\Command\OrderSuccessCleanupCommandHandler */
 final class OrderSuccessCleanupCommandHandlerTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;

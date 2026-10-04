@@ -8,10 +8,6 @@ use App\Core\Domain\Segment\Review\Payload\ReviewCreatePayload;
 
 interface ReviewCommandHandlerContract
 {
-    /**
-     * @param ReviewCreatePayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(ReviewCreatePayload $payload): array;
 }

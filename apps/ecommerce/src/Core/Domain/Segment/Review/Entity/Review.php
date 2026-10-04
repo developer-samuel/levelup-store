@@ -74,9 +74,7 @@ class Review
     )]
     private ReviewType $type = ReviewType::RATING;
 
-    /**
-     * @var Collection<int, ReviewDetail>
-    */
+    /** @var Collection<int, ReviewDetail> */
     #[ORM\OneToMany(
         mappedBy: 'review',
         targetEntity: ReviewDetail::class,
@@ -94,19 +92,11 @@ class Review
         $this->details = new ArrayCollection();
     }
 
-    /**
-     * @return string|null
-    */
     public function getBody(): ?string
     {
         return $this->body;
     }
 
-    /**
-     * @param string|null $body
-     *
-     * @return self
-    */
     public function setBody(?string $body): self
     {
         $this->body = $body;

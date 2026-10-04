@@ -16,16 +16,11 @@ use App\Infrastructure\{
     Shared\Traits\OrderedQuery
 };
 
-/**
- * @extends AbstractRepository<ProductSubtype>
-*/
+/** @extends AbstractRepository<ProductSubtype> */
 final class ProductSubtypeRepository extends AbstractRepository implements ProductSubtypeRepositoryContract
 {
     use OrderedQuery;
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -34,35 +29,22 @@ final class ProductSubtypeRepository extends AbstractRepository implements Produ
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'ps';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'id';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::DESC;
     }
 
-    /**
-     * @param int $productId
-     *
-     * @return ProductSubtype[]
-    */
+    /** @return ProductSubtype[] */
     public function findAllByProductId(int $productId): array
     {
         $qb = $this->createQueryBuilder('ps')

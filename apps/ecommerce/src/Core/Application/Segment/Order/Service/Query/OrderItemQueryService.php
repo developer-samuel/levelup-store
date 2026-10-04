@@ -38,11 +38,6 @@ final class OrderItemQueryService implements OrderItemQueryContract
         return $this->mapGroupedItemsToLineItems($groupedItems);
     }
 
-    /**
-     * @param ProductVariantStock|null $stock
-     *
-     * @return bool
-    */
     public function isStockAvailable(?ProductVariantStock $stock): bool
     {
         return $stock?->isAvailable() ?? false;
@@ -89,14 +84,6 @@ final class OrderItemQueryService implements OrderItemQueryContract
         );
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param int $quantity
-     *
-     * @return StripeLineItemObject
-     *
-     * @throws NotFoundHttpException
-    */
     private function buildLineItem(ProductVariant $variant, int $quantity): StripeLineItemObject
     {
         ProductVariantAssertion::assertNameExists($variant);
@@ -109,12 +96,6 @@ final class OrderItemQueryService implements OrderItemQueryContract
         return $this->createLineItem($price, $quantity);
     }
 
-    /**
-     * @param string $productName
-     * @param float $formattedPrice
-     *
-     * @return StripeLineItemPriceObject
-    */
     private function createItemPrice(string $productName, float $formattedPrice): StripeLineItemPriceObject
     {
         return new StripeLineItemPriceObject(
@@ -124,12 +105,6 @@ final class OrderItemQueryService implements OrderItemQueryContract
         );
     }
 
-    /**
-     * @param StripeLineItemPriceObject $price
-     * @param int $quantity
-     *
-     * @return StripeLineItemObject
-    */
     private function createLineItem(StripeLineItemPriceObject $price, int $quantity): StripeLineItemObject
     {
         return new StripeLineItemObject(

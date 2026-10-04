@@ -11,11 +11,5 @@ use App\Core\Domain\{
 
 interface CartItemAvailabilityPolicyContract
 {
-    /**
-     * @param Cart $cart
-     * @param ProductVariant $variant
-     *
-     * @return bool
-    */
     public function isAvailable(Cart $cart, ProductVariant $variant): bool;
 }

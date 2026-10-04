@@ -10,12 +10,6 @@ use App\Core\Ports\Gateways\External\Turnstile\TurnstileGatewayContract;
 
 final readonly class TurnstileAdapter implements TurnstileGatewayContract
 {
-    /**
-     * @param HttpClientInterface $httpClient
-     * @param bool   $enabled
-     * @param string $secretKey
-     * @param string $verifyUrl
-    */
     public function __construct(
         private HttpClientInterface $httpClient,
         private bool $enabled,
@@ -23,20 +17,11 @@ final readonly class TurnstileAdapter implements TurnstileGatewayContract
         private string $verifyUrl,
     ) {}
 
-    /**
-     * @return bool
-    */
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * @param string $token
-     * @param string $ip
-     *
-     * @return bool
-    */
     public function verify(string $token, string $ip): bool
     {
         if (!$this->enabled) {

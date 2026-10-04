@@ -24,13 +24,6 @@ use App\Shared\{
 */
 final class AddressCheckFields
 {
-    /**
-     * @param ExecutionContextInterface $context
-     * @param AddressObject $address
-     * @param bool|null $sendShipping
-     *
-     * @return void
-    */
     public static function validateRequired(
         ExecutionContextInterface $context,
         AddressObject $address,
@@ -39,13 +32,6 @@ final class AddressCheckFields
         self::validateWithRequiredFlag($context, $address, true, $sendShipping);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param AddressObject $address
-     * @param bool|null $sendShipping
-     *
-     * @return void
-    */
     public static function validateOptional(
         ExecutionContextInterface $context,
         AddressObject $address,
@@ -54,13 +40,6 @@ final class AddressCheckFields
         self::validateWithRequiredFlag($context, $address, false, $sendShipping);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param AddressObject $address
-     * @param AddressType $type
-     *
-     * @return void
-    */
     public static function validateRequiredForType(
         ExecutionContextInterface $context,
         AddressObject $address,
@@ -69,14 +48,6 @@ final class AddressCheckFields
         self::validateWithRequiredFlag($context, $address, true, null, $type);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param AddressObject $address
-     * @param AddressType $type
-     * @param bool|null $sendShipping
-     *
-     * @return void
-    */
     public static function validateOptionalForType(
         ExecutionContextInterface $context,
         AddressObject $address,
@@ -86,14 +57,6 @@ final class AddressCheckFields
         self::validateWithRequiredFlag($context, $address, false, $sendShipping, $type);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param AddressObject $address
-     * @param bool $required
-     * @param bool|null $sendShipping
-     *
-     * @return void
-    */
     private static function validateWithRequiredFlag(
         ExecutionContextInterface $context,
         AddressObject $address,
@@ -113,15 +76,7 @@ final class AddressCheckFields
         }
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param AddressObject $address
-     * @param AddressType $type
-     * @param array<string, AddressRule> $rules
-     * @param bool $required
-     *
-     * @return void
-    */
+    /** @param array<string, AddressRule> $rules */
     private static function validateAddress(
         ExecutionContextInterface $context,
         AddressObject $address,
@@ -152,12 +107,6 @@ final class AddressCheckFields
         }
     }
 
-    /**
-     * @param AddressObject $address
-     * @param AddressFields $field
-     *
-     * @return string
-    */
     private static function getPropertyValue(AddressObject $address, AddressFields $field): string
     {
         return match($field) {
@@ -168,35 +117,16 @@ final class AddressCheckFields
         };
     }
 
-    /**
-     * @param AddressType $type
-     * @param AddressObject $address
-     *
-     * @return bool
-    */
     private static function shouldSkipShipping(AddressType $type, AddressObject $address): bool
     {
         return $type === AddressType::SHIPPING && ($address->sendShipping ?? false) === false;
     }
 
-    /**
-     * @param string $value
-     * @param bool $required
-     *
-     * @return bool
-    */
     private static function isEmptyAndRequired(string $value, bool $required): bool
     {
         return $required && $value === '';
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param string $property
-     * @param string $field
-     *
-     * @return void
-    */
     private static function addRequiredViolation(
         ExecutionContextInterface $context,
         string $property,
@@ -207,22 +137,11 @@ final class AddressCheckFields
             ->addViolation();
     }
 
-    /**
-     * @param string $value
-     * @param bool $required
-     *
-     * @return bool
-    */
     private static function shouldApplyRules(string $value, bool $required): bool
     {
         return $required || trim($value) !== '';
     }
 
-    /**
-     * @param string $field
-     *
-     * @return string
-    */
     private static function getLabel(string $field): string
     {
         $case = AddressFields::tryFrom($field);
@@ -235,16 +154,6 @@ final class AddressCheckFields
         return StringNormalizer::capitalizeWords($normalized);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param string $property
-     * @param string $value
-     * @param int|null $min
-     * @param int|null $max
-     * @param string|null $regex
-     *
-     * @return void
-    */
     private static function applyRules(
         ExecutionContextInterface $context,
         string $property,
@@ -261,15 +170,6 @@ final class AddressCheckFields
         self::validateRegex($context, $property, $value, $regex, $label);
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param string $property
-     * @param string $value
-     * @param int|null $min
-     * @param string $label
-     *
-     * @return void
-    */
     private static function validateMinLength(
         ExecutionContextInterface $context,
         string $property,
@@ -284,15 +184,6 @@ final class AddressCheckFields
         }
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param string $property
-     * @param string $value
-     * @param int|null $max
-     * @param string $label
-     *
-     * @return void
-    */
     private static function validateMaxLength(
         ExecutionContextInterface $context,
         string $property,
@@ -307,15 +198,6 @@ final class AddressCheckFields
         }
     }
 
-    /**
-     * @param ExecutionContextInterface $context
-     * @param string $property
-     * @param string $value
-     * @param string|null $regex
-     * @param string $label
-     *
-     * @return void
-    */
     private static function validateRegex(
         ExecutionContextInterface $context,
         string $property,
@@ -330,9 +212,7 @@ final class AddressCheckFields
         }
     }
 
-    /**
-     * @return array<string, AddressRule>
-    */
+    /** @return array<string, AddressRule> */
     private static function getRules(): array
     {
         return [

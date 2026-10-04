@@ -4,6 +4,20 @@ This file describes the **installation steps** on a fresh checkout.
 
 ---
 
+## GitHub Authentication
+
+Store your GitHub credentials once (required for push access):
+
+```bash
+echo "https://<username>:<token>@github.com" >> ~/.git-credentials
+```
+
+Generate a token at GitHub → Settings → Developer settings → Personal access tokens (classic):
+- **Name:** e.g. `git-push`
+- **Scope:** `repo`
+
+---
+
 ## Ecommerce
 
 ```bash

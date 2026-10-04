@@ -27,11 +27,10 @@ COPY scripts/helpers/ /usr/local/bin/scripts/helpers/
 RUN chmod +x /usr/local/bin/scripts/helpers/*.sh
 
 # ──────────────────────────────────
-# 🔐 Permissions scripts
+# 🔐 Bootstrap scripts
 # ──────────────────────────────────
 COPY scripts/bootstrap/ /usr/local/bin/scripts/bootstrap/
-RUN find /usr/local/bin/scripts/bootstrap/ -type f -name "*.sh" -exec chmod +x {} \; \
-    && /usr/local/bin/scripts/bootstrap/permissions.sh
+RUN find /usr/local/bin/scripts/bootstrap/ -type f -name "*.sh" -exec chmod +x {} \;
 
 # ──────────────────────────────────
 # 🌍 Working directory

@@ -28,10 +28,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
     use IterableQuery;
     use IterableCollector;
 
-    /**
-     * @param ManagerRegistry $registry
-     * @param class-string<TEntity> $entityClass
-    */
+    /** @param class-string<TEntity> $entityClass */
     public function __construct(
         ManagerRegistry $registry,
         string $entityClass,
@@ -42,24 +39,10 @@ abstract class AbstractRepository extends ServiceEntityRepository
         );
     }
 
-    /**
-     * @return string
-    */
     abstract protected function getAlias(): string;
-
-    /**
-     * @return string
-    */
     abstract protected function getFindAllSortColumn(): string;
-
-    /**
-     * @return SortDirection
-    */
     abstract protected function getFindAllSortDirection(): SortDirection;
 
-    /**
-     * @return QueryBuilder
-    */
     protected function createBaseQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder($this->getAlias())
@@ -69,12 +52,6 @@ abstract class AbstractRepository extends ServiceEntityRepository
             );
     }
 
-    /**
-     * @param string $field
-     * @param string $value
-     *
-     * @return bool
-    */
     protected function existsByField(string $field, string $value): bool
     {
         $qb = $this->createQueryBuilder($this->getAlias())
@@ -98,9 +75,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
         return $this->collectFromIterable($items, $className);
     }
 
-    /**
-     * @return list<TEntity>
-    */
+    /** @return list<TEntity> */
     public function findAll(): array
     {
         $qb = $this->createBaseQueryBuilder();
@@ -111,12 +86,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
         );
     }
 
-    /**
-     * @param string $column
-     * @param string $value
-     *
-     * @return TEntity|null
-    */
+    /** @return TEntity|null */
     public function findOneByColumn(string $column, string $value): ?object
     {
         $qb = $this->createQueryBuilder($this->getAlias())

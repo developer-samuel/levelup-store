@@ -6,11 +6,6 @@ namespace Database\Validators;
 
 final class IntegerTypeValidator
 {
-    /**
-     * Validates if the given type is a valid column type for IDs.
-     *
-     * @param string $type
-    */
     public static function validateIdType(string $type): void
     {
         $validTypes = [
@@ -22,15 +17,7 @@ final class IntegerTypeValidator
         self::assertInAllowedValues('ID', $type, $validTypes);
     }
 
-     /**
-     * @param string $type
-     * @param mixed $value
-     * @param array<mixed> $allowedValues
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
+    /** @param array<mixed> $allowedValues */
     private static function assertInAllowedValues(string $type, mixed $value, array $allowedValues): void
     {
         if (!in_array($value, $allowedValues, true)) {
@@ -43,11 +30,7 @@ final class IntegerTypeValidator
         }
     }
 
-    /**
-     * @param array<mixed> $values
-     *
-     * @return string
-    */
+    /** @param array<mixed> $values */
     private static function allowedValuesToString(array $values): string
     {
         return implode("', '", array_map(
@@ -56,11 +39,6 @@ final class IntegerTypeValidator
         );
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return string
-    */
     private static function toStringSafe(mixed $value): string
     {
         if (is_scalar($value) || $value === null) {

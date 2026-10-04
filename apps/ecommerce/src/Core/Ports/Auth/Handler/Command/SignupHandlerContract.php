@@ -8,10 +8,6 @@ use App\Core\Domain\Auth\Payload\SignupPayload;
 
 interface SignupHandlerContract
 {
-    /**
-     * @param SignupPayload $payload
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(SignupPayload $payload): array;
 }

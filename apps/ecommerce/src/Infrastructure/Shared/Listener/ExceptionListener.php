@@ -23,20 +23,11 @@ use App\Shared\Renderer\ErrorRenderer;
 )]
 final readonly class ExceptionListener
 {
-    /**
-     * @param ErrorRenderer $errorRenderer
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private ErrorRenderer $errorRenderer,
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param ExceptionEvent $event
-     *
-     * @return void
-    */
     public function onKernelException(ExceptionEvent $event): void
     {
         $throwable = $event->getThrowable();
@@ -48,11 +39,6 @@ final readonly class ExceptionListener
         $event->setResponse($response);
     }
 
-    /**
-     * @param \Throwable $throwable
-     *
-     * @return void
-    */
     private function logException(\Throwable $throwable): void
     {
         $message = sprintf(
@@ -66,11 +52,6 @@ final readonly class ExceptionListener
         $this->logger->alert($message, $throwable);
     }
 
-    /**
-     * @param \Throwable $throwable
-     *
-     * @return Response
-    */
     private function getExceptionResponse(\Throwable $throwable): Response
     {
         return match (true) {
@@ -80,9 +61,6 @@ final readonly class ExceptionListener
         };
     }
 
-    /**
-     * @return Response
-    */
     private function createNotFoundResponse(): Response
     {
         $html = $this->errorRenderer->renderNotFound();
@@ -90,9 +68,6 @@ final readonly class ExceptionListener
         return $this->createHtml($html, Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * @return Response
-    */
     private function createInternalServerErrorResponse(): Response
     {
         $html = $this->errorRenderer->renderInternalServerError();
@@ -103,12 +78,6 @@ final readonly class ExceptionListener
         );
     }
 
-    /**
-     * @param string $html
-     * @param int $status
-     *
-     * @return Response
-    */
     private function createHtml(string $html, int $status): Response
     {
         return new Response(

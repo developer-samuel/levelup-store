@@ -8,11 +8,5 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface ReviewPermissionQueryContract
 {
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     public function canUserCreateReview(User $user, int $variantId): bool;
 }

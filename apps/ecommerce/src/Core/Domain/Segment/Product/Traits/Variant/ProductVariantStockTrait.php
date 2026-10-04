@@ -6,19 +6,8 @@ namespace App\Core\Domain\Segment\Product\Traits\Variant;
 
 use App\Core\Domain\Segment\Product\Enum\ProductStockStatus;
 
-/**
- * @property int $quantityAvailable
- * @property int $quantityReserved
- * @property int $quantityRefunded
- * @property ProductStockStatus $status
-*/
 trait ProductVariantStockTrait
 {
-    /**
-     * @param int $quantity
-     *
-     * @return void
-    */
     public function reserveQuantity(int $quantity): void
     {
         $this->quantityReserved += $quantity;
@@ -31,25 +20,16 @@ trait ProductVariantStockTrait
         }
     }
 
-    /**
-     * @return void
-    */
     public function markCompleted(): void
     {
         $this->quantityReserved = max($this->quantityReserved - 1, 0);
     }
 
-    /**
-     * @return void
-    */
     public function markRefunded(): void
     {
         $this->quantityRefunded++;
     }
 
-    /**
-     * @return void
-    */
     public function recalculateStatus(): void
     {
         $this->status = $this->quantityAvailable <= 0

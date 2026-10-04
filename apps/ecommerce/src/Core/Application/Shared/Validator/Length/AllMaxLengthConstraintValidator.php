@@ -15,12 +15,6 @@ use App\Shared\Utils\Calculator\LengthCalculator;
 
 final class AllMaxLengthConstraintValidator extends AbstractConstraintValidator
 {
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     *
-     * @return void
-    */
     public function validate(mixed $value, Constraint $constraint): void
     {
         $this->assertConstraintType($constraint, AllMaxLengthConstraint::class);
@@ -36,22 +30,13 @@ final class AllMaxLengthConstraintValidator extends AbstractConstraintValidator
         $this->validateValues($this->normalizeValue($value), $constraint);
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return array<mixed>
-    */
+    /** @return array<mixed> */
     private function normalizeValue(mixed $value): array
     {
         return is_array($value) ? $value : [$value];
     }
 
-    /**
-     * @param array<mixed> $values
-     * @param AllMaxLengthConstraint $constraint
-     *
-     * @return void
-    */
+    /** @param array<mixed> $values */
     private function validateValues(array $values, AllMaxLengthConstraint $constraint): void
     {
         foreach ($values as $v) {

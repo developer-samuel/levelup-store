@@ -18,14 +18,9 @@ use App\Infrastructure\{
     Shared\Enum\SortDirection
 };
 
-/**
- * @extends AbstractRepository<FooterLink>
-*/
+/** @extends AbstractRepository<FooterLink> */
 final class FooterLinkRepository extends AbstractRepository implements FooterLinkRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -34,33 +29,22 @@ final class FooterLinkRepository extends AbstractRepository implements FooterLin
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'fl';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'position';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @return FooterLink[]
-    */
+    /** @return FooterLink[] */
     public function findAllOrderedByGroup(): array
     {
         /** @var FooterLink[] $results */
@@ -73,11 +57,7 @@ final class FooterLinkRepository extends AbstractRepository implements FooterLin
         return $results;
     }
 
-    /**
-     * @param FooterLinkGroup $group
-     *
-     * @return FooterLink[]
-    */
+    /** @return FooterLink[] */
     public function findByGroup(FooterLinkGroup $group): array
     {
         /** @var FooterLink[] $results */

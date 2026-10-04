@@ -16,14 +16,6 @@ use App\Core\Domain\{
 
 trait VariantStockFactory
 {
-    /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
-     * @param int $available
-     * @param int $reserved
-     *
-     * @return void
-    */
     private function createProductVariantStock(
         ObjectManager $manager,
         ProductVariant $variant,

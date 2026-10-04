@@ -15,18 +15,10 @@ use App\Core\Ports\{
 
 final readonly class BrandQueryService implements BrandQueryContract
 {
-    /**
-     * @param BrandRepositoryContract $brandRepository
-    */
     public function __construct(
         private BrandRepositoryContract $brandRepository,
     ) {}
 
-    /**
-     * @param int $id
-     *
-     * @return Brand
-    */
     public function getBrandByIdOrFail(int $id): Brand
     {
         $brand = $this->brandRepository->findById($id);

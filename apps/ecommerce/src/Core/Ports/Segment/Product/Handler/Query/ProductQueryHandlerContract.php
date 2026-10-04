@@ -11,13 +11,7 @@ use App\Core\Domain\{
 
 interface ProductQueryHandlerContract
 {
-    /**
-     * @param ProductFilterObject $filter
-     * @param int $currentPage
-     * @param ProductSortOption $sort
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(
         ProductFilterObject $filter,
         int $currentPage = 1,

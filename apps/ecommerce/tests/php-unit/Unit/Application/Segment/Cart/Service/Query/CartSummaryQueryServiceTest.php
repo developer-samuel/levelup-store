@@ -31,9 +31,7 @@ use App\Core\Ports\{
     Segment\Review\Service\Query\ReviewQueryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartSummaryQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Query\CartSummaryQueryService */
 final class CartSummaryQueryServiceTest extends TestCase
 {
     private const EMPTY_SUMMARY = ['totalItems' => 0, 'totalPrice' => '0,00 €'];
@@ -243,9 +241,7 @@ final class CartSummaryQueryServiceTest extends TestCase
         return $item;
     }
 
-    /**
-     * @param object[] $items
-    */
+    /** @param object[] $items */
     private function createCartWithItems(array $items): Cart
     {
         $cart = $this->createMock(Cart::class);

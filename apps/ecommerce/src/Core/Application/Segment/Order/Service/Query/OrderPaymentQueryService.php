@@ -22,33 +22,17 @@ use App\Core\Ports\{
 
 final readonly class OrderPaymentQueryService implements OrderPaymentQueryContract
 {
-    /**
-     * @param CartRepositoryContract $cartRepository
-     * @param StripePaymentGatewayContract $stripePaymentAdapter
-    */
     public function __construct(
         private CartRepositoryContract $cartRepository,
         private StripePaymentGatewayContract $stripePaymentAdapter,
     ) {}
 
-    /**
-     * @param StripeLineItemObject[] $lineItems
-     * @param OrderCreatePayload $payload
-     *
-     * @return string
-    */
+    /** @param StripeLineItemObject[] $lineItems */
     public function initiateCardPayment(array $lineItems, OrderCreatePayload $payload): string
     {
         return $this->stripePaymentAdapter->initiateCheckout($lineItems, $payload);
     }
 
-    /**
-     * @param StripeCheckoutObject $session
-     *
-     * @return OrderCreatePayload
-     *
-     * @throws \InvalidArgumentException
-    */
     public function extractPayloadFromMetadata(StripeCheckoutObject $session): OrderCreatePayload
     {
         $meta = $session->metadata;
@@ -67,11 +51,7 @@ final readonly class OrderPaymentQueryService implements OrderPaymentQueryContra
         );
     }
 
-    /**
-     * @param array<string, string> $meta
-     *
-     * @return OrderPersonalObject
-    */
+    /** @param array<string, string> $meta */
     private function buildPersonal(array $meta): OrderPersonalObject
     {
         return new OrderPersonalObject(
@@ -81,11 +61,7 @@ final readonly class OrderPaymentQueryService implements OrderPaymentQueryContra
         );
     }
 
-    /**
-     * @param array<string, string> $meta
-     *
-     * @return OrderBillingObject
-    */
+    /** @param array<string, string> $meta */
     private function buildBilling(array $meta): OrderBillingObject
     {
         return new OrderBillingObject(
@@ -96,12 +72,7 @@ final readonly class OrderPaymentQueryService implements OrderPaymentQueryContra
         );
     }
 
-    /**
-     * @param array<string, string> $meta
-     * @param bool $sendShipping
-     *
-     * @return OrderShippingObject|null
-    */
+    /** @param array<string, string> $meta */
     private function buildShipping(array $meta, bool $sendShipping): ?OrderShippingObject
     {
         if (!$sendShipping || !isset($meta['shipping_country'])) {
@@ -116,12 +87,6 @@ final readonly class OrderPaymentQueryService implements OrderPaymentQueryContra
         );
     }
 
-    /**
-     * @param int $userId
-     * @param OrderCreatePayload $payload
-     *
-     * @return bool
-    */
     public function shouldProcessPayment(int $userId, OrderCreatePayload $payload): bool
     {
         $cart = $this->cartRepository->findCartForUser($userId);
@@ -129,11 +94,6 @@ final readonly class OrderPaymentQueryService implements OrderPaymentQueryContra
         return $cart !== null && $payload->paymentMethod === OrderPaymentMethod::CARD;
     }
 
-    /**
-     * @param string $sessionId
-     *
-     * @return StripeCheckoutObject
-    */
     public function retrieveCheckoutSession(string $sessionId): StripeCheckoutObject
     {
         return $this->stripePaymentAdapter->retrieveCheckoutSession($sessionId);

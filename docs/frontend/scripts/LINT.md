@@ -7,7 +7,7 @@ Each command runs ESLint across both apps (ecommerce + assistant).
 
 ### lint
 
-- **Command**: `pnpm lint` / `npm run lint`
+- **Command**: `pnpm lint`
 - **Purpose**: ESLint check on source files for both apps.
 
 ---

@@ -8,11 +8,6 @@ use App\Core\Domain\Segment\Category\Entity\Category;
 
 trait CategoryFactory
 {
-    /**
-     * @param string $name
-     *
-     * @return Category
-    */
     private function createCategory(string $name): Category
     {
         return (new Category())

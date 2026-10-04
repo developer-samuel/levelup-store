@@ -15,20 +15,10 @@ use App\Core\Ports\{
 
 final class OrderFetchQueryService implements OrderFetchQueryContract
 {
-    /**
-     * @param OrderRepositoryContract $orderRepository
-    */
     public function __construct(
         private OrderRepositoryContract $orderRepository,
     ) {}
 
-    /**
-     * @param string $code
-     *
-     * @return Order
-     *
-     * @throws \InvalidArgumentException
-    */
     public function getOrderByCodeOrFail(string $code): Order
     {
         $order = $this->orderRepository->getOrderByCode($code);

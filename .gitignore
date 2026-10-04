@@ -3,10 +3,10 @@
 .env.local
 .env.production
 
-# Node / npm
+# Node
 node_modules/
-npm-debug.log
 .pnpm-store/
+package-lock.json
 
 # Dependencies
 vendor/
@@ -18,9 +18,15 @@ bin/*
 var/
 .cache/
 *.cache
+*.log
 
 # Archives
 *.tgz
+*.tar.gz
+*.tar
+*.zip
+*.rar
+*.7z
 
 # Frontend Build
 dist/
@@ -32,10 +38,23 @@ build/
 
 # Editor
 .vscode/
+.idea/
 .gitconfig
+.history/
+.DS_Store
+.Spotlight-V100
+.Trashes
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*.suo
+*~
 
 # AI Tools
-.claude
+.claude/settings.local.json
+.claude/plans/
 
 # Infrastructure root
 infrastructure/*

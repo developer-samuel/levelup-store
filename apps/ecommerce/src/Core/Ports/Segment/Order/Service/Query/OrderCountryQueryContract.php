@@ -12,10 +12,5 @@ use App\Core\Domain\{
 
 interface OrderCountryQueryContract
 {
-    /**
-     * @param OrderBillingObject|OrderShippingObject $data
-     *
-     * @return Country
-    */
     public function getCountryFromData(OrderBillingObject|OrderShippingObject $data): Country;
 }

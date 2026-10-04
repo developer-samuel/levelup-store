@@ -17,11 +17,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiVariantImageResource
 {
-    /**
-     * @param ProductVariantImage $image
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(ProductVariantImage $image): array
     {
         return [

@@ -13,20 +13,11 @@ use App\Core\Ports\Segment\User\Repository\UserRepositoryContract;
 #[AsMessageHandler]
 final readonly class UserIndexMessageHandler
 {
-    /**
-     * @param UserRepositoryContract $userRepository
-     * @param UserProjector $projector
-    */
     public function __construct(
         private UserRepositoryContract $userRepository,
         private UserProjector $projector,
     ) {}
 
-    /**
-     * @param UserIndexMessage $message
-     *
-     * @return void
-    */
     public function __invoke(UserIndexMessage $message): void
     {
         $user = $this->userRepository->findById($message->userId);

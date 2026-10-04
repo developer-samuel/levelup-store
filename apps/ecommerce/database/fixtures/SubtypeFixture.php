@@ -36,13 +36,6 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
     use HasCategory;
     use SubtypeFactory;
 
-    /**
-     * @param CategoryRepositoryContract $categoryRepository
-     * @param TypeRepositoryContract $typeRepository
-     * @param SubtypeRecord $subtypeRecord
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly CategoryRepositoryContract $categoryRepository,
         private readonly TypeRepositoryContract $typeRepository,
@@ -56,9 +49,7 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
         );
     }
 
-    /**
-     * @return array<class-string<FixtureInterface>>
-    */
+    /** @return array<class-string<FixtureInterface>> */
     public function getDependencies(): array
     {
         return [
@@ -83,12 +74,6 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
         }
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         /**
@@ -112,7 +97,6 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
     }
 
     /**
-     * @param string $categoryName
      * @param string[] $types
      *
      * @return iterable<array{
@@ -134,12 +118,6 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
         }
     }
 
-    /**
-     * @param Category $category
-     * @param string $typeName
-     *
-     * @return Type|null
-    */
     private function findTypeOrLog(Category $category, string $typeName): ?Type
     {
         $type = $this->getType($this->typeRepository, $category, $typeName);

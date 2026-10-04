@@ -24,9 +24,7 @@ use Tests\{
     Support\Provides\Persistence
 };
 
-/**
- * @coversDefaultClass \App\Infrastructure\Segment\Order\Repository\OrderItemRepository
-*/
+/** @coversDefaultClass \App\Infrastructure\Segment\Order\Repository\OrderItemRepository */
 final class OrderItemRepositoryTest extends KernelTestCase
 {
     use Persistence;

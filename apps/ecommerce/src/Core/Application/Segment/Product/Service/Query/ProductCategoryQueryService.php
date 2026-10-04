@@ -22,21 +22,12 @@ use App\Core\Ports\{
 */
 final readonly class ProductCategoryQueryService implements ProductCategoryQueryContract
 {
-    /**
-     * @param CategoryRepositoryContract $categoryRepository
-     * @param TypeRepositoryContract $typeRepository
-    */
     public function __construct(
         private CategoryRepositoryContract $categoryRepository,
         private TypeRepositoryContract $typeRepository,
     ) {}
 
-    /**
-     * @param string|null $categoryName
-     * @param string|null $typeName
-     *
-     * @return TypesAndSubtypes
-    */
+    /** @return TypesAndSubtypes */
     public function getTypesForCategory(?string $categoryName, ?string $typeName): array
     {
         if (!$this->isValidCategoryName($categoryName)) {
@@ -58,23 +49,11 @@ final readonly class ProductCategoryQueryService implements ProductCategoryQuery
         ];
     }
 
-    /**
-     * @param Category $category
-     * @param string $typeName
-     *
-     * @return Type|null
-    */
     public function findTypeByNameAndCategory(Category $category, string $typeName): ?Type
     {
         return $this->typeRepository->findByCategoryAndName($category, $typeName);
     }
 
-    /**
-     * @param string|null $category
-     * @param string|null $type
-     *
-     * @return TypesAndSubtypesNames
-    */
     public function getTypesAndSubtypes(?string $category, ?string $type): array
     {
         $entities = $this->getTypesForCategory($category, $type);
@@ -85,12 +64,7 @@ final readonly class ProductCategoryQueryService implements ProductCategoryQuery
         ];
     }
 
-    /**
-     * @param Category $category
-     * @param string|null $typeName
-     *
-     * @return Type[]
-    */
+    /** @return Type[] */
     public function resolveTypesForCategory(Category $category, ?string $typeName): array
     {
         if ($typeName !== null) {
@@ -101,19 +75,12 @@ final readonly class ProductCategoryQueryService implements ProductCategoryQuery
         return $category->getTypes()->toArray();
     }
 
-    /**
-     * @param string|null $categoryName
-     *
-     * @return bool
-    */
     private function isValidCategoryName(?string $categoryName): bool
     {
         return $categoryName !== null && trim($categoryName) !== '';
     }
 
-    /**
-     * @return TypesAndSubtypes
-    */
+    /** @return TypesAndSubtypes */
     private function emptyTypesAndSubtypes(): array
     {
         return [
@@ -122,32 +89,18 @@ final readonly class ProductCategoryQueryService implements ProductCategoryQuery
         ];
     }
 
-    /**
-     * @param string $categoryName
-     *
-     * @return Category|null
-    */
     private function getCategoryByName(string $categoryName): ?Category
     {
         return $this->categoryRepository->findByName($categoryName);
     }
 
-    /**
-     * @param Category $category
-     *
-     * @return Type[]
-    */
+    /** @return Type[] */
     private function getTypesFromCategory(Category $category): array
     {
         return $category->getTypes()->toArray();
     }
 
-    /**
-     * @param Category $category
-     * @param string|null $typeName
-     *
-     * @return Subtype[]
-    */
+    /** @return Subtype[] */
     private function getSubtypesForTypeName(Category $category, ?string $typeName): array
     {
         if ($typeName === null) {

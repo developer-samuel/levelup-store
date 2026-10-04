@@ -13,27 +13,12 @@ use App\Core\Domain\{
 
 final class OrderBillingAssertion
 {
-    /**
-     * @param OrderBilling|null $billing
-     *
-     * @return void
-     *
-     * @throws \RuntimeException
-     *
-     * @phpstan-assert OrderBilling $billing
-    */
+    /** @phpstan-assert OrderBilling $billing */
     public static function assertExists(?OrderBilling $billing): void
     {
         ExistenceAssertion::assertExists($billing, 'Order Billing');
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return OrderBilling
-     *
-     * @throws \InvalidArgumentException
-    */
     public static function assertBillingExists(Order $order): OrderBilling
     {
         $billing = $order->getBilling();

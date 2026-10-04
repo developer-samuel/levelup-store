@@ -22,9 +22,7 @@ use App\Core\Ports\{
     Gateways\External\Jwt\JwtGatewayContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Service\Command\LoginCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Service\Command\LoginCommandService */
 final class LoginCommandServiceTest extends TestCase
 {
     private JwtGatewayContract&MockObject $jwtGateway;

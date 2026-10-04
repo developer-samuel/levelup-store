@@ -19,18 +19,13 @@ use Database\{
     Macros\TimestampMacro
 };
 
-use App\Core\Domain\Segment\Footer\Enum\FooterLinkGroup;
-use App\Core\Domain\Segment\Footer\Enum\FooterLinkTarget;
+use App\Core\Domain\{
+    Segment\Footer\Enum\FooterLinkGroup,
+    Segment\Footer\Enum\FooterLinkTarget
+};
 
 final class CreateFooterLinksTable
 {
-    /**
-     * Build the entire schema definition for the 'footer_links' table.
-     *
-     * @param Schema $schema
-     *
-     * @return void
-    */
     public static function build(Schema $schema): void
     {
         $table = $schema->createTable('footer_links');
@@ -40,13 +35,6 @@ final class CreateFooterLinksTable
         self::addCheckConstraints($table);
     }
 
-    /**
-     * Add columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addColumns(Table $table): void
     {
         IdMacro::addSmallIdColumn($table);
@@ -55,13 +43,6 @@ final class CreateFooterLinksTable
         self::addTimestamps($table);
     }
 
-    /**
-     * Add additional columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addAdditionalColumns(Table $table): void
     {
         SmallIntegerMacro::unsignedSmallInteger($table, 'position');
@@ -70,13 +51,6 @@ final class CreateFooterLinksTable
         StringMacro::string($table, 'url', 255);
     }
 
-    /**
-     * Add enum column to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addEnumColumn(Table $table): void
     {
         EnumMacro::add(
@@ -96,26 +70,12 @@ final class CreateFooterLinksTable
         );
     }
 
-    /**
-     * Add timestamp columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addTimestamps(Table $table): void
     {
         TimestampMacro::created($table);
         TimestampMacro::updated($table);
     }
 
-    /**
-     * Add check constraints to ensure data validity.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addCheckConstraints(Table $table): void
     {
         CheckConstraintMacro::add(

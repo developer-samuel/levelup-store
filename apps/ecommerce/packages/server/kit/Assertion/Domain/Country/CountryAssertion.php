@@ -25,14 +25,6 @@ final readonly class CountryAssertion
         return self::validateResponseItems($response);
     }
 
-    /**
-     * @param Country|null $country
-     * @param int|null $countryId
-     *
-     * @return void
-     *
-     * @throws \InvalidArgumentException
-    */
     public static function assertExistsForId(?Country $country, ?int $countryId): void
     {
         if ($country === null) {
@@ -60,8 +52,6 @@ final readonly class CountryAssertion
     }
 
     /**
-     * @param mixed $item
-     *
      * @return array{
      *     alpha2Code: string,
      *     name: string

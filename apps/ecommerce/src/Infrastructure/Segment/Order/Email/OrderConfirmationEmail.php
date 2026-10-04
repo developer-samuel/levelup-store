@@ -14,17 +14,12 @@ use App\Core\Domain\{
     Segment\Order\ValueObject\Email\OrderItemEmailObject
 };
 
-use App\Core\Ports\Segment\Order\Renderer\Email\OrderConfirmationEmailRendererContract;
+use App\Core\Ports\Web\Segment\Order\Renderer\Email\OrderConfirmationEmailRendererContract;
 
 use App\Infrastructure\Abstract\Email\AbstractEmail;
 
 final class OrderConfirmationEmail extends AbstractEmail
 {
-    /**
-     * @param OrderConfirmationEmailRendererContract $renderer
-     * @param MailerInterface $mailer
-     * @param string $fromEmail
-    */
     public function __construct(
         private readonly OrderConfirmationEmailRendererContract $renderer,
         MailerInterface $mailer,
@@ -33,16 +28,7 @@ final class OrderConfirmationEmail extends AbstractEmail
         parent::__construct($mailer, $fromEmail);
     }
 
-    /**
-     * @param string $toEmail
-     * @param Order $order
-     * @param OrderPersonal $personal
-     * @param OrderBilling $billing
-     * @param OrderShipping|null $shipping
-     * @param OrderItemEmailObject[] $items
-     *
-     * @return void
-    */
+    /** @param OrderItemEmailObject[] $items */
     public function send(
         string $toEmail,
         Order $order,

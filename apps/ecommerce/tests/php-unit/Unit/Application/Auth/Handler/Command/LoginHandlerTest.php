@@ -22,15 +22,13 @@ use App\Core\Ports\{
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
     Security\Provider\PasswordHasherProviderContract,
-    Segment\Audit\AuditLoggerContract,
     Segment\User\Repository\UserRepositoryContract,
+    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract,
     Shared\RateLimiter\RateLimiterContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LoginHandler
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Handler\Command\LoginHandler */
 final class LoginHandlerTest extends TestCase
 {
     private UserRepositoryContract&MockObject $userRepository;
@@ -184,9 +182,7 @@ final class LoginHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @param array<string, mixed> $result
-    */
+    /** @param array<string, mixed> $result */
     private function assertInvalidCredentials(array $result): void
     {
         self::assertSame('error', $result['status']);

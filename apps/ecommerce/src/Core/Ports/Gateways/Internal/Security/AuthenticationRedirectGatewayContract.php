@@ -10,10 +10,5 @@ use App\Core\Domain\Auth\Enum\AuthenticationRedirect;
 
 interface AuthenticationRedirectGatewayContract
 {
-    /**
-     * @param AuthenticationRedirect $redirect
-     *
-     * @return RedirectResponse
-    */
     public function redirectTo(AuthenticationRedirect $redirect): RedirectResponse;
 }

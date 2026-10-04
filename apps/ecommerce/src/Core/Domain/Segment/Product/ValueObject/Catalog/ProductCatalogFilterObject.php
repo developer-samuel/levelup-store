@@ -15,10 +15,7 @@ final readonly class ProductCatalogFilterObject
      * @param string[] $types
      * @param string[] $subtypes
      * @param Brand[] $brands
-     * @param float $maxPrice
      * @param ProductVariantObject[] $filtered
-     * @param string|null $category
-     * @param string|null $type
     */
     public function __construct(
         public array $types,

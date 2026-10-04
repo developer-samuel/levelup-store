@@ -15,9 +15,7 @@ use App\Core\Ports\Gateways\External\Realtime\MercureHubGatewayContract;
 
 use App\Infrastructure\Segment\Product\EventListener\PublishProductStockUpdatedEventListener;
 
-/**
- * @coversDefaultClass \App\Infrastructure\Segment\Product\EventListener\PublishProductStockUpdatedEventListener
-*/
+/** @coversDefaultClass \App\Infrastructure\Segment\Product\EventListener\PublishProductStockUpdatedEventListener */
 final class PublishProductStockUpdatedEventListenerTest extends TestCase
 {
     private MercureHubGatewayContract&MockObject $mercureHubGateway;

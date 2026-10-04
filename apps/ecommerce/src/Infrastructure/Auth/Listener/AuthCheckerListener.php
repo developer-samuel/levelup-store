@@ -25,20 +25,11 @@ use App\Shared\{
 )]
 final readonly class AuthCheckerListener
 {
-    /**
-     * @param SecurityProviderContract $securityProvider
-     * @param ErrorResponder $errorResponder
-    */
     public function __construct(
         private SecurityProviderContract $securityProvider,
         private ErrorResponder $errorResponder,
     ) {}
 
-    /**
-     * @param RequestEvent $event
-     *
-     * @return void
-    */
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
@@ -53,19 +44,12 @@ final readonly class AuthCheckerListener
         }
     }
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     private function protectedPaths(): array
     {
         return PathConstants::SECURITY_PATHS;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-    */
     private function isPathProtected(string $path): bool
     {
         foreach ($this->protectedPaths() as $protectedPath) {
@@ -77,9 +61,6 @@ final readonly class AuthCheckerListener
         return false;
     }
 
-    /**
-     * @return bool
-    */
     private function isUserAuthenticated(): bool
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -87,11 +68,6 @@ final readonly class AuthCheckerListener
         return $user instanceof User;
     }
 
-    /**
-     * @param RequestEvent $event
-     *
-     * @return void
-    */
     private function handleUnauthorizedAccess(RequestEvent $event): void
     {
         $response = $this->errorResponder->renderUnauthorized();

@@ -17,12 +17,6 @@ use App\Shared\Utils\Calculator\LengthCalculator;
 
 final class MaxLengthConstraintValidator extends AbstractConstraintValidator
 {
-    /**
-     * @param mixed $value
-     * @param Constraint $constraint
-     *
-     * @return void
-    */
     public function validate(mixed $value, Constraint $constraint): void
     {
         $this->assertConstraintType($constraint, MaxLengthConstraint::class);

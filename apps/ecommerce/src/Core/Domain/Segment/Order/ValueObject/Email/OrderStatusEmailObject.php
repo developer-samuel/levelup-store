@@ -14,18 +14,12 @@ use App\Core\Domain\Segment\Order\Entity\Order;
 */
 final readonly class OrderStatusEmailObject
 {
-    /**
-     * @param Order $order
-     * @param string $url
-     */
     public function __construct(
         public Order $order,
         public string $url,
     ) {}
 
-    /**
-     * @return ObjectArray
-    */
+    /** @return ObjectArray */
     public function toArray(): array
     {
         return [

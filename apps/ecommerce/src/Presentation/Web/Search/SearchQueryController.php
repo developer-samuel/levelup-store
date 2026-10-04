@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Presentation\Web\Search;
+
+use Symfony\{
+    Component\HttpFoundation\Request,
+    Component\HttpFoundation\Response
+};
+
+use App\Core\Ports\{
+    Search\Handler\Query\SearchPageQueryHandlerContract,
+    Security\Provider\SecurityProviderContract,
+    Shared\Logging\AppLoggerContract
+};
+
+use App\Presentation\{
+    Shared\Responder\ExceptionResponder,
+    Web\Abstract\Controller\Query\AbstractQueryController
+};
+
+final class SearchQueryController extends AbstractQueryController
+{
+    public function __construct(
+        private readonly SearchPageQueryHandlerContract $searchPageQueryHandler,
+        SecurityProviderContract $securityProvider,
+        ExceptionResponder $exceptionResponder,
+        AppLoggerContract $logger,
+    ) {
+        parent::__construct(
+            $securityProvider,
+            $exceptionResponder,
+            $logger,
+        );
+    }
+
+    public function index(Request $request): Response
+    {
+        $query = $request->query->getString('query');
+
+        try {
+            $html = $this->searchPageQueryHandler->handle($query);
+
+            return new Response($html);
+        } catch (\Throwable $throwable) {
+            $this->logger->logThrowable(
+                'SearchQueryController::index',
+                $throwable,
+            );
+
+            return $this->exceptionResponder->renderInternalServerError($throwable);
+        }
+    }
+}

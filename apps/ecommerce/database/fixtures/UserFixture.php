@@ -26,12 +26,6 @@ final class UserFixture extends AbstractFixture implements FixtureGroupInterface
 {
     use UserFactory;
 
-    /**
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param UserRecord $userRecord
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly UserRecord $userRecord,
@@ -44,20 +38,12 @@ final class UserFixture extends AbstractFixture implements FixtureGroupInterface
         );
     }
 
-    /**
-     * @return iterable<mixed>
-    */
+    /** @return iterable<mixed> */
     protected function getData(): iterable
     {
         return $this->userRecord->fetchData();
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         /**

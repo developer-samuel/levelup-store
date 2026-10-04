@@ -11,27 +11,7 @@ use App\Core\Domain\{
 
 interface AdminVariantDescriptionCommandContract
 {
-    /**
-     * @param int $variantId
-     * @param AdminVariantDescriptionPayload $payload
-     *
-     * @return ProductVariantDescription
-    */
     public function createDescription(int $variantId, AdminVariantDescriptionPayload $payload): ProductVariantDescription;
-
-    /**
-     * @param int $descriptionId
-     * @param int $variantId
-     * @param AdminVariantDescriptionPayload $payload
-     *
-     * @return ProductVariantDescription
-    */
     public function updateDescription(int $descriptionId, int $variantId, AdminVariantDescriptionPayload $payload): ProductVariantDescription;
-
-    /**
-     * @param ProductVariantDescription $description
-     *
-     * @return void
-    */
     public function destroyDescription(ProductVariantDescription $description): void;
 }

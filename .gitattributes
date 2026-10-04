@@ -47,8 +47,6 @@ uv.lock -diff
 *.woff2 binary
 *.eot binary
 *.otf binary
-*.zip binary
-*.tgz binary
 
 # ── Merge strategy ────────────────────────────────────────
 CHANGELOG.md merge=ours

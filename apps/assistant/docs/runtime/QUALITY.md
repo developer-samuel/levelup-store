@@ -60,12 +60,6 @@ pnpm type-check
 pnpm lint
 pnpm lint:fix
 pnpm format
-
-# or npm
-npm run type-check
-npm run lint
-npm run lint:fix
-npm run format
 ```
 
 ---

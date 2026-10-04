@@ -13,9 +13,7 @@ use App\Core\Domain\Segment\Order\ValueObject\Stripe\{
 
 use App\Core\Application\Segment\Order\Service\Query\OrderPriceQueryService;
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderPriceQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Query\OrderPriceQueryService */
 final class OrderPriceQueryServiceTest extends TestCase
 {
     private OrderPriceQueryService $service;

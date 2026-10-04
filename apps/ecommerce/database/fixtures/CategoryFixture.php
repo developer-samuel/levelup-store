@@ -26,11 +26,6 @@ final class CategoryFixture extends AbstractFixture implements FixtureGroupInter
     use CategoryFactory;
     use NameSanitizer;
 
-    /**
-     * @param CategoryRecord $categoryRecord
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly CategoryRecord $categoryRecord,
         AppLoggerContract $appLogger,
@@ -42,20 +37,12 @@ final class CategoryFixture extends AbstractFixture implements FixtureGroupInter
         );
     }
 
-    /**
-     * @return iterable<array<string>>
-    */
+    /** @return iterable<array<string>> */
     protected function getData(): iterable
     {
         return $this->categoryRecord->fetchData();
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         $name = $this->sanitize($data);

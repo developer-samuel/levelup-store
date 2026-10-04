@@ -14,18 +14,10 @@ use App\Core\Ports\Gateways\External\Search\ElasticsearchGatewayContract;
 #[AsMessageHandler]
 final readonly class UserRemoveMessageHandler
 {
-    /**
-     * @param ElasticsearchGatewayContract $elasticsearch
-    */
     public function __construct(
         private ElasticsearchGatewayContract $elasticsearch,
     ) {}
 
-    /**
-     * @param UserRemoveMessage $message
-     *
-     * @return void
-    */
     public function __invoke(UserRemoveMessage $message): void
     {
         if (!$this->elasticsearch->isEnabled()) {

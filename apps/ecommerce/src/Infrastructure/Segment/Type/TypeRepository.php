@@ -19,16 +19,11 @@ use App\Infrastructure\{
     Shared\Traits\SingleResult
 };
 
-/**
- * @extends AbstractRepository<Type>
-*/
+/** @extends AbstractRepository<Type> */
 final class TypeRepository extends AbstractRepository implements TypeRepositoryContract
 {
     use SingleResult;
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -37,46 +32,26 @@ final class TypeRepository extends AbstractRepository implements TypeRepositoryC
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 't';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'id';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return Type|null
-    */
     public function findByName(string $name): ?Type
     {
         return $this->findOneByColumn('name', $name);
     }
 
-    /**
-     * @param Category $category
-     * @param string $name
-     *
-     * @return Type|null
-    */
     public function findByCategoryAndName(Category $category, string $name): ?Type
     {
         $qb = $this->createQueryBuilder('t')

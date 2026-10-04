@@ -16,14 +16,6 @@ use App\Core\Domain\{
 
 trait VariantEanFactory
 {
-    /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
-     * @param int $quantityAvailable
-     * @param int $quantityReserved
-     *
-     * @return void
-    */
     private function createProductVariantEans(
         ObjectManager $manager,
         ProductVariant $variant,
@@ -34,13 +26,6 @@ trait VariantEanFactory
         $this->createReservedEans($manager, $variant, $quantityReserved);
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
-     * @param int $quantity
-     *
-     * @return void
-    */
     private function createActiveEans(ObjectManager $manager, ProductVariant $variant, int $quantity): void
     {
         for ($i = 0; $i < $quantity; $i++) {
@@ -53,13 +38,6 @@ trait VariantEanFactory
         }
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
-     * @param int $quantity
-     *
-     * @return void
-    */
     private function createReservedEans(ObjectManager $manager, ProductVariant $variant, int $quantity): void
     {
         for ($i = 0; $i < $quantity; $i++) {

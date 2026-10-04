@@ -17,11 +17,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiBrandResource
 {
-    /**
-     * @param Brand $brand
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(Brand $brand): array
     {
         return [

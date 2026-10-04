@@ -30,12 +30,6 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
 
     private CacheProxyContract $cache;
 
-    /**
-     * @param BannerRepositoryContract $bannerRepository
-     * @param ProductRecommendedQueryContract $productRecommendedQuery
-     * @param CategoryRepositoryContract $categoryRepository
-     * @param CacheGatewayContract $cacheGateway
-    */
     public function __construct(
         private BannerRepositoryContract $bannerRepository,
         private ProductRecommendedQueryContract $productRecommendedQuery,
@@ -45,9 +39,7 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
         $this->cache = $cacheGateway->getCache(self::CACHE_POOL);
     }
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getHomeData(): array
     {
         $cacheKey = self::CACHE_KEY;
@@ -60,11 +52,6 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
         return $data->toArray();
     }
 
-    /**
-     * @param string $cacheKey
-     *
-     * @return mixed
-    */
     private function fetchCachedData(string $cacheKey): mixed
     {
         return $this->cache->get(
@@ -74,11 +61,6 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
         );
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     *
-     * @return HomeCacheObject
-    */
     private function cacheCallback(CacheItemProxyContract $item): HomeCacheObject
     {
         $this->configureCacheItem($item);
@@ -90,19 +72,12 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
         );
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     *
-     * @return void
-    */
     private function configureCacheItem(CacheItemProxyContract $item): void
     {
         $item->expiresAfter(CacheTTLConstants::FIVE_MINUTES);
     }
 
-    /**
-     * @return list<array<string, mixed>>
-    */
+    /** @return list<array<string, mixed>> */
     private function getMappedCategories(): array
     {
         return ResourceMapper::collection(
@@ -111,9 +86,7 @@ final readonly class HomeCacheQueryService implements HomeCacheQueryContract
         );
     }
 
-    /**
-     * @return list<array<string, mixed>>
-    */
+    /** @return list<array<string, mixed>> */
     private function getMappedBanners(): array
     {
         return ResourceMapper::collection(

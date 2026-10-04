@@ -62,15 +62,11 @@ class Subtype
     #[ORM\Column(type: 'string', length: 100, nullable: false)]
     private string $name;
 
-    /**
-     * @var Collection<int, Product>
-    */
+    /** @var Collection<int, Product> */
     #[ORM\OneToMany(mappedBy: 'subtype', targetEntity: Product::class)]
     private Collection $products;
 
-    /**
-     * @var Collection<int, ProductSubtype>
-    */
+    /** @var Collection<int, ProductSubtype> */
     #[ORM\OneToMany(mappedBy: 'subtype', targetEntity: ProductSubtype::class)]
     private Collection $productSubtypes;
 

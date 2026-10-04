@@ -13,13 +13,7 @@ use App\Core\Domain\{
 
 trait VariantDescriptionFactory
 {
-    /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
-     * @param array<array{0:string,1:string}> $descriptions
-     *
-     * @return void
-    */
+    /** @param array<array{0:string,1:string}> $descriptions */
     private function createProductVariantDescriptions(
         ObjectManager $manager,
         ProductVariant $variant,

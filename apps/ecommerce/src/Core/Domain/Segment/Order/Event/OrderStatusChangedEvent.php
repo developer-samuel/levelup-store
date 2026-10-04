@@ -8,9 +8,6 @@ use App\Core\Domain\Segment\Order\Entity\Order;
 
 final readonly class OrderStatusChangedEvent
 {
-    /**
-     * @param Order $order
-    */
     public function __construct(
         public Order $order,
     ) {}

@@ -42,11 +42,7 @@ use App\Core\Application\{
 */
 final class OrderAddressMapper
 {
-    /**
-     * @param OrderBilling|OrderShipping $address
-     *
-     * @return FullAddress
-    */
+    /** @return FullAddress */
     public static function mapFullAddress(OrderBilling|OrderShipping $address): array
     {
         return [
@@ -59,11 +55,7 @@ final class OrderAddressMapper
         ];
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return AddressCamel
-    */
+    /** @return AddressCamel */
     public static function mapBillingCamelCase(Order $order): array
     {
         $billing = OrderBillingAssertion::assertBillingExists($order);
@@ -74,11 +66,7 @@ final class OrderAddressMapper
         return $data;
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return AddressCamel
-    */
+    /** @return AddressCamel */
     public static function mapShippingCamelCase(Order $order): array
     {
         /** @var AddressCamel $data */
@@ -87,11 +75,7 @@ final class OrderAddressMapper
         return $data;
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return AddressSnake
-    */
+    /** @return AddressSnake */
     public static function mapBillingSnakeCase(Order $order): array
     {
         /** @var AddressSnake $data */
@@ -100,11 +84,7 @@ final class OrderAddressMapper
         return $data;
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return AddressSnake
-    */
+    /** @return AddressSnake */
     public static function mapShippingSnakeCase(Order $order): array
     {
         /** @var AddressSnake $data */
@@ -113,14 +93,8 @@ final class OrderAddressMapper
         return $data;
     }
 
-    /**
-     * @param OrderBilling|OrderShipping|null $address
-     * @param string $expectedClass
-     * @param CaseType $case
-     *
-     * @return AddressCamel|AddressSnake
-    */
-    private static function mapAddress(?object $address, string $expectedClass, CaseType $case): array
+    /** @return AddressCamel|AddressSnake */
+    private static function mapAddress(OrderBilling|OrderShipping|null $address, string $expectedClass, CaseType $case): array
     {
         if (!$address instanceof $expectedClass) {
             /** @var AddressCamel|AddressSnake */
@@ -135,8 +109,6 @@ final class OrderAddressMapper
     }
 
     /**
-     * @param OrderBilling|OrderShipping $address
-     *
      * @return array{
      *     country: string,
      *     city: string,
@@ -144,7 +116,7 @@ final class OrderAddressMapper
      *     street: string
      * }
     */
-    private static function extractAddressValues(object $address): array
+    private static function extractAddressValues(OrderBilling|OrderShipping $address): array
     {
         return [
             'country' => $address->getCountry()?->getName() ?? '',

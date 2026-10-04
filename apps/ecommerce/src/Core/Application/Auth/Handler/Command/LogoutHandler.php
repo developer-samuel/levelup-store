@@ -16,10 +16,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 final class LogoutHandler extends AbstractCommandHandler implements LogoutHandlerContract
 {
-    /**
-     * @param LogoutCommandContract $logoutCommand
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly LogoutCommandContract $logoutCommand,
         AppLoggerContract $logger,
@@ -27,11 +23,7 @@ final class LogoutHandler extends AbstractCommandHandler implements LogoutHandle
         parent::__construct($logger);
     }
 
-    /**
-     * @param string|null $refreshToken
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function handle(?string $refreshToken): array
     {
         return $this->execute(function () use ($refreshToken) {

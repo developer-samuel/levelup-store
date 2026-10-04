@@ -8,7 +8,7 @@
 
 - **Python** 3.12 – 3.13
 - **uv** for dependency management
-- **Node.js** (LTS) + **pnpm** or **npm** for frontend assets (Vite, TS build)
+- **Node.js** (LTS) + **pnpm** for frontend assets (Vite, TS build)
 - **Git** version control
 - **PostgreSQL** 17+ for shared data access (read-only from ecommerce DB)
 - **Redis** for conversation history and pub/sub streaming

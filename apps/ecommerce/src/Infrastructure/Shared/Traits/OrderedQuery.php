@@ -16,11 +16,7 @@ trait OrderedQuery
     /**
      * @template T of object
      *
-     * @param QueryBuilder $qb
-     * @param string $alias
      * @param class-string<T> $entityClass
-     * @param string $orderByColumn
-     * @param SortDirection $direction
      *
      * @return T[]
     */

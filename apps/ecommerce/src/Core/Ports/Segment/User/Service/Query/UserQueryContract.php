@@ -8,19 +8,6 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 interface UserQueryContract
 {
-    /**
-     * @param string $email
-     *
-     * @return User
-     *
-     * @throws \InvalidArgumentException
-    */
     public function findUserByEmailOrFail(string $email): User;
-
-    /**
-     * @param User $user
-     *
-     * @return bool
-    */
     public function isAdmin(User $user): bool;
 }

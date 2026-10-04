@@ -16,14 +16,9 @@ use App\Core\Domain\{
 
 use App\Core\Ports\Segment\Order\Repository\OrderBillingRepositoryContract;
 
-/**
- * @extends ServiceEntityRepository<OrderBilling>
-*/
+/** @extends ServiceEntityRepository<OrderBilling> */
 final class OrderBillingRepository extends ServiceEntityRepository implements OrderBillingRepositoryContract
 {
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -32,11 +27,6 @@ final class OrderBillingRepository extends ServiceEntityRepository implements Or
         );
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return OrderBilling|null
-    */
     public function findOneByOrder(Order $order): ?OrderBilling
     {
         return $this->findOneBy(['order' => $order]);

@@ -13,12 +13,6 @@ use App\Core\Ports\{
 
 final readonly class OrderCommandBuilder
 {
-    /**
-     * @param OrderDataCommandContract $orderDataCommand
-     * @param OrderPreparationCommandContract $orderPreparationCommand
-     * @param OrderItemCommandContract $orderItemCommand
-     * @param OrderCacheCommandContract $orderCacheCommand
-    */
     public function __construct(
         public OrderDataCommandContract $orderDataCommand,
         public OrderPreparationCommandContract $orderPreparationCommand,

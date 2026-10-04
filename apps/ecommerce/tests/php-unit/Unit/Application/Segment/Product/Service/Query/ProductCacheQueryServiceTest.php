@@ -19,9 +19,7 @@ use App\Core\Ports\{
     Shared\Proxy\CacheProxyContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductCacheQueryService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Product\Service\Query\ProductCacheQueryService */
 final class ProductCacheQueryServiceTest extends TestCase
 {
     private ProductTitleQueryContract&MockObject $productTitleQuery;

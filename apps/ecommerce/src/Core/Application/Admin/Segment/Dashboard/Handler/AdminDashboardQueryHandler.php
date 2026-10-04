@@ -8,16 +8,11 @@ use App\Core\Ports\Admin\Segment\Dashboard\Service\AdminDashboardQueryContract;
 
 final readonly class AdminDashboardQueryHandler
 {
-    /**
-     * @param AdminDashboardQueryContract $adminDashboardQuery
-    */
     public function __construct(
         private AdminDashboardQueryContract $adminDashboardQuery,
     ) {}
 
-    /**
-     * @return array<string, int[]>
-    */
+    /** @return array<string, int[]> */
     public function handle(): array
     {
         return [

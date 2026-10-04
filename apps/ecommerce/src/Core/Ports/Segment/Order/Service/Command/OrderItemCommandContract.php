@@ -11,18 +11,9 @@ use App\Core\Domain\{
 
 interface OrderItemCommandContract
 {
-    /**
-     * @param Order $order
-     * @param CartItem[] $cartItems
-     *
-     * @return void
-    */
+    /** @param CartItem[] $cartItems */
     public function processOrderItems(Order $order, array $cartItems): void;
 
-    /**
-     * @param CartItem[] $cartItems
-     *
-     * @return void
-    */
+    /** @param CartItem[] $cartItems */
     public function validateAllItemsInStock(array $cartItems): void;
 }

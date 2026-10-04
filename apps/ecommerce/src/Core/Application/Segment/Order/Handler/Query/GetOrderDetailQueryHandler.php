@@ -30,23 +30,12 @@ use App\Core\Ports\{
 */
 final readonly class GetOrderDetailQueryHandler implements GetOrderDetailQueryHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param OrderDetailQueryContract $orderDetailQuery
-     * @param bool $wkhtmltopdfEnabled
-    */
     public function __construct(
         private SecurityPolicyContract $securityPolicy,
         private OrderDetailQueryContract $orderDetailQuery,
         private bool $wkhtmltopdfEnabled = false,
     ) {}
 
-    /**
-     * @param string $code
-     * @param User|null $user
-     *
-     * @return OrderDetailObject|null
-    */
     public function handle(string $code, ?User $user = null): ?OrderDetailObject
     {
         $order = $this->fetchOrderOrNull($code);
@@ -63,24 +52,11 @@ final readonly class GetOrderDetailQueryHandler implements GetOrderDetailQueryHa
         return $this->createOrderDetailResult($order, $items, $totalPrice, $statuses);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return Order|null
-    */
     private function fetchOrderOrNull(string $code): ?Order
     {
         return $this->orderDetailQuery->fetchOrder($code);
     }
 
-    /**
-     * @param Order $order
-     * @param User|null $user
-     *
-     * @return void
-     *
-     * @throws AccessDeniedException
-    */
     private function authorizeUser(Order $order, ?User $user): void
     {
         if ($user !== null) {
@@ -95,33 +71,21 @@ final readonly class GetOrderDetailQueryHandler implements GetOrderDetailQueryHa
         $this->securityPolicy->checkAdminAccess();
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return ItemsWithTotal
-    */
+    /** @return ItemsWithTotal */
     private function buildItemsAndTotal(Order $order): array
     {
         return $this->orderDetailQuery->buildItemsWithTotal($order);
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return OrderStatus[]
-    */
+    /** @return OrderStatus[] */
     private function resolveStatuses(Order $order): array
     {
         return OrderStatusResolver::resolveAvailableStatuses($order->getStatus());
     }
 
     /**
-     * @param Order $order
      * @param OrderItemObject[] $items
-     * @param float $totalPrice
      * @param OrderStatus[] $statuses
-     *
-     * @return OrderDetailObject
     */
     private function createOrderDetailResult(
         Order $order,

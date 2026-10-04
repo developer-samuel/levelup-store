@@ -19,6 +19,7 @@
     "league/flysystem-aws-s3-v3": "*",
     "league/flysystem-bundle": "*",
     "lexik/jwt-authentication-bundle": "^3.2",
+    "nelmio/api-doc-bundle": "*",
     "nelmio/cors-bundle": "^2.5",
     "open-telemetry/exporter-otlp": "*",
     "open-telemetry/opentelemetry-auto-symfony": "*",
@@ -70,7 +71,8 @@
     "symfony/web-link": "7.4.*",
     "symfony/yaml": "7.4.*",
     "twig/extra-bundle": "^2.12|^3.0",
-    "twig/twig": "^3.22"
+    "twig/twig": "^3.22",
+    "zircote/swagger-php": "*"
   },
   "config": {
     "allow-plugins": {

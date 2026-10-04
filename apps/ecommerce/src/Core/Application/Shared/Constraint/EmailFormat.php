@@ -15,17 +15,12 @@ final class EmailFormat extends Constraint
 {
     public string $message = 'Invalid email format.';
 
-    /**
-     * @return string
-    */
     public function validatedBy(): string
     {
         return FormatEmailValidator::class;
     }
 
-    /**
-     * @return 'property'
-    */
+    /** @return 'property' */
     public function getTargets(): string
     {
         return self::PROPERTY_CONSTRAINT;

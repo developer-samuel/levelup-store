@@ -17,9 +17,6 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 
 abstract class AbstractCommandHandler
 {
-    /**
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         protected readonly AppLoggerContract $logger,
     ) {}
@@ -49,11 +46,7 @@ abstract class AbstractCommandHandler
         }
     }
 
-    /**
-     * @param \Throwable $throwable
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     private function mapExceptionToApiResponse(\Throwable $throwable): array
     {
         return match (true) {

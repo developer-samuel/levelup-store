@@ -59,57 +59,33 @@ class FooterLink
     )]
     private FooterLinkTarget $target = FooterLinkTarget::BLANK;
 
-    /**
-     * @return string
-    */
     public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return self
-    */
     public function setValue(string $value): self
     {
         $this->value = $value;
         return $this;
     }
 
-    /**
-     * @return FooterLinkGroup
-    */
     public function getGroup(): FooterLinkGroup
     {
         return $this->group;
     }
 
-    /**
-     * @param FooterLinkGroup $group
-     *
-     * @return self
-    */
     public function setGroup(FooterLinkGroup $group): self
     {
         $this->group = $group;
         return $this;
     }
 
-    /**
-     * @return FooterLinkTarget
-    */
     public function getTarget(): FooterLinkTarget
     {
         return $this->target;
     }
 
-    /**
-     * @param FooterLinkTarget $target
-     *
-     * @return self
-    */
     public function setTarget(FooterLinkTarget $target): self
     {
         $this->target = $target;

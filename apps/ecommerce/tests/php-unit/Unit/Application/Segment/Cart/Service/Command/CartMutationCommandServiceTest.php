@@ -23,9 +23,7 @@ use App\Core\Ports\{
     Segment\Cart\Service\Query\CartControlQueryContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Command\CartMutationCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Segment\Cart\Service\Command\CartMutationCommandService */
 final class CartMutationCommandServiceTest extends TestCase
 {
     private SecurityPolicyContract&MockObject $securityPolicy;

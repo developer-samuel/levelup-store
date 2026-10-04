@@ -11,16 +11,6 @@ use App\Core\Domain\{
 
 trait BannerFactory
 {
-    /**
-     * @param int $position
-     * @param string $name
-     * @param string|null $image
-     * @param string|null $url
-     * @param BannerType $type
-     * @param bool $isActive
-     *
-     * @return Banner
-    */
     private function createBanner(
         int $position,
         string $name,

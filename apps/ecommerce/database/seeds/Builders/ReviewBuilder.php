@@ -25,14 +25,12 @@ trait ReviewBuilder
     use ReviewFactory;
     use ReviewRatingFactory;
 
-    private const LOREM_WORDS_FILE = __DIR__ . '/../../data/words/lorem_words.json';
+    private const LOREM_WORDS_FILE = __DIR__ . '/../../data/_fakers/lorem_words.json';
     private const FEEDBACK_CHANCE = 70;
     private const RATING_CHANCE = 60;
 
     /**
-     * @param ObjectManager $manager
      * @param ProductVariant[] $variants
-     * @param User $user
      *
      * @return Review[]
     */
@@ -56,12 +54,7 @@ trait ReviewBuilder
         return $reviews;
     }
 
-    /**
-     * @param float|null $previousValue
-     * @param ReviewDetail[] $details
-     *
-     * @return float
-    */
+    /** @param ReviewDetail[] $details */
     private function generateReviewValue(?float $previousValue, array $details = []): float
     {
         if ($details !== []) {
@@ -77,15 +70,7 @@ trait ReviewBuilder
         return $this->randomFloat($min, $max, 1);
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
-     * @param User $user
-     * @param float $value
-     * @param ReviewDetail[] $details
-     *
-     * @return Review
-    */
+    /** @param ReviewDetail[] $details */
     private function createAndPersistReviewWithDetails(
         ObjectManager $manager,
         ProductVariant $variant,
@@ -106,9 +91,7 @@ trait ReviewBuilder
         return $review;
     }
 
-    /**
-     * @return array{0: string|null, 1: ReviewType}
-    */
+    /** @return array{0: string|null, 1: ReviewType} */
     private function generateReviewBodyAndType(): array
     {
         $body = rand(0, 100) < self::FEEDBACK_CHANCE ? $this->randomSentence() : null;
@@ -117,11 +100,7 @@ trait ReviewBuilder
         return [$body, $type];
     }
 
-    /**
-     * @param ReviewDetail[] $details
-     *
-     * @return float
-    */
+    /** @param ReviewDetail[] $details */
     private function generateReviewValueBasedOnDetails(array $details): float
     {
         [$positive, $negative] = $this->countPositiveNegative($details);
@@ -135,11 +114,7 @@ trait ReviewBuilder
         return $this->mapRatioToValue($ratio);
     }
 
-    /**
-     * @param float $previousValue
-     *
-     * @return float[]
-    */
+    /** @return float[] */
     private function getMinMaxPossibleValues(float $previousValue): array
     {
         $possible = $this->getPossibleValues($previousValue);
@@ -171,12 +146,6 @@ trait ReviewBuilder
         return [$positive, $negative];
     }
 
-    /**
-     * @param int $positive
-     * @param int $negative
-     *
-     * @return float
-    */
     private function calculatePositiveRatio(int $positive, int $negative): float
     {
         $total = $positive + $negative;
@@ -184,11 +153,6 @@ trait ReviewBuilder
         return $total > 0 ? $positive / $total : 0;
     }
 
-    /**
-     * @param float $ratio
-     *
-     * @return float
-    */
     private function mapRatioToValue(float $ratio): float
     {
         return match (true) {
@@ -200,11 +164,7 @@ trait ReviewBuilder
         };
     }
 
-    /**
-     * @param float $previousValue
-     *
-     * @return int[]
-    */
+    /** @return int[] */
     private function getPossibleValues(float $previousValue): array
     {
         $possible = [];
@@ -241,13 +201,6 @@ trait ReviewBuilder
         );
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param Review $review
-     * @param User $user
-     *
-     * @return void
-    */
     private function maybePersistRandomRating(ObjectManager $manager, Review $review, User $user): void
     {
         if (rand(0, 100) < self::RATING_CHANCE) {
@@ -257,11 +210,7 @@ trait ReviewBuilder
         }
     }
 
-    /**
-     * @param Review $review
-     *
-     * @return ReviewDetail[]
-    */
+    /** @return ReviewDetail[] */
     private function generateDetails(Review $review): array
     {
         $details = [];
@@ -277,13 +226,6 @@ trait ReviewBuilder
         return $details;
     }
 
-    /**
-     * @param float $min
-     * @param float $max
-     * @param int $decimals
-     *
-     * @return float
-    */
     private function randomFloat(float $min, float $max, int $decimals = 1): float
     {
         $scale = pow(10, $decimals);
@@ -291,11 +233,6 @@ trait ReviewBuilder
         return mt_rand((int) ($min * $scale), (int) ($max * $scale)) / $scale;
     }
 
-    /**
-     * @param int $wordCount
-     *
-     * @return string
-    */
     private function randomSentence(int $wordCount = 5): string
     {
         $words = $this->loadLoremWords();
@@ -308,11 +245,7 @@ trait ReviewBuilder
         return ucfirst(implode(' ', $sentence)) . '.';
     }
 
-    /**
-     * @return string[]
-     *
-     * @throws \RuntimeException
-    */
+    /** @return string[] */
     private function loadLoremWords(): array
     {
         $json = file_get_contents(self::LOREM_WORDS_FILE);

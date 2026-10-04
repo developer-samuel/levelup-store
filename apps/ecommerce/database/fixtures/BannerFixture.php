@@ -26,11 +26,6 @@ final class BannerFixture extends AbstractFixture implements FixtureGroupInterfa
 {
     use BannerFactory;
 
-    /**
-     * @param BannerRecord $bannerRecord
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly BannerRecord $bannerRecord,
         AppLoggerContract $appLogger,
@@ -42,20 +37,12 @@ final class BannerFixture extends AbstractFixture implements FixtureGroupInterfa
         );
     }
 
-    /**
-     * @return iterable<mixed>
-    */
+    /** @return iterable<mixed> */
     protected function getData(): iterable
     {
         return $this->bannerRecord->fetchData();
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         /**

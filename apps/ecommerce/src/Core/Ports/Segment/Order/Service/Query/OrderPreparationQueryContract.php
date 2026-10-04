@@ -12,38 +12,13 @@ use App\Core\Domain\{
 
 interface OrderPreparationQueryContract
 {
-    /**
-     * @param User $user
-     *
-     * @return int
-    */
     public function validateUserId(User $user): int;
 
-    /**
-     * @param int $userId
-     *
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     public function getCartSummary(int $userId): array;
 
-    /**
-     * @param array<string, mixed> $cartSummary
-     *
-     * @return float
-    */
+    /** @param array<string, mixed> $cartSummary */
     public function extractTotalPrice(array $cartSummary): float;
-
-    /**
-     * @param OrderCreatePayload $payload
-     *
-     * @return OrderPaymentMethod
-    */
     public function resolvePaymentMethod(OrderCreatePayload $payload): OrderPaymentMethod;
-
-    /**
-     * @param string $paymentMethod
-     *
-     * @return OrderPaymentMethod
-    */
     public function getPaymentMethod(string $paymentMethod): OrderPaymentMethod;
 }

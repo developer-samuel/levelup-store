@@ -29,14 +29,6 @@ use App\Core\Ports\{
 
 final readonly class OrderMutationCommandService implements OrderMutationCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param SecurityProviderContract $securityProvider
-     * @param OrderQueryBuilder $orderQueryBuilder
-     * @param OrderCommandBuilder $orderCommandBuilder
-     * @param OrderBuildCommandContract $orderBuildCommand
-     * @param OrderConfirmationNotifierContract $notifier
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private SecurityProviderContract $securityProvider,
@@ -46,11 +38,6 @@ final readonly class OrderMutationCommandService implements OrderMutationCommand
         private OrderConfirmationNotifierContract $notifier,
     ) {}
 
-    /**
-     * @param OrderCreatePayload $payload
-     *
-     * @return OrderResultObject
-    */
     public function createOrder(OrderCreatePayload $payload): OrderResultObject
     {
         $user = $this->securityProvider->getCurrentUser();
@@ -67,13 +54,7 @@ final readonly class OrderMutationCommandService implements OrderMutationCommand
         return $this->initiateCardPayment($payload, $items);
     }
 
-    /**
-     * @param User $user
-     * @param OrderCreatePayload $payload
-     * @param CartItem[] $items
-     *
-     * @return OrderResultObject
-    */
+    /** @param CartItem[] $items */
     private function processCashOrder(User $user, OrderCreatePayload $payload, array $items): OrderResultObject
     {
         $order = $this->entityPersistence->wrapInTransaction(function () use ($user, $payload, $items) {
@@ -89,12 +70,7 @@ final readonly class OrderMutationCommandService implements OrderMutationCommand
         return new OrderResultObject(order: $order, paymentUrl: null);
     }
 
-    /**
-     * @param OrderCreatePayload $payload
-     * @param CartItem[] $items
-     *
-     * @return OrderResultObject
-    */
+    /** @param CartItem[] $items */
     private function initiateCardPayment(OrderCreatePayload $payload, array $items): OrderResultObject
     {
         $lineItems = $this->orderQueryBuilder->orderItemQuery->prepareLineItems($items);

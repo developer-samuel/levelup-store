@@ -27,7 +27,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## 2. Frontend
 
 - **Runtime:** Node.js (LTS)
-- **Package Manager:** pnpm / npm
+- **Package Manager:** pnpm
 - **Framework:** React
 - **Build Tool:** Vite
 - **Language:** TypeScript
@@ -87,10 +87,10 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ### Frontend QA
 
-| Tool              | Purpose                                  | Execution                            |
-|-------------------|------------------------------------------|--------------------------------------|
-| TypeScript        | Static type checking                     | pnpm type-check / npm run type-check |
-| ESLint + Prettier | TS linting and automated code formatting | pnpm lint / npm run lint             |
+| Tool              | Purpose                                  | Execution       |
+|-------------------|------------------------------------------|-----------------|
+| TypeScript        | Static type checking                     | pnpm type-check |
+| ESLint + Prettier | TS linting and automated code formatting | pnpm lint       |
 
 ### CI/CD Tooling
 

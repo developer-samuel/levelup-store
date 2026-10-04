@@ -12,11 +12,6 @@ use App\Core\Ports\Gateways\Internal\Cookie\CookieGatewayContract;
 
 final class CookieAdapter implements CookieGatewayContract
 {
-    /**
-     * @param CookieObject $cookie
-     *
-     * @return Cookie
-    */
     public function apply(CookieObject $cookie): Cookie
     {
         /** @var ''|'lax'|'none'|'strict' $sameSite */

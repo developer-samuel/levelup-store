@@ -23,29 +23,17 @@ use App\Infrastructure\Abstract\Subscriber\AbstractIndexSubscriber;
 #[AsDoctrineListener(event: Events::postRemove)]
 final class ProductVariantIndexSubscriber extends AbstractIndexSubscriber
 {
-    /**
-     * @return class-string
-    */
+    /** @return class-string */
     protected function getEntityClass(): string
     {
         return ProductVariant::class;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariantIndexMessage
-    */
     protected function createIndexMessage(int $id): object
     {
         return new ProductVariantIndexMessage($id);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariantRemoveMessage
-    */
     protected function createRemoveMessage(int $id): object
     {
         return new ProductVariantRemoveMessage($id);

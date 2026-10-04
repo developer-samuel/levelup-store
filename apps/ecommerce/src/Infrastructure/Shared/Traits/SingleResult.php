@@ -8,11 +8,6 @@ use Doctrine\ORM\QueryBuilder;
 
 trait SingleResult
 {
-    /**
-     * @param QueryBuilder $qb
-     *
-     * @return mixed
-    */
     private function getResultOrNull(QueryBuilder $qb): mixed
     {
         return $qb->setMaxResults(1)
@@ -20,11 +15,6 @@ trait SingleResult
             ->getOneOrNullResult();
     }
 
-    /**
-     * @param QueryBuilder $qb
-     *
-     * @return int
-    */
     private function getScalarIntResult(QueryBuilder $qb): int
     {
         return (int) $qb->getQuery()

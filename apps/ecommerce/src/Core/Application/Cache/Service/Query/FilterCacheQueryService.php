@@ -27,19 +27,11 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
 
     private CacheProxyContract $cache;
 
-    /**
-     * @param CacheGatewayContract $cacheGateway
-    */
     public function __construct(CacheGatewayContract $cacheGateway)
     {
         $this->cache = $cacheGateway->getCache(self::CACHE_POOL);
     }
 
-    /**
-     * @param string $query
-     *
-     * @return FilterCacheObject
-    */
     public function getVars(string $query): FilterCacheObject
     {
         $cacheKey = $this->getCacheKey($query);
@@ -47,24 +39,11 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
         return $this->fetchCachedData($cacheKey, $query);
     }
 
-    /**
-     * @param string $query
-     *
-     * @return string
-    */
     private function getCacheKey(string $query): string
     {
         return self::CACHE_KEY_PREFIX . md5($query);
     }
 
-    /**
-     * @param string $cacheKey
-     * @param string $query
-     *
-     * @return FilterCacheObject
-     *
-     * @throws \LogicException
-    */
     private function fetchCachedData(string $cacheKey, string $query): FilterCacheObject
     {
         $data = $this->cache->get(
@@ -76,12 +55,6 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
         return CacheAssertion::assertValidType($data, FilterCacheObject::class);
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     * @param string $query
-     *
-     * @return FilterCacheObject
-    */
     private function cacheCallback(CacheItemProxyContract $item, string $query): FilterCacheObject
     {
         $this->configureCacheItem($item);
@@ -100,21 +73,12 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
         );
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     *
-     * @return void
-    */
     private function configureCacheItem(CacheItemProxyContract $item): void
     {
         $item->expiresAfter(CacheTTLConstants::FIVE_MINUTES);
     }
 
-    /**
-     * @param string $queryString
-     *
-     * @return array<int|string, mixed>
-    */
+    /** @return array<int|string, mixed> */
     private function parseQueryString(string $queryString): array
     {
         parse_str($queryString, $params);
@@ -122,11 +86,7 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
         return $params;
     }
 
-    /**
-     * @param mixed $param
-     *
-     * @return list<string>
-    */
+    /** @return list<string> */
     private function normalizeQueryParamToArray(mixed $param): array
     {
         $array = $this->convertToArray($param);
@@ -134,11 +94,7 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
         return $this->normalizeStrings($strings);
     }
 
-    /**
-     * @param mixed $param
-     *
-     * @return array<mixed>
-    */
+    /** @return array<mixed> */
     private function convertToArray(mixed $param): array
     {
         if (is_array($param)) {

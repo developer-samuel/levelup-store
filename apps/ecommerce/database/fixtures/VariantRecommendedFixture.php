@@ -33,12 +33,6 @@ final class VariantRecommendedFixture extends AbstractFixture implements Depende
 {
     use VariantRecommendedFactory;
 
-    /**
-     * @param VariantRecommendedGenerator $variantRecommendedGenerator
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly VariantRecommendedGenerator $variantRecommendedGenerator,
         private readonly ProductVariantRepositoryContract $variantRepository,
@@ -51,9 +45,7 @@ final class VariantRecommendedFixture extends AbstractFixture implements Depende
         );
     }
 
-    /**
-     * @return array<class-string<FixtureInterface>>
-    */
+    /** @return array<class-string<FixtureInterface>> */
     public function getDependencies(): array
     {
         return [
@@ -61,9 +53,7 @@ final class VariantRecommendedFixture extends AbstractFixture implements Depende
         ];
     }
 
-    /**
-     * @return iterable<array<string, mixed>>
-    */
+    /** @return iterable<array<string, mixed>> */
     protected function getData(): iterable
     {
         $variants = $this->variantRepository->findAll();
@@ -71,14 +61,6 @@ final class VariantRecommendedFixture extends AbstractFixture implements Depende
         return $this->variantRecommendedGenerator->fetchData($variants);
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-     *
-     * @throws \LogicException
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         /** @var array{variant: ProductVariant, position: int} $data */

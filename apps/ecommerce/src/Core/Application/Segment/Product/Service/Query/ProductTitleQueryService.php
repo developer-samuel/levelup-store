@@ -12,13 +12,6 @@ use App\Core\Ports\Segment\Product\Service\Query\ProductTitleQueryContract;
 
 final class ProductTitleQueryService implements ProductTitleQueryContract
 {
-    /**
-     * @param string|null $category
-     * @param string|null $type
-     * @param bool $isDiscountRoute
-     *
-     * @return string
-    */
     public function generateTitle(?string $category, ?string $type, bool $isDiscountRoute): string
     {
         return match ($this->getCategoryTypeState($category, $type)) {
@@ -28,33 +21,17 @@ final class ProductTitleQueryService implements ProductTitleQueryContract
         };
     }
 
-    /**
-     * @param bool $isDiscountRoute
-     *
-     * @return string
-    */
     private function generateDefaultTitle(bool $isDiscountRoute): string
     {
         return $isDiscountRoute ? 'Discounts' : 'Products';
     }
 
-    /**
-     * @param string $text
-     * @param bool $isDiscountRoute
-     *
-     * @return string
-    */
     private function generateTextTitle(string $text, bool $isDiscountRoute): string
     {
         $formatted = $this->formatText($text);
         return $isDiscountRoute ? 'Discounted: ' . $formatted : $formatted;
     }
 
-    /**
-     * @param string $text
-     *
-     * @return string
-    */
     private function formatText(string $text): string
     {
         $length = mb_strlen($text);
@@ -64,12 +41,6 @@ final class ProductTitleQueryService implements ProductTitleQueryContract
             : StringNormalizer::capitalizeWords($text);
     }
 
-    /**
-     * @param string|null $category
-     * @param string|null $type
-     *
-     * @return ProductTitleType
-    */
     private function getCategoryTypeState(?string $category, ?string $type): ProductTitleType
     {
         $hasCategory = $category !== null && $category !== '';

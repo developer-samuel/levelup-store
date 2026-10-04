@@ -18,9 +18,7 @@ use App\Core\Ports\{
     Gateways\Internal\Auth\TokenBlacklistContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Service\Command\LogoutCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Service\Command\LogoutCommandService */
 final class LogoutCommandServiceTest extends TestCase
 {
     private RefreshTokenRepositoryContract&MockObject $refreshTokenRepository;

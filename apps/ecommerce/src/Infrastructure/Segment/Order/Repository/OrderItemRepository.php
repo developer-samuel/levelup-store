@@ -25,17 +25,11 @@ use App\Core\Ports\Segment\Order\Repository\OrderItemRepositoryContract;
 
 use App\Infrastructure\Shared\Traits\SingleResult;
 
-/**
- * @extends ServiceEntityRepository<OrderItem>
-*/
+/** @extends ServiceEntityRepository<OrderItem> */
 final class OrderItemRepository extends ServiceEntityRepository implements OrderItemRepositoryContract
 {
     use SingleResult;
 
-    /**
-     * @param EntityManagerInterface $entityManager
-     * @param ManagerRegistry $registry
-    */
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         ManagerRegistry $registry,
@@ -46,22 +40,12 @@ final class OrderItemRepository extends ServiceEntityRepository implements Order
         );
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return OrderItem[]
-     */
+    /** @return OrderItem[] */
     public function findByOrder(Order $order): array
     {
         return $this->findBy(['order' => $order]);
     }
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return bool
-    */
     public function hasPurchasedVariant(User $user, int $variantId): bool
     {
         $qb = $this->createVariantPurchaseQuery($user, $variantId);
@@ -69,12 +53,6 @@ final class OrderItemRepository extends ServiceEntityRepository implements Order
         return $this->getScalarIntResult($qb) > 0;
     }
 
-    /**
-     * @param User $user
-     * @param int $variantId
-     *
-     * @return QueryBuilder
-    */
     private function createVariantPurchaseQuery(User $user, int $variantId): QueryBuilder
     {
         return $this->entityManager->createQueryBuilder()
@@ -87,9 +65,6 @@ final class OrderItemRepository extends ServiceEntityRepository implements Order
             ->setParameter('statuses', OrderStatus::completedStatuses());
     }
 
-    /**
-     * @return string
-    */
     private function getUserCompletedOrdersSubquery(): string
     {
         return 'oi.order IN (
@@ -98,11 +73,6 @@ final class OrderItemRepository extends ServiceEntityRepository implements Order
         )';
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return ProductVariant
-    */
     private function getVariantReference(int $variantId): ProductVariant
     {
         $variant = $this->entityManager->getReference(ProductVariant::class, $variantId);

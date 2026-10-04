@@ -24,20 +24,12 @@ final class DateCacheQueryService implements DateCacheQueryContract
 
     private CacheProxyContract $cache;
 
-    /**
-     * @param CacheGatewayContract $cacheGateway
-    */
     public function __construct(
         CacheGatewayContract $cacheGateway,
     ) {
         $this->cache = $cacheGateway->getCache(self::CACHE_POOL);
     }
 
-    /**
-     * @return DateCacheObject
-     *
-     * @throws \LogicException
-    */
     public function getCurrentData(): DateCacheObject
     {
         $cacheKey = self::CACHE_KEY;
@@ -50,11 +42,6 @@ final class DateCacheQueryService implements DateCacheQueryContract
         return CacheAssertion::assertValidType($data, DateCacheObject::class);
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     *
-     * @return DateCacheObject
-    */
     private function fetchAllDates(CacheItemProxyContract $item): DateCacheObject
     {
         $this->configureCacheItem($item);
@@ -62,11 +49,6 @@ final class DateCacheQueryService implements DateCacheQueryContract
         return DateCacheObject::fromDate(new \DateTime());
     }
 
-    /**
-     * @param CacheItemProxyContract $item
-     *
-     * @return void
-    */
     private function configureCacheItem(CacheItemProxyContract $item): void
     {
         $item->expiresAfter(CacheTTLConstants::FIVE_MINUTES);

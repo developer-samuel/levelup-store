@@ -31,12 +31,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class ProductVariantResource
 {
-    /**
-     * @param ProductVariant $variant
-     * @param float|null $averageRating
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(
         ProductVariant $variant,
         ?float $averageRating = null,
@@ -56,11 +51,7 @@ final class ProductVariantResource
         ];
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return PriceData
-    */
+    /** @return PriceData */
     public static function extractPrices(ProductVariant $variant): array
     {
         $price = $variant->getPrice();

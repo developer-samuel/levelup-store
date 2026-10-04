@@ -15,20 +15,11 @@ use App\Core\Ports\{
 
 abstract class AbstractAdminVariantCommandService
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param ProductVariantRepositoryContract $variantRepository
-    */
     public function __construct(
         protected readonly EntityPersistenceContract $entityPersistence,
         protected readonly ProductVariantRepositoryContract $variantRepository,
     ) {}
 
-    /**
-     * @param int $variantId
-     *
-     * @return ProductVariant
-    */
     protected function resolveVariant(int $variantId): ProductVariant
     {
         $variant = $this->variantRepository->findById($variantId);
@@ -37,14 +28,6 @@ abstract class AbstractAdminVariantCommandService
         return $variant;
     }
 
-    /**
-     * @template T of object
-     *
-     * @param T $entity
-     * @param ProductVariant $variant
-     *
-     * @return object
-    */
     protected function saveEntityWithVariant(object $entity, ProductVariant $variant): object
     {
         // @phpstan-ignore-next-line

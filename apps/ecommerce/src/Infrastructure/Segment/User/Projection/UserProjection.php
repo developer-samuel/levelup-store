@@ -10,9 +10,7 @@ final class UserProjection extends AbstractProjection
 {
     public const NAME = 'users';
 
-    /**
-     * @return array<string, mixed>
-    */
+    /** @return array<string, mixed> */
     protected static function properties(): array
     {
         return [

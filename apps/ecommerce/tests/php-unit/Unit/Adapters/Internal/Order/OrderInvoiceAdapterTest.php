@@ -11,14 +11,12 @@ use PHPUnit\{
 
 use App\Core\Ports\{
     Gateways\External\Pdf\SnappyPdfGeneratorGatewayContract,
-    Segment\Order\Renderer\OrderInvoicePdfRendererContract
+    Web\Segment\Order\Renderer\OrderInvoicePdfRendererContract
 };
 
 use App\Adapters\Internal\Order\OrderInvoiceAdapter;
 
-/**
- * @coversDefaultClass \App\Adapters\Internal\Order\OrderInvoiceAdapter
-*/
+/** @coversDefaultClass \App\Adapters\Internal\Order\OrderInvoiceAdapter */
 final class OrderInvoiceAdapterTest extends TestCase
 {
     private SnappyPdfGeneratorGatewayContract&MockObject $pdfGenerator;

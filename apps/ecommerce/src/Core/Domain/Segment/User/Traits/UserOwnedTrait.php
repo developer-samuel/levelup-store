@@ -8,11 +8,6 @@ use App\Core\Domain\Segment\User\Entity\User;
 
 trait UserOwnedTrait
 {
-    /**
-     * @param User $user
-     *
-     * @return bool
-    */
     public function isOwnedBy(User $user): bool
     {
         return $this->user->getId() === $user->getId();

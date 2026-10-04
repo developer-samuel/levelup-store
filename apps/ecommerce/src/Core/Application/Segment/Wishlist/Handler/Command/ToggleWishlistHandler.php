@@ -16,20 +16,11 @@ use App\Core\Ports\{
 
 final readonly class ToggleWishlistHandler implements ToggleWishlistHandlerContract
 {
-    /**
-     * @param SecurityPolicyContract $securityPolicy
-     * @param WishlistCommandContract $wishlistCommand
-    */
     public function __construct(
         private SecurityPolicyContract $securityPolicy,
         private WishlistCommandContract $wishlistCommand,
     ) {}
 
-    /**
-     * @param WishlistPayload $payload
-     *
-     * @return bool
-    */
     public function handle(WishlistPayload $payload): bool
     {
         $user = UserAssertion::assertInstance(

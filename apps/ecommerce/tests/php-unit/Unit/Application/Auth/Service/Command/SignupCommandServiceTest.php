@@ -25,9 +25,7 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/**
- * @coversDefaultClass \App\Core\Application\Auth\Service\Command\SignupCommandService
-*/
+/** @coversDefaultClass \App\Core\Application\Auth\Service\Command\SignupCommandService */
 final class SignupCommandServiceTest extends TestCase
 {
     private EntityPersistenceContract&MockObject $entityPersistence;

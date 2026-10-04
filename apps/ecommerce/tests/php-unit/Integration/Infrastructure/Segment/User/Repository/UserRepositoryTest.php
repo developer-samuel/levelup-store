@@ -18,9 +18,7 @@ use Tests\{
     Support\Provides\Persistence
 };
 
-/**
- * @coversDefaultClass \App\Infrastructure\Segment\User\Repository\UserRepository
-*/
+/** @coversDefaultClass \App\Infrastructure\Segment\User\Repository\UserRepository */
 final class UserRepositoryTest extends KernelTestCase
 {
     use Persistence;

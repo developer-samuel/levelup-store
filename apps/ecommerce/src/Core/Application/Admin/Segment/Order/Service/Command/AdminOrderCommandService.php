@@ -27,12 +27,6 @@ use App\Core\Ports\{
 
 final readonly class AdminOrderCommandService implements AdminOrderCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param OrderPaymentRepositoryContract $orderPaymentRepository
-     * @param OrderCacheCommandContract $orderCacheCommand
-     * @param OrderStatusNotifierContract $notifier
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private OrderPaymentRepositoryContract $orderPaymentRepository,
@@ -40,12 +34,6 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         private OrderStatusNotifierContract $notifier,
     ) {}
 
-    /**
-     * @param Order $order
-     * @param AdminOrderStatusPayload $payload
-     *
-     * @return void
-    */
     public function updateOrderStatus(Order $order, AdminOrderStatusPayload $payload): void
     {
         $newStatus = $payload->status;
@@ -56,23 +44,11 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         $this->saveAndDispatch($order);
     }
 
-    /**
-     * @param Order $order
-     * @param OrderStatus $newStatus
-     *
-     * @return void
-    */
     private function updateOrderEntityStatus(Order $order, OrderStatus $newStatus): void
     {
         $order->setStatus($newStatus)->setUpdatedAt();
     }
 
-    /**
-     * @param Order $order
-     * @param OrderStatus $newStatus
-     *
-     * @return void
-    */
     private function processOrderItems(Order $order, OrderStatus $newStatus): void
     {
         foreach ($order->getItems() as $item) {
@@ -80,12 +56,6 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         }
     }
 
-    /**
-     * @param OrderItem $item
-     * @param OrderStatus $newStatus
-     *
-     * @return void
-    */
     private function processOrderItem(OrderItem $item, OrderStatus $newStatus): void
     {
         $result = $this->getEanAndStock($item);
@@ -96,12 +66,6 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         $this->updateItemStatusAndStock($ean, $stock, $newStatus);
     }
 
-    /**
-     * @param Order $order
-     * @param OrderStatus $newStatus
-     *
-     * @return void
-    */
     private function createPaymentIfNeeded(Order $order, OrderStatus $newStatus): void
     {
         if ($newStatus === OrderStatus::COMPLETED) {
@@ -109,11 +73,6 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         }
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     private function saveAndDispatch(Order $order): void
     {
         $this->entityPersistence->persist($order, true);
@@ -124,8 +83,6 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
     }
 
     /**
-     * @param OrderItem $item
-     *
      * @return array{
      *     ean: ProductVariantEan,
      *     stock: ProductVariantStock
@@ -144,11 +101,6 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         ];
     }
 
-    /**
-     * @param ProductVariantEan $ean
-     * @param ProductVariantStock $stock
-     * @param OrderStatus $status
-    */
     private function updateItemStatusAndStock(ProductVariantEan $ean, ProductVariantStock $stock, OrderStatus $status): void
     {
         $stockChanged = $status === OrderStatus::COMPLETED || $status === OrderStatus::REFUNDED;
@@ -165,23 +117,12 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         }
     }
 
-    /**
-     * @param ProductVariantEan $ean
-     * @param ProductVariantStock $stock
-     *
-     * @return void
-    */
     private function persistEntities(ProductVariantEan $ean, ProductVariantStock $stock): void
     {
         $this->entityPersistence->persist($ean);
         $this->entityPersistence->persist($stock);
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     private function invalidateUserCache(Order $order): void
     {
         $user = $order->getUser();
@@ -189,35 +130,18 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         $this->orderCacheCommand->invalidateOrdersCache($user);
     }
 
-    /**
-     * @param ProductVariantEan $ean
-     * @param ProductVariantStock $stock
-     *
-     * @return void
-    */
     private function completeItem(ProductVariantEan $ean, ProductVariantStock $stock): void
     {
         $ean->setStatus(ProductVariantEanStatus::SOLD);
         $stock->markCompleted();
     }
 
-    /**
-     * @param ProductVariantEan $ean
-     * @param ProductVariantStock $stock
-     *
-     * @return void
-    */
     private function refundItem(ProductVariantEan $ean, ProductVariantStock $stock): void
     {
         $ean->setStatus(ProductVariantEanStatus::REFUNDED);
         $stock->markRefunded();
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return void
-    */
     private function createPaymentForCashOrderIfNeeded(Order $order): void
     {
         if ($this->hasExistingPayment($order) || !$order->isCashPayment()) {
@@ -229,21 +153,11 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         $this->entityPersistence->persist($payment);
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return bool
-    */
     private function hasExistingPayment(Order $order): bool
     {
         return $this->orderPaymentRepository->getByOrder($order) !== null;
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return OrderPayment
-    */
     private function buildCashPayment(Order $order): OrderPayment
     {
         return (new OrderPayment())

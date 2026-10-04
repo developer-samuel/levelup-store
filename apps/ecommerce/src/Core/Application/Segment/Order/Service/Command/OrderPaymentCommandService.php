@@ -33,15 +33,6 @@ use App\Core\Ports\{
 
 final readonly class OrderPaymentCommandService implements OrderPaymentCommandContract
 {
-    /**
-     * @param EntityPersistenceContract $entityPersistence
-     * @param SecurityPolicyContract $securityPolicy
-     * @param OrderQueryBuilder $orderQueryBuilder
-     * @param OrderCommandBuilder $orderCommandBuilder
-     * @param OrderBuildCommandContract $orderBuildCommand
-     * @param OrderConfirmationNotifierContract $notifier
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
         private SecurityPolicyContract $securityPolicy,
@@ -52,11 +43,6 @@ final readonly class OrderPaymentCommandService implements OrderPaymentCommandCo
         private AppLoggerContract $logger,
     ) {}
 
-    /**
-     * @param string $sessionId
-     *
-     * @return Order
-    */
     public function processSuccess(string $sessionId): Order
     {
         $user = $this->securityPolicy->checkIfEmailVerified();
@@ -92,15 +78,6 @@ final readonly class OrderPaymentCommandService implements OrderPaymentCommandCo
         }
     }
 
-    /**
-     * @param User $user
-     * @param Order $order
-     * @param StripeCheckoutObject $session
-     * @param int $amountTotal
-     * @param OrderCreatePayload $payload
-     *
-     * @return void
-    */
     private function persistOrderPayment(
         User $user,
         Order $order,
@@ -121,13 +98,6 @@ final readonly class OrderPaymentCommandService implements OrderPaymentCommandCo
         $this->entityPersistence->persist($orderPayment, true);
     }
 
-    /**
-     * @param Order $order
-     * @param string $paymentIntent
-     * @param int $amountTotal
-     *
-     * @return OrderPayment
-    */
     private function createOrderPayment(Order $order, string $paymentIntent, int $amountTotal): OrderPayment
     {
         return (new OrderPayment())

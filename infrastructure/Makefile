@@ -31,7 +31,9 @@ include make/ansible.mk
 include make/argocd.mk
 include make/helm.mk
 include make/secrets.mk
+include make/vault.mk
 include make/addons.mk
+include make/k6.mk
 
 # ── Definitions ───────────────────────────────────────────────────────────────
 

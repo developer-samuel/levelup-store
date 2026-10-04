@@ -19,11 +19,6 @@ use App\Core\Ports\{
 
 final class AdminApiVariantImageListQueryHandler extends AbstractAdminApiVariantQueryHandler
 {
-    /**
-     * @param ProductVariantImageRepositoryContract $imageRepository
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private ProductVariantImageRepositoryContract $imageRepository,
         ProductVariantRepositoryContract $variantRepository,
@@ -35,11 +30,7 @@ final class AdminApiVariantImageListQueryHandler extends AbstractAdminApiVariant
         );
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return array<int, ProductVariantImage>
-    */
+    /** @return array<int, ProductVariantImage> */
     protected function getItemsForVariant(int $variantId): array
     {
         $variant = $this->findVariant($variantId);
@@ -52,9 +43,6 @@ final class AdminApiVariantImageListQueryHandler extends AbstractAdminApiVariant
         return array_values($images);
     }
 
-    /**
-     * @return string
-    */
     protected function getResourceClass(): string
     {
         return AdminApiVariantImageResource::class;

@@ -13,18 +13,10 @@ use App\Core\Ports\Gateways\External\Realtime\MercureHubGatewayContract;
 #[AsEventListener(event: OrderStatusUpdatedEvent::class)]
 final readonly class PublishOrderStatusEventListener
 {
-    /**
-     * @param MercureHubGatewayContract $mercureHubGateway
-    */
     public function __construct(
         private MercureHubGatewayContract $mercureHubGateway,
     ) {}
 
-    /**
-     * @param OrderStatusUpdatedEvent $event
-     *
-     * @return void
-    */
     public function __invoke(OrderStatusUpdatedEvent $event): void
     {
         $order = $event->order;

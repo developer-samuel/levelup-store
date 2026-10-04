@@ -8,14 +8,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class ExistenceAssertion
 {
-    /**
-     * @param object|null $object
-     * @param string $objectName
-     *
-     * @return void
-     *
-     * @throws NotFoundHttpException
-    */
     public static function assertExists(?object $object, string $objectName): void
     {
         if ($object === null) {

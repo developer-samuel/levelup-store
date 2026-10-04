@@ -20,16 +20,11 @@ use App\Infrastructure\{
     Shared\Traits\IterableQuery
 };
 
-/**
- * @extends AbstractRepository<ProductVariantEan>
-*/
+/** @extends AbstractRepository<ProductVariantEan> */
 final class ProductVariantEanRepository extends AbstractRepository implements ProductVariantEanRepositoryContract
 {
     use IterableQuery;
 
-    /**
-     * @param ManagerRegistry $registry
-    */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct(
@@ -38,36 +33,22 @@ final class ProductVariantEanRepository extends AbstractRepository implements Pr
         );
     }
 
-    /**
-     * @return string
-    */
     protected function getAlias(): string
     {
         return 'pve';
     }
 
-    /**
-     * @return string
-    */
     protected function getFindAllSortColumn(): string
     {
         return 'code';
     }
 
-    /**
-     * @return SortDirection
-    */
     protected function getFindAllSortDirection(): SortDirection
     {
         return SortDirection::ASC;
     }
 
-    /**
-     * @param ProductVariant $variant
-     * @param ProductVariantEanStatus $status
-     *
-     * @return ProductVariantEan[]
-    */
+    /** @return ProductVariantEan[] */
     public function findAllByVariantAndStatus(ProductVariant $variant, ProductVariantEanStatus $status): array
     {
         $qb = $this->createQueryBuilder('e')
@@ -84,31 +65,17 @@ final class ProductVariantEanRepository extends AbstractRepository implements Pr
         );
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariantEan[]
-    */
+    /** @return ProductVariantEan[] */
     public function findAvailableByVariant(ProductVariant $variant): array
     {
         return $this->findAllByVariantAndStatus($variant, ProductVariantEanStatus::ACTIVE);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return ProductVariantEan|null
-    */
     public function findById(int $id): ?ProductVariantEan
     {
         return $this->find($id);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return bool
-    */
     public function existsByCode(string $code): bool
     {
         return $this->existsByField('code', $code);

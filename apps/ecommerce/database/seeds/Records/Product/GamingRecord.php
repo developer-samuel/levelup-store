@@ -15,9 +15,7 @@ final class GamingRecord extends AbstractDataRecord implements ProductRecordCont
     private const FOLDER = __DIR__ . '/../../../data/products/records/gaming/';
     private const FILES = __DIR__ . '/../../../data/products/files/gaming.json';
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     protected function getFilePaths(): array
     {
         return PathResolver::fromJson(self::FOLDER, self::FILES);

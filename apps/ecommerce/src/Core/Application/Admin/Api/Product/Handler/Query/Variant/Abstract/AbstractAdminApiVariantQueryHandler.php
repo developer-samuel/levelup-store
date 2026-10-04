@@ -17,10 +17,6 @@ use App\Core\Ports\{
 
 abstract class AbstractAdminApiVariantQueryHandler extends AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         protected readonly ProductVariantRepositoryContract $variantRepository,
         AppLoggerContract $logger,
@@ -28,18 +24,9 @@ abstract class AbstractAdminApiVariantQueryHandler extends AbstractAdminApiListQ
         parent::__construct($logger);
     }
 
-    /**
-     * @param int $variantId
-     *
-     * @return array<int, object>
-    */
+    /** @return array<int, object> */
     abstract protected function getItemsForVariant(int $variantId): array;
 
-    /**
-     * @param int $variantId
-     *
-     * @return ProductVariant|null
-    */
     protected function findVariant(int $variantId): ?ProductVariant
     {
         $variant = $this->variantRepository->findById($variantId);
@@ -51,8 +38,6 @@ abstract class AbstractAdminApiVariantQueryHandler extends AbstractAdminApiListQ
      * @param array<string, mixed> $context
      *
      * @return array<int, ProductVariant>
-     *
-     * @throws \InvalidArgumentException
     */
     protected function getRepositoryClass(array $context = []): array
     {

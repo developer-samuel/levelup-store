@@ -15,18 +15,10 @@ use App\Core\Ports\Gateways\Internal\Security\AuthenticationRedirectGatewayContr
 
 final readonly class AuthenticationRedirectAdapter implements AuthenticationRedirectGatewayContract
 {
-    /**
-     * @param RouterInterface $router
-    */
     public function __construct(
         private RouterInterface $router,
     ) {}
 
-    /**
-     * @param AuthenticationRedirect $redirect
-     *
-     * @return RedirectResponse
-    */
     public function redirectTo(AuthenticationRedirect $redirect): RedirectResponse
     {
         return new RedirectResponse(

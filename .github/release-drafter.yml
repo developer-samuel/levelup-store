@@ -30,9 +30,9 @@ version-resolver:
   major:
     labels: ['major', 'breaking-change']
   minor:
-    labels: ['minor', 'feature', 'backend', 'frontend']
+    labels: ['minor', 'feature', 'backend', 'frontend', 'infrastructure', 'docker', 'database', 'security']
   patch:
-    labels: ['patch', 'bug', 'dependencies', 'infrastructure', 'docker', 'ci/cd', 'code-quality', 'documentation']
+    labels: ['patch', 'bug', 'dependencies', 'ci/cd', 'code-quality', 'documentation', 'tests']
   default: patch
 
 template: |

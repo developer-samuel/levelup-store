@@ -8,15 +8,8 @@ use App\Core\Domain\Segment\Category\Entity\Category;
 
 interface CategoryRepositoryContract
 {
-    /**
-     * @return Category[]
-    */
+    /** @return Category[] */
     public function findAll(): array;
 
-    /**
-     * @param string $name
-     *
-     * @return Category|null
-    */
     public function findByName(string $name): ?Category;
 }

@@ -27,6 +27,7 @@ The production stack runs on a single Oracle Cloud ARM VM, managed entirely via 
 - **Secrets at rest:** Sealed Secrets (encrypts K8s secrets in git via `kubeseal`, 30-day key rotation)
 - **Config reload:** Reloader (auto-restarts pods on ConfigMap/Secret changes)
 - **k3s upgrades:** System Upgrade Controller (automated k3s version upgrades via upgrade plan CR)
+- **Load Testing:** k6 (`infrastructure/k6/`) - simulates traffic on all ecommerce endpoints; run via `make k6-ecommerce`
 
 ---
 

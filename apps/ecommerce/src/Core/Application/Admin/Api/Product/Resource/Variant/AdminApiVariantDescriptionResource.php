@@ -19,11 +19,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 */
 final class AdminApiVariantDescriptionResource
 {
-    /**
-     * @param ProductVariantDescription $description
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(ProductVariantDescription $description): array
     {
         return [

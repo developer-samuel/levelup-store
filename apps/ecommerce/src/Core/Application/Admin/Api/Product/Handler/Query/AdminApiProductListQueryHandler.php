@@ -18,10 +18,6 @@ use App\Core\Ports\{
 
 final class AdminApiProductListQueryHandler extends AbstractAdminApiListQueryHandler
 {
-    /**
-     * @param ProductRepositoryContract $productRepository
-     * @param AppLoggerContract $logger
-    */
     public function __construct(
         private readonly ProductRepositoryContract $productRepository,
         AppLoggerContract $logger,
@@ -39,9 +35,6 @@ final class AdminApiProductListQueryHandler extends AbstractAdminApiListQueryHan
         return $this->productRepository->findAll();
     }
 
-    /**
-     * @return string
-    */
     protected function getResourceClass(): string
     {
         return AdminApiProductResource::class;

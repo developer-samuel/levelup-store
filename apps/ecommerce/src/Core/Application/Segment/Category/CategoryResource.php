@@ -19,11 +19,7 @@ final class CategoryResource
 {
     private const IMAGE_BASE_PATH = '/img/icons/categories/';
 
-    /**
-     * @param Category $category
-     *
-     * @return ResourceArray
-    */
+    /** @return ResourceArray */
     public static function toArray(Category $category): array
     {
         return [
