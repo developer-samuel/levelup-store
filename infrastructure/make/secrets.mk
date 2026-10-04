@@ -154,6 +154,9 @@ assistant-secrets:
 	$(call require,DATABASE_URL)
 	$(call require,CORS_ALLOW_ORIGIN)
 	$(call require,OLLAMA_HOST)
+	$(call require,OTEL_SERVICE_NAME)
+	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
+	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
 	$(call argocd_login)
 	argocd app set levelup-store-assistant $(ARGOCD_FLAGS) \
 		-p app.aiAssistantApiKey="$(AI_ASSISTANT_API_KEY)" \
@@ -164,7 +167,11 @@ assistant-secrets:
 		-p app.ollamaHost="$(OLLAMA_HOST)" \
 		-p broker.rabbitmqUrl="$(RABBITMQ_URL)" \
 		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
-		-p ingress.host="assistant.$(APP_DOMAIN)"
+		-p app.sentryDsn="$(SENTRY_DSN)" \
+		-p ingress.host="assistant.$(APP_DOMAIN)" \
+		-p otel.enabled="true" \
+		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
+		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)"
 	@echo "✓ Assistant secrets set."
 
 ## Set Grafana password, domain and Alertmanager email via ArgoCD

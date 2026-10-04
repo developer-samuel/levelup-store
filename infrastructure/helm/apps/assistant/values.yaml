@@ -96,6 +96,7 @@ chromadb:
 otel:
   enabled: false
   endpoint: ""
+  protocol: "http/protobuf"
 
 broker:
   enabled: true

@@ -24,6 +24,9 @@ class Settings(BaseSettings):
     rabbitmq_url: str = ""
     api_key: str = ""
     sentry_dsn: str = ""
+    otel_service_name: str = "levelup-store-assistant"
+    otel_exporter_otlp_endpoint: str = ""
+    otel_exporter_otlp_protocol: str = "http/protobuf"
 
 
 settings = Settings()
