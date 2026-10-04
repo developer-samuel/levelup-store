@@ -2,7 +2,7 @@
 # 🧩 Addons (Velero, Atlantis, Blackbox)
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: velero-secret velero-install atlantis-secret atlantis-install blackbox-install
+.PHONY: velero-secret velero-install atlantis-secret atlantis-install blackbox-install jenkins-secret jenkins-install
 
 ## Create Velero credentials secret from .env (OCI Customer Secret Keys)
 velero-secret:
@@ -87,6 +87,26 @@ atlantis-install:
 		-p atlantis.ingress.host="atlantis.$(APP_DOMAIN)" \
 		-p "atlantis.tls[0].hosts[0]=atlantis.$(APP_DOMAIN)"
 	@echo "✓ Atlantis deployed. Available at: https://atlantis.$(APP_DOMAIN)"
+
+## Create Jenkins credentials secret from .env (GitHub PAT)
+jenkins-secret:
+	$(call require,GITHUB_PAT)
+	kubectl create namespace jenkins --dry-run=client -o yaml | kubectl apply -f -
+	kubectl create secret generic jenkins-credentials \
+		--namespace jenkins \
+		--from-literal=GITHUB_PAT="$(GITHUB_PAT)" \
+		--dry-run=client -o yaml | kubectl apply -f -
+	@echo "✓ Jenkins secret created."
+
+## Configure Jenkins ingress via ArgoCD (deployed by root-app)
+jenkins-install:
+	$(call require,APP_DOMAIN)
+	$(MAKE) jenkins-secret
+	$(call argocd_login)
+	argocd app set jenkins $(ARGOCD_FLAGS) \
+		-p jenkins.controller.ingress.host="jenkins.$(APP_DOMAIN)" \
+		-p "jenkins.controller.ingress.tls[0].hosts[0]=jenkins.$(APP_DOMAIN)"
+	@echo "✓ Jenkins deployed. Available at: https://jenkins.$(APP_DOMAIN)"
 
 ## Set Blackbox Exporter target URLs via ArgoCD (deployed by root-app)
 blackbox-install:

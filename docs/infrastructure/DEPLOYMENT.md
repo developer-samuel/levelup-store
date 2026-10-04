@@ -27,6 +27,7 @@ but it cannot configure the registrar or create the Cloudflare zone itself.
 4. **Set Cloudflare API credentials** - `terraform/oracle/variables.tf` expects `cloudflare_api_token` and `cloudflare_zone_id`. After the zone is active, copy the Zone ID from the Cloudflare dashboard (Overview → Zone ID).
 
 After this, `tf-apply` creates two Cloudflare DNS records via `dns.tf`:
+
 - `domain.com` → OCI VM public IP (proxied)
 - `*.domain.com` → OCI VM public IP (proxied, wildcard)
 
@@ -35,7 +36,7 @@ The wildcard covers most subdomains (ArgoCD, Grafana, Mercure, etc.) - no per-se
 **Exception - MinIO:** The Cloudflare wildcard has `proxied = true`, which breaks S3 binary content (images won't load). MinIO needs a direct A record at the registrar (e.g. Hostinger) pointing to the Oracle Cloud VM IP, bypassing Cloudflare entirely:
 
 | Type | Name              | Value                                                    | TTL |
-|------|-------------------|----------------------------------------------------------|-----|
+| ---- | ----------------- | -------------------------------------------------------- | --- |
 | A    | minio.your-domain | OCI VM public IP (`terraform output instance_public_ip`) | 300 |
 
 Add this at the registrar DNS panel, not in Cloudflare.
@@ -218,6 +219,26 @@ make -C infrastructure atlantis-install  # deploy Atlantis via Helm
 ```
 
 Required variables: `ATLANTIS_GH_TOKEN`, `ATLANTIS_GH_WEBHOOK_SECRET`, `ATLANTIS_REPO_WHITELIST`.
+
+---
+
+## Jenkins (manual deploy / rollback)
+
+Jenkins handles manual deploys and rollbacks to any commit SHA. GitHub Actions handles automatic deploys on push to `main`.
+
+Setup:
+
+```bash
+make -C infrastructure jenkins-install  # create K8s secret and configure ingress
+```
+
+Required variables: `GITHUB_PAT`, `APP_DOMAIN`.
+
+To deploy or rollback: open `https://jenkins.$APP_DOMAIN`, run `levelup-store-deploy` pipeline with:
+
+- `IMAGE_TAG` - commit SHA to deploy (leave empty to build from HEAD)
+- `TARGET` - `all`, `ecommerce`, or `assistant`
+- `ENVIRONMENT` - `staging` or `production`
 
 ---
 

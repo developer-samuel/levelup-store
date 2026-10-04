@@ -254,6 +254,16 @@ make -C infrastructure velero-install  # sets bucket/region via ArgoCD
 
 ---
 
+## Jenkins
+
+Required by `make jenkins-secret` and `make jenkins-install`.
+
+| Variable      | Description                                                        |
+|---------------|--------------------------------------------------------------------|
+| `GITHUB_PAT`  | GitHub personal access token (repo + workflow scope) for Jenkins   |
+
+---
+
 ## Atlantis
 
 Required by `make atlantis-secret` and `make atlantis-install`.

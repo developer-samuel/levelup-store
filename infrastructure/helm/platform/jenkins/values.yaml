@@ -1,0 +1,86 @@
+jenkins:
+  controller:
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      # host: jenkins.$APP_DOMAIN - set in Makefile/bootstrap
+      tls:
+        - secretName: jenkins-tls
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+
+    numExecutors: 2
+
+    # Read secrets from jenkins-credentials k8s secret (created manually once on VPS)
+    envFrom:
+      - secretRef:
+          name: jenkins-credentials
+
+    JCasC:
+      defaultConfig: true
+      configScripts:
+        credentials: |
+          credentials:
+            system:
+              domainCredentials:
+                - credentials:
+                    - usernamePassword:
+                        id: "github-pat"
+                        username: "developer-samuel"
+                        password: "${GITHUB_PAT}"
+                        description: "GitHub PAT - push Helm tag commits"
+                    - string:
+                        id: "ghcr-token"
+                        secret: "${GITHUB_PAT}"
+                        description: "GHCR token - pull/push images"
+
+        global-env: |
+          jenkins:
+            globalNodeProperties:
+              - envVars:
+                  env:
+                    - key: GHCR_USER
+                      value: "developer-samuel"
+
+        jobs: |
+          jobs:
+            - script: |
+                pipelineJob('levelup-store-deploy') {
+                  description('Manual deploy / rollback - pass IMAGE_TAG for rollback, leave empty to build from HEAD')
+                  parameters {
+                    stringParam('IMAGE_TAG', '', 'Image SHA tag to deploy. Leave empty to build from HEAD.')
+                    choiceParam('TARGET', ['all', 'ecommerce', 'assistant'], 'Which app to deploy.')
+                    choiceParam('ENVIRONMENT', ['staging', 'production'], 'Target environment.')
+                  }
+                  definition {
+                    cpsScm {
+                      scm {
+                        git {
+                          remote {
+                            url('https://github.com/developer-samuel/levelup-store.git')
+                            credentials('github-pat')
+                          }
+                          branch('*/main')
+                        }
+                      }
+                      scriptPath('Jenkinsfile')
+                    }
+                  }
+                }
+
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 10Gi
+
+  serviceAccount:
+    create: true
+    name: jenkins
