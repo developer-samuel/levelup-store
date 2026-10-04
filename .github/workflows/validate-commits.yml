@@ -21,13 +21,11 @@ jobs:
 
       - uses: ./.github/actions/node
 
-      - name: Install commitlint
-        run: pnpm add --no-save @commitlint/cli @commitlint/config-conventional
-
       - name: Validate commit messages
         run: |
           echo '{"extends":["@commitlint/config-conventional"],"rules":{"subject-case":[0]}}' > commitlint.config.json
-          npx commitlint \
+          pnpm dlx --package @commitlint/cli --package @commitlint/config-conventional \
+            commitlint \
             --from ${{ github.event.pull_request.base.sha }} \
             --to ${{ github.event.pull_request.head.sha }} \
             --verbose \
