@@ -25,10 +25,16 @@ jenkins:
 
     numExecutors: 2
 
+    additionalPlugins:
+      - job-dsl
+
     # Read secrets from jenkins-credentials k8s secret (created manually once on VPS)
-    envFrom:
-      - secretRef:
-          name: jenkins-credentials
+    containerEnv:
+      - name: GITHUB_PAT
+        valueFrom:
+          secretKeyRef:
+            name: jenkins-credentials
+            key: GITHUB_PAT
 
     JCasC:
       defaultConfig: true
