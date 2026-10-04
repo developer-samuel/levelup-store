@@ -1,0 +1,27 @@
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+# 🚀 CD Tool - Jenkins (Deployment Pipeline)
+#
+# Runs on: http://localhost:8088
+# ──────────────────────────────────────────────────────────────────────────────────────────────
+
+name: levelup_store_jenkins
+
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    container_name: levelup_store_jenkins
+    restart: unless-stopped
+    user: root
+    environment:
+      DOCKER_HOST: unix:///var/run/docker.sock
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '8088:8080'
+      - '50000:50000'
+
+volumes:
+  jenkins_data:
