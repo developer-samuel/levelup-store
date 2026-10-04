@@ -1,0 +1,10 @@
+apiVersion: v2
+name: jenkins
+description: Jenkins - CD pipeline runner for k3s deployments
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: jenkins
+    version: ">=5.0.0 <6.0.0"
+    repository: https://charts.jenkins.io

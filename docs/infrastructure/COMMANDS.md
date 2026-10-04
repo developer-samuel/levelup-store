@@ -77,6 +77,7 @@ make <command>
 | `monitoring-secrets` | Set Grafana admin password and Alertmanager email config           |
 | `velero-secret`      | Create K8s secret with OCI Object Storage credentials for Velero   |
 | `atlantis-secret`    | Create K8s secret with GitHub token + webhook secret for Atlantis  |
+| `jenkins-secret`     | Create K8s secret with GitHub PAT for Jenkins                       |
 
 > Run `secrets` and `services-secrets` whenever credentials change.
 > Always ensure `.env.production` is loaded (values override `.env`) before running these.
@@ -96,6 +97,14 @@ make <command>
 | Command            | Description              |
 |--------------------|--------------------------|
 | `atlantis-install` | Deploy Atlantis via Helm |
+
+---
+
+## Jenkins
+
+| Command            | Description                                                        |
+|--------------------|--------------------------------------------------------------------|
+| `jenkins-install`  | Create Jenkins secret and configure ingress via ArgoCD             |
 
 ---
 
