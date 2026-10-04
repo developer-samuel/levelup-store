@@ -8,9 +8,6 @@ use Database\Seeds\Abstract\AbstractDataRecord;
 
 final class CategoryRecord extends AbstractDataRecord
 {
-    /**
-     * @return string
-    */
     protected function getFilePaths(): string
     {
         return __DIR__ . '/../../data/categories.json';

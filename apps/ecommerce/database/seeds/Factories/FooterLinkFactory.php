@@ -12,15 +12,6 @@ use App\Core\Domain\{
 
 trait FooterLinkFactory
 {
-    /**
-     * @param int $position
-     * @param string $value
-     * @param string|null $image
-     * @param string $url
-     * @param FooterLinkGroup $group
-     *
-     * @return FooterLink
-    */
     private function createFooterLink(
         int $position,
         string $value,

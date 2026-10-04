@@ -11,13 +11,7 @@ final class DecimalMacro
     /**
      * Add a decimal column to the table with dynamic parameters (precision and scale).
      *
-     * @param Table $table
-     * @param string $column
-     * @param int|null $precision
-     * @param int|null $scale
      * @param array<string, mixed> $options
-     *
-     * @return void
     */
     public static function add(
         Table $table,

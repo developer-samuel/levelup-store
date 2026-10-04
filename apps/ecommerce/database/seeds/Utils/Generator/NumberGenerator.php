@@ -8,21 +8,11 @@ use Packages\Kit\Constants\CharacterConstants;
 
 final class NumberGenerator
 {
-    /**
-     * @param int $length
-     *
-     * @return string
-    */
     public static function generate(int $length = 6): string
     {
         return self::generateRandomNumber($length);
     }
 
-    /**
-     * @param int $length
-     *
-     * @return string
-    */
     private static function generateRandomNumber(int $length): string
     {
         $digits = CharacterConstants::DIGITS;
@@ -35,13 +25,6 @@ final class NumberGenerator
         return self::buildRandomNumber($digits, $digitsLength, $length);
     }
 
-    /**
-     * @param string $digits
-     * @param int $digitsLength
-     * @param int $length
-     *
-     * @return string
-    */
     private static function buildRandomNumber(string $digits, int $digitsLength, int $length): string
     {
         $randomNumber = '';

@@ -16,15 +16,7 @@ use App\Core\Domain\{
 
 trait ProductSubtypeFactory
 {
-    /**
-     * @param ObjectManager $manager
-     * @param Product $product
-     * @param string[] $subtypes
-     *
-     * @return void
-     *
-     * @throws \LogicException
-    */
+    /** @param string[] $subtypes */
     private function createProductSubtypes(
         ObjectManager $manager,
         Product $product,

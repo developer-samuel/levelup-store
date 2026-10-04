@@ -6,14 +6,10 @@ namespace Database\Seeds\Abstract;
 
 abstract class AbstractDataRecord
 {
-    /**
-     * @return string|string[]
-     */
+    /** @return string|string[] */
     abstract protected function getFilePaths(): string|array;
 
-    /**
-     * @return array<string, string[]>
-     */
+    /** @return array<string, string[]> */
     final public function fetchData(): array
     {
         $filePaths = $this->normalizeFilePaths($this->getFilePaths());
@@ -31,19 +27,13 @@ abstract class AbstractDataRecord
      * @param string|string[] $filePaths
      *
      * @return string[]
-     */
+    */
     private function normalizeFilePaths(string|array $filePaths): array
     {
         return is_array($filePaths) ? $filePaths : [$filePaths];
     }
 
-    /**
-     * @param string $filePath
-     *
-     * @return array<string, string[]>
-     *
-     * @throws \RuntimeException
-     */
+    /** @return array<string, string[]> */
     private function loadJsonFile(string $filePath): array
     {
         if (!file_exists($filePath)) {

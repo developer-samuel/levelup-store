@@ -22,12 +22,6 @@ use App\Core\Ports\{
 
 final class CountryFixture extends AbstractFixture implements FixtureGroupInterface
 {
-    /**
-     * @param CountryApiGatewayContract $countryApiAdapter
-     * @param CountryCommandContract $countryCommand
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly CountryApiGatewayContract $countryApiAdapter,
         private readonly CountryCommandContract $countryCommand,
@@ -40,11 +34,6 @@ final class CountryFixture extends AbstractFixture implements FixtureGroupInterf
         );
     }
 
-    /**
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     public function load(ObjectManager $manager): void
     {
         $countries = $this->resolveCountries();
@@ -54,9 +43,7 @@ final class CountryFixture extends AbstractFixture implements FixtureGroupInterf
         }
     }
 
-    /**
-     * @return iterable<CountryObject>
-    */
+    /** @return iterable<CountryObject> */
     protected function getData(): iterable
     {
         $countries = $this->countryApiAdapter->getAllCountries();
@@ -70,20 +57,12 @@ final class CountryFixture extends AbstractFixture implements FixtureGroupInterf
         return $countries;
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         //
     }
 
-    /**
-     * @return CountryObject[]
-    */
+    /** @return CountryObject[] */
     private function resolveCountries(): array
     {
         $countries = $this->getData();

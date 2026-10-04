@@ -13,12 +13,6 @@ use App\Core\Domain\{
 
 trait ReviewRatingFactory
 {
-    /**
-     * @param Review $review
-     * @param User $user
-     *
-     * @return ReviewRating
-    */
     private function createRandomRating(Review $review, User $user): ReviewRating
     {
         return (new ReviewRating())
@@ -27,9 +21,6 @@ trait ReviewRatingFactory
             ->setType($this->randomRatingType());
     }
 
-    /**
-     * @return ReviewRatingType
-    */
     private function randomRatingType(): ReviewRatingType
     {
         return rand(0, 1) === 1 ? ReviewRatingType::LIKE : ReviewRatingType::DISLIKE;

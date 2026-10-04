@@ -19,8 +19,6 @@ trait UserFactory
      *   password: string,
      *   role: string,
      *  } $data
-     *
-     * @return User
     */
     private function createUsersFromData(array $data): User
     {
@@ -35,24 +33,11 @@ trait UserFactory
             ->setEmailVerifiedAt(new \DateTimeImmutable());
     }
 
-    /**
-     * @param User $user
-     * @param string $password
-     *
-     * @return string
-    */
     private function hashPassword(User $user, string $password): string
     {
         return $this->passwordHasher->hashPassword($user, $password);
     }
 
-    /**
-     * @param string $role
-     *
-     * @return UserRole
-     *
-     * @throws \InvalidArgumentException
-    */
     private function getRoleFromString(string $role): UserRole
     {
         $enum = UserRole::tryFrom($role);

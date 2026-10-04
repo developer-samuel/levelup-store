@@ -8,11 +8,6 @@ use App\Core\Domain\Segment\Brand\Brand;
 
 trait BrandFactory
 {
-    /**
-     * @param string $name
-     *
-     * @return Brand
-    */
     private function createBrand(string $name): Brand
     {
         return (new Brand())

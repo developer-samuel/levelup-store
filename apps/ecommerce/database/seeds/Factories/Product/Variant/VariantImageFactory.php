@@ -13,13 +13,7 @@ use App\Core\Domain\{
 
 trait VariantImageFactory
 {
-    /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
-     * @param string[] $imagePaths
-     *
-     * @return void
-    */
+    /** @param string[] $imagePaths */
     private function createProductVariantImages(
         ObjectManager $manager,
         ProductVariant $variant,

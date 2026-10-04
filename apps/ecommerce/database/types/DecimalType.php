@@ -12,31 +12,17 @@ use Doctrine\{
 
 final class DecimalType extends Type
 {
-    /**
-     * @return string
-    */
     public function getName(): string
     {
         return Types::DECIMAL;
     }
 
-    /**
-     * @param mixed[] $column
-     * @param AbstractPlatform $platform
-     *
-     * @return string
-    */
+    /** @param mixed[] $column */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getDecimalTypeDeclarationSQL($column);
     }
 
-    /**
-     * @param mixed $value
-     * @param AbstractPlatform $platform
-     *
-     * @return float|null
-    */
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?float
     {
         if ($value === null) {

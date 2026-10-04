@@ -13,15 +13,6 @@ use App\Core\Domain\{
 
 trait ReviewFactory
 {
-    /**
-     * @param ProductVariant $variant
-     * @param User $user
-     * @param float $value
-     * @param string|null $body
-     * @param ReviewType $type
-     *
-     * @return Review
-     */
     private function createReview(
         ProductVariant $variant,
         User $user,

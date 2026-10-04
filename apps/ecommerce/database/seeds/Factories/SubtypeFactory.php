@@ -16,13 +16,6 @@ use App\Core\Ports\Segment\Type\TypeRepositoryContract;
 
 trait SubtypeFactory
 {
-    /**
-     * @param TypeRepositoryContract $typeRepository
-     * @param Category $category
-     * @param string $name
-     *
-     * @return Type|null
-    */
     private function getType(
         TypeRepositoryContract $typeRepository,
         Category $category,
@@ -31,14 +24,7 @@ trait SubtypeFactory
         return $typeRepository->findByCategoryAndName($category, $name);
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param Category $category
-     * @param Type $type
-     * @param string[] $subtypes
-     *
-     * @return void
-    */
+    /** @param string[] $subtypes */
     private function createSubtypes(ObjectManager $manager, Category $category, Type $type, array $subtypes): void
     {
         foreach ($subtypes as $subtypeName) {

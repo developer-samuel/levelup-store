@@ -9,16 +9,10 @@ use Doctrine\DBAL\Schema\Table;
 final class ForeignKeyMacro
 {
     /**
-     * Add predefined foreign keys to the table with dynamic parameters.
-     *
-     * @param Table $table
-     * @param string $refTable
      * @param string[] $columns
      * @param string[] $refColumns
      * @param string[] $options
-     *
-     * @return void
-     */
+    */
     public static function addForeignKeys(
         Table $table,
         string $refTable,

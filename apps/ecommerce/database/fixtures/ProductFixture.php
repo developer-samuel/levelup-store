@@ -38,13 +38,6 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
 {
     use ProductBuilder;
 
-    /**
-     * @param BrandRepositoryContract $brandRepository
-     * @param CategoryRepositoryContract $categoryRepository
-     * @param TypeRepositoryContract $typeRepository
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly BrandRepositoryContract $brandRepository,
         private readonly CategoryRepositoryContract $categoryRepository,
@@ -58,9 +51,7 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
         );
     }
 
-    /**
-     * @return array<class-string<FixtureInterface>>
-    */
+    /** @return array<class-string<FixtureInterface>> */
     public function getDependencies(): array
     {
         return [
@@ -71,9 +62,7 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
         ];
     }
 
-    /**
-     * @return iterable<ProductRecordContract>
-    */
+    /** @return iterable<ProductRecordContract> */
     protected function getData(): iterable
     {
         return [
@@ -85,12 +74,6 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
         ];
     }
 
-    /**
-     * @param mixed $record
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $record, ObjectManager $manager): void
     {
         /** @var ProductRecordContract $record */
@@ -101,13 +84,7 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
         }
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param string $categoryName
-     * @param array<string, mixed> $types
-     *
-     * @return void
-    */
+    /** @param array<string, mixed> $types */
     private function processCategory(ObjectManager $manager, string $categoryName, array $types): void
     {
         $category = $this->categoryRepository->findByName($categoryName);
@@ -121,14 +98,6 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
         }
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @param Category $category
-     * @param string $typeName
-     * @param mixed $products
-     *
-     * @return void
-    */
     private function processType(ObjectManager $manager, Category $category, string $typeName, mixed $products): void
     {
         $type = $this->typeRepository->findByName($typeName);
@@ -164,8 +133,6 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
     }
 
     /**
-     * @param ObjectManager $manager
-     * @param string $productName
      * @param array{
      *     brand: string,
      *     variants: array<string, array{
@@ -179,10 +146,6 @@ final class ProductFixture extends AbstractFixture implements DependentFixtureIn
      * }>,
      *     subtypes: string[]
      * } $productData
-     * @param Category $category
-     * @param Type $type
-     *
-     * @return void
     */
     private function processSingleProduct(
         ObjectManager $manager,

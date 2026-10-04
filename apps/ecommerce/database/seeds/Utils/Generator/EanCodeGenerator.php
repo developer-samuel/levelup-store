@@ -5,9 +5,6 @@ namespace Database\Seeds\Utils\Generator;
 
 final class EanCodeGenerator
 {
-    /**
-     * @return string
-    */
     public static function generateEan13(): string
     {
         $baseDigits = self::generateBaseDigits(12);
@@ -16,21 +13,11 @@ final class EanCodeGenerator
         return $baseDigits . $checkDigit;
     }
 
-    /**
-     * @param int $length
-     *
-     * @return string
-    */
     private static function generateBaseDigits(int $length): string
     {
         return NumberGenerator::generate($length);
     }
 
-    /**
-     * @param string $digits
-     *
-     * @return int
-    */
     private static function calculateCheckDigit(string $digits): int
     {
         $sum = 0;

@@ -17,41 +17,22 @@ use App\Core\Ports\{
 
 abstract class AbstractFixture extends Fixture implements FixtureGroupInterface
 {
-    /**
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         protected readonly AppLoggerContract $appLogger,
         protected readonly ConsoleLoggerContract $consoleLogger,
     ) {}
 
-    /**
-     * @return iterable<mixed>
-    */
+    /** @return iterable<mixed> */
     abstract protected function getData(): iterable;
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     abstract protected function createEntity(mixed $data, ObjectManager $manager): void;
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     final public static function getGroups(): array
     {
         return ['small_batch'];
     }
 
-    /**
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     public function load(ObjectManager $manager): void
     {
         try {
@@ -63,11 +44,6 @@ abstract class AbstractFixture extends Fixture implements FixtureGroupInterface
         }
     }
 
-    /**
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     private function processData(ObjectManager $manager): void
     {
         foreach ($this->getData() as $data) {
@@ -78,11 +54,6 @@ abstract class AbstractFixture extends Fixture implements FixtureGroupInterface
         }
     }
 
-    /**
-     * @param \Throwable $throwable
-     *
-     * @return void
-    */
     private function handleException(\Throwable $throwable): void
     {
         $message = 'Error flushing ' . static::class . ': ' . $throwable->getMessage();

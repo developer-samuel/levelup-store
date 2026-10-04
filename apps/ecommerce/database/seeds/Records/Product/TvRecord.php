@@ -15,9 +15,7 @@ final class TvRecord extends AbstractDataRecord implements ProductRecordContract
     private const FOLDER = __DIR__ . '/../../../data/products/records/tv/';
     private const FILES = __DIR__ . '/../../../data/products/files/tv.json';
 
-    /**
-     * @return string[]
-    */
+    /** @return string[] */
     protected function getFilePaths(): array
     {
         return PathResolver::fromJson(self::FOLDER, self::FILES);

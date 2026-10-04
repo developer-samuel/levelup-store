@@ -8,13 +8,6 @@ use Packages\Kit\Utils\Shared\DataSanitizer;
 
 trait NameSanitizer
 {
-    /**
-     * @param mixed $data
-     *
-     * @return string
-     *
-     * @throws \InvalidArgumentException
-    */
     protected function sanitize(mixed $data): string
     {
         $name = match (true) {

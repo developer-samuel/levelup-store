@@ -26,11 +26,6 @@ final class BrandFixture extends AbstractFixture implements FixtureGroupInterfac
     use BrandFactory;
     use NameSanitizer;
 
-    /**
-     * @param BrandRecord $brandRecord
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly BrandRecord $brandRecord,
         AppLoggerContract $appLogger,
@@ -42,20 +37,12 @@ final class BrandFixture extends AbstractFixture implements FixtureGroupInterfac
         );
     }
 
-    /**
-     * @return iterable<mixed>
-    */
+    /** @return iterable<mixed> */
     protected function getData(): iterable
     {
         return $this->brandRecord->fetchData();
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         $name = $this->sanitize($data);

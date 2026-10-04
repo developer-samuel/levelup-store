@@ -6,8 +6,6 @@ namespace Database\Seeds\Records\Contracts;
 
 interface ProductRecordContract
 {
-    /**
-     * @return array<string, array<string, mixed>>
-    */
+    /** @return array<string, array<string, mixed>> */
     public function fetchData(): array;
 }

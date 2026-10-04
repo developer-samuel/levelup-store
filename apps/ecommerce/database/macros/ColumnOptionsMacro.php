@@ -8,9 +8,8 @@ final class ColumnOptionsMacro
 {
     /**
      * Merge default options with the provided ones.
-     * 
+     *
      * @param array<string, bool|int|string> $options
-     * @param int|null $default
      *
      * @return array<string, bool|int|string>
     */
@@ -19,7 +18,7 @@ final class ColumnOptionsMacro
         if (!array_key_exists('default', $options)) {
             $options['default'] = $default ?? 0;
         }
-        
+
         return $options;
     }
 }

@@ -29,11 +29,6 @@ final class FooterLinkFixture extends AbstractFixture implements FixtureGroupInt
 {
     use FooterLinkFactory;
 
-    /**
-     * @param FooterLinkRecord $footerLinkRecord
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly FooterLinkRecord $footerLinkRecord,
         AppLoggerContract $appLogger,
@@ -45,20 +40,12 @@ final class FooterLinkFixture extends AbstractFixture implements FixtureGroupInt
         );
     }
 
-    /**
-     * @return iterable<mixed>
-    */
+    /** @return iterable<mixed> */
     protected function getData(): iterable
     {
         return $this->footerLinkRecord->fetchData();
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         /**

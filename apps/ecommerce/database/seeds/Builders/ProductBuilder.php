@@ -27,8 +27,6 @@ trait ProductBuilder
     use VariantFactory;
 
     /**
-     * @param ObjectManager $manager
-     * @param string $productName
      * @param array{
      *     brand: string,
      *     variants: array<string, array{
@@ -42,10 +40,6 @@ trait ProductBuilder
      *     }>,
      *     subtypes: string[]
      * } $productData
-     * @param Category $category
-     * @param Type $type
-     *
-     * @return void
     */
     private function createProductWithVariants(
         ObjectManager $manager,
@@ -79,11 +73,6 @@ trait ProductBuilder
         $this->createProductSubtypes($manager, $product, $subtypes);
     }
 
-    /**
-     * @param string $brandName
-     *
-     * @return Brand
-    */
     private function resolveBrand(string $brandName): Brand
     {
         return BrandAssertion::assertExistsWithIdentifier(

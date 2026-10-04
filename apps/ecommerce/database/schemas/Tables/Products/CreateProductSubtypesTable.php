@@ -20,13 +20,6 @@ use Database\{
 
 final class CreateProductSubtypesTable
 {
-    /**
-     * Build the entire schema definition for the 'product_subtypes' table.
-     *
-     * @param Schema $schema
-     *
-     * @return void
-    */
     public static function build(Schema $schema): void
     {
         $table = $schema->createTable('product_subtypes');
@@ -37,13 +30,6 @@ final class CreateProductSubtypesTable
         self::addForeignKeys($table);
     }
 
-    /**
-     * Add columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addColumns(Table $table): void
     {
         IdMacro::addIdColumn($table);
@@ -51,52 +37,24 @@ final class CreateProductSubtypesTable
         self::addTimestamps($table);
     }
 
-    /**
-     * Add product_id and subtype_id columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addStandardColumns(Table $table): void
     {
         IntegerMacro::unsignedInteger($table, 'product_id');
         IntegerMacro::unsignedInteger($table, 'subtype_id');
     }
 
-    /**
-     * Add timestamp columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addTimestamps(Table $table): void
     {
         TimestampMacro::created($table);
         TimestampMacro::updated($table);
     }
 
-    /**
-     * Add predefined indexes to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addIndexes(Table $table): void
     {
         IndexMacro::add($table, ['product_id'], 'idx_product_subtypes_product_id');
         IndexMacro::add($table, ['subtype_id'], 'idx_product_subtypes_subtype_id');
     }
 
-    /**
-     * Add foreign keys to the table using ForeignKeyMacro with dynamic parameters.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addForeignKeys(Table $table): void
     {
         ForeignKeyMacro::addForeignKeys($table, 'products', ['product_id'], ['id']);

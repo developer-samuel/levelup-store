@@ -23,13 +23,6 @@ use Database\{
 
 final class CreateProductVariantDescriptionsTable
 {
-    /**
-     * Build the entire schema definition for the 'product_variant_descriptions' table.
-     *
-     * @param Schema $schema
-     *
-     * @return void
-    */
     public static function build(Schema $schema): void
     {
         $table = $schema->createTable('product_variant_descriptions');
@@ -41,13 +34,6 @@ final class CreateProductVariantDescriptionsTable
         self::addCheckConstraints($table);
     }
 
-    /**
-     * Add columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addColumns(Table $table): void
     {
         IdMacro::addIdColumn($table);
@@ -56,25 +42,11 @@ final class CreateProductVariantDescriptionsTable
         self::addTimestamps($table);
     }
 
-    /**
-     * Add variant_id column to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addStandardColumn(Table $table): void
     {
         IntegerMacro::unsignedInteger($table, 'variant_id');
     }
 
-    /**
-     * Add additional columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addAdditionalColumns(Table $table): void
     {
         SmallIntegerMacro::smallInteger($table, 'position');
@@ -82,50 +54,22 @@ final class CreateProductVariantDescriptionsTable
         StringMacro::text($table, 'body');
     }
 
-    /**
-     * Add timestamp columns to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addTimestamps(Table $table): void
     {
         TimestampMacro::created($table);
         TimestampMacro::updated($table);
     }
 
-    /**
-     * Add predefined index to the table.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addIndex(Table $table): void
     {
         IndexMacro::add($table, ['variant_id'], 'idx_product_variant_descriptions_variant_id');
     }
 
-    /**
-     * Add foreign key to the table using ForeignKeyMacro with dynamic parameters.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addForeignKey(Table $table): void
     {
         ForeignKeyMacro::addForeignKeys($table, 'product_variants', ['variant_id'], ['id']);
     }
 
-    /**
-     * Add check constraints to ensure data validity.
-     *
-     * @param Table $table
-     *
-     * @return void
-    */
     private static function addCheckConstraints(Table $table): void
     {
         CheckConstraintMacro::add(

@@ -27,9 +27,6 @@ trait VariantFactory
     use VariantStockFactory;
 
     /**
-     * @param ObjectManager $manager
-     * @param Product $product
-     * @param string $variantName
      * @param array{
      *   price: float,
      *   description: string,
@@ -39,8 +36,6 @@ trait VariantFactory
      *   images: string[],
      *   descriptions: array<array{0:string,1:string}>
      * } $variantData
-     *
-     * @return void
     */
     private function createVariant(
         ObjectManager $manager,
@@ -63,8 +58,6 @@ trait VariantFactory
     }
 
     /**
-     * @param Product $product
-     * @param string $variantName
      * @param array{
      *   price: float|int,
      *   description: string|null,
@@ -74,8 +67,6 @@ trait VariantFactory
      *   images: string[],
      *   descriptions: array<array{0:string,1:string}>
      * } $variantData
-     *
-     * @return ProductVariant
     */
     private function buildVariant(Product $product, string $variantName, array $variantData): ProductVariant
     {
@@ -90,14 +81,10 @@ trait VariantFactory
     }
 
     /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
      * @param array{
      *   stocks_available?: int,
      *   stocks_reserved?: int
      * } $variantData
-     *
-     * @return void
     */
     private function handleVariantStocks(ObjectManager $manager, ProductVariant $variant, array $variantData): void
     {
@@ -112,14 +99,10 @@ trait VariantFactory
     }
 
     /**
-     * @param ObjectManager $manager
-     * @param ProductVariant $variant
      * @param array{
      *   stocks_available?: int,
      *   stocks_reserved?: int
      * } $variantData
-     *
-     * @return void
     */
     private function handleVariantEans(ObjectManager $manager, ProductVariant $variant, array $variantData): void
     {
@@ -133,13 +116,6 @@ trait VariantFactory
         );
     }
 
-    /**
-     * @param string $productName
-     * @param string|null $variantName
-     * @param int $randomLength
-     *
-     * @return string
-    */
     private function generateSku(string $productName, ?string $variantName = null, int $randomLength = 6): string
     {
         $catalogCode = ProductCatalogCodeGenerator::generateCatalogCode($productName);
@@ -154,11 +130,6 @@ trait VariantFactory
         return $prefix . $variantPart . $uniqueSuffix;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return string
-    */
     private function generateSlug(string $name): string
     {
         $slug = StringNormalizer::toLowerCase($name);

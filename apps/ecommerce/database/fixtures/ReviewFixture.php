@@ -34,12 +34,6 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
 {
     use ReviewBuilder;
 
-    /**
-     * @param ProductVariantRepositoryContract $variantRepository
-     * @param UserRepositoryContract $userRepository
-     * @param AppLoggerContract $appLogger
-     * @param ConsoleLoggerContract $consoleLogger
-    */
     public function __construct(
         private readonly ProductVariantRepositoryContract $variantRepository,
         private readonly UserRepositoryContract $userRepository,
@@ -52,9 +46,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
         );
     }
 
-    /**
-     * @return array<class-string<FixtureInterface>>
-    */
+    /** @return array<class-string<FixtureInterface>> */
     public function getDependencies(): array
     {
         return [
@@ -63,9 +55,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
         ];
     }
 
-    /**
-     * @return iterable<int, array{variant: object, user: object}>
-    */
+    /** @return iterable<int, array{variant: object, user: object}> */
     protected function getData(): iterable
     {
         $variants = $this->variantRepository->findAll();
@@ -88,12 +78,6 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
         }
     }
 
-    /**
-     * @param mixed $data
-     * @param ObjectManager $manager
-     *
-     * @return void
-    */
     protected function createEntity(mixed $data, ObjectManager $manager): void
     {
         /**
@@ -124,7 +108,6 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
     }
 
     /**
-     * @param ProductVariant $variant
      * @param User[] $users
      *
      * @return iterable<int, array{variant: ProductVariant, user: User}>
@@ -185,11 +168,6 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
         return $this->filterValidVariants($resolved);
     }
 
-    /**
-     * @param ProductVariant $variant
-     *
-     * @return ProductVariant|null
-    */
     private function resolveSingleVariant(ProductVariant $variant): ?ProductVariant
     {
         return $this->variantRepository->findById(

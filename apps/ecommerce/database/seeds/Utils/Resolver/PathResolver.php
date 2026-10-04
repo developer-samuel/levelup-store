@@ -6,12 +6,7 @@ namespace Database\Seeds\Utils\Resolver;
 
 final class PathResolver
 {
-    /**
-     * @param string $folder
-     * @param string $jsonFile
-     *
-     * @return string[]
-    */
+    /** @return string[] */
     public static function fromJson(string $folder, string $jsonFile): array
     {
         $content = self::readJsonFile($jsonFile);
@@ -22,13 +17,6 @@ final class PathResolver
         return self::prependFolder($decodedStrings, $folder);
     }
 
-    /**
-     * @param string $jsonFile
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
-    */
     private static function readJsonFile(string $jsonFile): string
     {
         if (!file_exists($jsonFile)) {
@@ -44,14 +32,7 @@ final class PathResolver
         return $content;
     }
 
-    /**
-     * @param string $content
-     * @param string $jsonFile
-     *
-     * @return mixed[]
-     *
-     * @throws \RuntimeException
-    */
+    /** @return mixed[] */
     private static function decodeJson(string $content, string $jsonFile): array
     {
         $decoded = json_decode($content, true);
@@ -84,7 +65,6 @@ final class PathResolver
 
     /**
      * @param string[] $files
-     * @param string $folder
      *
      * @return string[]
     */
@@ -96,14 +76,6 @@ final class PathResolver
         );
     }
 
-    /**
-     * @param string $message
-     * @param string|null $file
-     *
-     * @return void
-     *
-     * @throws \RuntimeException
-    */
     private static function throwRuntime(string $message, ?string $file = null): void
     {
         if ($file !== null) {
