@@ -41,18 +41,12 @@ cd apps/ecommerce
 
 ```bash
 pnpm update
-
-# or npm
-npm update
 ```
 
 #### Post-update validation (required)
 
 ```bash
 pnpm vitest
-
-# or npm
-npm run vitest
 ```
 
 - All frontend tests must pass after dependency updates.
@@ -66,20 +60,12 @@ npm run vitest
 # TypeScript linting (ESLint)
 pnpm lint
 pnpm lint:fix
-
-# or npm
-npm run lint
-npm run lint:fix
 ```
 
 ```bash
 # SCSS linting (Stylelint)
 pnpm lint-scss
 pnpm lint-scss:fix
-
-# or npm
-npm run lint-scss
-npm run lint-scss:fix
 ```
 
 ⚠️ `lint:fix` and `lint-scss:fix` may modify code automatically - review changes before committing.

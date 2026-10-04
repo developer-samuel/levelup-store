@@ -25,7 +25,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## 2. Frontend & Design
 
 - **Runtime:** Node.js (LTS)
-- **Package Manager:** pnpm / npm
+- **Package Manager:** pnpm
 - **Build Tool:** Vite
 - **Asset Management:** Symfony AssetMapper
 - **TypeScript**: Vanilla TypeScript
@@ -104,14 +104,14 @@ We maintain 100% focus on code quality using these tools:
 
 ### Frontend QA
 
-| Tool              | Purpose                                   | Execution                            |
-|-------------------|-------------------------------------------|--------------------------------------|
-| Vitest            | Unit, Integration and Functional testing  | pnpm vitest / npm run vitest         |
-| Playwright        | End-to-end testing                        | pnpm e2e / npm run e2e               |
-| TypeScript        | Static type checking                      | pnpm type-check / npm run type-check |
-| ESLint + Prettier | TS linting and automated code formatting  | pnpm lint / npm run lint             |
-| Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss / npm run lint-scss   |
-| SLOC              | Source Lines of Code analysis (TS & SCSS) | npx sloc assets/ts assets/scss       |
+| Tool              | Purpose                                   | Execution                      |
+|-------------------|-------------------------------------------|--------------------------------|
+| Vitest            | Unit, Integration and Functional testing  | pnpm vitest                    |
+| Playwright        | End-to-end testing                        | pnpm e2e                       |
+| TypeScript        | Static type checking                      | pnpm type-check                |
+| ESLint + Prettier | TS linting and automated code formatting  | pnpm lint                      |
+| Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss                 |
+| SLOC              | Source Lines of Code analysis (TS & SCSS) | npx sloc assets/ts assets/scss |
 
 ### CI/CD Tooling
 

@@ -49,16 +49,16 @@ These tools provide insights into code size, complexity, duplication, and overal
 
 ### 🔍 Type Checking
 
-- **TypeScript Type Check** - Static type checking via `pnpm type-check` / `npm run type-check`.  
+- **TypeScript Type Check** - Static type checking via `pnpm type-check`.  
   Runs `tsc --noEmit` - catches type errors without emitting output files.  
   Use `type-check:all` to also check test files.
 
 ### ✨ Linting & Formatting
 
 - **ESLint + Prettier** - Linting and static analysis for TypeScript with Prettier formatting rules.  
-  Run via `pnpm lint` / `npm run lint`. Use `lint:all` to include test files.
+  Run via `pnpm lint`. Use `lint:all` to include test files.
 - **Stylelint** - Quality and style checks for SCSS stylesheets.  
-  Run via `pnpm lint-scss` / `npm run lint-scss`.
+  Run via `pnpm lint-scss`.
 
 ### 📊 Metrics
 

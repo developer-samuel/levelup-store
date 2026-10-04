@@ -56,9 +56,6 @@ cd apps/assistant/client
 
 ```bash
 pnpm update
-
-# or npm
-npm update
 ```
 
 #### Post-update validation (required)
@@ -66,19 +63,12 @@ npm update
 ```bash
 pnpm type-check
 pnpm lint
-
-# or npm
-npm run type-check
-npm run lint
 ```
 
 #### Formatting (Optional)
 
 ```bash
 pnpm format
-
-# or npm
-npm run format
 ```
 
 ⚠️ `format` may modify code automatically - review changes before committing.

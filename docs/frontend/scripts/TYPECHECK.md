@@ -7,7 +7,7 @@ Each command runs across both apps (ecommerce + assistant).
 
 ### type-check
 
-- **Command**: `pnpm type-check` / `npm run type-check`
+- **Command**: `pnpm type-check`
 - **Purpose**: Runs `tsc --noEmit` for both apps - catches type errors without emitting output files.
 
 ---
