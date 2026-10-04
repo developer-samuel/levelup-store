@@ -62,6 +62,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          --health-start-period 15s
 
       elasticsearch:
         image: elasticsearch:8.17.0
@@ -76,6 +77,7 @@ jobs:
           --health-interval 15s
           --health-timeout 10s
           --health-retries 10
+          --health-start-period 20s
 
       mercure:
         image: dunglas/mercure:v0.24.2

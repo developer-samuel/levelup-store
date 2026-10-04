@@ -141,6 +141,7 @@ jobs:
           --health-interval 15s
           --health-timeout 10s
           --health-retries 10
+          --health-start-period 20s
 
       redis:
         image: redis:8.10.1
@@ -161,6 +162,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          --health-start-period 15s
 
       mercure:
         image: dunglas/mercure:v0.24.2
@@ -298,6 +300,7 @@ jobs:
           --health-interval 15s
           --health-timeout 10s
           --health-retries 10
+          --health-start-period 20s
 
       redis:
         image: redis:8.10.1
@@ -318,6 +321,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          --health-start-period 15s
 
     steps:
       - uses: actions/checkout@v7
