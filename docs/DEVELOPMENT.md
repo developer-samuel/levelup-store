@@ -96,6 +96,30 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml --profile setup u
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 ```
 
+### CD Commands
+
+```bash
+# Build Jenkins image (first time or after Dockerfile changes)
+make jenkins-build
+# or
+docker compose -f docker/compose/services/jenkins/jenkins.yml build
+
+# Start Jenkins (http://localhost:8088)
+make jenkins
+# or
+docker compose -f docker/compose/services/jenkins/jenkins.yml up -d
+
+# Stop Jenkins
+make jenkins-down
+# or
+docker compose -f docker/compose/services/jenkins/jenkins.yml down
+
+# Show initial admin password (first run)
+make jenkins-password
+# or
+docker exec levelup_store_jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
 ### Utility Commands
 
 ```bash

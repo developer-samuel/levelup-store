@@ -8,15 +8,21 @@ You are a Docker debugging specialist for the LevelUp Store project.
 ## Project Docker setup
 
 **Ecommerce** (`apps/ecommerce/docker/`):
+
 - Compose: `compose/base.yml`, `compose/app/` (app, cron, worker), `compose/database/` (postgres, elasticsearch), `compose/realtime/` (mercure), `compose/storage/` (minio), `compose/_dev/` (mailpit, pgAdmin, elasticvue, vite)
 - Setup entrypoint: `docker/scripts/entrypoints/setup.sh`
 - Permissions script: `docker/scripts/bootstrap/permissions.sh` (runs via `run.sh` on every start)
-- Bootstrap scripts: `docker/scripts/bootstrap/` (check-services, prepare-env, uploads-setup, services/*)
+- Bootstrap scripts: `docker/scripts/bootstrap/` (check-services, prepare-env, uploads-setup, services/\*)
 
 **Assistant** (`apps/assistant/docker/`):
+
 - Compose: `compose/app/` (app, cron, worker), `compose/database/` (chromadb), `compose/_dev/` (client)
 - Setup script: `docker/scripts/setup.sh`
 - Run script: `docker/scripts/run.sh`
+
+**Infrastructure services** (`docker/compose/services/`):
+
+- Jenkins: `jenkins/` - `make jenkins` → http://localhost:8088
 
 **Main commands:** `make dev`, `make setup-build`, `make logs`, `make status`
 **Container names prefix:** `levelup_store_`
