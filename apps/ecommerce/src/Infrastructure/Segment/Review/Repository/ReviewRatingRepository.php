@@ -12,6 +12,7 @@ use Doctrine\{
 use App\Core\Domain\{
     Segment\Review\Entity\Review,
     Segment\Review\Entity\ReviewRating,
+    Segment\Review\Enum\ReviewRatingType,
     Segment\User\Entity\User
 };
 
@@ -49,7 +50,7 @@ final class ReviewRatingRepository extends ServiceEntityRepository implements Re
         return $this->findOneBy(['review' => $review, 'user' => $user]);
     }
 
-    public function countByType(int $reviewId, string $type): int
+    public function countByType(int $reviewId, ReviewRatingType $type): int
     {
         $qb = $this->createQueryBuilder('rr')
             ->select('COUNT(rr.id)')

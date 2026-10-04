@@ -9,7 +9,10 @@ use PHPUnit\{
     Framework\TestCase
 };
 
-use App\Core\Domain\Segment\Review\Event\ReviewRatingToggledEvent;
+use App\Core\Domain\{
+    Segment\Review\Enum\ReviewRatingType,
+    Segment\Review\Event\ReviewRatingToggledEvent
+};
 
 use App\Core\Ports\{
     Gateways\External\Realtime\MercureHubGatewayContract,
@@ -53,8 +56,8 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
     public function testPublishesCorrectPayload(): void
     {
         $this->reviewRatingRepository->method('countByType')->willReturnMap([
-            [10, 'like',    3],
-            [10, 'dislike', 1],
+            [10, ReviewRatingType::LIKE,    3],
+            [10, ReviewRatingType::DISLIKE, 1],
         ]);
 
         $this->mercureHubGateway
@@ -77,8 +80,8 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
         $this->reviewRatingRepository
             ->method('countByType')
             ->willReturnMap([
-                [10, 'like',    7],
-                [10, 'dislike', 0],
+                [10, ReviewRatingType::LIKE,    7],
+                [10, ReviewRatingType::DISLIKE, 0],
             ]);
 
         $this->mercureHubGateway
@@ -94,8 +97,8 @@ final class PublishReviewRatingToggledEventListenerTest extends TestCase
         $this->reviewRatingRepository
             ->method('countByType')
             ->willReturnMap([
-                [10, 'like',    0],
-                [10, 'dislike', 4],
+                [10, ReviewRatingType::LIKE,    0],
+                [10, ReviewRatingType::DISLIKE, 4],
             ]);
 
         $this->mercureHubGateway

@@ -6,7 +6,10 @@ namespace App\Infrastructure\Segment\Review\EventListener;
 
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-use App\Core\Domain\Segment\Review\Event\ReviewRatingToggledEvent;
+use App\Core\Domain\{
+    Segment\Review\Enum\ReviewRatingType,
+    Segment\Review\Event\ReviewRatingToggledEvent
+};
 
 use App\Core\Ports\{
     Gateways\External\Realtime\MercureHubGatewayContract,
@@ -23,8 +26,8 @@ final readonly class PublishReviewRatingToggledEventListener
 
     public function __invoke(ReviewRatingToggledEvent $event): void
     {
-        $likesCount = $this->reviewRatingRepository->countByType($event->reviewId, 'like');
-        $dislikesCount = $this->reviewRatingRepository->countByType($event->reviewId, 'dislike');
+        $likesCount = $this->reviewRatingRepository->countByType($event->reviewId, ReviewRatingType::LIKE);
+        $dislikesCount = $this->reviewRatingRepository->countByType($event->reviewId, ReviewRatingType::DISLIKE);
 
         $this->mercureHubGateway->publish(
             sprintf('reviews/%d/ratings', $event->variantId),

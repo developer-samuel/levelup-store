@@ -6,6 +6,7 @@ namespace App\Core\Application\Segment\Review\Service\Query;
 
 use App\Core\Domain\{
     Segment\Review\Entity\Review,
+    Segment\Review\Enum\ReviewRatingType,
     Segment\User\Entity\User
 };
 
@@ -23,8 +24,8 @@ final readonly class ReviewRatingQueryService implements ReviewRatingQueryContra
     /** @return array<string, int|string> */
     public function getReviewFeedbackStats(Review $review, ?User $user): array
     {
-        $likes = $this->getRatingCount($review, 'like');
-        $dislikes = $this->getRatingCount($review, 'dislike');
+        $likes = $this->getRatingCount($review, ReviewRatingType::LIKE);
+        $dislikes = $this->getRatingCount($review, ReviewRatingType::DISLIKE);
         $userRatingType = $this->getUserRatingType($review, $user);
 
         return [
@@ -34,7 +35,7 @@ final readonly class ReviewRatingQueryService implements ReviewRatingQueryContra
         ];
     }
 
-    private function getRatingCount(Review $review, string $type): int
+    private function getRatingCount(Review $review, ReviewRatingType $type): int
     {
         $reviewId = $review->getId();
 
