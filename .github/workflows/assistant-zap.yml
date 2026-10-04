@@ -26,8 +26,8 @@ jobs:
         ports:
           - 8002:8000
         options: >-
-          --health-cmd "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v2/heartbeat')\""
-          --health-interval 10s
+          --health-cmd "nc -z localhost 8000 || exit 1"
+          --health-interval 5s
           --health-timeout 5s
           --health-retries 10
           --health-start-period 10s
