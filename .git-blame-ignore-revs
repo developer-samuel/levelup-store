@@ -1,0 +1,21 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Commits to ignore in `git blame` - large mechanical changes (formatting,
+# style, cleanup) that obscure the real author of a line.
+# Only add commits with 50+ files changed.
+#
+# Enable once per machine:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# Usage:
+#   git blame <file>
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Apply Rector and PHP CS Fixer fixes (329 files)
+7bf6256eeb9e8083470f629a94c9f3c4dff7eb4d
+
+# Apply Rector and PHP CS Fixer code style fixes (57 files)
+a62a9269f6a0b9f9abcaf82a7d17109098690a19
+
+# Clean up PHPDoc across codebase (876 files)
+856aa08140a065b9604295e1baa57683105936f5
+
