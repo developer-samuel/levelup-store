@@ -1,0 +1,5 @@
+app:
+  image:
+    tag: "latest"
+ingress:
+  host: "" # set via make secrets
