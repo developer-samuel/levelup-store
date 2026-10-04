@@ -20,6 +20,9 @@ install:
 	else \
 		npm install && npm run build; \
 	fi
+	git config core.hooksPath .githooks
+	git config blame.ignoreRevsFile .git-blame-ignore-revs
+	@echo "✅ Git hooks enabled."
 
 ## Generate UML diagrams from source code
 generate-uml:
