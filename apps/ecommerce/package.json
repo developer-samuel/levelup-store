@@ -34,7 +34,7 @@
     "swiper": "^12.0.3",
     "vanilla-datatables": "^1.6.16",
     "vite": "^7.3.6",
-    "vite-plugin-symfony": "^8.1.0"
+    "vite-plugin-symfony": "^8.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
