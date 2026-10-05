@@ -118,7 +118,7 @@ describe('attachFilterListener()', () => {
     const btn = document.createElement('button')
     btn.id = 'filter-reset'
     document.body.appendChild(btn)
-    const maxPriceEl = document.createElement('input') as HTMLInputElement
+    const maxPriceEl = document.createElement('input')
     maxPriceEl.id = 'maxPrice'
     maxPriceEl.max = '500'
     document.body.appendChild(maxPriceEl)

@@ -6,9 +6,7 @@ function makeInstance(wrapperHtml = ''): ProductListInstance & { productsWrapper
 
   wrapper.innerHTML = wrapperHtml
 
-  return { productsWrapper: wrapper, page: 1, maxPages: 5, isLoading: false } as unknown as ProductListInstance & {
-    productsWrapper: HTMLElement
-  }
+  return { productsWrapper: wrapper, page: 1, maxPages: 5, isLoading: false }
 }
 
 function makeEl(html: string): HTMLElement {

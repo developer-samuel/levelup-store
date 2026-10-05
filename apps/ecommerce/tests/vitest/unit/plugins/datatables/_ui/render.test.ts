@@ -124,7 +124,7 @@ describe('renderDatatableRows()', () => {
     const tbody = makeTbody()
 
     renderDatatableRows(tbody, [{ active: true }], ['active'], {
-      rowStyle: (row) => ((row as { active: boolean }).active ? 'green' : undefined),
+      rowStyle: (row) => (row.active ? 'green' : undefined),
     })
 
     expect(tbody.querySelector('tr')?.style.backgroundColor).toBe('green')
