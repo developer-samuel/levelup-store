@@ -4,7 +4,7 @@ set -e
 echo "🔍 [ecommerce] Running PHPStan..."
 (cd apps/ecommerce && bin/run php vendor/bin/phpstan analyse --memory-limit=1G)
 
-echo "🔍 [ecommerce] Running PHPMd..."
+echo "🔍 [ecommerce] Running PHP MD..."
 (cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml)
 
 echo "🔍 [ecommerce] Running Deptrac..."

@@ -102,7 +102,7 @@ git config core.hooksPath .githooks
 git config blame.ignoreRevsFile .git-blame-ignore-revs
 ```
 
-Hooks: `commit-msg` (commitlint), `pre-push` (PHPStan, PHPMd, Deptrac, mypy, TS type-check)
+Hooks: `commit-msg` (commitlint), `pre-push` (PHPStan, PHP MD, Deptrac, mypy, TS type-check)
 
 ---
 
