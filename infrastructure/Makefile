@@ -16,13 +16,18 @@
 #   make helm-deps-update     → download Helm chart dependencies
 #   make cert-manager-install → Let's Encrypt TLS
 #   make argocd-install       → ArgoCD
+#   make argocd-notifications → ArgoCD notifications (Slack/email)
 #   make argocd-repo-add      → add GitHub repo credentials to ArgoCD (private repo access)
 #   make argocd-bootstrap     → root-app → ArgoCD deploys everything automatically
-#   make velero-install       → configure Velero backups (after ArgoCD syncs)
-#   make services-secrets     → K8s secrets for PostgreSQL, Redis, RabbitMQ...
+#   make jwt-keys-secret      → JWT keypair secret for ecommerce (run after keygen)
+#   make services-secrets     → K8s secrets for PostgreSQL, Redis, RabbitMQ, MinIO, Mercure
 #   make ecommerce-secrets    → production secrets for the ecommerce app
 #   make assistant-secrets    → production secrets for the assistant app
 #   make monitoring-secrets   → Grafana password + Alertmanager email
+#   make blackbox-install     → Blackbox Exporter target URLs for uptime monitoring
+#   make jenkins-install      → Jenkins ingress hostname + credentials
+#   make atlantis-install     → Atlantis GitHub webhook + ingress hostname
+#   make velero-install       → configure Velero backups
 # ─────────────────────────────────────────────────────────────────────────────
 
 include make/config.mk
@@ -91,9 +96,13 @@ bootstrap: ## Full bootstrap from scratch (tf-apply → k3s → cert-manager →
 	@echo "  Waiting for ArgoCD to sync all apps (this may take a few minutes)..."
 	kubectl wait --for=condition=available deployment/argocd-server -n argocd --timeout=300s
 	argocd app wait root --sync --health --timeout 300
+	$(MAKE) jwt-keys-secret
 	$(MAKE) services-secrets
-	$(MAKE) secrets
+	$(MAKE) ecommerce-secrets
+	$(MAKE) assistant-secrets
 	$(MAKE) monitoring-secrets
 	$(MAKE) blackbox-install
+	$(MAKE) jenkins-install
+	$(MAKE) atlantis-install
 	$(MAKE) velero-install
 	@echo "✓ Bootstrap complete. App running at https://$(APP_DOMAIN)"
