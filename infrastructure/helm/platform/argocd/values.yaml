@@ -1,5 +1,7 @@
 argo-cd:
   server:
+    extraArgs:
+      - --insecure
     ingress:
       enabled: true
       ingressClassName: traefik
