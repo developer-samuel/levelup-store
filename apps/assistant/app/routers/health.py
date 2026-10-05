@@ -48,6 +48,11 @@ def _check_postgres() -> bool:
 
 @router.get("/health")
 async def health() -> JSONResponse:
+    return success(data={"status": "ok"})
+
+
+@router.get("/health/ready")
+async def health_ready() -> JSONResponse:
     ollama, redis, chromadb, postgres = await asyncio.gather(
         asyncio.to_thread(_check_ollama),
         asyncio.to_thread(_check_redis),
