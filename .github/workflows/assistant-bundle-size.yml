@@ -6,6 +6,7 @@ on:
     paths:
       - 'apps/assistant/client/**'
       - 'pnpm-lock.yaml'
+  workflow_dispatch:
 
 env:
   NODE_VERSION: ${{ vars.NODE_VERSION }}

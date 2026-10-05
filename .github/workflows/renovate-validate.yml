@@ -8,6 +8,7 @@ on:
       - 'renovate.json5'
       - '.renovaterc'
       - '.renovaterc.json'
+  workflow_dispatch:
 
 jobs:
   validate:
