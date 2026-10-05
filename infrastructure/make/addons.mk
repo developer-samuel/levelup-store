@@ -84,8 +84,7 @@ atlantis-install:
 	argocd app set atlantis $(ARGOCD_FLAGS) \
 		-p atlantis.github.user="$(GITHUB_USERNAME)" \
 		-p atlantis.orgWhitelist="$(ATLANTIS_REPO_WHITELIST)" \
-		-p atlantis.ingress.host="atlantis.$(APP_DOMAIN)" \
-		-p "atlantis.tls[0].hosts[0]=atlantis.$(APP_DOMAIN)"
+		-p atlantis.ingress.host="atlantis.$(APP_DOMAIN)"
 	@echo "✓ Atlantis deployed. Available at: https://atlantis.$(APP_DOMAIN)"
 
 ## Create Jenkins credentials secret from .env (GitHub PAT)
