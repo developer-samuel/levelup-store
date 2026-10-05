@@ -24,7 +24,6 @@ use App\Core\Ports\{
 };
 
 use App\Presentation\{
-    Api\Auth\LoginRequest,
     Abstract\Controller\Command\AbstractCrudCommandController,
     Shared\Manager\RefreshTokenCookieManager,
     Shared\Responder\HttpResponder

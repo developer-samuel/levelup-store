@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Service\Query;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
 
