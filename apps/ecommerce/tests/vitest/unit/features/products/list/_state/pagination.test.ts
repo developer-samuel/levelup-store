@@ -5,9 +5,7 @@ import { updatePaginationState } from '@/ts/features/products/list/_state/pagina
 
 function makeInstance(page = 1, maxPages = 5): ProductListInstance & { productsWrapper: HTMLElement } {
   const productsWrapper = document.createElement('div')
-  return { page, maxPages, isLoading: false, productsWrapper } as unknown as ProductListInstance & {
-    productsWrapper: HTMLElement
-  }
+  return { page, maxPages, isLoading: false, productsWrapper }
 }
 
 describe('updatePaginationState()', () => {

@@ -1,4 +1,4 @@
-import type { CartContainer, CartResponse } from '@/ts/features/cart/types'
+import type { CartContainer } from '@/ts/features/cart/types'
 import { updateTotalPrice } from '@/ts/features/cart/_ui/price'
 
 function makeCart(totalPriceEl: HTMLElement | null = document.createElement('span')): CartContainer {
@@ -45,7 +45,7 @@ describe('updateTotalPrice()', () => {
 
   it('should display 0 € when totalPrice is unparseable string', () => {
     const cart = makeCart()
-    updateTotalPrice(cart, { totalPrice: 'abc' } as CartResponse)
+    updateTotalPrice(cart, { totalPrice: 'abc' })
     expect(cart.totalPrice?.textContent).toBe('0 €')
   })
 

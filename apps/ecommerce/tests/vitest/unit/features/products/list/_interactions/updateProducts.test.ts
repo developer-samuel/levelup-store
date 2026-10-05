@@ -110,7 +110,7 @@ describe('updateProducts()', () => {
   it('should handle params without page (requestedPage undefined)', async () => {
     const ctx = makeProductListCtx({ productsWrapper: makeProductListWrapper() })
     const result = await updateProducts({}, ctx)
-    expect(result).toMatchObject({ currentPage: expect.any(Number), maxPages: expect.any(Number) })
+    expect(result).toMatchObject({ currentPage: expect.any(Number) as number, maxPages: expect.any(Number) as number })
     expect(mockedScrollToTop).not.toHaveBeenCalled()
   })
 })

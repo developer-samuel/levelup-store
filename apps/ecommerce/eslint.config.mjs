@@ -13,6 +13,10 @@ export default [
     files: ["tests/**/*.ts"],
     languageOptions: {
       ...BASE_LANGUAGE_OPTIONS,
+      parserOptions: {
+        ...BASE_LANGUAGE_OPTIONS.parserOptions,
+        project: "./tsconfig.test.json",
+      },
       globals: TEST_GLOBALS,
     },
     plugins: BASE_PLUGINS,

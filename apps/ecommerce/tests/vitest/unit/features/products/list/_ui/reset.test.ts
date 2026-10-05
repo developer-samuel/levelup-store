@@ -15,8 +15,8 @@ describe('resetFilterUI()', () => {
   })
 
   it('should uncheck all brand checkboxes', () => {
-    const cb1 = document.createElement('input') as HTMLInputElement
-    const cb2 = document.createElement('input') as HTMLInputElement
+    const cb1 = document.createElement('input')
+    const cb2 = document.createElement('input')
     cb1.checked = true
     cb2.checked = true
     mockedQueryAll.mockImplementation((selector: string) => {
@@ -44,7 +44,7 @@ describe('resetFilterUI()', () => {
   })
 
   it('should reset minPrice to 0 and dispatch input event', () => {
-    const minPrice = document.createElement('input') as HTMLInputElement
+    const minPrice = document.createElement('input')
     minPrice.id = 'minPrice'
     minPrice.value = '50'
     document.body.appendChild(minPrice)
@@ -59,7 +59,7 @@ describe('resetFilterUI()', () => {
   })
 
   it('should reset maxPrice to initialMaxPrice and dispatch input event', () => {
-    const maxPrice = document.createElement('input') as HTMLInputElement
+    const maxPrice = document.createElement('input')
     maxPrice.id = 'maxPrice'
     maxPrice.value = '50'
     document.body.appendChild(maxPrice)
