@@ -1,6 +1,10 @@
 {
   "type": "module",
+  "devDependencies": {
+    "sloc": "^0.3.2"
+  },
   "scripts": {
+    "sloc": "sloc apps/ecommerce/assets/ts apps/ecommerce/assets/scss apps/assistant/client/src",
     "dev": "(cd apps/ecommerce && node_modules/.bin/vite) & (cd apps/assistant/client && node_modules/.bin/vite)",
     "build": "(cd apps/ecommerce && node_modules/.bin/vite build) && (cd apps/assistant/client && node_modules/.bin/vite build)",
     "type-check": "(cd apps/ecommerce && node_modules/.bin/tsc --noEmit) && (cd apps/assistant/client && node_modules/.bin/tsc --noEmit)",

@@ -60,10 +60,6 @@ These tools provide insights into code size, complexity, duplication, and overal
 - **Stylelint** - Quality and style checks for SCSS stylesheets.  
   Run via `pnpm lint-scss`.
 
-### 📊 Metrics
-
-- **SLOC (TS / SCSS)** - Counts lines of code for frontend assets to track growth and complexity trends.
-
 ---
 
 ## 📊 Diagrams

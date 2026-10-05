@@ -130,7 +130,7 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ inputs.image }}
           subject-digest: ${{ needs.build.outputs.image-digest }}
           predicate-type: https://spdx.dev/Document
-          predicate: sbom.spdx.json
+          predicate-path: sbom.spdx.json
           push-to-registry: true
 
   scan:

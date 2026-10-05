@@ -21,4 +21,4 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Validate renovate.json
-        run: npx --yes renovate-config-validator
+        run: pnpm dlx renovate-config-validator

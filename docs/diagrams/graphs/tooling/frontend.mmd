@@ -11,7 +11,7 @@ graph TD
     classDef metrics fill:#00a676, color:#fff, stroke:#000, stroke-width:2px;
 
     %% Root
-    Frontend[⚡ Frontend - pnpm]:::tools
+    Frontend[⚡ Frontend - pnpm monorepo]:::tools
 
     %% Type Checking
     subgraph TypeChecking["🔍 Type Checking"]
@@ -24,10 +24,17 @@ graph TD
         SCSSLint[Stylelint]
     end
 
+    %% Metrics
+    subgraph Metrics["📊 Metrics"]
+        SLOC[SLOC - ecommerce TS/SCSS + assistant React]
+    end
+
     %% Classes
     class TypeCheck typecheck;
     class ESLint,SCSSLint linting;
+    class SLOC metrics;
 
     %% Connections
     Frontend --> TypeChecking
     Frontend --> Linting
+    Frontend --> Metrics

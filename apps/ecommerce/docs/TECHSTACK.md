@@ -111,7 +111,6 @@ We maintain 100% focus on code quality using these tools:
 | TypeScript        | Static type checking                      | pnpm type-check                |
 | ESLint + Prettier | TS linting and automated code formatting  | pnpm lint                      |
 | Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss                 |
-| SLOC              | Source Lines of Code analysis (TS & SCSS) | npx sloc assets/ts assets/scss |
 
 ### CI/CD Tooling
 

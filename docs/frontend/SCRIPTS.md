@@ -22,3 +22,7 @@ Scripts run across **both apps** (ecommerce + assistant) in one command.
 ### 🎨 Format Scripts
 - Prettier formatting for source and test files across both apps.
 - See: [FORMAT.md](scripts/FORMAT.md)
+
+### 📊 Code Quality
+- SLOC and other quality metrics across both apps.
+- See: [QUALITY.md](QUALITY.md)
