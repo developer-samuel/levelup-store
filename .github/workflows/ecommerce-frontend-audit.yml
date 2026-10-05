@@ -30,7 +30,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17
+        image: postgres:17@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: secret
@@ -44,7 +44,7 @@ jobs:
           --health-retries 5
 
       redis:
-        image: redis:8.10.1
+        image: redis:8.10.2@sha256:6f81e8915c60b065a524e6967e0ad1c639ba6efa84d669f823683ea04d9150ee
         ports:
           - 6379:6379
         options: >-
@@ -54,7 +54,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/postgres
         with:
@@ -118,7 +118,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17
+        image: postgres:17@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: secret
@@ -132,7 +132,7 @@ jobs:
           --health-retries 5
 
       redis:
-        image: redis:8.10.1
+        image: redis:8.10.2@sha256:6f81e8915c60b065a524e6967e0ad1c639ba6efa84d669f823683ea04d9150ee
         ports:
           - 6379:6379
         options: >-
@@ -142,7 +142,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/postgres
         with:
@@ -181,7 +181,7 @@ jobs:
         uses: ./.github/actions/launch
 
       - name: Run Lighthouse
-        uses: treosh/lighthouse-ci-action@v12
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         with:
           urls: |
             http://127.0.0.1:8000/

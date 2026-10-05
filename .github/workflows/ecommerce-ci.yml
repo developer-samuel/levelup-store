@@ -26,7 +26,7 @@ jobs:
         working-directory: apps/ecommerce
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/php
         with:
@@ -63,7 +63,7 @@ jobs:
         working-directory: apps/ecommerce
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/php
         with:
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/node
         with:
@@ -115,7 +115,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17
+        image: postgres:17@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: secret
@@ -129,7 +129,7 @@ jobs:
           --health-retries 5
 
       elasticsearch:
-        image: elasticsearch:8.17.0
+        image: elasticsearch:8.19.22@sha256:909a569c9c973d1de81cee7a002b69e65726f8d6317de4627ccfeb690a6d0ccb
         env:
           discovery.type: single-node
           xpack.security.enabled: false
@@ -144,7 +144,7 @@ jobs:
           --health-start-period 20s
 
       redis:
-        image: redis:8.10.1
+        image: redis:8.10.2@sha256:6f81e8915c60b065a524e6967e0ad1c639ba6efa84d669f823683ea04d9150ee
         ports:
           - 6379:6379
         options: >-
@@ -154,7 +154,7 @@ jobs:
           --health-retries 5
 
       rabbitmq:
-        image: rabbitmq:4.3.5-management
+        image: rabbitmq:4.3.6-management@sha256:316ffd2a847e59112eee2c65f04bbd0989d93aaf1486c07b721f8d22d863b968
         ports:
           - 5672:5672
         options: >-
@@ -165,7 +165,7 @@ jobs:
           --health-start-period 15s
 
       mercure:
-        image: dunglas/mercure:v0.24.2
+        image: dunglas/mercure:v0.24.2@sha256:916834e499613d475e9ad5118cd2349875338f52d99d65b58aeff82f97ccb0c6
         env:
           SERVER_NAME: ':80'
           MERCURE_PUBLISHER_JWT_KEY: 'test-mercure-jwt-secret-256bit-ok'
@@ -184,7 +184,7 @@ jobs:
         working-directory: apps/ecommerce
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/postgres
         with:
@@ -238,7 +238,7 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: cat apps/ecommerce/var/log/test.log 2>/dev/null || echo "No test log found"
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: failure()
         with:
           name: phpunit-reports-php${{ matrix.php-version }}
@@ -250,7 +250,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/node
         with:
@@ -259,7 +259,7 @@ jobs:
       - name: Run Vitest
         run: pnpm --filter ecommerce vitest
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: failure()
         with:
           name: vitest-coverage
@@ -274,7 +274,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17
+        image: postgres:17@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: secret
@@ -288,7 +288,7 @@ jobs:
           --health-retries 5
 
       elasticsearch:
-        image: elasticsearch:8.17.0
+        image: elasticsearch:8.19.22@sha256:909a569c9c973d1de81cee7a002b69e65726f8d6317de4627ccfeb690a6d0ccb
         env:
           discovery.type: single-node
           xpack.security.enabled: false
@@ -303,7 +303,7 @@ jobs:
           --health-start-period 20s
 
       redis:
-        image: redis:8.10.1
+        image: redis:8.10.2@sha256:6f81e8915c60b065a524e6967e0ad1c639ba6efa84d669f823683ea04d9150ee
         ports:
           - 6379:6379
         options: >-
@@ -313,7 +313,7 @@ jobs:
           --health-retries 5
 
       rabbitmq:
-        image: rabbitmq:4.3.5-management
+        image: rabbitmq:4.3.6-management@sha256:316ffd2a847e59112eee2c65f04bbd0989d93aaf1486c07b721f8d22d863b968
         ports:
           - 5672:5672
         options: >-
@@ -324,7 +324,7 @@ jobs:
           --health-start-period 15s
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/postgres
         with:
@@ -362,7 +362,7 @@ jobs:
         run: pnpm rebuild esbuild @parcel/watcher
 
       - name: Cache Playwright browsers
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-chromium-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -405,7 +405,7 @@ jobs:
         if: failure()
         run: cat apps/ecommerce/var/log/test.log 2>/dev/null || echo "No test.log found"
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: failure()
         with:
           name: playwright-report
