@@ -25,6 +25,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Run Lighthouse CI
+        id: lighthouse
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         with:
           urls: |
@@ -41,7 +42,9 @@ jobs:
         with:
           script: |
             const fs = require('fs')
-            const results = JSON.parse(fs.readFileSync('.lighthouseci/lhr-*.json', 'utf8') || '{}')
+            const dir = '${{ steps.lighthouse.outputs.resultsPath }}'
+            const files = dir && fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.startsWith('lhr-') && f.endsWith('.json')) : []
+            const results = files.length ? JSON.parse(fs.readFileSync(`${dir}/${files[0]}`, 'utf8')) : {}
 
             const score = (val) => {
               const pct = Math.round(val * 100)
