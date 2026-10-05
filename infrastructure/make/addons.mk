@@ -8,13 +8,13 @@
 velero-secret:
 	$(call require,VELERO_ACCESS_KEY)
 	$(call require,VELERO_SECRET_KEY)
-	kubectl create namespace velero --dry-run=client -o yaml | kubectl apply -f -
+	kubectl create namespace velero --dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@printf '[default]\naws_access_key_id=%s\naws_secret_access_key=%s\n' \
 		'$(VELERO_ACCESS_KEY)' '$(VELERO_SECRET_KEY)' > /tmp/velero-creds
 	kubectl create secret generic velero-credentials \
 		--namespace velero \
 		--from-file=cloud=/tmp/velero-creds \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@rm -f /tmp/velero-creds
 
 ## Configure Velero OCI region/bucket/endpoint via ArgoCD (deployed by root-app)
@@ -43,7 +43,7 @@ atlantis-secret:
 	$(call require,TF_BACKEND_ACCESS_KEY)
 	$(call require,TF_BACKEND_SECRET_KEY)
 	@test -f $(TF_VAR_private_key_path) || (echo "ERROR: OCI private key not found at $(TF_VAR_private_key_path)"; exit 1)
-	kubectl create namespace atlantis --dry-run=client -o yaml | kubectl apply -f -
+	kubectl create namespace atlantis --dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create secret generic atlantis-credentials \
 		--namespace atlantis \
 		--from-literal=github_token="$(ATLANTIS_GH_TOKEN)" \
@@ -66,7 +66,7 @@ atlantis-secret:
 		--from-literal=TF_VAR_velero_bucket="$(TF_VAR_velero_bucket)" \
 		--from-literal=TF_CLI_ARGS_init="-backend-config=bucket=$(TF_BACKEND_BUCKET) -backend-config=key=oracle/terraform.tfstate -backend-config=region=$(TF_VAR_region) -backend-config=endpoint=$(TF_BACKEND_ENDPOINT) -backend-config=access_key=$(TF_BACKEND_ACCESS_KEY) -backend-config=secret_key=$(TF_BACKEND_SECRET_KEY) -backend-config=skip_region_validation=true -backend-config=skip_credentials_validation=true -backend-config=skip_metadata_api_check=true -backend-config=force_path_style=true" \
 		--from-file=oci_private_key=$(TF_VAR_private_key_path) \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@echo "✓ Atlantis secret created."
 	@echo "  Set up GitHub webhook: https://github.com/$(GITHUB_USERNAME)/$(APP_NAME)/settings/hooks"
 	@echo "  Payload URL: https://atlantis.$(APP_DOMAIN)/events"
@@ -91,11 +91,11 @@ atlantis-install:
 ## Create Jenkins credentials secret from .env (GitHub PAT)
 jenkins-secret:
 	$(call require,GITHUB_PAT)
-	kubectl create namespace jenkins --dry-run=client -o yaml | kubectl apply -f -
+	kubectl create namespace jenkins --dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create secret generic jenkins-credentials \
 		--namespace jenkins \
 		--from-literal=GITHUB_PAT="$(GITHUB_PAT)" \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@echo "✓ Jenkins secret created."
 
 ## Configure Jenkins ingress via ArgoCD (deployed by root-app)

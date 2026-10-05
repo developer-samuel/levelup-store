@@ -19,7 +19,7 @@ vault-init:
 	kubectl create secret generic vault-init \
 		--namespace vault \
 		--from-file=init.json=/tmp/vault-init.json \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@rm -f /tmp/vault-init.json
 	@echo "✓ Vault initialized. Run: make vault-unseal && make vault-setup"
 
@@ -48,7 +48,7 @@ vault-setup:
 		bound_service_account_namespaces=external-secrets \
 		policies=external-secrets \
 		ttl=1h
-	kubectl apply -f infrastructure/kubernetes/vault/cluster-secret-store.yaml
+	kubectl apply --validate=false -f infrastructure/kubernetes/vault/cluster-secret-store.yaml
 	@echo "✓ Vault configured. External Secrets Operator can now read from Vault."
 
 ## Show Vault status

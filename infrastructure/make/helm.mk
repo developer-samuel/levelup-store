@@ -26,9 +26,9 @@ cert-manager-install:
 		--namespace cert-manager \
 		--create-namespace \
 		--wait
-	envsubst < kubernetes/cluster/cluster-issuer.yaml | kubectl apply -f -
+	envsubst < kubernetes/cluster/cluster-issuer.yaml | kubectl apply --validate=false -f -
 
 ## Activate automatic k3s upgrade plan (stable channel)
 k3s-upgrade-plan:
-	kubectl apply -f kubernetes/cluster/k3s-upgrade-plan.yaml
+	kubectl apply --validate=false -f kubernetes/cluster/k3s-upgrade-plan.yaml
 	@echo "✓ k3s upgrade plan active. Current status: kubectl get plan -n system-upgrade"

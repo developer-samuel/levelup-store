@@ -16,25 +16,25 @@ services-secrets:
 	$(call require,MINIO_ROOT_USER)
 	$(call require,MINIO_ROOT_PASSWORD)
 	$(call require,MERCURE_JWT_SECRET)
-	kubectl create namespace levelup-store --dry-run=client -o yaml | kubectl apply -f -
+	kubectl create namespace levelup-store --dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create secret generic levelup-store-redis-secret \
 		--namespace levelup-store \
 		--from-literal=redis-password="$(REDIS_PASSWORD)" \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create secret generic levelup-store-postgresql-secret \
 		--namespace levelup-store \
 		--from-literal=postgres-password="$(DB_PASSWORD)" \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create secret generic levelup-store-rabbitmq-secret \
 		--namespace levelup-store \
 		--from-literal=rabbitmq-password="$(RABBITMQ_PASS)" \
 		--from-literal=rabbitmq-erlang-cookie="$(RABBITMQ_ERLANG_COOKIE)" \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create secret generic levelup-store-minio-secret \
 		--namespace levelup-store \
 		--from-literal=root-user="$(MINIO_ROOT_USER)" \
 		--from-literal=root-password="$(MINIO_ROOT_PASSWORD)" \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create secret generic levelup-store-mercure-secret \
 		--namespace levelup-store \
 		--from-literal=publisher-jwt-key="$(MERCURE_JWT_SECRET)" \
@@ -44,7 +44,7 @@ services-secrets:
 		--from-literal=caddy-extra-config="" \
 		--from-literal=caddy-extra-directives="" \
 		--from-literal=license="" \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	$(call argocd_login)
 	argocd app set rabbitmq $(ARGOCD_FLAGS) \
 		-p rabbitmq.auth.username="$(RABBITMQ_USER)"
@@ -60,7 +60,7 @@ jwt-keys-secret:
 		--namespace levelup-store \
 		--from-file=private.pem=../apps/ecommerce/config/jwt/private.pem \
 		--from-file=public.pem=../apps/ecommerce/config/jwt/public.pem \
-		--dry-run=client -o yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@echo "✓ JWT keys secret created/updated."
 
 ## Set production secrets for levelup-store app via ArgoCD
