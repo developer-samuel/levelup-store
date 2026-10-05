@@ -22,15 +22,15 @@ jobs:
 
     services:
       chromadb:
-        image: chromadb/chroma:1.0.15
+        image: chromadb/chroma:1.5.9
         ports:
           - 8002:8000
         options: >-
-          --health-cmd "nc -z localhost 8000 || exit 1"
+          --health-cmd "bash -c 'exec 3<>/dev/tcp/localhost/8000 && printf \"GET /api/v2/heartbeat HTTP/1.0\r\nHost: localhost\r\n\r\n\" >&3 && grep -q nanosecond <&3'"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
-          --health-start-period 10s
+          --health-start-period 15s
 
     defaults:
       run:
