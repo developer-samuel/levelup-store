@@ -1,0 +1,13 @@
+directory:
+  - infrastructure/helm/apps
+  - infrastructure/kubernetes
+  - infrastructure/terraform
+  - apps/ecommerce/docker
+  - apps/assistant/docker
+  - docker
+
+framework:
+  - terraform
+  - kubernetes
+  - helm
+  - dockerfile
