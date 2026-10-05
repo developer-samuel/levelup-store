@@ -39,7 +39,7 @@ vault:
     # Auto-unseal via postStart hook - runs after Vault starts, reads keys from K8s secret
     extraContainers:
       - name: auto-unseal
-        image: hashicorp/vault:1.18.3
+        image: hashicorp/vault:1.18.3@sha256:8f1ba670da547c6af67be55609bd285c3ee3d8b73f88021adbfc43c82ca409e8
         command:
           - sh
           - -c

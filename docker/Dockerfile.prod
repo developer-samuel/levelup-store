@@ -5,10 +5,10 @@
 #   App targets:    ecommerce (PHP-FPM + Nginx) · assistant (Python)
 
 # ── Stage: composer-deps-bin ─────────────────────────────────────────────────
-FROM composer:2 AS composer-deps-bin
+FROM composer:2@sha256:af98f42dfff7c68ba8d53c2164fd9fde1087b7d449514baa38c418b1f6bc4bac AS composer-deps-bin
 
 # ── Stage: php-deps ──────────────────────────────────────────────────────────
-FROM php:8.3 AS php-deps
+FROM php:8.3@sha256:f1ed6d1fd0aa769ab94ca307b9deaf55fbc18434315b70e319cd79078515cd2b AS php-deps
 
 COPY --from=composer-deps-bin /usr/bin/composer /usr/local/bin/composer
 
@@ -29,7 +29,7 @@ RUN composer install \
     --ignore-platform-reqs
 
 # ── Stage: frontend ──────────────────────────────────────────────────────────
-FROM node:24-alpine AS frontend
+FROM node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 AS frontend
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
@@ -53,7 +53,7 @@ RUN pnpm --filter ecommerce build \
     && pnpm --filter assistant build
 
 # ── Target: ecommerce ────────────────────────────────────────────────────────
-FROM php:8.3-fpm AS ecommerce
+FROM php:8.3-fpm@sha256:e436b5b6ce4a4e632f97a66ea0ea14c5d001e229e2adc5c8ed2f7b5b5fe5c989 AS ecommerce
 
 COPY --from=composer-deps-bin /usr/bin/composer /usr/local/bin/composer
 
@@ -117,7 +117,7 @@ ENTRYPOINT ["/usr/local/bin/scripts/run-prod.sh"]
 CMD []
 
 # ── Target: assistant ────────────────────────────────────────────────────────
-FROM python:3.12-slim AS assistant
+FROM python:3.12-slim@sha256:02108f5d322dd89f1c9e552442c25acb0543dfdbc455693a5599624f20d9155d AS assistant
 
 WORKDIR /app
 
@@ -129,7 +129,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424 /uv /usr/local/bin/uv
 
 COPY apps/assistant/pyproject.toml apps/assistant/uv.lock ./
 RUN uv sync --frozen --no-dev --no-cache
