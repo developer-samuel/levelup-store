@@ -21,7 +21,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: main
 
@@ -37,7 +37,7 @@ jobs:
           find dist/ecommerce \( -name "*.js" -o -name "*.css" \) | xargs du -cb | tail -1 | awk '{print $1}' > /tmp/baseline-size.txt
           echo "Baseline: $(cat /tmp/baseline-size.txt) bytes"
 
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           clean: false
 
@@ -80,7 +80,7 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
 
       - name: Post comment
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             const body = process.env.COMMENT
