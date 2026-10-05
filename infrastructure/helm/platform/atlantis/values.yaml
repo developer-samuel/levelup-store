@@ -7,7 +7,7 @@ atlantis:
     ingressClassName: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-    # host + tls[0].hosts[0]: set via make atlantis-install (atlantis.$APP_DOMAIN)
+    # host: set via make atlantis-install (atlantis.$APP_DOMAIN)
     tls:
       - secretName: atlantis-tls
 
