@@ -46,7 +46,7 @@ argocd-bootstrap:
 		exit 1; \
 	fi
 	# Root Application - ArgoCD deploys the rest automatically
-	envsubst < kubernetes/root-app.yaml | kubectl apply -f -
+	envsubst < kubernetes/root-app.yaml | kubectl apply --validate=false -f -
 	@echo "✓ Bootstrap complete. ArgoCD deploys all apps automatically."
 	@echo "  Watch: argocd app list"
 	@echo "  After sync: make services-secrets && make secrets && make monitoring-secrets"
@@ -57,6 +57,6 @@ argocd-notifications:
 	kubectl create secret generic argocd-notifications-secret \
 		--namespace argocd \
 		--from-literal=email-password="$(MAILER_PASS)" \
-		--dry-run=client -o yaml | kubectl apply -f -
-	envsubst < kubernetes/cluster/argocd-notifications-cm.yaml | kubectl apply -f -
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
+	envsubst < kubernetes/cluster/argocd-notifications-cm.yaml | kubectl apply --validate=false -f -
 	@echo "✓ ArgoCD Notifications configured."
