@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Application\Shared\Validator;
 
 use Symfony\{
-    Component\Validator\Constraint,
-    Component\Validator\Exception\UnexpectedTypeException
+    Component\Validator\Constraint
 };
 
 use App\Core\Application\{
