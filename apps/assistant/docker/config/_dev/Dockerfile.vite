@@ -8,4 +8,9 @@ RUN pnpm config set store-dir /pnpm/store
 
 WORKDIR /app
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 5174
+
+ENTRYPOINT ["/entrypoint.sh"]

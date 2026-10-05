@@ -10,8 +10,7 @@ install-php:
 	@if [ -d "node_modules" ] && command -v sudo > /dev/null 2>&1; then \
 		sudo chown -R $$(id -u):$$(id -g) node_modules/; \
 	fi
-	composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-opentelemetry
-	cd apps/ecommerce && composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-opentelemetry
+	composer install
 
 ## Install frontend dependencies (root + ecommerce + assistant/client)
 install-frontend:

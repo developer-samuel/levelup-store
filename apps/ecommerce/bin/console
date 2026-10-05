@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use App\Kernel;
 
 if (!is_dir(dirname(__DIR__).'/vendor')) {
-    throw new LogicException('Dependencies are missing. Try running "composer install".');
+    throw new LogicException('Dependencies are missing. Try running "make install" or "composer install" from the project root.');
 }
 
 if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
