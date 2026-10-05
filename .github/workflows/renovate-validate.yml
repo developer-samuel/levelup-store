@@ -30,4 +30,4 @@ jobs:
           version: latest
 
       - name: Validate renovate.json
-        run: pnpm dlx renovate-config-validator
+        run: pnpm dlx @renovatebot/config-validator
