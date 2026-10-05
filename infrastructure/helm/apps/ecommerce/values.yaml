@@ -5,7 +5,7 @@ imagePullSecrets:
 app:
   image:
     repository: ghcr.io/developer-samuel/levelup-store-ecommerce
-    tag: latest
+    tag: latest@sha256:e5cfd79b8cfbc697bccfc0fa5331b5a691695b311f9d62c00433e8010933effa
     pullPolicy: Always
 
   replicas: 1

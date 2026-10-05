@@ -4,7 +4,7 @@ imagePullSecrets:
 app:
   image:
     repository: ghcr.io/developer-samuel/levelup-store-assistant
-    tag: latest
+    tag: latest@sha256:3b36c4fda98303808d6ccc6bcc65fd8b5214ac13dcaa54d78343af40a23b61de
     pullPolicy: Always
 
   replicas: 1
@@ -79,7 +79,7 @@ chromadb:
     - "30"
   image:
     repository: chromadb/chroma
-    tag: "0.6.3"
+    tag: "0.6.3@sha256:e0e78dc7609a599b63c99753442c7d01b1d3d369ce0e3bf3e0540536fec4fa7a"
     pullPolicy: IfNotPresent
   persistence:
     size: 5Gi

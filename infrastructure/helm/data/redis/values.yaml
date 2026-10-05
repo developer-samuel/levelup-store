@@ -5,7 +5,7 @@ redis:
 
   image:
     repository: bitnamilegacy/redis
-    tag: 8.2.1-debian-12-r0
+    tag: 8.2.1-debian-12-r0@sha256:25bf63f3caf75af4628c0dfcf39859ad1ac8abe135be85e99699f9637b16dc28
 
   auth:
     enabled: true
