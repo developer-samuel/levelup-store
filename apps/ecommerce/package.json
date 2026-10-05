@@ -57,7 +57,6 @@
     "jsdom": "^27.4.0",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.7.4",
-    "sloc": "^0.3.2",
     "stylelint": "^17.4.0",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-config-standard-scss": "^17.0.0",
