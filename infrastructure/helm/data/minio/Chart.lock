@@ -1,6 +1,6 @@
 dependencies:
 - name: minio
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://repo.broadcom.com/bitnami-files
   version: 17.0.21
-digest: sha256:b848625e237e8379cb3c6423dc6413e258b5a300b168163dd7427ed791ef20db
-generated: "2026-09-10T21:17:49.160961082+02:00"
+digest: sha256:6d464a06805fb7f08676e83a61a068faf3fd6ad55a5116df0b0bd08bddafe415
+generated: "2026-10-05T18:38:07.431099925+02:00"

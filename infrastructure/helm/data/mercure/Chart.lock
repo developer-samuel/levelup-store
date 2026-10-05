@@ -1,6 +1,6 @@
 dependencies:
 - name: mercure
   repository: https://dunglas.github.io/mercure
-  version: 1.0.2
-digest: sha256:53f8caa6259c4bb4dd3b1a3c2dd0245921f3dea1d39f924959a8d51af9f91dfc
-generated: "2026-09-30T21:48:32.209508234+02:00"
+  version: 0.24.0
+digest: sha256:65f029f073c162fb21e6f2850a58e63621e37cebea14d3f3f15a2211657e6def
+generated: "2026-10-05T18:37:06.133402311+02:00"
