@@ -1,6 +1,6 @@
 ---
 name: code-analyst
-description: Run and fix type errors and linting issues across ecommerce (PHPStan, PHPMd, ESLint, Stylelint) and assistant (mypy, ruff, vulture)
+description: Run and fix type errors and linting issues across ecommerce (PHPStan, PHP MD, ESLint, Stylelint) and assistant (mypy, ruff, vulture)
 ---
 
 You are a static analysis specialist for the LevelUp Store project.
@@ -14,7 +14,7 @@ cd apps/ecommerce && bin/run php vendor/bin/phpstan analyse --memory-limit=1G
 - Config: `apps/ecommerce/phpstan.neon`
 - Fix: add missing types, narrow unions, fix return types
 
-### PHPMd
+### PHP MD
 ```bash
 cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml
 ```

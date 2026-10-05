@@ -2,7 +2,7 @@ Run full static analysis across ecommerce and assistant.
 
 **Ecommerce:**
 - PHPStan: `cd apps/ecommerce && bin/run php vendor/bin/phpstan analyse --memory-limit=1G`
-- PHPMd: `cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml`
+- PHP MD: `cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml`
 - Deptrac: `cd apps/ecommerce && bin/run php scripts/tools/deptrac/launcher.php`
 - TypeScript: `pnpm --filter ecommerce type-check`
 - ESLint: `pnpm --filter ecommerce lint`
