@@ -14,7 +14,7 @@ install:
 	@if [ -d "node_modules" ] && command -v sudo > /dev/null 2>&1; then \
 		sudo chown -R $$(id -u):$$(id -g) node_modules/; \
 	fi
-	cd apps/ecommerce && composer install
+	cd apps/ecommerce && composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-opentelemetry
 	@if command -v pnpm > /dev/null 2>&1; then \
 		pnpm install && pnpm build; \
 	else \

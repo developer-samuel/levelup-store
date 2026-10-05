@@ -285,15 +285,6 @@ verify the DaemonSet hostPort is open and the endpoint in the secret is correct.
 Use `quay.io` mirrors for Docker Hub images where available. The pg-backup cronjob uses
 `quay.io/minio/mc` instead of `docker.io/minio/mc` for this reason.
 
-### composer install fails locally with ext-opentelemetry missing
-
-Add the ignore flag:
-
-```bash
-composer install --ignore-platform-req=ext-opentelemetry --ignore-platform-req=ext-otel_instrumentation
-```
-
-This is a local-only workaround - CI has the extension installed via the php composite action.
 
 ---
 

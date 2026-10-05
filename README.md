@@ -65,8 +65,7 @@ FastAPI AI assistant with:
 
 ```bash
 # Install dependencies (generates .env from .env.example)
-composer install
-pnpm install
+make install
 ```
 
 → Ecommerce setup: [apps/ecommerce/docs/INSTALL.md](apps/ecommerce/docs/INSTALL.md)  

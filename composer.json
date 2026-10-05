@@ -16,10 +16,10 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "@composer install -d apps/ecommerce"
+      "@composer install -d apps/ecommerce --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-opentelemetry --ignore-platform-req=ext-otel_instrumentation"
     ],
     "post-update-cmd": [
-      "@composer update -d apps/ecommerce"
+      "@composer update -d apps/ecommerce --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-opentelemetry --ignore-platform-req=ext-otel_instrumentation"
     ],
     "env:generate": [
       "Composer\\Config::disableProcessTimeout",

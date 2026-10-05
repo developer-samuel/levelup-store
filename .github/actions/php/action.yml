@@ -43,4 +43,4 @@ runs:
     - name: Install PHP dependencies
       shell: bash
       working-directory: apps/ecommerce
-      run: composer install --prefer-dist --no-interaction --ignore-platform-req=ext-opentelemetry
+      run: composer install --no-interaction --prefer-dist --optimize-autoloader

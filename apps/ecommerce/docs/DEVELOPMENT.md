@@ -4,18 +4,16 @@
 
 ```bash
 # Full local setup: install dependencies + database + cache + serve
-make setup
+make setup  # from project root
 # or manually:
-cd apps/ecommerce
-composer install --no-interaction --prefer-dist --optimize-autoloader
+composer install --ignore-platform-req=ext-opentelemetry
 pnpm install
 composer db-setup
 
 # Install dependencies, build assets and enable git hooks
-make install
+make install  # from project root
 # or manually:
-cd apps/ecommerce
-composer install --no-interaction --prefer-dist --optimize-autoloader
+composer install --ignore-platform-req=ext-opentelemetry
 pnpm install
 git config core.hooksPath .githooks
 git config blame.ignoreRevsFile .git-blame-ignore-revs

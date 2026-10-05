@@ -21,6 +21,7 @@
     "lexik/jwt-authentication-bundle": "^3.2",
     "nelmio/api-doc-bundle": "*",
     "nelmio/cors-bundle": "^2.5",
+    "nelmio/security-bundle": "^3.9",
     "open-telemetry/exporter-otlp": "*",
     "open-telemetry/opentelemetry-auto-symfony": "*",
     "open-telemetry/sdk": "*",

@@ -18,7 +18,7 @@ Before configuring environment variables, make sure the project dependencies are
 
 Complete **steps 1 and 2** from [INSTALL.md](INSTALL.md) first.
 
-`composer install` automatically runs the following setup steps - no manual intervention needed:
+`composer install --ignore-platform-req=ext-opentelemetry` automatically runs the following setup steps - no manual intervention needed:
 - Generates `APP_SECRET` and `HMAC_SECRET` if empty
 - Generates Symfony secrets encryption keys
 - Generates JWT RSA key pair (if not already present)

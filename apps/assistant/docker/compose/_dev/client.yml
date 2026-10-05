@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile.vite
     container_name: levelup_store_assistant_client
     working_dir: /app
-    command: sh -c "pnpm install && pnpm dev"
+    command: pnpm dev
     volumes:
       - ${PWD}/apps/assistant/client:/app
     ports:

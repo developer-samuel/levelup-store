@@ -21,7 +21,10 @@ fi
 
 mkdir -p "$JWT_DIR"
 
-rm -f "$JWT_DIR/private.pem" "$JWT_DIR/public.pem"
+if [ -f "$JWT_DIR/private.pem" ] && [ -f "$JWT_DIR/public.pem" ]; then
+    echo "JWT keys already exist in $JWT_DIR, skipping generation."
+    exit 0
+fi
 
 openssl genpkey -algorithm RSA \
     -out "$JWT_DIR/private.pem" \
