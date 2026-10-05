@@ -8,7 +8,7 @@ run_ecommerce_php=false
 run_ecommerce_scss=false
 run_assistant=false
 
-if echo "$CHANGED" | grep -qE "^apps/ecommerce/src/|^apps/ecommerce/packages/|^apps/ecommerce/database/|^apps/ecommerce/tests/|^apps/ecommerce/composer\.lock$"; then
+if echo "$CHANGED" | grep -qE "^apps/ecommerce/src/|^apps/ecommerce/packages/|^apps/ecommerce/database/|^apps/ecommerce/tests/php-unit/|^apps/ecommerce/composer\.lock$"; then
   run_ecommerce_php=true
 fi
 
