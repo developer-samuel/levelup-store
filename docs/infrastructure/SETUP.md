@@ -12,7 +12,7 @@ make -C infrastructure install-deps  # installs missing tools (Homebrew/apt)
 ```
 
 | Tool         | Minimum version | Purpose                         |
-|--------------|-----------------|---------------------------------|
+| ------------ | --------------- | ------------------------------- |
 | `terraform`  | >= 1.5.0        | Provision OCI VM                |
 | `ansible`    | >= 2.15         | Configure VM (k3s, hardening)   |
 | `kubectl`    | >= 1.28         | Manage K8s resources            |
@@ -65,12 +65,27 @@ See [SECRETS.md](SECRETS.md) for a full breakdown of every variable.
 
 ---
 
-## Cloudflare
+## DNS
 
-Terraform manages DNS records via the Cloudflare provider.
-You need:
-- `TF_VAR_cloudflare_api_token` - API token with Zone:Edit permissions
-- `TF_VAR_cloudflare_zone_id` - Zone ID from Cloudflare dashboard (Overview page, right sidebar)
+Add the following A records in your DNS provider for your domain, all pointing to your VPS IP:
+
+| Subdomain                 | Purpose                  |
+| ------------------------- | ------------------------ |
+| `levelup-store`           | Ecommerce (root)         |
+| `www.levelup-store`       | www redirect             |
+| `assistant.levelup-store` | Assistant API            |
+| `minio.levelup-store`     | MinIO S3 API             |
+| `argocd.levelup-store`    | ArgoCD UI                |
+| `grafana.levelup-store`   | Grafana (monitoring)     |
+| `atlantis.levelup-store`  | Atlantis (Terraform PRs) |
+| `jenkins.levelup-store`   | Jenkins CI               |
+
+TTL: 300 is recommended. All records point to the same VPS IP - Traefik routes by hostname.
+
+> **Cloudflare alternative:** If using Cloudflare, Terraform can manage DNS records automatically via the Cloudflare provider. You need:
+>
+> - `TF_VAR_cloudflare_api_token` - API token with Zone:Edit permissions
+> - `TF_VAR_cloudflare_zone_id` - Zone ID from Cloudflare dashboard (Overview page, right sidebar)
 
 ---
 

@@ -104,7 +104,7 @@ jenkins-install:
 	$(MAKE) jenkins-secret
 	$(call argocd_login)
 	argocd app set jenkins $(ARGOCD_FLAGS) \
-		-p jenkins.controller.ingress.host="jenkins.$(APP_DOMAIN)" \
+		-p jenkins.controller.ingress.hostName="jenkins.$(APP_DOMAIN)" \
 		-p "jenkins.controller.ingress.tls[0].hosts[0]=jenkins.$(APP_DOMAIN)"
 	@echo "✓ Jenkins deployed. Available at: https://jenkins.$(APP_DOMAIN)"
 
