@@ -1,28 +1,59 @@
 #!/bin/bash
 set -e
 
-echo "🔍 [all] Running TypeScript type-check (includes tests)..."
-pnpm type-check:all
+CHANGED=$(git diff --name-only "origin/$(git rev-parse --abbrev-ref HEAD)...HEAD" 2>/dev/null || git diff --name-only HEAD~1...HEAD)
 
-echo "🔍 [all] Running ESLint (includes tests)..."
-pnpm lint:all
+run_ts=false
+run_ecommerce_php=false
+run_ecommerce_scss=false
+run_assistant=false
 
-echo "🔍 [ecommerce] Running PHPStan..."
-(cd apps/ecommerce && bin/run php vendor/bin/phpstan analyse --memory-limit=1G)
+if echo "$CHANGED" | grep -qE "^apps/ecommerce/src/|^apps/ecommerce/packages/|^apps/ecommerce/database/|^apps/ecommerce/tests/|^apps/ecommerce/composer\.lock$"; then
+  run_ecommerce_php=true
+fi
 
-echo "🔍 [ecommerce] Running PHP MD..."
-(cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml)
+if echo "$CHANGED" | grep -qE "^apps/ecommerce/.*\.(scss)$"; then
+  run_ecommerce_scss=true
+fi
 
-echo "🔍 [ecommerce] Running Deptrac..."
-(cd apps/ecommerce && bin/run php scripts/tools/deptrac/launcher.php)
+if echo "$CHANGED" | grep -qE "\.(ts|tsx)$|^pnpm-lock\.yaml$|^pnpm-workspace\.yaml$"; then
+  run_ts=true
+fi
 
-echo "🔍 [ecommerce] Running Stylelint..."
-pnpm --filter ecommerce lint-scss
+if echo "$CHANGED" | grep -qE "^apps/assistant/app/|^apps/assistant/jobs/|^apps/assistant/pyproject\.toml$|^apps/assistant/uv\.lock$"; then
+  run_assistant=true
+fi
 
-echo "🔍 [assistant] Running mypy..."
-(cd apps/assistant && uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/)
+if $run_ts; then
+  echo "🔍 [all] Running TypeScript type-check (includes tests)..."
+  pnpm type-check:all
 
-echo "🔍 [assistant] Running ruff format check..."
-(cd apps/assistant && uv run ruff format --check app/)
+  echo "🔍 [all] Running ESLint (includes tests)..."
+  pnpm lint:all
+fi
+
+if $run_ecommerce_php; then
+  echo "🔍 [ecommerce] Running PHPStan..."
+  (cd apps/ecommerce && bin/run php vendor/bin/phpstan analyse --memory-limit=1G)
+
+  echo "🔍 [ecommerce] Running PHP MD..."
+  (cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml)
+
+  echo "🔍 [ecommerce] Running Deptrac..."
+  (cd apps/ecommerce && bin/run php scripts/tools/deptrac/launcher.php)
+fi
+
+if $run_ecommerce_scss; then
+  echo "🔍 [ecommerce] Running Stylelint..."
+  pnpm --filter ecommerce lint-scss
+fi
+
+if $run_assistant; then
+  echo "🔍 [assistant] Running mypy..."
+  (cd apps/assistant && uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/)
+
+  echo "🔍 [assistant] Running ruff format check..."
+  (cd apps/assistant && uv run ruff format --check app/)
+fi
 
 echo "✅ Pre-push checks passed."
