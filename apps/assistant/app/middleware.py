@@ -49,7 +49,7 @@ class ErrorLoggingMiddleware(BaseHTTPMiddleware):
 def setup_middleware(app: FastAPI) -> None:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins.split(","),
+        allow_origin_regex=settings.cors_origins,
         allow_methods=["GET", "POST", "DELETE"],
         allow_headers=["*"],
     )
