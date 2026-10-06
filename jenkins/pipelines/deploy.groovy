@@ -53,8 +53,9 @@ def syncImageTags(String environment) {
                     infrastructure/helm/apps/assistant/${valuesFile}
             git diff --cached --quiet && echo "No changes to commit" && exit 0
             git commit -m "chore: deploy ${env.IMAGE_TAG} to ${environment} [skip ci]"
-            git pull --rebase origin main
-            git push https://\$GIT_USER:\$GIT_TOKEN@github.com/${env.GHCR_REPO}.git main
+            git fetch origin main
+            git rebase origin/main
+            git push https://\$GIT_USER:\$GIT_TOKEN@github.com/${env.GHCR_REPO}.git HEAD:main
         """
     }
 }
