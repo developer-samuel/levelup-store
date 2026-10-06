@@ -9,6 +9,7 @@ kube-prometheus-stack:
       # hosts, tls.hosts, adminPassword: set via make monitoring-secrets
       tls:
         - secretName: grafana-tls
+          hosts: []  # set via make monitoring-secrets
 
     persistence:
       enabled: true
@@ -26,7 +27,7 @@ kube-prometheus-stack:
 
       - name: Tempo
         type: tempo
-        url: http://tempo.tempo.svc.cluster.local:3100
+        url: http://tempo.tempo.svc.cluster.local:3200
         access: proxy
         jsonData:
           tracesToLogsV2:

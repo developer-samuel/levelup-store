@@ -40,7 +40,7 @@ services-secrets:
 		--from-literal=publisher-jwt-key="$(MERCURE_JWT_SECRET)" \
 		--from-literal=subscriber-jwt-key="$(MERCURE_JWT_SECRET)" \
 		--from-literal=mercure-cors-allowed-origins="$(MERCURE_CORS_ORIGINS)" \
-		--from-literal=extra-directives="$$(printf 'anonymous\ncors_origins $(CORS_ALLOW_ORIGIN)')" \
+		--from-literal=extra-directives="$$(printf 'anonymous\ncors_origins $(MERCURE_CORS_ORIGINS)')" \
 		--from-literal=caddy-extra-config="" \
 		--from-literal=caddy-extra-directives="" \
 		--from-literal=license="" \
