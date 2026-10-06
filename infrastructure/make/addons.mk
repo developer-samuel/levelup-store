@@ -83,6 +83,8 @@ atlantis-install:
 	$(call argocd_login)
 	argocd app set atlantis $(ARGOCD_FLAGS) \
 		-p atlantis.github.user="$(GITHUB_USERNAME)" \
+		-p atlantis.github.token="$(ATLANTIS_GH_TOKEN)" \
+		-p atlantis.github.secret="$(ATLANTIS_GH_WEBHOOK_SECRET)" \
 		-p atlantis.orgWhitelist="$(ATLANTIS_REPO_WHITELIST)" \
 		-p atlantis.ingress.host="atlantis.$(APP_DOMAIN)"
 	@echo "✓ Atlantis deployed. Available at: https://atlantis.$(APP_DOMAIN)"
