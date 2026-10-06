@@ -1,0 +1,27 @@
+vertical-pod-autoscaler:
+  admissionController:
+    enabled: true
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+
+  recommender:
+    enabled: true
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+
+  updater:
+    # Off = only show recommendations, never restart pods
+    enabled: false
+
+  metrics-server:
+    enabled: false
