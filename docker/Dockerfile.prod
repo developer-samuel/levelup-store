@@ -31,6 +31,8 @@ RUN composer install \
 # ── Stage: frontend ──────────────────────────────────────────────────────────
 FROM node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 AS frontend
 
+ARG VITE_API_URL=/assistant
+
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
@@ -47,7 +49,8 @@ COPY apps/ecommerce/vite.config.ts apps/ecommerce/tsconfig.json apps/ecommerce/i
 
 COPY apps/assistant/client/src/ apps/assistant/client/src/
 COPY apps/assistant/client/vite.config.ts apps/assistant/client/tsconfig.json apps/assistant/client/
-COPY apps/assistant/client/.env.example apps/assistant/client/.env
+
+RUN printf "VITE_API_URL=%s\n" "$VITE_API_URL" > apps/assistant/client/.env
 
 RUN pnpm --filter ecommerce build \
     && pnpm --filter assistant build
