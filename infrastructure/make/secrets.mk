@@ -147,11 +147,11 @@ ecommerce-secrets:
 assistant-secrets:
 	$(call require,APP_DOMAIN)
 	$(call require,AI_ASSISTANT_API_KEY)
-	$(call require,REDIS_URL)
-	$(call require,RABBITMQ_URL)
+	$(call require,REDIS_URL_FQDN)
+	$(call require,RABBITMQ_URL_FQDN)
 	$(call require,ASSISTANT_GHCR_IMAGE)
 	$(call require,SUPPORT_EMAIL)
-	$(call require,DATABASE_URL)
+	$(call require,DATABASE_URL_FQDN)
 	$(call require,CORS_ALLOW_ORIGIN)
 	$(call require,OLLAMA_HOST)
 	$(call require,OTEL_SERVICE_NAME)
@@ -160,12 +160,12 @@ assistant-secrets:
 	$(call argocd_login)
 	argocd app set levelup-store-assistant $(ARGOCD_FLAGS) \
 		-p app.aiAssistantApiKey="$(AI_ASSISTANT_API_KEY)" \
-		-p app.redisUrl="$(REDIS_URL)" \
-		-p app.databaseUrl="$(DATABASE_URL)" \
+		-p app.redisUrl="$(REDIS_URL_FQDN)" \
+		-p app.databaseUrl="$(DATABASE_URL_FQDN)" \
 		-p app.corsOrigins="$(CORS_ALLOW_ORIGIN)" \
 		-p app.supportEmail="$(SUPPORT_EMAIL)" \
 		-p app.ollamaHost="$(OLLAMA_HOST)" \
-		-p broker.rabbitmqUrl="$(RABBITMQ_URL)" \
+		-p broker.rabbitmqUrl="$(RABBITMQ_URL_FQDN)" \
 		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
 		-p app.sentryDsn="$(SENTRY_DSN)" \
 		-p ingress.host="assistant.$(APP_DOMAIN)" \
