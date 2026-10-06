@@ -42,6 +42,6 @@ spec:
         img-src 'self' data: https:;
         font-src 'self';
         frame-src https://js.stripe.com https://challenges.cloudflare.com;
-        connect-src 'self' https://api.stripe.com;
+        connect-src 'self' https://api.stripe.com https://assistant.{{ .Values.ingress.host }};
         object-src 'none';
         base-uri 'self'
