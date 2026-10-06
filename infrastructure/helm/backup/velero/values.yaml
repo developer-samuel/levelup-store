@@ -38,6 +38,11 @@ velero:
           - levelup-store
         storageLocation: default
 
+  kubectl:
+    image:
+      repository: bitnamilegacy/kubectl
+      tag: "1.30"
+
   resources:
     requests:
       cpu: 50m
