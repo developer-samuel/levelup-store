@@ -1,5 +1,5 @@
 app:
   image:
-    tag: "5ecaf3c"
+    tag: "357b82a"
 ingress:
   host: "" # set via make secrets
