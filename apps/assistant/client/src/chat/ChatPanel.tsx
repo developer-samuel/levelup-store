@@ -4,6 +4,7 @@ import { MessageSquare, RotateCcw, TriangleAlert, X } from 'lucide-react'
 import { cn } from '@/utils/classes.utils'
 
 import { useChat } from '@/chat/_hooks/useChat'
+import { useModel } from '@/chat/_hooks/useModel'
 import { useScrollTrigger } from '@/chat/_hooks/useScrollTrigger'
 import { useEscapeKey } from '@/chat/_hooks/useEscapeKey'
 import { ChatInput } from '@/chat/input/ChatInput'
@@ -29,6 +30,7 @@ export function ChatPanel({
   onConversationReset,
 }: Props) {
   const [tooltipVisible, setTooltipVisible] = useState(false)
+  const model = useModel()
   const { messages, loading, queued, queuePosition, error, failedMessage, send, reset, stop } = useChat({
     conversationId,
     isAuthenticated,
@@ -62,7 +64,7 @@ export function ChatPanel({
               <TriangleAlert className={s.infoIcon} />
               <div className={cn(s.tooltip, tooltipVisible && s.tooltipVisible)}>
                 <p className={s.tooltipTitle}>Lightweight model notice</p>
-                <p className={s.tooltipModel}>Model: mistral:7b</p>
+                {model && <p className={s.tooltipModel}>Model: {model}</p>}
                 <ul className={s.tooltipList}>
                   <li>Responses may be slower due to hardware constraints</li>
                   <li>Grammar and phrasing may not always be perfect</li>
