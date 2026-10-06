@@ -14,6 +14,18 @@ atlantis:
   # All TF_VAR_* are read by the Terraform OCI provider automatically.
   # TF_VAR_private_key_path points to the PEM file mounted below (extraVolumes).
   environmentSecrets:
+    - name: ATLANTIS_GH_USER
+      secretKeyRef:
+        name: atlantis-credentials
+        key: github_user
+    - name: ATLANTIS_GH_TOKEN
+      secretKeyRef:
+        name: atlantis-credentials
+        key: github_token
+    - name: ATLANTIS_GH_WEBHOOK_SECRET
+      secretKeyRef:
+        name: atlantis-credentials
+        key: github_webhook_secret
     - name: TF_VAR_tenancy_ocid
       secretKeyRef:
         name: atlantis-credentials

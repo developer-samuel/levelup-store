@@ -51,7 +51,7 @@ promtail:
   config:
     clients:
       - url: http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
-        tenantID: levelup-store
+        tenant_id: levelup-store
 
   resources:
     requests:

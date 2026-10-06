@@ -15,7 +15,7 @@ falco:
     output_timeout: 2000
 
     # Disable chatty default rules that generate noise on single-node k3s
-    rules_file:
+    rules_files:
       - /etc/falco/falco_rules.yaml
       - /etc/falco/falco_rules.local.yaml
       - /etc/falco/rules.d
