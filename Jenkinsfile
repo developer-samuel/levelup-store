@@ -20,8 +20,9 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY  = 'ghcr.io'
-        GHCR_REPO = 'developer-samuel/levelup-store'
+        REGISTRY   = 'ghcr.io'
+        GHCR_REPO  = 'developer-samuel/levelup-store'
+        APP_DOMAIN = credentials('app-domain')
     }
 
     parameters {

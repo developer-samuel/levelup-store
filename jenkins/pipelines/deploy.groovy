@@ -14,12 +14,14 @@ def detectChanges() {
 
 def buildAndPush(String app) {
     def image = "${env.REGISTRY}/${env.GHCR_REPO}-${app}:${env.IMAGE_TAG}"
+    def buildArgs = app == 'ecommerce' ? "--build-arg VITE_API_URL=https://assistant.${env.APP_DOMAIN}" : ''
     sh """
         docker build \
             --target ${app} \
             --tag ${image} \
             --file docker/Dockerfile.prod \
             --cache-from ${env.REGISTRY}/${env.GHCR_REPO}-${app}:buildcache \
+            ${buildArgs} \
             .
     """
     withCredentials([string(credentialsId: 'ghcr-token', variable: 'GHCR_TOKEN')]) {
