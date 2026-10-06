@@ -1,5 +1,6 @@
 atlantis:
   vcsSecretName: atlantis-credentials
+  orgAllowlist: github.com/developer-samuel/*
 
   # GitHub sends webhook POST requests to this URL on every PR event - must be publicly reachable
   ingress:
