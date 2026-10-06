@@ -10,6 +10,7 @@ atlantis:
     # host: set via make atlantis-install (atlantis.$APP_DOMAIN)
     tls:
       - secretName: atlantis-tls
+        hosts: []  # set via make atlantis-install
 
   # All TF_VAR_* are read by the Terraform OCI provider automatically.
   # TF_VAR_private_key_path points to the PEM file mounted below (extraVolumes).

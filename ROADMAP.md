@@ -39,6 +39,5 @@
 
 ### Infrastructure
 
-- [ ] Tempo - distributed tracing, native integration with Grafana
 - [ ] Pyroscope - continuous profiling to catch CPU/memory hotspots in production
 - [ ] Failure testing - chaos engineering to validate resilience under pod failures, network partitions and slow dependencies
