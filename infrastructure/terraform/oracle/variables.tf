@@ -86,11 +86,13 @@ variable "cloudflare_api_token" {
   description = "Cloudflare API token - create at dash.cloudflare.com → My Profile → API Tokens"
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "cloudflare_zone_id" {
   description = "Cloudflare Zone ID - find at dash.cloudflare.com → your domain → Overview → Zone ID"
   type        = string
+  default     = ""
 }
 
 variable "app_domain" {
