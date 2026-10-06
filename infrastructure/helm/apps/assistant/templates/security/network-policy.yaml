@@ -40,19 +40,26 @@ spec:
         - port: 53
           protocol: TCP
 
-    # Internal services - same namespace
+    # Internal services - same namespace (ChromaDB)
     - to:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: {{ .Release.Namespace }}
+      ports:
+        - port: 8000   # ChromaDB
+          protocol: TCP
+
+    # Cross-namespace services in levelup-store (PostgreSQL, Redis, RabbitMQ)
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: levelup-store
       ports:
         - port: 5432   # PostgreSQL
           protocol: TCP
         - port: 6379   # Redis
           protocol: TCP
         - port: 5672   # RabbitMQ AMQP
-          protocol: TCP
-        - port: 8000   # ChromaDB
           protocol: TCP
     {{- if .Values.otel.enabled }}
     # OTel collector
