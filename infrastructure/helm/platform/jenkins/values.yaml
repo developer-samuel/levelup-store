@@ -22,12 +22,26 @@ jenkins:
       - name: JAVA_OPTS
         value: "-Xmx512m"
 
+    # Install yq binary into Jenkins home for use in pipeline steps
+    initScripts:
+      install-yq: |
+        import java.nio.file.*
+        def yqPath = '/var/jenkins_home/bin/yq'
+        def yqFile = new File(yqPath)
+        if (!yqFile.exists()) {
+          new File('/var/jenkins_home/bin').mkdirs()
+          def url = 'https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_arm64'
+          ['curl', '-sSL', '-o', yqPath, url].execute().waitFor()
+          ['chmod', '+x', yqPath].execute().waitFor()
+        }
+
     javaOpts: "-Xmx512m"
 
     numExecutors: 2
 
     additionalPlugins:
       - job-dsl
+      - pipeline-utility-steps
 
     # Read secrets from jenkins-credentials k8s secret (created manually once on VPS)
     containerEnv:
@@ -62,6 +76,8 @@ jenkins:
                   env:
                     - key: GHCR_USER
                       value: "developer-samuel"
+                    - key: PATH
+                      value: "/var/jenkins_home/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
         jobs: |
           jobs:
