@@ -60,6 +60,7 @@ jobs:
       target: ecommerce
       changed: ${{ needs.changes.outputs.ecommerce }}
       app-name: ecommerce
+      build-args: VITE_API_URL=${{ vars.VITE_API_URL }}
     permissions:
       contents: write
       packages: write

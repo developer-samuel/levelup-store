@@ -28,6 +28,11 @@ on:
         required: false
         type: string
         default: ''
+      build-args:
+        description: Docker build args (newline-separated KEY=VALUE pairs)
+        required: false
+        type: string
+        default: ''
     outputs:
       image-tag:
         value: ${{ jobs.build.outputs.image-tag }}
@@ -87,6 +92,7 @@ jobs:
           context: ${{ inputs.context }}
           file: ${{ inputs.file }}
           target: ${{ inputs.target }}
+          build-args: ${{ inputs.build-args }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
