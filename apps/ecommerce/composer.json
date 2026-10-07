@@ -138,8 +138,7 @@
       "bin/run --root php ../../scripts/set-permissions/launcher.php",
       "@auto-scripts",
       "bin/run --root php scripts/tasks/prepare-temp/launcher.php",
-      "bin/run --root php scripts/tasks/prepare-assets/launcher.php",
-      "bin/run --root php ../../scripts/generate-uml/launcher.php"
+      "bin/run --root php scripts/tasks/prepare-assets/launcher.php"
     ],
     "post-update-cmd": [
       "Composer\\Config::disableProcessTimeout",
@@ -177,10 +176,6 @@
     "assets:prepare": [
       "Composer\\Config::disableProcessTimeout",
       "bin/run --root php scripts/tasks/prepare-assets/launcher.php"
-    ],
-    "uml:generate": [
-      "Composer\\Config::disableProcessTimeout",
-      "bin/run --root php ../../scripts/generate-uml/launcher.php"
     ],
     "cache:clear": [
       "Composer\\Config::disableProcessTimeout",

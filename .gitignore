@@ -33,7 +33,8 @@ dist/
 build/
 .build/
 
-# Generated UML
+# Generated files
+.structure/
 .uml/
 
 # Editor
