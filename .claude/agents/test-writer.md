@@ -29,7 +29,7 @@ tests/php-unit/
 ## Test path mapping
 
 | Source                                | Test                                                           |
-| ------------------------------------- | -------------------------------------------------------------- |
+|---------------------------------------|----------------------------------------------------------------|
 | `src/Core/Application/{path}/Foo.php` | `tests/php-unit/Unit/Application/{path}/FooTest.php`           |
 | `src/Infrastructure/{path}/Foo.php`   | `tests/php-unit/Integration/Infrastructure/{path}/FooTest.php` |
 | `src/Adapters/{path}/Foo.php`         | `tests/php-unit/Integration/Adapters/{path}/FooTest.php`       |

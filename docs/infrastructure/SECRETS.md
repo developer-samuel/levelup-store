@@ -41,16 +41,16 @@ Every variable listed below must be set in `.env.production` before running it.
 
 ### App
 
-| Variable              | Description                                 | Example                                   |
-|-----------------------|---------------------------------------------|-------------------------------------------|
-| `APP_DOMAIN`          | Public domain (no protocol)                 | `yourdomain.com`                          |
-| `APP_URL`             | Full public URL                             | `https://yourdomain.com`                  |
-| `APP_SECRET`          | Symfony app secret (random 32+ char string) | `openssl rand -hex 32`                    |
-| `HMAC_SECRET`         | HMAC signing secret                         | `openssl rand -hex 32`                    |
-| `CORS_ALLOW_ORIGIN`   | Allowed CORS origins (regex)                | `https://yourdomain.com`                  |
-| `TRUSTED_PROXIES`     | Trusted proxy IPs for Symfony               | `127.0.0.1,REMOTE_ADDR`                   |
-| `AUDIT_LOGS_ENABLED`  | Enable audit logging                        | `true`                                    |
-| `ECOMMERCE_GHCR_IMAGE` | Full GHCR image path (without tag)         | `ghcr.io/your-username/levelup-store/app` |
+| Variable               | Description                                 | Example                                   |
+|------------------------|---------------------------------------------|-------------------------------------------|
+| `APP_DOMAIN`           | Public domain (no protocol)                 | `yourdomain.com`                          |
+| `APP_URL`              | Full public URL                             | `https://yourdomain.com`                  |
+| `APP_SECRET`           | Symfony app secret (random 32+ char string) | `openssl rand -hex 32`                    |
+| `HMAC_SECRET`          | HMAC signing secret                         | `openssl rand -hex 32`                    |
+| `CORS_ALLOW_ORIGIN`    | Allowed CORS origins (regex)                | `https://yourdomain.com`                  |
+| `TRUSTED_PROXIES`      | Trusted proxy IPs for Symfony               | `127.0.0.1,REMOTE_ADDR`                   |
+| `AUDIT_LOGS_ENABLED`   | Enable audit logging                        | `true`                                    |
+| `ECOMMERCE_GHCR_IMAGE` | Full GHCR image path (without tag)          | `ghcr.io/your-username/levelup-store/app` |
 
 ### Database (PostgreSQL)
 
@@ -98,7 +98,7 @@ Every variable listed below must be set in `.env.production` before running it.
 
 | Variable          | Description                    | Default             |
 |-------------------|--------------------------------|---------------------|
-| `JWT_PASSPHRASE`  | Passphrase for JWT private key | -                   |
+| `JWT_PASSPHRASE`  | Passphrase for JWT private key |                     |
 | `JWT_TTL`         | Access token TTL in seconds    | `900` (15 min)      |
 | `JWT_REFRESH_TTL` | Refresh token TTL in seconds   | `2592000` (30 days) |
 
@@ -160,15 +160,28 @@ make -C infrastructure assistant-secrets
 
 ### App
 
-| Variable                | Description                                      | Example                                             |
-|-------------------------|--------------------------------------------------|-----------------------------------------------------|
-| `APP_DOMAIN`            | Public domain (no protocol)                      | `yourdomain.com`                                    |
-| `ASSISTANT_GHCR_IMAGE`  | Full GHCR image path for the assistant container | `ghcr.io/your-username/levelup-store/assistant`     |
-| `AI_ASSISTANT_API_KEY ` | OpenAI API key                                   | `sk-...`                                            |
-| `REDIS_URL`             | Full Redis DSN                                   | `redis://:password@levelup-store-redis-master:6379` |
-| `RABBITMQ_URL`          | Full AMQP DSN                                    | `amqp://user:pass@levelup-store-rabbitmq:5672//`    |
+| Variable               | Description                                      | Example                                             |
+|------------------------|------------------------------------------------- | ----------------------------------------------------|
+| `APP_DOMAIN`           | Public domain (no protocol)                      | `yourdomain.com`                                    |
+| `ASSISTANT_GHCR_IMAGE` | Full GHCR image path for the assistant container | `ghcr.io/your-username/levelup-store/assistant`     |
+| `AI_ASSISTANT_API_KEY` | OpenAI API key                                   | `sk-...`                                            |
+| `AI_ASSISTANT_ENABLED` | Feature flag - enables assistant in ecommerce    | `true`                                              |
+| `REDIS_URL`            | Full Redis DSN                                   | `redis://:password@levelup-store-redis-master:6379` |
+| `RABBITMQ_URL`         | Full AMQP DSN                                    | `amqp://user:pass@levelup-store-rabbitmq:5672//`    |
 
 > `ingress.host` is derived automatically as `assistant.<APP_DOMAIN>`.
+> `AI_ASSISTANT_ENABLED` is passed to the **ecommerce** configmap (`app.aiAssistantEnabled`), not to assistant.
+
+### Cross-namespace connections (assistant → ecommerce services)
+
+Assistant runs in a separate namespace and cannot use short K8s service names - full cluster-local FQDNs are required.
+
+| Variable            | Description                   | Example                                                                                               |
+|---------------------|-------------------------------|-------------------------------------------------------------------------------------------------------|
+| `DATABASE_URL_FQDN` | PostgreSQL DSN with full FQDN | `pgsql://user:pass@levelup-store-postgresql.levelup-store.svc.cluster.local:5432/db?serverVersion=17` |
+| `REDIS_URL_FQDN`    | Redis DSN with full FQDN      | `redis://default:pass@levelup-store-redis-master.levelup-store.svc.cluster.local:6379`                |
+| `RABBITMQ_URL_FQDN` | RabbitMQ DSN with full FQDN   | `amqp://user:pass@levelup-store-rabbitmq.levelup-store.svc.cluster.local:5672//`                      |
+| `OLLAMA_HOST`       | Ollama service URL (same ns)  | `http://ollama.levelup-store.svc.cluster.local:11434`                                                 |
 
 ---
 
@@ -206,9 +219,9 @@ make -C infrastructure monitoring-secrets
 
 Required: `GRAFANA_PASSWORD`, `MAILER_USER`, `MAILER_HOST`, `MAILER_PORT`, `MAILER_PASS`, `APP_DOMAIN`.
 
-| Variable          | Description              |
-|-------------------|--------------------------|
-| `GRAFANA_PASSWORD` | Grafana admin password  |
+| Variable           | Description            |
+|--------------------|------------------------|
+| `GRAFANA_PASSWORD` | Grafana admin password |
 
 ---
 
@@ -258,9 +271,9 @@ make -C infrastructure velero-install  # sets bucket/region via ArgoCD
 
 Required by `make jenkins-secret` and `make jenkins-install`.
 
-| Variable      | Description                                                        |
-|---------------|--------------------------------------------------------------------|
-| `GITHUB_PAT`  | GitHub personal access token (repo + workflow scope) for Jenkins   |
+| Variable     | Description                                                      |
+|--------------|------------------------------------------------------------------|
+| `GITHUB_PAT` | GitHub personal access token (repo + workflow scope) for Jenkins |
 
 ---
 
@@ -290,7 +303,7 @@ Also injected into the Atlantis pod via `make atlantis-secret`.
 
 ---
 
-## make vault-init / vault-setup / vault-status
+## make vault-init / vault-setup / vault-seal-status
 
 HashiCorp Vault runs in the `vault` namespace and auto-unseals on every pod restart via a sidecar container that reads unseal keys from the `vault-init` K8s secret.
 
@@ -307,7 +320,7 @@ After `vault-setup`, the External Secrets Operator can read secrets from Vault v
 ### Ongoing
 
 ```bash
-make -C infrastructure vault-status  # check Vault seal status
+make -C infrastructure vault-seal-status  # check Vault seal/init/HA status
 ```
 
 Vault **auto-unseals** on pod restart - no manual intervention needed after initial setup.
@@ -364,3 +377,13 @@ All `TF_VAR_*` variables are loaded from `.env` automatically by Makefile.
 | `TF_VAR_cloudflare_zone_id`   | Cloudflare zone ID                                     |
 | `TF_VAR_velero_bucket`        | OCI bucket name for Velero backups                     |
 
+---
+
+## Related docs
+
+- [Infrastructure Overview](OVERVIEW.md)
+- [Setup & Prerequisites](SETUP.md)
+- [Environment Variables & Secrets](SECRETS.md)
+- [Deployment Guide](DEPLOYMENT.md)
+- [Port Forwarding](PORT_FORWARDING.md)
+- [Makefile Command Reference](COMMANDS.md)

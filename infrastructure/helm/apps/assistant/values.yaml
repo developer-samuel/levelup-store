@@ -25,6 +25,10 @@ app:
     targetCPUUtilizationPercentage: 70
     targetMemoryUtilizationPercentage: 80
 
+  vpa:
+    enabled: true
+    updateMode: "Off"
+
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000

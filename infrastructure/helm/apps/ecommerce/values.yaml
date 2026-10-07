@@ -28,6 +28,10 @@ app:
     targetCPUUtilizationPercentage: 70
     targetMemoryUtilizationPercentage: 80
 
+  vpa:
+    enabled: true
+    updateMode: "Off"
+
 # Ingress
 ingress:
   className: traefik

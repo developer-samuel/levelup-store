@@ -2,7 +2,7 @@
 # 🔐 Vault Commands
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: vault-init vault-unseal vault-setup vault-status
+.PHONY: vault-init vault-unseal vault-setup vault-seal-status
 
 ## Initialize Vault (run ONCE after first deploy) - stores unseal keys in K8s secret
 ## After this, Vault auto-unseals on every pod restart via sidecar container
@@ -51,6 +51,6 @@ vault-setup:
 	kubectl apply --validate=false -f infrastructure/kubernetes/vault/cluster-secret-store.yaml
 	@echo "✓ Vault configured. External Secrets Operator can now read from Vault."
 
-## Show Vault status
-vault-status:
+## Show Vault seal/init/HA status
+vault-seal-status:
 	kubectl exec -n vault vault-0 -c vault -- vault status

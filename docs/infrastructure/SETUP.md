@@ -12,7 +12,7 @@ make -C infrastructure install-deps  # installs missing tools (Homebrew/apt)
 ```
 
 | Tool         | Minimum version | Purpose                         |
-| ------------ | --------------- | ------------------------------- |
+|--------------|-----------------|---------------------------------|
 | `terraform`  | >= 1.5.0        | Provision OCI VM                |
 | `ansible`    | >= 2.15         | Configure VM (k3s, hardening)   |
 | `kubectl`    | >= 1.28         | Manage K8s resources            |
@@ -70,7 +70,7 @@ See [SECRETS.md](SECRETS.md) for a full breakdown of every variable.
 Add the following A records in your DNS provider for your domain, all pointing to your VPS IP:
 
 | Subdomain                 | Purpose                  |
-| ------------------------- | ------------------------ |
+|---------------------------|--------------------------|
 | `levelup-store`           | Ecommerce (root)         |
 | `www.levelup-store`       | www redirect             |
 | `assistant.levelup-store` | Assistant API            |
@@ -99,3 +99,14 @@ By default Terraform uses local state. To enable remote state on OCI Object Stor
 4. Run `make -C infrastructure tf-init-remote`
 
 Without remote state, `terraform.tfstate` stays local - do not commit it.
+
+---
+
+## Related docs
+
+- [Infrastructure Overview](OVERVIEW.md)
+- [Setup & Prerequisites](SETUP.md)
+- [Environment Variables & Secrets](SECRETS.md)
+- [Deployment Guide](DEPLOYMENT.md)
+- [Port Forwarding](PORT_FORWARDING.md)
+- [Makefile Command Reference](COMMANDS.md)

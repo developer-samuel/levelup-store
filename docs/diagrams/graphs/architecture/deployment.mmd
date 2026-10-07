@@ -1,6 +1,7 @@
 graph TD
-    %% CI/CD deployment pipeline - GitHub Actions
-    %% deploy.yml: orchestrates via build-image.yml (reusable workflow)
+    %% CI/CD deployment pipeline
+    %% Automated: deploy.yml (GitHub Actions) orchestrates via build-image.yml
+    %% Manual:    Jenkins (Jenkinsfile) - mirrors deploy.yml, adds staging + approval gate
     %% EcommerceTrack + AssistantTrack run inside build-image.yml
     %% ecommerce-ci.yml + assistant-ci.yml run independently (not gates)
 
@@ -11,8 +12,26 @@ graph TD
     classDef sbom     fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
     classDef registry fill:#8e44ad, color:#fff, stroke:#000, stroke-width:2px;
     classDef gitops   fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
+    classDef manual   fill:#696969, color:#fff, stroke:#000, stroke-width:2px;
 
     Push[🚀 git push → main]:::trigger
+
+    %% ── Manual deploy ────────────────────────────────────────────────────────
+
+    subgraph ManualDeploy["Manual deploy  (Jenkins · mirrors deploy.yml)"]
+        JenkinsUI[🔧 Jenkins UI\nIMAGE_TAG · TARGET · ENVIRONMENT]:::manual
+        JenkinsDetect[🔍 Detect changes\nECOMMERCE_CHANGED · ASSISTANT_CHANGED · IMAGE_TAG]:::manual
+        JenkinsBuild[🐳 Build & Push\nskipped on rollback]:::build
+        JenkinsStaging[📝 Update values.staging.yaml\ncommit + push → main]:::gitops
+        JenkinsApproval[⏸️ Manual approval\nproduction only]:::manual
+        JenkinsProd[📝 Update values.prod.yaml\ncommit + push → main]:::gitops
+    end
+
+    JenkinsUI      --> JenkinsDetect
+    JenkinsDetect  --> JenkinsBuild
+    JenkinsBuild   --> JenkinsStaging
+    JenkinsStaging --> JenkinsApproval
+    JenkinsApproval --> JenkinsProd
 
     %% ── Independent CI (not gates) ───────────────────────────────────────────
 

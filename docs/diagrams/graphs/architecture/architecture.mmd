@@ -80,6 +80,8 @@ graph TD
         ArgoCD[🐙 ArgoCD\nGitOps controller]:::infra
         CertManager[🔒 cert-manager\nLet's Encrypt TLS]:::infra
         KEDA[⚡ KEDA\nEvent-driven autoscaling]:::infra
+        VPA[📐 VPA\nResource recommendations]:::infra
+        Jenkins[🔧 Jenkins\nDeployment pipeline]:::infra
         Velero[💾 Velero\nDaily backups → OCI]:::infra
         Reloader[🔄 Reloader\nConfig reload]:::infra
         Atlantis[🤖 Atlantis\nTerraform via PRs]:::infra
@@ -148,3 +150,7 @@ graph TD
     Loki       --> Grafana
     Tempo      --> Grafana
     Blackbox   --> Prometheus
+
+    Jenkins --> ArgoCD
+    VPA     --> App
+    VPA     --> Assistant

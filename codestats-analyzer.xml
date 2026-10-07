@@ -9,6 +9,7 @@
         <ext>tf</ext>
         <ext>tpl</ext>
         <ext>mk</ext>
+        <ext>groovy</ext>
         <ext>js</ext>
         <ext>jsx</ext>
         <ext>ts</ext>

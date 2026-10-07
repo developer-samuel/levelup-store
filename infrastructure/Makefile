@@ -40,6 +40,8 @@ include make/vault.mk
 include make/addons.mk
 include make/k6.mk
 include make/port-forward.mk
+include make/cluster.mk
+include $(shell find make/argocd-apps -name '*.mk')
 
 # ── Definitions ───────────────────────────────────────────────────────────────
 
