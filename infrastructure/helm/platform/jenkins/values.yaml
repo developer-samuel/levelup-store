@@ -5,6 +5,8 @@ jenkins:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
       # hostName: set via make jenkins-install (jenkins.$APP_DOMAIN)
       tls:
         - secretName: jenkins-tls

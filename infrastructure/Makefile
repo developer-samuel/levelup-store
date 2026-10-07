@@ -39,6 +39,7 @@ include make/secrets.mk
 include make/vault.mk
 include make/addons.mk
 include make/k6.mk
+include make/port-forward.mk
 
 # ── Definitions ───────────────────────────────────────────────────────────────
 
