@@ -1,12 +1,21 @@
 @use '@/scss/abstracts/mixins/structure/resolution' as *;
 
-@include resolution(xxl, max) {
+@include resolution(lg, min) {
+  @include resolution(xxl, max) {
+    .order__card-data {
+      width: calc(100% - 400px);
+    }
+  }
+}
+
+@include resolution(lg, max) {
   .order__card {
-    padding: 1em 0 0;
+    padding: 0;
 
     &-data {
       width: 100%;
-      box-shadow: none;
+      border: none;
+      border-radius: 0;
     }
   }
 

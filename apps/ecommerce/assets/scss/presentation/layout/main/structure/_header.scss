@@ -197,15 +197,14 @@
       }
 
       &-dropdown {
-        @include flex-col-between-center;
-        @include transition('ease-in-out', 250, (opacity, visibility, transform));
+        @include flex-col-center;
+        @include transition('ease-in-out', 250, (opacity, visibility, transform, top));
         @include visibility;
 
         position: fixed;
         right: 0;
         top: 75px;
         height: auto;
-        background: colors.$neutral;
         border-left: 1px solid colors.$border-primary;
         border-bottom: 1px solid colors.$border-primary;
         overflow: hidden;
@@ -216,10 +215,15 @@
         &.visible {
           transform: translateY(0);
         }
+
+        &--header-hidden {
+          top: 0 !important;
+        }
       }
 
       &-group {
         width: 100%;
+        background: colors.$primary;
         border-bottom: 1px solid colors.$border-primary;
 
         &:last-child {
@@ -236,7 +240,7 @@
           a,
           p {
             @include transition('linear', 300);
-            @include rgba('neutral', 10);
+            @include rgba('neutral', 5);
           }
         }
 
