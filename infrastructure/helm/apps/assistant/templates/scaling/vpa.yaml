@@ -1,0 +1,15 @@
+{{- if .Values.app.vpa.enabled }}
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: {{ include "levelup-store-assistant.fullname" . }}
+  labels:
+    {{- include "levelup-store-assistant.labels" . | nindent 4 }}
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "levelup-store-assistant.fullname" . }}
+  updatePolicy:
+    updateMode: {{ .Values.app.vpa.updateMode | quote }}
+{{- end }}
