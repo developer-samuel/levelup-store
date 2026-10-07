@@ -6,6 +6,8 @@ kube-prometheus-stack:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
       # hosts, tls.hosts, adminPassword: set via make monitoring-secrets
       tls:
         - secretName: grafana-tls

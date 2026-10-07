@@ -20,6 +20,8 @@ minio:
     ingressClassName: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
     # hostname: set via make services-secrets (APP_DOMAIN → minio.<APP_DOMAIN>)
     tls: true
 
