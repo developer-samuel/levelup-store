@@ -11,5 +11,8 @@ export function attachHeaderToggleListener(
 
     toggleClass(mobileContainer, 'navigation__mobile--header-hidden', hidden)
     toggleClass(navContainer, 'navigation--header-hidden', hidden)
+    document
+      .querySelectorAll<HTMLElement>('.header__main-user-dropdown')
+      .forEach((el) => toggleClass(el, 'header__main-user-dropdown--header-hidden', hidden))
   })
 }
