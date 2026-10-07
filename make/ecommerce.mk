@@ -2,7 +2,7 @@
 # 🛒 Ecommerce Commands (Symfony/PHP)
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: install generate-uml fix-permissions cache-clear routes \
+.PHONY: install cache-clear routes \
         serve setup \
         build-prod test-prod
 
@@ -23,19 +23,6 @@ install:
 	git config core.hooksPath .githooks
 	git config blame.ignoreRevsFile .git-blame-ignore-revs
 	@echo "✅ Git hooks enabled."
-
-## Generate UML diagrams from source code
-generate-uml:
-	@bash scripts/generate-uml/entrypoints/run.sh
-
-## Set correct file permissions - fixes root-owned files (WSL2)
-fix-permissions:
-	@bash scripts/set-permissions/entrypoints/run.sh
-	@if command -v docker > /dev/null 2>&1 && docker info > /dev/null 2>&1 && docker ps --filter "name=levelup_store_ecommerce_app" --filter "status=running" -q 2>/dev/null | grep -q .; then \
-		echo "🔧 Fixing var/ permissions inside app container..."; \
-		docker exec levelup_store_ecommerce_app chown -R www-data:www-data /var/www/apps/ecommerce/var/; \
-	fi
-	$(MAKE) cache-clear
 
 ## Clear and warmup Symfony cache (flushes Redis if available)
 cache-clear:

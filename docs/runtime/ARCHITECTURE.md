@@ -15,11 +15,36 @@
 ## 📊 Diagrams
 
 ### Platform
+
 - [System Context](../diagrams/graphs/architecture/system-context.mmd)
 - [Production Architecture](../diagrams/graphs/architecture/architecture.mmd)
 - [Deployment Pipeline](../diagrams/graphs/architecture/deployment.mmd)
 - [GitOps Flow](../diagrams/graphs/architecture/gitops.mmd)
 - [Provisioning](../diagrams/graphs/architecture/provisioning.mmd)
+
+---
+
+## 📁 Project structure
+
+> Requires `tree` - install with `sudo apt install tree` (Debian/Ubuntu) or `brew install tree` (macOS).
+
+```bash
+# Generate to file - uses git to list tracked files only (100% respects .gitignore)
+make generate-structure
+# or
+git ls-files | tree --fromfile > .structure/tree.txt
+
+# Generate directories to file
+make generate-structure-dirs
+# or
+git ls-files | tree --fromfile -d > .structure/dirs.txt
+
+# Display in terminal - directories only
+git ls-files | tree --fromfile -d
+
+# Specific folder - directories only
+git ls-files apps/ecommerce/src | tree --fromfile -d
+```
 
 ---
 
