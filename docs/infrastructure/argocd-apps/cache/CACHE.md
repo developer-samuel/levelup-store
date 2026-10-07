@@ -11,8 +11,8 @@
 
 Cache and session store.
 
-| Command | Description |
-|---|---|
-| `redis-start/down/stop/unsync` | Lifecycle |
-| `redis-status/sync/pods/logs` | Status |
-| `redis-cli` | Open redis-cli in Redis pod |
+| Command                        | Description                 |
+|--------------------------------|-----------------------------|
+| `redis-start/down/stop/unsync` | Lifecycle                   |
+| `redis-status/sync/pods/logs`  | Status                      |
+| `redis-cli`                    | Open redis-cli in Redis pod |

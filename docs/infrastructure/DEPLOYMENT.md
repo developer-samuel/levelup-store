@@ -36,7 +36,7 @@ The wildcard covers most subdomains (ArgoCD, Grafana, Mercure, etc.) - no per-se
 **Exception - MinIO:** The Cloudflare wildcard has `proxied = true`, which breaks S3 binary content (images won't load). MinIO needs a direct A record at the registrar (e.g. Hostinger) pointing to the Oracle Cloud VM IP, bypassing Cloudflare entirely:
 
 | Type | Name              | Value                                                    | TTL |
-| ---- | ----------------- | -------------------------------------------------------- | --- |
+|------|-------------------|----------------------------------------------------------|-----|
 | A    | minio.your-domain | OCI VM public IP (`terraform output instance_public_ip`) | 300 |
 
 Add this at the registrar DNS panel, not in Cloudflare.

@@ -98,7 +98,7 @@ Every variable listed below must be set in `.env.production` before running it.
 
 | Variable          | Description                    | Default             |
 |-------------------|--------------------------------|---------------------|
-| `JWT_PASSPHRASE`  | Passphrase for JWT private key | -                   |
+| `JWT_PASSPHRASE`  | Passphrase for JWT private key |                     |
 | `JWT_TTL`         | Access token TTL in seconds    | `900` (15 min)      |
 | `JWT_REFRESH_TTL` | Refresh token TTL in seconds   | `2592000` (30 days) |
 

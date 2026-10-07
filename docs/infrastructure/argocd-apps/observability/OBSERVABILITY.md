@@ -10,7 +10,7 @@ Observability stack - metrics, logs, traces.
 ## monitoring (Prometheus + Grafana)
 
 | Command                             | Description |
-| ----------------------------------- | ----------- |
+|-------------------------------------|-------------|
 | `monitoring-start/down/stop/unsync` | Lifecycle   |
 | `monitoring-status/sync/pods/logs`  | Status      |
 

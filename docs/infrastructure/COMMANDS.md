@@ -14,7 +14,7 @@ make <command>
 ## General
 
 | Command        | Description                                        |
-| -------------- | -------------------------------------------------- |
+|----------------|----------------------------------------------------|
 | `help`         | List all available commands with descriptions      |
 | `check-deps`   | Verify all required tools are installed            |
 | `install-deps` | Install missing tools                              |
@@ -25,7 +25,7 @@ make <command>
 ## Terraform
 
 | Command            | Description                                                  |
-| ------------------ | ------------------------------------------------------------ |
+|--------------------|--------------------------------------------------------------|
 | `tf-init`          | Initialize Terraform with local state                        |
 | `tf-init-remote`   | Initialize Terraform with remote state on OCI Object Storage |
 | `tf-plan`          | Preview infrastructure changes                               |
@@ -40,7 +40,7 @@ make <command>
 ## Ansible
 
 | Command           | Description                                                |
-| ----------------- | ---------------------------------------------------------- |
+|-------------------|------------------------------------------------------------|
 | `ansible-install` | Install Ansible Galaxy collections from `requirements.yml` |
 | `k3s-install`     | Install k3s on the VM and copy kubeconfig locally          |
 | `server-harden`   | Apply SSH hardening and fail2ban via Ansible               |
@@ -50,7 +50,7 @@ make <command>
 ## cert-manager & TLS
 
 | Command                | Description                                                   |
-| ---------------------- | ------------------------------------------------------------- |
+|------------------------|---------------------------------------------------------------|
 | `cert-manager-install` | Deploy cert-manager and configure Let's Encrypt ClusterIssuer |
 
 ---
@@ -58,7 +58,7 @@ make <command>
 ## ArgoCD
 
 | Command                | Description                                                        |
-| ---------------------- | ------------------------------------------------------------------ |
+|------------------------|--------------------------------------------------------------------|
 | `argocd-install`       | Deploy ArgoCD to the cluster                                       |
 | `argocd-configure`     | Apply ArgoCD configuration (RBAC, settings)                        |
 | `argocd-repo-add`      | Add GitHub repo credentials to ArgoCD (required for private repos) |
@@ -70,7 +70,7 @@ make <command>
 ## Secrets
 
 | Command              | Description                                                        |
-| -------------------- | ------------------------------------------------------------------ |
+|----------------------|--------------------------------------------------------------------|
 | `secrets`            | Set all app production secrets via ArgoCD app params               |
 | `services-secrets`   | Create K8s secrets for PostgreSQL, Redis, RabbitMQ, MinIO, Mercure |
 | `jwt-keys-secret`    | Generate RSA key pair and store as K8s secret for JWT              |
@@ -87,7 +87,7 @@ make <command>
 ## Velero (backups)
 
 | Command          | Description                                            |
-| ---------------- | ------------------------------------------------------ |
+|------------------|--------------------------------------------------------|
 | `velero-install` | Deploy Velero and configure OCI Object Storage backend |
 
 ---
@@ -95,7 +95,7 @@ make <command>
 ## Atlantis
 
 | Command            | Description              |
-| ------------------ | ------------------------ |
+|--------------------|--------------------------|
 | `atlantis-install` | Deploy Atlantis via Helm |
 
 ---
@@ -103,7 +103,7 @@ make <command>
 ## Jenkins
 
 | Command           | Description                                            |
-| ----------------- | ------------------------------------------------------ |
+|-------------------|--------------------------------------------------------|
 | `jenkins-install` | Create Jenkins secret and configure ingress via ArgoCD |
 
 ---
@@ -111,7 +111,7 @@ make <command>
 ## Blackbox Exporter
 
 | Command            | Description                                           |
-| ------------------ | ----------------------------------------------------- |
+|--------------------|-------------------------------------------------------|
 | `blackbox-install` | Deploy Blackbox Exporter for HTTP endpoint monitoring |
 
 ---
@@ -119,7 +119,7 @@ make <command>
 ## Sealed Secrets
 
 | Command                   | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
+|---------------------------|--------------------------------------------------------|
 | `sealed-secrets-cert`     | Fetch the Sealed Secrets controller public certificate |
 | `sealed-secrets-generate` | Generate SealedSecret manifests from `.env` values     |
 
@@ -131,7 +131,7 @@ make <command>
 ## Helm
 
 | Command            | Description                                          |
-| ------------------ | ---------------------------------------------------- |
+|--------------------|------------------------------------------------------|
 | `helm-deps-update` | Update Helm chart dependencies (downloads subcharts) |
 
 ---
@@ -139,7 +139,7 @@ make <command>
 ## System Upgrade Controller
 
 | Command            | Description                                          |
-| ------------------ | ---------------------------------------------------- |
+|--------------------|------------------------------------------------------|
 | `k3s-upgrade-plan` | Apply k3s upgrade plan via System Upgrade Controller |
 
 ---
@@ -180,7 +180,7 @@ Each application has up to 9 commands. Scripts live in `infrastructure/make/argo
 **Lifecycle:**
 
 | Pattern        | Description                                                   |
-| -------------- | ------------------------------------------------------------- |
+|----------------|---------------------------------------------------------------|
 | `<app>-start`  | Re-enable ArgoCD sync + trigger sync (fully on)               |
 | `<app>-down`   | Disable ArgoCD sync + scale pods to 0 (fully off)             |
 | `<app>-stop`   | Scale pods to 0 only (ArgoCD sync stays active - may restart) |
@@ -189,7 +189,7 @@ Each application has up to 9 commands. Scripts live in `infrastructure/make/argo
 **Status:**
 
 | Pattern        | Description                                                   |
-| -------------- | ------------------------------------------------------------- |
+|----------------|---------------------------------------------------------------|
 | `<app>-status` | Show ArgoCD sync/health status and conditions                 |
 | `<app>-sync`   | Trigger ArgoCD sync (without changing sync policy)            |
 | `<app>-pods`   | Show pods for this application                                |
@@ -201,7 +201,7 @@ Each application has up to 9 commands. Scripts live in `infrastructure/make/argo
 **Available applications:**
 
 | Application                                     | Namespace                 | Description                                        |
-| ----------------------------------------------- | ------------------------- | -------------------------------------------------- |
+|-------------------------------------------------|---------------------------|----------------------------------------------------|
 | `ecommerce` (ArgoCD: `levelup-store`)           | `levelup-store`           | Ecommerce app (Symfony PHP)                        |
 | `assistant` (ArgoCD: `levelup-store-assistant`) | `levelup-store-assistant` | AI assistant app (FastAPI + React)                 |
 | `postgresql`                                    | `levelup-store`           | Primary database                                   |
@@ -233,7 +233,7 @@ Each application has up to 9 commands. Scripts live in `infrastructure/make/argo
 **Generic targets** (direct use, bypassing per-app shortcuts):
 
 | Command                             | Description                         |
-| ----------------------------------- | ----------------------------------- |
+|-------------------------------------|-------------------------------------|
 | `argocd-app-start APP=<app>`        | Start any app by ArgoCD name        |
 | `argocd-app-down APP=<app> NS=<ns>` | Stop any app (sync off + pods to 0) |
 | `argocd-app-stop APP=<app> NS=<ns>` | Scale pods to 0 only                |
@@ -262,7 +262,7 @@ Commands in `infrastructure/make/cluster.mk`.
 ### Status
 
 | Command                 | Description                                    |
-| ----------------------- | ---------------------------------------------- |
+|-------------------------|------------------------------------------------|
 | `cluster-pods`          | All pods across all namespaces                 |
 | `cluster-apps`          | ArgoCD applications with sync/health status    |
 | `cluster-nodes`         | Nodes with status and roles                    |
@@ -282,7 +282,7 @@ Commands in `infrastructure/make/cluster.mk`.
 ### Resource Usage
 
 | Command                    | Description                                         |
-| -------------------------- | --------------------------------------------------- |
+|----------------------------|-----------------------------------------------------|
 | `cluster-top-pods`         | CPU/RAM per pod - sorted by memory (highest first)  |
 | `cluster-top-pods-cpu`     | CPU/RAM per pod - sorted by CPU (highest first)     |
 | `cluster-top-nodes`        | CPU/RAM per node                                    |
@@ -293,7 +293,7 @@ Commands in `infrastructure/make/cluster.mk`.
 ### Rollout
 
 | Command                                  | Description                  |
-| ---------------------------------------- | ---------------------------- |
+|------------------------------------------|------------------------------|
 | `cluster-rollout-restart APP=... NS=...` | Restart a deployment         |
 | `cluster-rollout-status APP=... NS=...`  | Watch rollout progress       |
 | `cluster-rollout-undo APP=... NS=...`    | Rollback to previous version |
@@ -301,7 +301,7 @@ Commands in `infrastructure/make/cluster.mk`.
 ### Logs
 
 | Command                            | Description                            |
-| ---------------------------------- | -------------------------------------- |
+|------------------------------------|----------------------------------------|
 | `cluster-logs APP=... NS=...`      | Tail logs (last 100 lines, follow)     |
 | `cluster-logs-prev APP=... NS=...` | Logs of previously crashed pod         |
 | `cluster-cp-logs APP=... NS=...`   | Download logs to `/tmp/<app>-<ns>.log` |
@@ -309,7 +309,7 @@ Commands in `infrastructure/make/cluster.mk`.
 ### Debug
 
 | Command                               | Description             |
-| ------------------------------------- | ----------------------- |
+|---------------------------------------|-------------------------|
 | `cluster-describe-pod POD=... NS=...` | Describe a specific pod |
 | `cluster-describe-app APP=... NS=...` | Describe a deployment   |
 | `cluster-exec APP=... NS=...`         | Open shell in a pod     |
@@ -317,7 +317,7 @@ Commands in `infrastructure/make/cluster.mk`.
 ### Config & Networking
 
 | Command                     | Description                                 |
-| --------------------------- | ------------------------------------------- |
+|-----------------------------|---------------------------------------------|
 | `cluster-secrets NS=...`    | List secrets in namespace                   |
 | `cluster-configmaps NS=...` | List configmaps in namespace                |
 | `cluster-services NS=...`   | Services with ports in namespace            |
@@ -331,7 +331,7 @@ Commands in `infrastructure/make/cluster.mk`.
 k6 scripts live in `infrastructure/k6/`. `APP_URL` is auto-loaded from `.env.production`.
 
 | Command             | Description                                                                  |
-| ------------------- | ---------------------------------------------------------------------------- |
+|---------------------|------------------------------------------------------------------------------|
 | `make k6-ecommerce` | Load test all ecommerce endpoints (auth, search, assistant, health, cookies) |
 
 ---

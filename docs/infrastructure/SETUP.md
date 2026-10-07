@@ -12,7 +12,7 @@ make -C infrastructure install-deps  # installs missing tools (Homebrew/apt)
 ```
 
 | Tool         | Minimum version | Purpose                         |
-| ------------ | --------------- | ------------------------------- |
+|--------------|-----------------|---------------------------------|
 | `terraform`  | >= 1.5.0        | Provision OCI VM                |
 | `ansible`    | >= 2.15         | Configure VM (k3s, hardening)   |
 | `kubectl`    | >= 1.28         | Manage K8s resources            |
@@ -70,7 +70,7 @@ See [SECRETS.md](SECRETS.md) for a full breakdown of every variable.
 Add the following A records in your DNS provider for your domain, all pointing to your VPS IP:
 
 | Subdomain                 | Purpose                  |
-| ------------------------- | ------------------------ |
+|---------------------------|--------------------------|
 | `levelup-store`           | Ecommerce (root)         |
 | `www.levelup-store`       | www redirect             |
 | `assistant.levelup-store` | Assistant API            |

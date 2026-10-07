@@ -11,9 +11,9 @@
 
 S3-compatible object storage for files and images.
 
-| Command | Description |
-|---|---|
-| `minio-start/down/stop/unsync` | Lifecycle |
-| `minio-status/sync/pods/logs` | Status |
+| Command                        | Description |
+|--------------------------------|-------------|
+| `minio-start/down/stop/unsync` | Lifecycle   |
+| `minio-status/sync/pods/logs`  | Status      |
 
 > MinIO Console: `make pf-minio` → http://localhost:9091

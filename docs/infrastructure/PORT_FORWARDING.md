@@ -13,7 +13,7 @@ make pf-grafana
 ## Available Services
 
 | Command                | URL / Address          | Credentials                                                |
-| ---------------------- | ---------------------- | ---------------------------------------------------------- |
+|------------------------|------------------------|------------------------------------------------------------|
 | `make pf-grafana`      | http://localhost:3000  | `GRAFANA_USER` / `GRAFANA_PASSWORD` from `.env.production` |
 | `make pf-prometheus`   | http://localhost:9090  |                                                            |
 | `make pf-alertmanager` | http://localhost:9093  |                                                            |

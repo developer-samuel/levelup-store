@@ -35,6 +35,16 @@ and orchestrated by k3s (lightweight Kubernetes).
 
 ---
 
+## Server
+
+Single Oracle Cloud Free Tier ARM VM - **2 OCPU, 12 GB RAM**.
+
+RAM is the primary constraint - Ollama (local LLM inference) alone requires several GB. The full stack is tuned to fit within 12 GB; all user-facing services run at all times, while some infrastructure tooling is scaled down and started on demand. Recommended spec for running everything simultaneously is **4 OCPU / 16 GB RAM**.
+
+Resource configuration is in `infrastructure/terraform/oracle/variables.tf`.
+
+---
+
 ## Repository layout
 
 | Directory     | Contains                                                          |

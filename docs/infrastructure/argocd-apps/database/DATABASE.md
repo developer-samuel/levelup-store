@@ -11,11 +11,11 @@
 
 Primary relational database.
 
-| Command | Description |
-|---|---|
-| `postgresql-start/down/stop/unsync` | Lifecycle |
-| `postgresql-status/sync/pods/logs` | Status |
-| `postgresql-shell` | Open psql shell in PostgreSQL pod |
+| Command                             | Description                       |
+|-------------------------------------|-----------------------------------|
+| `postgresql-start/down/stop/unsync` | Lifecycle                         |
+| `postgresql-status/sync/pods/logs`  | Status                            |
+| `postgresql-shell`                  | Open psql shell in PostgreSQL pod |
 
 ---
 
@@ -23,8 +23,8 @@ Primary relational database.
 
 Full-text search engine.
 
-| Command | Description |
-|---|---|
-| `elasticsearch-start/down/stop/unsync` | Lifecycle |
-| `elasticsearch-status/sync/pods/logs` | Status |
-| `elasticsearch-health` | Show cluster health (green/yellow/red) |
+| Command                                | Description                            |
+|----------------------------------------|----------------------------------------|
+| `elasticsearch-start/down/stop/unsync` | Lifecycle                              |
+| `elasticsearch-status/sync/pods/logs`  | Status                                 |
+| `elasticsearch-health`                 | Show cluster health (green/yellow/red) |

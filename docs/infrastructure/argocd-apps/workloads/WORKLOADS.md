@@ -14,7 +14,7 @@ Symfony PHP ecommerce application.
 **Namespace:** `levelup-store`
 
 | Command            | Description                          |
-| ------------------ | ------------------------------------ |
+|--------------------|--------------------------------------|
 | `ecommerce-start`  | Re-enable ArgoCD sync + trigger sync |
 | `ecommerce-down`   | Disable sync + scale pods to 0       |
 | `ecommerce-stop`   | Scale pods to 0 (sync stays active)  |
@@ -34,7 +34,7 @@ AI assistant - FastAPI + React + ChromaDB.
 **Namespace:** `levelup-store-assistant`
 
 | Command            | Description                          |
-| ------------------ | ------------------------------------ |
+|--------------------|--------------------------------------|
 | `assistant-start`  | Re-enable ArgoCD sync + trigger sync |
 | `assistant-down`   | Disable sync + scale pods to 0       |
 | `assistant-stop`   | Scale pods to 0 (sync stays active)  |
@@ -54,7 +54,7 @@ Local LLM inference used by the assistant.
 **Namespace:** `levelup-store`
 
 | Command                         | Description |
-| ------------------------------- | ----------- |
+|---------------------------------|-------------|
 | `ollama-start/down/stop/unsync` | Lifecycle   |
 | `ollama-status/sync/pods/logs`  | Status      |
 
