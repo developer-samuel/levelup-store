@@ -35,3 +35,14 @@ Most credentials are in `.env.production`. Jenkins password is in a K8s secret -
 - Port forwarding stays active until you press `Ctrl+C`.
 - Only one forward per local port at a time - if a port is already in use, change the local port: `kubectl port-forward svc/... 3001:80`.
 - KEDA, Kyverno, cert-manager and similar controllers have no web UI and are managed through ArgoCD or `kubectl`.
+
+---
+
+## Related docs
+
+- [Infrastructure Overview](OVERVIEW.md)
+- [Setup & Prerequisites](SETUP.md)
+- [Environment Variables & Secrets](SECRETS.md)
+- [Deployment Guide](DEPLOYMENT.md)
+- [Port Forwarding](PORT_FORWARDING.md)
+- [Makefile Command Reference](COMMANDS.md)
