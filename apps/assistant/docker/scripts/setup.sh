@@ -9,7 +9,7 @@ host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 client = ollama.Client(host=host)
 
 for model in [
-    os.environ.get("OLLAMA_MODEL", "phi3:mini"),
+    os.environ.get("OLLAMA_MODEL", "llama3.2:1b"),
     os.environ.get("OLLAMA_EMBED_MODEL", "nomic-embed-text"),
 ]:
     print(f"Pulling {model}...", flush=True)

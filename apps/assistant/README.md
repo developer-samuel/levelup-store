@@ -15,7 +15,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ```bash
 sudo snap install ollama
-ollama pull phi3:mini
+ollama pull llama3.2:1b
 ollama pull nomic-embed-text
 ```
 
@@ -47,7 +47,7 @@ Re-run after product catalog changes to keep the vector store up to date.
 | Variable             | Default                  | Required | Description                                            |
 |----------------------|--------------------------|----------|--------------------------------------------------------|
 | `OLLAMA_HOST`        | `http://localhost:11434` |          | Ollama service URL                                     |
-| `OLLAMA_MODEL`       | `phi3:mini`             |          | LLM used for chat responses                            |
+| `OLLAMA_MODEL`       | `llama3.2:1b`            |          | LLM used for chat responses                            |
 | `OLLAMA_EMBED_MODEL` | `nomic-embed-text`       |          | Model used for generating embeddings                   |
 | `CHROMA_HOST`        | `http://localhost:8010`  |          | ChromaDB service URL                                   |
 | `CORS_ORIGINS`       |                          | yes      | Allowed CORS origins (comma-separated)                 |

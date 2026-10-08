@@ -5,7 +5,7 @@ image:
 
 # Models to pull on startup (init container)
 models:
-  - mistral
+  - llama3.2:1b
   - nomic-embed-text
 
 persistence:

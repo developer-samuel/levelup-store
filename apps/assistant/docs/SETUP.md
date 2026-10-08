@@ -29,7 +29,7 @@ Core variables to check / configure:
   `OLLAMA_HOST`, `OLLAMA_MODEL`, `OLLAMA_EMBED_MODEL`  
   LLM inference server host and model names. Make sure the models are pulled before starting:
   ```bash
-  ollama pull phi3:mini
+  ollama pull llama3.2:1b
   ollama pull nomic-embed-text
   ```
 
