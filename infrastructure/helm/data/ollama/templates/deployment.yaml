@@ -55,6 +55,8 @@ spec:
           env:
             - name: OLLAMA_MODELS
               value: /root/.ollama/models
+            - name: OLLAMA_KEEP_ALIVE
+              value: "-1"
           volumeMounts:
             - name: data
               mountPath: /root/.ollama
