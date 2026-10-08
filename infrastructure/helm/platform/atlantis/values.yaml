@@ -11,8 +11,8 @@ atlantis:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/router.tls: "true"
     paths:
-      - /
-    pathType: Prefix
+      - path: /
+        pathType: Prefix
     # host: set via make atlantis-install (atlantis.$APP_DOMAIN)
     tls:
       - secretName: atlantis-tls
