@@ -1,0 +1,47 @@
+---
+- name: Create k3s config directory
+  ansible.builtin.file:
+    path: /etc/rancher/k3s
+    state: directory
+    mode: "0755"
+
+- name: Configure k3s TLS SAN with public IP
+  ansible.builtin.copy:
+    dest: /etc/rancher/k3s/config.yaml
+    content: |
+      tls-san:
+        - {{ ansible_host }}
+    mode: "0644"
+
+- name: Download k3s install script
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s-install.sh
+    mode: "0755"
+
+- name: Install k3s
+  ansible.builtin.command:
+    cmd: /tmp/k3s-install.sh
+    creates: "{{ k3s_install_dir }}/k3s"
+  environment:
+    INSTALL_K3S_VERSION: "{{ k3s_version }}"
+    INSTALL_K3S_EXEC: "--default-local-storage-path={{ k3s_storage_path }}"
+
+- name: Remove k3s install script
+  ansible.builtin.file:
+    path: /tmp/k3s-install.sh
+    state: absent
+
+- name: Enable and start k3s service
+  ansible.builtin.systemd:
+    name: k3s
+    enabled: true
+    state: started
+
+- name: Wait for k3s to be ready
+  ansible.builtin.command: k3s kubectl get nodes
+  register: k3s_result
+  until: k3s_result.rc == 0
+  retries: 10
+  delay: 5
+  changed_when: false
