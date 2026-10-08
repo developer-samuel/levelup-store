@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     chroma_host: str = "http://localhost:8010"
 
     # model names - fixed defaults, unlikely to change per environment
-    ollama_model: str = "llama3.2:1b"
+    ollama_model: str = "qwen2.5:1.5b"
     ollama_embed_model: str = "nomic-embed-text"
 
     # required - must be set in .env, no safe default

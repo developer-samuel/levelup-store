@@ -1,4 +1,5 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Bot, User } from 'lucide-react'
 
 import { cn } from '@/utils/classes.utils'
@@ -131,11 +132,27 @@ function formatThinkingTime(seconds: number): string {
 
 export function Message({ message }: Props) {
   const isUser = message.role === 'user'
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const bubbleRef = useRef<HTMLDivElement>(null)
+  const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number } | null>(null)
   usePersistSelection(!!message.streaming && !!message.content)
 
   if (!isUser && !message.content && !message.thinking) return null
 
   const ts = message.createdAt ? formatTimestamp(message.createdAt) : null
+
+  function handleMouseEnter() {
+    if (!ts || !bubbleRef.current) return
+    const rect = bubbleRef.current.getBoundingClientRect()
+    setTooltipPos({
+      top: rect.top - 45,
+      left: isUser ? rect.right - 130 : rect.left,
+    })
+  }
+
+  function handleMouseLeave() {
+    setTooltipPos(null)
+  }
 
   return (
     <div className={s.row}>
@@ -144,14 +161,24 @@ export function Message({ message }: Props) {
           {isUser ? <User className={s.avatarIcon} /> : <Bot className={s.avatarIcon} />}
         </div>
 
-        <div className={cn(s.bubbleWrapper, isUser ? s.bubbleWrapperUser : s.bubbleWrapperAi)}>
-          {ts && (
-            <div className={cn(s.timestamp, isUser && s.timestampUser)}>
+        <div
+          ref={wrapperRef}
+          className={cn(s.bubbleWrapper, isUser ? s.bubbleWrapperUser : s.bubbleWrapperAi)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {ts && tooltipPos && createPortal(
+            <div
+              className={cn(s.timestamp, isUser && s.timestampUser)}
+              style={{ position: 'fixed', top: tooltipPos.top, left: tooltipPos.left }}
+            >
               <span className={s.timestampDate}>{ts.date}</span>
               <span className={s.timestampTime}>{ts.time}</span>
-            </div>
+            </div>,
+            document.body,
           )}
           <div
+            ref={bubbleRef}
             className={cn(
               s.bubble,
               isUser ? s.bubbleUser : s.bubbleAi,
