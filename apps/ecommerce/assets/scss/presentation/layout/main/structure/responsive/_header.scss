@@ -3,59 +3,15 @@
 @use '@/scss/abstracts/mixins/structure/size' as *;
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
 
-@include resolution(lg, max) {
-  .navigation {
-    display: none;
-  }
-
-  .header {
-    &__main {
-      &-search {
-        display: none;
-      }
-
-      &-panel {
-        gap: 1em;
-      }
-
-      &-login {
-        padding: 0.25em 0.75em;
-      }
-    }
-
-    &__mobile {
-      @include flex;
-    }
-  }
-}
-
-@include resolution(lg, max) {
-  .header {
-    &__main {
-      height: 60px;
-      padding: 0 1rem;
-
-      &-user-dropdown {
-        top: 105px;
-      }
-
-      &-logo-image {
-        height: 36px;
-      }
-
+@include resolution(md, min) {
+  @include resolution(lg, max) {
+    .header__main {
       &-panel {
         height: 2.25em;
       }
 
-      &-login,
-      &-user {
-        &-icon {
-          @include size(16px, 16px);
-        }
-      }
-
-      &-login span {
-        font-size: 14px;
+      &-login {
+        padding: 0.25em 0.75em;
       }
 
       &-cart {
@@ -68,14 +24,55 @@
         }
       }
     }
+  }
+}
+
+@include resolution(lg, max) {
+  .header {
+    &__main {
+      height: 60px;
+      padding: 0 1rem;
+
+      &-search {
+        display: none;
+      }
+
+      &-panel {
+        gap: 1em;
+      }
+
+      &-user-dropdown {
+        top: 105px;
+      }
+
+      &-logo-image {
+        height: 36px;
+      }
+
+      &-login,
+      &-user {
+        &-icon {
+          @include size(16px, 16px);
+        }
+      }
+
+      &-login span {
+        font-size: 14px;
+      }
+    }
 
     &__mobile {
+      @include flex;
       @include size(100%, 45px);
 
       &-icon {
         @include size(24px, 24px);
       }
     }
+  }
+
+  .navigation {
+    display: none;
   }
 }
 
@@ -95,6 +92,10 @@
         height: 34px;
       }
 
+      &-panel {
+        height: 2em;
+      }
+
       &-user {
         padding: 0 0.75em;
 
@@ -103,11 +104,20 @@
         }
       }
 
+      &-login {
+        padding: 0 1em;
+        font-size: 12px;
+
+        &-icon {
+          @include size(14px, 14px);
+        }
+      }
+
       &-cart {
-        @include size(28px, 28px);
+        @include size(26px, 26px);
 
         &-count {
-          @include size(21px, 21px);
+          @include size(20px, 20px);
 
           font-size: 10px;
         }
@@ -144,6 +154,7 @@
       &__main {
         &-user {
           &-item {
+
             a,
             p {
               font-size: 20px;

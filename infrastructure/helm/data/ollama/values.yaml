@@ -17,8 +17,8 @@ resources:
     cpu: 50m
     memory: 512Mi
   limits:
-    cpu: "2"
-    memory: 6Gi
+    cpu: "1"
+    memory: 3Gi
 
 service:
   port: 11434
