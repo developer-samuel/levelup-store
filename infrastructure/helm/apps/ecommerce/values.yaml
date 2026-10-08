@@ -97,7 +97,7 @@ pgBackup:
   bucket: pg-backups
   retentionDays: 30
   dumpMemoryLimit: 512Mi
-  mcImage: minio/mc:RELEASE.2025-04-03T17-07-56Z
+  mcImage: minio/mc:RELEASE.2025-08-13T08-35-41Z
 
 # LimitRange
 limitRange:
