@@ -12,6 +12,7 @@ data:
   SENTRY_DSN: {{ .Values.app.sentryDsn | quote }}
   OLLAMA_HOST: {{ .Values.app.ollamaHost | quote }}
   OLLAMA_MODEL: {{ .Values.app.ollamaModel | quote }}
+  OLLAMA_EMBED_MODEL: {{ .Values.app.ollamaEmbedModel | quote }}
   {{- if .Values.otel.enabled }}
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
   OTEL_EXPORTER_OTLP_PROTOCOL: {{ .Values.otel.protocol | quote }}

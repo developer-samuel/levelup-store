@@ -46,6 +46,8 @@ argo-cd:
         memory: 1Gi
 
   configs:
+    params:
+      server.insecure: true
     cm:
       # Check interval - default 3m, increase to reduce CPU spikes
       timeout.reconciliation: 300s

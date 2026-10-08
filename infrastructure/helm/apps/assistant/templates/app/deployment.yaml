@@ -41,6 +41,11 @@ spec:
             - name: http
               containerPort: 8001
               protocol: TCP
+          env:
+            - name: OLLAMA_MODEL
+              value: {{ .Values.app.ollamaModel | quote }}
+            - name: OLLAMA_EMBED_MODEL
+              value: {{ .Values.app.ollamaEmbedModel | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "levelup-store-assistant.fullname" . }}-config
