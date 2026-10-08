@@ -24,7 +24,7 @@ K8S_APPS_DIR  := kubernetes/apps
 # app
 APP_NAME      := levelup-store
 ARGOCD_SERVER ?= argocd.$(APP_DOMAIN)
-ARGOCD_FLAGS  ?= --port-forward --port-forward-namespace argocd --insecure --grpc-web
+ARGOCD_FLAGS  ?= --grpc-web
 # Strip .git suffix - ArgoCD requires URL without it
 REPO_URL      := $(shell echo "$(GITHUB_REPO_URL)" | sed 's/\.git$$//')
 
