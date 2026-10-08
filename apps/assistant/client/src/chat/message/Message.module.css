@@ -109,16 +109,16 @@
 }
 
 .timestamp {
-  @apply absolute bottom-full mb-1.5 left-0 min-w-[130px]
-         flex flex-col gap-0.5 select-none pointer-events-none
-         rounded-lg bg-neutral px-2.5 py-2 shadow-lg z-50
-         opacity-0 -translate-y-1
-         transition-[opacity,transform] duration-150 ease-out;
+  @apply min-w-[130px] flex flex-col gap-0.5 select-none pointer-events-none
+         rounded-lg bg-neutral px-2.5 py-2 shadow-lg z-[9999];
+  animation: tooltipIn 150ms ease-out forwards;
 }
 
-.timestampUser {
-  @apply left-auto right-0;
+@keyframes tooltipIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
+
 
 .timestampDate {
   @apply text-xs leading-none text-primary/70;
@@ -126,9 +126,4 @@
 
 .timestampTime {
   @apply font-mono text-xs leading-none tabular-nums text-primary;
-}
-
-.messageBody:has(.bubble:hover) .timestamp,
-.messageBody:has(.avatar:hover) .timestamp {
-  @apply opacity-100 translate-y-0;
 }
