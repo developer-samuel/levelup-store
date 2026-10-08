@@ -1,0 +1,47 @@
+---
+- name: Disable swap
+  ansible.builtin.command: swapoff -a
+  changed_when: false
+
+- name: Remove swap from fstab (persist across reboots)
+  ansible.builtin.replace:
+    path: /etc/fstab
+    regexp: '^([^#].*\sswap\s.*)$'
+    replace: '# \1'
+
+- name: Set kernel parameters for Kubernetes
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: true
+    reload: true
+  loop:
+    - { name: fs.inotify.max_user_watches, value: "524288" }
+    - { name: fs.inotify.max_user_instances, value: "512" }
+    - { name: vm.overcommit_memory, value: "1" }
+    - { name: kernel.panic, value: "10" }
+    - { name: kernel.panic_on_oops, value: "1" }
+
+- name: Set ulimit for file descriptors (system-wide)
+  ansible.builtin.blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      * soft nofile 65536
+      * hard nofile 65536
+      root soft nofile 65536
+      root hard nofile 65536
+    marker: "# {mark} ANSIBLE MANAGED - k3s ulimits"
+
+- name: Set systemd file descriptor limits for k3s service
+  ansible.builtin.ini_file:
+    path: /etc/systemd/system/k3s.service.d/limits.conf
+    section: Service
+    option: LimitNOFILE
+    value: "65536"
+    create: true
+    mode: "0644"
+
+- name: Reload systemd after k3s limits change
+  ansible.builtin.systemd:
+    daemon_reload: true
