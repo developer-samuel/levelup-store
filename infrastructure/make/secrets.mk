@@ -154,6 +154,8 @@ assistant-secrets:
 	$(call require,DATABASE_URL_FQDN)
 	$(call require,CORS_ALLOW_ORIGIN)
 	$(call require,OLLAMA_HOST)
+	$(call require,OLLAMA_MODEL)
+	$(call require,OLLAMA_EMBED_MODEL)
 	$(call require,OTEL_SERVICE_NAME)
 	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
 	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
@@ -165,6 +167,8 @@ assistant-secrets:
 		-p app.corsOrigins="$(CORS_ALLOW_ORIGIN)" \
 		-p app.supportEmail="$(SUPPORT_EMAIL)" \
 		-p app.ollamaHost="$(OLLAMA_HOST)" \
+		-p app.ollamaModel="$(OLLAMA_MODEL)" \
+		-p app.ollamaEmbedModel="$(OLLAMA_EMBED_MODEL)" \
 		-p broker.rabbitmqUrl="$(RABBITMQ_URL_FQDN)" \
 		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
 		-p app.sentryDsn="$(SENTRY_DSN)" \

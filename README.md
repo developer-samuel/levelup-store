@@ -84,7 +84,8 @@ make -C infrastructure bootstrap
 ```
 
 → Full deploy guide: [docs/infrastructure/DEPLOYMENT.md](docs/infrastructure/DEPLOYMENT.md)  
-→ Infrastructure overview: [docs/infrastructure/OVERVIEW.md](docs/infrastructure/OVERVIEW.md)
+→ Infrastructure overview: [docs/infrastructure/OVERVIEW.md](docs/infrastructure/OVERVIEW.md)  
+→ Prerequisites & local setup: [docs/infrastructure/SETUP.md](docs/infrastructure/SETUP.md)
 
 ---
 
