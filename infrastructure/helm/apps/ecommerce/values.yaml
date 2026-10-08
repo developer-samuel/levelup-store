@@ -97,7 +97,7 @@ pgBackup:
   bucket: pg-backups
   retentionDays: 30
   dumpMemoryLimit: 512Mi
-  mcImage: bitnamilegacy/minio-client:2025
+  mcImage: minio/mc:RELEASE.2025-04-03T17-07-56Z
 
 # LimitRange
 limitRange:
