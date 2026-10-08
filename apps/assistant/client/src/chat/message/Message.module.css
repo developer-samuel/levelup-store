@@ -13,6 +13,16 @@
   }
 }
 
+@keyframes tooltipIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .row {
   @apply flex flex-row;
 }
@@ -110,15 +120,9 @@
 
 .timestamp {
   @apply min-w-[130px] flex flex-col gap-0.5 select-none pointer-events-none
-         rounded-lg bg-neutral px-2.5 py-2 shadow-lg z-[9999];
-  animation: tooltipIn 150ms ease-out forwards;
+         rounded-lg bg-neutral px-2.5 py-2 shadow-lg z-9999
+         animate-[tooltipIn_150ms_ease-out_forwards];
 }
-
-@keyframes tooltipIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
 
 .timestampDate {
   @apply text-xs leading-none text-primary/70;
