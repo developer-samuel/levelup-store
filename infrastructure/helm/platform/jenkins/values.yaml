@@ -1,5 +1,6 @@
 jenkins:
   controller:
+    replicaCount: 0  # disabled: insufficient RAM on node
     ingress:
       enabled: true
       ingressClassName: traefik
