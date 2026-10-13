@@ -7,7 +7,7 @@ if [ -f public/hot ] && ! docker ps --filter "name=levelup_store_ecommerce_vite"
 fi
 
 echo "⚙️ Installing frontend dependencies..."
-pnpm config set store-dir /tmp/.pnpm-store
+pnpm config set store-dir /var/www/.pnpm-store
 cd /var/www && pnpm install
 
 echo "⚙️ Building all assets..."
