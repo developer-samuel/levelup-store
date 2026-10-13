@@ -22,7 +22,6 @@ services:
           - rabbitmq
     extends:
       file: ${PWD}/docker/compose/healthcheck.yml
-      service: healthcheck
+      service: healthcheck_slow
     healthcheck:
       test: ['CMD', 'rabbitmq-diagnostics', 'ping']
-      start_period: 120s

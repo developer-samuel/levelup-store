@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Pull Ollama models via Python client (idempotent - skips if already pulled)
+# Pull Ollama models only when running in ollama mode
+if [ "${ASSISTANT_TYPE:-ollama}" != "ollama" ]; then
+    exit 0
+fi
+
 python3 - <<EOF
 import ollama, os, sys
 
-host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+host = os.environ.get("ASSISTANT_OLLAMA_HOST", "http://localhost:11434")
 client = ollama.Client(host=host)
 
 for model in [
-    os.environ.get("OLLAMA_MODEL", "qwen2.5:1.5b"),
-    os.environ.get("OLLAMA_EMBED_MODEL", "nomic-embed-text"),
+    os.environ.get("ASSISTANT_OLLAMA_MODEL", "mistral:7b-instruct"),
+    os.environ.get("ASSISTANT_OLLAMA_EMBED_MODEL", "nomic-embed-text"),
 ]:
     print(f"Pulling {model}...", flush=True)
     last_status = None

@@ -12,4 +12,4 @@ done
 
 echo "✅ Database ready. Starting messenger worker..." >> "$LOG_FILE" 2>&1
 
-php /var/www/apps/ecommerce/bin/console messenger:consume async --time-limit=3600 --memory-limit=128M -vv >> "$LOG_FILE" 2>&1
+php /var/www/apps/ecommerce/bin/console messenger:consume async async_outbox --time-limit=3600 --memory-limit=128M -vv >> "$LOG_FILE" 2>&1
