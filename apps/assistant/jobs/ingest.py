@@ -71,28 +71,48 @@ def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
 
 
 def _ingest_products(collection, rows: list[tuple[object, ...]]) -> int:
-    """Embed and upsert all valid product variants. Returns the number ingested."""
+    """Incrementally embed and upsert changed product variants, delete stale ones."""
+    existing = _get_existing_hashes(collection)
+
     ids: list[str] = []
     documents: list[str] = []
     embeddings: list[np.ndarray[tuple[int, ...], np.dtype[np.float32]]] = []
+    metadatas: list[dict] = []
+    current_ids: set[str] = set()
 
     for row in rows:
         result = _build_document(row)
-
         if result is None:
             continue
 
         doc_id, text = result
+        current_ids.add(doc_id)
+        content_hash = _hash(text)
+
+        if existing.get(doc_id) == content_hash:
+            continue
 
         ids.append(doc_id)
         documents.append(text)
         embeddings.append(np.array(embed(text), dtype=np.float32))
+        metadatas.append({"hash": content_hash})
 
         print(f"Embedded: {text[:80]}...")
 
-    collection.upsert(ids=ids, documents=documents, embeddings=cast(Embeddings, embeddings))
+    if ids:
+        collection.upsert(
+            ids=ids,
+            documents=documents,
+            embeddings=cast(Embeddings, embeddings),
+            metadatas=cast(Metadatas, metadatas),
+        )
 
-    print(f"\nIngested {len(ids)} products into ChromaDB.")
+    stale = {id_ for id_ in existing if not id_.startswith(("oos_", "review_", "catalog_", "top_"))} - current_ids
+    if stale:
+        collection.delete(ids=list(stale))
+        print(f"Deleted {len(stale)} stale product(s).")
+
+    print(f"\nProducts: {len(ids)} upserted, {len(stale)} deleted, {len(current_ids) - len(ids)} unchanged.")
 
     return len(ids)
 
@@ -118,7 +138,7 @@ def _ingest_catalog_summary(collection) -> None:
     if catalog["types"]:
         parts.append(f"Product types: {', '.join(catalog['types'])}")
 
-    summary_text = "LevelUp Store catalog summary. " + ". ".join(parts) + "."
+    summary_text = ("LevelUp Store catalog summary. " + ". ".join(parts) + ".")[:4000]
     summary_embedding = np.array(embed(summary_text), dtype=np.float32)
 
     collection.upsert(
@@ -141,7 +161,7 @@ def _ingest_top_reviewed(collection) -> None:
     lines: list[str] = []
 
     for row in rows:
-        _, product_name, variant_name, price, discounted_price, brand, category, feedback_count, rating_count, avg_rating, url, _image = row
+        _, product_name, variant_name, price, discounted_price, brand, category, feedback_count, rating_count, avg_rating, url, description, _image, _stock = row
         if not product_name or not brand:
             continue
 
@@ -152,15 +172,18 @@ def _ingest_top_reviewed(collection) -> None:
 
         url_text = f" URL: /product/show/{url}" if url else ""
         count_label = f"{feedback_count} reviews" if feedback_count else f"{rating_count} ratings"
-        lines.append(
+        line = (
             f"{brand} {product_name} - {variant_name}: {price_text}, "
             f"rated {avg_rating}/5 by {count_label}.{url_text}"
         )
+        if description:
+            line += f" {str(description)[:500]}"
+        lines.append(line)
 
     if not lines:
         return
 
-    text = "Top rated and most reviewed products at LevelUp Store. " + ". ".join(lines) + "."
+    text = ("Top rated and most reviewed products at LevelUp Store. " + ". ".join(lines) + ".")[:4000]
     embedding = np.array(embed(text), dtype=np.float32)
 
     collection.upsert(
@@ -201,7 +224,7 @@ def _ingest_top_ordered(collection) -> None:
     if not lines:
         return
 
-    text = "Most purchased products at LevelUp Store. " + ". ".join(lines) + "."
+    text = ("Most purchased products at LevelUp Store. " + ". ".join(lines) + ".")[:4000]
     embedding = np.array(embed(text), dtype=np.float32)
 
     collection.upsert(
@@ -216,12 +239,13 @@ def _ingest_top_ordered(collection) -> None:
 def _ingest_out_of_stock(collection) -> None:
     rows = product_repository.fetch_out_of_stock_products()
 
-    if not rows:
-        return
+    existing = _get_existing_hashes(collection, id_prefix="oos_")
 
     ids: list[str] = []
     documents: list[str] = []
-    embeddings_list = []
+    embeddings_list: list[np.ndarray] = []
+    metadatas: list[dict] = []
+    current_ids: set[str] = set()
 
     for row in rows:
         id_, product_name, variant_name, brand, category, url = row
@@ -234,15 +258,34 @@ def _ingest_out_of_stock(collection) -> None:
             f"Category: {category}. Status: out of stock.{url_text}"
         )
 
-        ids.append(f"oos_{id_}")
+        doc_id = f"oos_{id_}"
+        current_ids.add(doc_id)
+        content_hash = _hash(text)
+
+        if existing.get(doc_id) == content_hash:
+            continue
+
+        ids.append(doc_id)
         documents.append(text)
         embeddings_list.append(np.array(embed(text), dtype=np.float32))
+        metadatas.append({"hash": content_hash})
 
         print(f"Embedded (OOS): {text[:80]}...")
 
     if ids:
-        collection.upsert(ids=ids, documents=documents, embeddings=cast(Embeddings, embeddings_list))
-        print(f"Ingested {len(ids)} out-of-stock products.")
+        collection.upsert(
+            ids=ids,
+            documents=documents,
+            embeddings=cast(Embeddings, embeddings_list),
+            metadatas=cast(Metadatas, metadatas),
+        )
+
+    stale = set(existing.keys()) - current_ids
+    if stale:
+        collection.delete(ids=list(stale))
+        print(f"Deleted {len(stale)} stale OOS product(s).")
+
+    print(f"OOS: {len(ids)} upserted, {len(stale)} deleted, {len(current_ids) - len(ids)} unchanged.")
 
 
 def _ingest_documents() -> None:
