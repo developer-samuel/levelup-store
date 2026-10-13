@@ -12,6 +12,7 @@ use App\Core\Domain\Shared\Traits\{
     Timestamps\UpdatedTimestampTrait
 };
 
+/** @SuppressWarnings("UnusedPrivateField") */
 #[ORM\Entity]
 #[ORM\Table(name: 'search_synonyms')]
 #[ORM\HasLifecycleCallbacks]
