@@ -24,7 +24,7 @@ use App\Scheduler\{
 #[AsMessageHandler]
 final class CartCleanupTask extends AbstractTask
 {
-    private const INACTIVE_DAYS = 7;
+    private const INACTIVE_DAYS = 30;
 
     public function __construct(
         private readonly CartRepositoryContract $cartRepository,
