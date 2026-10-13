@@ -8,10 +8,10 @@ services:
       context: ${PWD}/apps/assistant/docker/config/_dev
       dockerfile: Dockerfile.vite
     container_name: levelup_store_assistant_client
-    working_dir: /app
-    command: pnpm dev
+    working_dir: /var/www
+    command: sh -c "pnpm rebuild rollup @rollup/rollup-linux-x64-gnu && pnpm --filter assistant dev"
     volumes:
-      - ${PWD}/apps/assistant/client:/app
+      - ${PWD}:/var/www
     ports:
       - '5174:5174'
     networks:
