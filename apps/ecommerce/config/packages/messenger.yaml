@@ -15,10 +15,16 @@ framework:
           #  levelup_store_emails:
           #    binding_keys: [emails]
 
-          # Doctrine transport options - uncomment when using Doctrine transport
-          #use_notify: true
-          #check_delayed_interval: 60000
+        retry_strategy:
+          max_retries: 3
+          multiplier: 2
+          delay: 1000
 
+      async_outbox:
+        dsn: 'doctrine://default?queue_name=outbox'
+        options:
+          use_notify: true
+          check_delayed_interval: 10000
         retry_strategy:
           max_retries: 3
           multiplier: 2
@@ -32,10 +38,10 @@ framework:
       messenger.bus.default: []
 
     routing:
-      # Symfony built-in
-      Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-      Symfony\Component\Notifier\Message\ChatMessage: async
-      Symfony\Component\Notifier\Message\SmsMessage: async
+      # Symfony built-in - outbox transport for guaranteed delivery
+      Symfony\Component\Mailer\Messenger\SendEmailMessage: async_outbox
+      Symfony\Component\Notifier\Message\ChatMessage: async_outbox
+      Symfony\Component\Notifier\Message\SmsMessage: async_outbox
 
       # Scheduler messages (time-driven)
       App\Scheduler\Message\Cart\CartCleanupMessage: async

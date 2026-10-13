@@ -38,7 +38,7 @@ final class CreateAuditLogsTable
         StringMacro::string($table, 'entity', 64);
         BigIntegerMacro::unsignedBigInteger($table, 'entity_id');
         StringMacro::text($table, 'metadata', ['notnull' => false, 'default' => null]);
-        DateMacro::datetime($table, 'created_at');
+        DateMacro::datetimetz($table, 'created_at');
     }
 
     private static function addForeignKeys(Table $table): void

@@ -71,7 +71,7 @@ final class CreateUsersTable
 
     private static function addDateTimeColumn(Table $table): void
     {
-        DateMacro::datetime($table, 'email_verified_at');
+        DateMacro::datetimetz($table, 'email_verified_at');
     }
 
     private static function addTimestamps(Table $table): void
@@ -82,7 +82,7 @@ final class CreateUsersTable
 
     private static function addSoftDeleteColumn(Table $table): void
     {
-        DateMacro::datetime($table, 'deleted_at');
+        DateMacro::datetimetz($table, 'deleted_at');
     }
 
     private static function addUniqueIndex(Table $table): void

@@ -369,9 +369,11 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         self::assertArrayHasKey('items', $page2);
     }
 
-    public function testFindOneByUrlReturnsNullWhenVariantHasNoStock(): void
+    public function testFindOneByUrlReturnsNullWhenVariantOutOfStock(): void
     {
-        $result = $this->repository->findOneByUrl('url-that-does-not-exist-xyz');
+        $variant = $this->createAndPersistVariantOutOfStock('SKU-OOS-URL-001', 'OOS Url Variant', 'oos-url-variant-001');
+
+        $result = $this->repository->findOneByUrl($variant->getUrl());
 
         self::assertNull($result);
     }
@@ -477,6 +479,51 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         self::assertCount(1, $result['items']);
         self::assertSame($variant->getId(), $result['items'][0]->getId());
+    }
+
+    public function testGetMaxPriceForFilterWithCategoryFilter(): void
+    {
+        $variant = $this->createAndPersistVariant('SKU-MAXPRICE-CAT-001', 'MaxPrice Cat Variant', 'maxprice-cat-001');
+        $categorySlug = $this->toSlug($variant->getProduct()->getCategory()->getName());
+
+        $filter = new ProductFilterObject(
+            isDiscountRoute: false,
+            subtypes:        [],
+            brands:          [],
+            category:        $categorySlug,
+        );
+
+        $result = $this->repository->getMaxPriceForFilter($filter);
+
+        self::assertGreaterThanOrEqual(0.0, $result);
+    }
+
+    public function testGetMaxPriceForFilterWithTypeFilter(): void
+    {
+        $variant = $this->createAndPersistVariant('SKU-MAXPRICE-TYPE-001', 'MaxPrice Type Variant', 'maxprice-type-001');
+        $typeSlug = $this->toSlug($variant->getProduct()->getType()->getName());
+
+        $filter = new ProductFilterObject(
+            isDiscountRoute: false,
+            subtypes:        [],
+            brands:          [],
+            type:            $typeSlug,
+        );
+
+        $result = $this->repository->getMaxPriceForFilter($filter);
+
+        self::assertGreaterThanOrEqual(0.0, $result);
+    }
+
+    public function testFindRandomAvailableExcludingSkipsOutOfStockVariants(): void
+    {
+        $outOfStock = $this->createAndPersistVariantOutOfStock('SKU-RAND-OOS-001', 'OOS Rand Variant', 'rand-oos-001');
+        $available = $this->createAndPersistVariant('SKU-RAND-AVAIL-001', 'Avail Rand Variant', 'rand-avail-001');
+
+        $result = $this->repository->findRandomAvailableExcluding([]);
+
+        self::assertNotNull($result);
+        self::assertNotSame($outOfStock->getId(), $result->getId());
     }
 
     public function testFindRandomAvailableExcludingRespectsExcludedIds(): void
@@ -585,6 +632,34 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         $stock = (new ProductVariantStock())
             ->setVariant($variant)
             ->setQuantityAvailable(10);
+
+        $ean = (new ProductVariantEan())
+            ->setVariant($variant)
+            ->setCode(substr(md5(uniqid('', true)), 0, 13));
+
+        $this->em->persist($variant);
+        $this->em->persist($stock);
+        $this->em->persist($ean);
+        $this->em->flush();
+        $this->em->clear();
+
+        return $variant;
+    }
+
+    private function createAndPersistVariantOutOfStock(string $sku, string $name, string $url): ProductVariant
+    {
+        $product = $this->createAndPersistProduct();
+
+        $variant = (new ProductVariant())
+            ->setProduct($product)
+            ->setSku($sku)
+            ->setName($name)
+            ->setUrl($url)
+            ->setPrice(99.99);
+
+        $stock = (new ProductVariantStock())
+            ->setVariant($variant)
+            ->setQuantityAvailable(0);
 
         $ean = (new ProductVariantEan())
             ->setVariant($variant)

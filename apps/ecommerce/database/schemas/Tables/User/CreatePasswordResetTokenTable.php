@@ -57,7 +57,7 @@ final class CreatePasswordResetTokenTable
 
     private static function addDateTimeColumn(Table $table): void
     {
-        DateMacro::datetime($table, 'expires_at');
+        DateMacro::datetimetz($table, 'expires_at');
     }
 
     private static function addTimestamp(Table $table): void

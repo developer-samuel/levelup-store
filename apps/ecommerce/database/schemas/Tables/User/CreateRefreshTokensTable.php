@@ -35,8 +35,8 @@ final class CreateRefreshTokensTable
         IdMacro::addBigIdColumn($table);
         BigIntegerMacro::unsignedBigInteger($table, 'user_id');
         StringMacro::string($table, 'token', 128);
-        DateMacro::datetime($table, 'expires_at');
-        DateMacro::datetime($table, 'created_at');
+        DateMacro::datetimetz($table, 'expires_at');
+        DateMacro::datetimetz($table, 'created_at');
     }
 
     private static function addForeignKeys(Table $table): void

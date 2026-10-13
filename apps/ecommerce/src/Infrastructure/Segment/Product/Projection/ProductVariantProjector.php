@@ -8,10 +8,13 @@ use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
 use Packages\Kit\Utils\Shared\StringNormalizer;
 
+use App\Core\Domain\Segment\Synonym\Synonym;
+
 use App\Core\Ports\{
     Gateways\External\Search\ElasticsearchGatewayContract,
     Segment\Product\Repository\Variant\ProductVariantRepositoryContract,
     Segment\Review\Repository\ReviewRepositoryContract,
+    Segment\Synonym\SynonymRepositoryContract,
     Shared\ReindexableInterface
 };
 
@@ -21,6 +24,7 @@ final readonly class ProductVariantProjector implements ReindexableInterface
         private ElasticsearchGatewayContract $elasticsearch,
         private ProductVariantRepositoryContract $variantRepository,
         private ReviewRepositoryContract $reviewRepository,
+        private SynonymRepositoryContract $synonymRepository,
     ) {}
 
     public function index(ProductVariant $variant, float $avgRating = 0.0): void
@@ -43,7 +47,12 @@ final readonly class ProductVariantProjector implements ReindexableInterface
 
     public function reindexAll(): int
     {
-        $this->elasticsearch->ensureIndexExists(ProductVariantProjection::NAME, ProductVariantProjection::mapping());
+        $synonyms = array_map(
+            static fn(Synonym $s): string => $s->getSynonyms(),
+            $this->synonymRepository->findAll(),
+        );
+
+        $this->elasticsearch->ensureIndexExists(ProductVariantProjection::NAME, ProductVariantProjection::mapping($synonyms));
 
         $variants = $this->variantRepository->findAll();
 
