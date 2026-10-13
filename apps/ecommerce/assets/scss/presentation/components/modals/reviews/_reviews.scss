@@ -27,11 +27,23 @@
       position: relative;
       z-index: 1;
 
-      img {
-        @include size(20px, auto);
+      button {
+        @include flex-center;
+        @include size(36px);
+        @include transition('linear');
 
-        position: fixed;
+        background: rgba(0, 0, 0, 0.08);
+        border: none;
+        border-radius: 50%;
         cursor: pointer;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.15);
+        }
+
+        img {
+          @include size(16px, 16px);
+        }
       }
     }
 

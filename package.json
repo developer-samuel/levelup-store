@@ -5,16 +5,16 @@
   },
   "scripts": {
     "sloc": "sloc apps/ecommerce/assets/ts apps/ecommerce/assets/scss apps/assistant/client/src",
-    "dev": "(cd apps/ecommerce && node_modules/.bin/vite) & (cd apps/assistant/client && node_modules/.bin/vite)",
-    "build": "(cd apps/ecommerce && node_modules/.bin/vite build) && (cd apps/assistant/client && node_modules/.bin/vite build)",
-    "type-check": "(cd apps/ecommerce && node_modules/.bin/tsc --noEmit) && (cd apps/assistant/client && node_modules/.bin/tsc --noEmit)",
-    "type-check:all": "(cd apps/ecommerce && node_modules/.bin/tsc --noEmit && node_modules/.bin/tsc --noEmit --project tsconfig.test.json) && (cd apps/assistant/client && node_modules/.bin/tsc --noEmit)",
-    "lint": "(cd apps/ecommerce && node_modules/.bin/eslint assets/ts/**/*.ts) && (cd apps/assistant/client && node_modules/.bin/eslint src)",
-    "lint:fix": "(cd apps/ecommerce && node_modules/.bin/eslint assets/ts/**/*.ts --fix) && (cd apps/assistant/client && node_modules/.bin/eslint src --fix)",
-    "lint:all": "(cd apps/ecommerce && node_modules/.bin/eslint assets/ts/**/*.ts tests/vitest/**/*.ts) && (cd apps/assistant/client && node_modules/.bin/eslint src)",
-    "lint:all:fix": "(cd apps/ecommerce && node_modules/.bin/eslint assets/ts/**/*.ts tests/vitest/**/*.ts --fix) && (cd apps/assistant/client && node_modules/.bin/eslint src --fix)",
-    "lint:report": "(cd apps/ecommerce && node_modules/.bin/eslint assets/ts/**/*.ts tests/vitest/**/*.ts --format json --output-file var/tools/eslint/report.json || true) && (cd apps/assistant/client && node_modules/.bin/eslint src --format json --output-file reports/eslint.report.json || true)",
-    "prettier:fix": "(cd apps/ecommerce && node_modules/.bin/prettier --write \"assets/ts/**/*.ts\") && (cd apps/assistant/client && node_modules/.bin/prettier --write \"src/**/*.{ts,tsx,css}\")",
-    "prettier:all:fix": "(cd apps/ecommerce && node_modules/.bin/prettier --write \"assets/ts/**/*.ts\" \"tests/vitest/**/*.ts\") && (cd apps/assistant/client && node_modules/.bin/prettier --write \"src/**/*.{ts,tsx,css}\")"
+    "dev": "pnpm --filter ecommerce vite & pnpm --filter assistant vite",
+    "build": "pnpm --filter ecommerce vite build && pnpm --filter assistant vite build",
+    "type-check": "pnpm --filter ecommerce tsc --noEmit && pnpm --filter assistant tsc --noEmit",
+    "type-check:all": "pnpm --filter ecommerce tsc --noEmit && pnpm --filter ecommerce tsc --noEmit --project tsconfig.test.json && pnpm --filter assistant tsc --noEmit",
+    "lint": "pnpm --filter ecommerce eslint assets/ts/**/*.ts && pnpm --filter assistant eslint src",
+    "lint:fix": "pnpm --filter ecommerce eslint assets/ts/**/*.ts --fix && pnpm --filter assistant eslint src --fix",
+    "lint:all": "pnpm --filter ecommerce eslint assets/ts/**/*.ts tests/vitest/**/*.ts && pnpm --filter assistant eslint src",
+    "lint:all:fix": "pnpm --filter ecommerce eslint assets/ts/**/*.ts tests/vitest/**/*.ts --fix && pnpm --filter assistant eslint src --fix",
+    "lint:report": "pnpm --filter ecommerce eslint assets/ts/**/*.ts tests/vitest/**/*.ts --format json --output-file var/tools/eslint/report.json || true && pnpm --filter assistant eslint src --format json --output-file reports/eslint.report.json || true",
+    "prettier:fix": "pnpm --filter ecommerce prettier --write \"assets/ts/**/*.ts\" && pnpm --filter assistant prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "prettier:all:fix": "pnpm --filter ecommerce prettier --write \"assets/ts/**/*.ts\" \"tests/vitest/**/*.ts\" && pnpm --filter assistant prettier --write \"src/**/*.{ts,tsx,css}\""
   }
 }

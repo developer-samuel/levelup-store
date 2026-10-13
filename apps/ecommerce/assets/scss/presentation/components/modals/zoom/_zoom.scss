@@ -5,6 +5,7 @@
 
 #gallery-zoom-modal {
   display: none;
+  cursor: zoom-out;
 
   &.visible {
     display: flex;
@@ -22,15 +23,31 @@
     max-width: calc(100vw - 2em);
     max-height: 90vh;
     object-fit: contain;
+    cursor: default;
   }
 
   &__close {
-    @include size(20px, auto);
-    
+    @include flex-center;
+    @include size(36px, 36px);
+    @include transition('linear');
+
     position: absolute;
     top: 1em;
     right: 1em;
-    filter: invert(100%);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 50%;
     cursor: pointer;
+
+    img {
+      @include size(100%, 100%);
+
+      padding: 0.75em;
+      filter: invert(100%);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
   }
 }

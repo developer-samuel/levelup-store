@@ -1,17 +1,15 @@
-import ApexCharts, { type ApexOptions } from 'apexcharts'
+import type { ApexOptions } from 'apexcharts'
 
 import { logDevError } from '@/ts/shared/utils/logger'
 
-function renderChart(element: HTMLElement | null, options: ApexOptions): void {
+async function renderChart(element: HTMLElement | null, options: ApexOptions): Promise<void> {
   if (!element) return
 
+  const { default: ApexCharts } = await import('apexcharts')
+  
   void new ApexCharts(element, options).render()
 }
 
 export function renderChartWithLogging(element: HTMLElement | null, options: ApexOptions, logLabel: string): void {
-  try {
-    renderChart(element, options)
-  } catch (error) {
-    logDevError(`[${logLabel}]`, error)
-  }
+  renderChart(element, options).catch((error) => logDevError(`[${logLabel}]`, error))
 }

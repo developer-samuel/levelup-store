@@ -2,9 +2,13 @@ import { refreshTokenGuard } from '@/ts/core/jwt/authGuard'
 
 import { query } from '@/ts/shared/utils/dom/query'
 
+import { bindZoomModal } from '@/ts/features/products/detail/zoom/_interactions/zoomModal'
+
 import { modules } from '@/ts/app/imports/index'
 
 await refreshTokenGuard()
+
+bindZoomModal()
 
 /** Initialize modules on page if matching element exists */
 modules.forEach(({ selector, module }) => {

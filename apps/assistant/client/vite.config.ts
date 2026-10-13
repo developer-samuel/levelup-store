@@ -12,12 +12,13 @@ export default defineConfig({
   build: {
     outDir: '../../../dist/assistant',
     emptyOutDir: true,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       input: resolve(import.meta.dirname, 'src/main.tsx'),
       output: {
-        entryFileNames: 'chat.js',
-        chunkFileNames: 'chat-[name].js',
-        assetFileNames: 'chat[extname]',
+        entryFileNames: 'assistant.js',
+        chunkFileNames: 'assistant-[name].js',
+        assetFileNames: 'assistant[extname]',
       },
     },
   },

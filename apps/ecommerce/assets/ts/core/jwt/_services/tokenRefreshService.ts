@@ -28,7 +28,7 @@ async function fetchAccessToken(): Promise<string> {
 export async function refreshToken(): Promise<void> {
   if (isRefreshing) {
     return new Promise<void>((resolve) => {
-      refreshQueue.push((_token: string) => resolve())
+      refreshQueue.push(() => resolve())
     })
   }
 
