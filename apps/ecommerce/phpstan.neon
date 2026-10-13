@@ -4,7 +4,7 @@ parameters:
     paths:
         - src
         - database
-        - packages/server
+        - presets/server
         - tests
 
     treatPhpDocTypesAsCertain: false

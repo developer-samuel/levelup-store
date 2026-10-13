@@ -11,7 +11,7 @@ use Symfony\{
     Component\Validator\Context\ExecutionContextInterface
 };
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Application\Segment\Review\Input\ReviewStoreInput;
 
@@ -21,7 +21,8 @@ final class ReviewStoreRequest extends AbstractRequest
 {
     use ReviewStoreInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

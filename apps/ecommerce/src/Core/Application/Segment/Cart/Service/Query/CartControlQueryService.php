@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Cart\Service\Query;
 
-use Packages\Kit\Assertion\Shared\IdAssertion;
+use Presets\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\{
     Segment\Cart\Entity\Cart,

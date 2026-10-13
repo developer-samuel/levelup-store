@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\User\Utils;
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 final class NameFormatter
 {

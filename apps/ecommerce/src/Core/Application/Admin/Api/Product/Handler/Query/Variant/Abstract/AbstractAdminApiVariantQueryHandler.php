@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Api\Product\Handler\Query\Variant\Abstract;
 
-use Packages\Kit\Assertion\Shared\IdAssertion;
+use Presets\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
@@ -38,7 +38,7 @@ abstract class AbstractAdminApiVariantQueryHandler extends AbstractAdminApiListQ
      * @param array<string, mixed> $context
      *
      * @return array<int, ProductVariant>
-    */
+     */
     protected function getRepositoryClass(array $context = []): array
     {
         /** @var array{variantId?: int|null} $context */

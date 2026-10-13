@@ -11,7 +11,7 @@ use Twig\{
 
 use Doctrine\Common\Collections\Collection;
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 final class NavigationExtension extends AbstractExtension
 {
@@ -55,7 +55,7 @@ final class NavigationExtension extends AbstractExtension
                 static fn($t): bool => is_string($t),
             )) : [];
     }
-    
+
     private function normalizeMax(mixed $max): int
     {
         $sanitized = DataSanitizer::sanitizeInt($max);

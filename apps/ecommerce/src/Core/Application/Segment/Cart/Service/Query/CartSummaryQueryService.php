@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Cart\Service\Query;
 
-use Packages\Kit\{
+use Presets\Kit\{
     Assertion\Domain\Cart\CartAssertion,
     Assertion\Shared\IdAssertion
 };
@@ -29,7 +29,7 @@ use App\Shared\Utils\Formatter\PriceFormatter;
  * @phpstan-import-type CartSummary from CartSummaryQueryContract
  * @phpstan-import-type CartTotals from CartSummaryQueryContract
  * @phpstan-import-type CartResponse from CartSummaryQueryContract
-*/
+ */
 final readonly class CartSummaryQueryService implements CartSummaryQueryContract
 {
     public function __construct(
@@ -79,7 +79,7 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
      * @param CartTotals $summary
      *
      * @return CartResponse
-    */
+     */
     public function buildSuccessResponse(string $message, string $html, array $summary): array
     {
         return $this->formatCartResponse($message, $html, $summary);
@@ -89,7 +89,7 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
      * @param CartTotals $summary
      *
      * @return CartResponse
-    */
+     */
     public function buildErrorResponse(string $message, string $html, array $summary, int $status): array
     {
         return $this->formatCartResponse($message, $html, $summary, true, $status);
@@ -147,7 +147,7 @@ final readonly class CartSummaryQueryService implements CartSummaryQueryContract
      * @param CartTotals $summary
      *
      * @return CartResponse
-    */
+     */
     private function formatCartResponse(
         string $message,
         string $html,

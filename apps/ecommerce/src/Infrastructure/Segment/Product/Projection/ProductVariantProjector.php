@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Product\Projection;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\Segment\Synonym\Synonym;
 

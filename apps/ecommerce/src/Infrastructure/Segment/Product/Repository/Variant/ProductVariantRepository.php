@@ -9,7 +9,7 @@ use Doctrine\{
     Persistence\ManagerRegistry
 };
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Product,
@@ -73,7 +73,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
      *     items: ProductVariant[],
      *     total: int
      * }
-    */
+     */
     public function findAvailableVariantsPaginated(
         ProductFilterObject $filter,
         int $page,
@@ -338,7 +338,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
      * @param string[] $items
      *
      * @return string[]
-    */
+     */
     private function normalizeArray(array $items): array
     {
         $normalized = array_map(
@@ -378,7 +378,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
      * @param int[] $ids
      *
      * @return ProductVariant[]
-    */
+     */
     private function findByOrderedIds(array $ids): array
     {
         /** @var ProductVariant[] $variants */

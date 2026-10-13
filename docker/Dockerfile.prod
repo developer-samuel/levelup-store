@@ -44,7 +44,7 @@ RUN PUPPETEER_SKIP_DOWNLOAD=true pnpm install --frozen-lockfile
 
 COPY apps/ecommerce/assets/ apps/ecommerce/assets/
 COPY apps/ecommerce/public/ apps/ecommerce/public/
-COPY apps/ecommerce/packages/vite/ apps/ecommerce/packages/vite/
+COPY apps/ecommerce/presets/vite/ apps/ecommerce/presets/vite/
 COPY apps/ecommerce/vite.config.ts apps/ecommerce/tsconfig.json apps/ecommerce/importmap.php apps/ecommerce/
 
 COPY apps/assistant/client/src/ apps/assistant/client/src/
@@ -98,7 +98,7 @@ COPY apps/ecommerce/config/ config/
 COPY apps/ecommerce/database/ database/
 COPY apps/ecommerce/public/ public/
 COPY apps/ecommerce/src/ src/
-COPY apps/ecommerce/packages/ packages/
+COPY apps/ecommerce/presets/ presets/
 COPY apps/ecommerce/scripts/ scripts/
 COPY apps/ecommerce/templates/ templates/
 COPY apps/ecommerce/composer.json apps/ecommerce/composer.lock apps/ecommerce/symfony.lock apps/ecommerce/importmap.php apps/ecommerce/init.php ./

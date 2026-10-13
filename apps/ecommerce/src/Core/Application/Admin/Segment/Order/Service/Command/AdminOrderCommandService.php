@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Order\Service\Command;
 
-use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantStockAssertion;
+use Presets\Kit\Assertion\Domain\Product\Variant\ProductVariantStockAssertion;
 
 use App\Core\Domain\{
     Admin\Order\AdminOrderStatusPayload,
@@ -87,7 +87,7 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
      *     ean: ProductVariantEan,
      *     stock: ProductVariantStock
      * }
-    */
+     */
     private function getEanAndStock(OrderItem $item): array
     {
         $ean = $item->getEan();

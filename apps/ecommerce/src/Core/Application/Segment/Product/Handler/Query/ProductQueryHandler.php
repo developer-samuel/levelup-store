@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Product\Handler\Query;
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\{
     Segment\Product\Enum\ProductSortOption,
@@ -56,7 +56,7 @@ final readonly class ProductQueryHandler implements ProductQueryHandlerContract
      * @param array<string|int, mixed> $item
      *
      * @return array<string, mixed>
-    */
+     */
     private function processSingleProduct(array $item): array
     {
         $item = $this->normalizeKeys($item);
@@ -69,7 +69,7 @@ final readonly class ProductQueryHandler implements ProductQueryHandlerContract
      * @param array<string|int, mixed> $item
      *
      * @return array<string, mixed>
-    */
+     */
     private function normalizeKeys(array $item): array
     {
         return array_combine(

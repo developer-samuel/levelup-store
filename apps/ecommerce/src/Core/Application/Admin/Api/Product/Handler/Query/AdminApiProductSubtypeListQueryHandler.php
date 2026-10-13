@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Api\Product\Handler\Query;
 
-use Packages\Kit\Assertion\Shared\IdAssertion;
+use Presets\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\Segment\Product\Entity\ProductSubtype;
 
@@ -31,7 +31,7 @@ final class AdminApiProductSubtypeListQueryHandler extends AbstractAdminApiListQ
      * @param array<string, mixed> $context
      *
      * @return ProductSubtype[]
-    */
+     */
     protected function getRepositoryClass(array $context = []): array
     {
         /** @var array{id?: int|null} $context */

@@ -10,7 +10,7 @@ use Symfony\{
     Contracts\HttpClient\ResponseInterface
 };
 
-use Packages\Kit\{
+use Presets\Kit\{
     Assertion\Domain\Country\CountryAssertion,
     Utils\Shared\DataSanitizer
 };
@@ -28,7 +28,7 @@ use App\Core\Ports\{
  *     alpha2Code: string,
  *     name: string
  * }
-*/
+ */
 final readonly class CountryApiAdapter implements CountryApiGatewayContract
 {
     public function __construct(
@@ -121,7 +121,7 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
      * @param array<int, CountryItem> $data
      *
      * @return array<int, CountryItem>
-    */
+     */
     private function sanitizeAndTypeData(array $data): array
     {
         return array_map(
@@ -139,7 +139,7 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
      * @param array<int, CountryItem> $data
      *
      * @return CountryObject[]
-    */
+     */
     private function mapToApiCountries(array $data): array
     {
         $countries = [];
@@ -154,7 +154,7 @@ final readonly class CountryApiAdapter implements CountryApiGatewayContract
      * @param CountryObject[] $countries
      *
      * @return CountryObject[]
-    */
+     */
     private function sortCountriesByName(array $countries): array
     {
         usort(

@@ -9,7 +9,7 @@ use Symfony\{
     Component\HttpFoundation\Response
 };
 
-use Packages\Kit\{
+use Presets\Kit\{
     Utils\Shared\StringNormalizer,
     Utils\Shared\DataSanitizer
 };
@@ -123,7 +123,7 @@ final class ProductQueryController extends AbstractQueryController
 
         return array_values(array_filter(
             DataSanitizer::sanitizeStringArray(explode(',', $sanitizedString)),
-            static fn (string $v): bool => $v !== '',
+            static fn(string $v): bool => $v !== '',
         ));
     }
 
@@ -131,7 +131,7 @@ final class ProductQueryController extends AbstractQueryController
      * @param string[] $items
      *
      * @return string[]
-    */
+     */
     private function mapNormalizedItems(array $items): array
     {
         return array_map(
@@ -151,7 +151,7 @@ final class ProductQueryController extends AbstractQueryController
      * @param array<string, mixed> $query
      * @param string[] $brands
      * @param string[] $subtypes
-    */
+     */
     private function createFilter(
         array $query,
         ?string $category,
@@ -185,7 +185,7 @@ final class ProductQueryController extends AbstractQueryController
      * @param string[] $subtypes
      *
      * @return array<string, mixed>
-    */
+     */
     private function enrichData(
         array $data,
         ProductFilterObject $filter,
@@ -213,7 +213,7 @@ final class ProductQueryController extends AbstractQueryController
     /**
      * @param array<string, mixed> $data
      * @param array<string, mixed> $params
-    */
+     */
     private function determineRedirectUrl(Request $request, array $data, array $params): ?string
     {
         $currentPage = $this->getCurrentPageFromData($data);
@@ -248,7 +248,7 @@ final class ProductQueryController extends AbstractQueryController
      * @param array<string, mixed> $params
      *
      * @return array<string, mixed>|null
-    */
+     */
     private function clearFilterParams(array $params): ?array
     {
         $filterParams = ProductFilterParam::values();

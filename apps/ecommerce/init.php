@@ -13,7 +13,7 @@ use Twig\{
     Loader\FilesystemLoader
 };
 
-use Packages\Test\EnvBridge;
+use Presets\Test\EnvBridge;
 
 use App\Kernel;
 
@@ -21,7 +21,7 @@ use App\Shared\Renderer\ErrorRenderer;
 
 // Load the Composer autoloader which provides access to all the dependencies
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/packages/server/test/EnvBridge.php';
+require __DIR__ . '/presets/server/test/EnvBridge.php';
 
 EnvBridge::bridgeBeforeBootEnv();
 

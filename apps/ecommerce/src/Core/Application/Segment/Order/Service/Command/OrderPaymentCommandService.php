@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Service\Command;
 
-use Packages\Kit\{
+use Presets\Kit\{
     Assertion\Domain\Order\OrderPaymentAssertion,
     Assertion\Shared\IdAssertion
 };

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Cart\Service\Query;
 
-use Packages\Kit\Assertion\Shared\IdAssertion;
+use Presets\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\{
     Segment\Cart\ValueObject\CartItemObject,
@@ -58,7 +58,7 @@ final readonly class CartRenderQueryService implements CartRenderQueryContract
      * @param CartItemObject[] $items
      *
      * @return array<int, ObjectArray>
-    */
+     */
     private function transformItemsToView(array $items): array
     {
         return array_values(array_map(

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Cache\Service\Query;
 
-use Packages\Kit\{
+use Presets\Kit\{
     Assertion\Shared\CacheAssertion,
     Utils\Shared\StringNormalizer
 };
@@ -49,7 +49,7 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
         $data = $this->cache->get(
             $cacheKey,
             fn(CacheItemProxyContract $item): FilterCacheObject =>
-                $this->cacheCallback($item, $query),
+            $this->cacheCallback($item, $query),
         );
 
         return CacheAssertion::assertValidType($data, FilterCacheObject::class);
@@ -112,7 +112,7 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
      * @param array<mixed> $array
      *
      * @return list<string>
-    */
+     */
     private function filterStrings(array $array): array
     {
         return array_values(array_filter($array, 'is_string'));
@@ -122,7 +122,7 @@ final class FilterCacheQueryService implements FilterCacheQueryContract
      * @param list<string> $strings
      *
      * @return list<string>
-    */
+     */
     private function normalizeStrings(array $strings): array
     {
         return array_map(

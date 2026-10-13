@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Order\Notifier;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-use Packages\Kit\{
+use Presets\Kit\{
     Assertion\Domain\Order\OrderBillingAssertion,
     Assertion\Domain\Order\OrderPersonalAssertion
 };
@@ -69,13 +69,13 @@ final readonly class OrderConfirmationNotifier implements OrderConfirmationNotif
      * @param OrderItem[] $items
      *
      * @return OrderItemEmailObject[]
-    */
+     */
     private function getFormattedItems(array $items): array
     {
         return array_values(
             array_map(
                 fn(OrderItem $item): OrderItemEmailObject =>
-                    $this->createEmailObject($item),
+                $this->createEmailObject($item),
                 $items,
             ),
         );

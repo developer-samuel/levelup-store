@@ -16,7 +16,7 @@ cd apps/ecommerce && bin/run php vendor/bin/phpstan analyse --memory-limit=1G
 
 ### PHP MD
 ```bash
-cd apps/ecommerce && bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml
+cd apps/ecommerce && bin/run php vendor/bin/phpmd src presets/server xml phpmd.xml
 ```
 - Config: `apps/ecommerce/phpmd.xml`
 - Fix: reduce complexity, extract methods, remove unused variables

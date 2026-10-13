@@ -6,7 +6,7 @@ namespace App\Infrastructure\Segment\Brand;
 
 use Doctrine\Persistence\ManagerRegistry;
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Brand\Brand,
@@ -75,7 +75,7 @@ final class BrandRepository extends AbstractRepository implements BrandRepositor
      * @param Brand[] $brands
      *
      * @return Brand[]
-    */
+     */
     private function filterBrandsByProductCriteria(array $brands, ?string $category, ?string $type): array
     {
         return array_filter($brands, function (Brand $brand) use ($category, $type) {
@@ -110,7 +110,7 @@ final class BrandRepository extends AbstractRepository implements BrandRepositor
             return false;
         }
 
-        return $variant->getEans()->exists(function($key, $ean) {
+        return $variant->getEans()->exists(function ($key, $ean) {
             return $ean->getStatus() === ProductVariantEanStatus::ACTIVE;
         });
     }

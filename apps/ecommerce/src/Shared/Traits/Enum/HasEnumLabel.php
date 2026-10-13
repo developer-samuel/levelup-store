@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Traits\Enum;
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 trait HasEnumLabel
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\User\Service\Query;
 
-use Packages\Kit\Assertion\Domain\User\UserAssertion;
+use Presets\Kit\Assertion\Domain\User\UserAssertion;
 
 use App\Core\Domain\{
     Segment\User\Entity\User,
