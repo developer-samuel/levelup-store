@@ -1,0 +1,5 @@
+@reference "../../../app/theme/index.css";
+
+.wrapper {
+  @apply fixed z-9999 shadow-xl;
+}

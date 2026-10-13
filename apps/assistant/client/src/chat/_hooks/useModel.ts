@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { API_BASE_URL } from '@/app/api.config'
 
-export function useModel(): string {
-  const [model, setModel] = useState('')
+type ModelState = { model: string; ollama: boolean }
+
+export function useModel(): [ModelState, (model: string) => void] {
+  const [state, setState] = useState<ModelState>({ model: '', ollama: false })
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/info`)
       .then((r) => r.json())
-      .then((data) => setModel(data?.data?.model ?? ''))
+      .then((res) => setState({ model: res?.data?.model ?? '', ollama: res?.data?.ollama ?? false }))
       .catch(() => {})
   }, [])
 
-  return model
+  const setModel = useCallback((model: string) => setState((prev) => ({ ...prev, model })), [])
+
+  return [state, setModel]
 }

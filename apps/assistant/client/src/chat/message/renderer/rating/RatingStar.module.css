@@ -1,0 +1,9 @@
+@reference "../../../../app/theme/index.css";
+
+.ratingLine {
+  @apply flex items-center gap-0.5 mb-1;
+}
+
+.label {
+  @apply text-[0.8em] opacity-60 ml-1;
+}

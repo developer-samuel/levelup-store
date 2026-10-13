@@ -16,7 +16,7 @@ router = APIRouter()
 def _check_ollama() -> bool:
     try:
         with httpx.Client(timeout=2) as client:
-            return client.get(f"{settings.ollama_host}/api/tags").is_success
+            return client.get(f"{settings.assistant_ollama_host}/api/tags").is_success
     except Exception:
         return False
 

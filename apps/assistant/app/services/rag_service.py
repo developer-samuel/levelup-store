@@ -3,11 +3,11 @@ from typing import cast
 import chromadb
 import chromadb.api
 import ollama
-from chromadb.api.types import PyEmbeddings
+from chromadb.api.types import Metadata, PyEmbeddings
 
-from app.config import CHROMA_COLLECTION_PRODUCTS, settings
+from app.config import CHROMA_COLLECTION_DOCUMENTS, CHROMA_COLLECTION_PRODUCTS, settings
 
-# Module-level singletons  created once, reused across requests
+# Module-level singletons created once, reused across requests
 _chroma_client: chromadb.api.ClientAPI | None = None
 _ollama_client: ollama.Client | None = None
 
@@ -27,13 +27,17 @@ def _get_ollama_client() -> ollama.Client:
     global _ollama_client
 
     if _ollama_client is None:
-        _ollama_client = ollama.Client(host=settings.ollama_host)
+        _ollama_client = ollama.Client(host=settings.assistant_ollama_host)
 
     return _ollama_client
 
 
 def get_collection() -> chromadb.Collection:
     return _get_chroma_client().get_or_create_collection(CHROMA_COLLECTION_PRODUCTS)
+
+
+def get_documents_collection() -> chromadb.Collection:
+    return _get_chroma_client().get_or_create_collection(CHROMA_COLLECTION_DOCUMENTS)
 
 
 def reset_collection() -> chromadb.Collection:
@@ -46,7 +50,9 @@ def reset_collection() -> chromadb.Collection:
 
 
 def embed(text: str) -> list[float]:
-    response = _get_ollama_client().embeddings(model=settings.ollama_embed_model, prompt=text)
+    response = _get_ollama_client().embeddings(
+        model=settings.assistant_ollama_embed_model, prompt=text
+    )
 
     return cast(list[float], response["embedding"])
 
@@ -65,5 +71,30 @@ def query(question: str, n_results: int = 5) -> str:
         documents: list[str] = results["documents"][0] if results["documents"] else []
 
         return "\n".join(f"- {doc}" for doc in documents)
+    except Exception:
+        return ""
+
+
+def query_documents(question: str, n_results: int = 3) -> str:
+    try:
+        collection = get_documents_collection()
+        embedding = embed(question)
+
+        results = collection.query(
+            query_embeddings=cast(PyEmbeddings, [embedding]),
+            n_results=n_results,
+            include=["documents", "metadatas"],
+        )
+
+        documents: list[str] = results["documents"][0] if results["documents"] else []
+        metadatas: list[Metadata] = results["metadatas"][0] if results["metadatas"] else []
+
+        parts = []
+
+        for doc, meta in zip(documents, metadatas):
+            source = str(meta.get("source", ""))
+            parts.append(f"[{source}]\n{doc}")
+
+        return "\n\n".join(parts)
     except Exception:
         return ""

@@ -1,0 +1,41 @@
+@reference "../../../app/theme/index.css";
+
+.heading1 {
+  @apply block font-bold text-[1.15em] mt-2.5 mb-1;
+}
+
+.heading2 {
+  @apply block font-bold text-[1.05em] mt-2.5 mb-1;
+}
+
+.heading3 {
+  @apply block font-bold text-[0.95em] mt-2.5 mb-1;
+}
+
+.blockquote {
+  @apply border-l-[3px] border-current opacity-70 my-1.5 pl-3;
+}
+
+.blockquoteCenter {
+  @apply flex flex-col items-center text-center my-2 gap-0.5;
+}
+
+.blockquoteLine {
+  @apply block;
+}
+
+.blockquoteCenterLine {
+  @apply block text-center;
+}
+
+.pre {
+  @apply bg-black/10 rounded-md px-3 py-2 overflow-x-auto text-[0.8em] my-1.5;
+}
+
+.hr {
+  @apply border-none border-t border-current opacity-20 my-2.5;
+}
+
+.line {
+  @apply block;
+}

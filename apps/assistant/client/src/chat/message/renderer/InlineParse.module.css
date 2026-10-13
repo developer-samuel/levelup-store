@@ -1,0 +1,3 @@
+.strikeThrough {
+  @apply text-sm opacity-50;
+}

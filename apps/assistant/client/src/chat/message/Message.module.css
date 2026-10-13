@@ -1,18 +1,5 @@
 @reference "../../app/theme/index.css";
 
-@keyframes thinking-pulse {
-  0%,
-  60%,
-  100% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-  30% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
 @keyframes tooltipIn {
   from {
     opacity: 0;
@@ -96,26 +83,17 @@
   @apply text-xs text-neutral/40 select-none;
 }
 
-.dots {
-  @apply flex gap-1.5 py-0.5;
+.speakBtn {
+  @apply flex items-center justify-center w-7 h-7 rounded-full bg-neutral/6 text-neutral/40
+         transition-colors hover:bg-neutral/12 hover:text-neutral/70 cursor-pointer;
 }
 
-.dot,
-.dot2,
-.dot3 {
-  @apply h-1.5 w-1.5 rounded-full bg-neutral/40 animate-[thinking-pulse_1.2s_ease-in-out_infinite];
+.speakBtnActive {
+  @apply bg-neutral/10 text-neutral/70;
 }
 
-.dot2 {
-  @apply [animation-delay:0.2s];
-}
-
-.dot3 {
-  @apply [animation-delay:0.4s];
-}
-
-.cursor {
-  @apply ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-current opacity-60;
+.speakIcon {
+  @apply w-3.5 h-3.5;
 }
 
 .timestamp {

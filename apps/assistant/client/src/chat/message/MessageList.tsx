@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { Loader2, MessageSquare } from 'lucide-react'
 
 import type { Message as MessageType } from '@/chat/chat.types'
+import { useSpeech } from '@/chat/_hooks/useSpeech'
 import { useMessagePagination } from '@/chat/message/_hooks/useMessagePagination'
 import { useScrollToBottom } from '@/chat/message/_hooks/useScrollToBottom'
 import { useScrollAnchor } from '@/chat/message/_hooks/useScrollAnchor'
@@ -15,6 +16,7 @@ type Props = {
 
 export function MessageList({ messages, scrollTrigger }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const speech = useSpeech()
   const { visibleMessages, hasMore, loadMore } = useMessagePagination(messages)
   const bottomRef = useScrollToBottom(messages, scrollTrigger)
   const sentinelRef = useScrollAnchor(containerRef, visibleMessages.length, hasMore, loadMore)
@@ -42,7 +44,7 @@ export function MessageList({ messages, scrollTrigger }: Props) {
           </div>
         )}
         {visibleMessages.map((message) => (
-          <Message key={message.id} message={message} />
+          <Message key={message.id} message={message} speech={speech} />
         ))}
         <div ref={bottomRef} />
       </div>

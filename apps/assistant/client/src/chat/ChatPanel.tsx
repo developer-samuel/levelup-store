@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { MessageSquare, RotateCcw, TriangleAlert, X } from 'lucide-react'
+import { Clock, MessageSquare, RotateCcw, TriangleAlert, X } from 'lucide-react'
 
 import { cn } from '@/utils/classes.utils'
 
 import { useChat } from '@/chat/_hooks/useChat'
+import { useCountdown } from '@/chat/_hooks/useCountdown'
 import { useModel } from '@/chat/_hooks/useModel'
+import type { HealthStatus } from '@/chat/_hooks/useHealthStatus'
 import { useScrollTrigger } from '@/chat/_hooks/useScrollTrigger'
 import { useEscapeKey } from '@/chat/_hooks/useEscapeKey'
 import { ChatInput } from '@/chat/input/ChatInput'
@@ -19,6 +21,20 @@ type Props = {
   isAuthenticated: boolean
   sessionLoaded: boolean
   onConversationReset: (newId: string) => void
+  healthStatus: HealthStatus
+}
+
+function formatRetryAfter(seconds: number): string {
+  if (seconds >= 3600) {
+    const h = Math.floor(seconds / 3600)
+    const m = Math.floor((seconds % 3600) / 60)
+
+    return m ? `${h}h ${m}m` : `${h}h`
+  }
+
+  if (seconds >= 60) return `${Math.floor(seconds / 60)}m`
+
+  return `${seconds}s`
 }
 
 export function ChatPanel({
@@ -28,15 +44,25 @@ export function ChatPanel({
   isAuthenticated,
   sessionLoaded,
   onConversationReset,
+  healthStatus,
 }: Props) {
   const [tooltipVisible, setTooltipVisible] = useState(false)
-  const model = useModel()
-  const { messages, loading, queued, queuePosition, error, failedMessage, send, reset, stop } = useChat({
+  const [{ model, ollama }, setModel] = useModel()
+  const [isFallback, setIsFallback] = useState(false)
+  const { messages, loading, queued, queuePosition, error, rateLimitRetryAfter, failedMessage, send, reset, stop } = useChat({
     conversationId,
     isAuthenticated,
     sessionLoaded,
     onConversationReset,
+    onModelChange: (newModel, fallback) => {
+      setModel(newModel)
+      setIsFallback(fallback)
+    },
   })
+
+  const countdown = useCountdown(rateLimitRetryAfter)
+
+  const dotStatus = rateLimitRetryAfter !== null || healthStatus === 'offline' ? 'offline' : healthStatus
 
   useEscapeKey(open, onClose)
 
@@ -52,7 +78,10 @@ export function ChatPanel({
             <MessageSquare className={s.headerIconSvg} />
           </div>
           <div className={s.headerMeta}>
-            <p className={s.headerTitle}>LevelUp Store Assistant</p>
+            <div className={s.headerTitleRow}>
+              <p className={s.headerTitle}>LevelUp Store Assistant</p>
+              <span className={s.statusDot} data-status={dotStatus} />
+            </div>
             <p className={s.headerSubtitle}>How can I help you?</p>
           </div>
           <div className={s.headerActions}>
@@ -61,17 +90,17 @@ export function ChatPanel({
               onMouseEnter={() => setTooltipVisible(true)}
               onMouseLeave={() => setTooltipVisible(false)}
             >
-              <TriangleAlert className={s.infoIcon} />
+              <TriangleAlert className={cn(s.infoIcon, isFallback && s.infoIconFallback)} />
               <div className={cn(s.tooltip, tooltipVisible && s.tooltipVisible)}>
-                <p className={s.tooltipTitle}>Lightweight model notice</p>
+                <p className={s.tooltipTitle}>{ollama ? 'Lightweight model notice' : 'Assistant info'}</p>
                 {model && <p className={s.tooltipModel}>Model: {model}</p>}
-                <ul className={s.tooltipList}>
+                {ollama && <ul className={s.tooltipList}>
                   <li>Responses may be slower due to hardware constraints</li>
                   <li>Grammar and phrasing may not always be perfect</li>
                   <li>Best results in English - other languages supported</li>
-                  {loading && !queued && <li>Thinking may take up to 5 minutes</li>}
-                  {queued && <li>Queued requests expire after 15 minutes</li>}
-                </ul>
+                  <li>Thinking may take up to 5 minutes</li>
+                  <li>Queued requests expire after 15 minutes</li>
+                </ul>}
               </div>
             </div>
             {messages.length > 0 && (
@@ -89,6 +118,19 @@ export function ChatPanel({
 
         <MessageList messages={messages} scrollTrigger={scrollTrigger} />
 
+        {rateLimitRetryAfter !== null && (
+          <div className={s.rateLimitError}>
+            <Clock className={s.rateLimitIcon} />
+            <div className={s.rateLimitText}>
+              <p className={s.rateLimitTitle}>Request limit reached</p>
+              <p className={s.rateLimitSubtitle}>
+                {countdown !== null && countdown > 0
+                  ? <>Please try again in <strong>{formatRetryAfter(countdown)}</strong>.</>
+                  : 'You can try again now.'}
+              </p>
+            </div>
+          </div>
+        )}
         {error && <div className={s.error}>{error}</div>}
 
         {queued && <QueueStatus position={queuePosition} />}

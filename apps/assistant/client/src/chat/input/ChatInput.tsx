@@ -1,8 +1,13 @@
-import { type KeyboardEvent, type MouseEvent, useEffect, useRef, useState } from 'react'
-import { Square } from 'lucide-react'
+import { Mic, MicOff, Smile, Square } from 'lucide-react'
+import { useCallback, useState } from 'react'
 
 import { cn } from '@/utils/classes.utils'
 
+import { useMicInput } from '@/chat/_hooks/useMicInput'
+import { MAX_LENGTH } from '@/chat/input/input.constants'
+import { EmojiPicker } from '@/chat/input/emoji/EmojiPicker'
+import { useEmojiPicker } from '@/chat/input/emoji/useEmojiPicker'
+import { useChatInput } from '@/chat/input/useChatInput'
 import s from '@/chat/input/ChatInput.module.css'
 
 type Props = {
@@ -13,55 +18,71 @@ type Props = {
   restoredValue?: string | null
 }
 
-const MAX_LENGTH = 2000
-
 export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: Props) {
-  const [value, setValue] = useState('')
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [transcript, setTranscript] = useState('')
+  const handleTranscript = useCallback((text: string) => setTranscript(text), [])
+  const { listening, start, stop: stopMic, supported: micSupported } = useMicInput({ onTranscript: handleTranscript })
 
-  useEffect(() => {
-    if (!restoredValue) return
-    setValue(restoredValue)
-    textareaRef.current?.focus()
-  }, [restoredValue])
-  const isOverLimit = value.length > MAX_LENGTH
+  const { value, setValue, emojiOpen, setEmojiOpen, isOverLimit, textareaRef, insertEmoji, submit, onKeyDown, onFieldClick, onInput } =
+    useChatInput({ onSend, disabled, restoredValue, transcript })
+  const emojiWrapperRef = useEmojiPicker<HTMLDivElement>(() => setEmojiOpen(false))
 
-  const submit = () => {
-    const text = value.trim()
-    if (!text || disabled || isOverLimit) return
-    onSend(text)
-    setValue('')
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'
-    }
+  const handleMicClick = () => {
+    if (listening) stopMic()
+    else start()
   }
 
-  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      submit()
-    }
-  }
-
-  const onFieldClick = (e: MouseEvent) => {
-    if ((e.target as HTMLElement).closest('button')) return
-    textareaRef.current?.focus()
-  }
-
-  const onInput = () => {
-    const el = textareaRef.current
-    if (!el) return
-    el.style.height = 'auto'
-    el.style.height = `${Math.min(el.scrollHeight, 160)}px`
+  const handleSubmit = () => {
+    if (listening) stopMic()
+    submit()
   }
 
   return (
     <div
       className={s.wrapper}
       onMouseDown={(e) => {
-        if (e.target !== textareaRef.current) e.preventDefault()
+        const target = e.target as HTMLElement
+        if (target !== textareaRef.current && !target.closest('textarea') && !target.closest('[data-emoji-picker]')) e.preventDefault()
       }}
     >
+      <div ref={emojiWrapperRef} className={s.actions}>
+        {emojiOpen && <EmojiPicker onSelect={insertEmoji} anchorRef={emojiWrapperRef} />}
+        {micSupported && (
+          listening ? (
+            <button
+              className={s.micStopBtn}
+              onClick={handleMicClick}
+              type="button"
+              aria-label="Stop recording"
+            >
+              <span className={s.micStopDot} />
+              Stop recording
+            </button>
+          ) : (
+            <button
+              className={cn(s.micBtn, disabled && s.micBtnDisabled)}
+              onClick={handleMicClick}
+              type="button"
+              disabled={disabled}
+              aria-label="Start recording"
+              title={disabled ? 'Unavailable while thinking' : 'Start recording'}
+            >
+              {disabled ? <MicOff className={s.micBtnIcon} /> : <Mic className={s.micBtnIcon} />}
+            </button>
+          )
+        )}
+        <button
+          data-emoji-toggle
+          className={cn(s.emojiBtn, emojiOpen && s.emojiBtnActive, disabled && s.emojiBtnDisabled)}
+          onClick={() => !disabled && setEmojiOpen((v) => !v)}
+          type="button"
+          aria-label="Emoji"
+          title="Emoji"
+        >
+          <Smile className={s.emojiBtnIcon} />
+        </button>
+      </div>
+
       <div className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled)} onClick={onFieldClick}>
         <textarea
           ref={textareaRef}
@@ -71,21 +92,23 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={onKeyDown}
           onInput={onInput}
-          placeholder="Ask me anything…"
+          placeholder={listening ? 'Listening…' : 'Ask me anything…'}
           disabled={disabled}
           className={cn(s.textarea, disabled && 'cursor-default')}
         />
         <div className={s.footer}>
-          <span className={cn(s.counter, isOverLimit && s.counterError)}>
-            {value.length}/{MAX_LENGTH}
-          </span>
+          <div className={s.footerLeft}>
+            <span className={cn(s.counter, isOverLimit && s.counterError)}>
+              {value.length}/{MAX_LENGTH}
+            </span>
+          </div>
           {loading ? (
             <button className={s.stopBtn} onClick={onStop} aria-label="Stop generating" title="Stop generating">
               <Square className={s.stopBtnIcon} />
             </button>
           ) : (
             <button
-              onClick={submit}
+              onClick={handleSubmit}
               disabled={disabled || !value.trim() || isOverLimit}
               className={cn(s.sendBtn, !value.trim() && s.sendBtnHidden)}
             >

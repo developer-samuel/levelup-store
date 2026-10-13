@@ -1,0 +1,13 @@
+@reference "../../../../app/theme/index.css";
+
+.ul {
+  @apply pl-5 my-1;
+}
+
+.ol {
+  @apply pl-5 my-1;
+}
+
+.emojiItem {
+  @apply list-none -ml-5;
+}

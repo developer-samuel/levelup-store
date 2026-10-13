@@ -8,7 +8,7 @@ Usage:
 import logging
 import time
 
-from app.rag import reset_collection
+from app.services.rag_service import reset_collection
 from jobs.ingest import ingest
 
 logging.basicConfig(level=logging.WARNING, format="%(asctime)s %(levelname)s %(message)s")

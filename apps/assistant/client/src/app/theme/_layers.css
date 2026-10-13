@@ -1,16 +1,16 @@
 @layer base {
-  #levelup-assistant *,
-  #levelup-assistant *::before,
-  #levelup-assistant *::after {
+  #levelup-store-assistant *,
+  #levelup-store-assistant *::before,
+  #levelup-store-assistant *::after {
     @apply box-border border-0 border-solid m-0 p-0;
   }
 
-  #levelup-assistant button {
+  #levelup-store-assistant button {
     @apply bg-transparent cursor-pointer font-[inherit] text-[100%] leading-[inherit] text-inherit;
   }
 
-  #levelup-assistant input,
-  #levelup-assistant textarea {
+  #levelup-store-assistant input,
+  #levelup-store-assistant textarea {
     @apply font-[inherit] text-[100%] leading-[inherit] text-inherit;
   }
 }

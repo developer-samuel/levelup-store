@@ -19,14 +19,15 @@ from contextlib import suppress
 import aio_pika
 
 from app.config import settings
-from app.queue import (
+from app.messaging.queue import (
     finish_processing,
     is_processing_request,
     publish_chunk,
     renew_processing,
+    save_response,
     wait_for_cancellation,
 )
-from app.rabbitmq import QUEUE_NAME, publish_request
+from app.messaging.rabbitmq import QUEUE_NAME, publish_request
 from app.services.chat_service import stream_chat
 
 logging.basicConfig(level=logging.INFO)
@@ -34,8 +35,17 @@ log = logging.getLogger(__name__)
 
 
 async def _stream_response(request_id: str, conversation_id: str, message: str) -> None:
+    tokens: list[str] = []
     async for data in stream_chat(message, conversation_id):
         await publish_chunk(conversation_id, request_id, data)
+        try:
+            chunk = json.loads(data)
+            if chunk.get("success") and "token" in (chunk.get("data") or {}):
+                tokens.append(chunk["data"]["token"])
+        except (json.JSONDecodeError, KeyError):
+            pass
+    if tokens:
+        await save_response(request_id, "".join(tokens))
 
 
 async def _maintain_processing_lease(request_id: str) -> None:
