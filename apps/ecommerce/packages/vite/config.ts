@@ -20,6 +20,7 @@ export const resolve = {
 export const build = {
   outDir: '../../dist/ecommerce',
   emptyOutDir: true,
+  chunkSizeWarningLimit: 1000,
   rollupOptions: {
     input: {
       styles: BuildPaths.STYLES,
