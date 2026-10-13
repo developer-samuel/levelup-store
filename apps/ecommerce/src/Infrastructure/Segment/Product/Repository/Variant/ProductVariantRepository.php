@@ -256,7 +256,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
             return null;
         }
 
-        return $this->find((int) $id);
+        return $this->find((int) (string) $id);
     }
 
     private function createAvailableVariantsQueryBuilder(): QueryBuilder
