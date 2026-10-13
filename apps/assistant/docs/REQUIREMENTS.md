@@ -6,7 +6,7 @@
 
 ## 1. Mandatory Requirements
 
-- **Python** 3.12 – 3.13
+- **Python** 3.12 - 3.13
 - **uv** for dependency management
 - **Node.js** (LTS) + **pnpm** for frontend assets (Vite, TS build)
 - **Git** version control

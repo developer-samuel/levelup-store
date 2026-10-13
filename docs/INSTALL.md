@@ -24,7 +24,7 @@ Generate a token at GitHub → Settings → Developer settings → Personal acce
 # Quick start - installs dependencies, sets up database, clears cache and starts servers
 make setup
 
-# or step by step:
+# or individually:
 make install
 make cache-clear
 make serve

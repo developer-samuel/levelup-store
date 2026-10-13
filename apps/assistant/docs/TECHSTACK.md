@@ -6,7 +6,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ## 1. Backend
 
-- **Language:** Python 3.12 – 3.13
+- **Language:** Python 3.12 - 3.13
 - **Framework:** FastAPI
 - **ASGI Server:** Uvicorn
 - **Dependency Manager:** uv

@@ -12,8 +12,6 @@ It is intended for **existing projects**, not first-time setup.
 #### Update dependencies
 
 ```bash
-cd apps/assistant && uv sync --group dev
-# or via make
 make assistant-install
 ```
 
@@ -22,18 +20,12 @@ make assistant-install
 ```bash
 # Lint
 make assistant-lint
-# or
-cd apps/assistant && uv run ruff check --cache-dir .cache/ruff app/
 
 # Type check
 make assistant-type-check
-# or
-cd apps/assistant && uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/
 
 # Dead code detection
 make assistant-dead-code
-# or
-cd apps/assistant && uv run vulture app/ jobs/
 
 # Run all checks at once
 make assistant-check
