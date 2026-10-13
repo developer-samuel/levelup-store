@@ -1,3 +1,5 @@
+@reference "../../../app/theme/index.css";
+
 .strikeThrough {
   @apply text-sm opacity-50;
 }
