@@ -34,18 +34,22 @@ final class SearchApiQueryController extends AbstractController
         security: [],
         parameters: [
             new OA\Parameter(name: 'query', in: 'query', required: true, schema: new OA\Schema(type: 'string')),
+            new OA\Parameter(name: 'page', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'limit', in: 'query', required: false, schema: new OA\Schema(type: 'integer')),
         ],
         responses: [
             new OA\Response(response: 200, description: 'Search results'),
             new OA\Response(response: 500, description: 'Internal server error'),
         ],
     )]
-   public function search(Request $request): JsonResponse
+    public function search(Request $request): JsonResponse
     {
         $query = $request->query->getString('query');
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = min(10, max(1, $request->query->getInt('limit', 1)));
 
         try {
-            $result = $this->searchRenderQueryHandler->handle($query);
+            $result = $this->searchRenderQueryHandler->handle($query, $page, $limit);
 
             return new JsonResponse($result);
         } catch (\Throwable $throwable) {

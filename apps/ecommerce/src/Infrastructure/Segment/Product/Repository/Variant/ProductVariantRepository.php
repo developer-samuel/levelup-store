@@ -161,17 +161,20 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return (float) $qb->getQuery()->getSingleScalarResult();
     }
 
-    /** @return ProductVariant[] */
-    public function searchByName(string $searchTerm): array
+    /**
+     * @return array{
+     *     items: ProductVariant[],
+     *     total: int
+     * }
+     */
+    public function searchByName(string $searchTerm, int $page, int $limit): array
     {
         if ($this->elasticsearch->isEnabled()) {
-            ['ids' => $ids] = $this->projectionQuery->search($searchTerm, 50);
+            ['ids' => $ids, 'total' => $total] = $this->projectionQuery->search($searchTerm, $page, $limit);
 
-            if ($ids === []) {
-                return [];
-            }
+            $items = $ids === [] ? [] : $this->findByOrderedIds($ids);
 
-            return $this->findByOrderedIds($ids);
+            return ['items' => $items, 'total' => $total];
         }
 
         $param = '%' . $searchTerm . '%';
@@ -195,10 +198,14 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
 
         ProductVariantAvailabilitySpecification::applyInStock($qb, 'v');
 
-        /** @var ProductVariant[] $results */
-        $results = $this->getOrderedResults($qb, 'v', ProductVariant::class);
+        $total = $this->getTotalCount($qb);
 
-        return $results;
+        $this->applyPagination($qb, $page, $limit);
+
+        /** @var ProductVariant[] $items */
+        $items = $this->getOrderedResults($qb, 'v', ProductVariant::class);
+
+        return ['items' => $items, 'total' => $total];
     }
 
     public function findOneByUrl(string $url): ?ProductVariant

@@ -6,7 +6,7 @@ import { hide } from '@/ts/features/search/_ui/visibility'
 import { getAbortSignal } from '@/ts/features/search/_state/abortSignal'
 import { fetchSearchResults } from '@/ts/features/search/_services/searchService'
 
-export function handleFetchSearch(term: string, instance: SearchInstance, showPanel = true): void {
+export function handleFetchSearch(term: string, instance: SearchInstance, showPanel = true, page = 1): void {
   const signal = getAbortSignal()
 
   if (!term.trim()) {
@@ -15,11 +15,17 @@ export function handleFetchSearch(term: string, instance: SearchInstance, showPa
     return
   }
 
-  void renderFetchResults(instance, (sig) => fetchSearchResults(term, sig), {
+  if (page === 1) {
+    instance.currentPage = 1
+    instance.hasMore = false
+  }
+
+  void renderFetchResults(instance, (sig) => fetchSearchResults(term, sig, page), {
     loadingHtml: LOADING_HTML,
     noResultsHtml: NO_RESULTS_HTML,
     errorHtml: ERROR_HTML,
     signal,
     showPanel,
+    page,
   })
 }

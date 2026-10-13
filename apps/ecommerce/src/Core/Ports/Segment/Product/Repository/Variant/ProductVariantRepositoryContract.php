@@ -34,8 +34,13 @@ interface ProductVariantRepositoryContract
 
     public function getMaxPriceForFilter(ProductFilterObject $filter): float;
 
-    /** @return ProductVariant[] */
-    public function searchByName(string $searchTerm): array;
+    /**
+     * @return array{
+     *     items: ProductVariant[],
+     *     total: int
+     * }
+     */
+    public function searchByName(string $searchTerm, int $page, int $limit): array;
 
     public function findOneByUrl(string $url): ?ProductVariant;
     public function findById(int $id): ?ProductVariant;

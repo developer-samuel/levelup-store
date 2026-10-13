@@ -23,12 +23,13 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
     ) {}
 
     /** @return array{ids: int[], total: int} */
-    public function search(string $term, int $limit): array
+    public function search(string $term, int $page, int $limit): array
     {
         /** @var Elasticsearch $response */
         $response = $this->client->search([
             'index' => ProductVariantProjection::NAME,
             'body'  => [
+                'from'  => ($page - 1) * $limit,
                 'size'  => $limit,
                 'query' => [
                     'bool' => [

@@ -15,8 +15,10 @@ export function handleSearchInputChange(
   setSearchTerm(value)
 
   if (!value.trim()) {
+    instance.isClosed = true
     hide(instance.panel)
     updateContent(instance.content, NO_RESULTS_HTML)
+
     return
   }
 

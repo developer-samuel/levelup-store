@@ -15,6 +15,8 @@ export type SearchInstance = {
   currentSearchTerm: string
   prevWidthRef: { value: number }
   isClosed: boolean
+  currentPage: number
+  hasMore: boolean
 }
 
 export type SearchElements = {
@@ -27,6 +29,11 @@ export type SearchElements = {
   mobileClose: HTMLElement | null
   mobileCloseImage: HTMLElement | null
   headerCloseImage: HTMLElement | null
+}
+
+export type SearchPage = {
+  html: string
+  hasMore: boolean
 }
 
 export type CloseHandlerOptions = {
@@ -44,6 +51,7 @@ export type RenderFetchOptions = {
   errorHtml?: string
   signal?: AbortSignal
   showPanel?: boolean
+  page?: number
 }
 
 export type ResizeHandlerOptions = {

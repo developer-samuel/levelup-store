@@ -114,17 +114,20 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         $unique = uniqid('UniqueTestVariant');
         $this->createAndPersistVariant('SKU-SEARCH-001', $unique, strtolower($unique));
 
-        $results = $this->repository->searchByName($unique);
+        $result = $this->repository->searchByName($unique, 1, 10);
 
-        self::assertNotEmpty($results);
-        self::assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+        self::assertArrayHasKey('items', $result);
+        self::assertArrayHasKey('total', $result);
+        self::assertNotEmpty($result['items']);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $result['items']);
     }
 
     public function testSearchByNameReturnsEmptyWhenNoMatch(): void
     {
-        $results = $this->repository->searchByName('zzz-absolutely-no-match-xyz-999');
+        $result = $this->repository->searchByName('zzz-absolutely-no-match-xyz-999', 1, 10);
 
-        self::assertEmpty($results);
+        self::assertSame([], $result['items']);
+        self::assertSame(0, $result['total']);
     }
 
     public function testFindAllByProductReturnsVariantsForProduct(): void
@@ -412,7 +415,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [$variant->getId()], 'total' => 1],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
@@ -429,7 +432,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [], 'total' => 0],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
@@ -444,25 +447,29 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [], 'total' => 0],
-            searchResult: ['ids' => [$variant->getId()]],
+            searchResult: ['ids' => [$variant->getId()], 'total' => 1],
         );
 
-        $results = $repository->searchByName('ES Search');
+        $result = $repository->searchByName('ES Search', 1, 10);
 
-        self::assertNotEmpty($results);
-        self::assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+        self::assertArrayHasKey('items', $result);
+        self::assertArrayHasKey('total', $result);
+        self::assertNotEmpty($result['items']);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $result['items']);
+        self::assertSame(1, $result['total']);
     }
 
     public function testSearchByNameReturnsEmptyWhenElasticsearchReturnsNoIds(): void
     {
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [], 'total' => 0],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
-        $results = $repository->searchByName('anything');
+        $result = $repository->searchByName('anything', 1, 10);
 
-        self::assertSame([], $results);
+        self::assertSame([], $result['items']);
+        self::assertSame(0, $result['total']);
     }
 
     public function testFindAvailableVariantsPaginatedSkipsNonExistentIdsFromElasticsearch(): void
@@ -472,7 +479,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [999999, $variant->getId()], 'total' => 2],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
@@ -698,7 +705,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
     /**
      * @param array{ids: int[], total: int} $filterResult
-     * @param array{ids: int[]} $searchResult
+     * @param array{ids: int[], total: int} $searchResult
     */
     private function getRepositoryWithElasticsearch(array $filterResult, array $searchResult): ProductVariantRepository
     {
