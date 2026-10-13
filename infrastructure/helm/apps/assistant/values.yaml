@@ -68,6 +68,7 @@ chromadb:
   enabled: true
   host: chromadb
   port: 8000
+  
   # Override default entrypoint to skip --log-config (file not writable in k8s)
   command:
     - uvicorn
@@ -88,6 +89,7 @@ chromadb:
   persistence:
     size: 5Gi
     storageClass: ""   # cluster default
+
   # Vector DB
   resources:
     requests:
@@ -134,8 +136,3 @@ resourceQuota:
     memory: 10Gi
   pods: "10"
   pvcs: "5"
-
-# Secrets - injected via ArgoCD parameters / make secrets
-# app.aiAssistantApiKey
-# broker.rabbitmqUrl  (amqp://user:pass@rabbitmq:5672/)  - RabbitMQ job queue
-# app.redisUrl        (redis://redis:6379/0)              - rate limiter, pub/sub, conversation history
