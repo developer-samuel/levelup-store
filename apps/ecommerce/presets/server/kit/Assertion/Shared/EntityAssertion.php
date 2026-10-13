@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Shared;
+namespace Presets\Kit\Assertion\Shared;
 
 final class EntityAssertion
 {
@@ -13,7 +13,7 @@ final class EntityAssertion
      * @param class-string<T> $className
      *
      * @return T
-    */
+     */
     public static function assertExists(
         ?object $entity,
         int|string $id,

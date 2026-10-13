@@ -15,7 +15,7 @@ use Database\{
     Seeds\Builders\ReviewBuilder
 };
 
-use Packages\Kit\Assertion\Shared\IdAssertion;
+use Presets\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariant,
@@ -85,7 +85,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
          *     variant: ProductVariant,
          *     user: User
          * } $data
-        */
+         */
         $userId = IdAssertion::assert(
             $data['user']->getId(),
             'User ID',
@@ -111,7 +111,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
      * @param User[] $users
      *
      * @return iterable<int, array{variant: ProductVariant, user: User}>
-    */
+     */
     private function yieldRandomUsersForVariant(ProductVariant $variant, array $users): iterable
     {
         $numUsers = rand(1, min(5, count($users)));
@@ -135,7 +135,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
      * @param ProductVariant|ProductVariant[] $variant
      *
      * @return ProductVariant[]
-    */
+     */
     private function resolveVariants(ProductVariant|array $variant): array
     {
         $variants = $this->normalizeVariants($variant);
@@ -147,7 +147,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
      * @param ProductVariant|ProductVariant[] $variant
      *
      * @return ProductVariant[]
-    */
+     */
     private function normalizeVariants(ProductVariant|array $variant): array
     {
         return is_array($variant) ? $variant : [$variant];
@@ -157,7 +157,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
      * @param ProductVariant[] $variants
      *
      * @return ProductVariant[]
-    */
+     */
     private function fetchVariantsFromRepository(array $variants): array
     {
         $resolved = array_map(
@@ -179,7 +179,7 @@ final class ReviewFixture extends AbstractFixture implements DependentFixtureInt
      * @param mixed[] $items
      *
      * @return ProductVariant[]
-    */
+     */
     private function filterValidVariants(array $items): array
     {
         return array_values(array_filter(

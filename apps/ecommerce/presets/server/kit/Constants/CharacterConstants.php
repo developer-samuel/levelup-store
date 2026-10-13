@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Constants;
+namespace Presets\Kit\Constants;
 
 final class CharacterConstants
 {

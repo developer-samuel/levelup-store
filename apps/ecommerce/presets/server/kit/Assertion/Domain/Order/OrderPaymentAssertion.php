@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Domain\Order;
+namespace Presets\Kit\Assertion\Domain\Order;
 
 final class OrderPaymentAssertion
 {

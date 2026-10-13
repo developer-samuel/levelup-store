@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeds\Factories\Product;
 
-use Packages\Kit\Utils\Product\ProductCatalogCodeGenerator;
+use Presets\Kit\Utils\Product\ProductCatalogCodeGenerator;
 
 use App\Core\Domain\{
     Segment\Brand\Brand,

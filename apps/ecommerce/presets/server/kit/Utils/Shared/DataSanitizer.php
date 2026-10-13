@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Utils\Shared;
+namespace Presets\Kit\Utils\Shared;
 
 final class DataSanitizer
 {

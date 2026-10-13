@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Domain\Country;
+namespace Presets\Kit\Assertion\Domain\Country;
 
 use App\Core\Domain\Segment\Country\Entity\Country;
 
@@ -15,7 +15,7 @@ final readonly class CountryAssertion
      *     alpha2Code: string,
      *     name: string
      * }>
-    */
+     */
     public static function assertResponseFormat(array $response): array
     {
         if (!array_is_list($response)) {
@@ -39,7 +39,7 @@ final readonly class CountryAssertion
      *     alpha2Code: string,
      *     name: string
      * }>
-    */
+     */
     private static function validateResponseItems(array $items): array
     {
         $result = [];
@@ -56,7 +56,7 @@ final readonly class CountryAssertion
      *     alpha2Code: string,
      *     name: string
      * }
-    */
+     */
     private static function validateResponseItem(mixed $item, int $index): array
     {
         if (

@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Packages\Kit\Utils\Shared;
+namespace Presets\Kit\Utils\Shared;
 
-use Packages\Kit\Constants\CharacterConstants;
+use Presets\Kit\Constants\CharacterConstants;
 
 final class IdentifierGenerator
 {

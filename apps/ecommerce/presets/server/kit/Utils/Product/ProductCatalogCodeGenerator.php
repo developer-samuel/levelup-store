@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Utils\Product;
+namespace Presets\Kit\Utils\Product;
 
-use Packages\Kit\Utils\Shared\IdentifierGenerator;
+use Presets\Kit\Utils\Shared\IdentifierGenerator;
 
 final class ProductCatalogCodeGenerator
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Domain\Brand;
+namespace Presets\Kit\Assertion\Domain\Brand;
 
-use Packages\Kit\Assertion\Shared\EntityAssertion;
+use Presets\Kit\Assertion\Shared\EntityAssertion;
 
 use App\Core\Domain\Segment\Brand\Brand;
 

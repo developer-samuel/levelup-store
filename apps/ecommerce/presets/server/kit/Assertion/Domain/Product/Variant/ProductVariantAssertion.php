@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Domain\Product\Variant;
+namespace Presets\Kit\Assertion\Domain\Product\Variant;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use Packages\Kit\Assertion\Shared\ExistenceAssertion;
+use Presets\Kit\Assertion\Shared\ExistenceAssertion;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\ProductVariant;
 

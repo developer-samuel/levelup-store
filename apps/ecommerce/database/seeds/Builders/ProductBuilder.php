@@ -6,7 +6,7 @@ namespace Database\Seeds\Builders;
 
 use Doctrine\Persistence\ObjectManager;
 
-use Packages\Kit\Assertion\Domain\Brand\BrandAssertion;
+use Presets\Kit\Assertion\Domain\Brand\BrandAssertion;
 
 use Database\{
     Seeds\Factories\Product\ProductFactory,
@@ -40,7 +40,7 @@ trait ProductBuilder
      *     }>,
      *     subtypes: string[]
      * } $productData
-    */
+     */
     private function createProductWithVariants(
         ObjectManager $manager,
         string $productName,

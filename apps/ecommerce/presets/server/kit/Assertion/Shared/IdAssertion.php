@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Shared;
+namespace Presets\Kit\Assertion\Shared;
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 final class IdAssertion
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Shared;
+namespace Presets\Kit\Assertion\Shared;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

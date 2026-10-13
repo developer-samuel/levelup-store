@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Packages\Kit\Assertion\Shared;
+namespace Presets\Kit\Assertion\Shared;
 
 final class CacheAssertion
 {
@@ -12,7 +12,7 @@ final class CacheAssertion
      * @param class-string<T> $className
      *
      * @return T
-    */
+     */
     public static function assertValidType(mixed $data, string $className): object
     {
         if (!$data instanceof $className) {
