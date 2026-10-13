@@ -250,13 +250,14 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
 
         $sql .= ' ORDER BY RANDOM() LIMIT 1';
 
+        /** @var string|false $id */
         $id = $this->getEntityManager()->getConnection()->fetchOne($sql, $params);
 
         if ($id === false) {
             return null;
         }
 
-        return $this->find((int) (string) $id);
+        return $this->find((int) $id);
     }
 
     private function createAvailableVariantsQueryBuilder(): QueryBuilder
