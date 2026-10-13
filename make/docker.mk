@@ -5,14 +5,22 @@
 .PHONY: clean-all build-cache setup-build \
         dev dev-build-force dev-down dev-down-clean \
         dev-setup-build dev-setup-restart-build dev-setup-restart-build-without-cache \
-        restart-app-ecommerce restart-app-assistant \
+        recreate-app-ecommerce recreate-app-assistant \
+        recreate-build-app-ecommerce recreate-build-app-assistant \
         jenkins jenkins-build jenkins-down jenkins-password \
         logs logs-dev logs-setup setup-watch status \
 
 ECOMMERCE_ENV := apps/ecommerce/.env
 ASSISTANT_ENV := apps/assistant/.env
 
-DC := docker compose --env-file $(ECOMMERCE_ENV) --env-file $(ASSISTANT_ENV)
+_ASSISTANT_TYPE := $(shell grep -m1 '^ASSISTANT_TYPE=' $(ASSISTANT_ENV) 2>/dev/null | cut -d= -f2 | tr -d ' \r')
+ifeq ($(_ASSISTANT_TYPE),ollama)
+_OLLAMA_PROFILE := --profile ollama
+else
+_OLLAMA_PROFILE :=
+endif
+
+DC := docker compose --env-file $(ECOMMERCE_ENV) --env-file $(ASSISTANT_ENV) $(_OLLAMA_PROFILE)
 
 DC_DEV := $(DC) \
 	-f docker-compose.yml \
@@ -91,15 +99,23 @@ dev-setup-restart-build-without-cache:
 	$(DC_DEV) build --no-cache
 	$(MAKE) dev-setup-build
 
-# ── 🔄 Restart ────────────────────────────────────────────────────────────────
+# ── 🔄 Recreate ────────────────────────────────────────────────────────────────
 
-## Restart ecommerce app containers (reloads ENV)
-restart-app-ecommerce:
-	$(DC) restart ecommerce_app ecommerce_worker ecommerce_cron nginx
+## Recreate ecommerce containers (ENV changes)
+recreate-app-ecommerce:
+	$(DC) up -d --force-recreate ecommerce_app ecommerce_worker ecommerce_cron nginx
 
-## Restart assistant app containers (reloads ENV)
-restart-app-assistant:
-	$(DC) restart assistant_app assistant_worker assistant_cron
+## Recreate assistant containers (ENV changes)
+recreate-app-assistant:
+	$(DC) up -d --force-recreate assistant_app assistant_worker assistant_cron
+
+## Rebuild and recreate ecommerce containers (code changes)
+recreate-build-app-ecommerce:
+	$(DC) up -d --build --force-recreate ecommerce_app ecommerce_worker ecommerce_cron nginx
+
+## Rebuild and recreate assistant containers (code changes)
+recreate-build-app-assistant:
+	$(DC) up -d --build --force-recreate assistant_app assistant_worker assistant_cron
 
 # ── 🚀 CD ─────────────────────────────────────────────────────────────────────
 
