@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 const ADMIN_WEB_ROUTE_FILES = [
-    '/home.php',
     '/dashboard.php',
     '/banners.php',
     '/brands.php',
@@ -26,6 +25,8 @@ const ADMIN_WEB_ROUTE_FILES = [
 
 // All routes imported here inherit prefix '/admin' and name prefix 'admin_'.
 return function (RoutingConfigurator $routes): void {
+    $routes->import(__DIR__ . '/home.php');
+
     foreach (ADMIN_WEB_ROUTE_FILES as $file) {
         $routes->import(__DIR__ . $file)->prefix('/admin')->namePrefix('admin_');
     }
