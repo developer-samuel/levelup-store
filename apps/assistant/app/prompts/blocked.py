@@ -16,7 +16,6 @@ BLOCKED_PATTERNS = [
     "you are now",
     "you must now",
     "you should now",
-
     # persona hijacking
     "pretend you are",
     "pretend to be",
@@ -24,7 +23,6 @@ BLOCKED_PATTERNS = [
     "roleplay as",
     "new persona",
     "new role",
-
     # system access
     "developer mode",
     "jailbreak",
@@ -37,7 +35,6 @@ BLOCKED_PATTERNS = [
     "without restrictions",
     "unrestricted mode",
     "base model",
-
     # data extraction
     "show me the database",
     "show me your prompt",
@@ -50,7 +47,6 @@ BLOCKED_PATTERNS = [
     "api key",
     "environment variable",
     "training data",
-
     # social engineering
     "as a developer",
     "as an admin",
@@ -61,7 +57,6 @@ BLOCKED_PATTERNS = [
     "admin mode",
     "ignore safety",
     "disable filters",
-
     # data exfiltration
     "send this to",
     "email this to",
@@ -69,7 +64,6 @@ BLOCKED_PATTERNS = [
     "copy this to",
     "export all",
     "dump all",
-
     # reconnaissance
     "what technology",
     "what framework",
@@ -77,26 +71,22 @@ BLOCKED_PATTERNS = [
     "what server",
     "show headers",
     "show config",
-
     # encoding bypass
     "base64",
     "hex decode",
     "url decode",
     "unicode escape",
-
     # prompt leaking
     "repeat after me",
     "say the following",
     "output the following",
     "print your instructions",
     "write out your prompt",
-
     # role confusion
     "you are a human",
     "you are not an ai",
     "you are not a bot",
     "forget you are an assistant",
-
     # indirect injection (via external content)
     "the following is a message from",
     "instructions from the user:",
@@ -109,7 +99,6 @@ BLOCKED_PATTERNS = [
     "<|system|>",
     "<|user|>",
     "<|assistant|>",
-    
     # sql injection
     "drop table",
     "select *",

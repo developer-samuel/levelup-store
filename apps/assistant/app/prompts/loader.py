@@ -15,5 +15,5 @@ def _resolve_includes(text: str) -> str:
 def load(folder: str, name: str, **kwargs: str) -> str:
     text = (_DIR / folder / f"{name}.md").read_text().strip()
     text = _resolve_includes(text)
-    
+
     return text.format(**kwargs) if kwargs else text

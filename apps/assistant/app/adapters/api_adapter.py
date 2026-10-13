@@ -56,7 +56,7 @@ async def stream(
         (m["content"] for m in messages if m["role"] == "system"),
         None,
     )
-    
+
     history = [
         types.Content(
             role="user" if m["role"] == "user" else "model",

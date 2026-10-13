@@ -118,7 +118,7 @@ async def _direct_sse(
 
         logging.getLogger(__name__).exception("SSE stream error: %s", e)
         msg = "Something went wrong. Please try again."
-        
+
         yield f"data: {json.dumps({'success': False, 'message': msg})}\n\n"
 
 

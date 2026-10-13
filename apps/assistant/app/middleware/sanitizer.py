@@ -10,5 +10,5 @@ def sanitize(text: str) -> str:
     text = unicodedata.normalize("NFKC", text)
     text = _HTML_TAG.sub("", text)
     text = _WHITESPACE.sub(" ", text)
-    
+
     return text.strip()[:_MAX_LENGTH]

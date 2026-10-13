@@ -21,7 +21,7 @@ def fetch_user_orders(user_id: int) -> list[tuple[object, ...]]:
     try:
         cursor = conn.cursor()
         cursor.execute(_USER_ORDERS_QUERY, (user_id,))
-        
+
         rows: list[tuple[object, ...]] = cursor.fetchall()
 
         cursor.close()

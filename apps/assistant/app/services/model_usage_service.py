@@ -40,5 +40,5 @@ async def is_primary_exhausted() -> bool:
 
 async def is_fallback_exhausted() -> bool:
     count = await _redis.get(_KEY_FALLBACK)
-    
+
     return int(count or 0) >= settings.assistant_fallback_limit

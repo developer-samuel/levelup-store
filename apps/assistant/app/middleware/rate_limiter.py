@@ -33,5 +33,5 @@ def rate_limit_handler(request: Request, _exc: Exception) -> JSONResponse:
 
     if ttl:
         content["retry_after"] = ttl
-        
+
     return JSONResponse(status_code=429, content=content)

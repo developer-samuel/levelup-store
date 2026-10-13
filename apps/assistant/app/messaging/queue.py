@@ -14,10 +14,10 @@ class _AsyncCloseable(Protocol):
     async def aclose(self) -> None: ...
 
 
-_PROCESSING_TTL = 900   # 15 minutes safety TTL on the processing flag - must be >= _STREAM_TIMEOUT
-_QUEUE_TTL = 3_600      # 1 hour TTL on the per-conversation queue list
-_STREAM_TIMEOUT = 900   # 15 minutes: max wait for first/next chunk from worker
-_RESPONSE_TTL = 300     # 5 minutes - enough for a page reload to pick it up
+_PROCESSING_TTL = 900  # 15 minutes safety TTL on the processing flag - must be >= _STREAM_TIMEOUT
+_QUEUE_TTL = 3_600  # 1 hour TTL on the per-conversation queue list
+_STREAM_TIMEOUT = 900  # 15 minutes: max wait for first/next chunk from worker
+_RESPONSE_TTL = 300  # 5 minutes - enough for a page reload to pick it up
 
 _PROCESSING_KEY = "ai:processing"
 _QUEUE_KEY = "ai:queue"

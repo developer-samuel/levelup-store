@@ -14,5 +14,5 @@ async def info() -> JSONResponse:
         if settings.assistant_type == "api"
         else settings.assistant_ollama_model
     )
-    
+
     return success(data={"model": model, "ollama": settings.assistant_type == "ollama"})

@@ -116,7 +116,7 @@ async def reattach_chat(
             return StreamingResponse(
                 _replay_sse(saved), media_type="text/event-stream", headers=_SSE_HEADERS
             )
-        
+
         return StreamingResponse(_done_sse(), media_type="text/event-stream", headers=_SSE_HEADERS)
 
     return StreamingResponse(

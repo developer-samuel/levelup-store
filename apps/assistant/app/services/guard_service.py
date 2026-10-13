@@ -20,7 +20,7 @@ async def is_attack(message: str) -> bool:
             messages=[{"role": "user", "content": prompt}],
             options={"temperature": 0},
         )
-        
+
         answer = str(response["message"]["content"]).strip().upper()
     else:
         return False
