@@ -208,9 +208,7 @@ def format_user_reviews(rows: list[tuple[object, ...]]) -> str:
         comment_short = str(body)[:100] if body else ""
 
         r = format_rating(rating)
-        rating_label = (
-            f"{r}★ (1 review)" if review_type == "feedback" else f"{r}★ (1 rating)"
-        )
+        rating_label = f"{r}★ (1 review)" if review_type == "feedback" else f"{r}★ (1 rating)"
 
         lines.append(
             f"- {variant_name}"
