@@ -1,5 +1,6 @@
 @use '@/scss/abstracts/theme/colors/solid/index' as colors;
 @use '@/scss/abstracts/theme/fonts/core/index' as fonts;
+@use '@/scss/abstracts/mixins/effects/scrollbar' as *;
 
 *,
 *::before,
@@ -7,6 +8,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+* {
+  @include custom-scrollbar;
 }
 
 html {

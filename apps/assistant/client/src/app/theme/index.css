@@ -2,6 +2,9 @@
 @import 'tailwindcss/theme';
 @import 'tailwindcss/utilities';
 
+/* Base */
+@import './_scrollbar.css';
+
 /* Theme */
 @import './_breakpoints.css';
 @import './_colors.css';
