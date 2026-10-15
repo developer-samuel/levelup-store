@@ -1,6 +1,20 @@
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
+  name: {{ include "levelup-store-assistant.fullname" . }}-circuit-breaker
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "levelup-store-assistant.labels" . | nindent 4 }}
+spec:
+  circuitBreaker:
+    expression: ResponseCodeRatio(500, 600, 0, 600) > 0.3 || NetworkErrorRatio() > 0.3 || LatencyAtQuantileMS(50, 0) > 10000
+    checkPeriod: 10s
+    fallbackDuration: 30s
+    recoveryDuration: 15s
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
   name: {{ include "levelup-store-assistant.fullname" . }}-security-headers
   namespace: {{ .Release.Namespace }}
   labels:
@@ -28,8 +42,8 @@ spec:
         default-src 'self';
         script-src 'self' 'unsafe-inline';
         style-src 'self' 'unsafe-inline';
-        img-src 'self' data:;
+        img-src 'self' data: https:;
         font-src 'self';
-        connect-src 'self';
+        connect-src 'self' https:;
         object-src 'none';
         base-uri 'self'

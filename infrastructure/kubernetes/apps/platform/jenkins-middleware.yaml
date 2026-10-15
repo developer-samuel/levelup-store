@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: jenkins-ip-allowlist
+  namespace: jenkins
+spec:
+  ipAllowList:
+    sourceRange:
+      - TAILSCALE_CIDR_PLACEHOLDER
