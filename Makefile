@@ -22,14 +22,24 @@ fix-permissions:
 generate-uml:
 	@bash scripts/generate-uml/entrypoints/run.sh
 
-## Generate project structure to .structure/tree.txt (uses git - respects .gitignore)
+## Generate project structure to .structure/tree.txt (all files, respects .gitignore)
 generate-structure:
 	@mkdir -p .structure
-	@git ls-files | tree --fromfile > .structure/tree.txt
+	@rm -f .structure/tree.txt
+	@{ git ls-files --cached --others --exclude-standard; git ls-files --deleted; } | sort | uniq -u | tree --fromfile > .structure/tree.txt
 	@echo "✅ Project structure saved to .structure/tree.txt"
 
 ## Generate project directory structure to .structure/dirs.txt (directories only)
 generate-structure-dirs:
 	@mkdir -p .structure
-	@git ls-files | tree --fromfile -d > .structure/dirs.txt
+	@rm -f .structure/dirs.txt
+	@{ git ls-files --cached --others --exclude-standard; git ls-files --deleted; } | sort | uniq -u | tree --fromfile -d > .structure/dirs.txt
 	@echo "✅ Project directory structure saved to .structure/dirs.txt"
+
+## Generate both project structure files (tree + dirs)
+generate-structure-all:
+	@mkdir -p .structure
+	@rm -f .structure/tree.txt .structure/dirs.txt
+	@{ git ls-files --cached --others --exclude-standard; git ls-files --deleted; } | sort | uniq -u | tree --fromfile > .structure/tree.txt
+	@{ git ls-files --cached --others --exclude-standard; git ls-files --deleted; } | sort | uniq -u | tree --fromfile -d > .structure/dirs.txt
+	@echo "✅ Project structure saved to .structure/tree.txt and .structure/dirs.txt"

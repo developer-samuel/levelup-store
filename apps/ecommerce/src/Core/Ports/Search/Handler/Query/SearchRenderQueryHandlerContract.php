@@ -6,6 +6,6 @@ namespace App\Core\Ports\Search\Handler\Query;
 
 interface SearchRenderQueryHandlerContract
 {
-    /** @return string[] */
-    public function handle(string $query): array;
+    /** @return array{html: string, hasMore: bool} */
+    public function handle(string $query, int $page, int $limit): array;
 }

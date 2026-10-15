@@ -115,7 +115,7 @@
 
         position: relative;
         font-size: 32px;
-        color: colors.$primary;
+        color: colors.$neutral;
         text-align: center;
       }
     }
@@ -200,7 +200,7 @@
 
 #order-products {
   @include size(650px, calc(100vh - 325px), (null, 'min'));
-  
+
   position: relative;
   overflow-y: auto;
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Cache\Service\Query;
 
-use Packages\Kit\Assertion\Shared\CacheAssertion;
+use Presets\Kit\Assertion\Shared\CacheAssertion;
 
 use App\Core\Domain\Cache\DateCacheObject;
 
@@ -36,7 +36,7 @@ final class DateCacheQueryService implements DateCacheQueryContract
 
         $data = $this->cache->get(
             $cacheKey,
-            fn (CacheItemProxyContract $item) => $this->fetchAllDates($item),
+            fn(CacheItemProxyContract $item) => $this->fetchAllDates($item),
         );
 
         return CacheAssertion::assertValidType($data, DateCacheObject::class);

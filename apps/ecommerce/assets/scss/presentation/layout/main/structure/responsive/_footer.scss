@@ -31,14 +31,6 @@
 }
 
 @include resolution(md, min) {
-  @include resolution(lg, max) {
-    .footer {
-      top: 105px;
-    }
-  }
-}
-
-@include resolution(md, min) {
   .footer__card {
     gap: 3em;
 
@@ -69,35 +61,31 @@
 }
 
 @include resolution(md, max) {
-  .footer {
-    top: 90px;
+  .footer__card {
+    gap: 1em;
 
-    &__card {
-      gap: 1em;
+    &-top {
+      gap: 1.5em;
 
-      &-top {
-        gap: 1.5em;
-
-        &-group {
-          gap: 1em;
-        }
-
-        &-heading {
-          font-size: 16px;
-        }
+      &-group {
+        gap: 1em;
       }
 
-      &-item {
-        font-size: 14.5px;
-
-        img {
-          @include size(14px, 14px);
-        }
+      &-heading {
+        font-size: 16px;
       }
+    }
 
-      &-demo {
-        font-size: 14px;
+    &-item {
+      font-size: 14.5px;
+
+      img {
+        @include size(14px, 14px);
       }
+    }
+
+    &-demo {
+      font-size: 14px;
     }
   }
 }

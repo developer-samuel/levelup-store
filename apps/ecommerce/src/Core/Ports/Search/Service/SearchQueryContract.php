@@ -6,6 +6,11 @@ namespace App\Core\Ports\Search\Service;
 
 interface SearchQueryContract
 {
-    /** @return array<int, array<string, mixed>> */
-    public function searchByTerm(string $query): array;
+    /**
+     * @return array{
+     *     items: array<int, array<string, mixed>>,
+     *     hasMore: bool
+     * }
+     */
+    public function searchByTerm(string $query, int $page, int $limit): array;
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Domain\Segment\Product\Utils;
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\Segment\Product\Entity\Variant\{
     ProductVariant,
@@ -34,7 +34,7 @@ final class ProductToolkit
      *     hasDiscount: bool,
      *     discountPrice: float|null
      * }
-    */
+     */
     public static function getDiscountData(ProductVariant $variant): array
     {
         $discount = $variant->getDiscount();

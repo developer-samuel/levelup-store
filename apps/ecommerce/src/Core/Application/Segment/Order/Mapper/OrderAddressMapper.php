@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Mapper;
 
-use Packages\Kit\Assertion\Domain\Order\OrderBillingAssertion;
+use Presets\Kit\Assertion\Domain\Order\OrderBillingAssertion;
 
 use App\Core\Domain\{
     Segment\Country\Utils\CountryTransformer,
@@ -39,7 +39,7 @@ use App\Core\Application\{
  *     postal_code: string|null,
  *     city: string|null
  * }
-*/
+ */
 final class OrderAddressMapper
 {
     /** @return FullAddress */
@@ -115,7 +115,7 @@ final class OrderAddressMapper
      *     postal: string,
      *     street: string
      * }
-    */
+     */
     private static function extractAddressValues(OrderBilling|OrderShipping $address): array
     {
         return [
@@ -130,7 +130,7 @@ final class OrderAddressMapper
      * @param CaseType $case
      *
      * @return string[]
-    */
+     */
     private static function getKeysByCase(CaseType $case): array
     {
         return [

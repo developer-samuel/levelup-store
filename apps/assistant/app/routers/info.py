@@ -9,4 +9,10 @@ router = APIRouter()
 
 @router.get("/info")
 async def info() -> JSONResponse:
-    return success(data={"model": settings.ollama_model})
+    model = (
+        settings.assistant_model
+        if settings.assistant_type == "api"
+        else settings.assistant_ollama_model
+    )
+
+    return success(data={"model": model, "ollama": settings.assistant_type == "ollama"})

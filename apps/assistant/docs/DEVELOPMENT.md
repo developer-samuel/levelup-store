@@ -3,11 +3,8 @@
 ## 📦 App Commands
 
 ```bash
-# Start the API server (development mode with auto-reload)
-make serve
-# or manually:
-cd apps/assistant
-uv run uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
+# Start the FastAPI dev server (uvicorn with --reload)
+make assistant-run
 ```
 
 ---

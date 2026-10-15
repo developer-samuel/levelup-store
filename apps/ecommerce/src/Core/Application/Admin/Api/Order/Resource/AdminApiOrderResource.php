@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Api\Order\Resource;
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\Segment\Order\Entity\Order;
 
@@ -20,7 +20,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
  *     status: string,
  *     createdAt: string
  * }
-*/
+ */
 final class AdminApiOrderResource
 {
     /** @return ResourceArray */

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Presentation\Shared\Utils\MessageResolver;
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 final class ResultResponder
 {

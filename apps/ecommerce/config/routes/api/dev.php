@@ -8,7 +8,7 @@ use App\Presentation\Api\Dev\HealthCheckApiController;
 
 return function (RoutingConfigurator $routes): void {
     if (in_array($routes->env(), ['local', 'dev', 'test'], true)) {
-        $routes->import('@NelmioApiDocBundle/config/routing/swaggerui.xml')
+        $routes->import('@NelmioApiDocBundle/config/routing/swaggerui.php')
             ->prefix('/docs');
 
         $routes->add('health_check', '/health-check')

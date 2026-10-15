@@ -6,4 +6,5 @@ export function toggleCart(cart: CartInstance, open: boolean): void {
   cart.elements?.sidebar?.classList.toggle('cart--active', open)
 
   document.getElementById('cart-backdrop')?.classList.toggle('cart--active', open)
+  document.body.classList.toggle('cart--open', open)
 }

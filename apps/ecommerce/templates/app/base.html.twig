@@ -27,7 +27,7 @@
 
             {{ Cookies.render(app.request) }}
             {{ Reviews.render(app.request, variant|default(null)) }}
-            {{ Zoom.render(app.request) }}
+            {{ Zoom.render() }}
             {{ Header.render(showHeader) }}
             {{ AiAssistant.render() }}
             {{ ScrollToTop.render() }}

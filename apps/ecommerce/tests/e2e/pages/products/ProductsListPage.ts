@@ -46,7 +46,7 @@ export class ProductsListPage extends BasePage {
     this.maxPriceInput = page.locator('#maxPrice')
 
     this.productItems = page.locator('.product-item')
-    this.sortSelect = page.locator('.products__card-options .products__card-sort #sort-by')
+    this.sortSelect = page.locator('.products__card-options .products__card-sort .products__card-sort-select-field').first()
     this.loadMoreBtn = page.locator('#load-more')
     this.loadMoreContainer = page.locator('.products__card-load-more')
     this.noResultsMsg = page.locator('.products__card-no-results')
@@ -93,7 +93,7 @@ export class ProductsListPage extends BasePage {
 
   async selectSort(value: string): Promise<void> {
     await this.page.evaluate((val) => {
-      const select = document.getElementById('sort-by') as HTMLSelectElement | null
+      const select = document.querySelector<HTMLSelectElement>('.products__card-sort-select-field')
       if (!select) return
       select.value = val
       select.dispatchEvent(new Event('change', { bubbles: true }))

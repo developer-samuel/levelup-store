@@ -116,7 +116,8 @@ All macros live in `apps/ecommerce/database/macros/`.
 **Date / Time** (`DateMacro`, `TimestampMacro`)
 
 - `DateMacro::date($table, 'col')` - DATE (nullable)
-- `DateMacro::datetime($table, 'col')` - DATETIME (nullable)
+- `DateMacro::datetime($table, 'col')` - DATETIME without timezone (nullable)
+- `DateMacro::datetimetz($table, 'col')` - DATETIME with timezone (nullable by default, pass `['notnull' => true]` to override)
 - `TimestampMacro::created($table)` - `created_at` NOT NULL
 - `TimestampMacro::updated($table, notnull: false)` - `updated_at` (nullable by default)
 

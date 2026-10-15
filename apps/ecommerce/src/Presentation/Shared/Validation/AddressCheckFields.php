@@ -6,7 +6,7 @@ namespace App\Presentation\Shared\Validation;
 
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\Shared\ValueObject\AddressObject;
 
@@ -21,7 +21,7 @@ use App\Shared\{
  *     1:int|null,
  *     2:string|null
  * }
-*/
+ */
 final class AddressCheckFields
 {
     public static function validateRequired(
@@ -109,7 +109,7 @@ final class AddressCheckFields
 
     private static function getPropertyValue(AddressObject $address, AddressFields $field): string
     {
-        return match($field) {
+        return match ($field) {
             AddressFields::COUNTRY     => $address->country,
             AddressFields::STREET      => $address->street,
             AddressFields::POSTAL_CODE => $address->postalCode,

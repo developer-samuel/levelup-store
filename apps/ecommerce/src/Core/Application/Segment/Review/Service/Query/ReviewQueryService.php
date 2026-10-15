@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Review\Service\Query;
 
-use Packages\Kit\Assertion\Shared\IdAssertion;
+use Presets\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariant,
@@ -42,7 +42,7 @@ final readonly class ReviewQueryService implements ReviewQueryContract
      * @param list<int> $variantIds
      *
      * @return array<int, float> [variantId => average]
-    */
+     */
     public function getAverageRatingsForVariants(array $variantIds): array
     {
         if ($variantIds === []) {
@@ -90,7 +90,7 @@ final readonly class ReviewQueryService implements ReviewQueryContract
      * @param string[] $details
      *
      * @return string[]
-    */
+     */
     public function limitDetails(array $details): array
     {
         return array_slice($details, 0, self::MAX_DETAILS);
@@ -120,7 +120,7 @@ final readonly class ReviewQueryService implements ReviewQueryContract
      * @param Review[] $reviews
      *
      * @return ReviewObject[]
-    */
+     */
     private function mapReviewsToObjects(array $reviews): array
     {
         return array_map(
@@ -139,7 +139,7 @@ final readonly class ReviewQueryService implements ReviewQueryContract
      *     lastReview: ReviewObject|null,
      *     details: ReviewDetail[]
      * }
-    */
+     */
     private function getLastReviewWithDetails(int $variantId): array
     {
         $lastReview = $this->reviewRepository->getLastReviewByVariant($variantId);

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\User\Handler\Command;
 
-use App\Core\Domain\Shared\Audit\Enum\AuditAction;
-
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
     Security\SecurityPolicyContract,
-    Shared\Audit\AuditLoggerContract,
     Segment\User\Handler\Command\DestroyProfileHandlerContract,
+    Segment\User\Notifier\UserNotifierContract,
     Segment\User\Service\Command\DestroyProfileCommandContract,
     Shared\Logging\AppLoggerContract
 };
@@ -23,7 +21,7 @@ final class DestroyProfileHandler extends AbstractCommandHandler implements Dest
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly DestroyProfileCommandContract $destroyProfileCommand,
-        private readonly AuditLoggerContract $audit,
+        private readonly UserNotifierContract $userNotifier,
         AppLoggerContract $logger,
     ) {
         parent::__construct($logger);
@@ -37,7 +35,7 @@ final class DestroyProfileHandler extends AbstractCommandHandler implements Dest
 
             $this->destroyProfileCommand->destroyProfile($user);
 
-            $this->audit->log(AuditAction::PROFILE_DESTROY, 'User', $user->getId(), [], $user);
+            $this->userNotifier->notifyProfileDestroyed($user);
 
             return ApiResultFormatter::success('Your account has been successfully deleted.');
         });

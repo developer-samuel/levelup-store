@@ -6,7 +6,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ## 1. Backend
 
-- **Language:** Python 3.12 – 3.13
+- **Language:** Python 3.12 - 3.13
 - **Framework:** FastAPI
 - **ASGI Server:** Uvicorn
 - **Dependency Manager:** uv
@@ -19,6 +19,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Real-time Streaming:** Redis pub/sub (SSE responses)
 - **Conversation History:** Redis
 - **Rate Limiting:** SlowAPI
+- **Distributed Tracing:** OpenTelemetry (OTLP exporter → Tempo via OTel Collector)
 - **HTTP Client:** httpx
 - **Error Monitoring:** Sentry (sentry-sdk[fastapi])
 

@@ -21,4 +21,10 @@ final class DateMacro
             'notnull' => false,
         ]);
     }
+
+    /** @param array<string, mixed> $options */
+    public static function datetimetz(Table $table, string $name, array $options = []): void
+    {
+        $table->addColumn($name, 'datetimetz_immutable', array_merge(['notnull' => false], $options));
+    }
 }

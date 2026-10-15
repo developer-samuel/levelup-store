@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\User\Handler\Command;
 
-use App\Core\Domain\{
-    Shared\Audit\Enum\AuditAction,
-    Segment\User\Entity\User,
-    Segment\User\Payload\ChangePasswordPayload
+use App\Core\Domain\Segment\User\{
+    Entity\User,
+    Payload\ChangePasswordPayload
 };
 
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
     Security\SecurityPolicyContract,
-    Shared\Audit\AuditLoggerContract,
     Segment\User\Handler\Command\ChangePasswordCommandHandlerContract,
+    Segment\User\Notifier\UserNotifierContract,
     Segment\User\Service\Command\ChangePasswordCommandContract,
     Segment\User\Service\Query\ChangePasswordQueryContract,
     Shared\Logging\AppLoggerContract
@@ -29,7 +28,7 @@ final class ChangePasswordCommandHandler extends AbstractCommandHandler implemen
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly ChangePasswordQueryContract $changePasswordQuery,
         private readonly ChangePasswordCommandContract $changePasswordCommand,
-        private readonly AuditLoggerContract $audit,
+        private readonly UserNotifierContract $userNotifier,
         AppLoggerContract $logger,
     ) {
         parent::__construct($logger);
@@ -45,7 +44,7 @@ final class ChangePasswordCommandHandler extends AbstractCommandHandler implemen
 
             $this->changePasswordCommand->changeUserPassword($user, $payload->newPassword);
 
-            $this->audit->log(AuditAction::PASSWORD_CHANGE, 'User', $user->getId(), [], $user);
+            $this->userNotifier->notifyPasswordChanged($user);
 
             return ApiResultFormatter::success('Password successfully changed.');
         });

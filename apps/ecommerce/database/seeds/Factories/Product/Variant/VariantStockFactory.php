@@ -6,7 +6,7 @@ namespace Database\Seeds\Factories\Product\Variant;
 
 use Doctrine\Persistence\ObjectManager;
 
-use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantStockAssertion;
+use Presets\Kit\Assertion\Domain\Product\Variant\ProductVariantStockAssertion;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariant,

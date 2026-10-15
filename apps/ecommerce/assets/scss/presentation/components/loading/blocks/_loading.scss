@@ -14,11 +14,16 @@
 .loading {
   @include flex-center;
   @include size(100%, 100vh);
-  @include transition('linear');
+  @include transition('linear', 300, opacity);
   @include visibility(true, 1, true);
 
   position: fixed;
   z-index: z.$loading;
+
+  &--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 
   &__background {
     @include size;

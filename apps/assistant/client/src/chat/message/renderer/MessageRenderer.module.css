@@ -1,0 +1,36 @@
+@reference "../../../app/theme/index.css";
+
+@keyframes thinking-pulse {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.dots {
+  @apply flex gap-1.5 py-0.5;
+}
+
+.dot,
+.dot2,
+.dot3 {
+  @apply h-1.5 w-1.5 rounded-full bg-neutral/40 animate-[thinking-pulse_1.2s_ease-in-out_infinite];
+}
+
+.dot2 {
+  @apply [animation-delay:0.2s];
+}
+
+.dot3 {
+  @apply [animation-delay:0.4s];
+}
+
+.cursor {
+  @apply ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-current opacity-60;
+}

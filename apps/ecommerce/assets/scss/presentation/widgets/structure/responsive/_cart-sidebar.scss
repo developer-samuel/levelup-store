@@ -130,14 +130,8 @@
         padding: 0.75em 1.25em;
       }
 
-      &-actions {
-        width: 100%;
-
-        &-item {
-          a {
-            font-size: 16px;
-          }
-        }
+      &-actions-item a {
+        font-size: 16px;
       }
     }
   }
@@ -145,15 +139,10 @@
 
 #cart-sidebar {
   @include resolution(xs, min) {
-    width: 400px;
+    width: 420px;
 
     .cart__summary {
       height: 100px;
-
-      &-price,
-      &-btn {
-        width: 400px;
-      }
 
       &-price {
         height: 45px;
@@ -181,11 +170,6 @@
       &__summary {
         height: 75px;
 
-        &-price,
-        &-btn {
-          width: 100%;
-        }
-
         &-price {
           height: 40px;
 
@@ -202,3 +186,10 @@
     }
   }
 }
+
+@include resolution(sm, max) {
+  body.cart--open {
+    overflow: hidden;
+  }
+}
+

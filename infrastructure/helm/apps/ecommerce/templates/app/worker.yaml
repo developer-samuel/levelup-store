@@ -42,6 +42,7 @@ spec:
             - /var/www/apps/ecommerce/bin/console
             - messenger:consume
             - async
+            - async_outbox
             - --time-limit=3600
             - --memory-limit=128M
           securityContext:

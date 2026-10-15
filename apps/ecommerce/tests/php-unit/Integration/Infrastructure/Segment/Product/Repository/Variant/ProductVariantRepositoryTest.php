@@ -20,6 +20,7 @@ use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariantStock,
     Segment\Product\Enum\ProductSortOption,
     Segment\Product\ValueObject\ProductFilterObject,
+    Segment\Review\Entity\Review,
     Segment\Type\Entity\Type
 };
 
@@ -30,12 +31,16 @@ use App\Core\Ports\{
 
 use App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository;
 
-use Tests\Support\Provides\Persistence;
+use Tests\Support\{
+    Factory\UserFactory,
+    Provides\Persistence
+};
 
 /** @coversDefaultClass \App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository */
 final class ProductVariantRepositoryTest extends KernelTestCase
 {
     use Persistence;
+    use UserFactory;
 
     private EntityManagerInterface $em;
     private ProductVariantRepository $repository;
@@ -114,17 +119,20 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         $unique = uniqid('UniqueTestVariant');
         $this->createAndPersistVariant('SKU-SEARCH-001', $unique, strtolower($unique));
 
-        $results = $this->repository->searchByName($unique);
+        $result = $this->repository->searchByName($unique, 1, 10);
 
-        self::assertNotEmpty($results);
-        self::assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+        self::assertArrayHasKey('items', $result);
+        self::assertArrayHasKey('total', $result);
+        self::assertNotEmpty($result['items']);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $result['items']);
     }
 
     public function testSearchByNameReturnsEmptyWhenNoMatch(): void
     {
-        $results = $this->repository->searchByName('zzz-absolutely-no-match-xyz-999');
+        $result = $this->repository->searchByName('zzz-absolutely-no-match-xyz-999', 1, 10);
 
-        self::assertEmpty($results);
+        self::assertSame([], $result['items']);
+        self::assertSame(0, $result['total']);
     }
 
     public function testFindAllByProductReturnsVariantsForProduct(): void
@@ -354,6 +362,39 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         self::assertIsArray($result['items']);
     }
 
+    public function testFindAvailableVariantsPaginatedSortByTopRatedOrdersByAvgRatingDesc(): void
+    {
+        $lowRated = $this->createAndPersistVariant('SKU-RATE-LOW-001', 'Low Rated Variant', 'rate-low-001');
+        $highRated = $this->createAndPersistVariant('SKU-RATE-HIGH-001', 'High Rated Variant', 'rate-high-001');
+        $user = $this->createAndPersistUser();
+
+        $lowRated = $this->repository->findById($lowRated->getId());
+        $highRated = $this->repository->findById($highRated->getId());
+
+        self::assertNotNull($lowRated);
+        self::assertNotNull($highRated);
+
+        $reviewLow = (new Review())->setVariant($lowRated)->setUser($user)->setValue(2.0);
+        $reviewHigh = (new Review())->setVariant($highRated)->setUser($user)->setValue(5.0);
+
+        $this->em->persist($reviewLow);
+        $this->em->persist($reviewHigh);
+        $this->em->flush();
+        $this->em->clear();
+
+        $filter = $this->defaultFilter();
+        $result = $this->repository->findAvailableVariantsPaginated($filter, 1, PHP_INT_MAX, ProductSortOption::TOP_RATED);
+
+        $ids = array_map(fn(ProductVariant $v) => $v->getId(), $result['items']);
+
+        self::assertContains($highRated->getId(), $ids);
+        self::assertContains($lowRated->getId(), $ids);
+        self::assertLessThan(
+            array_search($lowRated->getId(), $ids, true),
+            array_search($highRated->getId(), $ids, true),
+        );
+    }
+
     public function testFindAvailableVariantsPaginatedPageTwoReturnsOffset(): void
     {
         for ($i = 1; $i <= 5; $i++) {
@@ -369,9 +410,11 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         self::assertArrayHasKey('items', $page2);
     }
 
-    public function testFindOneByUrlReturnsNullWhenVariantHasNoStock(): void
+    public function testFindOneByUrlReturnsNullWhenVariantOutOfStock(): void
     {
-        $result = $this->repository->findOneByUrl('url-that-does-not-exist-xyz');
+        $variant = $this->createAndPersistVariantOutOfStock('SKU-OOS-URL-001', 'OOS Url Variant', 'oos-url-variant-001');
+
+        $result = $this->repository->findOneByUrl($variant->getUrl());
 
         self::assertNull($result);
     }
@@ -410,7 +453,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [$variant->getId()], 'total' => 1],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
@@ -427,7 +470,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [], 'total' => 0],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
@@ -442,25 +485,29 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [], 'total' => 0],
-            searchResult: ['ids' => [$variant->getId()]],
+            searchResult: ['ids' => [$variant->getId()], 'total' => 1],
         );
 
-        $results = $repository->searchByName('ES Search');
+        $result = $repository->searchByName('ES Search', 1, 10);
 
-        self::assertNotEmpty($results);
-        self::assertContainsOnlyInstancesOf(ProductVariant::class, $results);
+        self::assertArrayHasKey('items', $result);
+        self::assertArrayHasKey('total', $result);
+        self::assertNotEmpty($result['items']);
+        self::assertContainsOnlyInstancesOf(ProductVariant::class, $result['items']);
+        self::assertSame(1, $result['total']);
     }
 
     public function testSearchByNameReturnsEmptyWhenElasticsearchReturnsNoIds(): void
     {
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [], 'total' => 0],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
-        $results = $repository->searchByName('anything');
+        $result = $repository->searchByName('anything', 1, 10);
 
-        self::assertSame([], $results);
+        self::assertSame([], $result['items']);
+        self::assertSame(0, $result['total']);
     }
 
     public function testFindAvailableVariantsPaginatedSkipsNonExistentIdsFromElasticsearch(): void
@@ -470,13 +517,58 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
         $repository = $this->getRepositoryWithElasticsearch(
             filterResult: ['ids' => [999999, $variant->getId()], 'total' => 2],
-            searchResult: ['ids' => []],
+            searchResult: ['ids' => [], 'total' => 0],
         );
 
         $result = $repository->findAvailableVariantsPaginated($filter, 1, 12);
 
         self::assertCount(1, $result['items']);
         self::assertSame($variant->getId(), $result['items'][0]->getId());
+    }
+
+    public function testGetMaxPriceForFilterWithCategoryFilter(): void
+    {
+        $variant = $this->createAndPersistVariant('SKU-MAXPRICE-CAT-001', 'MaxPrice Cat Variant', 'maxprice-cat-001');
+        $categorySlug = $this->toSlug($variant->getProduct()->getCategory()->getName());
+
+        $filter = new ProductFilterObject(
+            isDiscountRoute: false,
+            subtypes:        [],
+            brands:          [],
+            category:        $categorySlug,
+        );
+
+        $result = $this->repository->getMaxPriceForFilter($filter);
+
+        self::assertGreaterThanOrEqual(0.0, $result);
+    }
+
+    public function testGetMaxPriceForFilterWithTypeFilter(): void
+    {
+        $variant = $this->createAndPersistVariant('SKU-MAXPRICE-TYPE-001', 'MaxPrice Type Variant', 'maxprice-type-001');
+        $typeSlug = $this->toSlug($variant->getProduct()->getType()->getName());
+
+        $filter = new ProductFilterObject(
+            isDiscountRoute: false,
+            subtypes:        [],
+            brands:          [],
+            type:            $typeSlug,
+        );
+
+        $result = $this->repository->getMaxPriceForFilter($filter);
+
+        self::assertGreaterThanOrEqual(0.0, $result);
+    }
+
+    public function testFindRandomAvailableExcludingSkipsOutOfStockVariants(): void
+    {
+        $outOfStock = $this->createAndPersistVariantOutOfStock('SKU-RAND-OOS-001', 'OOS Rand Variant', 'rand-oos-001');
+        $this->createAndPersistVariant('SKU-RAND-AVAIL-001', 'Avail Rand Variant', 'rand-avail-001');
+
+        $result = $this->repository->findRandomAvailableExcluding([]);
+
+        self::assertNotNull($result);
+        self::assertNotSame($outOfStock->getId(), $result->getId());
     }
 
     public function testFindRandomAvailableExcludingRespectsExcludedIds(): void
@@ -599,6 +691,34 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         return $variant;
     }
 
+    private function createAndPersistVariantOutOfStock(string $sku, string $name, string $url): ProductVariant
+    {
+        $product = $this->createAndPersistProduct();
+
+        $variant = (new ProductVariant())
+            ->setProduct($product)
+            ->setSku($sku)
+            ->setName($name)
+            ->setUrl($url)
+            ->setPrice(99.99);
+
+        $stock = (new ProductVariantStock())
+            ->setVariant($variant)
+            ->setQuantityAvailable(0);
+
+        $ean = (new ProductVariantEan())
+            ->setVariant($variant)
+            ->setCode(substr(md5(uniqid('', true)), 0, 13));
+
+        $this->em->persist($variant);
+        $this->em->persist($stock);
+        $this->em->persist($ean);
+        $this->em->flush();
+        $this->em->clear();
+
+        return $variant;
+    }
+
     private function createAndPersistProduct(): Product
     {
         $category = (new Category())->setName(substr(md5(uniqid('', true)), 0, 20));
@@ -623,7 +743,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
 
     /**
      * @param array{ids: int[], total: int} $filterResult
-     * @param array{ids: int[]} $searchResult
+     * @param array{ids: int[], total: int} $searchResult
     */
     private function getRepositoryWithElasticsearch(array $filterResult, array $searchResult): ProductVariantRepository
     {

@@ -1,0 +1,65 @@
+@reference "../../../../app/theme/index.css";
+
+.card {
+  @apply flex flex-col rounded-xl border border-neutral-200 bg-white p-3 my-2 shadow-sm max-w-xs gap-2;
+}
+
+.image {
+  @apply h-24 w-auto max-w-full mx-auto rounded-lg object-contain cursor-pointer bg-neutral-50;
+}
+
+.imagePlaceholder {
+  @apply h-24 flex items-center justify-center text-neutral-300 text-3xl;
+}
+
+.body {
+  @apply flex flex-col gap-1 min-w-0;
+}
+
+.name {
+  @apply font-semibold text-sm leading-tight text-neutral-900 hover:underline line-clamp-2;
+}
+
+.meta {
+  @apply text-xs text-neutral-400;
+}
+
+.priceRow {
+  @apply flex flex-nowrap items-center gap-2;
+}
+
+.priceStack {
+  @apply flex flex-col;
+}
+
+.price {
+  @apply text-sm font-bold text-neutral-900 whitespace-nowrap;
+}
+
+.originalPrice {
+  @apply text-xs text-neutral-400 line-through whitespace-nowrap;
+}
+
+.discountBadge {
+  @apply text-xs px-1.5 py-0.5 rounded font-semibold bg-purple-100 text-purple-600 whitespace-nowrap;
+}
+
+.ratingRow {
+  @apply flex items-center gap-1.5 flex-wrap;
+}
+
+.stars {
+  @apply text-yellow-400 text-xs;
+}
+
+.stockRow {
+  @apply w-full;
+}
+
+.description {
+  @apply text-xs text-neutral-500 line-clamp-2 leading-snug;
+}
+
+.button {
+  @apply mt-1 w-fit mx-auto inline-flex items-center gap-1 rounded-lg bg-secondary px-3 py-1 text-xs font-semibold text-white hover:opacity-90 transition-opacity;
+}

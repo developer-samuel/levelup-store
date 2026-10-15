@@ -7,13 +7,9 @@ Platform-level development guide covering the shared Docker stack used by all ap
 ```bash
 # Show all available make commands
 make help
-# or
-awk '/^## /{desc=substr($0,4)} /^[a-zA-Z_-]+:/{if(desc!="") printf "  %-45s %s\n", $1, desc; desc=""}' Makefile make/*.mk | sed 's/://' | sort
 
 # Fix file permissions - fixes root-owned files (WSL2)
 make fix-permissions
-# or
-bash scripts/set-permissions/entrypoints/run.sh
 ```
 
 ---
@@ -23,20 +19,17 @@ bash scripts/set-permissions/entrypoints/run.sh
 > Requires `tree` - install with `sudo apt install tree` (Debian/Ubuntu) or `brew install tree` (macOS).
 
 ```bash
-# Generate to file (.structure/tree.txt)
-make generate-structure
-# or
-mkdir -p .structure && git ls-files | tree --fromfile > .structure/tree.txt && echo "✅ Project structure saved to .structure/tree.txt"
+# Generate both tree.txt and dirs.txt in one command
+make generate-structure-all
 
-# Generate directory structure to .structure/dirs.txt (directories only)
+# Generate tree only (.structure/tree.txt)
+make generate-structure
+
+# Generate dirs only (.structure/dirs.txt)
 make generate-structure-dirs
-# or
-mkdir -p .structure && git ls-files | tree --fromfile -d > .structure/dirs.txt && echo "✅ Project directory structure saved to .structure/dirs.txt"
 
 # Generate UML diagrams from source code
 make generate-uml
-# or
-bash scripts/generate-uml/entrypoints/run.sh
 ```
 
 ---

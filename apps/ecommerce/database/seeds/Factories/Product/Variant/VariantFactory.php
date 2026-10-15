@@ -6,7 +6,7 @@ namespace Database\Seeds\Factories\Product\Variant;
 
 use Doctrine\Persistence\ObjectManager;
 
-use Packages\Kit\{
+use Presets\Kit\{
     Utils\Product\ProductCatalogCodeGenerator,
     Utils\Shared\IdentifierGenerator,
     Utils\Shared\StringNormalizer
@@ -36,7 +36,7 @@ trait VariantFactory
      *   images: string[],
      *   descriptions: array<array{0:string,1:string}>
      * } $variantData
-    */
+     */
     private function createVariant(
         ObjectManager $manager,
         Product $product,
@@ -67,7 +67,7 @@ trait VariantFactory
      *   images: string[],
      *   descriptions: array<array{0:string,1:string}>
      * } $variantData
-    */
+     */
     private function buildVariant(Product $product, string $variantName, array $variantData): ProductVariant
     {
         return (new ProductVariant())
@@ -85,7 +85,7 @@ trait VariantFactory
      *   stocks_available?: int,
      *   stocks_reserved?: int
      * } $variantData
-    */
+     */
     private function handleVariantStocks(ObjectManager $manager, ProductVariant $variant, array $variantData): void
     {
         [$stocksAvailable, $stocksReserved] = $this->getStocks($variantData);
@@ -103,7 +103,7 @@ trait VariantFactory
      *   stocks_available?: int,
      *   stocks_reserved?: int
      * } $variantData
-    */
+     */
     private function handleVariantEans(ObjectManager $manager, ProductVariant $variant, array $variantData): void
     {
         [$stocksAvailable, $stocksReserved] = $this->getStocks($variantData);
@@ -145,7 +145,7 @@ trait VariantFactory
      * } $variantData
      *
      * @return int[] [stocksAvailable, stocksReserved]
-    */
+     */
     private function getStocks(array $variantData): array
     {
         $stocksAvailable = $variantData['stocks_available'] ?? 0;

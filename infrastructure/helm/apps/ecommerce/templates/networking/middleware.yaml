@@ -1,6 +1,21 @@
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
+  name: {{ include "levelup-store.fullname" . }}-rate-limit
+  labels:
+    {{- include "levelup-store.labels" . | nindent 4 }}
+spec:
+  rateLimit:
+    average: 300
+    burst: 100
+    period: 1m
+    sourceCriterion:
+      ipStrategy:
+        depth: 1
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
   name: {{ include "levelup-store.fullname" . }}-www-redirect
   labels:
     {{- include "levelup-store.labels" . | nindent 4 }}

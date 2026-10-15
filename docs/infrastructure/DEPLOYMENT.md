@@ -282,9 +282,10 @@ verify the DaemonSet hostPort is open and the endpoint in the secret is correct.
 
 ### Image pull fails (Docker Hub rate limit)
 
-Use `quay.io` mirrors for Docker Hub images where available. The pg-backup cronjob uses
-`quay.io/minio/mc` instead of `docker.io/minio/mc` for this reason.
-
+Use `bitnamilegacy/minio` for local Docker - `quay.io/minio` requires authentication and
+`docker.io/minio/minio` is not publicly available. In production, the Helm chart uses
+`bitnamilegacy/minio` as well. The pg-backup cronjob uses `quay.io/minio/mc` instead of
+`docker.io/minio/mc` for rate-limit reasons.
 
 ---
 

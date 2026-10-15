@@ -103,11 +103,14 @@ jenkins-secret:
 ## Configure Jenkins ingress via ArgoCD (deployed by root-app)
 jenkins-install:
 	$(call require,APP_DOMAIN)
+	$(call require,TAILSCALE_CIDR)
 	$(MAKE) jenkins-secret
 	$(call argocd_login)
 	argocd app set jenkins $(ARGOCD_FLAGS) \
 		-p jenkins.controller.ingress.hostName="jenkins.$(APP_DOMAIN)" \
 		-p "jenkins.controller.ingress.tls[0].hosts[0]=jenkins.$(APP_DOMAIN)"
+	sed 's|TAILSCALE_CIDR_PLACEHOLDER|$(TAILSCALE_CIDR)|g' \
+		../kubernetes/apps/platform/jenkins-middleware.yaml | kubectl apply -f -
 	@echo "✓ Jenkins deployed. Available at: https://jenkins.$(APP_DOMAIN)"
 
 ## Set Blackbox Exporter target URLs via ArgoCD (deployed by root-app)

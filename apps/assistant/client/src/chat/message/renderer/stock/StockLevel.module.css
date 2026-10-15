@@ -1,0 +1,17 @@
+@reference "../../../../app/theme/index.css";
+
+.badge {
+  @apply inline-flex items-center text-xs px-2 py-0.5 rounded-full font-medium;
+}
+
+.outOfStock {
+  @apply bg-red-100 text-red-700;
+}
+
+.lowStock {
+  @apply bg-orange-100 text-orange-700;
+}
+
+.inStock {
+  @apply bg-green-100 text-green-700;
+}

@@ -37,6 +37,7 @@ include:
   - apps/assistant/docker/compose/app/app.yml
   - apps/assistant/docker/compose/app/cron.yml
   - apps/assistant/docker/compose/app/worker.yml
+  - apps/assistant/docker/compose/app/ollama.yml
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 # 🕸️ Networks & Volumes

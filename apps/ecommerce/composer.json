@@ -102,8 +102,8 @@
       "Database\\Schemas\\": "database/schemas/",
       "Database\\Types\\": "database/types/",
       "Database\\Validators\\": "database/validators/",
-      "Packages\\Kit\\": "packages/server/kit",
-      "Packages\\Test\\": "packages/server/test"
+      "Presets\\Kit\\": "presets/server/kit",
+      "Presets\\Test\\": "presets/server/test"
     }
   },
   "autoload-dev": {
@@ -203,7 +203,7 @@
     ],
     "php-md": [
       "Composer\\Config::disableProcessTimeout",
-      "bin/run php vendor/bin/phpmd src packages/server xml phpmd.xml"
+      "bin/run php vendor/bin/phpmd src presets/server xml phpmd.xml"
     ],
     "php-stan": [
       "Composer\\Config::disableProcessTimeout",

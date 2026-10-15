@@ -75,19 +75,24 @@ describe('attachFilterListener()', () => {
     expect(mockedSetupPriceFilter).toHaveBeenCalledWith(ctx)
   })
 
-  it('should call attachSortListener with ctx and sort-by element', () => {
-    const sortSelect = document.createElement('select')
-    sortSelect.id = 'sort-by'
-    document.body.appendChild(sortSelect)
+  it('should call attachSortListener for each .products__card-sort-select-field element', () => {
+    const sortSelect1 = document.createElement('select')
+    sortSelect1.className = 'products__card-sort-select-field'
+    const sortSelect2 = document.createElement('select')
+    sortSelect2.className = 'products__card-sort-select-field'
+    document.body.appendChild(sortSelect1)
+    document.body.appendChild(sortSelect2)
 
     attachFilterListener(ctx)
 
-    expect(mockedAttachSortListener).toHaveBeenCalledWith(ctx, sortSelect)
+    expect(mockedAttachSortListener).toHaveBeenCalledTimes(2)
+    expect(mockedAttachSortListener).toHaveBeenCalledWith(ctx, sortSelect1)
+    expect(mockedAttachSortListener).toHaveBeenCalledWith(ctx, sortSelect2)
   })
 
-  it('should call attachSortListener with null when sort-by element does not exist', () => {
+  it('should not call attachSortListener when no .products__card-sort-select-field exists', () => {
     attachFilterListener(ctx)
-    expect(mockedAttachSortListener).toHaveBeenCalledWith(ctx, null)
+    expect(mockedAttachSortListener).not.toHaveBeenCalled()
   })
 
   it('should call attachLoadMoreListener', () => {

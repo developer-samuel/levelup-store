@@ -43,7 +43,7 @@ final class CreateCartsTable
     private static function addStandardColumn(Table $table): void
     {
         BigIntegerMacro::unsignedBigInteger($table, 'user_id');
-        DateMacro::datetime($table, 'reminder_sent_at');
+        DateMacro::datetimetz($table, 'reminder_sent_at');
     }
 
     private static function addTimestamps(Table $table): void

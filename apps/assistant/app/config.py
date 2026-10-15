@@ -1,28 +1,55 @@
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 CHROMA_COLLECTION_PRODUCTS = "products"
+CHROMA_COLLECTION_DOCUMENTS = "documents"
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    # service URLs - sensible defaults for local dev
-    ollama_host: str = "http://localhost:11434"
-    chroma_host: str = "http://localhost:8010"
-
-    # model names - fixed defaults, unlikely to change per environment
-    ollama_model: str = "qwen2.5:1.5b"
-    ollama_embed_model: str = "nomic-embed-text"
-
-    # required - must be set in .env, no safe default
+    # Application
+    ecommerce_url: str
     cors_origins: str
-    database_url: str
-    redis_url: str
     support_email: str
 
-    # optional
+    # Database / Redis
+    database_url: str
+    redis_url: str
+
+    # Assistant
+    assistant_type: Literal["ollama", "api"] = "ollama"
+    assistant_api_key: str = ""
+    assistant_model: str = "gemini-3.5-flash-lite"
+    assistant_fallback_model: str = "gemini-3.1-flash-lite"
+    assistant_primary_limit: int = 20
+    assistant_fallback_limit: int = 30
+    assistant_limit_window: int = 18000  # 5 hours in seconds
+    assistant_access_key: str = ""
+
+    # Ollama
+    assistant_ollama_host: str = "http://localhost:11434"
+    assistant_ollama_model: str = "mistral:7b-instruct"
+    assistant_ollama_embed_model: str = "nomic-embed-text"
+    assistant_ollama_limit: int = 50
+
+    # RAG
+    chroma_host: str = "http://localhost:8010"
+
+    # Conversation
+    conversation_ttl_guest: int = 60 * 60 * 24  # 1 day
+    conversation_ttl_user: int = 60 * 60 * 24 * 30  # 30 days
+
+    # Messaging
     rabbitmq_url: str = ""
-    api_key: str = ""
+
+    # Storage
+    minio_enabled: bool = False
+    minio_public_url: str = ""
+    minio_bucket: str = ""
+
+    # Observability
     sentry_dsn: str = ""
     otel_service_name: str = "levelup-store-assistant"
     otel_exporter_otlp_endpoint: str = ""

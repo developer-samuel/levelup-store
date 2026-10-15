@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Product\Handler\Command;
 
-use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantEanAssertion;
+use Presets\Kit\Assertion\Domain\Product\Variant\ProductVariantEanAssertion;
 
 use App\Core\Domain\{
     Admin\Product\Payload\AdminVariantEanPayload,

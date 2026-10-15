@@ -9,12 +9,15 @@ use Doctrine\{
     Persistence\ManagerRegistry
 };
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Product,
     Segment\Product\Entity\Variant\ProductVariant,
     Segment\Product\Enum\ProductSortOption,
+    Segment\Product\Enum\ProductStockStatus,
+    Segment\Product\Enum\Variant\ProductVariantEanStatus,
+    Segment\Product\Enum\Variant\ProductVariantStatus,
     Segment\Product\Specification\ProductVariantAvailabilitySpecification,
     Segment\Product\ValueObject\ProductFilterObject,
     Segment\Review\Entity\Review
@@ -70,7 +73,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
      *     items: ProductVariant[],
      *     total: int
      * }
-    */
+     */
     public function findAvailableVariantsPaginated(
         ProductFilterObject $filter,
         int $page,
@@ -102,12 +105,21 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         $total = $this->getTotalCount($qb);
 
         $sort ??= ProductSortOption::TOP_RATED;
-        $this->applySorting($qb, $sort);
 
-        $this->applyPagination($qb, $page, $limit);
+        $idQb = clone $qb;
+        $idQb->select('v.id');
+        $idQb->resetDQLPart('distinct');
+        $idQb->resetDQLPart('orderBy');
+        $this->applyEffectivePrice($idQb);
+        $this->applyAverageRating($idQb);
+        $this->applySorting($idQb, $sort);
+        $this->applyPagination($idQb, $page, $limit);
 
-        /** @var ProductVariant[] $items */
-        $items = $qb->getQuery()->getResult();
+        /** @var array<array{id: int}> $rows */
+        $rows = $idQb->getQuery()->getScalarResult();
+        $paginatedIds = array_values(array_unique(array_column($rows, 'id')));
+
+        $items = $paginatedIds === [] ? [] : $this->findByOrderedIds($paginatedIds);
 
         return [
             'items' => $items,
@@ -150,29 +162,51 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         return (float) $qb->getQuery()->getSingleScalarResult();
     }
 
-    /** @return ProductVariant[] */
-    public function searchByName(string $searchTerm): array
+    /**
+     * @return array{
+     *     items: ProductVariant[],
+     *     total: int
+     * }
+     */
+    public function searchByName(string $searchTerm, int $page, int $limit): array
     {
         if ($this->elasticsearch->isEnabled()) {
-            ['ids' => $ids] = $this->projectionQuery->search($searchTerm, 50);
+            ['ids' => $ids, 'total' => $total] = $this->projectionQuery->search($searchTerm, $page, $limit);
 
-            if ($ids === []) {
-                return [];
-            }
+            $items = $ids === [] ? [] : $this->findByOrderedIds($ids);
 
-            return $this->findByOrderedIds($ids);
+            return ['items' => $items, 'total' => $total];
         }
 
+        $param = '%' . $searchTerm . '%';
+
         $qb = $this->createQueryBuilder('v')
-            ->andWhere('LOWER(v.name) LIKE LOWER(:searchTerm)')
-            ->setParameter('searchTerm', '%' . $searchTerm . '%');
+            ->distinct()
+            ->innerJoin('v.product', 'p')
+            ->leftJoin('p.brand', 'b')
+            ->leftJoin('p.category', 'c')
+            ->leftJoin('p.type', 't')
+            ->leftJoin('p.subtypes', 'ps')
+            ->leftJoin('ps.subtype', 'st')
+            ->andWhere(
+                'LOWER(v.name) LIKE LOWER(:param)
+                OR LOWER(b.name) LIKE LOWER(:param)
+                OR LOWER(c.name) LIKE LOWER(:param)
+                OR LOWER(t.name) LIKE LOWER(:param)
+                OR LOWER(st.name) LIKE LOWER(:param)',
+            )
+            ->setParameter('param', $param);
 
         ProductVariantAvailabilitySpecification::applyInStock($qb, 'v');
 
-        /** @var ProductVariant[] $results */
-        $results = $this->getOrderedResults($qb, 'v', ProductVariant::class);
+        $total = $this->getTotalCount($qb);
 
-        return $results;
+        $this->applyPagination($qb, $page, $limit);
+
+        /** @var ProductVariant[] $items */
+        $items = $this->getOrderedResults($qb, 'v', ProductVariant::class);
+
+        return ['items' => $items, 'total' => $total];
     }
 
     public function findOneByUrl(string $url): ?ProductVariant
@@ -197,28 +231,47 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
     /** @param int[] $excludedVariantIds */
     public function findRandomAvailableExcluding(array $excludedVariantIds): ?ProductVariant
     {
-        $qb = $this->createQueryBuilder('v');
+        $sql = <<<SQL
+            SELECT pv.id
+            FROM product_variants pv
+            INNER JOIN product_variant_stocks pvs ON pvs.variant_id = pv.id
+            WHERE pv.status = :variantStatus
+              AND pvs.quantity_available > 0
+              AND pvs.status = :stockStatus
+              AND EXISTS (
+                  SELECT 1
+                  FROM product_variant_eans pve
+                  WHERE pve.variant_id = pv.id
+                    AND pve.status = :eanStatus
+              )
+            SQL;
 
-        ProductVariantAvailabilitySpecification::applyInStock($qb, 'v');
+        $params = [
+            'variantStatus' => ProductVariantStatus::AVAILABLE->value,
+            'stockStatus'   => ProductStockStatus::IN_STOCK->value,
+            'eanStatus'     => ProductVariantEanStatus::ACTIVE->value,
+        ];
 
         if ($excludedVariantIds !== []) {
-            $qb->andWhere('v.id NOT IN (:excluded)')
-                ->setParameter('excluded', $excludedVariantIds);
+            $sql .= ' AND pv.id NOT IN (' . implode(',', array_map('intval', $excludedVariantIds)) . ')';
         }
 
-        /** @var ProductVariant[] $results */
-        $results = $qb->getQuery()->getResult();
+        $sql .= ' ORDER BY RANDOM() LIMIT 1';
 
-        if ($results === []) {
+        /** @var string|false $id */
+        $id = $this->getEntityManager()->getConnection()->fetchOne($sql, $params);
+
+        if ($id === false) {
             return null;
         }
 
-        return $results[array_rand($results)];
+        return $this->find((int) $id);
     }
 
     private function createAvailableVariantsQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('v')
+            ->distinct()
             ->innerJoin('v.product', 'p')
             ->leftJoin('v.discount', 'd')
             ->leftJoin('p.brand', 'b')
@@ -226,8 +279,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
             ->leftJoin('p.category', 'c')
             ->leftJoin('p.subtypes', 'ps')
             ->leftJoin('ps.subtype', 'st')
-            ->leftJoin('v.images', 'vi')
-            ->addSelect('v', 'p', 'd', 'b', 't', 'c', 'ps', 'st', 'vi');
+            ->addSelect('p', 'd', 'b', 't', 'c', 'ps', 'st');
     }
 
     private function applyEffectivePrice(QueryBuilder $qb): void
@@ -294,7 +346,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
      * @param string[] $items
      *
      * @return string[]
-    */
+     */
     private function normalizeArray(array $items): array
     {
         $normalized = array_map(
@@ -334,7 +386,7 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
      * @param int[] $ids
      *
      * @return ProductVariant[]
-    */
+     */
     private function findByOrderedIds(array $ids): array
     {
         /** @var ProductVariant[] $variants */

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Product\Assembler;
 
-use Packages\Kit\Assertion\Shared\IdAssertion;
+use Presets\Kit\Assertion\Shared\IdAssertion;
 
 use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariant,
@@ -27,7 +27,7 @@ use App\Core\Ports\{
  *     discount: ?float,
  *     discountPrice: float
  * }
-*/
+ */
 final readonly class ProductVariantAssembler implements ProductVariantAssemblerContract
 {
     public function __construct(
@@ -63,7 +63,7 @@ final readonly class ProductVariantAssembler implements ProductVariantAssemblerC
      * @param NormalizedPrices $prices
      *
      * @return array<string, float>
-    */
+     */
     private function normalizePrices(array $prices): array
     {
         return [

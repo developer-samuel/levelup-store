@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Product\Service\Query;
 
-use Packages\Kit\Utils\Shared\StringNormalizer;
+use Presets\Kit\Utils\Shared\StringNormalizer;
 
 use App\Core\Domain\{
     Segment\Product\Enum\ProductSortOption,
@@ -87,7 +87,7 @@ final readonly class ProductQueryService implements ProductQueryContract
      *     0: string|null,
      *     1: string|null
      * }
-    */
+     */
     private function normalizeCategoryAndType(ProductFilterObject $filter): array
     {
         return [
@@ -133,7 +133,7 @@ final readonly class ProductQueryService implements ProductQueryContract
      * } $data
      *
      * @return array<string, mixed>
-    */
+     */
     private function formatData(ProductFilterObject $filter, array $data, ProductSortOption $sort): array
     {
         $catalog = new ProductCatalogObject(
@@ -155,10 +155,10 @@ final readonly class ProductQueryService implements ProductQueryContract
         $showLoadMore = $totalCount > ($pagination->offset + $limit);
 
         return new ProductCatalogPaginationObject(
-            pagination:   $pagination,
-            currentPage:  $pagination->currentPage,
-            maxPages:     $maxPages,
-            totalCount:   $totalCount,
+            pagination: $pagination,
+            currentPage: $pagination->currentPage,
+            maxPages: $maxPages,
+            totalCount: $totalCount,
             showLoadMore: $showLoadMore,
         );
     }
@@ -171,7 +171,7 @@ final readonly class ProductQueryService implements ProductQueryContract
      *     category: string|null,
      *     type: string|null
      * } $data
-    */
+     */
     private function createFilter(ProductFilterObject $filter, array $data): ProductCatalogFilterObject
     {
         return new ProductCatalogFilterObject(

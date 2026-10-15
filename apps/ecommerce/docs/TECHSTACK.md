@@ -18,6 +18,8 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Task Scheduling:** Symfony Scheduler & Cron
 - **Emailing:** Symfony Mailer (SMTP)
 - **Real-time:** Mercure (SSE hub for server-sent events)
+- **Rate Limiting:** Symfony RateLimiter
+- **Distributed Tracing:** OpenTelemetry (OTLP exporter → Tempo via OTel Collector)
 - **API Documentation:** nelmio/api-doc-bundle (Swagger UI at `/api/dev/docs`, local/dev only, PHP 8 attributes)
 
 ---

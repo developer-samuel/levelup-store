@@ -1,11 +1,8 @@
 {% macro render() %}
     <div id="gallery-zoom-modal" class="modal modal-zoom" aria-hidden="true">
-        <img
-          src="{{ asset('img/icons/actions/close.png') }}"
-          alt="Close"
-          class="modal-zoom__close"
-          id="gallery-zoom-modal-close"
-        >
+        <button class="modal-zoom__close" id="gallery-zoom-modal-close" aria-label="Close">
+            <img src="{{ asset('img/icons/actions/close.png') }}" alt="Close">
+        </button>
         <div class="modal-zoom__body">
             <img
                 src=""

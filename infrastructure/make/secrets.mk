@@ -146,33 +146,42 @@ ecommerce-secrets:
 ## Set production secrets for levelup-store-assistant app via ArgoCD
 assistant-secrets:
 	$(call require,APP_DOMAIN)
-	$(call require,AI_ASSISTANT_API_KEY)
+	$(call require,APP_URL)
+	$(call require,ASSISTANT_TYPE)
+	$(call require,ASSISTANT_ACCESS_KEY)
 	$(call require,REDIS_URL_FQDN)
 	$(call require,RABBITMQ_URL_FQDN)
 	$(call require,ASSISTANT_GHCR_IMAGE)
 	$(call require,SUPPORT_EMAIL)
 	$(call require,DATABASE_URL_FQDN)
 	$(call require,CORS_ALLOW_ORIGIN)
-	$(call require,OLLAMA_HOST)
-	$(call require,OLLAMA_MODEL)
-	$(call require,OLLAMA_EMBED_MODEL)
 	$(call require,OTEL_SERVICE_NAME)
 	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
 	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
 	$(call argocd_login)
 	argocd app set levelup-store-assistant $(ARGOCD_FLAGS) \
-		-p app.aiAssistantApiKey="$(AI_ASSISTANT_API_KEY)" \
-		-p app.redisUrl="$(REDIS_URL_FQDN)" \
-		-p app.databaseUrl="$(DATABASE_URL_FQDN)" \
+		-p app.ecommerceUrl="$(APP_URL)" \
 		-p app.corsOrigins="$(CORS_ALLOW_ORIGIN)" \
 		-p app.supportEmail="$(SUPPORT_EMAIL)" \
-		-p app.ollamaHost="$(OLLAMA_HOST)" \
-		-p app.ollamaModel="$(OLLAMA_MODEL)" \
-		-p app.ollamaEmbedModel="$(OLLAMA_EMBED_MODEL)" \
-		-p broker.rabbitmqUrl="$(RABBITMQ_URL_FQDN)" \
 		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
-		-p app.sentryDsn="$(SENTRY_DSN)" \
 		-p ingress.host="assistant.$(APP_DOMAIN)" \
+		-p app.assistantType="$(ASSISTANT_TYPE)" \
+		-p app.assistantApiKey="$(ASSISTANT_API_KEY)" \
+		-p app.assistantAccessKey="$(ASSISTANT_ACCESS_KEY)" \
+		-p app.assistantModel="$(ASSISTANT_MODEL)" \
+		-p app.assistantFallbackModel="$(ASSISTANT_FALLBACK_MODEL)" \
+		-p app.ollamaHost="$(ASSISTANT_OLLAMA_HOST)" \
+		-p app.ollamaModel="$(ASSISTANT_OLLAMA_MODEL)" \
+		-p app.ollamaEmbedModel="$(ASSISTANT_OLLAMA_EMBED_MODEL)" \
+		-p app.conversationTtlGuest="$(CONVERSATION_TTL_GUEST)" \
+		-p app.conversationTtlUser="$(CONVERSATION_TTL_USER)" \
+		-p app.databaseUrl="$(DATABASE_URL_FQDN)" \
+		-p app.redisUrl="$(REDIS_URL_FQDN)" \
+		-p app.minioEnabled="$(MINIO_ENABLED)" \
+		-p app.minioPublicUrl="$(MINIO_PUBLIC_URL)" \
+		-p app.minioBucket="$(MINIO_BUCKET)" \
+		-p broker.rabbitmqUrl="$(RABBITMQ_URL_FQDN)" \
+		-p app.sentryDsn="$(SENTRY_DSN)" \
 		-p otel.enabled="true" \
 		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
 		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)"

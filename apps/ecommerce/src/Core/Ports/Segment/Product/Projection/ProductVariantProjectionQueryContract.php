@@ -12,7 +12,7 @@ use App\Core\Domain\{
 interface ProductVariantProjectionQueryContract
 {
     /** @return array{ids: int[], total: int} */
-    public function search(string $term, int $limit): array;
+    public function search(string $term, int $page, int $limit): array;
 
     /** @return array{ids: int[], total: int} */
     public function filter(

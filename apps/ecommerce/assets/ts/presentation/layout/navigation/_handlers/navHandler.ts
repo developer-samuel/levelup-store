@@ -1,4 +1,5 @@
 import { queryAll } from '@/ts/shared/utils/dom/query'
+import { toggleClass } from '@/ts/shared/utils/dom/classes'
 
 import type { NavigationInstance } from '@/ts/presentation/layout/navigation/types'
 import { hideMenu } from '@/ts/presentation/layout/navigation/_ui/menu'
@@ -66,4 +67,16 @@ export function handleMenuLeave(instance: NavigationInstance): void {
   instance.activeMenu = false
   instance.resetMenu()
   updateMobileItemVisibility(instance)
+}
+
+export function handleHeaderToggle(
+  hidden: boolean,
+  mobileContainer: HTMLElement | null,
+  navContainer: HTMLElement | null,
+): void {
+  toggleClass(mobileContainer, 'navigation__mobile--header-hidden', hidden)
+  toggleClass(navContainer, 'navigation--header-hidden', hidden)
+  document
+    .querySelectorAll<HTMLElement>('.header__main-user-dropdown')
+    .forEach((el) => toggleClass(el, 'header__main-user-dropdown--header-hidden', hidden))
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Cart\Service\Query;
 
-use Packages\Kit\{
+use Presets\Kit\{
     Assertion\Domain\Cart\CartAssertion,
     Assertion\Domain\Cart\CartItemAssertion,
     Assertion\Domain\Product\Variant\ProductVariantAssertion
@@ -30,7 +30,7 @@ use App\Core\Ports\{
 
 /**
  * @phpstan-import-type CartAndVariant from CartItemQueryContract
-*/
+ */
 final readonly class CartItemQueryService implements CartItemQueryContract
 {
     public function __construct(

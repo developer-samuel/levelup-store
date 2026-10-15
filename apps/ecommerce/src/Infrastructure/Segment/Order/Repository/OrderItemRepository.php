@@ -11,7 +11,7 @@ use Doctrine\{
     Persistence\ManagerRegistry
 };
 
-use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
+use Presets\Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
 
 use App\Core\Domain\{
     Segment\Order\Entity\Order,

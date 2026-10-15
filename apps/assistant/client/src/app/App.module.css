@@ -1,12 +1,36 @@
 @reference "./theme/index.css";
 
 .trigger {
-  @apply fixed md:bottom-24 bottom-18 md:right-3 right-2.25 z-10 flex md:w-16 w-12 md:h-16 h-12
+  @apply fixed md:bottom-32 bottom-24 md:right-3 right-2.25 z-10 flex md:w-16 w-12 md:h-16 h-12
          items-center justify-center rounded-full
          bg-secondary hover:bg-secondary-hover text-primary border border-neutral/30
-         shadow-lg transition-colors duration-300 ease-linear;
+         shadow-lg transition-[colors,transform,opacity] duration-500 ease-out;
+}
+
+.triggerHidden {
+  @apply translate-x-[calc(100%+2rem)] opacity-0;
+}
+
+.triggerVisible {
+  @apply translate-x-0 opacity-100;
 }
 
 .triggerIcon {
   @apply md:w-6 w-5 md:h-6 h-5;
+}
+
+.statusDot {
+  @apply absolute bottom-0 left-0 md:w-4 md:h-4 w-2.75 h-2.75 rounded-full border border-solid border-neutral/30;
+}
+
+.statusDot[data-status="loading"] {
+  @apply bg-neutral/30 animate-pulse;
+}
+
+.statusDot[data-status="online"] {
+  @apply bg-green-400;
+}
+
+.statusDot[data-status="offline"] {
+  @apply bg-red-500;
 }

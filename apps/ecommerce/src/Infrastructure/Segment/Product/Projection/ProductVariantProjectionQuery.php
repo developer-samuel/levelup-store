@@ -23,24 +23,42 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
     ) {}
 
     /** @return array{ids: int[], total: int} */
-    public function search(string $term, int $limit): array
+    public function search(string $term, int $page, int $limit): array
     {
         /** @var Elasticsearch $response */
         $response = $this->client->search([
             'index' => ProductVariantProjection::NAME,
             'body'  => [
+                'from'  => ($page - 1) * $limit,
                 'size'  => $limit,
                 'query' => [
                     'bool' => [
                         'should'   => [
+                            // phrase prefix for instant suggestions
                             ['match_phrase_prefix' => [
                                 'name' => ['query' => $term, 'boost' => 3],
                             ]],
+                            ['match_phrase_prefix' => [
+                                'brand' => ['query' => $term, 'boost' => 2],
+                            ]],
+                            ['match_phrase_prefix' => [
+                                'category' => ['query' => $term, 'boost' => 2],
+                            ]],
+                            ['match_phrase_prefix' => [
+                                'type' => ['query' => $term, 'boost' => 1],
+                            ]],
+                            ['match_phrase_prefix' => [
+                                'subtypes' => ['query' => $term, 'boost' => 1],
+                            ]],
+                            // fuzzy on name only (incompatible with synonym analyzer)
+                            ['match' => [
+                                'name' => ['query' => $term, 'fuzziness' => 'AUTO', 'boost' => 2],
+                            ]],
+                            // synonym-aware match on type/subtypes (no fuzziness)
                             ['multi_match' => [
-                                'query'     => $term,
-                                'fields'    => ['name^3'],
-                                'type'      => 'best_fields',
-                                'fuzziness' => 'AUTO',
+                                'query'  => $term,
+                                'fields' => ['type^1', 'subtypes^1'],
+                                'type'   => 'best_fields',
                             ]],
                         ],
                         'minimum_should_match' => 1,
@@ -86,19 +104,19 @@ final readonly class ProductVariantProjectionQuery implements ProductVariantProj
         }
 
         if ($filter->brands !== []) {
-            $clauses[] = ['terms' => ['brand' => array_values($filter->brands)]];
+            $clauses[] = ['terms' => ['brand.keyword' => array_values($filter->brands)]];
         }
 
         if ($filter->subtypes !== []) {
-            $clauses[] = ['terms' => ['subtypes' => array_values($filter->subtypes)]];
+            $clauses[] = ['terms' => ['subtypes.keyword' => array_values($filter->subtypes)]];
         }
 
         if ($filter->category !== null) {
-            $clauses[] = ['term' => ['category' => $filter->category]];
+            $clauses[] = ['term' => ['category.keyword' => $filter->category]];
         }
 
         if ($filter->type !== null) {
-            $clauses[] = ['term' => ['type' => $filter->type]];
+            $clauses[] = ['term' => ['type.keyword' => $filter->type]];
         }
 
         $priceRange = $this->buildPriceRange($filter);

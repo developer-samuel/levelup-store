@@ -21,7 +21,7 @@ export function showLoading(): void {
 
   if (activeRequests === 1) {
     loading.classList.add('loading--action')
-    loading.classList.remove('hidden')
+    loading.classList.remove('loading--hidden')
   }
 }
 
@@ -32,13 +32,13 @@ export function hideLoading(): void {
   activeRequests = Math.max(0, activeRequests - 1)
 
   if (activeRequests === 0) {
-    loading.classList.add('hidden')
+    loading.classList.add('loading--hidden')
 
     hideTimeoutId = setTimeout(() => {
       if (activeRequests === 0) {
         loading.classList.remove('loading--action')
       }
       hideTimeoutId = null
-    }, 150)
+    }, 300)
   }
 }

@@ -29,21 +29,20 @@
 > Requires `tree` - install with `sudo apt install tree` (Debian/Ubuntu) or `brew install tree` (macOS).
 
 ```bash
-# Generate to file - uses git to list tracked files only (100% respects .gitignore)
-make generate-structure
-# or
-git ls-files | tree --fromfile > .structure/tree.txt
+# Generate both tree.txt and dirs.txt in one command
+make generate-structure-all
 
-# Generate directories to file
+# Generate tree only (.structure/tree.txt)
+make generate-structure
+
+# Generate dirs only (.structure/dirs.txt)
 make generate-structure-dirs
-# or
-git ls-files | tree --fromfile -d > .structure/dirs.txt
 
 # Display in terminal - directories only
-git ls-files | tree --fromfile -d
+git ls-files --cached --others --exclude-standard | tree --fromfile -d
 
 # Specific folder - directories only
-git ls-files apps/ecommerce/src | tree --fromfile -d
+git ls-files --cached --others --exclude-standard apps/ecommerce/src | tree --fromfile -d
 ```
 
 ---

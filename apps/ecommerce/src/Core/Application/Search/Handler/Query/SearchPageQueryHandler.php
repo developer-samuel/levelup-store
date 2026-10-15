@@ -19,22 +19,18 @@ final readonly class SearchPageQueryHandler implements SearchPageQueryHandlerCon
 
     public function handle(string $query): string
     {
-        $results = $this->getSearchResults(
-            trim($query),
-        );
+        $results = $this->getSearchResults(trim($query));
 
-        return $this->renderResults($results);
+        return $this->searchRenderer->renderIndexView($results);
     }
 
     /** @return array<int, mixed> */
     private function getSearchResults(string $query): array
     {
-        return $query !== '' ? $this->searchQuery->searchByTerm($query) : [];
-    }
+        if ($query === '') {
+            return [];
+        }
 
-    /** @param array<int, mixed> $results */
-    private function renderResults(array $results): string
-    {
-        return $this->searchRenderer->renderIndexView($results);
+        return $this->searchQuery->searchByTerm($query, 1, 10)['items'];
     }
 }

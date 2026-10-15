@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Review\Service\Command;
 
-use Packages\Kit\Assertion\Domain\Review\ReviewAssertion;
+use Presets\Kit\Assertion\Domain\Review\ReviewAssertion;
 
 use App\Core\Domain\{
     Segment\Review\Entity\Review,

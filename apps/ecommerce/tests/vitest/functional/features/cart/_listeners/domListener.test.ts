@@ -11,11 +11,7 @@ vi.mock('@/ts/features/cart/_handlers/documentClickHandler', () => ({
 import type { CartInstance } from '@/ts/features/cart/types'
 import { toggleCart } from '@/ts/features/cart/_ui/toggle'
 import { handleDocumentClick } from '@/ts/features/cart/_handlers/documentClickHandler'
-import {
-  attachCartToggleListeners,
-  attachCartResizeListener,
-  attachCartDocumentClickListener,
-} from '@/ts/features/cart/_listeners/domListener'
+import { attachCartToggleListeners, attachCartDocumentClickListener } from '@/ts/features/cart/_listeners/domListener'
 
 const mockedToggleCart = vi.mocked(toggleCart)
 const mockedHandleDocumentClick = vi.mocked(handleDocumentClick)
@@ -75,52 +71,6 @@ describe('attachCartToggleListeners()', () => {
   it('should not throw when closeButton is null', () => {
     const cart = makeCart({ closeButton: null })
     expect(() => attachCartToggleListeners(cart)).not.toThrow()
-  })
-})
-
-describe('attachCartResizeListener()', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
-  it('should close cart when resized to >= 1024px and cart is open', () => {
-    const cart = makeCart()
-    cart.isOpen = true
-
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1024)
-
-    attachCartResizeListener(cart)
-    window.dispatchEvent(new Event('resize'))
-
-    expect(mockedToggleCart).toHaveBeenCalledWith(cart, false)
-  })
-
-  it('should not close cart when resized to < 1024px', () => {
-    const cart = makeCart()
-    cart.isOpen = true
-
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(768)
-
-    attachCartResizeListener(cart)
-    window.dispatchEvent(new Event('resize'))
-
-    expect(mockedToggleCart).not.toHaveBeenCalled()
-  })
-
-  it('should not close cart when width >= 1024px but cart is closed', () => {
-    const cart = makeCart()
-    cart.isOpen = false
-
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1280)
-
-    attachCartResizeListener(cart)
-    window.dispatchEvent(new Event('resize'))
-
-    expect(mockedToggleCart).not.toHaveBeenCalledWith(cart, false)
   })
 })
 

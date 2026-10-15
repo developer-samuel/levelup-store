@@ -7,5 +7,12 @@ export function attachScrollListener(): void {
 
   if (!filterMobile && !cardOptions) return
 
+  const isHidden = document.querySelector('.header')?.classList.contains('header--hidden') ?? false
+  handleStickyOffsetToggle(
+    new CustomEvent('header:toggle', { detail: { hidden: isHidden } }),
+    filterMobile,
+    cardOptions,
+  )
+
   document.addEventListener(HEADER_TOGGLE, (e) => handleStickyOffsetToggle(e, filterMobile, cardOptions))
 }

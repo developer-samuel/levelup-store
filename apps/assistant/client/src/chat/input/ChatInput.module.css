@@ -1,7 +1,47 @@
 @reference "../../app/theme/index.css";
 
 .wrapper {
-  @apply border-t border-neutral/10 bg-surface p-3 select-none;
+  @apply bg-primary p-3 select-none border border-[rgba(0,0,0,0.15)];
+}
+
+.actions {
+  @apply relative flex justify-between items-center mb-3;
+}
+
+.micBtn {
+  @apply flex cursor-pointer items-center justify-center rounded-md p-0.5 text-neutral/50 transition-colors hover:text-neutral/75;
+}
+
+.micBtnDisabled {
+  @apply cursor-not-allowed text-red-400 hover:text-red-400;
+}
+
+.micBtnIcon {
+  @apply h-5 w-5;
+}
+
+.micStopBtn {
+  @apply flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-medium text-red-500 border border-red-400/50 transition-colors hover:bg-red-50;
+}
+
+.micStopDot {
+  @apply w-2 h-2 rounded-full bg-red-500 animate-pulse;
+}
+
+.emojiBtn {
+  @apply flex cursor-pointer items-center justify-center rounded-md p-0.5 text-neutral/50 transition-colors hover:text-neutral/75;
+}
+
+.emojiBtnDisabled {
+  @apply cursor-not-allowed opacity-30 hover:text-neutral/50 pointer-events-none;
+}
+
+.emojiBtnActive {
+  @apply text-secondary;
+}
+
+.emojiBtnIcon {
+  @apply h-5 w-5;
 }
 
 .field {
@@ -16,16 +56,24 @@
   @apply border-red-400 focus-within:border-red-400 focus-within:ring-red-400;
 }
 
+.fieldRecording {
+  @apply border-red-400 ring-1 ring-red-400 animate-pulse;
+}
+
 .textarea {
   @apply w-full resize-none bg-transparent p-0 text-sm text-neutral outline-none placeholder:text-neutral/40 disabled:opacity-50 select-text;
 }
 
 .footer {
-  @apply mt-2 flex items-end justify-between;
+  @apply mt-1.5 flex items-end justify-between;
+}
+
+.footerLeft {
+  @apply flex items-center;
 }
 
 .counter {
-  @apply text-xs tabular-nums text-neutral/40;
+  @apply text-xs tabular-nums text-neutral/55;
 }
 
 .counterError {
@@ -41,7 +89,7 @@
 }
 
 .stopBtn {
-  @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-secondary text-primary transition-colors hover:bg-secondary-hover;
+  @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-secondary text-primary transition-colors hover:bg-secondary-hover;
 }
 
 .stopBtnIcon {

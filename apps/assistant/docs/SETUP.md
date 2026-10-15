@@ -26,10 +26,10 @@ Review comments carefully before editing.
 Core variables to check / configure:
 
 - **Ollama**  
-  `OLLAMA_HOST`, `OLLAMA_MODEL`, `OLLAMA_EMBED_MODEL`  
+  `ASSISTANT_OLLAMA_HOST`, `ASSISTANT_OLLAMA_MODEL`, `ASSISTANT_OLLAMA_EMBED_MODEL`  
   LLM inference server host and model names. Make sure the models are pulled before starting:
   ```bash
-  ollama pull qwen2.5:1.5b
+  ollama pull mistral:7b-instruct
   ollama pull nomic-embed-text
   ```
 

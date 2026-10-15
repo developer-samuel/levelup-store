@@ -18,7 +18,8 @@ bin/run --root php scripts/env-generate/launcher.php
 .env.production
        │
        ▼
-make -C infrastructure ecommerce-secrets   # or assistant-secrets
+make -C infrastructure ecommerce-secrets
+make -C infrastructure assistant-secrets
        │
        ▼
 argocd app set ... -p app.secret="..." -p postgresql.auth.username="..."
@@ -161,10 +162,10 @@ make -C infrastructure assistant-secrets
 ### App
 
 | Variable               | Description                                      | Example                                             |
-|------------------------|------------------------------------------------- | ----------------------------------------------------|
+|------------------------|------------------------------------------------- |-----------------------------------------------------|
 | `APP_DOMAIN`           | Public domain (no protocol)                      | `yourdomain.com`                                    |
 | `ASSISTANT_GHCR_IMAGE` | Full GHCR image path for the assistant container | `ghcr.io/your-username/levelup-store/assistant`     |
-| `AI_ASSISTANT_API_KEY` | OpenAI API key                                   | `sk-...`                                            |
+| `ASSISTANT_API_KEY`    | OpenAI API key                                   | `sk-...`                                            |
 | `AI_ASSISTANT_ENABLED` | Feature flag - enables assistant in ecommerce    | `true`                                              |
 | `REDIS_URL`            | Full Redis DSN                                   | `redis://:password@levelup-store-redis-master:6379` |
 | `RABBITMQ_URL`         | Full AMQP DSN                                    | `amqp://user:pass@levelup-store-rabbitmq:5672//`    |
@@ -176,12 +177,12 @@ make -C infrastructure assistant-secrets
 
 Assistant runs in a separate namespace and cannot use short K8s service names - full cluster-local FQDNs are required.
 
-| Variable            | Description                   | Example                                                                                               |
-|---------------------|-------------------------------|-------------------------------------------------------------------------------------------------------|
-| `DATABASE_URL_FQDN` | PostgreSQL DSN with full FQDN | `pgsql://user:pass@levelup-store-postgresql.levelup-store.svc.cluster.local:5432/db?serverVersion=17` |
-| `REDIS_URL_FQDN`    | Redis DSN with full FQDN      | `redis://default:pass@levelup-store-redis-master.levelup-store.svc.cluster.local:6379`                |
-| `RABBITMQ_URL_FQDN` | RabbitMQ DSN with full FQDN   | `amqp://user:pass@levelup-store-rabbitmq.levelup-store.svc.cluster.local:5672//`                      |
-| `OLLAMA_HOST`       | Ollama service URL (same ns)  | `http://ollama.levelup-store.svc.cluster.local:11434`                                                 |
+| Variable                | Description                   | Example                                                                                               |
+|-------------------------|-------------------------------|-------------------------------------------------------------------------------------------------------|
+| `DATABASE_URL_FQDN`     | PostgreSQL DSN with full FQDN | `pgsql://user:pass@levelup-store-postgresql.levelup-store.svc.cluster.local:5432/db?serverVersion=17` |
+| `REDIS_URL_FQDN`        | Redis DSN with full FQDN      | `redis://default:pass@levelup-store-redis-master.levelup-store.svc.cluster.local:6379`                |
+| `RABBITMQ_URL_FQDN`     | RabbitMQ DSN with full FQDN   | `amqp://user:pass@levelup-store-rabbitmq.levelup-store.svc.cluster.local:5672//`                      |
+| `ASSISTANT_OLLAMA_HOST` | Ollama service URL (same ns)  | `http://ollama.levelup-store.svc.cluster.local:11434`                                                 |
 
 ---
 

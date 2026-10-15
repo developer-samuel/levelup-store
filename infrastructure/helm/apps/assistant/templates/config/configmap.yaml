@@ -6,15 +6,39 @@ metadata:
   labels:
     {{- include "levelup-store-assistant.labels" . | nindent 4 }}
 data:
-  CHROMA_HOST: "http://{{ .Values.chromadb.host }}:{{ .Values.chromadb.port }}"
+  # Application
+  ECOMMERCE_URL: {{ .Values.app.ecommerceUrl | quote }}
   CORS_ORIGINS: {{ .Values.app.corsOrigins | quote }}
   SUPPORT_EMAIL: {{ .Values.app.supportEmail | quote }}
-  SENTRY_DSN: {{ .Values.app.sentryDsn | quote }}
-  OLLAMA_HOST: {{ .Values.app.ollamaHost | quote }}
-  OLLAMA_MODEL: {{ .Values.app.ollamaModel | quote }}
-  OLLAMA_EMBED_MODEL: {{ .Values.app.ollamaEmbedModel | quote }}
+
+  # Assistant
+  ASSISTANT_TYPE: {{ .Values.app.assistantType | quote }}
+  ASSISTANT_MODEL: {{ .Values.app.assistantModel | quote }}
+  ASSISTANT_FALLBACK_MODEL: {{ .Values.app.assistantFallbackModel | quote }}
+  ASSISTANT_PRIMARY_LIMIT: {{ .Values.app.assistantPrimaryLimit | quote }}
+  ASSISTANT_FALLBACK_LIMIT: {{ .Values.app.assistantFallbackLimit | quote }}
+
+  # Ollama
+  ASSISTANT_OLLAMA_HOST: {{ .Values.app.ollamaHost | quote }}
+  ASSISTANT_OLLAMA_MODEL: {{ .Values.app.ollamaModel | quote }}
+  ASSISTANT_OLLAMA_EMBED_MODEL: {{ .Values.app.ollamaEmbedModel | quote }}
+  ASSISTANT_OLLAMA_LIMIT: {{ .Values.app.assistantOllamaLimit | quote }}
+
+  # RAG
+  CHROMA_HOST: "http://{{ .Values.chromadb.host }}:{{ .Values.chromadb.port }}"
+
+  # Conversation
+  CONVERSATION_TTL_GUEST: {{ .Values.app.conversationTtlGuest | quote }}
+  CONVERSATION_TTL_USER: {{ .Values.app.conversationTtlUser | quote }}
+
+  # Storage
+  MINIO_ENABLED: {{ .Values.app.minioEnabled | quote }}
+  MINIO_PUBLIC_URL: {{ .Values.app.minioPublicUrl | quote }}
+  MINIO_BUCKET: {{ .Values.app.minioBucket | quote }}
+
   {{- if .Values.otel.enabled }}
+  # Telemetry
+  OTEL_SERVICE_NAME: "levelup-store-assistant"
   OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
   OTEL_EXPORTER_OTLP_PROTOCOL: {{ .Values.otel.protocol | quote }}
-  OTEL_SERVICE_NAME: "levelup-store-assistant"
   {{- end }}

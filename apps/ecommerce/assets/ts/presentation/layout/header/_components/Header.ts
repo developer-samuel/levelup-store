@@ -4,6 +4,7 @@ import type { HeaderInstance } from '@/ts/presentation/layout/header/types'
 import { attachBreakpointListener } from '@/ts/presentation/layout/header/_listeners/breakpointListener'
 import { attachMobileIconListener } from '@/ts/presentation/layout/header/_listeners/clickListener'
 import { attachScrollListener } from '@/ts/presentation/layout/header/_listeners/scrollListener'
+import { applyScrollVisibility } from '@/ts/presentation/layout/header/_interactions/scrollVisibility'
 
 export class Header implements HeaderInstance {
   readonly header: HTMLElement | null
@@ -28,5 +29,6 @@ export class Header implements HeaderInstance {
     attachMobileIconListener(this.mobileIcon, this)
     attachScrollListener(this.headerMain)
     attachBreakpointListener(this)
+    applyScrollVisibility(this.headerMain)
   }
 }

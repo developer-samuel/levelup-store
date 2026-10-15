@@ -15,11 +15,7 @@ install-php:
 ## Install frontend dependencies (root + ecommerce + assistant/client)
 install-frontend:
 	@echo "📦 Installing frontend dependencies..."
-	@if command -v pnpm > /dev/null 2>&1; then \
-		pnpm install; \
-	else \
-		npm install; \
-	fi
+	pnpm install
 
 ## Install all dependencies (PHP + frontend)
 install: install-php install-frontend

@@ -12,7 +12,7 @@ This file describes the **installation steps** for the ecommerce app on a fresh 
 # Quick start - installs dependencies, sets up database, clears cache and starts servers
 make setup
 
-# or step by step:
+# or individually:
 
 # Install PHP + frontend dependencies and build assets
 make install
@@ -22,25 +22,6 @@ make cache-clear
 
 # Start local development servers (PHP built-in server + Vite HMR)
 make serve
-```
-
-#### or manually:
-
-```bash
-cd apps/ecommerce
-```
-
-```bash
-# Setup database (create + migrate + seed)
-composer db-setup
-
-# Clear and warmup cache
-composer cache:clear
-composer cache:warmup
-
-# Start servers
-composer serve &
-pnpm dev
 ```
 
 ---
@@ -89,13 +70,9 @@ CI builds it automatically on every push to `main`, so these commands are for lo
 ```bash
 # Build production image locally
 make build-prod
-# or
-docker build -f docker/Dockerfile.prod --target ecommerce -t levelup-store-ecommerce:prod-test .
 
 # Verify production image has bin/console (run after build-prod)
 make test-prod
-# or
-docker run --rm --entrypoint php levelup-store-ecommerce:prod-test -l /var/www/apps/ecommerce/bin/console
 ```
 
 ---

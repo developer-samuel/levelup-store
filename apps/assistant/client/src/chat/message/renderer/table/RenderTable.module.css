@@ -1,0 +1,41 @@
+@reference "../../../../app/theme/index.css";
+
+.wrapper {
+  @apply overflow-x-auto my-2;
+}
+
+.table {
+  @apply border-collapse text-[0.8em] whitespace-nowrap;
+}
+
+.th {
+  @apply px-2.5 py-1 text-left opacity-60;
+}
+
+.thBorderRight {
+  @apply border-r border-black/15;
+}
+
+.thBorderBottom {
+  @apply border-b border-black/15;
+}
+
+.td {
+  @apply px-2.5 py-1 opacity-85;
+}
+
+.tdBorderRight {
+  @apply border-r border-black/15;
+}
+
+.tdBorderBottom {
+  @apply border-b border-black/15;
+}
+
+.tfoot td {
+  @apply pt-1.5 pb-1.5 opacity-85;
+}
+
+.tfootBorderTop {
+  @apply border-t border-black/15;
+}

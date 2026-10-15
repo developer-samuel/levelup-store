@@ -22,8 +22,8 @@
   display: none;
 
   &--header-hidden {
-    top: 67.5px !important;
-    height: calc(100dvh - 67.5px) !important;
+    top: 0;
+    height: 100dvh;
   }
 
   &__list {

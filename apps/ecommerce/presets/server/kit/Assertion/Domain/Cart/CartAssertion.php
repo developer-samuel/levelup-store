@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Presets\Kit\Assertion\Domain\Cart;
+
+use Presets\Kit\Assertion\Shared\ExistenceAssertion;
+
+use App\Core\Domain\Segment\Cart\Entity\Cart;
+
+final class CartAssertion
+{
+    /** @phpstan-assert Cart $cart */
+    public static function assertExists(?Cart $cart): void
+    {
+        ExistenceAssertion::assertExists($cart, 'Cart');
+    }
+}

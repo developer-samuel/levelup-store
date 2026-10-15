@@ -16,6 +16,10 @@ function makeCart(sidebar: HTMLElement | null = document.createElement('div')): 
   }
 }
 
+beforeEach(() => {
+  document.body.classList.remove('cart--open')
+})
+
 describe('toggleCart()', () => {
   it('should set isOpen to true when opening', () => {
     const cart = makeCart()
@@ -54,5 +58,20 @@ describe('toggleCart()', () => {
     const cart: CartInstance = { isOpen: false, elements: null }
     expect(() => toggleCart(cart, true)).not.toThrow()
     expect(cart.isOpen).toBe(true)
+  })
+
+  describe('body class for scroll lock', () => {
+    it('should add cart--open class to body when opening', () => {
+      const cart = makeCart()
+      toggleCart(cart, true)
+      expect(document.body.classList.contains('cart--open')).toBe(true)
+    })
+
+    it('should remove cart--open class from body when closing', () => {
+      document.body.classList.add('cart--open')
+      const cart = makeCart()
+      toggleCart(cart, false)
+      expect(document.body.classList.contains('cart--open')).toBe(false)
+    })
   })
 })

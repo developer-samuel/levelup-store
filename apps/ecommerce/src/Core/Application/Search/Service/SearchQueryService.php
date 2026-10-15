@@ -25,14 +25,21 @@ final readonly class SearchQueryService implements SearchQueryContract
         private SearchResultFactory $factory,
     ) {}
 
-    /** @return array<int, array<string, mixed>> */
-    public function searchByTerm(string $query): array
+    /**
+     * @return array{
+     *     items: array<int, array<string, mixed>>,
+     *     hasMore: bool
+     * }
+     */
+    public function searchByTerm(string $query, int $page, int $limit): array
     {
-        $variants = $this->variantRepository->searchByName($query);
+        ['items' => $variants, 'total' => $total] = $this->variantRepository->searchByName($query, $page, $limit);
         $variantIds = $this->extractVariantIds($variants);
         $ratings = $this->reviewQuery->getAverageRatingsForVariants($variantIds);
+        $items = $this->mapVariantsToResults($variants, $ratings);
+        $hasMore = ($page * $limit) < $total;
 
-        return $this->mapVariantsToResults($variants, $ratings);
+        return ['items' => $items, 'hasMore' => $hasMore];
     }
 
     /**

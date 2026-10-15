@@ -27,7 +27,7 @@ use App\Core\Ports\{
     Security\SecurityPolicyContract,
     Security\Provider\SecurityProviderContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
-    Segment\Order\Service\Command\OrderMutationCommandContract,
+    Segment\Order\Service\Command\OrderCommandContract,
     Shared\Logging\AppLoggerContract
 };
 
@@ -37,7 +37,7 @@ final class CreateOrderHandlerTest extends TestCase
     private SecurityPolicyContract&MockObject $securityPolicy;
     private SecurityProviderContract&MockObject $securityProvider;
     private CartRenderQueryContract&MockObject $cartRenderQuery;
-    private OrderMutationCommandContract&MockObject $orderMutationCommand;
+    private OrderCommandContract&MockObject $orderCommand;
     private AppLoggerContract&MockObject $logger;
     private CreateOrderHandler $handler;
 
@@ -54,7 +54,7 @@ final class CreateOrderHandlerTest extends TestCase
             ->method('checkIfEmailVerified')
             ->willReturn($this->createMock(User::class));
 
-        $this->orderMutationCommand
+        $this->orderCommand
             ->method('createOrder')
             ->willReturn(new OrderResultObject(order: $this->createMock(Order::class), paymentUrl: null));
 
@@ -76,7 +76,7 @@ final class CreateOrderHandlerTest extends TestCase
     {
         $this->setupVerifiedUser();
 
-        $this->orderMutationCommand
+        $this->orderCommand
             ->method('createOrder')
             ->willReturn(new OrderResultObject(order: null, paymentUrl: 'https://stripe.com/pay/abc'));
 
@@ -164,7 +164,7 @@ final class CreateOrderHandlerTest extends TestCase
         $this->securityPolicy = $this->createMock(SecurityPolicyContract::class);
         $this->securityProvider = $this->createMock(SecurityProviderContract::class);
         $this->cartRenderQuery = $this->createMock(CartRenderQueryContract::class);
-        $this->orderMutationCommand = $this->createMock(OrderMutationCommandContract::class);
+        $this->orderCommand = $this->createMock(OrderCommandContract::class);
         $this->logger = $this->createMock(AppLoggerContract::class);
     }
 
@@ -174,7 +174,7 @@ final class CreateOrderHandlerTest extends TestCase
             $this->securityPolicy,
             $this->securityProvider,
             $this->cartRenderQuery,
-            $this->orderMutationCommand,
+            $this->orderCommand,
             $this->logger,
         );
     }
@@ -199,7 +199,7 @@ final class CreateOrderHandlerTest extends TestCase
     {
         $this->setupVerifiedUser();
 
-        $this->orderMutationCommand
+        $this->orderCommand
             ->method('createOrder')
             ->willThrowException($exception);
     }
@@ -209,7 +209,7 @@ final class CreateOrderHandlerTest extends TestCase
         $order = $this->createMock(Order::class);
         $order->method('getId')->willReturn($orderId);
 
-        $this->orderMutationCommand
+        $this->orderCommand
             ->method('createOrder')
             ->willReturn(new OrderResultObject(order: $order, paymentUrl: null));
     }

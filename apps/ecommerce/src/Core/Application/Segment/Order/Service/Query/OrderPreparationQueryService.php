@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Segment\Order\Service\Query;
 
-use Packages\Kit\{
+use Presets\Kit\{
     Assertion\Shared\IdAssertion,
     Utils\Shared\StringNormalizer,
     Utils\Shared\DataSanitizer

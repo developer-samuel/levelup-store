@@ -1,0 +1,13 @@
+@reference "../../../../app/theme/index.css";
+
+.wishlistHeader {
+  @apply flex flex-col items-center gap-2 mb-3 mt-1;
+}
+
+.heart {
+  @apply shrink-0;
+}
+
+.headerText {
+  @apply font-semibold text-[1.05em];
+}

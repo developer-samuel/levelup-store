@@ -77,6 +77,8 @@
       min-width: 0;
 
       &-options {
+        @include shadow(bottom, 1);
+
         top: 150px;
         gap: 2em;
 
@@ -262,10 +264,6 @@
 }
 
 @include resolution(xl, min) {
-  .products__card-options {
-    @include shadow(bottom, 1);
-  }
-
   .products__filter-reset-btn {
     font-size: 16px;
     padding: 1em 0;
@@ -394,9 +392,19 @@
 
 @include resolution(md, max) {
   .products {
+    &__filter-mobile {
+      &--header-hidden {
+        top: 74px !important;
+      }
+    }
+
     &__card {
       &-options {
         height: 36px;
+
+        &--header-hidden {
+          top: 38px !important;
+        }
 
         &-item {
           a {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Admin\Segment\Product\Service\Command;
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Ports\Admin\Segment\Product\Service\Command\AdminVariantValidationCommandContract;
 

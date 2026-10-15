@@ -19,11 +19,11 @@ use App\Core\Domain\{
 use App\Core\Application\Auth\Handler\Command\LoginHandler;
 
 use App\Core\Ports\{
+    Auth\Notifier\UserNotifierContract,
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
     Security\Provider\PasswordHasherProviderContract,
     Segment\User\Repository\UserRepositoryContract,
-    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract,
     Shared\RateLimiter\RateLimiterContract
 };
@@ -35,8 +35,8 @@ final class LoginHandlerTest extends TestCase
     private PasswordHasherProviderContract&MockObject $passwordHasherProvider;
     private LoginCommandContract&MockObject $loginCommand;
     private LoginRedirectQueryContract&MockObject $loginRedirectQuery;
+    private UserNotifierContract&MockObject $userNotifier;
     private RateLimiterContract&MockObject $rateLimiter;
-    private AuditLoggerContract&MockObject $audit;
     private AppLoggerContract&MockObject $logger;
     private LoginHandler $handler;
 
@@ -141,8 +141,8 @@ final class LoginHandlerTest extends TestCase
         $this->passwordHasherProvider = $this->createMock(PasswordHasherProviderContract::class);
         $this->loginCommand = $this->createMock(LoginCommandContract::class);
         $this->loginRedirectQuery = $this->createMock(LoginRedirectQueryContract::class);
+        $this->userNotifier = $this->createMock(UserNotifierContract::class);
         $this->rateLimiter = $this->createMock(RateLimiterContract::class);
-        $this->audit = $this->createMock(AuditLoggerContract::class);
         $this->logger = $this->createMock(AppLoggerContract::class);
     }
 
@@ -153,8 +153,8 @@ final class LoginHandlerTest extends TestCase
             $this->passwordHasherProvider,
             $this->loginCommand,
             $this->loginRedirectQuery,
+            $this->userNotifier,
             $this->rateLimiter,
-            $this->audit,
             $this->logger,
         );
     }

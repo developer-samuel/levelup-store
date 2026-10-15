@@ -9,33 +9,11 @@ This file describes the **installation steps** for the assistant app on a fresh 
 ```bash
 # Install Python + frontend dependencies
 make assistant-install
-
-# or manually:
-cd apps/assistant && uv sync --group dev
-cd apps/assistant/client && pnpm install
 ```
 
 ---
 
-## 2. Run
-
-```bash
-# Start the FastAPI dev server (uvicorn with --reload)
-make assistant-run
-
-# or manually:
-cd apps/assistant && uv run uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
-```
-
-Frontend (Vite dev server):
-
-```bash
-cd apps/assistant/client && pnpm dev
-```
-
----
-
-## 3. Run with Docker
+## 2. Run with Docker
 
 First time setup (stops any running stack first, then runs initialization):
 

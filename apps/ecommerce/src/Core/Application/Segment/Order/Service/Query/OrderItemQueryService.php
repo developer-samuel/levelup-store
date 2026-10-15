@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Application\Segment\Order\Service\Query;
 
 
-use Packages\Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
+use Presets\Kit\Assertion\Domain\Product\Variant\ProductVariantAssertion;
 
 use App\Core\Domain\{
     Segment\Cart\Entity\CartItem,
@@ -22,14 +22,14 @@ use App\Core\Ports\Segment\Order\Service\Query\OrderItemQueryContract;
  *     variant: ProductVariant,
  *     quantity: int
  * }
-*/
+ */
 final class OrderItemQueryService implements OrderItemQueryContract
 {
     /**
      * @param CartItem[] $items
      *
      * @return StripeLineItemObject[]
-    */
+     */
     public function prepareLineItems(array $items): array
     {
         $groupedItems = $this->groupItemsByVariant($items);
@@ -46,7 +46,7 @@ final class OrderItemQueryService implements OrderItemQueryContract
      * @param CartItem[] $items
      *
      * @return array<int, VariantQuantity>
-    */
+     */
     private function groupItemsByVariant(array $items): array
     {
         $groupedItems = [];
@@ -74,7 +74,7 @@ final class OrderItemQueryService implements OrderItemQueryContract
      * @param array<int, VariantQuantity> $groupedItems
      *
      * @return StripeLineItemObject[]
-    */
+     */
     private function mapGroupedItemsToLineItems(array $groupedItems): array
     {
         return array_map(

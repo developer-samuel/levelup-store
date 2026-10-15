@@ -4,7 +4,7 @@
 @include resolution(md, max) {
   .modal-zoom {
     &__close {
-      @include size(16px, auto);
+      @include size(24px, 24px);
     }
   }
 }

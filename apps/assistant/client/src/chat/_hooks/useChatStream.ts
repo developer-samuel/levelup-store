@@ -2,22 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 
 import { API_BASE_URL, API_KEY } from '@/app/api.config'
-import type { Message } from '@/chat/chat.types'
-import { cancelChatRequest, reattachStream, streamChat } from '@/chat/chat.service'
-
-type ApiChunk = {
-  success: boolean
-  message?: string
-  data?: {
-    token?: string
-    done?: boolean
-    cancelled?: boolean
-    thinking?: boolean
-    queued?: boolean
-    queue_position?: number
-    conversation_id?: string
-  }
-}
+import type { ServerChunk, Message } from '@/chat/chat.types'
+import { useStreamRestore } from '@/chat/_hooks/useStreamRestore'
+import { cancelChatRequest, RateLimitError, streamChat } from '@/chat/chat.service'
 
 type UseChatStreamOptions = {
   conversationId: React.MutableRefObject<string>
@@ -25,22 +12,26 @@ type UseChatStreamOptions = {
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>
   persist: (msgs: Message[]) => void
   sessionLoaded: boolean
+  onModelChange?: (model: string, fallback: boolean) => void
 }
 
-export function useChatStream({ conversationId, messages, setMessages, persist, sessionLoaded }: UseChatStreamOptions) {
+export function useChatStream({ conversationId, messages, setMessages, persist, sessionLoaded, onModelChange }: UseChatStreamOptions) {
   const [loading, setLoading] = useState(false)
   const [queued, setQueued] = useState(false)
   const [queuePosition, setQueuePosition] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [rateLimitRetryAfter, setRateLimitRetryAfter] = useState<number | null>(null)
   const [failedMessage, setFailedMessage] = useState<string | null>(null)
 
   const abortRef = useRef<AbortController | null>(null)
   const requestIdRef = useRef<string | null>(null)
   const thinkingStartedRef = useRef(false)
   const loadingRef = useRef(false)
+  const activeStreamRef = useRef(false)
+  const abortedRef = useRef(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const queuedRef = useRef(false)
-  const restoredRef = useRef(false)
+  const doneReceivedRef = useRef(false)
 
   useEffect(() => {
     queuedRef.current = queued
@@ -54,7 +45,7 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
   }
 
   const handleToken = useCallback(
-    (msgId: string, chunk: ApiChunk) => {
+    (msgId: string, chunk: ServerChunk) => {
       clearTimer()
 
       let persisted: Message[] | null = null
@@ -107,113 +98,37 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
     return () => window.removeEventListener('beforeunload', handleUnload)
   }, [])
 
-  useEffect(() => {
-    if (restoredRef.current || !sessionLoaded || messages.length === 0) return
-    restoredRef.current = true
+  const restoredRef = useStreamRestore({
+    conversationId,
+    messages,
+    setMessages,
+    persist,
+    sessionLoaded,
+    setLoading,
+    setError,
+    loadingRef,
+    activeStreamRef,
+    requestIdRef,
+    abortRef,
+    timerRef,
+    clearTimer,
+    handleToken,
+    handleDone,
+  })
 
-    const pendingMsg = messages.find((m) => m.streaming)
-    if (!pendingMsg) return
-
-    if (!pendingMsg.requestId || (!pendingMsg.content && !pendingMsg.thinkingConfirmed)) {
-      setMessages((prev) => {
-        const updated = prev.filter((m) => m.id !== pendingMsg.id)
-        persist(updated)
-        return updated
-      })
-      return
-    }
-
-    requestIdRef.current = pendingMsg.requestId
-    loadingRef.current = true
-    setLoading(true)
-
-    const msgId = pendingMsg.id
-    const reqId = pendingMsg.requestId
-
-    if (!pendingMsg.content) {
-      const startTime = pendingMsg.thinkingStartedAt ?? Date.now()
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === msgId ? { ...m, thinking: true, thinkingSeconds: Math.floor((Date.now() - startTime) / 1000) } : m,
-        ),
-      )
-      timerRef.current = setInterval(() => {
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === msgId ? { ...m, thinkingSeconds: Math.floor((Date.now() - startTime) / 1000) } : m,
-          ),
-        )
-      }, 1000)
-    }
-
-    const reattachAbort = new AbortController()
-    abortRef.current = reattachAbort
-
-    void (async () => {
-      try {
-        await reattachStream(
-          conversationId.current,
-          reqId,
-          (raw) => {
-            let chunk: ApiChunk
-            try {
-              chunk = JSON.parse(raw) as ApiChunk
-            } catch {
-              return
-            }
-
-            if (!chunk.success) {
-              clearTimer()
-              setError(chunk.message ?? 'Unknown error')
-              setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, streaming: false, thinking: false } : m)))
-              return
-            }
-
-            if (chunk.data?.thinking) {
-              setMessages((prev) => {
-                const updated = prev.map((m) => (m.id === msgId ? { ...m, thinking: true, content: '' } : m))
-                persist(updated)
-                return updated
-              })
-              return
-            }
-
-            if (chunk.data?.token) handleToken(msgId, chunk)
-            if (chunk.data?.done) handleDone(msgId, chunk.data.cancelled)
-          },
-          reattachAbort.signal,
-        )
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          setMessages((prev) => {
-            const updated = prev.map((m) => (m.id === msgId ? { ...m, streaming: false, thinking: false } : m))
-            persist(updated)
-            return updated
-          })
-        }
-      } finally {
-        clearTimer()
-        setMessages((prev) => {
-          const updated = prev.map((m) => (m.streaming || m.thinking ? { ...m, streaming: false, thinking: false } : m))
-          persist(updated)
-          return updated
-        })
-        loadingRef.current = false
-        setLoading(false)
-        requestIdRef.current = null
-      }
-    })()
-  }, [sessionLoaded, messages, setMessages, conversationId, persist, setError, handleToken, handleDone])
-
-  // Send a new message and stream the assistant response
   const send = useCallback(
     async (text: string) => {
       if (loadingRef.current) return
 
+      let errorHandled = false
+
       restoredRef.current = true
       setError(null)
+      setRateLimitRetryAfter(null)
       setFailedMessage(null)
+      doneReceivedRef.current = false
       loadingRef.current = true
+      activeStreamRef.current = true
       setLoading(true)
 
       const sendStartTime = Date.now()
@@ -254,16 +169,17 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
           conversationId.current,
           requestId,
           (raw) => {
-            let chunk: ApiChunk
+            let chunk: ServerChunk
             try {
-              chunk = JSON.parse(raw) as ApiChunk
+              chunk = JSON.parse(raw) as ServerChunk
             } catch {
               return
             }
 
             if (!chunk.success) {
               clearTimer()
-              setError(chunk.message ?? 'Unknown error')
+              doneReceivedRef.current = true
+              setError('Something went wrong. Please try again.')
               setFailedMessage(text)
               setMessages((prev) =>
                 prev.map((m) => (m.id === assistantId ? { ...m, streaming: false, thinking: false } : m)),
@@ -317,15 +233,33 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
               return
             }
 
+            if (chunk.data?.model) {
+              onModelChange?.(chunk.data.model, chunk.data.fallback ?? false)
+              return
+            }
+
             if (chunk.data?.token) handleToken(assistantId, chunk)
-            if (chunk.data?.done) handleDone(assistantId, chunk.data.cancelled)
+              
+            if (chunk.data?.done) {
+              doneReceivedRef.current = true
+              handleDone(assistantId, chunk.data.cancelled)
+            }
           },
           abortRef.current.signal,
         )
       } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
+        if ((err as Error).name === 'AbortError') {
+          abortedRef.current = true
+        } else {
           clearTimer()
-          setError('Connection failed. Please try again.')
+          errorHandled = true
+
+          if (err instanceof RateLimitError) {
+            setRateLimitRetryAfter(err.retryAfter)
+          } else {
+            setError('Something went wrong. Please try again.')
+          }
+
           setFailedMessage(text)
           setMessages((prev) =>
             prev.map((m) => (m.id === assistantId ? { ...m, streaming: false, thinking: false } : m)),
@@ -337,23 +271,34 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
         setQueuePosition(null)
         requestIdRef.current = null
         thinkingStartedRef.current = false
-        setMessages((prev) => {
-          const updated = prev.map((m) =>
-            (m.streaming || m.thinking) && !m.content
-              ? { ...m, streaming: false, thinking: false }
-              : { ...m, streaming: false },
-          )
-          persist(updated)
-          return updated
-        })
+        if (!abortedRef.current) {
+          const disconnected = !doneReceivedRef.current
+
+          setMessages((prev) => {
+            const updated = prev.map((m) =>
+              (m.streaming || m.thinking) && !m.content
+                ? { ...m, streaming: false, thinking: false }
+                : { ...m, streaming: false },
+            )
+            persist(updated)
+            return updated
+          })
+
+          if (disconnected && !errorHandled) {
+            setError('Connection lost. Please try again.')
+            setFailedMessage(text)
+          }
+        }
+
+        abortedRef.current = false
         loadingRef.current = false
+        activeStreamRef.current = false
         setLoading(false)
       }
     },
-    [conversationId, persist, setMessages, handleToken, handleDone],
+    [conversationId, persist, setMessages, handleToken, handleDone, onModelChange, restoredRef],
   )
 
-  // Stop the current stream and cancel the server-side request
   const stop = useCallback(
     async ({ silent = false }: { silent?: boolean } = {}) => {
       const requestId = requestIdRef.current
@@ -383,5 +328,5 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
     [persist, setMessages],
   )
 
-  return { loading, queued, queuePosition, error, setError, failedMessage, send, stop }
+  return { loading, queued, queuePosition, error, setError, rateLimitRetryAfter, failedMessage, send, stop }
 }

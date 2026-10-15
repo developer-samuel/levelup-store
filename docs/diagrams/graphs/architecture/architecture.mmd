@@ -24,7 +24,7 @@ graph TD
 
     subgraph Edge["Edge"]
         Cloudflare[☁️ Cloudflare\nDNS + WAF + DDoS]:::cdn
-        Ingress[🌐 Traefik Ingress\ncert-manager TLS]:::infra
+        Ingress[🌐 Traefik Ingress\ncert-manager TLS · rate limit · circuit breaker · security headers]:::infra
     end
 
     subgraph AppLayer["Ecommerce"]
@@ -34,7 +34,7 @@ graph TD
     end
 
     subgraph AssistantLayer["Assistant"]
-        Assistant[⚙️ FastAPI\nDeployment]:::app
+        Assistant[⚙️ FastAPI\nDeployment + HPA]:::app
         AiWorker[⚙️ AI Worker\nDeployment]:::runtime
         AiScheduler[⏱️ Ingest Scheduler\nCronJob]:::runtime
         Ollama[🤖 Ollama\nLLM + embeddings]:::runtime

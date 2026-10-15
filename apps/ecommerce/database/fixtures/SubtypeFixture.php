@@ -17,7 +17,7 @@ use Database\{
     Seeds\Records\SubtypeRecord
 };
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 use App\Core\Domain\{
     Segment\Category\Entity\Category,
@@ -64,7 +64,7 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
      *     typeName: string,
      *     subtypes: string[]
      * }>
-    */
+     */
     protected function getData(): iterable
     {
         $data = $this->subtypeRecord->fetchData();
@@ -82,7 +82,7 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
          *     typeName: string,
          *     subtypes: string[]
          * } $data
-        */
+         */
         $category = $this->findCategoryOrLog($data['categoryName']);
         if ($category === null) {
             return;
@@ -104,7 +104,7 @@ final class SubtypeFixture extends AbstractFixture implements DependentFixtureIn
      *     typeName: string,
      *     subtypes: string[]
      * }>
-    */
+     */
     private function yieldSubtypes(string $categoryName, array $types): iterable
     {
         foreach ($types as $typeName => $subtypes) {

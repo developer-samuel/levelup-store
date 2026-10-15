@@ -12,6 +12,10 @@
   .navigation__mobile {
     top: 93px;
 
+    &--header-hidden {
+      top: 38px;
+    }
+
     &-wrapper {
       height: 30px;
     }
@@ -25,5 +29,11 @@
         font-size: 18px;
       }
     }
+  }
+}
+
+@include resolution(lg, max) {
+  body.nav--open {
+    overflow: hidden;
   }
 }

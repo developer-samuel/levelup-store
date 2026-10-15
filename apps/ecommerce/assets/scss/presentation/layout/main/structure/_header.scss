@@ -12,15 +12,15 @@
 .header {
   @include flex-col-center-y;
   @include size(100%, auto);
-  @include transition('ease-in-out', 300);
+  @include transition('ease-in-out', 300, ('top'));
   @include user-select;
 
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: z.$header;
 
   &--hidden {
-    transform: translateY(-100%);
+    top: -75px;
   }
 
   &__main {

@@ -25,18 +25,6 @@ make assistant-type-check
 make assistant-dead-code
 ```
 
-```bash
-cd apps/assistant
-```
-
-```bash
-# or manually:
-uv run ruff check --cache-dir .cache/ruff app/
-uv run ruff format --cache-dir .cache/ruff app/
-uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/
-uv run vulture app/ jobs/
-```
-
 ---
 
 ## Frontend

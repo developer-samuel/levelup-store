@@ -6,11 +6,8 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN pnpm config set store-dir /pnpm/store
 
-WORKDIR /app
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+WORKDIR /var/www
 
 EXPOSE 5174
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["pnpm", "--filter", "assistant", "dev"]

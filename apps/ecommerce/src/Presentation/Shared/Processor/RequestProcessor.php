@@ -9,7 +9,7 @@ use Symfony\{
     Component\Validator\Validator\ValidatorInterface
 };
 
-use Packages\Kit\Utils\Shared\DataSanitizer;
+use Presets\Kit\Utils\Shared\DataSanitizer;
 
 use App\Presentation\Shared\Responder\HttpResponder;
 
@@ -19,7 +19,7 @@ final class RequestProcessor
      * @template T of object
      *
      * @param T $request
-    */
+     */
     public static function process(object $request, ?ValidatorInterface $validator = null): ?JsonResponse
     {
         if (!method_exists($request, 'errors')) {
@@ -44,7 +44,7 @@ final class RequestProcessor
      * @param array<mixed> $errorsRaw
      *
      * @return array<string, string>
-    */
+     */
     private static function sanitizeErrors(array $errorsRaw): array
     {
         $errors = [];

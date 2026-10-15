@@ -1,10 +1,7 @@
 import type { CartElements, CartInstance } from '@/ts/features/cart/types'
 import { getCartElements } from '@/ts/features/cart/_utils/elements'
-import {
-  attachCartToggleListeners,
-  attachCartResizeListener,
-  attachCartDocumentClickListener,
-} from '@/ts/features/cart/_listeners/domListener'
+import { attachCartToggleListeners, attachCartDocumentClickListener } from '@/ts/features/cart/_listeners/domListener'
+import { attachCartResizeListener } from '@/ts/features/cart/_listeners/resizeListener'
 import { attachCartWarningListener } from '@/ts/features/cart/_listeners/warningListener'
 
 export default class Cart implements CartInstance {

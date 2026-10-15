@@ -12,11 +12,15 @@ export function handleSearchInputChange(
 ): void {
   const value = input.value
 
+  instance.contentCache = null
+
   setSearchTerm(value)
 
   if (!value.trim()) {
+    instance.isClosed = true
     hide(instance.panel)
     updateContent(instance.content, NO_RESULTS_HTML)
+
     return
   }
 
@@ -37,8 +41,20 @@ export function handleSearchInputFocus(
   if (hasAnyText(value)) {
     if (input.value !== value) input.value = value
     instance.isClosed = false
-    show(instance.panel)
     setSearchTerm(value)
+
+    if (instance.contentCache) {
+      updateContent(instance.content, instance.contentCache)
+      instance.contentCache = null
+      show(instance.panel)
+
+      const card = instance.panel.querySelector<HTMLElement>('.search-panel__card')
+      if (card) card.scrollTop = card.scrollHeight
+
+      return
+    }
+
+    show(instance.panel)
   }
 }
 

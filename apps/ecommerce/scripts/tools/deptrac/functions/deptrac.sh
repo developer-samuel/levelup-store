@@ -4,6 +4,7 @@ set -euo pipefail
 run_deptrac() {
   echo "🟢 Running Deptrac analysis..."
 
+  mkdir -p "$(dirname "$CACHE_FILE")"
   vendor/bin/deptrac analyse --config-file="$DEPTRAC_CONFIG" --cache-file="$CACHE_FILE" --formatter json > "$REPORT_JSON"
 
   echo ""

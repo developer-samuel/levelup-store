@@ -12,3 +12,8 @@ Allow: /search/find
 Disallow: /admin/
 Disallow: /api/
 Disallow: /dev/
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /change-password
+Disallow: /reset-password
