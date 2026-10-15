@@ -4,7 +4,8 @@
 
 .PHONY: install cache-clear routes \
         serve setup \
-        build-prod test-prod
+        build-prod test-prod \
+        e2e-fix
 
 # ── 💻 Dev ────────────────────────────────────────────────────────────────────
 
@@ -44,6 +45,10 @@ setup:
 	$(MAKE) fix-permissions
 	cd apps/ecommerce && composer db-setup
 	$(MAKE) serve
+
+## Fix Playwright output dir permissions (run before e2e tests if permission errors occur)
+e2e-fix:
+	@if command -v sudo &>/dev/null; then sudo chown -R "$$(id -u):$$(id -g)" apps/ecommerce/var/tools/playwright/ 2>/dev/null || true; fi
 
 # ── 🐳 Docker ─────────────────────────────────────────────────────────────────
 
