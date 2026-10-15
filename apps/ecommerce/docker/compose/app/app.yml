@@ -14,9 +14,9 @@ services:
         condition: service_healthy
       ecommerce_elasticsearch:
         condition: service_healthy
-      ecommerce_redis:
+      redis:
         condition: service_healthy
-      ecommerce_rabbitmq:
+      rabbitmq:
         condition: service_healthy
       ecommerce_mercure:
         condition: service_healthy
@@ -33,9 +33,9 @@ services:
         condition: service_healthy
       ecommerce_elasticsearch:
         condition: service_healthy
-      ecommerce_redis:
+      redis:
         condition: service_healthy
-      ecommerce_rabbitmq:
+      rabbitmq:
         condition: service_healthy
       ecommerce_minio:
         condition: service_healthy

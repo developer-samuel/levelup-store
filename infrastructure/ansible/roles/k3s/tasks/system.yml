@@ -34,7 +34,7 @@
     marker: "# {mark} ANSIBLE MANAGED - k3s ulimits"
 
 - name: Set systemd file descriptor limits for k3s service
-  ansible.builtin.ini_file:
+  community.general.ini_file:
     path: /etc/systemd/system/k3s.service.d/limits.conf
     section: Service
     option: LimitNOFILE

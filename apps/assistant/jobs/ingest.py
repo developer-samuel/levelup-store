@@ -26,7 +26,7 @@ _PDF_DIR = Path(__file__).parent.parent.parent / "ecommerce" / "public" / "pdf"
 
 
 def _hash(text: str) -> str:
-    return hashlib.md5(text.encode()).hexdigest()
+    return hashlib.sha256(text.encode()).hexdigest()
 
 
 def _get_existing_hashes(collection, id_prefix: str = "") -> dict[str, str]:

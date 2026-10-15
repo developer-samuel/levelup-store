@@ -3,7 +3,7 @@
 # ──────────────────────────────────────────────────────────────────────────────────────────────
 
 services:
-  ecommerce_rabbitmq:
+  rabbitmq:
     image: rabbitmq:4.3.5-management
     container_name: levelup_store_rabbitmq
     restart: unless-stopped

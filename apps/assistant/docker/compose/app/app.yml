@@ -19,8 +19,11 @@ services:
         condition: service_healthy
       assistant_chromadb:
         condition: service_healthy
-      ecommerce_redis:
+      redis:
         condition: service_healthy
+      assistant_ollama:
+        condition: service_healthy
+        required: false
     networks:
       - app-network
 
