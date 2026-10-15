@@ -97,7 +97,7 @@ export function Message({ message, speech }: Props) {
                 onClick={() => speaking ? stop() : speak(message.id, message.content!)}
                 title={speaking ? 'Stop' : 'Read aloud'}
               >
-                {speaking ? <Square className={s.speakIcon} /> : <Volume2 className={s.speakIcon} />}
+                {speaking ? <Square size={14} className={s.speakIcon} /> : <Volume2 size={14} className={s.speakIcon} />}
               </button>
             )}
           </div>

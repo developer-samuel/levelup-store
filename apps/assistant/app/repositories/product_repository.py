@@ -149,9 +149,8 @@ _TOP_REVIEWED_QUERY = """
       AND s.status             = 'in_stock'
     GROUP BY pv.id, p.name, pv.name, pv.price, d.price, b.name, c.name,
              pv.url, pv.description, s.quantity_available
-    HAVING COUNT(r.id) FILTER (WHERE r.type = 'feedback') > 0
-        OR COUNT(r.id) FILTER (WHERE r.type = 'rating') > 0
-    ORDER BY COUNT(r.id) FILTER (WHERE r.type = 'feedback') DESC, avg_rating DESC
+    HAVING COUNT(r.id) >= 1
+    ORDER BY avg_rating DESC, COUNT(r.id) DESC
     LIMIT 20
 """
 

@@ -80,7 +80,11 @@ export function renderProductCard(
     const line = lines[i] ?? ''
     
     if (blockLines.length > 0 && /^Product:\s+/i.test(line)) break
-    if (blockLines.length > 0 && line.trim() === '') { i++; break }
+    if (blockLines.length > 0 && (line.trim() === '' || /^<br\s*\/?>$/i.test(line.trim()))) {
+      const peek = lines[i + 1] ?? ''
+      if (/^Image:\s+/i.test(peek.trim())) { i++; continue }
+      i++; break
+    }
 
     blockLines.push(line)
 

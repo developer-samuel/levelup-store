@@ -2,7 +2,7 @@ import psycopg2
 
 from app.config import settings
 
-_USER_CART_QUERY = """
+_CART_QUERY = """
     SELECT
         c.id,
         p.name                        AS product_name,
@@ -36,7 +36,7 @@ def fetch_user_cart(user_id: int) -> list[tuple[object, ...]]:
 
     try:
         cursor = conn.cursor()
-        cursor.execute(_USER_CART_QUERY, (user_id,))
+        cursor.execute(_CART_QUERY, (user_id,))
 
         rows: list[tuple[object, ...]] = cursor.fetchall()
 

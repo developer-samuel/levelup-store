@@ -30,6 +30,7 @@ Rules:
 - Omit `Orders` if order_count is 0 or absent - never write "0 orders"
 - Omit `Description` if not available
 - Always include `Stock:` as a number (0 = out of stock, 1-4 = low stock, 5 = in stock / 5 or more)
-- Always include `Image:` when available - it is required for the visual card
+- **Always include `Image:` when the context contains an image URL for the product - this is mandatory, never skip it**
+- The `Image:` line must always be the LAST line of the product block, with NO blank line before it - only a blank line comes after it (as the block separator)
 - Each product block must be separated by a blank line
 - When showing a single product detail (customer asks about one product), output one product block followed by specs or notes

@@ -12,13 +12,14 @@ from app.context_builder import (
     format_top_reviewed,
     format_user_cart,
     format_user_name,
+    format_user_order_profile,
     format_user_orders,
     format_user_reviews,
     format_user_wishlist,
 )
 from app.prompts import CHAT_SYSTEM_PROMPT
 from app.repositories.cart_repository import fetch_user_cart
-from app.repositories.order_repository import fetch_user_orders
+from app.repositories.order_repository import fetch_user_order_profile, fetch_user_orders
 from app.repositories.product_repository import (
     fetch_catalog_summary,
     fetch_top_ordered_products,
@@ -65,7 +66,10 @@ async def stream_chat(
     yield json.dumps({"success": True, "data": {"thinking": True}})
 
     if await is_attack(message):
-        blocked_msg = "I'm sorry, I'm unable to help with that request. Please contact our support."
+        blocked_msg = (
+            "I'm sorry, I'm unable to help with that request. "
+            f"Please contact our support at {settings.support_email}."
+        )
 
         yield json.dumps({"success": True, "data": {"token": blocked_msg}})
         yield json.dumps({"success": True, "data": {"done": True}})
@@ -90,6 +94,7 @@ async def stream_chat(
         gather_tasks.append(asyncio.to_thread(fetch_user_reviews, user_id))
         gather_tasks.append(asyncio.to_thread(fetch_user_wishlist, user_id))
         gather_tasks.append(asyncio.to_thread(fetch_user_name, user_id))
+        gather_tasks.append(asyncio.to_thread(fetch_user_order_profile, user_id))
 
     results = await asyncio.gather(*gather_tasks)
     rag_context = cast(str, results[0])
@@ -102,34 +107,25 @@ async def stream_chat(
     user_reviews = cast(list[tuple[object, ...]], results[7]) if user_id else []
     user_wishlist = cast(list[tuple[object, ...]], results[8]) if user_id else []
     user_name = cast(tuple[str, str] | None, results[9]) if user_id else None
+    user_order_profile = cast(list[tuple[object, ...]], results[10]) if user_id else []
 
-    context_parts: list[str] = []
-    name_str = format_user_name(user_name)
-    if name_str:
-        context_parts.append(name_str)
-    if rag_context:
-        context_parts.append(rag_context)
-    catalog_str = format_catalog_summary(catalog)
-    if catalog_str:
-        context_parts.append(catalog_str)
-    reviewed_str = format_top_reviewed(top_reviewed)
-    if reviewed_str:
-        context_parts.append(reviewed_str)
-    ordered_str = format_top_ordered(top_ordered)
-    if ordered_str:
-        context_parts.append(ordered_str)
-    orders_str = format_user_orders(user_orders)
-    if orders_str:
-        context_parts.append(orders_str)
-    cart_str = format_user_cart(user_cart)
-    if cart_str:
-        context_parts.append(cart_str)
-    reviews_str = format_user_reviews(user_reviews)
-    if reviews_str:
-        context_parts.append(reviews_str)
-    wishlist_str = format_user_wishlist(user_wishlist)
-    if wishlist_str:
-        context_parts.append(wishlist_str)
+    context_parts = list(
+        filter(
+            None,
+            [
+                format_user_name(user_name),
+                rag_context,
+                format_catalog_summary(catalog),
+                format_top_reviewed(top_reviewed),
+                format_top_ordered(top_ordered),
+                format_user_order_profile(user_order_profile),
+                format_user_orders(user_orders),
+                format_user_cart(user_cart),
+                format_user_reviews(user_reviews),
+                format_user_wishlist(user_wishlist),
+            ],
+        )
+    )
 
     context = "\n\n".join(context_parts) if context_parts else "No relevant products found."
 

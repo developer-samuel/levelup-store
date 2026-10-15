@@ -125,7 +125,7 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
       continue
     }
 
-    if (line.trim() === '') {
+    if (line.trim() === '' || /^<br\s*\/?>$/i.test(line.trim())) {
       nodes.push(<br key={nodes.length} />)
       i++
 
@@ -135,7 +135,7 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
     if (/^Product:\s+/i.test(line)) {
       const [node, next] = renderProductCard(lines, i, onImageClick)
 
-      if (node) { nodes.push(<span key={nodes.length}>{node}</span>); i = next; continue }
+      if (node) { nodes.push(<div key={nodes.length}>{node}</div>); i = next; continue }
     }
 
     if (line.startsWith('♡')) {

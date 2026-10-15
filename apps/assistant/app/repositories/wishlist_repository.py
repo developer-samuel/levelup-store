@@ -2,7 +2,7 @@ import psycopg2
 
 from app.config import settings
 
-_USER_WISHLIST_QUERY = """
+_WISHLIST_QUERY = """
     SELECT
         p.name                                          AS product_name,
         pv.name                                         AS variant_name,
@@ -41,7 +41,7 @@ def fetch_user_wishlist(user_id: int) -> list[tuple[object, ...]]:
 
     try:
         cursor = conn.cursor()
-        cursor.execute(_USER_WISHLIST_QUERY, (user_id,))
+        cursor.execute(_WISHLIST_QUERY, (user_id,))
 
         rows: list[tuple[object, ...]] = cursor.fetchall()
 

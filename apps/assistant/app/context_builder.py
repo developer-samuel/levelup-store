@@ -7,6 +7,11 @@ def format_price(price: float) -> str:
     return str(int(price)) if price == int(price) else f"{price:.2f}"
 
 
+def format_rating(value: object) -> str:
+    v = float(cast(float, value))
+    return str(int(v)) if v == int(v) else str(v)
+
+
 def product_url(url: object) -> str:
     return f"{settings.ecommerce_url}/product/show/{url}" if url else ""
 
@@ -48,12 +53,13 @@ def format_top_reviewed(rows: list[tuple[object, ...]]) -> str:
         link = product_url(url)
         image = image_url(image_path)
 
+        r = format_rating(avg_rating)
         if feedback_count and rating_count:
-            rating_label = f"{avg_rating}★ ({feedback_count} reviews, {rating_count} ratings)"
+            rating_label = f"{r}★ ({feedback_count} reviews, {rating_count} ratings)"
         elif feedback_count:
-            rating_label = f"{avg_rating}★ ({feedback_count} reviews)"
+            rating_label = f"{r}★ ({feedback_count} reviews)"
         elif rating_count:
-            rating_label = f"{avg_rating}★ ({rating_count} ratings)"
+            rating_label = f"{r}★ ({rating_count} ratings)"
         else:
             rating_label = "No reviews yet"
 
@@ -201,8 +207,9 @@ def format_user_reviews(rows: list[tuple[object, ...]]) -> str:
         link = product_url(url)
         comment_short = str(body)[:100] if body else ""
 
+        r = format_rating(rating)
         rating_label = (
-            f"{rating}★ (1 review)" if review_type == "feedback" else f"{rating}★ (1 rating)"
+            f"{r}★ (1 review)" if review_type == "feedback" else f"{r}★ (1 rating)"
         )
 
         lines.append(
@@ -239,12 +246,13 @@ def format_user_wishlist(rows: list[tuple[object, ...]]) -> str:
         link = product_url(url)
         img = image_url(image_path)
 
+        r = format_rating(avg_rating)
         if feedback_count and rating_count:
-            rating_label = f"{avg_rating}★ ({feedback_count} reviews, {rating_count} ratings)"
+            rating_label = f"{r}★ ({feedback_count} reviews, {rating_count} ratings)"
         elif feedback_count:
-            rating_label = f"{avg_rating}★ ({feedback_count} reviews)"
+            rating_label = f"{r}★ ({feedback_count} reviews)"
         elif rating_count:
-            rating_label = f"{avg_rating}★ ({rating_count} ratings)"
+            rating_label = f"{r}★ ({rating_count} ratings)"
         else:
             rating_label = ""
 
@@ -274,6 +282,37 @@ def format_user_name(name: tuple[str, str] | None) -> str:
     first = name[0].strip()
 
     return f"Customer name: {first}" if first else ""
+
+
+def format_user_order_profile(rows: list[tuple[object, ...]]) -> str:
+    if not rows:
+        return ""
+
+    brands: list[str] = []
+    categories: list[str] = []
+    types: list[str] = []
+
+    for row in rows:
+        brand, category, type_ = row
+        if brand and str(brand) not in brands:
+            brands.append(str(brand))
+        if category and str(category) not in categories:
+            categories.append(str(category))
+        if type_ and str(type_) not in types:
+            types.append(str(type_))
+
+    parts = [
+        "Customer purchase history (use to recommend complementary or related products,"
+        " avoid recommending already purchased brands/categories unless asked):"
+    ]
+    if brands:
+        parts.append(f"Purchased brands: {', '.join(brands)}")
+    if categories:
+        parts.append(f"Purchased categories: {', '.join(categories)}")
+    if types:
+        parts.append(f"Purchased types: {', '.join(types)}")
+
+    return "\n".join(parts)
 
 
 def format_catalog_summary(catalog: dict[str, list[str]]) -> str:

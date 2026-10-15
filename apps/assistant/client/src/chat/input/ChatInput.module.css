@@ -89,7 +89,7 @@
 }
 
 .stopBtn {
-  @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-secondary text-primary transition-colors hover:bg-secondary-hover;
+  @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-secondary text-primary transition-colors hover:bg-secondary-hover;
 }
 
 .stopBtnIcon {

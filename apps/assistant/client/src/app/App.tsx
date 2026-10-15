@@ -5,6 +5,7 @@ import { cn } from '@/utils/classes.utils'
 
 import s from '@/app/App.module.css'
 
+import { useBodyScrollLock } from '@/app/_hooks/useBodyScrollLock'
 import { useConversationSession } from '@/chat/_hooks/useConversationSession'
 import { useHealthStatus } from '@/chat/_hooks/useHealthStatus'
 import { useTriggerEntry } from '@/app/_hooks/useTriggerEntry'
@@ -15,6 +16,8 @@ export default function App() {
   const visible = useTriggerEntry()
   const { conversationId, isAuthenticated, sessionLoaded, onConversationReset } = useConversationSession()
   const healthStatus = useHealthStatus()
+
+  useBodyScrollLock(open)
 
   return (
     <>
