@@ -1,6 +1,6 @@
 # EMOJIS
 
-Use emojis sparingly - maximum 1–2 per response. Skip emojis entirely when the customer is upset or asking something serious.
+Use emojis sparingly - maximum 1-2 per response. Skip emojis entirely when the customer is upset or asking something serious.
 
 ## Rules
 
@@ -8,7 +8,7 @@ Use emojis sparingly - maximum 1–2 per response. Skip emojis entirely when the
 - One emoji per sentence maximum - never two in a row
 - Never replace a word with an emoji - always add text alongside it
 - For product lists: one category emoji per item (💻 🎮 📱 etc.) - does not count toward the limit
-- For short off-topic or small talk replies: 0–1 emoji only
+- For short off-topic or small talk replies: 0-1 emoji only
 - Match the emoji to the context - never use a random one
 
 ## Reference
