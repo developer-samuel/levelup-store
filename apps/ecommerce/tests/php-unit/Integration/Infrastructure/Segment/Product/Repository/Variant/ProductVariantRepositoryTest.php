@@ -20,6 +20,7 @@ use App\Core\Domain\{
     Segment\Product\Entity\Variant\ProductVariantStock,
     Segment\Product\Enum\ProductSortOption,
     Segment\Product\ValueObject\ProductFilterObject,
+    Segment\Review\Entity\Review,
     Segment\Type\Entity\Type
 };
 
@@ -30,12 +31,16 @@ use App\Core\Ports\{
 
 use App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository;
 
-use Tests\Support\Provides\Persistence;
+use Tests\Support\{
+    Factory\UserFactory,
+    Provides\Persistence
+};
 
 /** @coversDefaultClass \App\Infrastructure\Segment\Product\Repository\Variant\ProductVariantRepository */
 final class ProductVariantRepositoryTest extends KernelTestCase
 {
     use Persistence;
+    use UserFactory;
 
     private EntityManagerInterface $em;
     private ProductVariantRepository $repository;
@@ -357,6 +362,39 @@ final class ProductVariantRepositoryTest extends KernelTestCase
         self::assertIsArray($result['items']);
     }
 
+    public function testFindAvailableVariantsPaginatedSortByTopRatedOrdersByAvgRatingDesc(): void
+    {
+        $lowRated = $this->createAndPersistVariant('SKU-RATE-LOW-001', 'Low Rated Variant', 'rate-low-001');
+        $highRated = $this->createAndPersistVariant('SKU-RATE-HIGH-001', 'High Rated Variant', 'rate-high-001');
+        $user = $this->createAndPersistUser();
+
+        $lowRated = $this->repository->findById($lowRated->getId());
+        $highRated = $this->repository->findById($highRated->getId());
+
+        self::assertNotNull($lowRated);
+        self::assertNotNull($highRated);
+
+        $reviewLow = (new Review())->setVariant($lowRated)->setUser($user)->setValue(2.0);
+        $reviewHigh = (new Review())->setVariant($highRated)->setUser($user)->setValue(5.0);
+
+        $this->em->persist($reviewLow);
+        $this->em->persist($reviewHigh);
+        $this->em->flush();
+        $this->em->clear();
+
+        $filter = $this->defaultFilter();
+        $result = $this->repository->findAvailableVariantsPaginated($filter, 1, PHP_INT_MAX, ProductSortOption::TOP_RATED);
+
+        $ids = array_map(fn(ProductVariant $v) => $v->getId(), $result['items']);
+
+        self::assertContains($highRated->getId(), $ids);
+        self::assertContains($lowRated->getId(), $ids);
+        self::assertLessThan(
+            array_search($lowRated->getId(), $ids, true),
+            array_search($highRated->getId(), $ids, true),
+        );
+    }
+
     public function testFindAvailableVariantsPaginatedPageTwoReturnsOffset(): void
     {
         for ($i = 1; $i <= 5; $i++) {
@@ -525,7 +563,7 @@ final class ProductVariantRepositoryTest extends KernelTestCase
     public function testFindRandomAvailableExcludingSkipsOutOfStockVariants(): void
     {
         $outOfStock = $this->createAndPersistVariantOutOfStock('SKU-RAND-OOS-001', 'OOS Rand Variant', 'rand-oos-001');
-        $available = $this->createAndPersistVariant('SKU-RAND-AVAIL-001', 'Avail Rand Variant', 'rand-avail-001');
+        $this->createAndPersistVariant('SKU-RAND-AVAIL-001', 'Avail Rand Variant', 'rand-avail-001');
 
         $result = $this->repository->findRandomAvailableExcluding([]);
 

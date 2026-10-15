@@ -1,7 +1,7 @@
 {% macro render(sortOptions, sort) %}
     <div class="products__card-sort">
         <div class="products__card-sort-select-wrapper">
-            <select id="sort-by" name="sort" class="products__card-sort-select-field">
+            <select name="sort" class="products__card-sort-select-field">
                 {% for option in sortOptions %}
                     <option
                         value="{{ option.value }}"

@@ -105,13 +105,14 @@ final class ProductVariantRepository extends AbstractRepository implements Produ
         $total = $this->getTotalCount($qb);
 
         $sort ??= ProductSortOption::TOP_RATED;
-        $this->applySorting($qb, $sort);
 
         $idQb = clone $qb;
         $idQb->select('v.id');
         $idQb->resetDQLPart('distinct');
+        $idQb->resetDQLPart('orderBy');
         $this->applyEffectivePrice($idQb);
         $this->applyAverageRating($idQb);
+        $this->applySorting($idQb, $sort);
         $this->applyPagination($idQb, $page, $limit);
 
         /** @var array<array{id: int}> $rows */

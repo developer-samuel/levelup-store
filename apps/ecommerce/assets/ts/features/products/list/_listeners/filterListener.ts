@@ -14,8 +14,9 @@ export function attachFilterListener(ctx: ProductListInstance): void {
   setupBrandFilter(ctx)
   setupPriceFilter(ctx)
 
-  const sortSelect = document.getElementById('sort-by')
-  attachSortListener(ctx, sortSelect)
+  document.querySelectorAll<HTMLElement>('.products__card-sort-select-field').forEach((sortSelect) => {
+    attachSortListener(ctx, sortSelect)
+  })
 
   attachLoadMoreListener(ctx)
 
@@ -36,6 +37,7 @@ export function attachFilterListener(ctx: ProductListInstance): void {
 
       resetFilterUI(initialMaxPrice)
       ctx.page = 1
+
       void updateProducts({ category, type, ...(sort !== undefined && { sort }), page: 1 }, ctx)
     })
   }
