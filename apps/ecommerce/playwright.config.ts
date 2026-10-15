@@ -49,7 +49,7 @@ const projects: Project[] = [
 const webServer: PlaywrightTestConfig['webServer'] = {
   command: `php -S 127.0.0.1:${E2E_PORT} -t public router.php`,
   url: `${APP_URL}/api/health`,
-  reuseExistingServer: false,
+  reuseExistingServer: !process.env['CI'],
   timeout: 60_000,
   stdout: 'ignore',
   stderr: 'ignore',
