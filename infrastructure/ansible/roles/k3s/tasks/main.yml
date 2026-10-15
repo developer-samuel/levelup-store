@@ -1,5 +1,12 @@
 ---
-- import_tasks: system.yml
-- import_tasks: packages.yml
-- import_tasks: install.yml
-- import_tasks: kubeconfig.yml
+- name: Import system tasks
+  ansible.builtin.import_tasks: system.yml
+
+- name: Import packages tasks
+  ansible.builtin.import_tasks: packages.yml
+
+- name: Import install tasks
+  ansible.builtin.import_tasks: install.yml
+
+- name: Import kubeconfig tasks
+  ansible.builtin.import_tasks: kubeconfig.yml

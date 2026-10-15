@@ -17,9 +17,9 @@ services:
         condition: service_healthy
       assistant_chromadb:
         condition: service_healthy
-      ecommerce_redis:
+      redis:
         condition: service_healthy
-      ecommerce_rabbitmq:
+      rabbitmq:
         condition: service_healthy
     networks:
       - app-network
