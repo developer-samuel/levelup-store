@@ -27,6 +27,9 @@ and orchestrated by k3s (lightweight Kubernetes).
 | Observability            | OTel + Tempo + Loki + Prometheus + Grafana  | Traces, logs, metrics + alerting                                                           |
 | Alerting                 | AlertManager                                | Prometheus alert routing and notifications                                                 |
 | HTTP monitoring          | Blackbox Exporter                           | Prometheus-compatible endpoint health checks                                               |
+| Rate limiting            | Traefik RateLimit middleware                | 300 req/min (burst 100) per IP - protects against DoS, brute-force and scraping            |
+| Circuit breaker          | Traefik CircuitBreaker middleware           | Cuts off assistant traffic on high error rate or latency, keeps ecommerce unaffected       |
+| Access control           | Traefik IPAllowList + Tailscale             | Jenkins restricted to Tailscale network only                                               |
 | Security scanning        | Falco + Kyverno                             | Runtime threat detection + policy enforcement                                              |
 | Vulnerability scanning   | Trivy (in deploy.yml)                       | Docker image scanning on every deploy                                                      |
 | Terraform automation     | Atlantis                                    | Runs `terraform plan` on PRs touching `terraform/`                                         |

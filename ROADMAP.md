@@ -5,7 +5,7 @@
 ### AI Assistant
 
 - [x] Product comparison via chat
-- [ ] Personalized recommendations based on order history
+- [x] Personalized recommendations based on order history
 - [x] Voice input and text-to-speech responses
 - [ ] Interactive quick-reply options - assistant can present checkboxes or radio buttons when asking clarifying questions to narrow down the best product match; user picks options instead of typing
 - [ ] Test coverage (pytest, pytest-asyncio, httpx)
@@ -34,6 +34,8 @@
   - Outside EU: rates TBD, to be decided later
 - [ ] Restrict cash on delivery (COD) to Slovakia only - disable for all other countries
 - [ ] Returns and refunds - customers can submit a return request per order; admin can approve or reject it and mark the order as refunded
+- [ ] Order status: `uncollected` - package was shipped but customer did not pick it up and it was returned to warehouse; admin can choose next step: re-ship to address or customer picks up in person at a branch
+- [ ] Delivery method: personal pickup at branch vs. ship to address - currently only address delivery exists; add pickup option tied to warehouse locations (see Warehouse management)
 - [ ] Product listing, filters and detail page improvements
 - [ ] User reviews page - list of all reviews the logged-in user has submitted, with product link and option to edit or delete
 - [ ] Monthly newsletter - opt-in checkbox on registration; monthly email with new products sent only to subscribed users; unsubscribe link in every email

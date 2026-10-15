@@ -13,6 +13,13 @@ make setup
 make routes
 ```
 
+## E2E tests (Playwright)
+
+```bash
+# Fix Playwright output dir permissions (run if permission errors occur before tests)
+make e2e-fix
+```
+
 ## Maintenance
 
 ```bash
