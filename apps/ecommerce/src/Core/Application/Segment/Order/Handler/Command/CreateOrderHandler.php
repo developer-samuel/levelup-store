@@ -13,7 +13,7 @@ use App\Core\Ports\{
     Security\Provider\SecurityProviderContract,
     Segment\Cart\Service\Query\CartRenderQueryContract,
     Segment\Order\Handler\Command\CreateOrderHandlerContract,
-    Segment\Order\Service\Command\OrderMutationCommandContract,
+    Segment\Order\Service\Command\OrderCommandContract,
     Shared\Logging\AppLoggerContract
 };
 
@@ -25,7 +25,7 @@ final class CreateOrderHandler extends AbstractCommandHandler implements CreateO
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly SecurityProviderContract $securityProvider,
         private readonly CartRenderQueryContract $cartRenderQuery,
-        private readonly OrderMutationCommandContract $orderMutationCommand,
+        private readonly OrderCommandContract $orderCommand,
         AppLoggerContract $logger,
     ) {
         parent::__construct($logger);
@@ -37,7 +37,7 @@ final class CreateOrderHandler extends AbstractCommandHandler implements CreateO
         $result = $this->execute(function () use ($payload) {
             $this->securityPolicy->checkIfEmailVerified();
 
-            $result = $this->orderMutationCommand->createOrder($payload);
+            $result = $this->orderCommand->createOrder($payload);
 
             if ($result->order !== null) {
                 return ApiResultFormatter::success('Order created successfully', null, 'success');

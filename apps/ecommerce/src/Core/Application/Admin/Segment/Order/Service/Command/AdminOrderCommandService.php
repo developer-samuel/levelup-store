@@ -19,9 +19,11 @@ use App\Core\Domain\{
 
 use App\Core\Ports\{
     Admin\Segment\Order\Service\Command\AdminOrderCommandContract,
+    Segment\Order\Notifier\OrderNotifierContract,
     Segment\Order\Notifier\OrderStatusNotifierContract,
     Segment\Order\Repository\OrderPaymentRepositoryContract,
     Segment\Order\Service\Command\OrderCacheCommandContract,
+    Segment\Product\Notifier\ProductStockOutNotifierContract,
     Shared\Persistence\EntityPersistenceContract
 };
 
@@ -32,6 +34,8 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         private OrderPaymentRepositoryContract $orderPaymentRepository,
         private OrderCacheCommandContract $orderCacheCommand,
         private OrderStatusNotifierContract $notifier,
+        private OrderNotifierContract $orderNotifier,
+        private ProductStockOutNotifierContract $productStockOutNotifier,
     ) {}
 
     public function updateOrderStatus(Order $order, AdminOrderStatusPayload $payload): void
@@ -78,8 +82,18 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         $this->entityPersistence->persist($order, true);
 
         $this->notifier->send($order);
+        $this->dispatchStatusEvent($order);
 
         $this->invalidateUserCache($order);
+    }
+
+    private function dispatchStatusEvent(Order $order): void
+    {
+        match ($order->getStatus()) {
+            OrderStatus::COMPLETED => $this->orderNotifier->notifyCompleted($order),
+            OrderStatus::REFUNDED  => $this->orderNotifier->notifyRefunded($order),
+            default                => null,
+        };
     }
 
     /**
@@ -114,6 +128,10 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         if ($stockChanged) {
             $stock->recalculateStatus();
             $this->persistEntities($ean, $stock);
+
+            if ($stock->getQuantityAvailable() === 0) {
+                $this->productStockOutNotifier->notify($stock);
+            }
         }
     }
 

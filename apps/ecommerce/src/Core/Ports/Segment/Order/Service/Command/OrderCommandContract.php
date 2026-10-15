@@ -9,7 +9,7 @@ use App\Core\Domain\{
     Segment\Order\ValueObject\OrderResultObject
 };
 
-interface OrderMutationCommandContract
+interface OrderCommandContract
 {
     public function createOrder(OrderCreatePayload $payload): OrderResultObject;
 }

@@ -13,6 +13,7 @@ use App\Shared\Utils\Formatter\ApiResultFormatter;
 use App\Core\Ports\{
     Security\SecurityPolicyContract,
     Segment\Review\Handler\Command\DestroyReviewHandlerContract,
+    Segment\Review\Notifier\ReviewNotifierContract,
     Segment\Review\Service\Command\ReviewCommandContract,
     Shared\Logging\AppLoggerContract
 };
@@ -22,6 +23,7 @@ final class DestroyReviewHandler extends AbstractCommandHandler implements Destr
     public function __construct(
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly ReviewCommandContract $reviewCommand,
+        private readonly ReviewNotifierContract $reviewNotifier,
         AppLoggerContract $logger,
     ) {
         parent::__construct($logger);
@@ -34,6 +36,7 @@ final class DestroyReviewHandler extends AbstractCommandHandler implements Destr
             $user = $this->securityPolicy->checkIfEmailVerified();
 
             $this->reviewCommand->remove($payload->reviewId, $user);
+            $this->reviewNotifier->notifyDestroyed($payload->reviewId, $user);
 
             return ApiResultFormatter::success('Review deleted successfully.');
         });

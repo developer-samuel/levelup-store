@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace App\Core\Application\Auth\Handler\Command;
 
-use App\Core\Domain\{
-    Auth\Payload\SignupPayload,
-    Shared\Audit\Enum\AuditAction
-};
+use App\Core\Domain\Auth\Payload\SignupPayload;
 
 use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 
 use App\Core\Ports\{
     Auth\Handler\Command\SignupHandlerContract,
+    Auth\Notifier\UserNotifierContract,
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Command\SignupCommandContract,
     Auth\Service\Command\VerificationCommandContract,
     Auth\Service\Query\LoginRedirectQueryContract,
-    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract,
     Shared\RateLimiter\RateLimiterContract
 };
@@ -31,8 +28,8 @@ final class SignupHandler extends AbstractCommandHandler implements SignupHandle
         private readonly VerificationCommandContract $verificationCommand,
         private readonly LoginCommandContract $loginCommand,
         private readonly LoginRedirectQueryContract $loginRedirectQuery,
+        private readonly UserNotifierContract $userNotifier,
         private readonly RateLimiterContract $rateLimiter,
-        private readonly AuditLoggerContract $audit,
         AppLoggerContract $logger,
     ) {
         parent::__construct($logger);
@@ -52,7 +49,7 @@ final class SignupHandler extends AbstractCommandHandler implements SignupHandle
 
             $this->rateLimiter->reset();
 
-            $this->audit->log(AuditAction::SIGNUP, 'User', $user->getId(), [], $user);
+            $this->userNotifier->notifyRegistered($user);
 
             return ApiResultFormatter::success(
                 'User registered and verification email sent.',

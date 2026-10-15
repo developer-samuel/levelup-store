@@ -11,6 +11,7 @@ use App\Core\Application\Abstract\Handler\AbstractCommandHandler;
 use App\Core\Ports\{
     Security\SecurityPolicyContract,
     Segment\Review\Handler\Command\ReviewCommandHandlerContract,
+    Segment\Review\Notifier\ReviewNotifierContract,
     Segment\Review\Service\Command\ReviewCommandContract,
     Segment\Review\Service\Query\ReviewValidatorQueryContract,
     Shared\Logging\AppLoggerContract
@@ -24,6 +25,7 @@ final class ReviewCommandHandler extends AbstractCommandHandler implements Revie
         private readonly SecurityPolicyContract $securityPolicy,
         private readonly ReviewValidatorQueryContract $reviewValidatorQuery,
         private readonly ReviewCommandContract $reviewCommand,
+        private readonly ReviewNotifierContract $reviewNotifier,
         AppLoggerContract $logger,
     ) {
         parent::__construct($logger);
@@ -38,6 +40,7 @@ final class ReviewCommandHandler extends AbstractCommandHandler implements Revie
             $this->reviewValidatorQuery->validate($user, $payload->variantId, $payload->value);
 
             $this->reviewCommand->add($payload, $user);
+            $this->reviewNotifier->notifySubmitted($payload->variantId, $user);
 
             return ApiResultFormatter::success('Review was created successfully');
         });

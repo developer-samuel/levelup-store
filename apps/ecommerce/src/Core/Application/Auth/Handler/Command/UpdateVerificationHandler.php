@@ -6,15 +6,14 @@ namespace App\Core\Application\Auth\Handler\Command;
 
 use App\Core\Domain\{
     Auth\Payload\UpdateVerificationPayload,
-    Auth\ValueObject\JwtTokenObject,
-    Shared\Audit\Enum\AuditAction
+    Auth\ValueObject\JwtTokenObject
 };
 
 use App\Core\Ports\{
     Auth\Handler\Command\UpdateVerificationHandlerContract,
+    Auth\Notifier\UserNotifierContract,
     Auth\Service\Command\LoginCommandContract,
     Auth\Service\Command\VerificationCommandContract,
-    Shared\Audit\AuditLoggerContract,
     Shared\Logging\AppLoggerContract
 };
 
@@ -23,7 +22,7 @@ final readonly class UpdateVerificationHandler implements UpdateVerificationHand
     public function __construct(
         private VerificationCommandContract $verificationCommand,
         private LoginCommandContract $loginCommand,
-        private AuditLoggerContract $audit,
+        private UserNotifierContract $userNotifier,
         private AppLoggerContract $logger,
     ) {}
 
@@ -40,7 +39,7 @@ final readonly class UpdateVerificationHandler implements UpdateVerificationHand
                 return null;
             }
 
-            $this->audit->log(AuditAction::EMAIL_VERIFIED, 'User', $user->getId(), [], $user);
+            $this->userNotifier->notifyEmailVerified($user);
 
             return $this->loginCommand->execute($user);
         } catch (\Exception $exception) {

@@ -21,13 +21,14 @@ use App\Core\Application\{
 
 use App\Core\Ports\{
     Security\Provider\SecurityProviderContract,
+    Segment\Order\Notifier\OrderNotifierContract,
     Segment\Order\Notifier\OrderConfirmationNotifierContract,
     Segment\Order\Service\Command\OrderBuildCommandContract,
-    Segment\Order\Service\Command\OrderMutationCommandContract,
+    Segment\Order\Service\Command\OrderCommandContract,
     Shared\Persistence\EntityPersistenceContract
 };
 
-final readonly class OrderMutationCommandService implements OrderMutationCommandContract
+final readonly class OrderCommandService implements OrderCommandContract
 {
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
@@ -35,7 +36,8 @@ final readonly class OrderMutationCommandService implements OrderMutationCommand
         private OrderQueryBuilder $orderQueryBuilder,
         private OrderCommandBuilder $orderCommandBuilder,
         private OrderBuildCommandContract $orderBuildCommand,
-        private OrderConfirmationNotifierContract $notifier,
+        private OrderConfirmationNotifierContract $orderConfirmationNotifier,
+        private OrderNotifierContract $orderNotifier,
     ) {}
 
     public function createOrder(OrderCreatePayload $payload): OrderResultObject
@@ -62,7 +64,8 @@ final readonly class OrderMutationCommandService implements OrderMutationCommand
 
             $this->orderCommandBuilder->orderItemCommand->processOrderItems($order, $items);
 
-            $this->notifier->send($order);
+            $this->orderConfirmationNotifier->send($order);
+            $this->orderNotifier->notifyPlaced($order);
 
             return $order;
         });

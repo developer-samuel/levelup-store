@@ -24,11 +24,12 @@ use App\Core\Domain\{
 use App\Core\Application\{
     Segment\Order\Builder\OrderCommandBuilder,
     Segment\Order\Builder\OrderQueryBuilder,
-    Segment\Order\Service\Command\OrderMutationCommandService
+    Segment\Order\Service\Command\OrderCommandService
 };
 
 use App\Core\Ports\{
     Security\Provider\SecurityProviderContract,
+    Segment\Order\Notifier\OrderNotifierContract,
     Segment\Order\Notifier\OrderConfirmationNotifierContract,
     Segment\Order\Service\Command\OrderBuildCommandContract,
     Segment\Order\Service\Command\OrderCacheCommandContract,
@@ -45,18 +46,19 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderMutationCommandService */
-final class OrderMutationCommandServiceTest extends TestCase
+/** @coversDefaultClass \App\Core\Application\Segment\Order\Service\Command\OrderCommandService */
+final class OrderCommandServiceTest extends TestCase
 {
     private SecurityProviderContract&MockObject $securityProvider;
     private OrderBuildCommandContract&MockObject $orderBuildCommand;
     private OrderConfirmationNotifierContract&MockObject $notifier;
+    private OrderNotifierContract&MockObject $orderNotifier;
     private EntityPersistenceContract&MockObject $entityPersistence;
     private OrderValidatorQueryContract&MockObject $orderValidatorQuery;
     private OrderItemQueryContract&MockObject $orderItemQuery;
     private OrderPaymentQueryContract&MockObject $orderPaymentQuery;
     private OrderItemCommandContract&MockObject $orderItemCommand;
-    private OrderMutationCommandService $service;
+    private OrderCommandService $service;
 
     protected function setUp(): void
     {
@@ -170,6 +172,7 @@ final class OrderMutationCommandServiceTest extends TestCase
         $this->securityProvider = $this->createMock(SecurityProviderContract::class);
         $this->orderBuildCommand = $this->createMock(OrderBuildCommandContract::class);
         $this->notifier = $this->createMock(OrderConfirmationNotifierContract::class);
+        $this->orderNotifier = $this->createMock(OrderNotifierContract::class);
         $this->entityPersistence = $this->createMock(EntityPersistenceContract::class);
         $this->orderValidatorQuery = $this->createMock(OrderValidatorQueryContract::class);
         $this->orderItemQuery = $this->createMock(OrderItemQueryContract::class);
@@ -179,13 +182,14 @@ final class OrderMutationCommandServiceTest extends TestCase
 
     private function initService(): void
     {
-        $this->service = new OrderMutationCommandService(
+        $this->service = new OrderCommandService(
             entityPersistence:   $this->entityPersistence,
             securityProvider:    $this->securityProvider,
             orderQueryBuilder:   $this->buildQueryBuilder(),
             orderCommandBuilder: $this->buildCommandBuilder(),
             orderBuildCommand:   $this->orderBuildCommand,
-            notifier:            $this->notifier,
+            orderConfirmationNotifier: $this->notifier,
+            orderNotifier: $this->orderNotifier,
         );
     }
 
