@@ -9,7 +9,7 @@ and orchestrated by k3s (lightweight Kubernetes).
 ## Stack
 
 | Layer                    | Tool                                        | Purpose                                                                                    |
-| ------------------------ | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
+|--------------------------|---------------------------------------------|--------------------------------------------------------------------------------------------|
 | Cloud VM                 | Terraform + OCI                             | Provisions ARM VM, VCN, networking                                                         |
 | DNS                      | Cloudflare (managed via Terraform)          | DNS records for all domains                                                                |
 | OS configuration         | Ansible                                     | k3s install, SSH hardening, fail2ban                                                       |
@@ -21,7 +21,8 @@ and orchestrated by k3s (lightweight Kubernetes).
 | Secrets (services)       | kubectl                                     | Raw K8s secrets for PostgreSQL, Redis, RabbitMQ, MinIO                                     |
 | TLS                      | cert-manager + Let's Encrypt                | Automatic certificate provisioning                                                         |
 | Backups                  | Velero                                      | Daily K8s resource + PVC backups to OCI Object Storage                                     |
-| Autoscaling              | KEDA                                        | Scales worker pods based on RabbitMQ queue depth                                           |
+| Autoscaling (horizontal) | HPA (Horizontal Pod Autoscaler)             | Scales ecommerce and assistant pods based on CPU utilization                               |
+| Autoscaling (event)      | KEDA                                        | Scales worker pods based on RabbitMQ queue depth                                           |
 | Resource recommendations | VPA (Vertical Pod Autoscaler)               | Recommends CPU/memory requests for ecommerce and assistant pods                            |
 | CI/CD                    | Jenkins                                     | Manual deployment pipeline (`levelup-store-deploy`) - build, staging, approval, production |
 | Observability            | OTel + Tempo + Loki + Prometheus + Grafana  | Traces, logs, metrics + alerting                                                           |
@@ -30,6 +31,8 @@ and orchestrated by k3s (lightweight Kubernetes).
 | Rate limiting            | Traefik RateLimit middleware                | 300 req/min (burst 100) per IP - protects against DoS, brute-force and scraping            |
 | Circuit breaker          | Traefik CircuitBreaker middleware           | Cuts off assistant traffic on high error rate or latency, keeps ecommerce unaffected       |
 | Access control           | Traefik IPAllowList + Tailscale             | Jenkins restricted to Tailscale network only                                               |
+| Security headers         | Traefik headers middleware                  | CSP, HSTS, X-Frame-Options, CORS, Permissions-Policy on all ingress routes                 |
+| WWW redirect             | Traefik redirectRegex middleware            | Redirects www.domain → domain (ecommerce only)                                             |
 | Security scanning        | Falco + Kyverno                             | Runtime threat detection + policy enforcement                                              |
 | Vulnerability scanning   | Trivy (in deploy.yml)                       | Docker image scanning on every deploy                                                      |
 | Terraform automation     | Atlantis                                    | Runs `terraform plan` on PRs touching `terraform/`                                         |
@@ -37,6 +40,7 @@ and orchestrated by k3s (lightweight Kubernetes).
 | Secrets management       | HashiCorp Vault + External Secrets Operator | Centralized secret store with KV-v2, Kubernetes auth, auto-unseal                          |
 | Config reload            | Reloader (Stakater)                         | Auto-restarts pods when ConfigMap or Secret changes                                        |
 | k3s upgrades             | System Upgrade Controller                   | Automated k3s version upgrades via upgrade plan CR                                         |
+| Load testing             | k6                                          | Load test scripts for all ecommerce endpoints - run via `make k6-ecommerce`                |
 
 ---
 
@@ -53,7 +57,7 @@ Resource configuration is in `infrastructure/terraform/oracle/variables.tf`.
 ## Repository layout
 
 | Directory     | Contains                                                          |
-| ------------- | ----------------------------------------------------------------- |
+|---------------|-------------------------------------------------------------------|
 | `terraform/`  | OCI VM, VCN, networking, Cloudflare DNS records                   |
 | `ansible/`    | Playbooks and roles: k3s install, OS hardening, storage           |
 | `helm/`       | One subfolder per Helm release - values only, charts vendored     |

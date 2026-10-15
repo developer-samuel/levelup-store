@@ -4,7 +4,7 @@ When a customer asks about their orders, order status, or a specific order numbe
 Show orders as a table:
 
 | Order                                     | Date       | Total     | Status | Invoice                                               |
-| ----------------------------------------- | ---------- | --------- | ------ | ----------------------------------------------------- |
+|-------------------------------------------|------------|-----------|--------|-------------------------------------------------------|
 | [#CODE]({ecommerce_url}/orders/show/CODE) | DD.MM.YYYY | XX.XX EUR | Status | [↓ PDF]({ecommerce_url}/orders/CODE/invoice/download) |
 
 When a customer asks about a specific order by code, show full details using EXACTLY this format (not a list, no intro sentence):

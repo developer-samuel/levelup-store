@@ -12,7 +12,7 @@ CI/CD, backups, and security tooling.
 CI/CD server.
 
 | Command                          | Description |
-| -------------------------------- | ----------- |
+|----------------------------------|-------------|
 | `jenkins-start/down/stop/unsync` | Lifecycle   |
 | `jenkins-status/sync/pods/logs`  | Status      |
 
@@ -25,7 +25,7 @@ CI/CD server.
 Terraform PR automation - runs `terraform plan/apply` on PR comments.
 
 | Command                           | Description |
-| --------------------------------- | ----------- |
+|-----------------------------------|-------------|
 | `atlantis-start/down/stop/unsync` | Lifecycle   |
 | `atlantis-status/sync/pods/logs`  | Status      |
 
@@ -38,7 +38,7 @@ Terraform PR automation - runs `terraform plan/apply` on PR comments.
 Kubernetes backup to OCI Object Storage.
 
 | Command                         | Description                  |
-| ------------------------------- | ---------------------------- |
+|---------------------------------|------------------------------|
 | `velero-start/down/stop/unsync` | Lifecycle                    |
 | `velero-status/sync/pods/logs`  | Status                       |
 | `velero-backups`                | List all backups with status |
@@ -51,7 +51,7 @@ Kubernetes backup to OCI Object Storage.
 Runtime security monitoring - detects suspicious container behavior.
 
 | Command                        | Description                        |
-| ------------------------------ | ---------------------------------- |
+|--------------------------------|------------------------------------|
 | `falco-start/down/stop/unsync` | Lifecycle                          |
 | `falco-status/sync/pods/logs`  | Status                             |
 | `falco-rules`                  | List loaded Falco rules (first 40) |

@@ -16,7 +16,8 @@ The production stack runs on a single Oracle Cloud ARM VM, managed entirely via 
 - **GitOps:** ArgoCD (watches `main` branch, auto-syncs Helm releases)
 - **Package Management:** Helm (all services deployed as Helm charts)
 - **TLS:** cert-manager + Let's Encrypt (automatic certificate provisioning)
-- **Autoscaling:** KEDA (scales worker pods based on RabbitMQ queue depth)
+- **Autoscaling (horizontal):** HPA (scales ecommerce and assistant pods based on CPU utilization)
+- **Autoscaling (event-driven):** KEDA (scales worker pods based on RabbitMQ queue depth)
 - **Backups:** Velero (daily K8s resource + PVC backups to OCI Object Storage)
 - **Observability:** OpenTelemetry + Tempo (distributed tracing), Loki (logs), Prometheus + Grafana (metrics)
 - **Runtime Security:** Falco (threat detection) + Kyverno (policy enforcement)
@@ -28,6 +29,10 @@ The production stack runs on a single Oracle Cloud ARM VM, managed entirely via 
 - **Config reload:** Reloader (auto-restarts pods on ConfigMap/Secret changes)
 - **k3s upgrades:** System Upgrade Controller (automated k3s version upgrades via upgrade plan CR)
 - **Load Testing:** k6 (`infrastructure/k6/`) - simulates traffic on all ecommerce endpoints; run via `make k6-ecommerce`
+- **Rate limiting:** Traefik RateLimit middleware (300 req/min burst 100 per IP on ecommerce)
+- **Circuit breaker:** Traefik CircuitBreaker middleware (assistant: trips on >30% errors or p50 latency >10s)
+- **Security headers:** Traefik headers middleware (CSP, HSTS, X-Frame-Options on all ingress routes)
+- **WWW redirect:** Traefik redirectRegex middleware (www.domain → domain, ecommerce only)
 
 ---
 

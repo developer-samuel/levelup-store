@@ -4,7 +4,7 @@ When a customer asks about their reviews, ratings, or feedback they have left, u
 Show reviews as a table with these exact columns:
 
 | Product     | Rating          | Type            | Date       | Comment      |
-| ----------- | --------------- | --------------- | ---------- | ------------ |
+|-------------|-----------------|-----------------|------------|--------------|
 | [Name](url) | 4.8★ (1 review) | feedback/rating | DD.MM.YYYY | Comment text |
 
 Rating column format: X★ (N reviews) or X★ (N ratings) - this renders as star icons.

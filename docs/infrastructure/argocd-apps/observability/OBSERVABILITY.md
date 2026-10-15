@@ -25,7 +25,7 @@ Observability stack - metrics, logs, traces.
 Log aggregation backend.
 
 | Command                       | Description |
-| ----------------------------- | ----------- |
+|-------------------------------|-------------|
 | `loki-start/down/stop/unsync` | Lifecycle   |
 | `loki-status/sync/pods/logs`  | Status      |
 
@@ -36,7 +36,7 @@ Log aggregation backend.
 Distributed tracing backend.
 
 | Command                        | Description |
-| ------------------------------ | ----------- |
+|--------------------------------|-------------|
 | `tempo-start/down/stop/unsync` | Lifecycle   |
 | `tempo-status/sync/pods/logs`  | Status      |
 
@@ -49,7 +49,7 @@ Distributed tracing backend.
 OpenTelemetry collector - receives traces and metrics from apps.
 
 | Command                                 | Description |
-| --------------------------------------- | ----------- |
+|-----------------------------------------|-------------|
 | `otel-collector-start/down/stop/unsync` | Lifecycle   |
 | `otel-collector-status/sync/pods/logs`  | Status      |
 
@@ -60,6 +60,6 @@ OpenTelemetry collector - receives traces and metrics from apps.
 HTTP endpoint uptime monitoring.
 
 | Command                                    | Description |
-| ------------------------------------------ | ----------- |
+|--------------------------------------------|-------------|
 | `blackbox-exporter-start/down/stop/unsync` | Lifecycle   |
 | `blackbox-exporter-status/sync/pods/logs`  | Status      |

@@ -162,7 +162,7 @@ make -C infrastructure assistant-secrets
 ### App
 
 | Variable               | Description                                      | Example                                             |
-|------------------------|------------------------------------------------- | ----------------------------------------------------|
+|------------------------|------------------------------------------------- |-----------------------------------------------------|
 | `APP_DOMAIN`           | Public domain (no protocol)                      | `yourdomain.com`                                    |
 | `ASSISTANT_GHCR_IMAGE` | Full GHCR image path for the assistant container | `ghcr.io/your-username/levelup-store/assistant`     |
 | `ASSISTANT_API_KEY`    | OpenAI API key                                   | `sk-...`                                            |

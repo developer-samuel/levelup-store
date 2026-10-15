@@ -5,6 +5,16 @@
 
 ---
 
+## hpa
+
+Horizontal Pod Autoscaler - scales ecommerce and assistant pods based on CPU utilization.
+
+| Command         | Description                  |
+|-----------------|------------------------------|
+| `cluster-hpa`   | List all HPAs with status    |
+
+---
+
 ## keda
 
 Event-driven autoscaling - scales workers and schedulers based on queue depth.
