@@ -186,3 +186,10 @@
     }
   }
 }
+
+@include resolution(sm, max) {
+  body.cart--open {
+    overflow: hidden;
+  }
+}
+

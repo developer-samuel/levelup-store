@@ -28,6 +28,10 @@
 }
 
 @include resolution(lg, max) {
+  .header--hidden {
+    top: -60px;
+  }
+
   .header {
     &__main {
       height: 60px;
@@ -83,6 +87,10 @@
 }
 
 @include resolution(md, max) {
+  .header--hidden {
+    top: -55px;
+  }
+
   .header {
     &__main {
       height: 55px;

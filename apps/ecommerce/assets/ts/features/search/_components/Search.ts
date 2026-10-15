@@ -35,6 +35,7 @@ export default class Search implements SearchInstance {
   isClosed: boolean
   currentPage: number
   hasMore: boolean
+  contentCache: string | null
 
   constructor({ panelSelector = '.search-panel', contentSelector = '.search-panel__content' }: SearchOptions = {}) {
     const panel = query<HTMLElement>(panelSelector)
@@ -64,6 +65,7 @@ export default class Search implements SearchInstance {
     this.isClosed = false
     this.currentPage = 1
     this.hasMore = false
+    this.contentCache = null
     this.prevWidthRef = { value: window.innerWidth }
 
     this.init()

@@ -4,8 +4,22 @@ import { toggleClass } from '@/ts/shared/utils/dom/classes'
 import { SCROLL_THRESHOLD } from '@/ts/presentation/layout/common/constants'
 import { dispatchHeaderToggle } from '@/ts/presentation/layout/header/_events/toggle'
 
-let lastScrollY = 0
+let lastScrollY = window.scrollY
 let isHidden = false
+
+export function applyHeaderStateOnLoad(headerMain: HTMLElement): void {
+  if (window.innerWidth >= BREAKPOINT_LG) return
+
+  const header = headerMain.parentElement
+  if (!header) return
+
+  const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50
+  if (!atBottom) return
+
+  isHidden = true
+  toggleClass(header, 'header--hidden', true)
+  setTimeout(() => dispatchHeaderToggle(header, true), 0)
+}
 
 export function handleScroll(headerMain: HTMLElement): void {
   const currentScrollY = window.scrollY

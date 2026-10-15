@@ -19,6 +19,7 @@ export function handleSearchResize(options: ResizeHandlerOptions, currentWidth: 
     getAbortSignal()
     hide(instance.panel)
     instance.isClosed = true
+    instance.contentCache = instance.content.innerHTML
     updateContent(instance.content, '')
     updateSearchIcons(instance, currentWidth)
   }

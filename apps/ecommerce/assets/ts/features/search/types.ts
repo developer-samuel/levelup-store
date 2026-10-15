@@ -17,6 +17,7 @@ export type SearchInstance = {
   isClosed: boolean
   currentPage: number
   hasMore: boolean
+  contentCache: string | null
 }
 
 export type SearchElements = {

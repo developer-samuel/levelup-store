@@ -1,0 +1,46 @@
+{% macro render(product, variantId, extraClass) %}
+    {% import 'components/reviews-rating/average-rating-stars.html.twig' as Stars %}
+
+    <a
+        href="{{ path('product_show', {'url': product.url}) }}"
+        class="product-item{{ extraClass ? ' ' ~ extraClass }}"
+    >
+        <div class="product-item__box">
+            <div class="product-item__box-top">
+                <div class="product-item__box-image">
+                    <img
+                        src="{{ storage_url(product.imagePath) }}"
+                        alt="{{ product.imagePath ?: 'Image not found' }}"
+                    >
+                </div>
+                <div class="product-item__box-name">
+                    <p title="{{ product.name }}">
+                        {{ product.name }}
+                    </p>
+                </div>
+                <div class="product-item__box-rating">
+                    {{ Stars.render(product.averageRating) }}
+                </div>
+            </div>
+            <div class="product-item__box-bottom">
+                <div class="product-item__box-price">
+                    <span class="product-item__box-price-current">
+                        {{ product.discountPrice ? product.discountPrice : product.price }} €
+                    </span>
+                    {% if product.discount %}
+                    <span class="product-item__box-price-old">
+                        {{ product.price }} €
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="csrf-cart-store" value="{{ csrf_token('cart_store') }}">
+        <button
+            data-variant-id="{{ variantId }}"
+            class="product-item__box-btn buy-btn"
+        >
+            Buy
+        </button>
+    </a>
+{% endmacro %}
