@@ -30,7 +30,7 @@ and orchestrated by k3s (lightweight Kubernetes).
 | HTTP monitoring          | Blackbox Exporter                           | Prometheus-compatible endpoint health checks                                               |
 | Rate limiting            | Traefik RateLimit middleware                | 300 req/min (burst 100) per IP - protects against DoS, brute-force and scraping            |
 | Circuit breaker          | Traefik CircuitBreaker middleware           | Cuts off assistant traffic on high error rate or latency, keeps ecommerce unaffected       |
-| Access control           | Traefik IPAllowList + Tailscale             | Jenkins restricted to Tailscale network only                                               |
+| Access control           | Traefik IPAllowList + Tailscale             | Jenkins and ArgoCD restricted to Tailscale network only                                    |
 | Security headers         | Traefik headers middleware                  | CSP, HSTS, X-Frame-Options, CORS, Permissions-Policy on all ingress routes                 |
 | WWW redirect             | Traefik redirectRegex middleware            | Redirects www.domain → domain (ecommerce only)                                             |
 | Security scanning        | Falco + Kyverno                             | Runtime threat detection + policy enforcement                                              |

@@ -1,0 +1,46 @@
+#!/bin/bash
+set -e
+
+CHANGED=$(git diff --name-only "origin/$(git rev-parse --abbrev-ref HEAD)...HEAD" 2>/dev/null || git diff --name-only HEAD~1...HEAD)
+
+run_helm=false
+run_terraform=false
+run_ansible=false
+run_kubernetes=false
+
+if echo "$CHANGED" | grep -qE "^infrastructure/helm/"; then
+  run_helm=true
+fi
+
+if echo "$CHANGED" | grep -qE "^infrastructure/terraform/"; then
+  run_terraform=true
+fi
+
+if echo "$CHANGED" | grep -qE "^infrastructure/ansible/"; then
+  run_ansible=true
+fi
+
+if echo "$CHANGED" | grep -qE "^infrastructure/kubernetes/"; then
+  run_kubernetes=true
+fi
+
+if $run_helm; then
+  echo "🔍 [infra] Running Helm lint..."
+  helm lint infrastructure/helm/apps/ecommerce
+  helm lint infrastructure/helm/apps/assistant
+fi
+
+if $run_terraform; then
+  echo "🔍 [infra] Running Terraform validate..."
+  (cd infrastructure/terraform/oracle && terraform validate)
+fi
+
+if $run_ansible; then
+  echo "🔍 [infra] Running ansible-lint..."
+  (cd infrastructure/ansible && ansible-lint)
+fi
+
+if $run_kubernetes; then
+  echo "🔍 [infra] Running kubeconform..."
+  kubeconform -ignore-missing-schemas infrastructure/kubernetes/
+fi

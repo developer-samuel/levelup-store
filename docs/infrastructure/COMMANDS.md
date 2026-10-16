@@ -340,6 +340,7 @@ k6 scripts live in `infrastructure/k6/`. `APP_URL` is auto-loaded from `.env.pro
 
 - [Infrastructure Overview](OVERVIEW.md)
 - [Setup & Prerequisites](SETUP.md)
+- [Validation](VALIDATION.md)
 - [Environment Variables & Secrets](SECRETS.md)
 - [Deployment Guide](DEPLOYMENT.md)
 - [Port Forwarding](PORT_FORWARDING.md)

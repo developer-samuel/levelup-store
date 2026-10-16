@@ -1,0 +1,10 @@
+extends: default
+
+rules:
+  line-length:
+    max: 200
+  document-start: enable
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off', 'yes', 'no']
+  comments:
+    min-spaces-from-content: 1
