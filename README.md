@@ -32,13 +32,18 @@ levelup-store/
 ├── apps/
 │   ├── ecommerce/          # Symfony e-commerce app
 │   └── assistant/          # FastAPI AI assistant
+├── docker/                 # Shared Docker Compose services (Redis, RabbitMQ, observability)
 ├── infrastructure/
 │   ├── helm/               # Helm charts (ArgoCD managed)
 │   ├── terraform/          # Oracle Cloud provisioning
 │   ├── ansible/            # k3s install + server hardening
 │   └── kubernetes/         # ArgoCD App of Apps
+├── jenkins/                # Jenkins pipelines and shared steps
+├── make/                   # Makefile modules
 ├── scripts/                # Shared CLI scripts
-└── docs/                   # Shared documentation
+├── docs/                   # Shared documentation
+├── Makefile                # Dev commands (make dev, make setup-build, ...)
+└── Jenkinsfile             # Main Jenkins pipeline
 ```
 
 ---
