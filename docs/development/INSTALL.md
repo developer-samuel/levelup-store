@@ -22,4 +22,8 @@ git config core.hooksPath .githooks
 git config blame.ignoreRevsFile .git-blame-ignore-revs
 ```
 
-Hooks: `commit-msg` (commitlint), `pre-push` (PHPStan, PHP MD, Deptrac, mypy, TS type-check).
+Hooks:
+
+- `commit-msg` - commitlint (Conventional Commits validation)
+- `pre-push` - PHPStan, PHP MD, Deptrac, mypy, TS type-check, yamllint (GitHub Actions workflows)
+- `pre-push-infra` - Helm lint, Terraform validate, ansible-lint, kubeconform (runs via `pre-push` when infrastructure files change)

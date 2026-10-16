@@ -34,6 +34,15 @@ make generate-uml
 
 ---
 
+### Linting
+
+```bash
+# Validate GitHub Actions workflow syntax
+yamllint .github/workflows/
+```
+
+---
+
 ## References
 
 - [Install & Git hooks](development/INSTALL.md)
