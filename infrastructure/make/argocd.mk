@@ -10,6 +10,8 @@
 argocd-install:
 	$(call require_bin,helm,curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash)
 	$(call require_bin,kubectl,https://kubernetes.io/docs/tasks/tools/)
+	$(call require,APP_DOMAIN)
+	$(call require,TAILSCALE_CIDR)
 	helm repo add argo https://argoproj.github.io/argo-helm
 	helm repo update
 	helm upgrade --install argocd helm/platform/argocd \
@@ -17,6 +19,9 @@ argocd-install:
 		--create-namespace \
 		--set argo-cd.server.ingress.hostname=argocd.$(APP_DOMAIN) \
 		--wait
+	sed 's|TAILSCALE_CIDR_PLACEHOLDER|$(TAILSCALE_CIDR)|g' \
+		../kubernetes/apps/platform/argocd-middleware.yaml | kubectl apply -f -
+	@echo "✓ ArgoCD deployed. Available at: https://argocd.$(APP_DOMAIN)"
 
 ## Set repoURL in kubernetes/apps/ from GITHUB_REPO_URL (.env) - run once before first git push
 argocd-configure:
