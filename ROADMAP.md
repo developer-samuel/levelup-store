@@ -7,6 +7,10 @@
 - [x] Product comparison via chat
 - [x] Personalized recommendations based on order history
 - [x] Voice input and text-to-speech responses
+- [ ] Voice & Vision customer support - real-time voice and camera support for customer support use cases
+  - Real-time voice input/output via Live API (speech-to-speech)
+  - Webcam support - customer can show a product or issue visually (e.g. damaged item, wrong delivery)
+  - Integrated into existing assistant context and RAG pipeline
 - [ ] Interactive quick-reply options - assistant can present checkboxes or radio buttons when asking clarifying questions to narrow down the best product match; user picks options instead of typing
 - [ ] Test coverage (pytest, pytest-asyncio, httpx)
 
