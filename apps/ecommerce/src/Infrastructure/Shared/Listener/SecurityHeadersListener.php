@@ -22,6 +22,7 @@ final class SecurityHeadersListener
         $response = $event->getResponse();
         $headers = $response->headers;
 
+        $headers->set('Cross-Origin-Opener-Policy', 'same-origin');
         $headers->set('Cross-Origin-Resource-Policy', 'same-origin');
         $headers->remove('X-Powered-By');
     }
