@@ -46,7 +46,7 @@ endef
 # argocd_login - authenticate against ArgoCD - $(call argocd_login)
 # Tries domain first, falls back to --port-forward (no manual port-forward needed)
 define argocd_login
-  argocd login $(ARGOCD_SERVER) --grpc-web --username admin --password "$(ARGOCD_PASSWORD)" 2>/dev/null || \
+  timeout 5 argocd login $(ARGOCD_SERVER) --grpc-web --username admin --password "$(ARGOCD_PASSWORD)" 2>/dev/null || \
   argocd login --port-forward --port-forward-namespace argocd --insecure --grpc-web --username admin --password "$(ARGOCD_PASSWORD)"
 endef
 

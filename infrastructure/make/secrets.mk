@@ -182,6 +182,9 @@ assistant-secrets:
 		-p app.minioBucket="$(MINIO_BUCKET)" \
 		-p broker.rabbitmqUrl="$(RABBITMQ_URL_FQDN)" \
 		-p app.sentryDsn="$(SENTRY_DSN)" \
+		-p app.assistantPrimaryLimit="$(ASSISTANT_PRIMARY_LIMIT)" \
+		-p app.assistantFallbackLimit="$(ASSISTANT_FALLBACK_LIMIT)" \
+		-p app.assistantOllamaLimit="$(ASSISTANT_OLLAMA_LIMIT)" \
 		-p otel.enabled="true" \
 		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
 		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)"
