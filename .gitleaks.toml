@@ -1,0 +1,6 @@
+[allowlist]
+description = "Allowlist for documentation placeholders"
+
+[[allowlist.regexes]]
+description = "Placeholder API key values used in documentation examples"
+regex = '''your-access-key|your-api-key|your-secret-key|<your[_-][a-z-]+>'''
