@@ -17,3 +17,7 @@
 | `ci:`       | CI/CD changes                         |
 | `build:`    | Build system changes                  |
 | `revert:`   | Revert a previous commit              |
+
+## Testing
+
+New features must include tests in the automated test suite. Pull requests adding major new functionality without corresponding tests will not be accepted.
