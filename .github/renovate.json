@@ -44,6 +44,13 @@
       "automerge": false
     },
     {
+      "description": "Pin Symfony packages to 7.4.x - block upgrade to 8.x",
+      "matchManagers": ["composer"],
+      "matchPackagePrefixes": ["symfony/"],
+      "allowedVersions": "~7.4.0",
+      "groupName": "Symfony 7.4"
+    },
+    {
       "description": "npm/pnpm dependencies",
       "matchManagers": ["npm"],
       "groupName": "npm packages",
