@@ -65,6 +65,7 @@ jobs:
         with:
           target: 'http://127.0.0.1:8001'
           cmd_options: '-a'
+          rules_file_name: 'apps/assistant/.zap-rules.tsv'
           fail_action: false
 
       - name: Upload ZAP report
