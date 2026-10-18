@@ -48,6 +48,8 @@ nelmio_security:
 
   cross_origin_isolation:
     enabled: true
+    paths:
+      '^/(?!login|signup|forgot-password|reset-password|change-password).*': ~
 
   permissions_policy:
     enabled: true

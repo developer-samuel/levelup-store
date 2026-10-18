@@ -14,6 +14,8 @@ on:
       - 'apps/assistant/docker/**'
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   # ─── Terraform ────────────────────────────────────────────────────────────
   terraform:
@@ -54,7 +56,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install yamllint
-        run: pip install yamllint
+        run: pip install -r .github/requirements/yaml.txt
 
       - name: Lint all Helm values files
         run: |

@@ -6,6 +6,8 @@ on:
   release:
     types: [created]
 
+permissions: read-all
+
 jobs:
   release:
     name: 📦 Update CHANGELOG

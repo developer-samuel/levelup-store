@@ -44,6 +44,8 @@ on:
 env:
   REGISTRY: ghcr.io
 
+permissions: read-all
+
 jobs:
   build:
     name: 🐳 Build & Push

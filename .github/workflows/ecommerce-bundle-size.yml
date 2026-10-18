@@ -13,6 +13,8 @@ on:
 env:
   NODE_VERSION: ${{ vars.NODE_VERSION }}
 
+permissions: read-all
+
 jobs:
   check:
     name: 📦 Check ecommerce bundle size

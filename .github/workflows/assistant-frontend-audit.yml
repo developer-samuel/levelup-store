@@ -17,6 +17,8 @@ on:
 env:
   NODE_VERSION: ${{ vars.NODE_VERSION }}
 
+permissions: read-all
+
 jobs:
   # ─── Accessibility ────────────────────────────────────────────────────────
   accessibility:

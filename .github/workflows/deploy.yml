@@ -16,6 +16,8 @@ env:
   ECOMMERCE_IMAGE: ${{ github.repository }}-ecommerce
   ASSISTANT_IMAGE: ${{ github.repository }}-assistant
 
+permissions: read-all
+
 jobs:
   # ─── Detect changes ───────────────────────────────────────────────────────
   changes:

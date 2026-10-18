@@ -2,26 +2,97 @@
 
 Copyright © 2025 Samuel Šteiner
 
-This project is distributed under the **Samuel Šteiner License**.
+This project is distributed under the **Samuel Šteiner Proprietary License**.
 
 ## Ownership
 
-All source code, architecture, and design remain the intellectual
-property of Samuel Šteiner.
+All original source code, architecture, design, and documentation in this
+repository authored by Samuel Šteiner are and remain the exclusive intellectual
+property of Samuel Šteiner. Third-party components, libraries, and assets
+included in this repository remain subject to their respective licenses.
 
 ## Permissions
 
-- ✅ Free for personal, educational, and internal non-commercial use
-- ✅ You may study, modify, and adapt the code for learning purposes
-- ✅ Internal deployment in private infrastructure is permitted if not used as a commercial product
+- ✅ Personal, educational, and non-commercial use is permitted
+- ✅ You may study and learn from this code
+- ✅ You may run this project locally for personal, non-commercial purposes
 
 ## Restrictions
 
-- ❌ Commercial use, resale, redistribution, or integration into a paid product or service is strictly prohibited without written permission from the author
-- ❌ You may not redistribute modified or unmodified versions
-- ❌ You may not remove this license notice or claim ownership
-- ❌ You may not reverse engineer for competing product purposes
+- ❌ Deployment or operational use within any for-profit organization or
+  business entity is strictly prohibited, regardless of whether such use is
+  public, private, or internal; individual study of this code by an employee
+  for personal learning purposes is permitted
+- ❌ Commercial use, resale, redistribution, or integration into any paid or
+  unpaid commercial product or service is strictly prohibited
+- ❌ You may not redistribute original or modified versions of this software
+- ❌ You may not remove or alter this license notice or claim ownership of
+  this work
+- ❌ You may not copy, reproduce, or directly reuse the protected expression
+  of this software for any competing or derivative commercial purpose
+
+## Governing Law
+
+This license is governed by and construed in accordance with the laws of the
+Slovak Republic, without regard to its conflict of law provisions.
+
+## Severability
+
+If any provision of this license is held to be invalid or unenforceable, that
+provision shall be modified to the minimum extent necessary to make it
+enforceable, and the remaining provisions shall continue in full force and
+effect.
+
+## Acceptance
+
+Use of this software beyond the permissions granted above requires a separate
+written agreement with the author. Any use of this software constitutes
+acceptance of the restrictions set out in this license.
+
+## No Warranty
+
+This software is provided "as is", without warranty of any kind, express or
+implied. The author shall not be liable for any damages, claims, or losses
+arising from the use or inability to use this software, to the extent permitted
+by applicable law.
+
+## Termination
+
+Any violation of this license automatically and immediately terminates all
+rights granted herein, without notice from the author. Upon termination, you
+must cease all unauthorized use of the software and remove all copies whose
+retention is no longer permitted under this license, subject to applicable law.
+
+## Limitation of Liability
+
+To the maximum extent permitted by applicable law, in no event shall the author
+be liable for any indirect, incidental, special, exemplary, or consequential
+damages (including but not limited to loss of profits, data, or business)
+arising out of or in connection with this software, even if advised of the
+possibility of such damages.
+
+## Injunctive Relief
+
+The author acknowledges that any unauthorized use of this software may cause
+irreparable harm for which monetary damages would be an inadequate remedy.
+Accordingly, the author shall be entitled to seek injunctive or other equitable
+relief in addition to all other remedies available at law or in equity.
+
+## Contributions
+
+Contributions are accepted only under a separate written agreement with the
+author. Submitting a pull request, patch, or other contribution does not by
+itself transfer ownership of the contribution or grant the author any
+additional rights beyond those established by applicable law or a separate
+written agreement.
 
 ## Notes
 
-The author reserves the right to modify this license for future versions. Changes apply only to new releases and do not retroactively affect previously distributed versions.
+The author reserves the right to modify this license for future versions.
+Changes apply only to new releases and do not retroactively affect previously
+distributed versions.
+
+## Contact
+
+For licensing inquiries or commercial use requests:
+[info@samuel-steiner.com](mailto:info@samuel-steiner.com)

@@ -131,6 +131,6 @@ make -C infrastructure bootstrap
 
 ## 📝 License
 
-This project is licensed under the **Samuel Šteiner License**.  
-Personal and educational use is permitted. **Commercial use is strictly prohibited** without written permission.  
+This project is licensed under the **Samuel Šteiner Proprietary License**.  
+Personal and educational use is permitted. **Commercial use is strictly prohibited**, including internal use within any for-profit organization.  
 See [LICENSE](LICENSE) for full terms.
