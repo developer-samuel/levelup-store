@@ -40,7 +40,10 @@ jobs:
         run: cp .env.example .env
 
       - name: Composer Audit
-        run: composer audit --no-dev
+        run: |
+          for i in 1 2 3; do
+            composer audit --no-dev && break || { [ $i -lt 3 ] && sleep 10; }
+          done
 
       - name: PHPStan
         run: composer php-stan
