@@ -21,9 +21,10 @@ k3s-install:
 ## Fetch kubeconfig from server and save to ~/.kube/config-levelup (run once on new machine)
 kubeconfig:
 	$(call get_vm_ip)
+	$(eval TAILSCALE_IP := $(shell ssh -i $(ANSIBLE_SSH_KEY) $(ANSIBLE_USER)@$(VM_IP) "tailscale ip -4 2>/dev/null || echo $(VM_IP)"))
 	@mkdir -p ~/.kube
 	ssh -i $(ANSIBLE_SSH_KEY) $(ANSIBLE_USER)@$(VM_IP) "sudo cat /etc/rancher/k3s/k3s.yaml" \
-		| sed 's/127.0.0.1/$(VM_IP)/g' > ~/.kube/config-levelup
+		| sed 's/127.0.0.1/$(TAILSCALE_IP)/g' > ~/.kube/config-levelup
 	@chmod 600 ~/.kube/config-levelup
 	@grep -q 'KUBECONFIG=~/.kube/config-levelup' ~/.bashrc || echo 'export KUBECONFIG=~/.kube/config-levelup' >> ~/.bashrc
 	@echo "✓ Kubeconfig saved to ~/.kube/config-levelup"
