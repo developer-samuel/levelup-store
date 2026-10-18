@@ -11,6 +11,8 @@ on:
       - '.hadolint.yaml'
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   # ─── Dockerfile Lint ──────────────────────────────────────────────────────
   dockerfile-lint:

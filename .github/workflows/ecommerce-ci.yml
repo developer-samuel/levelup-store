@@ -17,6 +17,8 @@ env:
   PHP_VERSION: ${{ vars.PHP_VERSION }}
   NODE_VERSION: ${{ vars.NODE_VERSION }}
 
+permissions: read-all
+
 jobs:
   # ─── PHP Static Analysis & Linting ────────────────────────────────────────
   php-checks:

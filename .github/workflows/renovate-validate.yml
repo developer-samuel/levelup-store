@@ -12,6 +12,8 @@ on:
       - '.renovaterc.json'
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   validate:
     name: 🔄 Validate Renovate config
