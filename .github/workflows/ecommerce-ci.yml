@@ -383,6 +383,9 @@ jobs:
       - name: Build Frontend
         run: pnpm build
 
+      - name: Link dist to public
+        run: ln -s $(pwd)/dist apps/ecommerce/public/dist
+
       - name: Launch PHP server
         uses: ./.github/actions/launch
         with:
