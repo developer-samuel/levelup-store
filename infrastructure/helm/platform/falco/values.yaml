@@ -2,7 +2,7 @@ falco:
   # modern_ebpf: kernel >= 5.8 (Ubuntu 22.04+, OCI Ubuntu VMs)
   # ebpf:        kernel >= 4.14 (fallback for Oracle Linux 8 / kernel 5.4)
   driver:
-    kind: ebpf
+    kind: modern_ebpf
 
   metrics:
     enabled: true
@@ -97,7 +97,7 @@ falco:
       memory: 256Mi
     limits:
       cpu: 500m
-      memory: 1Gi
+      memory: 2Gi
 
   # Run on all nodes including control plane (single-node k3s)
   tolerations:
