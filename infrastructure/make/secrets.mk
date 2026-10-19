@@ -8,6 +8,155 @@
         monitoring-secrets \
         sealed-secrets-cert sealed-secrets-generate
 
+# ── Defines ───────────────────────────────────────────────────────────────────
+
+define require_ecommerce_secrets
+	$(call require,APP_DOMAIN)
+	$(call require,APP_URL)
+	$(call require,CORS_ALLOW_ORIGIN)
+	$(call require,ECOMMERCE_GHCR_IMAGE)
+	$(call require,APP_SECRET)
+	$(call require,HMAC_SECRET)
+	$(call require,JWT_PASSPHRASE)
+	$(call require,STRIPE_SECRET)
+	$(call require,DATABASE_URL)
+	$(call require,REDIS_URL)
+	$(call require,RABBITMQ_PASS)
+	$(call require,MESSENGER_TRANSPORT_DSN)
+	$(call require,MINIO_ROOT_PASSWORD)
+	$(call require,MINIO_PUBLIC_URL)
+	$(call require,MERCURE_JWT_SECRET)
+	$(call require,MERCURE_CORS_ORIGINS)
+	$(call require,MERCURE_PUBLIC_URL)
+	$(call require,TURNSTILE_SITE_KEY)
+	$(call require,TURNSTILE_SECRET_KEY)
+	$(call require,TURNSTILE_VERIFY_URL)
+	$(call require,MAILER_USER)
+	$(call require,MAILER_DSN)
+	$(call require,API_COUNTRY_URL)
+	$(call require,WKHTMLTOPDF_PATH)
+	$(call require,DB_USERNAME)
+	$(call require,DB_DATABASE)
+	$(call require,RABBITMQ_USER)
+	$(call require,MINIO_ROOT_USER)
+	$(call require,TRUSTED_PROXIES)
+	$(call require,SERVER_VERSION)
+	$(call require,JWT_TTL)
+	$(call require,JWT_REFRESH_TTL)
+	$(call require,OTEL_SERVICE_NAME)
+	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
+	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
+endef
+
+define require_ecommerce_staging_secrets
+	$(call require_ecommerce_secrets)
+	$(call require,STAGING_DATABASE_URL)
+	$(call require,STAGING_REDIS_URL)
+	$(call require,STAGING_MESSENGER_TRANSPORT_DSN)
+	$(call require,STAGING_MINIO_BUCKET)
+endef
+
+define require_assistant_secrets
+	$(call require,APP_DOMAIN)
+	$(call require,APP_URL)
+	$(call require,ASSISTANT_TYPE)
+	$(call require,ASSISTANT_ACCESS_KEY)
+	$(call require,REDIS_URL_FQDN)
+	$(call require,RABBITMQ_URL_FQDN)
+	$(call require,ASSISTANT_GHCR_IMAGE)
+	$(call require,SUPPORT_EMAIL)
+	$(call require,DATABASE_URL_FQDN)
+	$(call require,CORS_ALLOW_ORIGIN)
+	$(call require,OTEL_SERVICE_NAME)
+	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
+	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
+endef
+
+define require_assistant_staging_secrets
+	$(call require_assistant_secrets)
+	$(call require,STAGING_DATABASE_URL_FQDN)
+	$(call require,STAGING_REDIS_URL_FQDN)
+	$(call require,STAGING_RABBITMQ_URL_FQDN)
+	$(call require,STAGING_MINIO_BUCKET)
+endef
+
+define set_ecommerce_secrets
+	argocd app set $(1) $(ARGOCD_FLAGS) \
+		-p sealedSecrets.enabled=false \
+		-p app.image.repository="$(ECOMMERCE_GHCR_IMAGE)" \
+		-p app.secret="$(APP_SECRET)" \
+		-p app.hmacSecret="$(HMAC_SECRET)" \
+		-p app.jwtPassphrase="$(JWT_PASSPHRASE)" \
+		-p app.stripeSecret="$(STRIPE_SECRET)" \
+		-p app.url="$(APP_URL)" \
+		-p app.corsAllowOrigin="$(CORS_ALLOW_ORIGIN)" \
+		-p app.wkhtmltopdfPath="$(WKHTMLTOPDF_PATH)" \
+		-p app.apiCountryUrl="$(API_COUNTRY_URL)" \
+		-p app.mailerDsn="$(MAILER_DSN)" \
+		-p app.mailerUser="$(MAILER_USER)" \
+		-p app.sentryDsn="$(SENTRY_DSN)" \
+		-p postgresql.auth.username="$(DB_USERNAME)" \
+		-p postgresql.auth.database="$(DB_DATABASE)" \
+		-p rabbitmq.auth.username="$(RABBITMQ_USER)" \
+		-p app.databaseUrl="$(DATABASE_URL)" \
+		-p app.redisUrl="$(REDIS_URL)" \
+		-p app.rabbitmqPass="$(RABBITMQ_PASS)" \
+		-p app.messengerDsn="$(MESSENGER_TRANSPORT_DSN)" \
+		-p app.minioRootUser="$(MINIO_ROOT_USER)" \
+		-p app.minioRootPassword="$(MINIO_ROOT_PASSWORD)" \
+		-p app.mercureJwtSecret="$(MERCURE_JWT_SECRET)" \
+		-p ingress.host="$(2)" \
+		-p minio.publicUrl="$(MINIO_PUBLIC_URL)" \
+		-p mercure.publicUrl="$(MERCURE_PUBLIC_URL)" \
+		-p mercure.corsOrigins="$(MERCURE_CORS_ORIGINS)" \
+		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY)" \
+		-p turnstile.secretKey="$(TURNSTILE_SECRET_KEY)" \
+		-p turnstile.verifyUrl="$(TURNSTILE_VERIFY_URL)" \
+		-p otel.serviceName="$(OTEL_SERVICE_NAME)" \
+		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
+		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)" \
+		-p app.trustedProxies="$(TRUSTED_PROXIES)" \
+		-p app.auditLogsEnabled="$(AUDIT_LOGS_ENABLED)" \
+		-p app.wkhtmltopdfEnabled="$(WKHTMLTOPDF_ENABLED)" \
+		-p app.postgresVersion="$(SERVER_VERSION)" \
+		-p app.jwtTtl="$(JWT_TTL)" \
+		-p app.jwtRefreshTtl="$(JWT_REFRESH_TTL)"
+endef
+
+define set_assistant_secrets
+	argocd app set $(1) $(ARGOCD_FLAGS) \
+		-p app.ecommerceUrl="$(APP_URL)" \
+		-p app.corsOrigins="$(CORS_ALLOW_ORIGIN)" \
+		-p app.supportEmail="$(SUPPORT_EMAIL)" \
+		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
+		-p ingress.host="$(2)" \
+		-p app.assistantType="$(ASSISTANT_TYPE)" \
+		-p app.assistantApiKey="$(ASSISTANT_API_KEY)" \
+		-p app.assistantAccessKey="$(ASSISTANT_ACCESS_KEY)" \
+		-p app.assistantModel="$(ASSISTANT_MODEL)" \
+		-p app.assistantFallbackModel="$(ASSISTANT_FALLBACK_MODEL)" \
+		-p app.ollamaHost="$(ASSISTANT_OLLAMA_HOST)" \
+		-p app.ollamaModel="$(ASSISTANT_OLLAMA_MODEL)" \
+		-p app.ollamaEmbedModel="$(ASSISTANT_OLLAMA_EMBED_MODEL)" \
+		-p app.conversationTtlGuest="$(CONVERSATION_TTL_GUEST)" \
+		-p app.conversationTtlUser="$(CONVERSATION_TTL_USER)" \
+		-p app.databaseUrl="$(DATABASE_URL_FQDN)" \
+		-p app.redisUrl="$(REDIS_URL_FQDN)" \
+		-p app.minioEnabled="$(MINIO_ENABLED)" \
+		-p app.minioPublicUrl="$(MINIO_PUBLIC_URL)" \
+		-p app.minioBucket="$(MINIO_BUCKET)" \
+		-p broker.rabbitmqUrl="$(RABBITMQ_URL_FQDN)" \
+		-p app.sentryDsn="$(SENTRY_DSN)" \
+		-p app.assistantPrimaryLimit="$(ASSISTANT_PRIMARY_LIMIT)" \
+		-p app.assistantFallbackLimit="$(ASSISTANT_FALLBACK_LIMIT)" \
+		-p app.assistantOllamaLimit="$(ASSISTANT_OLLAMA_LIMIT)" \
+		-p otel.enabled="true" \
+		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
+		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)"
+endef
+
+# ── Targets ───────────────────────────────────────────────────────────────────
+
 ## Create K8s secrets for standalone service charts + set RabbitMQ username
 services-secrets:
 	$(call require,APP_DOMAIN)
@@ -66,87 +215,6 @@ jwt-keys-secret:
 		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@echo "✓ JWT keys secret created/updated."
 
-define set_ecommerce_secrets
-	argocd app set $(1) $(ARGOCD_FLAGS) \
-		-p sealedSecrets.enabled=false \
-		-p app.image.repository="$(ECOMMERCE_GHCR_IMAGE)" \
-		-p app.secret="$(APP_SECRET)" \
-		-p app.hmacSecret="$(HMAC_SECRET)" \
-		-p app.jwtPassphrase="$(JWT_PASSPHRASE)" \
-		-p app.stripeSecret="$(STRIPE_SECRET)" \
-		-p app.url="$(APP_URL)" \
-		-p app.corsAllowOrigin="$(CORS_ALLOW_ORIGIN)" \
-		-p app.wkhtmltopdfPath="$(WKHTMLTOPDF_PATH)" \
-		-p app.apiCountryUrl="$(API_COUNTRY_URL)" \
-		-p app.mailerDsn="$(MAILER_DSN)" \
-		-p app.mailerUser="$(MAILER_USER)" \
-		-p app.sentryDsn="$(SENTRY_DSN)" \
-		-p postgresql.auth.username="$(DB_USERNAME)" \
-		-p postgresql.auth.database="$(DB_DATABASE)" \
-		-p rabbitmq.auth.username="$(RABBITMQ_USER)" \
-		-p app.databaseUrl="$(DATABASE_URL)" \
-		-p app.redisUrl="$(REDIS_URL)" \
-		-p app.rabbitmqPass="$(RABBITMQ_PASS)" \
-		-p app.messengerDsn="$(MESSENGER_TRANSPORT_DSN)" \
-		-p app.minioRootUser="$(MINIO_ROOT_USER)" \
-		-p app.minioRootPassword="$(MINIO_ROOT_PASSWORD)" \
-		-p app.mercureJwtSecret="$(MERCURE_JWT_SECRET)" \
-		-p ingress.host="$(2)" \
-		-p minio.publicUrl="$(MINIO_PUBLIC_URL)" \
-		-p mercure.publicUrl="$(MERCURE_PUBLIC_URL)" \
-		-p mercure.corsOrigins="$(MERCURE_CORS_ORIGINS)" \
-		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY)" \
-		-p turnstile.secretKey="$(TURNSTILE_SECRET_KEY)" \
-		-p turnstile.verifyUrl="$(TURNSTILE_VERIFY_URL)" \
-		-p otel.serviceName="$(OTEL_SERVICE_NAME)" \
-		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
-		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)" \
-		-p app.trustedProxies="$(TRUSTED_PROXIES)" \
-		-p app.auditLogsEnabled="$(AUDIT_LOGS_ENABLED)" \
-		-p app.wkhtmltopdfEnabled="$(WKHTMLTOPDF_ENABLED)" \
-		-p app.postgresVersion="$(SERVER_VERSION)" \
-		-p app.jwtTtl="$(JWT_TTL)" \
-		-p app.jwtRefreshTtl="$(JWT_REFRESH_TTL)"
-endef
-
-define require_ecommerce_secrets
-	$(call require,APP_DOMAIN)
-	$(call require,APP_URL)
-	$(call require,CORS_ALLOW_ORIGIN)
-	$(call require,ECOMMERCE_GHCR_IMAGE)
-	$(call require,APP_SECRET)
-	$(call require,HMAC_SECRET)
-	$(call require,JWT_PASSPHRASE)
-	$(call require,STRIPE_SECRET)
-	$(call require,DATABASE_URL)
-	$(call require,REDIS_URL)
-	$(call require,RABBITMQ_PASS)
-	$(call require,MESSENGER_TRANSPORT_DSN)
-	$(call require,MINIO_ROOT_PASSWORD)
-	$(call require,MINIO_PUBLIC_URL)
-	$(call require,MERCURE_JWT_SECRET)
-	$(call require,MERCURE_CORS_ORIGINS)
-	$(call require,MERCURE_PUBLIC_URL)
-	$(call require,TURNSTILE_SITE_KEY)
-	$(call require,TURNSTILE_SECRET_KEY)
-	$(call require,TURNSTILE_VERIFY_URL)
-	$(call require,MAILER_USER)
-	$(call require,MAILER_DSN)
-	$(call require,API_COUNTRY_URL)
-	$(call require,WKHTMLTOPDF_PATH)
-	$(call require,DB_USERNAME)
-	$(call require,DB_DATABASE)
-	$(call require,RABBITMQ_USER)
-	$(call require,MINIO_ROOT_USER)
-	$(call require,TRUSTED_PROXIES)
-	$(call require,SERVER_VERSION)
-	$(call require,JWT_TTL)
-	$(call require,JWT_REFRESH_TTL)
-	$(call require,OTEL_SERVICE_NAME)
-	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
-	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
-endef
-
 ## Set production secrets for levelup-store app via ArgoCD
 ecommerce-secrets:
 	$(call require_ecommerce_secrets)
@@ -156,58 +224,15 @@ ecommerce-secrets:
 
 ## Set staging secrets for levelup-store-staging app via ArgoCD
 ecommerce-staging-secrets:
-	$(call require_ecommerce_secrets)
+	$(call require_ecommerce_staging_secrets)
 	$(call argocd_login)
 	$(call set_ecommerce_secrets,levelup-store-staging,staging.$(APP_DOMAIN))
+	argocd app set levelup-store-staging $(ARGOCD_FLAGS) \
+		-p app.databaseUrl="$(STAGING_DATABASE_URL)" \
+		-p app.redisUrl="$(STAGING_REDIS_URL)" \
+		-p app.messengerDsn="$(STAGING_MESSENGER_TRANSPORT_DSN)" \
+		-p app.minioBucket="$(STAGING_MINIO_BUCKET)"
 	@echo "✓ Staging app secrets set. Ingress: staging.$(APP_DOMAIN)"
-
-define set_assistant_secrets
-	argocd app set $(1) $(ARGOCD_FLAGS) \
-		-p app.ecommerceUrl="$(APP_URL)" \
-		-p app.corsOrigins="$(CORS_ALLOW_ORIGIN)" \
-		-p app.supportEmail="$(SUPPORT_EMAIL)" \
-		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
-		-p ingress.host="$(2)" \
-		-p app.assistantType="$(ASSISTANT_TYPE)" \
-		-p app.assistantApiKey="$(ASSISTANT_API_KEY)" \
-		-p app.assistantAccessKey="$(ASSISTANT_ACCESS_KEY)" \
-		-p app.assistantModel="$(ASSISTANT_MODEL)" \
-		-p app.assistantFallbackModel="$(ASSISTANT_FALLBACK_MODEL)" \
-		-p app.ollamaHost="$(ASSISTANT_OLLAMA_HOST)" \
-		-p app.ollamaModel="$(ASSISTANT_OLLAMA_MODEL)" \
-		-p app.ollamaEmbedModel="$(ASSISTANT_OLLAMA_EMBED_MODEL)" \
-		-p app.conversationTtlGuest="$(CONVERSATION_TTL_GUEST)" \
-		-p app.conversationTtlUser="$(CONVERSATION_TTL_USER)" \
-		-p app.databaseUrl="$(DATABASE_URL_FQDN)" \
-		-p app.redisUrl="$(REDIS_URL_FQDN)" \
-		-p app.minioEnabled="$(MINIO_ENABLED)" \
-		-p app.minioPublicUrl="$(MINIO_PUBLIC_URL)" \
-		-p app.minioBucket="$(MINIO_BUCKET)" \
-		-p broker.rabbitmqUrl="$(RABBITMQ_URL_FQDN)" \
-		-p app.sentryDsn="$(SENTRY_DSN)" \
-		-p app.assistantPrimaryLimit="$(ASSISTANT_PRIMARY_LIMIT)" \
-		-p app.assistantFallbackLimit="$(ASSISTANT_FALLBACK_LIMIT)" \
-		-p app.assistantOllamaLimit="$(ASSISTANT_OLLAMA_LIMIT)" \
-		-p otel.enabled="true" \
-		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
-		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)"
-endef
-
-define require_assistant_secrets
-	$(call require,APP_DOMAIN)
-	$(call require,APP_URL)
-	$(call require,ASSISTANT_TYPE)
-	$(call require,ASSISTANT_ACCESS_KEY)
-	$(call require,REDIS_URL_FQDN)
-	$(call require,RABBITMQ_URL_FQDN)
-	$(call require,ASSISTANT_GHCR_IMAGE)
-	$(call require,SUPPORT_EMAIL)
-	$(call require,DATABASE_URL_FQDN)
-	$(call require,CORS_ALLOW_ORIGIN)
-	$(call require,OTEL_SERVICE_NAME)
-	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
-	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
-endef
 
 ## Set production secrets for levelup-store-assistant app via ArgoCD
 assistant-secrets:
@@ -218,9 +243,14 @@ assistant-secrets:
 
 ## Set staging secrets for levelup-store-assistant-staging app via ArgoCD
 assistant-staging-secrets:
-	$(call require_assistant_secrets)
+	$(call require_assistant_staging_secrets)
 	$(call argocd_login)
 	$(call set_assistant_secrets,levelup-store-assistant-staging,assistant-staging.$(APP_DOMAIN))
+	argocd app set levelup-store-assistant-staging $(ARGOCD_FLAGS) \
+		-p app.databaseUrl="$(STAGING_DATABASE_URL_FQDN)" \
+		-p app.redisUrl="$(STAGING_REDIS_URL_FQDN)" \
+		-p broker.rabbitmqUrl="$(STAGING_RABBITMQ_URL_FQDN)" \
+		-p app.minioBucket="$(STAGING_MINIO_BUCKET)"
 	@echo "✓ Staging assistant secrets set. Ingress: assistant-staging.$(APP_DOMAIN)"
 
 ## Set Grafana password, domain and Alertmanager email via ArgoCD
