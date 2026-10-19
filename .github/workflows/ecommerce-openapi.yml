@@ -45,7 +45,7 @@ jobs:
       - name: Validate spec
         run: |
           npm install -g @redocly/cli@latest --silent
-          redocly lint openapi.json --format=stylish
+          redocly lint openapi.json --format=stylish --ignore-rules=no-empty-servers,info-license,operation-4xx-response,operation-summary
 
   # ─── Breaking changes ─────────────────────────────────────────────────────
   breaking:

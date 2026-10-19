@@ -40,7 +40,8 @@ jobs:
 
       - name: Render main branch manifests
         run: |
-          git checkout origin/${{ github.base_ref }} -- infrastructure/helm/
+          BASE_REF="${{ github.base_ref }}"
+          git checkout "origin/${BASE_REF:-main}" -- infrastructure/helm/
           for chart in ecommerce assistant; do
             args="infrastructure/helm/apps/$chart --values infrastructure/helm/apps/$chart/values.yaml"
             if [ "$chart" = "assistant" ]; then
