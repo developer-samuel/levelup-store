@@ -34,11 +34,16 @@ spec:
         - port: 53
           protocol: TCP
 
-    # Data services - same namespace only
+    # Data services - same namespace (or servicesNamespace if set, e.g. staging pointing to production services)
     - to:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: {{ .Release.Namespace }}
+        {{- if .Values.networkPolicy.servicesNamespace }}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.servicesNamespace }}
+        {{- end }}
       ports:
         - port: 5432   # PostgreSQL
           protocol: TCP
