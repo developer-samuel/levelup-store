@@ -1,0 +1,76 @@
+---
+
+name: ⎈ Helm Diff
+
+on:
+  pull_request:
+    branches: [main, staging]
+    paths:
+      - 'infrastructure/helm/**'
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  diff:
+    name: ⎈ Helm Diff
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
+
+      - name: Render PR branch manifests
+        run: |
+          for chart in ecommerce assistant; do
+            args="infrastructure/helm/apps/$chart --values infrastructure/helm/apps/$chart/values.yaml"
+            if [ "$chart" = "assistant" ]; then
+              args="$args --set app.assistantApiKey=dummy --set broker.rabbitmqUrl=amqp://dummy --set app.redisUrl=redis://dummy"
+            fi
+            helm template levelup-store $args > /tmp/${chart}-pr.yaml
+          done
+
+      - name: Render main branch manifests
+        run: |
+          git checkout origin/${{ github.base_ref }} -- infrastructure/helm/
+          for chart in ecommerce assistant; do
+            args="infrastructure/helm/apps/$chart --values infrastructure/helm/apps/$chart/values.yaml"
+            if [ "$chart" = "assistant" ]; then
+              args="$args --set app.assistantApiKey=dummy --set broker.rabbitmqUrl=amqp://dummy --set app.redisUrl=redis://dummy"
+            fi
+            helm template levelup-store $args > /tmp/${chart}-base.yaml 2>/dev/null || echo "" > /tmp/${chart}-base.yaml
+          done
+          git checkout HEAD -- infrastructure/helm/
+
+      - name: Generate diff
+        id: diff
+        run: |
+          DIFF=""
+          for chart in ecommerce assistant; do
+            CHART_DIFF=$(diff -u /tmp/${chart}-base.yaml /tmp/${chart}-pr.yaml || true)
+            if [ -n "$CHART_DIFF" ]; then
+              DIFF="${DIFF}\n### ${chart}\n\`\`\`diff\n${CHART_DIFF}\n\`\`\`\n"
+            fi
+          done
+          if [ -z "$DIFF" ]; then
+            DIFF="No changes in rendered manifests."
+          fi
+          {
+            echo "body<<EOF"
+            printf "## ⎈ Helm Diff\n\n$DIFF"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post diff as PR comment
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
+        with:
+          header: helm-diff
+          message: ${{ steps.diff.outputs.body }}

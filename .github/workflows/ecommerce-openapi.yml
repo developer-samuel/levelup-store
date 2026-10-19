@@ -1,0 +1,98 @@
+---
+
+name: 📋 Ecommerce OpenAPI
+
+on:
+  pull_request:
+    branches: [main, staging]
+    paths:
+      - 'apps/ecommerce/src/Presentation/Api/**'
+      - 'apps/ecommerce/config/packages/nelmio_api_doc.yaml'
+      - 'apps/ecommerce/config/routes/api/**'
+  workflow_dispatch:
+
+permissions: read-all
+
+env:
+  PHP_VERSION: ${{ vars.PHP_VERSION }}
+
+jobs:
+  # ─── Lint ─────────────────────────────────────────────────────────────────
+  lint:
+    name: 📋 Lint OpenAPI spec
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: apps/ecommerce
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ./.github/actions/php
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+
+      - name: Prepare environment
+        run: cp .env.example .env
+
+      - name: Export OpenAPI spec
+        run: php bin/console api:openapi:export --output=openapi.json --no-interaction
+
+      - name: Validate spec
+        run: |
+          npm install -g @redocly/cli@latest --silent
+          redocly lint openapi.json --format=stylish
+
+  # ─── Breaking changes ─────────────────────────────────────────────────────
+  breaking:
+    name: 💥 Breaking change detection
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    defaults:
+      run:
+        working-directory: apps/ecommerce
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/php
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+
+      - name: Prepare environment
+        run: cp .env.example .env
+
+      - name: Export spec from PR branch
+        run: php bin/console api:openapi:export --output=/tmp/openapi-pr.json --no-interaction
+
+      - name: Checkout base branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.base_ref }}
+
+      - uses: ./.github/actions/php
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+
+      - name: Prepare environment (base)
+        run: cp .env.example .env
+
+      - name: Export spec from base branch
+        run: php bin/console api:openapi:export --output=/tmp/openapi-base.json --no-interaction || echo '{}' > /tmp/openapi-base.json
+
+      - name: Detect breaking changes
+        uses: oasdiff/oasdiff-action/breaking@514e22ec2f1d1654fb78ac3bb7dc00d8f3c6c4d9 # v0.1.19
+        with:
+          base: /tmp/openapi-base.json
+          revision: /tmp/openapi-pr.json
+          fail-on: ERR
