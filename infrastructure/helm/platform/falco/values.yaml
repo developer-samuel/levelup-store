@@ -97,7 +97,7 @@ falco:
       memory: 256Mi
     limits:
       cpu: 500m
-      memory: 512Mi
+      memory: 1Gi
 
   # Run on all nodes including control plane (single-node k3s)
   tolerations:
