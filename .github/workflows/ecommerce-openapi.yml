@@ -40,7 +40,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Export OpenAPI spec
-        run: php bin/console api:openapi:export --output=openapi.json --no-interaction
+        run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > openapi.json
 
       - name: Validate spec
         run: |
@@ -73,7 +73,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Export spec from PR branch
-        run: php bin/console api:openapi:export --output=/tmp/openapi-pr.json --no-interaction
+        run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > /tmp/openapi-pr.json
 
       - name: Checkout base branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -88,7 +88,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Export spec from base branch
-        run: php bin/console api:openapi:export --output=/tmp/openapi-base.json --no-interaction || echo '{}' > /tmp/openapi-base.json
+        run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > /tmp/openapi-base.json || echo '{}' > /tmp/openapi-base.json
 
       - name: Detect breaking changes
         uses: oasdiff/oasdiff-action/breaking@514e22ec2f1d1654fb78ac3bb7dc00d8f3c6c4d9 # v0.1.19
