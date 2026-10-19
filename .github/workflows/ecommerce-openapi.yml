@@ -77,7 +77,7 @@ jobs:
         run: cp .env.example .env
 
       - name: Export spec from PR branch
-        run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > /tmp/openapi-pr.json
+        run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > $GITHUB_WORKSPACE/openapi-pr.json
 
       - name: Checkout base branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -92,11 +92,11 @@ jobs:
         run: cp .env.example .env
 
       - name: Export spec from base branch
-        run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > /tmp/openapi-base.json || echo '{}' > /tmp/openapi-base.json
+        run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > $GITHUB_WORKSPACE/openapi-base.json || echo '{}' > $GITHUB_WORKSPACE/openapi-base.json
 
       - name: Detect breaking changes
         uses: oasdiff/oasdiff-action/breaking@514e22ec2f1d1654fb78ac3bb7dc00d8f3c6c4d9 # v0.1.19
         with:
-          base: /tmp/openapi-base.json
-          revision: /tmp/openapi-pr.json
+          base: openapi-base.json
+          revision: openapi-pr.json
           fail-on: ERR
