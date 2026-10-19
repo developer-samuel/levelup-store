@@ -42,6 +42,8 @@ jobs:
       - name: Export OpenAPI spec
         run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > openapi.json
 
+      - uses: ./.github/actions/node
+
       - name: Validate spec
         run: |
           pnpm add -g @redocly/cli@latest --silent
