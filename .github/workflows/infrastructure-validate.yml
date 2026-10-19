@@ -4,7 +4,7 @@ name: 🏗️ Infrastructure Validate
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'infrastructure/terraform/**'
       - 'infrastructure/kubernetes/**'

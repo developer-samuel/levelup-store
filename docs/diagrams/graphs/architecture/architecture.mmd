@@ -25,6 +25,7 @@ graph TD
     subgraph Edge["Edge"]
         Cloudflare[☁️ Cloudflare\nDNS + WAF + DDoS]:::cdn
         Ingress[🌐 Traefik Ingress\ncert-manager TLS · rate limit · circuit breaker · security headers]:::infra
+        Tailscale[🔒 Tailscale\nIP allowlist · staging access]:::infra
     end
 
     subgraph AppLayer["Ecommerce"]
@@ -37,7 +38,7 @@ graph TD
         Assistant[⚙️ FastAPI\nDeployment + HPA]:::app
         AiWorker[⚙️ AI Worker\nDeployment]:::runtime
         AiScheduler[⏱️ Ingest Scheduler\nCronJob]:::runtime
-        Ollama[🤖 Ollama\nLLM + embeddings]:::runtime
+        Ollama[🤖 Ollama\nLLM + embeddings\noptional · ASSISTANT_TYPE=ollama]:::runtime
         ChromaDB[🔮 ChromaDB\nVector store]:::database
         AiRedis[🟧 Redis\nHistory + pub/sub]:::cache
         AiQueue[🐇 RabbitMQ\nai_requests]:::messaging

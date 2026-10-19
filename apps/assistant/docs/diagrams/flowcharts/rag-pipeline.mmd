@@ -1,6 +1,7 @@
 flowchart TD
     %% RAG pipeline - how a message is processed inside stream_chat
-    %% Redis history + ChromaDB vector search + Ollama LLM streaming
+    %% Redis history + ChromaDB vector search + LLM streaming
+    %% ASSISTANT_TYPE=api (cloud LLM) | ollama (local)
 
     classDef action   fill:#000,    color:#fff, stroke:#000, stroke-width:2px;
     classDef decision fill:#e67e22, color:#fff, stroke:#000, stroke-width:2px;
@@ -14,21 +15,27 @@ flowchart TD
     EmbedQuery[embed query\nOllama nomic-embed-text]:::llm
     VectorSearch[ChromaDB query\nn=5 nearest products]:::infra
     BuildPrompt[build messages\nsystem prompt + context + history]:::action
-    OllamaStream[ollama.chat stream=True\ntemperature=0.1]:::llm
+    ModelCheck{ASSISTANT_TYPE?}:::decision
+    ApiStream[Cloud API stream\nASSISTANT_TYPE=api]:::llm
+    OllamaStream[Ollama stream\nASSISTANT_TYPE=ollama · optional]:::llm
     TokenLoop{more tokens?}:::decision
     YieldToken[yield token chunk]:::stream
     SaveHistory[save_history\nRedis - trim to 30]:::infra
     YieldDone[yield done chunk]:::stream
-    OllamaError[yield error chunk\nConnectError / ResponseError]:::error
+    LLMError[yield error chunk\nConnectError / ResponseError]:::error
 
-    Start --> LoadHistory
-    LoadHistory --> EmbedQuery
-    EmbedQuery --> VectorSearch
+    Start        --> LoadHistory
+    LoadHistory  --> EmbedQuery
+    EmbedQuery   --> VectorSearch
     VectorSearch --> BuildPrompt
-    BuildPrompt --> OllamaStream
+    BuildPrompt  --> ModelCheck
+    ModelCheck   -->|api| ApiStream
+    ModelCheck   -->|ollama| OllamaStream
+    ApiStream    -->|ok| TokenLoop
+    ApiStream    -->|fail| LLMError
     OllamaStream -->|ok| TokenLoop
-    OllamaStream -->|fail| OllamaError
-    TokenLoop -->|yes| YieldToken
-    YieldToken --> TokenLoop
-    TokenLoop -->|no| SaveHistory
-    SaveHistory --> YieldDone
+    OllamaStream -->|fail| LLMError
+    TokenLoop    -->|yes| YieldToken
+    YieldToken   --> TokenLoop
+    TokenLoop    -->|no| SaveHistory
+    SaveHistory  --> YieldDone

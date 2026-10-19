@@ -1,0 +1,55 @@
+---
+
+name: 📈 Performance
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  k6:
+    name: 📈 k6 Load Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Set target URL
+        id: url
+        run: |
+          echo "base_url=https://${{ vars.APP_DOMAIN }}" >> "$GITHUB_OUTPUT"
+
+      - name: Install k6
+        run: |
+          for i in 1 2 3 4 5; do
+            curl -fsSL https://github.com/grafana/k6/releases/download/v0.58.0/k6-v0.58.0-linux-amd64.tar.gz \
+              | tar -xz --strip-components=1 -C /usr/local/bin k6-v0.58.0-linux-amd64/k6 \
+              && break || { [ $i -lt 5 ] && echo "Attempt $i failed, retrying..." && sleep 10; }
+          done
+          k6 version
+
+      - name: Wait for server to be reachable
+        run: |
+          for i in $(seq 1 10); do
+            if curl -sf "${{ steps.url.outputs.base_url }}/api/health" > /dev/null; then
+              echo "Server reachable"
+              break
+            fi
+            echo "Attempt $i/10 - server not ready, waiting 15s..."
+            if [ $i -eq 10 ]; then
+              echo "Server did not become reachable after 10 attempts"
+              exit 1
+            fi
+            sleep 15
+          done
+
+      - name: Run k6
+        run: k6 run infrastructure/k6/ecommerce/index.js --env BASE_URL=${{ steps.url.outputs.base_url }}
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: always()
+        with:
+          name: k6-results
+          path: k6-results.json
+          if-no-files-found: ignore

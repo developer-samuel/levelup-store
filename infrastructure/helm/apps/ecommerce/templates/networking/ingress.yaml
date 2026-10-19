@@ -6,7 +6,7 @@ metadata:
     {{- include "levelup-store.labels" . | nindent 4 }}
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
-    traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-{{ include "levelup-store.fullname" . }}-rate-limit@kubernetescrd,{{ .Release.Namespace }}-{{ include "levelup-store.fullname" . }}-security-headers@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-{{ include "levelup-store.fullname" . }}-rate-limit@kubernetescrd,{{ .Release.Namespace }}-{{ include "levelup-store.fullname" . }}-security-headers@kubernetescrd{{- if .Values.ingress.stagingMiddleware }},{{ .Release.Namespace }}-staging-access@kubernetescrd{{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:

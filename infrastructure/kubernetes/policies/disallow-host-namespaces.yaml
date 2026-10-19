@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: disallow-host-namespaces
+  annotations:
+    policies.kyverno.io/title: Disallow Host Namespaces
+    policies.kyverno.io/severity: critical
+    policies.kyverno.io/description: >
+      Host namespaces (hostPID, hostIPC, hostNetwork) allow a container to access
+      host-level processes and network. This policy blocks them cluster-wide.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: disallow-host-namespaces
+      match:
+        any:
+          - resources:
+              kinds: [Pod]
+              namespaces: [levelup-store, levelup-store-assistant]
+      validate:
+        message: "hostPID, hostIPC, and hostNetwork are not allowed."
+        pattern:
+          spec:
+            =(hostPID): "false"
+            =(hostIPC): "false"
+            =(hostNetwork): "false"

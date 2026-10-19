@@ -4,13 +4,13 @@ name: 🎨 Ecommerce Frontend Audit
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
     paths: &frontend-paths
       - 'apps/ecommerce/assets/**'
       - 'apps/ecommerce/templates/**'
       - 'apps/ecommerce/public/**'
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths: *frontend-paths
   schedule:
     - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
