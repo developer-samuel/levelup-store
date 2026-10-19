@@ -3,7 +3,7 @@
 name: 🔦 Ecommerce Lighthouse
 
 on:
-  pull_request:
+  push:
     branches: [main]
     paths:
       - 'apps/ecommerce/assets/**'
@@ -16,7 +16,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   lighthouse:
@@ -38,54 +37,3 @@ jobs:
           runs: 3
           budgetPath: apps/ecommerce/.lighthouse-budget.json
 
-      - name: Format results as PR comment
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
-        if: github.event_name == 'pull_request'
-        with:
-          script: |
-            const fs = require('fs')
-            const dir = '${{ steps.lighthouse.outputs.resultsPath }}'
-            const files = dir && fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.startsWith('lhr-') && f.endsWith('.json')) : []
-            const results = files.length ? JSON.parse(fs.readFileSync(`${dir}/${files[0]}`, 'utf8')) : {}
-
-            const score = (val) => {
-              const pct = Math.round(val * 100)
-              const icon = pct >= 90 ? '🟢' : pct >= 50 ? '🟡' : '🔴'
-              return `${icon} ${pct}`
-            }
-
-            const lhr = results.lhr || {}
-            const cats = lhr.categories || {}
-
-            const body = [
-              '## 🔦 Lighthouse CI',
-              '',
-              '| Category | Score |',
-              '|---|---|',
-              `| Performance | ${score(cats.performance?.score ?? 0)} |`,
-              `| Accessibility | ${score(cats.accessibility?.score ?? 0)} |`,
-              `| Best Practices | ${score(cats['best-practices']?.score ?? 0)} |`,
-              `| SEO | ${score(cats.seo?.score ?? 0)} |`,
-            ].join('\n')
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            })
-            const existing = comments.find(c => c.body.includes('🔦 Lighthouse CI'))
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              })
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body,
-              })
-            }
