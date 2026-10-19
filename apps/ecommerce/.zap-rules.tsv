@@ -10,5 +10,5 @@
 10111	IGNORE	Authentication Request Identified
 10112	IGNORE	Session Management Response Identified
 90005	IGNORE	Sec-Fetch Headers
-90022 IGNORE  Application Error Disclosure (CI environment errors)
+90022	IGNORE	Application Error Disclosure (CI environment errors)
 110009	IGNORE	Full Path Disclosure (dev endpoint - CI only)
