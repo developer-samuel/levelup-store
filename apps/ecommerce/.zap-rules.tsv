@@ -1,3 +1,4 @@
+10021	IGNORE	X-Content-Type-Options Header Missing (static files served by PHP built-in server in CI, nginx adds it in production)
 10023	IGNORE	Information Disclosure - Debug Error Messages (CI environment)
 10024	IGNORE	Information Disclosure - Sensitive Information in URL (ZAP probe)
 10031	IGNORE	User Controllable HTML Element Attribute (false positive - Twig escaping)
@@ -10,4 +11,4 @@
 10112	IGNORE	Session Management Response Identified
 90005	IGNORE	Sec-Fetch Headers
 90022	IGNORE	Application Error Disclosure (CI environment errors)
-110009	IGNORE	Full Path Disclosure (dev endpoint - CI only)
+110009 IGNORE	Full Path Disclosure (dev endpoint - CI only)
