@@ -77,6 +77,33 @@ Steps 10-14 configure secrets that the running pods need.
 
 ---
 
+## Staging environment (one-time setup)
+
+Staging runs on the same cluster in isolated namespaces (`levelup-store-staging`, `levelup-store-assistant-staging`).
+DNS is covered by the existing Cloudflare wildcard `*.${APP_DOMAIN}`.
+
+```bash
+# 1. Create ArgoCD apps for staging
+kubectl apply -f infrastructure/kubernetes/apps/workloads/ecommerce.staging.yaml
+kubectl apply -f infrastructure/kubernetes/apps/workloads/assistant.staging.yaml
+
+# 2. Generate Basic Auth hash (run locally, paste result into .env.production)
+htpasswd -nb admin your-password
+# → set STAGING_BASIC_AUTH=admin:$apr1$...
+
+# 3. Apply Traefik IP allowlist + Basic Auth middleware
+make -C infrastructure staging-access
+
+# 4. Set secrets + ingress domains
+make -C infrastructure ecommerce-staging-secrets   # staging.${APP_DOMAIN}
+make -C infrastructure assistant-staging-secrets   # assistant-staging.${APP_DOMAIN}
+```
+
+After step 1, every `git push → main` deploys staging automatically alongside production.
+`staging-access` restricts access to your Tailscale IP + Basic Auth password.
+
+---
+
 ## Seed database (one-time)
 
 After the app pod starts for the first time, load the initial fixtures:

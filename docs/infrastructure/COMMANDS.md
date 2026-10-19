@@ -69,17 +69,18 @@ make <command>
 
 ## Secrets
 
-| Command              | Description                                                        |
-|----------------------|--------------------------------------------------------------------|
-| `secrets`            | Set all app production secrets via ArgoCD app params               |
-| `services-secrets`   | Create K8s secrets for PostgreSQL, Redis, RabbitMQ, MinIO, Mercure |
-| `jwt-keys-secret`    | Generate RSA key pair and store as K8s secret for JWT              |
-| `monitoring-secrets` | Set Grafana admin password and Alertmanager email config           |
-| `velero-secret`      | Create K8s secret with OCI Object Storage credentials for Velero   |
-| `atlantis-secret`    | Create K8s secret with GitHub token + webhook secret for Atlantis  |
-| `jenkins-secret`     | Create K8s secret with GitHub PAT for Jenkins                      |
+| Command                      | Description                                                        |
+|------------------------------|--------------------------------------------------------------------|
+| `services-secrets`           | Create K8s secrets for PostgreSQL, Redis, RabbitMQ, MinIO, Mercure |
+| `jwt-keys-secret`            | Generate RSA key pair and store as K8s secret for JWT              |
+| `ecommerce-secrets`          | Set production secrets for ecommerce app via ArgoCD                |
+| `assistant-secrets`          | Set production secrets for assistant app via ArgoCD                |
+| `monitoring-secrets`         | Set Grafana admin password and Alertmanager email config           |
+| `velero-secret`              | Create K8s secret with OCI Object Storage credentials for Velero   |
+| `atlantis-secret`            | Create K8s secret with GitHub token + webhook secret for Atlantis  |
+| `jenkins-secret`             | Create K8s secret with GitHub PAT for Jenkins                      |
 
-> Run `secrets` and `services-secrets` whenever credentials change.
+> Run `ecommerce-secrets` / `assistant-secrets` and `services-secrets` whenever credentials change.
 > Always ensure `.env.production` is loaded (values override `.env`) before running these.
 
 ---
@@ -113,6 +114,16 @@ make <command>
 | Command            | Description                                           |
 |--------------------|-------------------------------------------------------|
 | `blackbox-install` | Deploy Blackbox Exporter for HTTP endpoint monitoring |
+
+---
+
+## Staging
+
+| Command                     | Description                                                         |
+|-----------------------------|---------------------------------------------------------------------|
+| `staging-access`            | Apply Traefik IP allowlist + Basic Auth middleware for staging      |
+| `ecommerce-staging-secrets` | Set staging secrets + ingress domain for ecommerce app via ArgoCD  |
+| `assistant-staging-secrets` | Set staging secrets + ingress domain for assistant app via ArgoCD  |
 
 ---
 
