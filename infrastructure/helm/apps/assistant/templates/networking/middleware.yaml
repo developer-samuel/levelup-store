@@ -7,7 +7,7 @@ metadata:
     {{- include "levelup-store-assistant.labels" . | nindent 4 }}
 spec:
   circuitBreaker:
-    expression: ResponseCodeRatio(500, 600, 0, 600) > 0.3 || NetworkErrorRatio() > 0.3 || LatencyAtQuantileMS(50, 0) > 10000
+    expression: ResponseCodeRatio(500, 600, 0, 600) > 0.3 || NetworkErrorRatio() > 0.3 || LatencyAtQuantileMS(50.0) > 10000
     checkPeriod: 10s
     fallbackDuration: 30s
     recoveryDuration: 15s
