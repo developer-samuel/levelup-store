@@ -33,7 +33,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Prepare environment
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          echo "JWT_PASSPHRASE=dummy" >> .env
 
       - uses: ./.github/actions/php
         with:
@@ -72,7 +74,9 @@ jobs:
           fetch-depth: 0
 
       - name: Prepare environment
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          echo "JWT_PASSPHRASE=dummy" >> .env
 
       - uses: ./.github/actions/php
         with:
@@ -92,7 +96,9 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
 
       - name: Prepare environment (base)
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          echo "JWT_PASSPHRASE=dummy" >> .env
 
       - name: Export spec from base branch
         run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > $GITHUB_WORKSPACE/openapi-base.json || echo '{}' > $GITHUB_WORKSPACE/openapi-base.json
