@@ -135,7 +135,7 @@ staging-access:
 	sed \
 		-e 's|TAILSCALE_CIDR_PLACEHOLDER|$(TAILSCALE_CIDR)|g' \
 		-e 's|BASIC_AUTH_PLACEHOLDER|$(STAGING_BASIC_AUTH)|g' \
-		../kubernetes/apps/platform/staging-access.yaml | kubectl apply -f -
+		kubernetes/apps/platform/staging-access.yaml | kubectl apply -f -
 	@echo "✓ Staging access configured."
 	@echo "  IP allowlist: $(TAILSCALE_CIDR)"
 	@echo "  Basic Auth:   enabled (user: admin)"
