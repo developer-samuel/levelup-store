@@ -2,7 +2,11 @@
 # 🧩 Addons (Velero, Atlantis, Blackbox)
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: velero-secret velero-install atlantis-secret atlantis-install blackbox-install jenkins-secret jenkins-install
+.PHONY: velero-secret velero-install \
+        atlantis-secret atlantis-install \
+        blackbox-install \
+        jenkins-secret jenkins-install \
+        staging-access
 
 ## Create Velero credentials secret from .env (OCI Customer Secret Keys)
 velero-secret:
@@ -121,3 +125,17 @@ blackbox-install:
 		-p "prometheus-blackbox-exporter.serviceMonitor.targets[0].url=https://$(APP_DOMAIN)" \
 		-p "prometheus-blackbox-exporter.serviceMonitor.targets[1].url=https://$(APP_DOMAIN)/"
 	@echo "✓ Blackbox Exporter deployed. Dashboards in Grafana → Explore → probe_success"
+
+## Apply staging IP allowlist + Basic Auth middleware (run once after staging ArgoCD apps are created)
+staging-access:
+	$(call require,TAILSCALE_CIDR)
+	$(call require,STAGING_BASIC_AUTH)
+	kubectl create namespace levelup-store-staging --dry-run=client -o yaml | kubectl apply --validate=false -f -
+	kubectl create namespace levelup-store-assistant-staging --dry-run=client -o yaml | kubectl apply --validate=false -f -
+	sed \
+		-e 's|TAILSCALE_CIDR_PLACEHOLDER|$(TAILSCALE_CIDR)|g' \
+		-e 's|BASIC_AUTH_PLACEHOLDER|$(STAGING_BASIC_AUTH)|g' \
+		../kubernetes/apps/platform/staging-access.yaml | kubectl apply -f -
+	@echo "✓ Staging access configured."
+	@echo "  IP allowlist: $(TAILSCALE_CIDR)"
+	@echo "  Basic Auth:   enabled (user: admin)"

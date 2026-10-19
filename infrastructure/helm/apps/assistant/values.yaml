@@ -63,6 +63,7 @@ ingress:
   className: traefik
   path: /
   clusterIssuer: letsencrypt-prod
+  stagingMiddleware: false
 
 chromadb:
   enabled: true
