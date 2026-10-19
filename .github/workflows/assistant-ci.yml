@@ -4,11 +4,11 @@ name: 🤖 Assistant CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'apps/assistant/**'
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'apps/assistant/**'
   workflow_dispatch:

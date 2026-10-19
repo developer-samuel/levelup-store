@@ -4,7 +4,7 @@ name: 📦 Assistant Bundle Size
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'apps/assistant/client/**'
       - 'pnpm-lock.yaml'

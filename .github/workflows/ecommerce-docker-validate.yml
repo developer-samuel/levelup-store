@@ -4,7 +4,7 @@ name: 🐳 Ecommerce Docker Validate
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'docker/**'
       - 'apps/ecommerce/docker/**'
