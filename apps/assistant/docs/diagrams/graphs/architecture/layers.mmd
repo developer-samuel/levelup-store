@@ -17,7 +17,7 @@ graph TD
     end
 
     subgraph Infrastructure["Infrastructure"]
-        RAG[rag\nChromaDB + Ollama]:::infra
+        RAG[rag\nChromaDB + API/Ollama]:::infra
         Conversation[conversation\nRedis history]:::infra
         Queue[queue\nRedis pub/sub + slot]:::infra
         RabbitMQ[rabbitmq\naio_pika publish]:::infra
@@ -25,7 +25,8 @@ graph TD
     end
 
     subgraph External["External"]
-        Ollama[Ollama\nLLM + embeddings]:::external
+        LLM[Cloud API\nLLM · ASSISTANT_TYPE=api]:::external
+        Ollama[Ollama\nLLM · ASSISTANT_TYPE=ollama · optional]:::external
         ChromaDB[ChromaDB\nvector store]:::external
         Redis[Redis\nhistory + streaming]:::external
         PostgreSQL[PostgreSQL\nproduct catalog]:::external
@@ -38,7 +39,8 @@ graph TD
     ChatService  --> Conversation
     ChatService  --> Queue
     ChatService  --> RabbitMQ
-    RAG          --> Ollama
+    RAG          --> LLM
+    RAG          -.->|optional| Ollama
     RAG          --> ChromaDB
     Conversation --> Redis
     Queue        --> Redis
