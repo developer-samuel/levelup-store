@@ -1,6 +1,6 @@
 app:
   image:
-    tag: "ea39dfd"
+    tag: "a00ab53"
 ingress:
   host: "" # set via make secrets
   stagingMiddleware: true
