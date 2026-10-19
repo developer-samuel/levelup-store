@@ -2,6 +2,7 @@
 10023	IGNORE	Information Disclosure - Debug Error Messages (CI environment)
 10024	IGNORE	Information Disclosure - Sensitive Information in URL (ZAP probe)
 10031	IGNORE	User Controllable HTML Element Attribute (false positive - Twig escaping)
+10038	IGNORE	CSP Header Not Set (non-HTML responses: XML sitemap, error pages - CSP only applies to HTML)
 10044	IGNORE	Big Redirect
 10049	IGNORE	Non-Storable Content
 10055	IGNORE	CSP unsafe-inline (required for Twig templates - nonces not implemented)
