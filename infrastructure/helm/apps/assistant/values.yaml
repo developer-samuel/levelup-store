@@ -4,7 +4,7 @@ imagePullSecrets:
 app:
   image:
     repository: ghcr.io/developer-samuel/levelup-store-assistant
-    tag: latest@sha256:e56c018ba10b1ec9c81339befefaa9f2864342a57d36e1dfe0309f10a9c1b510
+    tag: latest@sha256:923835b7f9b9eeb0d2206d8c63004b8b364d9009e084af28773fbb50b2e2237d
     pullPolicy: Always
 
   replicas: 1
