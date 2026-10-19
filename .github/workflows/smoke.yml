@@ -1,0 +1,73 @@
+---
+
+name: 🔬 Smoke Test
+
+on:
+  workflow_run:
+    workflows: ['🚀 Deploy']
+    types: [completed]
+    branches: [main, staging]
+
+permissions: read-all
+
+jobs:
+  smoke:
+    name: 🔬 Smoke test
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Wait for ecommerce to be ready (production)
+        if: ${{ github.event.workflow_run.head_branch == 'main' }}
+        run: |
+          URL="https://${{ vars.APP_DOMAIN }}/api/health"
+          for i in $(seq 1 30); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL")
+            echo "Attempt $i: HTTP $STATUS"
+            [ "$STATUS" = "200" ] && echo "✅ Ecommerce production is up." && exit 0
+            sleep 10
+          done
+          echo "❌ Ecommerce production did not respond with 200 after 5 minutes." && exit 1
+
+      - name: Wait for assistant to be ready (production)
+        if: ${{ github.event.workflow_run.head_branch == 'main' }}
+        run: |
+          URL="https://assistant.${{ vars.APP_DOMAIN }}/health"
+          for i in $(seq 1 30); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL")
+            echo "Attempt $i: HTTP $STATUS"
+            [ "$STATUS" = "200" ] && echo "✅ Assistant production is up." && exit 0
+            sleep 10
+          done
+          echo "❌ Assistant production did not respond with 200 after 5 minutes." && exit 1
+
+      - name: Wait for ecommerce to be ready (staging)
+        if: ${{ github.event.workflow_run.head_branch == 'staging' }}
+        run: |
+          URL="https://staging.${{ vars.APP_DOMAIN }}/api/health"
+          for i in $(seq 1 30); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              --user "admin:${{ secrets.STAGING_BASIC_AUTH_PASSWORD }}" \
+              --max-time 10 "$URL")
+            echo "Attempt $i: HTTP $STATUS"
+            [ "$STATUS" = "200" ] && echo "✅ Ecommerce staging is up." && exit 0
+            sleep 10
+          done
+          echo "❌ Ecommerce staging did not respond with 200 after 5 minutes." && exit 1
+
+      - name: Wait for assistant to be ready (staging)
+        if: ${{ github.event.workflow_run.head_branch == 'staging' }}
+        run: |
+          URL="https://assistant-staging.${{ vars.APP_DOMAIN }}/health"
+          for i in $(seq 1 30); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+              --user "admin:${{ secrets.STAGING_BASIC_AUTH_PASSWORD }}" \
+              --max-time 10 "$URL")
+            echo "Attempt $i: HTTP $STATUS"
+            [ "$STATUS" = "200" ] && echo "✅ Assistant staging is up." && exit 0
+            sleep 10
+          done
+          echo "❌ Assistant staging did not respond with 200 after 5 minutes." && exit 1
