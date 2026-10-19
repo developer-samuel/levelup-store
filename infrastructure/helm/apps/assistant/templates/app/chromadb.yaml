@@ -66,13 +66,13 @@ spec:
               value: "FALSE"
           livenessProbe:
             httpGet:
-              path: /api/v1/heartbeat
+              path: /api/v2/heartbeat
               port: http
             initialDelaySeconds: 10
             periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: /api/v1/heartbeat
+              path: /api/v2/heartbeat
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
