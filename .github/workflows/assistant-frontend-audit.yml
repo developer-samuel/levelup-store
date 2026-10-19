@@ -4,11 +4,11 @@ name: 🎨 Assistant Frontend Audit
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
     paths: &frontend-paths
       - 'apps/assistant/client/**'
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths: *frontend-paths
   schedule:
     - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC

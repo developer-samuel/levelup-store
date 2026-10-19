@@ -2,7 +2,10 @@
 # 🔐 Secrets Commands
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: services-secrets jwt-keys-secret ecommerce-secrets assistant-secrets monitoring-secrets \
+.PHONY: services-secrets jwt-keys-secret \
+        ecommerce-secrets ecommerce-staging-secrets \
+        assistant-secrets assistant-staging-secrets \
+        monitoring-secrets \
         sealed-secrets-cert sealed-secrets-generate
 
 ## Create K8s secrets for standalone service charts + set RabbitMQ username
@@ -63,46 +66,8 @@ jwt-keys-secret:
 		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@echo "✓ JWT keys secret created/updated."
 
-## Set production secrets for levelup-store app via ArgoCD
-ecommerce-secrets:
-	$(call require,APP_DOMAIN)
-	$(call require,APP_URL)
-	$(call require,CORS_ALLOW_ORIGIN)
-	$(call require,ECOMMERCE_GHCR_IMAGE)
-	$(call require,APP_SECRET)
-	$(call require,HMAC_SECRET)
-	$(call require,JWT_PASSPHRASE)
-	$(call require,STRIPE_SECRET)
-	$(call require,DATABASE_URL)
-	$(call require,REDIS_URL)
-	$(call require,RABBITMQ_PASS)
-	$(call require,MESSENGER_TRANSPORT_DSN)
-	$(call require,MINIO_ROOT_PASSWORD)
-	$(call require,MINIO_PUBLIC_URL)
-	$(call require,MERCURE_JWT_SECRET)
-	$(call require,MERCURE_CORS_ORIGINS)
-	$(call require,MERCURE_PUBLIC_URL)
-	$(call require,MERCURE_PUBLIC_ORIGIN)
-	$(call require,TURNSTILE_SITE_KEY)
-	$(call require,TURNSTILE_SECRET_KEY)
-	$(call require,TURNSTILE_VERIFY_URL)
-	$(call require,MAILER_USER)
-	$(call require,MAILER_DSN)
-	$(call require,API_COUNTRY_URL)
-	$(call require,WKHTMLTOPDF_PATH)
-	$(call require,DB_USERNAME)
-	$(call require,DB_DATABASE)
-	$(call require,RABBITMQ_USER)
-	$(call require,MINIO_ROOT_USER)
-	$(call require,TRUSTED_PROXIES)
-	$(call require,SERVER_VERSION)
-	$(call require,JWT_TTL)
-	$(call require,JWT_REFRESH_TTL)
-	$(call require,OTEL_SERVICE_NAME)
-	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
-	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
-	$(call argocd_login)
-	argocd app set $(APP_NAME) $(ARGOCD_FLAGS) \
+define set_ecommerce_secrets
+	argocd app set $(1) $(ARGOCD_FLAGS) \
 		-p sealedSecrets.enabled=false \
 		-p app.image.repository="$(ECOMMERCE_GHCR_IMAGE)" \
 		-p app.secret="$(APP_SECRET)" \
@@ -126,11 +91,10 @@ ecommerce-secrets:
 		-p app.minioRootUser="$(MINIO_ROOT_USER)" \
 		-p app.minioRootPassword="$(MINIO_ROOT_PASSWORD)" \
 		-p app.mercureJwtSecret="$(MERCURE_JWT_SECRET)" \
-		-p ingress.host="$(APP_DOMAIN)" \
+		-p ingress.host="$(2)" \
 		-p minio.publicUrl="$(MINIO_PUBLIC_URL)" \
 		-p mercure.publicUrl="$(MERCURE_PUBLIC_URL)" \
 		-p mercure.corsOrigins="$(MERCURE_CORS_ORIGINS)" \
-		-p mercure.publicOrigin="$(MERCURE_PUBLIC_ORIGIN)" \
 		-p turnstile.siteKey="$(TURNSTILE_SITE_KEY)" \
 		-p turnstile.secretKey="$(TURNSTILE_SECRET_KEY)" \
 		-p turnstile.verifyUrl="$(TURNSTILE_VERIFY_URL)" \
@@ -143,30 +107,67 @@ ecommerce-secrets:
 		-p app.postgresVersion="$(SERVER_VERSION)" \
 		-p app.jwtTtl="$(JWT_TTL)" \
 		-p app.jwtRefreshTtl="$(JWT_REFRESH_TTL)"
-	@echo "✓ App secrets set."
+endef
 
-## Set production secrets for levelup-store-assistant app via ArgoCD
-assistant-secrets:
+define require_ecommerce_secrets
 	$(call require,APP_DOMAIN)
 	$(call require,APP_URL)
-	$(call require,ASSISTANT_TYPE)
-	$(call require,ASSISTANT_ACCESS_KEY)
-	$(call require,REDIS_URL_FQDN)
-	$(call require,RABBITMQ_URL_FQDN)
-	$(call require,ASSISTANT_GHCR_IMAGE)
-	$(call require,SUPPORT_EMAIL)
-	$(call require,DATABASE_URL_FQDN)
 	$(call require,CORS_ALLOW_ORIGIN)
+	$(call require,ECOMMERCE_GHCR_IMAGE)
+	$(call require,APP_SECRET)
+	$(call require,HMAC_SECRET)
+	$(call require,JWT_PASSPHRASE)
+	$(call require,STRIPE_SECRET)
+	$(call require,DATABASE_URL)
+	$(call require,REDIS_URL)
+	$(call require,RABBITMQ_PASS)
+	$(call require,MESSENGER_TRANSPORT_DSN)
+	$(call require,MINIO_ROOT_PASSWORD)
+	$(call require,MINIO_PUBLIC_URL)
+	$(call require,MERCURE_JWT_SECRET)
+	$(call require,MERCURE_CORS_ORIGINS)
+	$(call require,MERCURE_PUBLIC_URL)
+	$(call require,TURNSTILE_SITE_KEY)
+	$(call require,TURNSTILE_SECRET_KEY)
+	$(call require,TURNSTILE_VERIFY_URL)
+	$(call require,MAILER_USER)
+	$(call require,MAILER_DSN)
+	$(call require,API_COUNTRY_URL)
+	$(call require,WKHTMLTOPDF_PATH)
+	$(call require,DB_USERNAME)
+	$(call require,DB_DATABASE)
+	$(call require,RABBITMQ_USER)
+	$(call require,MINIO_ROOT_USER)
+	$(call require,TRUSTED_PROXIES)
+	$(call require,SERVER_VERSION)
+	$(call require,JWT_TTL)
+	$(call require,JWT_REFRESH_TTL)
 	$(call require,OTEL_SERVICE_NAME)
 	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
 	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
+endef
+
+## Set production secrets for levelup-store app via ArgoCD
+ecommerce-secrets:
+	$(call require_ecommerce_secrets)
 	$(call argocd_login)
-	argocd app set levelup-store-assistant $(ARGOCD_FLAGS) \
+	$(call set_ecommerce_secrets,$(APP_NAME),$(APP_DOMAIN))
+	@echo "✓ App secrets set."
+
+## Set staging secrets for levelup-store-staging app via ArgoCD
+ecommerce-staging-secrets:
+	$(call require_ecommerce_secrets)
+	$(call argocd_login)
+	$(call set_ecommerce_secrets,levelup-store-staging,staging.$(APP_DOMAIN))
+	@echo "✓ Staging app secrets set. Ingress: staging.$(APP_DOMAIN)"
+
+define set_assistant_secrets
+	argocd app set $(1) $(ARGOCD_FLAGS) \
 		-p app.ecommerceUrl="$(APP_URL)" \
 		-p app.corsOrigins="$(CORS_ALLOW_ORIGIN)" \
 		-p app.supportEmail="$(SUPPORT_EMAIL)" \
 		-p app.image.repository="$(ASSISTANT_GHCR_IMAGE)" \
-		-p ingress.host="assistant.$(APP_DOMAIN)" \
+		-p ingress.host="$(2)" \
 		-p app.assistantType="$(ASSISTANT_TYPE)" \
 		-p app.assistantApiKey="$(ASSISTANT_API_KEY)" \
 		-p app.assistantAccessKey="$(ASSISTANT_ACCESS_KEY)" \
@@ -190,7 +191,37 @@ assistant-secrets:
 		-p otel.enabled="true" \
 		-p otel.endpoint="$(OTEL_EXPORTER_OTLP_ENDPOINT)" \
 		-p otel.protocol="$(OTEL_EXPORTER_OTLP_PROTOCOL)"
+endef
+
+define require_assistant_secrets
+	$(call require,APP_DOMAIN)
+	$(call require,APP_URL)
+	$(call require,ASSISTANT_TYPE)
+	$(call require,ASSISTANT_ACCESS_KEY)
+	$(call require,REDIS_URL_FQDN)
+	$(call require,RABBITMQ_URL_FQDN)
+	$(call require,ASSISTANT_GHCR_IMAGE)
+	$(call require,SUPPORT_EMAIL)
+	$(call require,DATABASE_URL_FQDN)
+	$(call require,CORS_ALLOW_ORIGIN)
+	$(call require,OTEL_SERVICE_NAME)
+	$(call require,OTEL_EXPORTER_OTLP_ENDPOINT)
+	$(call require,OTEL_EXPORTER_OTLP_PROTOCOL)
+endef
+
+## Set production secrets for levelup-store-assistant app via ArgoCD
+assistant-secrets:
+	$(call require_assistant_secrets)
+	$(call argocd_login)
+	$(call set_assistant_secrets,levelup-store-assistant,assistant.$(APP_DOMAIN))
 	@echo "✓ Assistant secrets set."
+
+## Set staging secrets for levelup-store-assistant-staging app via ArgoCD
+assistant-staging-secrets:
+	$(call require_assistant_secrets)
+	$(call argocd_login)
+	$(call set_assistant_secrets,levelup-store-assistant-staging,assistant-staging.$(APP_DOMAIN))
+	@echo "✓ Staging assistant secrets set. Ingress: assistant-staging.$(APP_DOMAIN)"
 
 ## Set Grafana password, domain and Alertmanager email via ArgoCD
 monitoring-secrets:

@@ -1,0 +1,38 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: staging-ip-allowlist
+  namespace: levelup-store-staging
+spec:
+  ipAllowList:
+    sourceRange:
+      - TAILSCALE_CIDR_PLACEHOLDER
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: staging-basic-auth-secret
+  namespace: levelup-store-staging
+type: Opaque
+stringData:
+  users: "BASIC_AUTH_PLACEHOLDER"
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: staging-basic-auth
+  namespace: levelup-store-staging
+spec:
+  basicAuth:
+    secret: staging-basic-auth-secret
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: staging-access
+  namespace: levelup-store-staging
+spec:
+  chain:
+    middlewares:
+      - name: staging-ip-allowlist
+      - name: staging-basic-auth

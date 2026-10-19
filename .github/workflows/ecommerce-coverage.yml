@@ -4,11 +4,11 @@ name: 📊 Ecommerce Coverage
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'apps/ecommerce/**'
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - 'apps/ecommerce/**'
   workflow_dispatch:

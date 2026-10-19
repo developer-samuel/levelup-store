@@ -4,7 +4,7 @@ name: 🚀 Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
   workflow_dispatch:
 
 concurrency:
@@ -64,7 +64,7 @@ jobs:
       target: ecommerce
       changed: ${{ needs.changes.outputs.ecommerce }}
       app-name: ecommerce
-      build-args: VITE_API_URL=https://assistant.${{ vars.APP_DOMAIN }}
+      build-args: VITE_API_URL=https://${{ github.ref_name == 'staging' && 'assistant-staging' || 'assistant' }}.${{ vars.APP_DOMAIN }}
     secrets:
       VITE_API_KEY: ${{ secrets.ASSISTANT_ACCESS_KEY }}
     permissions:
@@ -113,27 +113,37 @@ jobs:
             https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64
           chmod +x /usr/local/bin/yq
 
+      - name: Set values file
+        run: |
+          if [ "${{ github.ref_name }}" = "staging" ]; then
+            echo "VALUES_FILE=values.staging.yaml" >> $GITHUB_ENV
+            echo "TARGET_BRANCH=staging" >> $GITHUB_ENV
+          else
+            echo "VALUES_FILE=values.prod.yaml" >> $GITHUB_ENV
+            echo "TARGET_BRANCH=main" >> $GITHUB_ENV
+          fi
+
       - name: Update ecommerce image tag
         if: needs.build-ecommerce.result == 'success'
         run: |
           yq e '.app.image.tag = "${{ needs.build-ecommerce.outputs.image-tag }}"' \
-            -i infrastructure/helm/apps/ecommerce/values.prod.yaml
+            -i infrastructure/helm/apps/ecommerce/${{ env.VALUES_FILE }}
 
       - name: Update assistant image tag
         if: needs.build-assistant.result == 'success'
         run: |
           yq e '.app.image.tag = "${{ needs.build-assistant.outputs.image-tag }}"' \
-            -i infrastructure/helm/apps/assistant/values.prod.yaml
+            -i infrastructure/helm/apps/assistant/${{ env.VALUES_FILE }}
 
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add infrastructure/helm/apps/ecommerce/values.prod.yaml \
-                  infrastructure/helm/apps/assistant/values.prod.yaml
+          git add infrastructure/helm/apps/ecommerce/${{ env.VALUES_FILE }} \
+                  infrastructure/helm/apps/assistant/${{ env.VALUES_FILE }}
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "chore: deploy ${{ needs.build-ecommerce.outputs.image-tag || needs.build-assistant.outputs.image-tag }} [skip ci]"
           for i in 1 2 3; do
-            git pull --rebase origin main && git push origin main && break
+            git pull --rebase origin ${{ env.TARGET_BRANCH }} && git push origin ${{ env.TARGET_BRANCH }} && break
             sleep 5
           done
