@@ -32,12 +32,12 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
+      - name: Prepare environment
+        run: cp .env.example .env
+
       - uses: ./.github/actions/php
         with:
           php-version: ${{ env.PHP_VERSION }}
-
-      - name: Prepare environment
-        run: cp .env.example .env
 
       - name: Export OpenAPI spec
         run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > openapi.json
@@ -71,12 +71,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Prepare environment
+        run: cp .env.example .env
+
       - uses: ./.github/actions/php
         with:
           php-version: ${{ env.PHP_VERSION }}
-
-      - name: Prepare environment
-        run: cp .env.example .env
 
       - name: Export spec from PR branch
         run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > $GITHUB_WORKSPACE/openapi-pr.json
