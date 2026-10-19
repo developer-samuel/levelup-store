@@ -27,7 +27,7 @@ final class SecurityHeadersListener
         $headers->set('Cross-Origin-Resource-Policy', 'same-origin');
         $headers->set('X-Content-Type-Options', 'nosniff');
         $headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
-        $headers->set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com; frame-src https://js.stripe.com https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'");
+        $headers->set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com; frame-src https://js.stripe.com https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
         $headers->remove('X-Powered-By');
     }
 }
