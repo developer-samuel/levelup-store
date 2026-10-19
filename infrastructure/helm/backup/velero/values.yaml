@@ -41,7 +41,7 @@ velero:
   kubectl:
     image:
       repository: bitnamilegacy/kubectl
-      tag: "1.30"
+      tag: "1.30@sha256:1249fc292e84a38575ee0cadc3e28dcd7ddf5a3a4e5da401b1a8599e8ac52a1b"
 
   resources:
     requests:
