@@ -1,7 +1,7 @@
 {
   "type": "module",
   "devDependencies": {
-    "sloc": "^0.3.2"
+    "sloc": "0.3.2"
   },
   "scripts": {
     "sloc": "sloc apps/ecommerce/assets/ts apps/ecommerce/assets/scss apps/assistant/client/src",
