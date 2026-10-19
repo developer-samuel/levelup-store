@@ -4,10 +4,6 @@ nelmio_security:
     paths:
       '^/.*': DENY
 
-  # disables content type sniffing for script resources
-  content_type:
-    nosniff: true
-
   referrer_policy:
     enabled: true
     policies:
@@ -27,33 +23,40 @@ nelmio_security:
         - 'self'
       script-src:
         - 'self'
+        - "'unsafe-inline'"
+        - 'https://js.stripe.com'
         - 'https://challenges.cloudflare.com'
       style-src:
         - 'self'
+        - "'unsafe-inline'"
       font-src:
         - 'self'
       img-src:
         - 'self'
-        - 'data:'
+        - "'data:'"
+        - 'https:'
+        - 'http://localhost:*'
+        - 'http://127.0.0.1:*'
       connect-src:
         - 'self'
-        - '%env(MERCURE_PUBLIC_ORIGIN)%'
+        - 'https://api.stripe.com'
+        - 'https:'
+        - 'http://localhost:*'
+        - 'http://127.0.0.1:*'
       frame-src:
+        - 'https://js.stripe.com'
         - 'https://challenges.cloudflare.com'
-      frame-ancestors:
-        - 'none'
+      object-src:
+        - "'none'"
+      base-uri:
+        - 'self'
       form-action:
         - 'self'
+      frame-ancestors:
+        - "'none'"
 
   cross_origin_isolation:
     enabled: true
     paths:
       '^/(?!login|signup|forgot-password|reset-password|change-password).*': ~
 
-  permissions_policy:
-    enabled: true
-    policies:
-      camera: []
-      microphone: []
-      geolocation: []
-      payment: []
