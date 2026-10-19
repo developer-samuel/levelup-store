@@ -53,20 +53,22 @@ jobs:
       - name: Generate diff
         id: diff
         run: |
-          DIFF=""
+          BODY="## ⎈ Helm Diff"$'\n'
+          CHANGED=false
           for chart in ecommerce assistant; do
             CHART_DIFF=$(diff -u /tmp/${chart}-base.yaml /tmp/${chart}-pr.yaml || true)
             if [ -n "$CHART_DIFF" ]; then
-              DIFF="${DIFF}\n### ${chart}\n\`\`\`diff\n${CHART_DIFF}\n\`\`\`\n"
+              CHANGED=true
+              BODY="${BODY}"$'\n'"### ${chart}"$'\n'"\`\`\`diff"$'\n'"${CHART_DIFF}"$'\n'"\`\`\`"$'\n'
             fi
           done
-          if [ -z "$DIFF" ]; then
-            DIFF="No changes in rendered manifests."
+          if [ "$CHANGED" = "false" ]; then
+            BODY="${BODY}"$'\n'"No changes in rendered manifests."
           fi
           {
-            echo "body<<EOF"
-            printf "## ⎈ Helm Diff\n\n$DIFF"
-            echo "EOF"
+            echo "body<<HELM_DIFF_EOF"
+            echo "$BODY"
+            echo "HELM_DIFF_EOF"
           } >> "$GITHUB_OUTPUT"
 
       - name: Post diff as PR comment
