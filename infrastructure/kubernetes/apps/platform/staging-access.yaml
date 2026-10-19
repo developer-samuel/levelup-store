@@ -4,7 +4,7 @@ metadata:
   name: staging-ip-allowlist
   namespace: levelup-store-staging
 spec:
-  ipAllowList:
+  ipWhiteList:
     sourceRange:
       - TAILSCALE_CIDR_PLACEHOLDER
 ---

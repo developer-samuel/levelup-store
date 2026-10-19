@@ -94,7 +94,10 @@ htpasswd -nb admin your-password
 # 3. Apply Traefik IP allowlist + Basic Auth middleware
 make -C infrastructure staging-access
 
-# 4. Set secrets + ingress domains
+# 4. Create JWT keypair secret in staging namespace (same keys as production)
+make -C infrastructure jwt-keys-secret-staging
+
+# 5. Set secrets + ingress domains
 make -C infrastructure ecommerce-staging-secrets   # staging.${APP_DOMAIN}
 make -C infrastructure assistant-staging-secrets   # assistant-staging.${APP_DOMAIN}
 ```
@@ -121,14 +124,12 @@ This must be done before seeding MinIO, as fixtures create product and variant r
 After ArgoCD syncs MinIO for the first time, seed the bucket with initial upload assets from the
 [levelup-store-uploads](https://github.com/Developer-Samuel/levelup-store-uploads) repository.
 
-Exec into the running app pod:
-
 ```bash
-kubectl exec -it deployment/levelup-store -n levelup-store -- /usr/local/bin/scripts/bootstrap/uploads-setup.sh
+make -C infrastructure minio-seed          # production
+make -C infrastructure minio-seed-staging  # staging
 ```
 
-The script reads `MINIO_ENABLED`, `MINIO_ENDPOINT`, `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`, and `MINIO_BUCKET`
-from the pod's environment - no extra config needed.
+The script clones `levelup-store-uploads` and uploads to the bucket defined by `MINIO_BUCKET` in the pod's environment - no extra config needed.
 
 This only needs to be done once. MinIO persists data on a PVC - the bucket survives pod restarts and redeployments.
 

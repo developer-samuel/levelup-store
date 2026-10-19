@@ -1,7 +1,8 @@
 # ── minio ────────────────────────────────────────────────────────────────────
 
 .PHONY: minio-start minio-down minio-stop minio-unsync \
-        minio-status minio-sync minio-pods minio-logs
+        minio-status minio-sync minio-pods minio-logs \
+        minio-seed minio-seed-staging
 
 # ── Lifecycle ─────────────────────────────────────────────────────────────────
 
@@ -30,3 +31,11 @@ minio-pods: ## Show pods for minio
 
 minio-logs: ## Tail logs for minio (last 100 lines, follow)
 	$(MAKE) argocd-app-logs APP=minio NS=levelup-store
+
+# ── Seed ──────────────────────────────────────────────────────────────────────
+
+minio-seed: ## Seed production MinIO bucket from levelup-store-uploads repository (one-time)
+	kubectl exec -it deployment/levelup-store -n levelup-store -- /usr/local/bin/scripts/bootstrap/uploads-setup.sh
+
+minio-seed-staging: ## Seed staging MinIO bucket from levelup-store-uploads repository (one-time)
+	kubectl exec -it deployment/levelup-store-staging -n levelup-store-staging -- /usr/local/bin/scripts/bootstrap/uploads-setup.sh
