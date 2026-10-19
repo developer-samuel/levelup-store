@@ -2,7 +2,8 @@
 # 🔐 Secrets Commands
 # ──────────────────────────────────────────────────────────────────────────────
 
-.PHONY: services-secrets jwt-keys-secret \
+.PHONY: services-secrets \
+        jwt-keys-secret jwt-keys-secret-staging \
         ecommerce-secrets ecommerce-staging-secrets \
         assistant-secrets assistant-staging-secrets \
         monitoring-secrets \
@@ -214,6 +215,17 @@ jwt-keys-secret:
 		--from-file=public.pem=../apps/ecommerce/config/jwt/public.pem \
 		--dry-run=client -o yaml | kubectl apply --validate=false -f -
 	@echo "✓ JWT keys secret created/updated."
+
+## Create JWT keypair secret in staging namespace (run once after keygen)
+jwt-keys-secret-staging:
+	@test -f ../apps/ecommerce/config/jwt/private.pem || (echo "ERROR: apps/ecommerce/config/jwt/private.pem not found. Run: cd apps/ecommerce && composer jwt:generate"; exit 1)
+	@test -f ../apps/ecommerce/config/jwt/public.pem  || (echo "ERROR: apps/ecommerce/config/jwt/public.pem not found."; exit 1)
+	kubectl create secret generic levelup-store-staging-jwt-keys \
+		--namespace levelup-store-staging \
+		--from-file=private.pem=../apps/ecommerce/config/jwt/private.pem \
+		--from-file=public.pem=../apps/ecommerce/config/jwt/public.pem \
+		--dry-run=client -o yaml | kubectl apply --validate=false -f -
+	@echo "✓ Staging JWT keys secret created/updated."
 
 ## Set production secrets for levelup-store app via ArgoCD
 ecommerce-secrets:
