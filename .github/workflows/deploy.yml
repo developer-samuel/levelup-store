@@ -65,6 +65,8 @@ jobs:
       changed: ${{ needs.changes.outputs.ecommerce }}
       app-name: ecommerce
       build-args: VITE_API_URL=https://assistant.${{ vars.APP_DOMAIN }}
+    secrets:
+      VITE_API_KEY: ${{ secrets.ASSISTANT_ACCESS_KEY }}
     permissions:
       contents: write
       packages: write

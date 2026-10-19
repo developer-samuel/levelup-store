@@ -35,6 +35,10 @@ on:
         required: false
         type: string
         default: ''
+    secrets:
+      VITE_API_KEY:
+        description: API key baked into the frontend bundle at build time
+        required: false
     outputs:
       image-tag:
         value: ${{ jobs.build.outputs.image-tag }}
@@ -94,7 +98,9 @@ jobs:
           context: ${{ inputs.context }}
           file: ${{ inputs.file }}
           target: ${{ inputs.target }}
-          build-args: ${{ inputs.build-args }}
+          build-args: |
+            ${{ inputs.build-args }}
+            VITE_API_KEY=${{ secrets.VITE_API_KEY }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
