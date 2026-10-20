@@ -132,10 +132,13 @@ staging-access:
 	$(call require,STAGING_BASIC_AUTH)
 	kubectl create namespace levelup-store-staging --dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create namespace levelup-store-assistant-staging --dry-run=client -o yaml | kubectl apply --validate=false -f -
-	sed \
-		-e 's|TAILSCALE_CIDR_PLACEHOLDER|$(TAILSCALE_CIDR)|g' \
-		-e 's|BASIC_AUTH_PLACEHOLDER|$(STAGING_BASIC_AUTH)|g' \
+	sed -e 's|TAILSCALE_CIDR_PLACEHOLDER|$(TAILSCALE_CIDR)|g' \
+		-e 's|BASIC_AUTH_PLACEHOLDER|PLACEHOLDER|g' \
 		kubernetes/apps/platform/staging-access.yaml | kubectl apply -f -
+	kubectl create secret generic staging-basic-auth-secret \
+		-n levelup-store-staging \
+		--from-literal=users='$(STAGING_BASIC_AUTH)' \
+		--dry-run=client -o yaml | kubectl apply -f -
 	@echo "✓ Staging access configured."
 	@echo "  IP allowlist: $(TAILSCALE_CIDR)"
 	@echo "  Basic Auth:   enabled (user: admin)"

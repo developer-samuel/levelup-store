@@ -7,15 +7,6 @@ spec:
   ipWhiteList:
     sourceRange: [TAILSCALE_CIDR_PLACEHOLDER]
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: staging-basic-auth-secret
-  namespace: levelup-store-staging
-type: Opaque
-stringData:
-  users: "BASIC_AUTH_PLACEHOLDER"
----
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
