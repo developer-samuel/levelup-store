@@ -6,3 +6,6 @@ ingress:
   stagingMiddleware: true
 networkPolicy:
   servicesNamespace: "levelup-store"
+
+mercure:
+  ingressEnabled: false

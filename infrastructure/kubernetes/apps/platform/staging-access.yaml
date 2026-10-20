@@ -5,8 +5,7 @@ metadata:
   namespace: levelup-store-staging
 spec:
   ipWhiteList:
-    sourceRange:
-      - TAILSCALE_CIDR_PLACEHOLDER
+    sourceRange: [TAILSCALE_CIDR_PLACEHOLDER]
 ---
 apiVersion: v1
 kind: Secret

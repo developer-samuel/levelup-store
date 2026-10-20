@@ -25,7 +25,7 @@ data:
   REDIS_PORT: "6379"
 
   ELASTICSEARCH_ENABLED: {{ .Values.elasticsearch.enabled | quote }}
-  ELASTICSEARCH_HOST: {{ .Values.app.elasticsearchHost | default (printf "%s-elasticsearch-master" .Release.Name) | quote }}
+  ELASTICSEARCH_HOST: {{ .Values.app.elasticsearchHost | default (printf "%s-elasticsearch" .Release.Name) | quote }}
   ELASTICSEARCH_PORT: "9200"
 
   RABBITMQ_ENABLED: {{ .Values.rabbitmq.enabled | quote }}
