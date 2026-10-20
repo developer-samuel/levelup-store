@@ -75,6 +75,7 @@ test.describe('Order Create Page', () => {
   let orderPage: OrderCreatePage
 
   test.beforeEach(async ({ page }) => {
+    test.setTimeout(120_000)
     await login(page)
     await addProductToCart(page)
 

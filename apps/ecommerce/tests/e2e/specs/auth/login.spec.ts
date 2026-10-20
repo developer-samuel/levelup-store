@@ -70,15 +70,13 @@ test.describe('Login Page', () => {
   // ── Navigation ─────────────────────────────────────────────────────────────
 
   test('should navigate to forgot password page on link click', async ({ page }) => {
-    await loginPage.forgotPasswordLink.click()
-    await page.waitForLoadState('load')
+    await Promise.all([page.waitForURL('**/forgot-password'), loginPage.forgotPasswordLink.click()])
 
     expect(page.url()).toContain('/forgot-password')
   })
 
   test('should navigate to sign up page on link click', async ({ page }) => {
-    await loginPage.signUpLink.click()
-    await page.waitForLoadState('load')
+    await Promise.all([page.waitForURL('**/signup'), loginPage.signUpLink.click()])
 
     expect(page.url()).toContain('/signup')
   })
