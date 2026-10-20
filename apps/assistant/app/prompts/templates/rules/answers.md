@@ -15,8 +15,7 @@ Brand: <brand>
 Category: <category>
 Original price: <price> EUR
 Sale price: <discounted price> EUR
-Rating: <avg>★ (<n> reviews)
-Orders: <order_count>
+Rating: <avg>★ (<feedback_count> reviews, <rating_count> ratings)
 Description: <short description>
 Stock: <stock_level>
 URL: <url>
@@ -27,7 +26,7 @@ Rules:
 
 - Omit `Sale price` if there is no discount
 - Omit `Rating` if feedback_count and rating_count are both 0 or absent - never write "0 reviews" or "0 ratings"
-- Omit `Orders` if order_count is 0 or absent - never write "0 orders"
+- If only feedback_count > 0: use `<avg>★ (<feedback_count> reviews)`; if only rating_count > 0: use `<avg>★ (<rating_count> ratings)`; if both > 0: use `<avg>★ (<feedback_count> reviews, <rating_count> ratings)`
 - Omit `Description` if not available
 - Always include `Stock:` as a number (0 = out of stock, 1-4 = low stock, 5 = in stock / 5 or more)
 - **Always include `Image:` when the context contains an image URL for the product - this is mandatory, never skip it**

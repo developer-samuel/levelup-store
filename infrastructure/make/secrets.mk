@@ -257,6 +257,8 @@ ecommerce-staging-secrets:
 		-p app.minioEndpoint="$(STAGING_MINIO_ENDPOINT)" \
 		-p app.mercureUrl="$(STAGING_MERCURE_URL)" \
 		-p app.assistantUrl="https://assistant-staging.$(APP_DOMAIN)"
+	kubectl patch secret levelup-store-mercure-secret -n levelup-store --type=merge \
+		-p "{\"stringData\":{\"mercure-cors-allowed-origins\":\"$(MERCURE_CORS_ORIGINS) https://staging.$(APP_DOMAIN)\",\"extra-directives\":\"anonymous\ncors_origins $(MERCURE_CORS_ORIGINS) https://staging.$(APP_DOMAIN)\"}}"
 	@echo "✓ Staging app secrets set. Ingress: staging.$(APP_DOMAIN)"
 
 ## Set production secrets for levelup-store-assistant app via ArgoCD
@@ -275,7 +277,8 @@ assistant-staging-secrets:
 		-p app.databaseUrl="$(STAGING_DATABASE_URL_FQDN)" \
 		-p app.redisUrl="$(STAGING_REDIS_URL_FQDN)" \
 		-p broker.rabbitmqUrl="$(STAGING_RABBITMQ_URL_FQDN)" \
-		-p app.minioBucket="$(STAGING_MINIO_BUCKET)"
+		-p app.minioBucket="$(STAGING_MINIO_BUCKET)" \
+		-p app.corsOrigins="^https://(staging\.)?$(APP_DOMAIN)$$"
 	@echo "✓ Staging assistant secrets set. Ingress: assistant-staging.$(APP_DOMAIN)"
 
 ## Set Grafana password, domain and Alertmanager email via ArgoCD
