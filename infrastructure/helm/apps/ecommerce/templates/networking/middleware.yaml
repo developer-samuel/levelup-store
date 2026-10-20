@@ -57,6 +57,6 @@ spec:
         img-src 'self' data: https:;
         font-src 'self';
         frame-src https://js.stripe.com https://challenges.cloudflare.com;
-        connect-src 'self' https://api.stripe.com {{ .Values.app.assistantUrl | default (printf "https://assistant.%s" .Values.ingress.host) }};
+        connect-src 'self' https://api.stripe.com {{ .Values.app.assistantUrl | default (printf "https://assistant.%s" .Values.ingress.host) }} {{ .Values.mercure.publicUrl | default (printf "https://%s/.well-known/mercure" .Values.ingress.host) }};
         object-src 'none';
         base-uri 'self'
