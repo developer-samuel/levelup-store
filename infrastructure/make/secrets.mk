@@ -51,10 +51,16 @@ endef
 
 define require_ecommerce_staging_secrets
 	$(call require_ecommerce_secrets)
+  $(call require,STAGING_DB_HOST)
 	$(call require,STAGING_DATABASE_URL)
+  $(call require,STAGING_ELASTICSEARCH_HOST)
+  $(call require,STAGING_REDIS_HOST)
 	$(call require,STAGING_REDIS_URL)
+  $(call require,STAGING_RABBITMQ_HOST)
 	$(call require,STAGING_MESSENGER_TRANSPORT_DSN)
 	$(call require,STAGING_MINIO_BUCKET)
+	$(call require,STAGING_MINIO_ENDPOINT)
+	$(call require,STAGING_MERCURE_URL)
 endef
 
 define require_assistant_secrets
@@ -243,7 +249,16 @@ ecommerce-staging-secrets:
 		-p app.databaseUrl="$(STAGING_DATABASE_URL)" \
 		-p app.redisUrl="$(STAGING_REDIS_URL)" \
 		-p app.messengerDsn="$(STAGING_MESSENGER_TRANSPORT_DSN)" \
-		-p app.minioBucket="$(STAGING_MINIO_BUCKET)"
+		-p app.minioBucket="$(STAGING_MINIO_BUCKET)" \
+		-p app.dbHost="$(STAGING_DB_HOST)" \
+		-p app.redisHost="$(STAGING_REDIS_HOST)" \
+		-p app.elasticsearchHost="$(STAGING_ELASTICSEARCH_HOST)" \
+		-p app.rabbitmqHost="$(STAGING_RABBITMQ_HOST)" \
+		-p app.minioEndpoint="$(STAGING_MINIO_ENDPOINT)" \
+		-p app.mercureUrl="$(STAGING_MERCURE_URL)" \
+		-p app.assistantUrl="https://assistant-staging.$(APP_DOMAIN)"
+	kubectl patch secret levelup-store-mercure-secret -n levelup-store --type=merge \
+		-p "{\"stringData\":{\"mercure-cors-allowed-origins\":\"$(MERCURE_CORS_ORIGINS) https://staging.$(APP_DOMAIN)\",\"extra-directives\":\"anonymous\ncors_origins $(MERCURE_CORS_ORIGINS) https://staging.$(APP_DOMAIN)\"}}"
 	@echo "✓ Staging app secrets set. Ingress: staging.$(APP_DOMAIN)"
 
 ## Set production secrets for levelup-store-assistant app via ArgoCD
@@ -262,7 +277,8 @@ assistant-staging-secrets:
 		-p app.databaseUrl="$(STAGING_DATABASE_URL_FQDN)" \
 		-p app.redisUrl="$(STAGING_REDIS_URL_FQDN)" \
 		-p broker.rabbitmqUrl="$(STAGING_RABBITMQ_URL_FQDN)" \
-		-p app.minioBucket="$(STAGING_MINIO_BUCKET)"
+		-p app.minioBucket="$(STAGING_MINIO_BUCKET)" \
+		-p app.corsOrigins="^https://(staging\.)?$(APP_DOMAIN)$$"
 	@echo "✓ Staging assistant secrets set. Ingress: assistant-staging.$(APP_DOMAIN)"
 
 ## Set Grafana password, domain and Alertmanager email via ArgoCD

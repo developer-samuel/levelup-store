@@ -7,6 +7,8 @@ metadata:
   labels:
     {{- include "levelup-store-assistant.labels" . | nindent 4 }}
     app.kubernetes.io/component: chromadb
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -25,8 +27,6 @@ metadata:
   labels:
     {{- include "levelup-store-assistant.labels" . | nindent 4 }}
     app.kubernetes.io/component: chromadb
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
 spec:
   replicas: 1
   selector:

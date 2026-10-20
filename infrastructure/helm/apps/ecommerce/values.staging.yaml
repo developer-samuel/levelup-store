@@ -1,8 +1,10 @@
 app:
   image:
-    tag: "ea39dfd"
+    tag: "4b8722f"
 ingress:
   host: "" # set via make secrets
   stagingMiddleware: true
 networkPolicy:
   servicesNamespace: "levelup-store"
+mercure:
+  ingressEnabled: false

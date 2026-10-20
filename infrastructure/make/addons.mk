@@ -126,16 +126,16 @@ blackbox-install:
 		-p "prometheus-blackbox-exporter.serviceMonitor.targets[1].url=https://$(APP_DOMAIN)/"
 	@echo "✓ Blackbox Exporter deployed. Dashboards in Grafana → Explore → probe_success"
 
-## Apply staging IP allowlist + Basic Auth middleware (run once after staging ArgoCD apps are created)
+## Apply staging Basic Auth secret (run once after staging ArgoCD apps are created)
 staging-access:
-	$(call require,TAILSCALE_CIDR)
 	$(call require,STAGING_BASIC_AUTH)
 	kubectl create namespace levelup-store-staging --dry-run=client -o yaml | kubectl apply --validate=false -f -
 	kubectl create namespace levelup-store-assistant-staging --dry-run=client -o yaml | kubectl apply --validate=false -f -
-	sed \
-		-e 's|TAILSCALE_CIDR_PLACEHOLDER|$(TAILSCALE_CIDR)|g' \
-		-e 's|BASIC_AUTH_PLACEHOLDER|$(STAGING_BASIC_AUTH)|g' \
-		kubernetes/apps/platform/staging-access.yaml | kubectl apply -f -
+	@printf '%s' '$(value STAGING_BASIC_AUTH)' > /tmp/staging-basic-auth
+	kubectl create secret generic staging-basic-auth-secret \
+		-n levelup-store-staging \
+		--from-file=users=/tmp/staging-basic-auth \
+		--dry-run=client -o yaml | kubectl apply -f -
+	@rm -f /tmp/staging-basic-auth
 	@echo "✓ Staging access configured."
-	@echo "  IP allowlist: $(TAILSCALE_CIDR)"
-	@echo "  Basic Auth:   enabled (user: admin)"
+	@echo "  Basic Auth: enabled (user: admin)"

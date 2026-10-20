@@ -7,7 +7,7 @@ Use this format ONLY for cart and wishlist items (short inline blocks with image
 **Product Name**
 ~~Original price EUR~~
 Sale price EUR
-4.8★ (52 reviews)
+4.8★ (1 reviews, 3 ratings)
 [Show product](product_url)
 
 {{include:includes/price_block}}

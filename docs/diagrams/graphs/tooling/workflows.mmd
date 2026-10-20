@@ -23,6 +23,15 @@ graph TD
         SupplyChain[🔗 supply-chain.yml - Gitleaks, OSSF Scorecard]:::security
     end
 
+    %% ── Quality ───────────────────────────────────────────────────────────────
+
+    subgraph Quality["Quality"]
+        Performance[⚡ performance.yml - k6 load test, nightly scheduled]:::validation
+        Smoke[💨 smoke.yml - smoke tests triggered after Deploy workflow]:::validation
+        HelmDiff[🔍 helm-diff.yml - Helm chart diff on PR]:::validation
+        DepReview[🔒 dependency-review.yml - dependency vulnerability review on PR]:::validation
+    end
+
     %% ── Validation ────────────────────────────────────────────────────────────
 
     subgraph Validation["Validation"]
@@ -42,6 +51,7 @@ graph TD
 
     %% Connections
     GHA --> Deploy
+    GHA --> Quality
     GHA --> Security
     GHA --> Validation
     GHA --> Release

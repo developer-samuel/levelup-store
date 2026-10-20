@@ -12,7 +12,8 @@ graph TD
     %% ── CI ────────────────────────────────────────────────────────────────────
 
     subgraph CI["CI"]
-        CIYml[🚀 ecommerce-ci.yml - lint, PHPUnit, Vitest, E2E]:::ci
+        CIYml[🚀 ecommerce-ci.yml - lint, PHPUnit, Vitest]:::ci
+        E2EYml[🎭 ecommerce-e2e.yml - Playwright E2E]:::ci
     end
 
     %% ── Quality ───────────────────────────────────────────────────────────────
@@ -35,6 +36,7 @@ graph TD
 
     subgraph Validation["Validation"]
         DockerValidate[🐳 ecommerce-docker-validate.yml]:::validation
+        OpenApi[📄 ecommerce-openapi.yml - OpenAPI spec generation]:::validation
     end
 
     %% Connections

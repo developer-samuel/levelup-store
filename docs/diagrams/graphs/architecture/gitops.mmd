@@ -8,11 +8,11 @@ graph TD
     classDef k8s    fill:#326ce5, color:#fff, stroke:#000, stroke-width:2px;
     classDef drift  fill:#c0392b, color:#fff, stroke:#000, stroke-width:2px;
 
-    ValuesCommit[📝 git commit → main\nvalues.prod.yaml · image tag]:::git
+    ValuesCommit[📝 git commit\nvalues.prod.yaml → main · values.staging.yaml → staging]:::git
     KubernetesDrift[⚠️ K8s state drift\nmanual change detected]:::drift
 
     subgraph ArgoCD["ArgoCD  (prune + selfHeal)"]
-        Poll[🔄 Polls main branch\ninfrastructure/helm/levelup-store/]:::argocd
+        Poll[🔄 Polls git branch\nmain (prod) · staging (staging)]:::argocd
         Diff[📊 Detects diff\ngit state vs cluster state]:::argocd
         Sync[🔁 Syncs Helm release\nvalues.yaml + services.yaml + values.prod.yaml]:::argocd
     end

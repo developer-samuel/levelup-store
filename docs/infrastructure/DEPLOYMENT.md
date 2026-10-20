@@ -91,7 +91,7 @@ kubectl apply -f infrastructure/kubernetes/apps/workloads/assistant.staging.yaml
 htpasswd -nb admin your-password
 # → set STAGING_BASIC_AUTH=admin:$apr1$...
 
-# 3. Apply Traefik IP allowlist + Basic Auth middleware
+# 3. Apply Traefik Basic Auth middleware + secret
 make -C infrastructure staging-access
 
 # 4. Create JWT keypair secret in staging namespace (same keys as production)
@@ -102,8 +102,8 @@ make -C infrastructure ecommerce-staging-secrets   # staging.${APP_DOMAIN}
 make -C infrastructure assistant-staging-secrets   # assistant-staging.${APP_DOMAIN}
 ```
 
-After step 1, every `git push → main` deploys staging automatically alongside production.
-`staging-access` restricts access to your Tailscale IP + Basic Auth password.
+After step 1, every `git push → staging` deploys staging automatically. Production deploys on push to `main`.
+`staging-access` restricts access via Basic Auth password.
 
 ---
 
