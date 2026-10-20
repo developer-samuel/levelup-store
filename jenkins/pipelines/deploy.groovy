@@ -14,7 +14,8 @@ def detectChanges() {
 
 def buildAndPush(String app) {
     def image = "${env.REGISTRY}/${env.GHCR_REPO}-${app}:${env.IMAGE_TAG}"
-    def buildArgs = app == 'ecommerce' ? "--build-arg VITE_API_URL=https://assistant.${env.APP_DOMAIN}" : ''
+    def assistantUrl = params.ENVIRONMENT == 'production' ? "https://assistant.${env.APP_DOMAIN}" : "https://assistant-staging.${env.APP_DOMAIN}"
+    def buildArgs = app == 'ecommerce' ? "--build-arg VITE_API_URL=${assistantUrl}" : ''
     sh """
         docker build \
             --target ${app} \
@@ -45,6 +46,8 @@ def syncImageTags(String environment) {
         sh "yq e '.app.image.tag = \"${env.IMAGE_TAG}\"' -i infrastructure/helm/apps/assistant/${valuesFile}"
     }
 
+    def targetBranch = environment == 'production' ? 'main' : 'staging'
+
     withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
         sh """
             git config user.name  "jenkins[bot]"
@@ -53,10 +56,10 @@ def syncImageTags(String environment) {
                     infrastructure/helm/apps/assistant/${valuesFile}
             git diff --cached --quiet && echo "No changes to commit" && exit 0
             git commit -m "chore: deploy ${env.IMAGE_TAG} to ${environment} [skip ci]"
-            git fetch origin main
+            git fetch origin ${targetBranch}
             git restore .
-            git rebase origin/main
-            git push https://\$GIT_USER:\$GIT_TOKEN@github.com/${env.GHCR_REPO}.git HEAD:main
+            git rebase origin/${targetBranch}
+            git push https://\$GIT_USER:\$GIT_TOKEN@github.com/${env.GHCR_REPO}.git HEAD:${targetBranch}
         """
     }
 }
