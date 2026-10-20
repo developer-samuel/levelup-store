@@ -102,7 +102,7 @@ def format_top_ordered(rows: list[tuple[object, ...]]) -> str:
             discounted_price,
             brand,
             category,
-            order_count,
+            _order_count,
             url,
             description,
             image_path,
@@ -122,7 +122,6 @@ def format_top_ordered(rows: list[tuple[object, ...]]) -> str:
                 if discounted_price
                 else ""
             )
-            + f"\nOrders: {order_count}"
             + (f"\nDescription: {description}" if description else "")
             + f"\nStock: {stock_level}"
             f"\nURL: {link}"
@@ -202,7 +201,7 @@ def format_user_reviews(rows: list[tuple[object, ...]]) -> str:
     lines = ["My reviews:"]
 
     for row in rows:
-        product_name, variant_name, brand, rating, body, review_type, created_at, url = row
+        _product_name, variant_name, _brand, rating, body, review_type, created_at, url = row
         date = created_at.strftime("%d.%m.%Y") if hasattr(created_at, "strftime") else ""
         link = product_url(url)
         comment_short = str(body)[:100] if body else ""
@@ -226,9 +225,9 @@ def format_user_wishlist(rows: list[tuple[object, ...]]) -> str:
 
     for row in rows:
         (
-            product_name,
+            _product_name,
             variant_name,
-            brand,
+            _brand,
             price,
             discounted_price,
             url,
