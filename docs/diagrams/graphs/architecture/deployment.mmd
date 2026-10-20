@@ -22,9 +22,9 @@ graph TD
         JenkinsUI[🔧 Jenkins UI\nIMAGE_TAG · TARGET · ENVIRONMENT]:::manual
         JenkinsDetect[🔍 Detect changes\nECOMMERCE_CHANGED · ASSISTANT_CHANGED · IMAGE_TAG]:::manual
         JenkinsBuild[🐳 Build & Push\nskipped on rollback]:::build
-        JenkinsStaging[📝 Update values.staging.yaml\ncommit + push → main]:::gitops
+        JenkinsStaging[📝 Update values.staging.yaml\ncommit + push → staging]:::gitops
         JenkinsApproval[⏸️ Manual approval\nproduction only]:::manual
-        JenkinsProd[📝 Update values.prod.yaml\ncommit + push → main]:::gitops
+        JenkinsProd[📝 Update values.prod.yaml\ncommit + push → main branch]:::gitops
     end
 
     JenkinsUI      --> JenkinsDetect

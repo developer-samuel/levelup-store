@@ -3,4 +3,4 @@ app:
     tag: "aaff10d"
 ingress:
   host: "" # set via make secrets
-  stagingMiddleware: true
+  stagingMiddleware: false
