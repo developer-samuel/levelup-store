@@ -255,7 +255,8 @@ ecommerce-staging-secrets:
 		-p app.elasticsearchHost="$(STAGING_ELASTICSEARCH_HOST)" \
 		-p app.rabbitmqHost="$(STAGING_RABBITMQ_HOST)" \
 		-p app.minioEndpoint="$(STAGING_MINIO_ENDPOINT)" \
-		-p app.mercureUrl="$(STAGING_MERCURE_URL)"
+		-p app.mercureUrl="$(STAGING_MERCURE_URL)" \
+		-p app.assistantUrl="https://assistant-staging.$(APP_DOMAIN)"
 	@echo "✓ Staging app secrets set. Ingress: staging.$(APP_DOMAIN)"
 
 ## Set production secrets for levelup-store-assistant app via ArgoCD

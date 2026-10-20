@@ -49,7 +49,7 @@ spec:
       Cross-Origin-Embedder-Policy: "credentialless"
       Cross-Origin-Opener-Policy: "same-origin"
       Cross-Origin-Resource-Policy: "same-origin"
-      Permissions-Policy: "camera=(), microphone=(), geolocation=(), payment=()"
+      Permissions-Policy: "camera=(), microphone=(self), geolocation=(), payment=()"
       Content-Security-Policy: >-
         default-src 'self';
         script-src 'self' 'unsafe-inline' https://js.stripe.com https://challenges.cloudflare.com;
@@ -57,6 +57,6 @@ spec:
         img-src 'self' data: https:;
         font-src 'self';
         frame-src https://js.stripe.com https://challenges.cloudflare.com;
-        connect-src 'self' https://api.stripe.com https://assistant.{{ .Values.ingress.host }};
+        connect-src 'self' https://api.stripe.com {{ .Values.app.assistantUrl | default (printf "https://assistant.%s" .Values.ingress.host) }};
         object-src 'none';
         base-uri 'self'
