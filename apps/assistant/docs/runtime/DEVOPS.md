@@ -25,27 +25,28 @@ The assistant app uses a single Dockerfile:
 All pipelines are implemented using GitHub Actions.
 Python and Node versions are centralized as repository variables (`PYTHON_VERSION`, `NODE_VERSION`).
 
-| Workflow                        | Trigger                                                                                                          | Description                                                                |
-|---------------------------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| `assistant-ci.yml`              | push/PR → main (apps/assistant/**)                                                                               | Ruff lint + format check, Mypy type check, Vulture dead code, pytest, Docker build |
-| `assistant-coverage.yml`        | push/PR → main (apps/assistant/**)                                                                               | pytest with coverage report uploaded to Codecov                            |
-| `assistant-bundle-size.yml`     | PR → main (apps/assistant/client/**, pnpm-lock.yaml)                                                             | Frontend bundle size report                                                |
-| `assistant-docker-validate.yml` | PR → main (apps/assistant/docker/**, .hadolint.yaml)                                                             | Validate Dockerfile with Hadolint                                          |
-| `assistant-frontend-audit.yml`  | push/PR → main (apps/assistant/client/**), schedule Mon 02:00                                                    | Lighthouse (push/schedule), axe-core + pa11y accessibility (PR only)       |
-| `assistant-sast.yml`            | push/PR → main (apps/assistant/app/**, apps/assistant/jobs/**, apps/assistant/client/src/**), schedule Mon 02:00 | CodeQL static security analysis                                            |
-| `assistant-zap.yml`             | push → main (apps/assistant/app/**, apps/assistant/jobs/**), schedule Mon 02:00                                  | OWASP ZAP DAST baseline scan                                               |
+| Workflow                        | Trigger                                                                                                          | Description                                                                                                       |
+|---------------------------------|------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| `assistant-ci.yml`              | push/PR → main (apps/assistant/**)                                                                               | Ruff lint + format check, Mypy type check, Vulture dead code, pytest, TypeScript type check, ESLint, Docker build |
+| `assistant-coverage.yml`        | push/PR → main (apps/assistant/**)                                                                               | pytest with coverage report uploaded to Codecov and SonarCloud                                                    |
+| `assistant-bundle-size.yml`     | PR → main (apps/assistant/client/**, pnpm-lock.yaml)                                                             | Frontend bundle size report                                                                                       |
+| `assistant-docker-validate.yml` | PR → main (apps/assistant/docker/**, .hadolint.yaml)                                                             | Validate Dockerfile with Hadolint                                                                                 |
+| `assistant-frontend-audit.yml`  | push/PR → main (apps/assistant/client/**), schedule Mon 02:00                                                    | Lighthouse (push/schedule), axe-core + pa11y accessibility (PR only)                                              |
+| `assistant-sast.yml`            | push/PR → main (apps/assistant/app/**, apps/assistant/jobs/**, apps/assistant/client/src/**), schedule Mon 02:00 | CodeQL static security analysis                                                                                   |
+| `assistant-zap.yml`             | push → main (apps/assistant/app/**, apps/assistant/jobs/**), schedule Mon 02:00                                  | OWASP ZAP DAST baseline scan                                                                                      |
 
 ### Job dependency chain (assistant-ci.yml)
 
 ```
 lint
-type-check      (all parallel, no dependencies)
-dead-code
+type-check
+dead-code         (all parallel, no dependencies)
 test
+lint-frontend
 docker-build
 ```
 
-All five jobs run fully in parallel - no gates, no required checks.
+All six jobs run fully in parallel - no gates, no required checks.
 
 ---
 
