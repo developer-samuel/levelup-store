@@ -29,6 +29,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run Gitleaks
+        timeout-minutes: 10
         uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,6 +51,7 @@ jobs:
           persist-credentials: false
 
       - name: Run Scorecard analysis
+        timeout-minutes: 10
         uses: ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc # v2.4.4
         with:
           results_file: scorecard.sarif

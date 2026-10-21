@@ -129,6 +129,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate SBOM from image
+        timeout-minutes: 10
         uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0
         with:
           image: ${{ env.REGISTRY }}/${{ inputs.image }}:${{ needs.build.outputs.image-tag }}
@@ -167,6 +168,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Scan image for vulnerabilities
+        timeout-minutes: 10
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: ${{ env.REGISTRY }}/${{ inputs.image }}:${{ needs.build.outputs.image-tag }}
