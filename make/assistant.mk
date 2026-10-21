@@ -4,6 +4,7 @@
 
 .PHONY: assistant-install assistant-run assistant-ingest \
         assistant-lint assistant-format assistant-type-check assistant-dead-code assistant-check \
+        assistant-test assistant-test-coverage \
         assistant-docker-build assistant-docker-run assistant-docker-build-run assistant-docker-setup-run \
         assistant-build-prod assistant-test-prod
 
@@ -25,15 +26,15 @@ assistant-ingest:
 
 ## Lint assistant Python code (ruff)
 assistant-lint:
-	cd apps/assistant && uv run ruff check --cache-dir .cache/ruff app/ && echo "lint: OK"
+	cd apps/assistant && uv run ruff check --cache-dir .cache/ruff app/ jobs/ tests/ && echo "lint: OK"
 
 ## Format assistant Python code (ruff)
 assistant-format:
-	cd apps/assistant && uv run ruff format --cache-dir .cache/ruff app/ && echo "format: OK"
+	cd apps/assistant && uv run ruff format --cache-dir .cache/ruff app/ jobs/ tests/ && echo "format: OK"
 
 ## Type check assistant Python code (mypy)
 assistant-type-check:
-	cd apps/assistant && uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/ && echo "type-check: OK"
+	cd apps/assistant && uv run mypy --explicit-package-bases --cache-dir .cache/mypy app/ jobs/ tests/ && echo "type-check: OK"
 
 ## Check for dead code in assistant (vulture)
 assistant-dead-code:
@@ -41,6 +42,16 @@ assistant-dead-code:
 
 ## Run all assistant quality checks
 assistant-check: assistant-lint assistant-format assistant-type-check assistant-dead-code
+
+# ── 🧪 Tests ──────────────────────────────────────────────────────────────────
+
+## Run all tests in Docker container (unit + api + integration)
+assistant-test:
+	cd apps/assistant && bin/run uv run pytest tests
+
+## Run all tests with coverage report in Docker container
+assistant-test-coverage:
+	cd apps/assistant && bin/run uv run pytest tests --cov=app --cov=jobs --cov-report=term-missing
 
 # ── 🐳 Docker ─────────────────────────────────────────────────────────────────
 

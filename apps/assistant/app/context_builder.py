@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from typing import cast
 
 from app.config import settings
@@ -281,7 +282,7 @@ def format_user_name(name: tuple[str, str] | None) -> str:
     return f"Customer name: {first}" if first else ""
 
 
-def format_user_order_profile(rows: list[tuple[object, ...]]) -> str:
+def format_user_order_profile(rows: Sequence[tuple[object, ...]]) -> str:
     if not rows:
         return ""
 

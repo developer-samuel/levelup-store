@@ -13,8 +13,12 @@ help:
 fix-permissions:
 	@bash scripts/set-permissions/entrypoints/run.sh
 	@if command -v docker > /dev/null 2>&1 && docker info > /dev/null 2>&1 && docker ps --filter "name=levelup_store_ecommerce_app" --filter "status=running" -q 2>/dev/null | grep -q .; then \
-		echo "🔧 Fixing var/ permissions inside app container..."; \
+		echo "🔧 Fixing var/ permissions inside ecommerce container..."; \
 		docker exec levelup_store_ecommerce_app chown -R www-data:www-data /var/www/apps/ecommerce/var/; \
+	fi
+	@if command -v docker > /dev/null 2>&1 && docker info > /dev/null 2>&1 && docker ps --filter "name=levelup_store_assistant_app" --filter "status=running" -q 2>/dev/null | grep -q .; then \
+		echo "🔧 Fixing /app permissions inside assistant container..."; \
+		docker exec -u root levelup_store_assistant_app chown -R app:app /app; \
 	fi
 	$(MAKE) cache-clear
 

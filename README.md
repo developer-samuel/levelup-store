@@ -14,14 +14,29 @@ Both apps are deployed to Kubernetes (k3s on Oracle Cloud) via ArgoCD.
 ### CI/CD
 [![Deploy](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/deploy.yml?logo=docker&label=Deploy)](https://github.com/developer-samuel/levelup-store/actions/workflows/deploy.yml)
 [![Terraform](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/infrastructure-validate.yml?logo=terraform&label=Terraform)](https://github.com/developer-samuel/levelup-store/actions/workflows/infrastructure-validate.yml)
+[![Ecommerce CI](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-ci.yml?logo=symfony&label=Ecommerce+CI)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-ci.yml)
+[![Assistant CI](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/assistant-ci.yml?logo=fastapi&label=Assistant+CI)](https://github.com/developer-samuel/levelup-store/actions/workflows/assistant-ci.yml)
+[![Helm Diff](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/helm-diff.yml?logo=helm&label=Helm+Diff)](https://github.com/developer-samuel/levelup-store/actions/workflows/helm-diff.yml)
+
+### Quality
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=levelup-store&metric=alert_status&organization=developer-samuel)](https://sonarcloud.io/summary/new_code?id=levelup-store)
+[![Ecommerce Coverage](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-coverage.yml?logo=php&label=Ecommerce+Coverage)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-coverage.yml)
+[![Assistant Coverage](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/assistant-coverage.yml?logo=pytest&label=Assistant+Coverage)](https://github.com/developer-samuel/levelup-store/actions/workflows/assistant-coverage.yml)
+[![codecov](https://codecov.io/gh/developer-samuel/levelup-store/branch/main/graph/badge.svg)](https://codecov.io/gh/developer-samuel/levelup-store)
 
 ### Security
 [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/developer-samuel/levelup-store?logo=github&label=OpenSSF+Scorecard)](https://securityscorecards.dev/viewer/?uri=github.com/developer-samuel/levelup-store)
 [![Supply Chain](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/supply-chain.yml?logo=dependabot&label=Supply+Chain)](https://github.com/developer-samuel/levelup-store/actions/workflows/supply-chain.yml)
 [![CVE Scan](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/cve-scan.yml?logo=trivy&label=CVE+Scan)](https://github.com/developer-samuel/levelup-store/actions/workflows/cve-scan.yml)
+[![SAST Ecommerce](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-sast.yml?logo=github&label=SAST+Ecommerce)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-sast.yml)
+[![SAST Assistant](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/assistant-sast.yml?logo=github&label=SAST+Assistant)](https://github.com/developer-samuel/levelup-store/actions/workflows/assistant-sast.yml)
+[![ZAP Ecommerce](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-zap.yml?logo=owasp&label=ZAP+Ecommerce)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-zap.yml)
+[![ZAP Assistant](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/assistant-zap.yml?logo=owasp&label=ZAP+Assistant)](https://github.com/developer-samuel/levelup-store/actions/workflows/assistant-zap.yml)
 
-### Coverage
-[![codecov](https://codecov.io/gh/developer-samuel/levelup-store/branch/main/graph/badge.svg)](https://codecov.io/gh/developer-samuel/levelup-store)
+### Performance
+[![E2E](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-e2e.yml?logo=playwright&label=E2E)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-e2e.yml)
+[![Lighthouse](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-lighthouse.yml?logo=lighthouse&label=Lighthouse)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-lighthouse.yml)
+[![Smoke](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/smoke.yml?logo=github&label=Smoke)](https://github.com/developer-samuel/levelup-store/actions/workflows/smoke.yml)
 
 ---
 

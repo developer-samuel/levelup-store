@@ -25,6 +25,32 @@ make assistant-type-check
 make assistant-dead-code
 ```
 
+### 🧪 Tests
+
+- **pytest** - unit, api, and integration tests
+- **pytest-cov** - coverage reporting for `app/` and `jobs/`
+- Integration tests require a running Docker environment (`make dev`)
+
+```bash
+# All tests in Docker (unit + api + integration)
+make assistant-test
+
+# All tests with coverage report
+make assistant-test-coverage
+```
+
+Test structure mirrors the source layout:
+
+```
+tests/
+  unit/         # app/ unit tests (mocked dependencies)
+  api/          # HTTP endpoint tests via AsyncClient
+  integration/  # repository tests against real DB (requires Docker)
+  jobs/         # jobs/ unit tests (mocked dependencies)
+```
+
+See also: [Testing Tools](TESTS.md)
+
 ---
 
 ## Frontend

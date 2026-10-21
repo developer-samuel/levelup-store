@@ -1,6 +1,4 @@
-import psycopg2
-
-from app.config import settings
+from app.database import get_connection
 
 _ORDERS_QUERY = """
     SELECT
@@ -32,28 +30,18 @@ _ORDER_PROFILE_QUERY = """
 
 
 def fetch_user_orders(user_id: int) -> list[tuple[object, ...]]:
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_ORDERS_QUERY, (user_id,))
         rows: list[tuple[object, ...]] = cursor.fetchall()
         cursor.close()
-    finally:
-        conn.close()
-
     return rows
 
 
 def fetch_user_order_profile(user_id: int) -> list[tuple[object, ...]]:
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_ORDER_PROFILE_QUERY, (user_id,))
         rows: list[tuple[object, ...]] = cursor.fetchall()
         cursor.close()
-    finally:
-        conn.close()
-
     return rows

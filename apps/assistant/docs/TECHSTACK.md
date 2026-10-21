@@ -79,12 +79,14 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ### Backend QA
 
-| Tool    | Purpose                  | Execution (via make / uv) |
-|---------|--------------------------|---------------------------|
-| Ruff    | Linting + import sorting | make assistant-lint       |
-| Ruff    | Code formatting          | make assistant-format     |
-| Mypy    | Static type checking     | make assistant-type-check |
-| Vulture | Dead code detection      | make assistant-dead-code  |
+| Tool       | Purpose                             | Execution (via make / uv)    |
+|------------|-------------------------------------|------------------------------|
+| Ruff       | Linting + import sorting            | make assistant-lint          |
+| Ruff       | Code formatting                     | make assistant-format        |
+| Mypy       | Static type checking                | make assistant-type-check    |
+| Vulture    | Dead code detection                 | make assistant-dead-code     |
+| pytest     | Unit, API, integration, jobs tests  | make assistant-test          |
+| pytest-cov | Coverage reporting for app/ + jobs/ | make assistant-test-coverage |
 
 ### Frontend QA
 
@@ -97,15 +99,17 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 Tools that run exclusively in GitHub Actions pipelines - not available as local CLI commands.
 
-| Tool                  | Purpose                                               | Workflow                     |
-|-----------------------|-------------------------------------------------------|------------------------------|
-| Trivy                 | CVE scan on Docker images and dependencies            | `cve-scan.yml`, `deploy.yml` |
-| Gitleaks              | Secrets detection in commits                          | `supply-chain.yml`           |
-| OSSF Scorecard        | Supply chain security scoring                         | `supply-chain.yml`           |
-| cosign / Sigstore     | Production image signing                              | `deploy.yml`                 |
-| SBOM (Syft / Anchore) | Software Bill of Materials generation and attestation | `deploy.yml`                 |
-| commitlint            | Conventional commit message format enforcement        | `validate-commits.yml`       |
+| Tool                  | Purpose                                | Workflow                        |
+|-----------------------|----------------------------------------|---------------------------------|
+| Codecov               | Python coverage tracking and reporting | `assistant-coverage.yml`        |
+| SonarCloud            | Cloud static analysis + coverage       | `assistant-coverage.yml`        |
+| CodeQL                | SAST - static security analysis        | `assistant-sast.yml`            |
+| OWASP ZAP             | DAST - baseline scan against live app  | `assistant-zap.yml`             |
+| Hadolint              | Dockerfile linting                     | `assistant-docker-validate.yml` |
+| Lighthouse CI         | Frontend performance auditing          | `assistant-frontend-audit.yml`  |
+| axe-core + pa11y      | Accessibility testing on PRs           | `assistant-frontend-audit.yml`  |
+| bundlesize            | Frontend bundle size tracking          | `assistant-bundle-size.yml`     |
 
 ---
 
-See also: [Production Infrastructure](../../../docs/TECHSTACK.md)
+See also: [Production Infrastructure](../../../docs/TECHSTACK.md) · [Shared CI/CD Tooling](../../../docs/runtime/DEVOPS.md#-shared-tooling)

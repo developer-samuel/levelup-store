@@ -11,16 +11,15 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from typing import cast
+from typing import Any, cast
 
 import numpy as np
 from chromadb.api.types import Embeddings, Metadatas
-
 from pypdf import PdfReader
 
-from app.services.rag_service import embed, get_collection, get_documents_collection
 from app.repositories import product_repository
 from app.repositories.review_repository import fetch_reviews
+from app.services.rag_service import embed, get_collection, get_documents_collection
 
 _PDF_DIR = Path(__file__).parent.parent.parent / "ecommerce" / "public" / "pdf"
 
@@ -29,7 +28,7 @@ def _hash(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()
 
 
-def _get_existing_hashes(collection, id_prefix: str = "") -> dict[str, str]:
+def _get_existing_hashes(collection: Any, id_prefix: str = "") -> dict[str, str]:
     results = collection.get(include=["metadatas"])
     return {
         id_: str((meta or {}).get("hash", ""))
@@ -39,21 +38,36 @@ def _get_existing_hashes(collection, id_prefix: str = "") -> dict[str, str]:
 
 
 def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
-    id_, product_name, variant_name, price, discounted_price, description, brand, category, type_, subtypes, url = row
+    (
+        id_,
+        product_name,
+        variant_name,
+        price,
+        discounted_price,
+        description,
+        brand,
+        category,
+        type_,
+        subtypes,
+        url,
+    ) = row
 
     if not product_name or not variant_name or not brand or not category:
         return None
 
-    if not price or price <= 0:
+    price_f = cast(float, price)
+    discounted_f = cast(float | None, discounted_price)
+
+    if not price_f or price_f <= 0:
         return None
 
-    if discounted_price is not None and discounted_price > 0 and discounted_price < price:
-        price_text = f"Price: {discounted_price} EUR (on sale, original price: {price} EUR)"
+    if discounted_f is not None and discounted_f > 0 and discounted_f < price_f:
+        price_text = f"Price: {discounted_f} EUR (on sale, original price: {price_f} EUR)"
     else:
-        price_text = f"Price: {price} EUR"
+        price_text = f"Price: {price_f} EUR"
 
     type_text = f"Type: {type_}. " if type_ else ""
-    valid_subtypes = [s for s in (subtypes or []) if s is not None]
+    valid_subtypes = [str(s) for s in cast(list[object | None], subtypes or []) if s is not None]
     subtypes_text = f"Subtypes: {', '.join(valid_subtypes)}. " if valid_subtypes else ""
     url_text = f" URL: /product/show/{url}" if url else ""
 
@@ -70,14 +84,14 @@ def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
     return str(id_), text
 
 
-def _ingest_products(collection, rows: list[tuple[object, ...]]) -> int:
+def _ingest_products(collection: Any, rows: list[tuple[object, ...]]) -> int:
     """Incrementally embed and upsert changed product variants, delete stale ones."""
     existing = _get_existing_hashes(collection)
 
     ids: list[str] = []
     documents: list[str] = []
     embeddings: list[np.ndarray[tuple[int, ...], np.dtype[np.float32]]] = []
-    metadatas: list[dict] = []
+    metadatas: list[dict[str, Any]] = []
     current_ids: set[str] = set()
 
     for row in rows:
@@ -107,17 +121,19 @@ def _ingest_products(collection, rows: list[tuple[object, ...]]) -> int:
             metadatas=cast(Metadatas, metadatas),
         )
 
-    stale = {id_ for id_ in existing if not id_.startswith(("oos_", "review_", "catalog_", "top_"))} - current_ids
+    non_product = ("oos_", "review_", "catalog_", "top_")
+    stale = {id_ for id_ in existing if not id_.startswith(non_product)} - current_ids
     if stale:
         collection.delete(ids=list(stale))
         print(f"Deleted {len(stale)} stale product(s).")
 
-    print(f"\nProducts: {len(ids)} upserted, {len(stale)} deleted, {len(current_ids) - len(ids)} unchanged.")
+    unchanged = len(current_ids) - len(ids)
+    print(f"\nProducts: {len(ids)} upserted, {len(stale)} deleted, {unchanged} unchanged.")
 
     return len(ids)
 
 
-def _ingest_catalog_summary(collection) -> None:
+def _ingest_catalog_summary(collection: Any) -> None:
     """Build a catalog summary document and upsert it under a fixed ID.
 
     The text is intentionally keyword-rich so it surfaces for queries like
@@ -150,7 +166,7 @@ def _ingest_catalog_summary(collection) -> None:
     print(f"Ingested catalog summary: {summary_text[:120]}...")
 
 
-def _ingest_top_reviewed(collection) -> None:
+def _ingest_top_reviewed(collection: Any) -> None:
     """Build a top-reviewed products document and upsert it under a fixed ID."""
 
     rows = product_repository.fetch_top_reviewed_products()
@@ -161,14 +177,32 @@ def _ingest_top_reviewed(collection) -> None:
     lines: list[str] = []
 
     for row in rows:
-        _, product_name, variant_name, price, discounted_price, brand, category, feedback_count, rating_count, avg_rating, url, description, _image, _stock = row
+        (
+            _,
+            product_name,
+            variant_name,
+            price,
+            discounted_price,
+            brand,
+            category,
+            feedback_count,
+            rating_count,
+            avg_rating,
+            url,
+            description,
+            _image,
+            _stock,
+        ) = row
         if not product_name or not brand:
             continue
 
-        if discounted_price is not None and discounted_price > 0 and discounted_price < price:
-            price_text = f"{discounted_price} EUR (on sale)"
+        price_f = cast(float, price)
+        discounted_f = cast(float | None, discounted_price)
+
+        if discounted_f is not None and discounted_f > 0 and discounted_f < price_f:
+            price_text = f"{discounted_f} EUR (on sale)"
         else:
-            price_text = f"{price} EUR"
+            price_text = f"{price_f} EUR"
 
         url_text = f" URL: /product/show/{url}" if url else ""
         count_label = f"{feedback_count} reviews" if feedback_count else f"{rating_count} ratings"
@@ -183,7 +217,8 @@ def _ingest_top_reviewed(collection) -> None:
     if not lines:
         return
 
-    text = ("Top rated and most reviewed products at LevelUp Store. " + ". ".join(lines) + ".")[:4000]
+    prefix = "Top rated and most reviewed products at LevelUp Store. "
+    text = (prefix + ". ".join(lines) + ".")[:4000]
     embedding = np.array(embed(text), dtype=np.float32)
 
     collection.upsert(
@@ -195,7 +230,7 @@ def _ingest_top_reviewed(collection) -> None:
     print(f"Ingested top reviewed: {len(lines)} products.")
 
 
-def _ingest_top_ordered(collection) -> None:
+def _ingest_top_ordered(collection: Any) -> None:
     """Build a top-ordered products document and upsert it under a fixed ID."""
 
     rows = product_repository.fetch_top_ordered_products()
@@ -206,14 +241,28 @@ def _ingest_top_ordered(collection) -> None:
     lines: list[str] = []
 
     for row in rows:
-        _, product_name, variant_name, price, discounted_price, brand, category, order_count, url, _image = row
+        (
+            _,
+            product_name,
+            variant_name,
+            price,
+            discounted_price,
+            brand,
+            category,
+            order_count,
+            url,
+            _image,
+        ) = row
         if not product_name or not brand:
             continue
 
-        if discounted_price is not None and discounted_price > 0 and discounted_price < price:
-            price_text = f"{discounted_price} EUR (on sale)"
+        price_f = cast(float, price)
+        discounted_f = cast(float | None, discounted_price)
+
+        if discounted_f is not None and discounted_f > 0 and discounted_f < price_f:
+            price_text = f"{discounted_f} EUR (on sale)"
         else:
-            price_text = f"{price} EUR"
+            price_text = f"{price_f} EUR"
 
         url_text = f" URL: /product/show/{url}" if url else ""
         lines.append(
@@ -236,15 +285,15 @@ def _ingest_top_ordered(collection) -> None:
     print(f"Ingested top ordered: {len(lines)} products.")
 
 
-def _ingest_out_of_stock(collection) -> None:
+def _ingest_out_of_stock(collection: Any) -> None:
     rows = product_repository.fetch_out_of_stock_products()
 
     existing = _get_existing_hashes(collection, id_prefix="oos_")
 
     ids: list[str] = []
     documents: list[str] = []
-    embeddings_list: list[np.ndarray] = []
-    metadatas: list[dict] = []
+    embeddings_list: list[np.ndarray[Any, np.dtype[np.float32]]] = []
+    metadatas: list[dict[str, Any]] = []
     current_ids: set[str] = set()
 
     for row in rows:
@@ -285,7 +334,8 @@ def _ingest_out_of_stock(collection) -> None:
         collection.delete(ids=list(stale))
         print(f"Deleted {len(stale)} stale OOS product(s).")
 
-    print(f"OOS: {len(ids)} upserted, {len(stale)} deleted, {len(current_ids) - len(ids)} unchanged.")
+    unchanged = len(current_ids) - len(ids)
+    print(f"OOS: {len(ids)} upserted, {len(stale)} deleted, {unchanged} unchanged.")
 
 
 def _ingest_documents() -> None:
@@ -335,33 +385,39 @@ def _ingest_documents() -> None:
         print(f"Ingested {len(ids)} document chunks from {len(pdfs)} PDF(s).")
 
 
-def _ingest_reviews(collection) -> None:
+def _ingest_reviews(collection: Any) -> None:
     rows = fetch_reviews()
-
-    if not rows:
-        print("No reviews found.")
-        return
 
     existing = _get_existing_hashes(collection, id_prefix="review_")
 
+    if not rows:
+        print("No reviews found.")
+        stale = set(existing.keys())
+        if stale:
+            collection.delete(ids=list(stale))
+            print(f"Deleted {len(stale)} stale review(s).")
+        return
+
     ids: list[str] = []
     documents: list[str] = []
-    embeddings_list: list[np.ndarray] = []
-    metadatas: list[dict] = []
+    embeddings_list: list[np.ndarray[Any, np.dtype[np.float32]]] = []
+    metadatas: list[dict[str, Any]] = []
     current_ids: set[str] = set()
 
     for row in rows:
-        id_, product_name, variant_name, brand, body, rating, _, url = row
-        if not body or not product_name or not brand:
+        product_id, product_name, brand, url, review_count, avg_rating, review_texts = row
+        if not product_name or not brand:
             continue
 
         url_text = f" URL: /product/show/{url}" if url else ""
+        reviews_part = f" Reviews: {review_texts}." if review_texts else ""
         text = (
-            f"{brand} {product_name} - {variant_name}. "
-            f"Customer review ({rating}/5): {body}.{url_text}"
+            f"{brand} {product_name}. "
+            f"{review_count} customer reviews and ratings, average {avg_rating}/5."
+            f"{reviews_part}{url_text}"
         )
 
-        doc_id = f"review_{id_}"
+        doc_id = f"review_{product_id}"
         current_ids.add(doc_id)
         content_hash = _hash(text)
 
@@ -388,7 +444,8 @@ def _ingest_reviews(collection) -> None:
         collection.delete(ids=list(stale))
         print(f"Deleted {len(stale)} stale review(s).")
 
-    print(f"Reviews: {len(ids)} upserted, {len(stale)} deleted, {len(current_ids) - len(ids)} unchanged.")
+    unchanged = len(current_ids) - len(ids)
+    print(f"Reviews: {len(ids)} upserted, {len(stale)} deleted, {unchanged} unchanged.")
 
 
 def ingest() -> None:

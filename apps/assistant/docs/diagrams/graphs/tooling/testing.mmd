@@ -1,0 +1,18 @@
+graph TD
+    %% Testing strategy - pytest
+    %% Layer: test type → what it covers
+
+    classDef unit        fill:#0637c0, color:#fff, stroke:#000, stroke-width:2px;
+    classDef api         fill:#7b2fc9, color:#fff, stroke:#000, stroke-width:2px;
+    classDef integration fill:#c94f2f, color:#fff, stroke:#000, stroke-width:2px;
+    classDef jobs        fill:#2EAD33, color:#fff, stroke:#000, stroke-width:2px;
+
+    subgraph Backend["Backend  -  pytest"]
+        Unit[🧪 Unit\napp/ - mocked dependencies]:::unit
+        API[🧪 API\nHTTP endpoints via AsyncClient]:::api
+        Integration[🧪 Integration\nrepositories against real DB]:::integration
+        Jobs[🧪 Jobs\njobs/ - mocked dependencies]:::jobs
+    end
+
+    API         --> Unit
+    Integration --> Unit
