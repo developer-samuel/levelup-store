@@ -1,6 +1,4 @@
-import psycopg2
-
-from app.config import settings
+from app.database import get_connection
 
 _PRODUCT_QUERY = """
     SELECT
@@ -156,51 +154,33 @@ _TOP_REVIEWED_QUERY = """
 
 
 def fetch_out_of_stock_products() -> list[tuple[object, ...]]:
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_OUT_OF_STOCK_QUERY)
-
         rows: list[tuple[object, ...]] = cursor.fetchall()
-
         cursor.close()
-    finally:
-        conn.close()
     return rows
 
 
 def fetch_available_products() -> list[tuple[object, ...]]:
     """Return product variants that are available, have stock and an active EAN."""
 
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_PRODUCT_QUERY)
-
         rows: list[tuple[object, ...]] = cursor.fetchall()
-
         cursor.close()
-    finally:
-        conn.close()
     return rows
 
 
 def fetch_catalog_summary() -> dict[str, list[str]]:
     """Return all active brands, categories and types that have available products."""
 
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_CATALOG_SUMMARY_QUERY)
-
         row = cursor.fetchone()
-
         cursor.close()
-    finally:
-        conn.close()
 
     if not row:
         return {"brands": [], "categories": [], "types": [], "subtypes": []}
@@ -216,32 +196,20 @@ def fetch_catalog_summary() -> dict[str, list[str]]:
 def fetch_top_reviewed_products() -> list[tuple[object, ...]]:
     """Return top reviewed product variants ordered by review count and avg rating."""
 
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_TOP_REVIEWED_QUERY)
-
         rows: list[tuple[object, ...]] = cursor.fetchall()
-
         cursor.close()
-    finally:
-        conn.close()
     return rows
 
 
 def fetch_top_ordered_products() -> list[tuple[object, ...]]:
     """Return most ordered product variants."""
 
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_TOP_ORDERED_QUERY)
-
         rows: list[tuple[object, ...]] = cursor.fetchall()
-
         cursor.close()
-    finally:
-        conn.close()
     return rows

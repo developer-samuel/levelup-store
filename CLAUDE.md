@@ -88,9 +88,12 @@ bin/run <cmd>         # Run any command inside the ecommerce Docker container
 ### Assistant
 
 ```bash
-make assistant-check        # lint + format + type-check + dead-code
-make assistant-type-check   # mypy
-make assistant-lint         # ruff
+make assistant-check                # lint + format + type-check + dead-code
+make assistant-type-check           # mypy
+make assistant-lint                 # ruff
+make assistant-test                 # all tests in Docker (unit + api + integration)
+make assistant-test-coverage        # all tests with coverage report
+cd apps/assistant && bin/run <cmd>  # Run any command inside the assistant Docker container
 ```
 
 ### Git hooks

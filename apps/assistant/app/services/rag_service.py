@@ -1,3 +1,4 @@
+import logging
 from typing import cast
 
 import chromadb
@@ -6,6 +7,8 @@ import ollama
 from chromadb.api.types import Metadata, PyEmbeddings
 
 from app.config import CHROMA_COLLECTION_DOCUMENTS, CHROMA_COLLECTION_PRODUCTS, settings
+
+_log = logging.getLogger(__name__)
 
 # Module-level singletons created once, reused across requests
 _chroma_client: chromadb.api.ClientAPI | None = None
@@ -72,6 +75,7 @@ def query(question: str, n_results: int = 5) -> str:
 
         return "\n".join(f"- {doc}" for doc in documents)
     except Exception:
+        _log.exception("RAG product query failed")
         return ""
 
 
@@ -97,4 +101,5 @@ def query_documents(question: str, n_results: int = 3) -> str:
 
         return "\n\n".join(parts)
     except Exception:
+        _log.exception("RAG documents query failed")
         return ""

@@ -79,12 +79,14 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ### Backend QA
 
-| Tool    | Purpose                  | Execution (via make / uv) |
-|---------|--------------------------|---------------------------|
-| Ruff    | Linting + import sorting | make assistant-lint       |
-| Ruff    | Code formatting          | make assistant-format     |
-| Mypy    | Static type checking     | make assistant-type-check |
-| Vulture | Dead code detection      | make assistant-dead-code  |
+| Tool       | Purpose                             | Execution (via make / uv)    |
+|------------|-------------------------------------|------------------------------|
+| Ruff       | Linting + import sorting            | make assistant-lint          |
+| Ruff       | Code formatting                     | make assistant-format        |
+| Mypy       | Static type checking                | make assistant-type-check    |
+| Vulture    | Dead code detection                 | make assistant-dead-code     |
+| pytest     | Unit, API, integration, jobs tests  | make assistant-test          |
+| pytest-cov | Coverage reporting for app/ + jobs/ | make assistant-test-coverage |
 
 ### Frontend QA
 

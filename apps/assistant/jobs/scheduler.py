@@ -17,7 +17,10 @@ _INTERVAL = 15 * 60  # 15 minutes
 
 
 if __name__ == "__main__":
-    logger.warning("Scheduler started - running incremental ingest every %d minutes", _INTERVAL // 60)
+    logger.warning(
+        "Scheduler started - running incremental ingest every %d minutes",
+        _INTERVAL // 60,
+    )
 
     while True:
         try:

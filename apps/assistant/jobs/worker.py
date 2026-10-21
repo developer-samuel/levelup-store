@@ -107,7 +107,12 @@ async def _process(request_id: str, conversation_id: str, message: str) -> None:
         await publish_chunk(
             conversation_id,
             request_id,
-            json.dumps({"success": False, "message": "Something went wrong. The server may be busy - please try again."}),
+            json.dumps(
+                {
+                    "success": False,
+                    "message": "Something went wrong. The server may be busy - please try again.",
+                }
+            ),
         )
     finally:
         if not stream_task.done():
