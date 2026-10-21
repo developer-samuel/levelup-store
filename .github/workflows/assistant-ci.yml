@@ -19,6 +19,7 @@ concurrency:
 
 env:
   PYTHON_VERSION: '3.12'
+  NODE_VERSION: ${{ vars.NODE_VERSION }}
 
 permissions: read-all
 
@@ -120,6 +121,24 @@ jobs:
         run: uv run pytest tests/ --cov=app --cov=jobs --cov-report=term-missing
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
+
+  # ─── Frontend Lint ───────────────────────────────────────────────────────────
+  lint-frontend:
+    name: 🧹 TS / ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ./.github/actions/node
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: TypeScript type check
+        run: pnpm type-check:all
+
+      - name: ESLint
+        run: pnpm lint:all
 
   # ─── Docker Build ─────────────────────────────────────────────────────────────
   docker-build:
