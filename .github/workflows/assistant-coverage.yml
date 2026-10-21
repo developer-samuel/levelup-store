@@ -1,0 +1,81 @@
+---
+
+name: 📊 Assistant Coverage
+
+on:
+  push:
+    branches: [main, staging]
+    paths:
+      - 'apps/assistant/**'
+  pull_request:
+    branches: [main, staging]
+    paths:
+      - 'apps/assistant/**'
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.12'
+
+permissions: read-all
+
+jobs:
+  # ─── Coverage ─────────────────────────────────────────────────────────────
+  coverage:
+    name: 📊 Upload coverage
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: apps/assistant
+
+    services:
+      postgres:
+        image: postgres:17@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: levelup_store_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ./.github/actions/postgres
+        with:
+          db-name: levelup_store_test
+          db-port: '5432'
+          db-password: secret
+
+      - uses: ./.github/actions/python
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Pytest with coverage
+        run: uv run pytest tests/ --cov=app --cov=jobs --cov-report=term-missing --cov-report=xml:coverage.xml
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+
+      - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: assistant-coverage-report
+          path: apps/assistant/coverage.xml
+          retention-days: 1
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: apps/assistant/coverage.xml
+          flags: pytest
+          fail_ci_if_error: false
+

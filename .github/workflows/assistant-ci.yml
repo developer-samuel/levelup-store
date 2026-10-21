@@ -39,10 +39,10 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Ruff lint
-        run: uv run ruff check app/
+        run: uv run ruff check app/ jobs/ tests/
 
       - name: Ruff format check
-        run: uv run ruff format --check app/
+        run: uv run ruff format --check app/ jobs/ tests/
 
   # ─── Type Check ──────────────────────────────────────────────────────────────
   type-check:
@@ -60,7 +60,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Mypy
-        run: uv run mypy --explicit-package-bases app/
+        run: uv run mypy --explicit-package-bases app/ jobs/ tests/
 
   # ─── Dead Code ───────────────────────────────────────────────────────────────
   dead-code:
@@ -79,6 +79,47 @@ jobs:
 
       - name: Vulture
         run: uv run vulture app/ jobs/
+
+  # ─── Tests ───────────────────────────────────────────────────────────────────
+  test:
+    name: 🧪 Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/assistant
+
+    services:
+      postgres:
+        image: postgres:17@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: levelup_store_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ./.github/actions/python
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - uses: ./.github/actions/postgres
+        with:
+          db-name: levelup_store_test
+          db-port: '5432'
+          db-password: secret
+
+      - name: Pytest
+        run: uv run pytest tests/ --cov=app --cov=jobs --cov-report=term-missing
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
 
   # ─── Docker Build ─────────────────────────────────────────────────────────────
   docker-build:

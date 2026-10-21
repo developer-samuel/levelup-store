@@ -1,0 +1,49 @@
+---
+
+name: 🔍 SonarCloud
+
+on:
+  push:
+    branches: [main]
+    paths: &sonarcloud-paths
+      - 'apps/ecommerce/src/**'
+      - 'apps/ecommerce/assets/ts/**'
+      - 'apps/assistant/app/**'
+      - 'apps/assistant/jobs/**'
+  pull_request:
+    branches: [main]
+    paths: *sonarcloud-paths
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  sonarcloud:
+    name: 🔍 SonarCloud analysis
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0   # Full history required for blame information
+
+      - name: Download ecommerce coverage reports
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: coverage-reports
+        continue-on-error: true
+
+      - name: Download assistant coverage report
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: assistant-coverage-report
+        continue-on-error: true
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@ffc3010689be73b8e5ae0c57ce35968afd7909e8 # v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
