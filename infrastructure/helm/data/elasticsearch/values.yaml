@@ -22,8 +22,8 @@ elasticsearch:
         memory: 512Mi
       limits:
         cpu: 500m
-        memory: 1Gi
-    heapSize: 256m
+        memory: 1536Mi
+    heapSize: 512m
 
   coordinating:
     replicaCount: 0
