@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Install Ansible and ansible-lint
-        run: pip install -r .github/requirements/ansible.txt
+        run: pip install -r ${{ github.workspace }}/.github/requirements/ansible.txt
 
       - name: Install Ansible collections
         run: ansible-galaxy collection install -r requirements.yml
