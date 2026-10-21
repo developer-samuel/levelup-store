@@ -99,16 +99,16 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 Tools that run exclusively in GitHub Actions pipelines - not available as local CLI commands.
 
-| Tool                  | Purpose                                | Workflow                        |
-|-----------------------|----------------------------------------|---------------------------------|
-| Codecov               | Python coverage tracking and reporting | `assistant-coverage.yml`        |
-| SonarCloud            | Cloud static analysis + coverage       | `assistant-coverage.yml`        |
-| CodeQL                | SAST - static security analysis        | `assistant-sast.yml`            |
-| OWASP ZAP             | DAST - baseline scan against live app  | `assistant-zap.yml`             |
-| Hadolint              | Dockerfile linting                     | `assistant-docker-validate.yml` |
-| Lighthouse CI         | Frontend performance auditing          | `assistant-frontend-audit.yml`  |
-| axe-core + pa11y      | Accessibility testing on PRs           | `assistant-frontend-audit.yml`  |
-| bundlesize            | Frontend bundle size tracking          | `assistant-bundle-size.yml`     |
+| Tool             | Purpose                                | Workflow                        |
+|------------------|----------------------------------------|---------------------------------|
+| Codecov          | Python coverage tracking and reporting | `assistant-coverage.yml`        |
+| SonarCloud       | Cloud static analysis + coverage       | `assistant-coverage.yml`        |
+| CodeQL           | SAST - static security analysis        | `assistant-sast.yml`            |
+| OWASP ZAP        | DAST - baseline scan against live app  | `assistant-zap.yml`             |
+| Hadolint         | Dockerfile linting                     | `assistant-docker-validate.yml` |
+| Lighthouse CI    | Frontend performance auditing          | `assistant-frontend-audit.yml`  |
+| axe-core + pa11y | Accessibility testing on PRs           | `assistant-frontend-audit.yml`  |
+| bundlesize       | Frontend bundle size tracking          | `assistant-bundle-size.yml`     |
 
 ---
 

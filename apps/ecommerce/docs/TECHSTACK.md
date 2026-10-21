@@ -106,27 +106,27 @@ We maintain 100% focus on code quality using these tools:
 
 ### Frontend QA
 
-| Tool              | Purpose                                   | Execution                      |
-|-------------------|-------------------------------------------|--------------------------------|
-| Vitest            | Unit, Integration and Functional testing  | pnpm vitest                    |
-| Playwright        | End-to-end testing                        | pnpm e2e                       |
-| TypeScript        | Static type checking                      | pnpm type-check                |
-| ESLint + Prettier | TS linting and automated code formatting  | pnpm lint                      |
-| Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss                 |
+| Tool              | Purpose                                   | Execution       |
+|-------------------|-------------------------------------------|-----------------|
+| Vitest            | Unit, Integration and Functional testing  | pnpm vitest     |
+| Playwright        | End-to-end testing                        | pnpm e2e        |
+| TypeScript        | Static type checking                      | pnpm type-check |
+| ESLint + Prettier | TS linting and automated code formatting  | pnpm lint       |
+| Stylelint SCSS    | Stylesheet quality control                | pnpm lint-scss  |
 
 ### CI/CD Tooling
 
 Tools that run exclusively in GitHub Actions pipelines - not available as local CLI commands.
 
-| Tool                     | Purpose                                               | Workflow                                                      |
-|--------------------------|-------------------------------------------------------|---------------------------------------------------------------|
-| OWASP ZAP                | DAST - baseline scan against live app                 | `ecommerce-zap.yml`                                           |
-| CodeQL                   | SAST - static security analysis                       | `ecommerce-sast.yml`                                          |
-| Hadolint      | Dockerfile linting                                 | `ecommerce-docker-validate.yml`                            |
-| Lighthouse CI | Frontend performance auditing + budget enforcement | `ecommerce-lighthouse.yml`, `ecommerce-frontend-audit.yml` |
-| axe-core + pa11y | Accessibility testing on PRs                    | `ecommerce-frontend-audit.yml`                             |
-| SonarCloud    | Cloud static analysis + ESLint + coverage          | `ecommerce-coverage.yml`                                   |
-| Codecov       | PHP + JS coverage tracking and reporting           | `ecommerce-coverage.yml`                                   |
+| Tool             | Purpose                                            | Workflow                                                   |
+|------------------|----------------------------------------------------|------------------------------------------------------------|
+| OWASP ZAP        | DAST - baseline scan against live app              | `ecommerce-zap.yml`                                        |
+| CodeQL           | SAST - static security analysis                    | `ecommerce-sast.yml`                                       |
+| Hadolint         | Dockerfile linting                                 | `ecommerce-docker-validate.yml`                            |
+| Lighthouse CI    | Frontend performance auditing + budget enforcement | `ecommerce-lighthouse.yml`, `ecommerce-frontend-audit.yml` |
+| axe-core + pa11y | Accessibility testing on PRs                       | `ecommerce-frontend-audit.yml`                             |
+| SonarCloud       | Cloud static analysis + ESLint + coverage          | `ecommerce-coverage.yml`                                   |
+| Codecov          | PHP + JS coverage tracking and reporting           | `ecommerce-coverage.yml`                                   |
 
 ---
 
