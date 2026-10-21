@@ -14,3 +14,10 @@ keda:
       limits:
         cpu: 200m
         memory: 128Mi
+  operator:
+    livenessProbe:
+      timeoutSeconds: 10
+      failureThreshold: 5
+    readinessProbe:
+      timeoutSeconds: 10
+      failureThreshold: 5
