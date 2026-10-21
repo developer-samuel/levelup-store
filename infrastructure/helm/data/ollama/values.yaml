@@ -1,4 +1,4 @@
-enabled: false  # disabled: API mode is active; insufficient RAM for local inference
+enabled: false  # disabled: insufficient RAM on node
 
 image:
   repository: ollama/ollama
