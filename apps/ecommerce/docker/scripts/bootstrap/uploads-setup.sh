@@ -9,7 +9,7 @@ TMP_DIR=$(mktemp -d)
 git clone --depth=1 --quiet "$UPLOADS_REPO" "$TMP_DIR"
 echo "✅ Clone done"
 
-if [ "${MINIO_ENABLED}" = "true" ]; then
+if [[ "${MINIO_ENABLED}" = "true" ]]; then
     echo "  ☁️  Uploading to MinIO bucket: ${MINIO_BUCKET}..."
     mc alias set local "${MINIO_ENDPOINT}" "${MINIO_ROOT_USER}" "${MINIO_ROOT_PASSWORD}" --quiet
     mc mb --ignore-existing "local/${MINIO_BUCKET}" --quiet
@@ -19,7 +19,7 @@ if [ "${MINIO_ENABLED}" = "true" ]; then
     echo "✅ Uploads ready in MinIO"
 else
     FILE_COUNT=$(find "$UPLOADS_DIR" -type f ! -name ".gitkeep" 2>/dev/null | wc -l)
-    if [ "$FILE_COUNT" -gt 0 ]; then
+    if [[ "$FILE_COUNT" -gt 0 ]]; then
         echo "  ⏭  Local uploads already exist (${FILE_COUNT} files) - skipping"
         rm -rf "$TMP_DIR"
         exit 0

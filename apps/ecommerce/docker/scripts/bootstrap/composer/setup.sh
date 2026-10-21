@@ -15,7 +15,7 @@ if ! command -v composer >/dev/null 2>&1; then
   ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
 
   # ✅ Verify installer checksum matches expected checksum
-  if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+  if [[ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]]; then
     echo "❌ Invalid installer checksum"
     rm composer-setup.php
     exit 1

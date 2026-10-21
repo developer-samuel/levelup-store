@@ -52,6 +52,7 @@ def syncImageTags(String environment) {
         sh """
             git config user.name  "jenkins[bot]"
             git config user.email "jenkins[bot]@noreply"
+            git config credential.helper '!f() { echo username=\$GIT_USER; echo password=\$GIT_TOKEN; }; f'
             git add infrastructure/helm/apps/ecommerce/${valuesFile} \
                     infrastructure/helm/apps/assistant/${valuesFile}
             git diff --cached --quiet && echo "No changes to commit" && exit 0
@@ -59,7 +60,7 @@ def syncImageTags(String environment) {
             git fetch origin ${targetBranch}
             git restore .
             git rebase origin/${targetBranch}
-            git push https://\$GIT_USER:\$GIT_TOKEN@github.com/${env.GHCR_REPO}.git HEAD:${targetBranch}
+            git push origin HEAD:${targetBranch}
         """
     }
 }

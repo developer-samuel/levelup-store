@@ -7,7 +7,7 @@ echo "Checking if database exists..."
 
 php bin/console doctrine:query:sql "SELECT 1" > /dev/null 2>&1
 
-if [ $? -eq 0 ]; then
+if [[ $? -eq 0 ]]; then
     echo "Database exists, dropping all tables..."
     scripts/symfony/database/operations/drop_tables.sh
 else

@@ -6,7 +6,7 @@ OUTPUT_DIR=".uml/platform"
 MMDC="./node_modules/.bin/mmdc"
 
 # ────────────── Checks ──────────────
-if [ ! -f "$MMDC" ]; then
+if [[ ! -f "$MMDC" ]]; then
     if ! command -v pnpm &>/dev/null; then
         echo "  ⚠️  platform: pnpm not available, skipping UML generation"
         exit 0
@@ -15,7 +15,7 @@ if [ ! -f "$MMDC" ]; then
     pnpm install
 fi
 
-if [ ! -d "docs/diagrams" ]; then
+if [[ ! -d "docs/diagrams" ]]; then
     echo "  ⚠️  platform: no docs/diagrams/ - skipping"
     exit 0
 fi

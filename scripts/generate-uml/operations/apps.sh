@@ -9,7 +9,7 @@ MMDC="./node_modules/.bin/mmdc"
 # ────────────── Discover apps ──────────────
 mapfile -t APPS < <(find "$APPS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
 
-if [ ${#APPS[@]} -eq 0 ]; then
+if [[ ${#APPS[@]} -eq 0 ]]; then
     echo "⚠️  No apps found in $APPS_DIR/"
     exit 0
 fi
@@ -25,14 +25,14 @@ generate_for_app() {
     app_name=$(basename "$app_path")
     local diagrams_dir="$app_path/docs/diagrams"
 
-    if [ ! -d "$diagrams_dir" ]; then
+    if [[ ! -d "$diagrams_dir" ]]; then
         echo "  ⚠️  $app_name: no docs/diagrams/ - skipping"
         return
     fi
 
     mapfile -t MMD_FILES < <(find "$diagrams_dir" -name "*.mmd" | sort)
 
-    if [ ${#MMD_FILES[@]} -eq 0 ]; then
+    if [[ ${#MMD_FILES[@]} -eq 0 ]]; then
         echo "  ⚠️  $app_name: docs/diagrams/ exists but no .mmd files - skipping"
         return
     fi
@@ -46,7 +46,7 @@ generate_for_app() {
         name=$(basename "$f" .mmd)
 
         local out_dir="$OUTPUT_DIR/$app_name"
-        [ "$dir" != "." ] && out_dir="$OUTPUT_DIR/$app_name/$dir"
+        [[ "$dir" != "." ]] && out_dir="$OUTPUT_DIR/$app_name/$dir"
         mkdir -p "$out_dir"
 
         echo "    → $app_name/$([[ "$dir" != "." ]] && echo "$dir/")$name"

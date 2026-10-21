@@ -113,7 +113,7 @@ async def _direct_sse(
         async for data in chat_service.stream_chat(message, conversation_id, user_id):
             yield f"data: {data}\n\n"
     except asyncio.CancelledError:
-        pass
+        raise
     except Exception as e:
         logging.getLogger(__name__).exception("SSE stream error: %s", e)
         msg = "Something went wrong. Please try again."
