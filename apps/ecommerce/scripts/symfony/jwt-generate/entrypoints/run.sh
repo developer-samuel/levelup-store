@@ -7,21 +7,21 @@ set -e
 
 JWT_DIR="config/jwt"
 
-if [ ! -f ".env" ]; then
+if [[ ! -f ".env" ]]; then
     echo "ERROR: .env file not found. Run env-generate and env-secret first."
     exit 1
 fi
 
 JWT_PASSPHRASE=$(grep '^JWT_PASSPHRASE=' .env | cut -d '=' -f2-)
 
-if [ -z "$JWT_PASSPHRASE" ]; then
+if [[ -z "$JWT_PASSPHRASE" ]]; then
     echo "ERROR: JWT_PASSPHRASE not found in .env. Run env-secret first."
     exit 1
 fi
 
 mkdir -p "$JWT_DIR"
 
-if [ -f "$JWT_DIR/private.pem" ] && [ -f "$JWT_DIR/public.pem" ]; then
+if [[ -f "$JWT_DIR/private.pem" ]] && [ -f "$JWT_DIR/public.pem" ]]; then
     echo "JWT keys already exist in $JWT_DIR, skipping generation."
     exit 0
 fi

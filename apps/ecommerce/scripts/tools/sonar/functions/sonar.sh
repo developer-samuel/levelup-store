@@ -5,7 +5,7 @@ run_sonar() {
     echo "🔍 Running SonarQube analysis..."
 
     local token_arg=""
-    if [ -n "$SONAR_TOKEN" ]; then
+    if [[ -n "$SONAR_TOKEN" ]]; then
         token_arg="-e SONAR_TOKEN=${SONAR_TOKEN}"
     fi
 

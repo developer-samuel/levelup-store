@@ -27,7 +27,7 @@ find /var/www/apps/ecommerce/var/tools -type f ! -executable -exec chmod 666 {} 
 chmod g+s /var/www/apps/ecommerce/var/log
 
 # 🔑 JWT keys - www-data needs read access
-if [ -d /var/www/apps/ecommerce/config/jwt ]; then
+if [[ -d /var/www/apps/ecommerce/config/jwt ]]; then
   chmod 644 /var/www/apps/ecommerce/config/jwt/private.pem /var/www/apps/ecommerce/config/jwt/public.pem 2>/dev/null || true
 fi
 
@@ -43,17 +43,17 @@ done
 [ -d /var/www/dist ] && chown -R www-data:www-data /var/www/dist
 
 # 📜 All project scripts - must be executable (only at runtime when /var/www is mounted)
-if [ -d /var/www/apps/ecommerce/scripts ]; then
+if [[ -d /var/www/apps/ecommerce/scripts ]]; then
   find /var/www/apps/ecommerce/scripts -type f -name "*.sh" -exec chmod +x {} \;
 fi
 
 # 📜 Symfony bin/ executables
-if [ -d /var/www/apps/ecommerce/bin ]; then
+if [[ -d /var/www/apps/ecommerce/bin ]]; then
   find /var/www/apps/ecommerce/bin -type f -exec chmod +x {} \;
 fi
 
 # 📦 Composer vendor binaries
-if [ -d /var/www/apps/ecommerce/vendor/bin ]; then
+if [[ -d /var/www/apps/ecommerce/vendor/bin ]]; then
   find /var/www/apps/ecommerce/vendor/bin -type f -exec chmod +x {} \;
 fi
 

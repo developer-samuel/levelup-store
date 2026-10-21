@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Pull Ollama models only when running in ollama mode
-if [ "${ASSISTANT_TYPE:-ollama}" != "ollama" ]; then
+if [[ "${ASSISTANT_TYPE:-ollama}" != "ollama" ]]; then
     exit 0
 fi
 
