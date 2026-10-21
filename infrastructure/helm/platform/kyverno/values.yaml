@@ -17,6 +17,12 @@ kyverno:
       limits:
         cpu: 500m
         memory: 256Mi
+    livenessProbe:
+      timeoutSeconds: 10
+      failureThreshold: 5
+    readinessProbe:
+      timeoutSeconds: 10
+      failureThreshold: 5
 
   backgroundController:
     resources:
