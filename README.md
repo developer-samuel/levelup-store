@@ -36,7 +36,6 @@ Both apps are deployed to Kubernetes (k3s on Oracle Cloud) via ArgoCD.
 ### Performance
 [![E2E](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-e2e.yml?logo=playwright&label=E2E)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-e2e.yml)
 [![Lighthouse](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-lighthouse.yml?logo=lighthouse&label=Lighthouse)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-lighthouse.yml)
-[![Smoke](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/smoke.yml?logo=github&label=Smoke)](https://github.com/developer-samuel/levelup-store/actions/workflows/smoke.yml)
 
 ---
 
