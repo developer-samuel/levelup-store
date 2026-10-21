@@ -27,7 +27,8 @@ Python and Node versions are centralized as repository variables (`PYTHON_VERSIO
 
 | Workflow                        | Trigger                                                                                                          | Description                                                                |
 |---------------------------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| `assistant-ci.yml`              | push/PR → main (apps/assistant/**)                                                                               | Ruff lint + format check, Mypy type check, Vulture dead code, Docker build |
+| `assistant-ci.yml`              | push/PR → main (apps/assistant/**)                                                                               | Ruff lint + format check, Mypy type check, Vulture dead code, pytest, Docker build |
+| `assistant-coverage.yml`        | push/PR → main (apps/assistant/**)                                                                               | pytest with coverage report uploaded to Codecov                            |
 | `assistant-bundle-size.yml`     | PR → main (apps/assistant/client/**, pnpm-lock.yaml)                                                             | Frontend bundle size report                                                |
 | `assistant-docker-validate.yml` | PR → main (apps/assistant/docker/**, .hadolint.yaml)                                                             | Validate Dockerfile with Hadolint                                          |
 | `assistant-frontend-audit.yml`  | push/PR → main (apps/assistant/client/**), schedule Mon 02:00                                                    | Lighthouse (push/schedule), axe-core + pa11y accessibility (PR only)       |
@@ -40,10 +41,11 @@ Python and Node versions are centralized as repository variables (`PYTHON_VERSIO
 lint
 type-check      (all parallel, no dependencies)
 dead-code
+test
 docker-build
 ```
 
-All four jobs run fully in parallel - no gates, no required checks.
+All five jobs run fully in parallel - no gates, no required checks.
 
 ---
 

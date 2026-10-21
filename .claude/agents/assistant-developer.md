@@ -8,26 +8,54 @@ You are a Python/FastAPI developer for the LevelUp Store AI assistant.
 ## Project structure
 
 ```
-apps/assistant/app/
-├── main.py             # FastAPI app, router registration, middleware setup, Sentry/OTel init
-├── config.py           # Pydantic Settings (env vars)
-├── telemetry.py        # OpenTelemetry setup
-├── middleware.py       # Middleware registration (CORS, security, etc.)
-├── models.py           # Pydantic request/response models + prompt injection validation
-├── responses.py        # Shared response helpers
-├── prompts.py          # LLM prompt templates + BLOCKED_PATTERNS for injection detection
-├── conversation.py     # Conversation history in Redis (TTL 24h, max 30 messages per conversation)
-├── rag.py              # RAG pipeline: ChromaDB client, Ollama embeddings, vector query
-├── rabbitmq.py         # RabbitMQ publisher (aio_pika) - publishes chat requests to queue
-├── queue.py            # Redis-based request queue, streaming pub/sub, cancellation logic
-├── rate_limiter.py     # slowapi rate limiter setup
-├── routers/            # FastAPI routers
-│   ├── chat.py         # Chat endpoint
-│   └── health.py       # Health check endpoint
-├── services/           # Business logic
-│   └── chat_service.py
-└── repositories/       # Data access
-    └── product_repository.py
+apps/assistant/
+├── app/
+│   ├── main.py                     # FastAPI app, router registration, middleware setup
+│   ├── config.py                   # Pydantic Settings (env vars)
+│   ├── database.py                 # psycopg2 ThreadedConnectionPool, get_connection()
+│   ├── guard.py                    # API key verification dependency
+│   ├── models.py                   # Pydantic request/response models
+│   ├── responses.py                # Shared response helpers
+│   ├── telemetry.py                # OpenTelemetry setup
+│   ├── context_builder.py          # Builds LLM context from user + product data
+│   ├── adapters/
+│   │   ├── api_adapter.py          # Google Gemini API streaming adapter
+│   │   └── ollama_adapter.py       # Ollama streaming adapter
+│   ├── messaging/
+│   │   ├── queue.py                # Redis request queue, pub/sub, cancellation
+│   │   └── rabbitmq.py             # RabbitMQ publisher (aio_pika)
+│   ├── middleware/
+│   │   ├── rate_limiter.py         # slowapi rate limiter
+│   │   ├── sanitizer.py            # Input sanitizer middleware
+│   │   └── security.py             # Security headers, request ID, error logging
+│   ├── prompts/                    # LLM prompt templates (Markdown)
+│   ├── repositories/               # DB access via get_connection()
+│   │   ├── cart_repository.py
+│   │   ├── order_repository.py
+│   │   ├── product_repository.py
+│   │   ├── review_repository.py
+│   │   ├── user_repository.py
+│   │   └── wishlist_repository.py
+│   ├── routers/
+│   │   ├── chat.py                 # Chat SSE endpoint
+│   │   ├── chat_queue.py           # Queue/reattach/cancel endpoints
+│   │   ├── health.py               # Health check
+│   │   └── info.py                 # Info endpoint
+│   └── services/
+│       ├── chat_service.py         # Conversation history, stream orchestration
+│       ├── guard_service.py        # Prompt injection detection
+│       ├── llm_service.py          # LLM adapter selection + streaming
+│       ├── model_usage_service.py  # Per-model Redis rate counters
+│       └── rag_service.py          # ChromaDB + Ollama embeddings, vector query
+├── jobs/
+│   ├── ingest.py                   # Ingest products/reviews/PDFs into ChromaDB
+│   ├── scheduler.py                # Runs ingest on 15-minute interval
+│   └── worker.py                   # RabbitMQ consumer, streams via Redis pub/sub
+└── tests/
+    ├── unit/                       # app/ unit tests (mocked), mirrors app/ structure
+    ├── api/                        # HTTP endpoint tests via AsyncClient
+    ├── integration/                # repository tests against real DB
+    └── jobs/                       # jobs/ unit tests (mocked)
 ```
 
 ## Architecture
@@ -79,3 +107,30 @@ Or via make:
 ```bash
 make assistant-check
 ```
+
+## Tests
+
+```
+tests/
+  unit/         # app/ unit tests (mocked dependencies), mirrors app/ structure
+  api/          # HTTP endpoint tests via AsyncClient
+  integration/  # repository tests against real DB (requires Docker)
+  jobs/         # jobs/ unit tests (mocked dependencies)
+```
+
+```bash
+# All tests in Docker (unit + api + integration)
+make assistant-test
+
+# All tests with coverage
+make assistant-test-coverage
+
+# Run any command in Docker container
+apps/assistant/bin/run <cmd>
+```
+
+Rules:
+- No `# type: ignore` - use proper types always
+- No `# pragma: no cover` in production code - only in tests for unreachable branches (e.g. `asyncio.CancelledError` on SSI disconnect, `__main__` blocks)
+- Async generator fakes use `AsyncGenerator[str, None]` return type
+- Integration tests auto-skip when DB unavailable

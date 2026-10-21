@@ -12,7 +12,8 @@ graph TD
     %% ── CI ────────────────────────────────────────────────────────────────────
 
     subgraph CI["CI"]
-        CIYml[🚀 assistant-ci.yml - lint]:::ci
+        CIYml[🚀 assistant-ci.yml - lint + type-check + tests]:::ci
+        CoverageYml[📊 assistant-coverage.yml - pytest coverage + Codecov]:::ci
     end
 
     %% ── Quality ───────────────────────────────────────────────────────────────
