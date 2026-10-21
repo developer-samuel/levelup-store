@@ -1,3 +1,6 @@
+migrate:
+  enabled: false  # disabled: insufficient RAM on node
+
 app:
   image:
     tag: "47fcc0b"

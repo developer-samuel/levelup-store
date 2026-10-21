@@ -1,6 +1,9 @@
 imagePullSecrets:
   - name: ghcr-secret
 
+migrate:
+  enabled: true
+
 # Application
 app:
   image:
@@ -93,7 +96,7 @@ sealedSecrets:
 
 # PostgreSQL Backup
 pgBackup:
-  enabled: true
+  enabled: false  # disabled: insufficient RAM on node
   schedule: "0 2 * * *"
   bucket: pg-backups
   retentionDays: 30

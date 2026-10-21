@@ -1,3 +1,4 @@
+{{- if ne (.Values.migrate.enabled | toString) "false" }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -45,3 +46,4 @@ spec:
             limits:
               cpu: 250m
               memory: 256Mi
+{{- end }}
