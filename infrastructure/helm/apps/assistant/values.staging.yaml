@@ -1,6 +1,8 @@
 app:
   image:
-    tag: "978ba57"
+    tag: "47fcc0b"
+  # 0 = staging disabled (saves CPU/RAM on single-node cluster), 1 = staging enabled
+  replicas: 0
 ingress:
   host: "" # set via make secrets
   stagingMiddleware: false
