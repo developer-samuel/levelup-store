@@ -81,7 +81,7 @@ kube-prometheus-stack:
   # Prometheus
   prometheus:
     prometheusSpec:
-      retention: 15d
+      retention: 7d  # reduced from 15d to lower memory usage on single-node cluster
       storageSpec:
         volumeClaimTemplate:
           spec:
@@ -95,7 +95,7 @@ kube-prometheus-stack:
           memory: 256Mi
         limits:
           cpu: 500m
-          memory: 1Gi
+          memory: 1280Mi
 
   # Alertmanager
   alertmanager:
