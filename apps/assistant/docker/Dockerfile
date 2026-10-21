@@ -16,10 +16,14 @@ COPY --from=ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d
 COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev --no-cache
 
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:$PATH" \
+    UV_CACHE_DIR="/tmp/.cache/uv"
 
 COPY app/ ./app/
 COPY jobs/ ./jobs/
+COPY tests/ ./tests/
+
+RUN uv sync --frozen --no-cache
 
 COPY docker/scripts/ /usr/local/bin/scripts/
 RUN chmod +x /usr/local/bin/scripts/*.sh
