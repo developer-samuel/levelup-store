@@ -1,16 +1,12 @@
 app:
   image:
     tag: "cef8721a"
-
   # 0 = staging disabled (saves CPU/RAM on single-node cluster), 1 = staging enabled
   replicas: 0
-
 ingress:
   host: "" # set via make secrets
   stagingMiddleware: true
-  
 networkPolicy:
   servicesNamespace: "levelup-store"
-
 mercure:
   ingressEnabled: false
