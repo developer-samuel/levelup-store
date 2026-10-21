@@ -46,7 +46,7 @@ generate_for_app() {
         name=$(basename "$f" .mmd)
 
         local out_dir="$OUTPUT_DIR/$app_name"
-        [ "$dir" != "." ]] && out_dir="$OUTPUT_DIR/$app_name/$dir"
+        [[ "$dir" != "." ]] && out_dir="$OUTPUT_DIR/$app_name/$dir"
         mkdir -p "$out_dir"
 
         echo "    → $app_name/$([[ "$dir" != "." ]] && echo "$dir/")$name"
