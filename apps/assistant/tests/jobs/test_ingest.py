@@ -367,7 +367,7 @@ def test_ingest_top_ordered_skips_empty() -> None:
 
 
 def test_ingest_documents_skips_no_pdfs() -> None:
-    with patch("jobs.ingest._PDF_DIR") as mock_dir:
+    with patch("jobs.ingest._PDF_DIR") as mock_dir, patch("jobs.ingest.get_documents_collection"):
         mock_dir.exists.return_value = True
         mock_dir.glob.return_value = []
         _ingest_documents()

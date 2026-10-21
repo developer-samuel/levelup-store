@@ -21,6 +21,26 @@ All pipelines are implemented using GitHub Actions.
 
 ---
 
+## 🔧 Shared Tooling
+
+Tools used across all apps - not specific to ecommerce or assistant.
+
+| Tool                     | Purpose                                               | Workflow                       |
+|--------------------------|-------------------------------------------------------|--------------------------------|
+| Trivy                    | CVE scan on Docker images and dependencies            | `cve-scan.yml`, `deploy.yml`   |
+| Grype (Anchore)          | Vulnerability scan on built image                     | `cve-scan.yml`                 |
+| GitHub Dependency Review | Dependency vulnerability review on PRs                | `cve-scan.yml`                 |
+| Gitleaks                 | Secrets detection in commits                          | `supply-chain.yml`             |
+| OSSF Scorecard           | Supply chain security scoring                         | `supply-chain.yml`             |
+| cosign / Sigstore        | Production image signing                              | `deploy.yml`                   |
+| SBOM (Syft / Anchore)    | Software Bill of Materials generation and attestation | `deploy.yml`                   |
+| Checkov                  | IaC security scanning (Terraform, Helm, K8s)          | `infrastructure-validate.yml`  |
+| ShellCheck               | Shell script static analysis                          | `infrastructure-lint.yml`      |
+| ansible-lint             | Ansible playbook linting                              | `infrastructure-lint.yml`      |
+| commitlint               | Conventional commit message format enforcement        | `validate-commits.yml`         |
+
+---
+
 ## 📊 Diagrams
 
 - [Deployment Pipeline](../diagrams/graphs/architecture/deployment.mmd)

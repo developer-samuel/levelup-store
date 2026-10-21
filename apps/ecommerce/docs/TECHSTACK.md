@@ -122,23 +122,12 @@ Tools that run exclusively in GitHub Actions pipelines - not available as local 
 |--------------------------|-------------------------------------------------------|---------------------------------------------------------------|
 | OWASP ZAP                | DAST - baseline scan against live app                 | `ecommerce-zap.yml`                                           |
 | CodeQL                   | SAST - static security analysis                       | `ecommerce-sast.yml`                                          |
-| Trivy                    | CVE scan on Docker images and dependencies            | `cve-scan.yml`, `deploy.yml`, `ecommerce-docker-validate.yml` |
-| Grype (Anchore)          | Vulnerability scan on built image                     | `cve-scan.yml`                                                |
-| GitHub Dependency Review | Dependency vulnerability review on PRs                | `cve-scan.yml`                                                |
-| Gitleaks                 | Secrets detection in commits                          | `supply-chain.yml`                                            |
-| OSSF Scorecard           | Supply chain security scoring                         | `supply-chain.yml`                                            |
-| cosign / Sigstore        | Production image signing                              | `deploy.yml`                                                  |
-| SBOM (Syft / Anchore)    | Software Bill of Materials generation and attestation | `deploy.yml`                                                  |
-| Hadolint                 | Dockerfile linting                                    | `ecommerce-docker-validate.yml`                               |
-| Checkov                  | IaC security scanning (Terraform, Helm, K8s)          | `infrastructure-validate.yml`                                 |
-| ShellCheck               | Shell script static analysis                          | `infrastructure-lint.yml`                                     |
-| ansible-lint             | Ansible playbook linting                              | `infrastructure-lint.yml`                                     |
-| Lighthouse CI            | Frontend performance auditing + budget enforcement    | `ecommerce-lighthouse.yml`, `ecommerce-frontend-audit.yml`    |
-| axe-core + pa11y         | Accessibility testing on PRs                          | `ecommerce-frontend-audit.yml`                                |
-| SonarCloud               | Cloud static analysis + ESLint + coverage             | `ecommerce-coverage.yml`                                      |
-| Codecov                  | PHP + JS coverage tracking and reporting              | `ecommerce-coverage.yml`                                      |
-| commitlint               | Conventional commit message format enforcement        | `validate-commits.yml`                                        |
+| Hadolint      | Dockerfile linting                                 | `ecommerce-docker-validate.yml`                            |
+| Lighthouse CI | Frontend performance auditing + budget enforcement | `ecommerce-lighthouse.yml`, `ecommerce-frontend-audit.yml` |
+| axe-core + pa11y | Accessibility testing on PRs                    | `ecommerce-frontend-audit.yml`                             |
+| SonarCloud    | Cloud static analysis + ESLint + coverage          | `ecommerce-coverage.yml`                                   |
+| Codecov       | PHP + JS coverage tracking and reporting           | `ecommerce-coverage.yml`                                   |
 
 ---
 
-See also: [Production Infrastructure](../../../../docs/TECHSTACK.md)
+See also: [Production Infrastructure](../../../../docs/TECHSTACK.md) · [Shared CI/CD Tooling](../../../../docs/runtime/DEVOPS.md#-shared-tooling)
