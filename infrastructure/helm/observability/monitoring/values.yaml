@@ -130,6 +130,37 @@ kube-prometheus-stack:
   nodeExporter:
     enabled: true
 
+  # Prometheus Operator
+  prometheusOperator:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+    livenessProbe:
+      timeoutSeconds: 10
+      failureThreshold: 5
+    readinessProbe:
+      timeoutSeconds: 10
+      failureThreshold: 5
+
   # Kube State Metrics
   kubeStateMetrics:
     enabled: true
+
+kube-state-metrics:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+  livenessProbe:
+    timeoutSeconds: 10
+    failureThreshold: 5
+  readinessProbe:
+    timeoutSeconds: 10
+    failureThreshold: 5
