@@ -14,6 +14,7 @@ The production stack runs on a single Oracle Cloud ARM VM, managed entirely via 
 - **Configuration Management:** Ansible (k3s install, SSH hardening, fail2ban)
 - **Container Orchestration:** k3s (lightweight Kubernetes)
 - **GitOps:** ArgoCD (watches `main` branch for production, `staging` branch for staging; auto-syncs Helm releases)
+- **CI/CD:** GitHub Actions (automated checks) + Jenkins (deployment pipeline - build, staging deploy, manual approval gate, production deploy)
 - **Package Management:** Helm (all services deployed as Helm charts)
 - **TLS:** cert-manager + Let's Encrypt (automatic certificate provisioning)
 - **Autoscaling (horizontal):** HPA (scales ecommerce and assistant pods based on CPU utilization)
