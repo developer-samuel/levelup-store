@@ -12,7 +12,7 @@
   - Webcam support - customer can show a product or issue visually (e.g. damaged item, wrong delivery)
   - Integrated into existing assistant context and RAG pipeline
 - [ ] Interactive quick-reply options - assistant can present checkboxes or radio buttons when asking clarifying questions to narrow down the best product match; user picks options instead of typing
-- [ ] Test coverage (pytest, pytest-asyncio, httpx)
+- [x] Test coverage (pytest)
 
 ### Ecommerce
 
