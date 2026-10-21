@@ -82,7 +82,7 @@ async def queued_sse(
             yield f"data: {chunk}\n\n"
 
     except asyncio.CancelledError:
-        pass
+        raise
 
 
 async def _reattach_sse(conversation_id: str, request_id: str) -> AsyncGenerator[str, None]:
@@ -90,7 +90,7 @@ async def _reattach_sse(conversation_id: str, request_id: str) -> AsyncGenerator
         async for chunk in subscribe_stream(conversation_id, request_id):
             yield f"data: {chunk}\n\n"
     except asyncio.CancelledError:
-        pass
+        raise
 
 
 @router.get("/chat/reattach/{conversation_id}/{request_id}")
