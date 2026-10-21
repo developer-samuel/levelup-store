@@ -1,6 +1,4 @@
-import psycopg2
-
-from app.config import settings
+from app.database import get_connection
 
 _WISHLIST_QUERY = """
     SELECT
@@ -37,15 +35,9 @@ _WISHLIST_QUERY = """
 
 
 def fetch_user_wishlist(user_id: int) -> list[tuple[object, ...]]:
-    conn = psycopg2.connect(settings.database_url)
-
-    try:
+    with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(_WISHLIST_QUERY, (user_id,))
-
         rows: list[tuple[object, ...]] = cursor.fetchall()
-
         cursor.close()
-    finally:
-        conn.close()
     return rows

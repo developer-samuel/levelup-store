@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import uuid
 from collections.abc import AsyncGenerator
 from typing import Annotated
@@ -114,8 +115,6 @@ async def _direct_sse(
     except asyncio.CancelledError:
         pass
     except Exception as e:
-        import logging
-
         logging.getLogger(__name__).exception("SSE stream error: %s", e)
         msg = "Something went wrong. Please try again."
 
