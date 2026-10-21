@@ -30,7 +30,7 @@ fi
 # ─── Frontend package files ───────────────────────────────────────────────────
 
 for f in package.json package-lock.json pnpm-lock.yaml pnpm-workspace.yaml; do
-    [ -f "$f" ]] && chmod 644 "$f"
+    [[ -f "$f" ]] && chmod 644 "$f"
 done
 
 # ─── dist/ ────────────────────────────────────────────────────────────────────

@@ -21,7 +21,7 @@ fi
 
 mkdir -p "$JWT_DIR"
 
-if [[ -f "$JWT_DIR/private.pem" ]] && [ -f "$JWT_DIR/public.pem" ]]; then
+if [[ -f "$JWT_DIR/private.pem" ]] && [[ -f "$JWT_DIR/public.pem" ]]; then
     echo "JWT keys already exist in $JWT_DIR, skipping generation."
     exit 0
 fi
