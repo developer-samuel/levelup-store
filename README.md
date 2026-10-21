@@ -104,24 +104,28 @@ make -C infrastructure bootstrap
 
 → Full deploy guide: [docs/infrastructure/DEPLOYMENT.md](docs/infrastructure/DEPLOYMENT.md)  
 → Infrastructure overview: [docs/infrastructure/OVERVIEW.md](docs/infrastructure/OVERVIEW.md)  
-→ Prerequisites & local setup: [docs/infrastructure/SETUP.md](docs/infrastructure/SETUP.md)
+→ Prerequisites & local setup: [docs/infrastructure/SETUP.md](docs/infrastructure/SETUP.md)  
+→ Server setup & recommendations: [docs/infrastructure/SERVER.md](docs/infrastructure/SERVER.md)
 
 ---
 
 ## 📚 Documentation
 
 ### Shared
-| Document                                                               | Description             |
-|------------------------------------------------------------------------|-------------------------|
-| [docs/INSTALL.md](docs/INSTALL.md)                                     | Installation guide      |
-| [docs/SETUP.md](docs/SETUP.md)                                         | Environment setup       |
-| [docs/TECHSTACK.md](docs/TECHSTACK.md)                                 | Full technology stack   |
-| [docs/runtime/DEVOPS.md](docs/runtime/DEVOPS.md)                       | CI/CD pipelines         |
-| [docs/runtime/ARCHITECTURE.md](docs/runtime/ARCHITECTURE.md)           | Architecture overview   |
-| [docs/infrastructure/DEPLOYMENT.md](docs/infrastructure/DEPLOYMENT.md) | Kubernetes deploy guide |
-| [docs/infrastructure/SECRETS.md](docs/infrastructure/SECRETS.md)       | Secrets & env variables |
+
+| Document                                                               | Description                  |
+|------------------------------------------------------------------------|------------------------------|
+| [docs/INSTALL.md](docs/INSTALL.md)                                     | Installation guide           |
+| [docs/SETUP.md](docs/SETUP.md)                                         | Environment setup            |
+| [docs/TECHSTACK.md](docs/TECHSTACK.md)                                 | Full technology stack        |
+| [docs/runtime/DEVOPS.md](docs/runtime/DEVOPS.md)                       | CI/CD pipelines              |
+| [docs/runtime/ARCHITECTURE.md](docs/runtime/ARCHITECTURE.md)           | Architecture overview        |
+| [docs/infrastructure/DEPLOYMENT.md](docs/infrastructure/DEPLOYMENT.md) | Kubernetes deploy guide      |
+| [docs/infrastructure/SECRETS.md](docs/infrastructure/SECRETS.md)       | Secrets & env variables      |
+| [docs/infrastructure/SERVER.md](docs/infrastructure/SERVER.md)         | Server setup & hardware spec |
 
 ### Per App
+
 | Ecommerce                                                                     | Assistant                                                      |
 |-------------------------------------------------------------------------------|----------------------------------------------------------------|
 | Install | [INSTALL.md](apps/ecommerce/docs/INSTALL.md)                        | [INSTALL.md](apps/assistant/docs/INSTALL.md)                   |

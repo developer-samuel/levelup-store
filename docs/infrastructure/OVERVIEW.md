@@ -44,16 +44,6 @@ and orchestrated by k3s (lightweight Kubernetes).
 
 ---
 
-## Server
-
-Single Oracle Cloud Free Tier ARM VM - **2 OCPU, 12 GB RAM**.
-
-RAM is the primary constraint - Ollama (local LLM inference) alone requires several GB. The full stack is tuned to fit within 12 GB; all user-facing services run at all times, while some infrastructure tooling (e.g. Jenkins) is scaled to zero to conserve memory. The recommended setup for running everything simultaneously without resource pressure is **two nodes: 2 OCPU / 12 GB RAM each** - one dedicated to the ecommerce stack, one to the AI assistant and Ollama.
-
-Resource configuration is in `infrastructure/terraform/oracle/variables.tf`.
-
----
-
 ## Repository layout
 
 | Directory     | Contains                                                          |
@@ -96,3 +86,4 @@ No manual `helm upgrade` is ever needed after initial setup.
 - [Environment Variables & Secrets](SECRETS.md)
 - [Deployment Guide](DEPLOYMENT.md)
 - [Makefile Command Reference](COMMANDS.md)
+- [Server Setup & Recommendations](SERVER.md)
