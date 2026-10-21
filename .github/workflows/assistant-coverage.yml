@@ -63,6 +63,10 @@ jobs:
         run: uv run pytest tests/ --cov=app --cov=jobs --cov-report=term-missing --cov-report=xml:coverage.xml
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
+          ECOMMERCE_URL: http://localhost
+          CORS_ORIGINS: http://localhost
+          SUPPORT_EMAIL: test@example.com
+          REDIS_URL: redis://localhost:6379
 
       - name: Upload coverage report as artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
