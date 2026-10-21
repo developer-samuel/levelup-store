@@ -3,7 +3,7 @@ set -e
 
 composer db-setup
 
-if [ "${ELASTICSEARCH_ENABLED}" = "true" ]; then
+if [[ "${ELASTICSEARCH_ENABLED}" = "true" ]]; then
   echo "🔍 Reindexing Elasticsearch..."
   composer elasticsearch:reindex
   echo "✅ Elasticsearch reindexed."

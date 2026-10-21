@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ────────────── Load .env ──────────────
-if [ -f ".env" ]; then
+if [[ -f ".env" ]]; then
     set -o allexport
     source .env
     set +o allexport

@@ -5,7 +5,7 @@ set -e
 create_directory() {
     local directory=$1
 
-    if [ ! -d "$directory" ]; then
+    if [[ ! -d "$directory" ]]; then
         echo "🟢 Directory $directory does not exist, creating..."
         mkdir -p "$directory"
     else

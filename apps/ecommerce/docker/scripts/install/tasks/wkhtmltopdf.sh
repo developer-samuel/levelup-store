@@ -10,7 +10,7 @@ rm -f "${WKDEB_TMP}"
 
 ARCH=$(dpkg --print-architecture)  # amd64 or arm64
 
-if [ "${ARCH}" = "arm64" ]; then
+if [[ "${ARCH}" = "arm64" ]]; then
   CANDIDATES=(
     "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_arm64.deb"
     "https://deb.debian.org/debian/pool/main/w/wkhtmltopdf/wkhtmltopdf_0.12.6-2+b1_arm64.deb"
@@ -36,7 +36,7 @@ for URL in "${CANDIDATES[@]}"; do
     fi
 
     # verify binary present
-    if [ -x /usr/local/bin/wkhtmltopdf ] || [ -x /usr/bin/wkhtmltopdf ]; then
+    if [[ -x /usr/local/bin/wkhtmltopdf ]] || [[ -x /usr/bin/wkhtmltopdf ]]; then
       DOWNLOAD_OK=1
       break
     else
@@ -48,7 +48,7 @@ for URL in "${CANDIDATES[@]}"; do
   fi
 done
 
-if [ "${DOWNLOAD_OK}" -ne 1 ]; then
+if [[ "${DOWNLOAD_OK}" -ne 1 ]]; then
   echo "❌ ERROR: wkhtmltopdf download/install failed. See logs above."
   echo "Tried these URLs:"
   for u in "${CANDIDATES[@]}"; do echo "  - $u"; done
@@ -56,9 +56,9 @@ if [ "${DOWNLOAD_OK}" -ne 1 ]; then
 fi
 
 # ensure executable permissions for whichever path got installed
-if [ -f /usr/local/bin/wkhtmltopdf ]; then
+if [[ -f /usr/local/bin/wkhtmltopdf ]]; then
   chmod +x /usr/local/bin/wkhtmltopdf || true
-elif [ -f /usr/bin/wkhtmltopdf ]; then
+elif [[ -f /usr/bin/wkhtmltopdf ]]; then
   chmod +x /usr/bin/wkhtmltopdf || true
 fi
 
@@ -68,7 +68,7 @@ cat > "${WRAPPER_PATH}" <<'EOF'
 #!/bin/bash
 export QT_QPA_PLATFORM=offscreen
 # Prefer installed binary in /usr/local/bin or /usr/bin
-if [ -x /usr/local/bin/wkhtmltopdf ]; then
+if [[ -x /usr/local/bin/wkhtmltopdf ]]; then
   exec /usr/local/bin/wkhtmltopdf "$@"
 else
   exec /usr/bin/wkhtmltopdf "$@"

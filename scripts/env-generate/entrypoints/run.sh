@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ ! -f .env.production ]; then
+if [[ ! -f .env.production ]]; then
     cp .env.production.example .env.production
     echo "✅ .env.production file created from .env.production.example"
 else
