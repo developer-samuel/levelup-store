@@ -60,8 +60,8 @@ export default class ReviewModal implements ReviewModalInstance {
     this.setup(triggers)
   }
 
-  static init(): void {
-    new ReviewModal()
+  static init(): ReviewModal {
+    return new ReviewModal()
   }
 
   private setup(triggers: HTMLElement[]): void {

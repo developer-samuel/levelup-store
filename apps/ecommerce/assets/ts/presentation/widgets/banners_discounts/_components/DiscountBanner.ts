@@ -9,8 +9,8 @@ export default class DiscountBanner {
     this.setup(el)
   }
 
-  static init(): void {
-    new DiscountBanner('#discount-banner')
+  static init(): DiscountBanner {
+    return new DiscountBanner('#discount-banner')
   }
 
   private setup(bannerImg: HTMLImageElement): void {

@@ -71,8 +71,8 @@ export default class Search implements SearchInstance {
     this.setup()
   }
 
-  static init(): void {
-    new Search()
+  static init(): Search {
+    return new Search()
   }
 
   private setup(): void {

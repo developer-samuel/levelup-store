@@ -60,6 +60,40 @@ async def delete_conversation(conversation_id: str) -> None:
     await _redis.delete(f"{_KEY_PREFIX}{conversation_id}")
 
 
+def _build_context_parts(results: list[Any], user_id: int | None) -> tuple[list[str], str]:
+    rag_context = cast(str, results[0])
+    documents_context = cast(str, results[1])
+    catalog = cast(dict[str, list[str]], results[2])
+    top_reviewed = cast(list[tuple[object, ...]], results[3])
+    top_ordered = cast(list[tuple[object, ...]], results[4])
+    user_orders = cast(list[tuple[object, ...]], results[5]) if user_id else []
+    user_cart = cast(list[tuple[object, ...]], results[6]) if user_id else []
+    user_reviews = cast(list[tuple[object, ...]], results[7]) if user_id else []
+    user_wishlist = cast(list[tuple[object, ...]], results[8]) if user_id else []
+    user_name = cast(tuple[str, str] | None, results[9]) if user_id else None
+    user_order_profile = cast(list[tuple[object, ...]], results[10]) if user_id else []
+
+    parts = list(
+        filter(
+            None,
+            [
+                format_user_name(user_name),
+                rag_context,
+                format_catalog_summary(catalog),
+                format_top_reviewed(top_reviewed),
+                format_top_ordered(top_ordered),
+                format_user_order_profile(user_order_profile),
+                format_user_orders(user_orders),
+                format_user_cart(user_cart),
+                format_user_reviews(user_reviews),
+                format_user_wishlist(user_wishlist),
+            ],
+        )
+    )
+
+    return parts, documents_context
+
+
 async def stream_chat(
     message: str, conversation_id: str, user_id: int | None = None
 ) -> AsyncGenerator[str, None]:
@@ -101,35 +135,7 @@ async def stream_chat(
         )
 
     results = await asyncio.gather(*gather_tasks)
-    rag_context = cast(str, results[0])
-    documents_context = cast(str, results[1])
-    catalog = cast(dict[str, list[str]], results[2])
-    top_reviewed = cast(list[tuple[object, ...]], results[3])
-    top_ordered = cast(list[tuple[object, ...]], results[4])
-    user_orders = cast(list[tuple[object, ...]], results[5]) if user_id else []
-    user_cart = cast(list[tuple[object, ...]], results[6]) if user_id else []
-    user_reviews = cast(list[tuple[object, ...]], results[7]) if user_id else []
-    user_wishlist = cast(list[tuple[object, ...]], results[8]) if user_id else []
-    user_name = cast(tuple[str, str] | None, results[9]) if user_id else None
-    user_order_profile = cast(list[tuple[object, ...]], results[10]) if user_id else []
-
-    context_parts = list(
-        filter(
-            None,
-            [
-                format_user_name(user_name),
-                rag_context,
-                format_catalog_summary(catalog),
-                format_top_reviewed(top_reviewed),
-                format_top_ordered(top_ordered),
-                format_user_order_profile(user_order_profile),
-                format_user_orders(user_orders),
-                format_user_cart(user_cart),
-                format_user_reviews(user_reviews),
-                format_user_wishlist(user_wishlist),
-            ],
-        )
-    )
+    context_parts, documents_context = _build_context_parts(results, user_id)
 
     context = "\n\n".join(context_parts) if context_parts else "No relevant products found."
 

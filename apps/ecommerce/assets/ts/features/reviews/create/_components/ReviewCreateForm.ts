@@ -15,7 +15,7 @@ export default class ReviewCreateForm extends BaseForm {
     super(formSelector, alert, errors, handler, false)
   }
 
-  static init(): void {
-    new ReviewCreateForm('#reviews-create-form')
+  static init(): ReviewCreateForm {
+    return new ReviewCreateForm('#reviews-create-form')
   }
 }

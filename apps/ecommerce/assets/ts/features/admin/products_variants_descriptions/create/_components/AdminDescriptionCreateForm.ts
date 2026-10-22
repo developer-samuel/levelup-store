@@ -18,7 +18,7 @@ export default class AdminDescriptionCreateForm extends BaseForm {
     super(formSelector, alert, errors, handler, true)
   }
 
-  static init(): void {
-    new AdminDescriptionCreateForm('#admin-variant-descriptions-create-form')
+  static init(): AdminDescriptionCreateForm {
+    return new AdminDescriptionCreateForm('#admin-variant-descriptions-create-form')
   }
 }

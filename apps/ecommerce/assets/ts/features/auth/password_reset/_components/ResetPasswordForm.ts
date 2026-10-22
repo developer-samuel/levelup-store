@@ -15,7 +15,7 @@ export default class ResetPasswordForm extends BaseForm {
     super(formSelector, alert, errors, handler, false)
   }
 
-  static init(): void {
-    new ResetPasswordForm('#reset-password-form')
+  static init(): ResetPasswordForm {
+    return new ResetPasswordForm('#reset-password-form')
   }
 }

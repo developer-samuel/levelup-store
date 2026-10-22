@@ -5,7 +5,7 @@ export default class PasswordToggle {
     bindPasswordToggle()
   }
 
-  static init(): void {
-    new PasswordToggle()
+  static init(): PasswordToggle {
+    return new PasswordToggle()
   }
 }

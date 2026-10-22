@@ -18,7 +18,7 @@ export default class LoginForm extends BaseForm {
     super(formSelector, alert, errors, handler, false)
   }
 
-  static init(): void {
-    new LoginForm('#login-form')
+  static init(): LoginForm {
+    return new LoginForm('#login-form')
   }
 }

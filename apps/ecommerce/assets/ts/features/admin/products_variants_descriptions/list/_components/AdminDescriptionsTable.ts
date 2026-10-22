@@ -20,7 +20,8 @@ export default class AdminDescriptionsTable extends BaseDatatable {
     )
   }
 
-  static init(): void {
-    new AdminDescriptionsTable()
+  static async init(): Promise<void> {
+    const instance = new AdminDescriptionsTable()
+    await instance.setup()
   }
 }

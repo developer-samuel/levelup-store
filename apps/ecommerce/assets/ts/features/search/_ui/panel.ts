@@ -21,10 +21,18 @@ function hidePanel(instance: SearchInstance): void {
   }
 }
 
+function shouldShowPanel(hasText: boolean, hasQueryParam: boolean): boolean {
+  return hasText && !hasQueryParam
+}
+
+function shouldHidePanel(hasText: boolean): boolean {
+  return !hasText
+}
+
 function updatePanelVisibility(instance: SearchInstance, hasText: boolean, hasQueryParam: boolean): void {
-  if (hasText && !hasQueryParam) {
+  if (shouldShowPanel(hasText, hasQueryParam)) {
     showPanel(instance)
-  } else if (!hasText) {
+  } else if (shouldHidePanel(hasText)) {
     hidePanel(instance)
   }
 }

@@ -19,7 +19,8 @@ export default class AdminSubtypesTable extends BaseDatatable {
     )
   }
 
-  static init(): void {
-    new AdminSubtypesTable()
+  static async init(): Promise<void> {
+    const instance = new AdminSubtypesTable()
+    await instance.setup()
   }
 }

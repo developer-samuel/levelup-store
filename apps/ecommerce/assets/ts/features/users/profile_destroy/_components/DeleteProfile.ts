@@ -5,7 +5,7 @@ export default class DeleteProfile {
     attachDestroyProfileListener(selector)
   }
 
-  static init(): void {
-    new DeleteProfile('#delete-account-btn')
+  static init(): DeleteProfile {
+    return new DeleteProfile('#delete-account-btn')
   }
 }

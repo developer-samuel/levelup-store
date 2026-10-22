@@ -11,7 +11,8 @@ export default class AdminBannersTable extends BaseDatatable {
     super(TABLE_SELECTOR, URL, renderBanners, undefined, DATA_KEY)
   }
 
-  static init(): void {
-    new AdminBannersTable()
+  static async init(): Promise<void> {
+    const instance = new AdminBannersTable()
+    await instance.setup()
   }
 }
