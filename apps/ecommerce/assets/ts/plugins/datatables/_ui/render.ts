@@ -25,7 +25,7 @@ function renderRows(
       const renderer = cellRenderers[key]
       if (renderer) return createCell(renderer(rowData[key], rowData))
       const val = rowData[key]
-      return createCell(val !== null && val !== undefined ? String(val) : '')
+      return createCell(typeof val === 'string' || typeof val === 'number' ? String(val) : '')
     })
 
     const actionsTd = actionButton ? actionButton(rowData) : null

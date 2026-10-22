@@ -24,10 +24,14 @@ export default class Cursor implements CursorInstance {
     this.posX = this.mouseX
     this.posY = this.mouseY
 
-    this.init()
+    this.setup()
   }
 
-  private init(): void {
+  static init(): void {
+    new Cursor('.cursor')
+  }
+
+  private setup(): void {
     bindHoverEffects(this.element)
     attachCursorMouseMoveListener(this)
     setupAnimateCursor(this, this.element)

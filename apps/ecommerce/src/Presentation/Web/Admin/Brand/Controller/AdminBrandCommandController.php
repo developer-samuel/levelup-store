@@ -103,8 +103,10 @@ final class AdminBrandCommandController extends AbstractCrudCommandController
         );
     }
 
-    private function createPayload(AdminBrandStoreRequest|AdminBrandUpdateRequest $request, ?int $id = null): AdminBrandPayload
-    {
+    private function createPayload(
+        AdminBrandStoreRequest|AdminBrandUpdateRequest $request,
+        ?int $id = null,
+    ): AdminBrandPayload {
         return new AdminBrandPayload(
             name: $request->name,
             id: $id !== null ? (string) $id : null,

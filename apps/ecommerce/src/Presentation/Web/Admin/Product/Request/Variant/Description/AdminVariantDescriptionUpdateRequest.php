@@ -19,7 +19,8 @@ final class AdminVariantDescriptionUpdateRequest extends AbstractRequest
 {
     use AdminVariantDescriptionUpdateInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

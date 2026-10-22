@@ -26,7 +26,9 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-final class AdminVariantEanCommandService extends AbstractAdminVariantCommandService implements AdminVariantEanCommandContract
+final class AdminVariantEanCommandService
+    extends AbstractAdminVariantCommandService
+    implements AdminVariantEanCommandContract
 {
     public function __construct(
         private readonly ProductVariantEanRepositoryContract $variantEanRepository,
@@ -97,9 +99,15 @@ final class AdminVariantEanCommandService extends AbstractAdminVariantCommandSer
         }
 
         match ($ean->getStatus()) {
-            ProductVariantEanStatus::ACTIVE   => $stock->setQuantityAvailable(max(0, $stock->getQuantityAvailable() - 1)),
-            ProductVariantEanStatus::RESERVED => $stock->setQuantityReserved(max(0, $stock->getQuantityReserved() - 1)),
-            ProductVariantEanStatus::REFUNDED => $stock->setQuantityRefunded(max(0, $stock->getQuantityRefunded() - 1)),
+            ProductVariantEanStatus::ACTIVE   => $stock->setQuantityAvailable(
+                max(0, $stock->getQuantityAvailable() - 1),
+            ),
+            ProductVariantEanStatus::RESERVED => $stock->setQuantityReserved(
+                max(0, $stock->getQuantityReserved() - 1),
+            ),
+            ProductVariantEanStatus::REFUNDED => $stock->setQuantityRefunded(
+                max(0, $stock->getQuantityRefunded() - 1),
+            ),
             ProductVariantEanStatus::SOLD     => null,
         };
 

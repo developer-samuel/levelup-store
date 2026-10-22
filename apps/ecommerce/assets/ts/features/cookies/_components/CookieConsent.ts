@@ -12,4 +12,8 @@ export default class CookieConsent {
 
     this.acceptButton?.addEventListener('click', () => void handleAcceptCookies(this.cookieModal))
   }
+
+  static init(): void {
+    new CookieConsent('.cookies', '[data-action="accept-cookies"]')
+  }
 }

@@ -148,8 +148,10 @@ final readonly class ProductQueryService implements ProductQueryContract
         return ProductCatalogResource::toArray($catalog);
     }
 
-    private function createPagination(ProductPaginationObject $pagination, int $totalCount): ProductCatalogPaginationObject
-    {
+    private function createPagination(
+        ProductPaginationObject $pagination,
+        int $totalCount,
+    ): ProductCatalogPaginationObject {
         $limit = self::LIMIT;
         $maxPages = (int) ceil($totalCount / $limit);
         $showLoadMore = $totalCount > ($pagination->offset + $limit);

@@ -14,4 +14,8 @@ export default class OrderForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, true)
   }
+
+  static init(): void {
+    new OrderForm('#order-form')
+  }
 }

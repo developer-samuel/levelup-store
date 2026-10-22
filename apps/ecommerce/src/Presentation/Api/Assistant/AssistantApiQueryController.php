@@ -38,7 +38,12 @@ final class AssistantApiQueryController extends AbstractCommandController
                 content: new OA\JsonContent(properties: [
                     new OA\Property(property: 'success', type: 'boolean', example: true),
                     new OA\Property(property: 'data', properties: [
-                        new OA\Property(property: 'conversation_id', type: 'string', nullable: true, example: 'user-42'),
+                        new OA\Property(
+                            property: 'conversation_id',
+                            type: 'string',
+                            nullable: true,
+                            example: 'user-42',
+                        ),
                     ], type: 'object'),
                 ]),
             ),

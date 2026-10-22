@@ -79,8 +79,11 @@ final readonly class OrderDataCommandService implements OrderDataCommandContract
         $this->entityPersistence->persist($shipping);
     }
 
-    private function createOrderShippingEntity(Order $order, Country $country, OrderShippingObject $shipping): OrderShipping
-    {
+    private function createOrderShippingEntity(
+        Order $order,
+        Country $country,
+        OrderShippingObject $shipping,
+    ): OrderShipping {
         return (new OrderShipping())
             ->setOrder($order)
             ->setCountry($country)

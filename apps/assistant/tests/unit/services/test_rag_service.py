@@ -1,5 +1,7 @@
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 import app.services.rag_service as rag_module
 from app.services.rag_service import (
     embed,
@@ -68,10 +70,10 @@ def test_query_documents_returns_empty_on_exception() -> None:
     mock_log.exception.assert_called_once()
 
 
-def test_get_chroma_client_creates_singleton() -> None:
+def test_get_chroma_client_creates_singleton(monkeypatch: pytest.MonkeyPatch) -> None:
     import app.services.rag_service as rag
 
-    rag._chroma_client = None
+    monkeypatch.setattr(rag, "_chroma_client", None)
 
     with patch("app.services.rag_service.chromadb.HttpClient") as mock_cls:
         mock_cls.return_value = MagicMock()
@@ -79,16 +81,13 @@ def test_get_chroma_client_creates_singleton() -> None:
         c2 = rag._get_chroma_client()
 
     mock_cls.assert_called_once()
-
     assert c1 is c2
 
-    rag._chroma_client = None
 
-
-def test_get_ollama_client_creates_singleton() -> None:
+def test_get_ollama_client_creates_singleton(monkeypatch: pytest.MonkeyPatch) -> None:
     import app.services.rag_service as rag
 
-    rag._ollama_client = None
+    monkeypatch.setattr(rag, "_ollama_client", None)
 
     with patch("app.services.rag_service.ollama.Client") as mock_cls:
         mock_cls.return_value = MagicMock()
@@ -96,17 +95,14 @@ def test_get_ollama_client_creates_singleton() -> None:
         c2 = rag._get_ollama_client()
 
     mock_cls.assert_called_once()
-
     assert c1 is c2
 
-    rag._ollama_client = None
 
-
-def test_embed_calls_ollama() -> None:
+def test_embed_calls_ollama(monkeypatch: pytest.MonkeyPatch) -> None:
     mock_client = MagicMock()
     mock_client.embeddings.return_value = {"embedding": [0.1, 0.2, 0.3]}
 
-    rag_module._ollama_client = None
+    monkeypatch.setattr(rag_module, "_ollama_client", None)
 
     with patch("app.services.rag_service._get_ollama_client", return_value=mock_client):
         result = embed("test text")

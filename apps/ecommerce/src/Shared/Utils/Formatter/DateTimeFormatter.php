@@ -28,10 +28,18 @@ final class DateTimeFormatter
         }
 
         if ($seconds < 3600) {
-            return trim(self::unit(intdiv($seconds, 60), 'minute') . ' ' . self::unit($seconds % 60, 'second', skip: true));
+            return trim(
+                self::unit(intdiv($seconds, 60), 'minute')
+                . ' '
+                . self::unit($seconds % 60, 'second', skip: true),
+            );
         }
 
-        return trim(self::unit(intdiv($seconds, 3600), 'hour') . ' ' . self::unit(intdiv($seconds % 3600, 60), 'minute', skip: true));
+        return trim(
+            self::unit(intdiv($seconds, 3600), 'hour')
+            . ' '
+            . self::unit(intdiv($seconds % 3600, 60), 'minute', skip: true),
+        );
     }
 
     private static function unit(int $value, string $unit, bool $skip = false): string

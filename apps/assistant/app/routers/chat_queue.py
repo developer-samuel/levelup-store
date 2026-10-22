@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 from collections.abc import AsyncGenerator
 from typing import Annotated
 
@@ -82,6 +83,7 @@ async def queued_sse(
             yield f"data: {chunk}\n\n"
 
     except asyncio.CancelledError:
+        logging.getLogger(__name__).debug("SSE stream cancelled")
         raise
 
 
@@ -90,6 +92,7 @@ async def _reattach_sse(conversation_id: str, request_id: str) -> AsyncGenerator
         async for chunk in subscribe_stream(conversation_id, request_id):
             yield f"data: {chunk}\n\n"
     except asyncio.CancelledError:
+        logging.getLogger(__name__).debug("SSE reattach stream cancelled")
         raise
 
 

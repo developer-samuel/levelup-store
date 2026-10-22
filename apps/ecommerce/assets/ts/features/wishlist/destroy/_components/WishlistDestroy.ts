@@ -6,4 +6,8 @@ export default class WishlistDestroy {
   constructor() {
     attachDestroyListener('.product-item__destroy', handleDeleteClick)
   }
+
+  static init(): void {
+    new WishlistDestroy()
+  }
 }

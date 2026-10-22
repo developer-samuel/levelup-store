@@ -19,8 +19,9 @@ Row = tuple[object, ...]
 
 
 def test_hash_is_deterministic() -> None:
-    assert _hash("hello") == _hash("hello")
-    assert _hash("hello") != _hash("world")
+    first = _hash("hello")
+    assert first == _hash("hello")
+    assert first != _hash("world")
 
 
 def test_hash_returns_hex_string() -> None:

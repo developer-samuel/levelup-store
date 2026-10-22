@@ -52,8 +52,11 @@ final readonly class OrderPreparationCommandService implements OrderPreparationC
             ->setPrice($totalPrice);
     }
 
-    private function populateOrderDetails(Order $order, OrderPaymentMethod $paymentMethod, OrderCreatePayload $payload): void
-    {
+    private function populateOrderDetails(
+        Order $order,
+        OrderPaymentMethod $paymentMethod,
+        OrderCreatePayload $payload,
+    ): void {
         $order->setPayment($paymentMethod)
             ->setStatus(OrderStatus::PENDING)
             ->setSendShipping($payload->shouldSendShipping());

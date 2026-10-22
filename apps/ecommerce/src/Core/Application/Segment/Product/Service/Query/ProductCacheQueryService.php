@@ -50,8 +50,12 @@ final class ProductCacheQueryService implements ProductCacheQueryContract
         return $this->fetchRouteCachedData($cacheKey, $path);
     }
 
-    private function fetchTitleCachedData(string $cacheKey, ?string $category, ?string $type, bool $isDiscount): string
-    {
+    private function fetchTitleCachedData(
+        string $cacheKey,
+        ?string $category,
+        ?string $type,
+        bool $isDiscount,
+    ): string {
         $data = $this->titleCache->get(
             $cacheKey,
             fn(CacheItemProxyContract $item): string =>
@@ -83,8 +87,12 @@ final class ProductCacheQueryService implements ProductCacheQueryContract
         return ProductCacheKeyPrefix::ROUTE->value . md5($path);
     }
 
-    private function titleCacheCallback(CacheItemProxyContract $item, ?string $category, ?string $type, bool $isDiscount): string
-    {
+    private function titleCacheCallback(
+        CacheItemProxyContract $item,
+        ?string $category,
+        ?string $type,
+        bool $isDiscount,
+    ): string {
         $item->expiresAfter(CacheTTLConstants::FIVE_MINUTES);
 
         return $this->productTitleQuery->generateTitle($category, $type, $isDiscount);

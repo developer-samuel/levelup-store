@@ -30,7 +30,7 @@ final class ResetPasswordCommandHandler extends AbstractCommandHandler implement
     /** @return array<string, mixed> */
     public function handle(ResetPasswordPayload $payload): array
     {
-        return $this->execute(function() use ($payload) {
+        return $this->execute(function () use ($payload) {
             $user = $this->resetPasswordQuery->getValidUserWithToken($payload->token);
 
             $this->resetPasswordCommand->resetPassword($user, $payload->password);

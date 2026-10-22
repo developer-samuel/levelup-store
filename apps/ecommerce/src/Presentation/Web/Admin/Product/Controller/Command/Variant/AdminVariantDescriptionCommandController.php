@@ -56,7 +56,8 @@ final class AdminVariantDescriptionCommandController extends AbstractAdminVarian
             fn(AdminVariantDescriptionStoreRequest $req): array => $this->handleCreateCommand(
                 $req,
                 fn(AdminVariantDescriptionStoreRequest $r): AdminVariantDescriptionPayload => $this->createPayload($r),
-                fn(AdminVariantDescriptionPayload $payload): array                         => $this->adminVariantDescriptionHandler->handleCreate($payload),
+                fn(AdminVariantDescriptionPayload $payload): array
+                    => $this->adminVariantDescriptionHandler->handleCreate($payload),
             ),
         );
     }
@@ -68,8 +69,10 @@ final class AdminVariantDescriptionCommandController extends AbstractAdminVarian
             AdminVariantDescriptionUpdateRequest::class,
             fn(AdminVariantDescriptionUpdateRequest $req): array => $this->handleUpdateCommand(
                 $req,
-                fn(AdminVariantDescriptionUpdateRequest $r, string $id): AdminVariantDescriptionPayload => $this->createPayload($r, $id),
-                fn(AdminVariantDescriptionPayload $payload): array                                      => $this->adminVariantDescriptionHandler->handleUpdate($payload),
+                fn(AdminVariantDescriptionUpdateRequest $r, string $id): AdminVariantDescriptionPayload
+                    => $this->createPayload($r, $id),
+                fn(AdminVariantDescriptionPayload $payload): array
+                    => $this->adminVariantDescriptionHandler->handleUpdate($payload),
             ),
         );
     }

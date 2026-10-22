@@ -9,42 +9,23 @@ describe('sleep()', () => {
     vi.useRealTimers()
   })
 
-  it('should not resolve before the given delay', async () => {
-    let resolved = false
+  it.each([
+    [1000, 999, false],
+    [1000, 1000, true],
+    [0, 0, true],
+  ] as [number, number, boolean][])(
+    'should resolve=%s after advancing %ims of %ims delay',
+    async (delay, advance, expected) => {
+      let resolved = false
 
-    void sleep(1000).then(() => {
-      resolved = true
-    })
+      void sleep(delay).then(() => {
+        resolved = true
+      })
 
-    vi.advanceTimersByTime(999)
-    await Promise.resolve()
+      vi.advanceTimersByTime(advance)
+      await Promise.resolve()
 
-    expect(resolved).toBe(false)
-  })
-
-  it('should resolve after the given delay', async () => {
-    let resolved = false
-
-    void sleep(1000).then(() => {
-      resolved = true
-    })
-
-    vi.advanceTimersByTime(1000)
-    await Promise.resolve()
-
-    expect(resolved).toBe(true)
-  })
-
-  it('should resolve immediately when delay is 0', async () => {
-    let resolved = false
-
-    void sleep(0).then(() => {
-      resolved = true
-    })
-
-    vi.advanceTimersByTime(0)
-    await Promise.resolve()
-
-    expect(resolved).toBe(true)
-  })
+      expect(resolved).toBe(expected)
+    },
+  )
 })

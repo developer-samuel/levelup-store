@@ -4,7 +4,7 @@ export function updateStars(container: HTMLElement, rating: number): void {
   const stars = Array.from(container.querySelectorAll<HTMLImageElement>('img'))
 
   stars.forEach((s) => {
-    const idx = parseInt(s.dataset.index ?? '0', 10)
+    const idx = Number.parseInt(s.dataset.index ?? '0', 10)
 
     if (idx <= rating) {
       s.src = '/img/icons/elements/star/star.png'

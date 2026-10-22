@@ -20,10 +20,14 @@ export default class PriceRange {
     this.minPriceOutput = document.getElementById(minOutputId)
     this.maxPriceOutput = document.getElementById(maxOutputId)
 
-    this.initListeners()
+    this.setupListeners()
   }
 
-  private initListeners(): void {
+  static init(): void {
+    new PriceRange('minPrice', 'maxPrice', 'minPrice-output', 'maxPrice-output')
+  }
+
+  private setupListeners(): void {
     attachPriceInputListeners(
       this.minPrice,
       this.maxPrice,

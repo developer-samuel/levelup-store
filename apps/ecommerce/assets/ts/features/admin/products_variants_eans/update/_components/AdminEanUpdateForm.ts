@@ -14,4 +14,8 @@ export default class AdminEanUpdateForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, true)
   }
+
+  static init(): void {
+    new AdminEanUpdateForm('#admin-variant-eans-update-form')
+  }
 }

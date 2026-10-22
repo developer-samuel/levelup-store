@@ -57,10 +57,14 @@ export default class ReviewModal implements ReviewModalInstance {
     this.actionBtn = this.modal.querySelector<HTMLElement>(SELECTORS.ACTION_BTN)
     this.ratingContainer = this.modal.querySelector<HTMLElement>('#review-modal-rating')
 
-    this.init(triggers)
+    this.setup(triggers)
   }
 
-  private init(triggers: HTMLElement[]): void {
+  static init(): void {
+    new ReviewModal()
+  }
+
+  private setup(triggers: HTMLElement[]): void {
     resetModal(this)
 
     setupStars(this)

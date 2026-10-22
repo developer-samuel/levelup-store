@@ -19,7 +19,8 @@ final class WishlistToggleRequest extends AbstractRequest
 {
     use WishlistInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

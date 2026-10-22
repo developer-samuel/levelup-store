@@ -16,7 +16,9 @@ use App\Infrastructure\{
 };
 
 /** @extends AbstractVariantRepository<ProductVariantImage> */
-final class ProductVariantImageRepository extends AbstractVariantRepository implements ProductVariantImageRepositoryContract
+final class ProductVariantImageRepository
+    extends AbstractVariantRepository
+    implements ProductVariantImageRepositoryContract
 {
     public function __construct(ManagerRegistry $registry)
     {

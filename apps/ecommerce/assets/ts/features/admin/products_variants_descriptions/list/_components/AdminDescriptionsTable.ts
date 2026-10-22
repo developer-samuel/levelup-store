@@ -19,4 +19,8 @@ export default class AdminDescriptionsTable extends BaseDatatable {
       DATA_KEY,
     )
   }
+
+  static init(): void {
+    new AdminDescriptionsTable()
+  }
 }

@@ -7,4 +7,8 @@ export default class Logout {
 
     bindLogoutEvents(triggers)
   }
+
+  static init(): void {
+    new Logout('#logout-btn')
+  }
 }

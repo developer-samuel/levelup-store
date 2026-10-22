@@ -19,8 +19,8 @@ export function updatePaginationState(
 
   filterInstance.productsWrapper.dataset.totalPage = returnedTotal ?? String(filterInstance.maxPages)
 
-  const dsPage = parseInt(filterInstance.productsWrapper.dataset.currentPage, 10)
-  const dsTotal = parseInt(filterInstance.productsWrapper.dataset.totalPage, 10)
+  const dsPage = Number.parseInt(filterInstance.productsWrapper.dataset.currentPage, 10)
+  const dsTotal = Number.parseInt(filterInstance.productsWrapper.dataset.totalPage, 10)
 
   filterInstance.page = Number.isFinite(dsPage) && dsPage > 0 ? dsPage : 1
   filterInstance.maxPages = Number.isFinite(dsTotal) && dsTotal > 0 ? dsTotal : 1

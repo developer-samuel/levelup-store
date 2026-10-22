@@ -44,7 +44,8 @@ final class OrderCommandController extends AbstractCommandController
         parent::__construct($logger);
     }
 
-    public function store(Request $request): Response {
+    public function store(Request $request): Response
+    {
         return $this->handleCommand(function () use ($request) {
             $orderRequest = OrderRequest::fromHttpRequest(
                 $request,

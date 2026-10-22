@@ -22,7 +22,8 @@ final class SignupRequest extends AbstractRequest
 {
     use SignupInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

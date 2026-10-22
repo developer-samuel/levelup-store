@@ -23,18 +23,8 @@ describe('parseInitialPage()', () => {
     expect(parseInitialPage(wrapper, undefined, 'currentPage')).toBe(1)
   })
 
-  it('should return 1 when value is 0', () => {
-    const wrapper = makeProductListWrapper({ currentPage: '0' })
-    expect(parseInitialPage(wrapper, undefined, 'currentPage')).toBe(1)
-  })
-
-  it('should return 1 when value is negative', () => {
-    const wrapper = makeProductListWrapper({ currentPage: '-3' })
-    expect(parseInitialPage(wrapper, undefined, 'currentPage')).toBe(1)
-  })
-
-  it('should return 1 when value is NaN', () => {
-    const wrapper = makeProductListWrapper({ currentPage: 'abc' })
+  it.each([['0'], ['-3'], ['abc']])('should return 1 when dataset value is %s', (value) => {
+    const wrapper = makeProductListWrapper({ currentPage: value })
     expect(parseInitialPage(wrapper, undefined, 'currentPage')).toBe(1)
   })
 })

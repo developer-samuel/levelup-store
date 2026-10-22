@@ -14,4 +14,8 @@ export default class AdminBrandUpdateForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, true)
   }
+
+  static init(): void {
+    new AdminBrandUpdateForm('#admin-brands-update-form')
+  }
 }

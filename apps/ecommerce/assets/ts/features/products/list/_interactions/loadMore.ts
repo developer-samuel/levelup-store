@@ -11,7 +11,7 @@ async function loadNextPage(filter: ProductListInstance): Promise<void> {
 
   try {
     const params = parseQueryParams()
-    const nextPage = Math.max(1, parseInt(filter.productsWrapper.dataset.currentPage ?? String(filter.page), 10)) + 1
+    const nextPage = Math.max(1, Number.parseInt(filter.productsWrapper.dataset.currentPage ?? String(filter.page), 10)) + 1
 
     const result = await updateProducts({ ...params, page: nextPage }, filter)
 

@@ -218,6 +218,19 @@ def format_user_reviews(rows: list[tuple[object, ...]]) -> str:
     return "\n".join(lines)
 
 
+def _format_wishlist_rating(
+    avg_rating: object, feedback_count: object, rating_count: object
+) -> str:
+    r = format_rating(avg_rating)
+    if feedback_count and rating_count:
+        return f"{r}★ ({feedback_count} reviews, {rating_count} ratings)"
+    if feedback_count:
+        return f"{r}★ ({feedback_count} reviews)"
+    if rating_count:
+        return f"{r}★ ({rating_count} ratings)"
+    return ""
+
+
 def format_user_wishlist(rows: list[tuple[object, ...]]) -> str:
     if not rows:
         return ""
@@ -243,16 +256,7 @@ def format_user_wishlist(rows: list[tuple[object, ...]]) -> str:
         disc_f = float(cast(float, discounted_price)) if discounted_price else None
         link = product_url(url)
         img = image_url(image_path)
-
-        r = format_rating(avg_rating)
-        if feedback_count and rating_count:
-            rating_label = f"{r}★ ({feedback_count} reviews, {rating_count} ratings)"
-        elif feedback_count:
-            rating_label = f"{r}★ ({feedback_count} reviews)"
-        elif rating_count:
-            rating_label = f"{r}★ ({rating_count} ratings)"
-        else:
-            rating_label = ""
+        rating_label = _format_wishlist_rating(avg_rating, feedback_count, rating_count)
 
         line = f"\nProduct: {variant_name}"
         line += f"\nOriginal price: {format_price(price_f)} EUR"

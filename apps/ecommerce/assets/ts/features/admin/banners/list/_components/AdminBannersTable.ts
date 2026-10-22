@@ -10,4 +10,8 @@ export default class AdminBannersTable extends BaseDatatable {
   constructor() {
     super(TABLE_SELECTOR, URL, renderBanners, undefined, DATA_KEY)
   }
+
+  static init(): void {
+    new AdminBannersTable()
+  }
 }

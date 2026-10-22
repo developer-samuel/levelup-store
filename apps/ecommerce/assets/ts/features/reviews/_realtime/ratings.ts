@@ -27,5 +27,3 @@ eventSource.onmessage = (event: MessageEvent<string>): void => {
   if (counts[0]) counts[0].textContent = String(data.likesCount)
   if (counts[1]) counts[1].textContent = String(data.dislikesCount)
 }
-
-export {}

@@ -14,4 +14,8 @@ export default class AdminBrandCreateForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, true)
   }
+
+  static init(): void {
+    new AdminBrandCreateForm('#admin-brands-create-form')
+  }
 }

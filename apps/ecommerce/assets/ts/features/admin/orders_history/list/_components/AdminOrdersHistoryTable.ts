@@ -19,4 +19,8 @@ export default class AdminOrdersHistoryTable extends BaseDatatable {
       ORDERS_DATA_KEY,
     )
   }
+
+  static init(): void {
+    new AdminOrdersHistoryTable()
+  }
 }

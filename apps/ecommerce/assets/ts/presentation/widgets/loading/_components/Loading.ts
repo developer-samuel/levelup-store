@@ -16,10 +16,14 @@ export class Loading implements LoadingInstance {
     this.hiddenClass = hiddenClass
     this.delay = delay
 
-    this.init()
+    this.setup()
   }
 
-  private init(): void {
+  static init(): void {
+    new Loading('.loading', 'loading--hidden', 300)
+  }
+
+  private setup(): void {
     document.addEventListener(LOADING_SHOW, showLoading)
     document.addEventListener(LOADING_HIDE, hideLoading)
 

@@ -7,13 +7,9 @@ type AlertInstance = {
   clear(options?: AlertOptions): void
 }
 
-/**
- * Alert component.
- * Handles showing and clearing success/error messages.
- */
 export default class Alert implements AlertInstance {
-  private alert: HTMLElement
-  private alertBody: HTMLElement
+  private readonly alert: HTMLElement
+  private readonly alertBody: HTMLElement
 
   constructor(alertSelector: string, alertBodySelector: string) {
     const alertEl = query<HTMLElement>(alertSelector)

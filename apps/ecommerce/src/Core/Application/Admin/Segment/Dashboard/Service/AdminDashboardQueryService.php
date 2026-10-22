@@ -28,7 +28,8 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
     {
         return $this->countPerDay(
             $this->generateDailyIntervalsCurrentMonth(),
-            fn(DateIntervalObject $interval): int => $this->orderRepository->countOrdersBetween($interval->start, $interval->end),
+            fn(DateIntervalObject $interval): int =>
+                $this->orderRepository->countOrdersBetween($interval->start, $interval->end),
         );
     }
 
@@ -48,7 +49,8 @@ final readonly class AdminDashboardQueryService implements AdminDashboardQueryCo
     {
         return $this->countPerDay(
             $this->generateLastNDaysIntervals(7),
-            fn(DateIntervalObject $interval): int => $this->userRepository->countUsersBetween($interval->start, $interval->end),
+            fn(DateIntervalObject $interval): int =>
+                $this->userRepository->countUsersBetween($interval->start, $interval->end),
         );
     }
 

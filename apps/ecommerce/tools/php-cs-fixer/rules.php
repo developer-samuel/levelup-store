@@ -6,7 +6,7 @@ return [
     '@PSR12' => false,
     'blank_line_after_opening_tag' => false,
     'blank_line_after_namespace' => false,
-    'single_line_empty_body' => true,
+    'single_line_empty_body' => false,
     'no_extra_blank_lines' => [
         'tokens' => ['throw', 'curly_brace_block', 'square_brace_block', 'parenthesis_brace_block'],
     ],

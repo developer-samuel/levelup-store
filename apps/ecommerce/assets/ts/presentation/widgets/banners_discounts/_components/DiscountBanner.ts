@@ -6,10 +6,14 @@ export default class DiscountBanner {
     const el = document.getElementById(id)
     if (!(el instanceof HTMLImageElement)) return
 
-    this.init(el)
+    this.setup(el)
   }
 
-  private init(bannerImg: HTMLImageElement): void {
+  static init(): void {
+    new DiscountBanner('#discount-banner')
+  }
+
+  private setup(bannerImg: HTMLImageElement): void {
     const { bannerImg: img, originalSrc } = createBannerState(bannerImg)
 
     bindUpdateBanner(img, originalSrc)

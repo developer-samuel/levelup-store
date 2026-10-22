@@ -23,7 +23,7 @@ export function calculateYAxis(
 
   if (allowDynamicScale) {
     while (true) {
-      const last = stepValues[stepValues.length - 1]
+      const last = stepValues.at(-1)
       if (last === undefined || maxValue <= last) break
       stepValues.push(last * 10)
     }
@@ -39,7 +39,7 @@ export function calculateYAxis(
 
   const tickAmount = Math.min(Math.ceil(maxValue / step), maxTicks)
   const tickValues = Array.from({ length: tickAmount + 1 }, (_, i) => i * step)
-  const max = tickValues[tickValues.length - 1] ?? 0
+  const max = tickValues.at(-1) ?? 0
 
   return { max, tickAmount, tickValues }
 }
