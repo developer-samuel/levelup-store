@@ -19,7 +19,7 @@ Both apps are deployed to Kubernetes (k3s on Oracle Cloud) via ArgoCD.
 [![Helm Diff](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/helm-diff.yml?logo=helm&label=Helm+Diff)](https://github.com/developer-samuel/levelup-store/actions/workflows/helm-diff.yml)
 
 ### Quality
-[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=developer-samuel_levelup-store&metric=alert_status&organization=developer-samuel)](https://sonarcloud.io/summary/new_code?id=developer-samuel_levelup-store)
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=developer-samuel_levelup-store&metric=alert_status&organization=developer-samuel)](https://sonarcloud.io/project/overview?id=developer-samuel_levelup-store)
 [![Ecommerce Coverage](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/ecommerce-coverage.yml?logo=php&label=Ecommerce+Coverage)](https://github.com/developer-samuel/levelup-store/actions/workflows/ecommerce-coverage.yml)
 [![Assistant Coverage](https://img.shields.io/github/actions/workflow/status/developer-samuel/levelup-store/assistant-coverage.yml?logo=pytest&label=Assistant+Coverage)](https://github.com/developer-samuel/levelup-store/actions/workflows/assistant-coverage.yml)
 [![codecov](https://codecov.io/gh/developer-samuel/levelup-store/branch/main/graph/badge.svg)](https://codecov.io/gh/developer-samuel/levelup-store)
