@@ -4,4 +4,8 @@ export default class PasswordToggle {
   constructor() {
     bindPasswordToggle()
   }
+
+  static init(): void {
+    new PasswordToggle()
+  }
 }

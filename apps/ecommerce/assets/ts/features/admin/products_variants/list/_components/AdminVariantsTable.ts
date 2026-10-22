@@ -19,4 +19,8 @@ export default class AdminVariantsTable extends BaseDatatable {
       DATA_KEY,
     )
   }
+
+  static init(): void {
+    new AdminVariantsTable()
+  }
 }

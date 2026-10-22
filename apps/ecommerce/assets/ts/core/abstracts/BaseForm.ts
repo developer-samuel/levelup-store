@@ -22,10 +22,10 @@ export default abstract class BaseForm {
     this.submitHandler = submitHandler
     this.scrollAfterSubmit = scrollAfterSubmit
 
-    this.init()
+    this.setup()
   }
 
-  protected init(): void {
+  protected setup(): void {
     attachSubmitListener(this.form, this.submitHandler, this.errors, this.alert)
   }
 }

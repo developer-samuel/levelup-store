@@ -4,4 +4,8 @@ export default class DeleteProfile {
   constructor(selector: string) {
     attachDestroyProfileListener(selector)
   }
+
+  static init(): void {
+    new DeleteProfile('#delete-account-btn')
+  }
 }

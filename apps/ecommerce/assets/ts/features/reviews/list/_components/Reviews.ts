@@ -6,4 +6,8 @@ export default class ReviewList {
   constructor() {
     attachDestroyListener('.reviews__card-item-destroy', handleDeleteClick)
   }
+
+  static init(): void {
+    new ReviewList()
+  }
 }

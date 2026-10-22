@@ -10,7 +10,7 @@ export function renderUsers(tbody: HTMLTableSectionElement, items: unknown[]): v
   const users = items as AdminUser[]
   renderDatatableRows(tbody, users, COLUMNS, {
     cellRenderers: {
-      role: (val: unknown) => capitalize(String(val ?? '')),
+      role: (val: unknown) => capitalize(typeof val === 'string' ? val : ''),
       emailVerifiedAt: (val: unknown) => (val ? '✅' : '❌'),
     },
     emptyText: 'No users found',

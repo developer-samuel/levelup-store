@@ -46,7 +46,7 @@ export function renderEans(tbody: HTMLTableSectionElement, items: unknown[]): vo
     },
 
     cellRenderers: {
-      status: (val: unknown) => capitalize(String(val ?? '')),
+      status: (val: unknown) => capitalize(typeof val === 'string' ? val : ''),
     },
 
     emptyText: 'No eans found',

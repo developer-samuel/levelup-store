@@ -17,6 +17,10 @@ export default class Cart implements CartInstance {
     this.initListeners()
   }
 
+  static init(): void {
+    new Cart()
+  }
+
   private initListeners(): void {
     attachCartToggleListeners(this)
     attachCartWarningListener(this)

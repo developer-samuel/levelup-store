@@ -42,6 +42,10 @@ export class Navigation implements NavigationInstance {
     setupObservers(this)
   }
 
+  static init(navSelector: string): void {
+    new Navigation(navSelector)
+  }
+
   private initListeners(): void {
     if (this.navList) {
       attachNavScrollListener(this.navList)

@@ -11,7 +11,7 @@ export function trapTab(e: KeyboardEvent, modal: HTMLElement, focusableSelector:
   }
 
   const first = focusables[0]
-  const last = focusables[focusables.length - 1]
+  const last = focusables.at(-1)
 
   if (!first || !last) return
 

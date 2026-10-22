@@ -12,4 +12,8 @@ export default class ScrollToTopButton {
       bindScrollToTop(this.element)
     }
   }
+
+  static init(): void {
+    new ScrollToTopButton('#scroll-to-top')
+  }
 }

@@ -2,10 +2,10 @@ export function attachMouseEnterListener(star: HTMLImageElement, stars: HTMLImag
   if (!star || !stars) return
 
   star.addEventListener('mouseenter', () => {
-    const hoveredIndex = parseInt(star.dataset.index ?? '0', 10)
+    const hoveredIndex = Number.parseInt(star.dataset.index ?? '0', 10)
 
     stars.forEach((s) => {
-      const idx = parseInt(s.dataset.index ?? '0', 10)
+      const idx = Number.parseInt(s.dataset.index ?? '0', 10)
       s.classList.toggle('hovered', idx <= hoveredIndex)
     })
   })

@@ -17,4 +17,8 @@ export default class ForgotPasswordForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, false)
   }
+
+  static init(): void {
+    new ForgotPasswordForm('#forgot-password-form')
+  }
 }

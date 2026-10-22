@@ -13,10 +13,14 @@ export default class AdminDashboard {
     try {
       const { ordersPerDay, ordersRatio, usersLast7Days } = this.parseChartData(el)
 
-      this.init(ordersPerDay, ordersRatio, usersLast7Days)
+      this.render(ordersPerDay, ordersRatio, usersLast7Days)
     } catch (error) {
       logDevError('[Dashboard]', error)
     }
+  }
+
+  static init(): void {
+    new AdminDashboard()
   }
 
   private parseChartData(el: HTMLElement): { ordersPerDay: number[]; ordersRatio: number[]; usersLast7Days: number[] } {
@@ -33,7 +37,7 @@ export default class AdminDashboard {
     return Array.isArray(parsed) ? parsed.filter((x): x is number => typeof x === 'number') : []
   }
 
-  private init(ordersPerDay: number[], ordersRatio: number[], usersLast7Days: number[]): void {
+  private render(ordersPerDay: number[], ordersRatio: number[], usersLast7Days: number[]): void {
     renderOrdersCountChart(query<HTMLElement>('#ordersCountChart'), ordersPerDay)
     renderOrdersRatioChart(query<HTMLElement>('#ordersRatioChart'), ordersRatio)
     renderUsersCountChart(query<HTMLElement>('#usersCountChart'), usersLast7Days)

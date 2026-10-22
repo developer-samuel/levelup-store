@@ -29,5 +29,3 @@ cards.forEach((card) => {
     card.className = card.className.replace(/orders__card-box--\S+/, `orders__card-box--${data.status}`)
   }
 })
-
-export {}

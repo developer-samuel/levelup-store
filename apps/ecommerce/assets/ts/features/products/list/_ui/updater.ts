@@ -56,12 +56,10 @@ export function updateProductList(
     } else {
       insertItemsBeforeNode(returnedWrapper, oldLoadMore, wrapper)
     }
+  } else if (newList && oldList) {
+    replaceListContent(oldList, newList)
   } else {
-    if (newList && oldList) {
-      replaceListContent(oldList, newList)
-    } else {
-      replaceWrapperContent(wrapper, returnedWrapper)
-    }
+    replaceWrapperContent(wrapper, returnedWrapper)
   }
 
   handleLoadMoreButton(wrapper, returnedWrapper)
