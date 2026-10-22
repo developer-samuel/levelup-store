@@ -1,3 +1,3 @@
 import AdminBrandUpdateForm from '@/ts/features/admin/brands/update/_components/AdminBrandUpdateForm'
 
-void AdminBrandUpdateForm.init()
+AdminBrandUpdateForm.init()

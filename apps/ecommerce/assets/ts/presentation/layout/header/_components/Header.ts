@@ -25,8 +25,8 @@ export class Header implements HeaderInstance {
     this.initListeners()
   }
 
-  static init(iconSelector: string, navigationSelector: string, searchPanelSelector: string): void {
-    new Header(iconSelector, navigationSelector, searchPanelSelector)
+  static init(iconSelector: string, navigationSelector: string, searchPanelSelector: string): Header {
+    return new Header(iconSelector, navigationSelector, searchPanelSelector)
   }
 
   private initListeners(): void {

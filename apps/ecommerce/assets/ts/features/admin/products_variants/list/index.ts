@@ -1,3 +1,3 @@
 import AdminVariantsTable from '@/ts/features/admin/products_variants/list/_components/AdminVariantsTable'
 
-void AdminVariantsTable.init()
+AdminVariantsTable.init()

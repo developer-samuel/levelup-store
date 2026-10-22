@@ -18,7 +18,7 @@ export class Dropdown implements DropdownInstance {
     }
   }
 
-  static init(toggleSelector: string, dropdownSelector: string): void {
-    new Dropdown(toggleSelector, dropdownSelector)
+  static init(toggleSelector: string, dropdownSelector: string): Dropdown {
+    return new Dropdown(toggleSelector, dropdownSelector)
   }
 }
