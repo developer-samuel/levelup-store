@@ -7,7 +7,7 @@ export default class WishlistDestroy {
     attachDestroyListener('.product-item__destroy', handleDeleteClick)
   }
 
-  static init(): void {
-    new WishlistDestroy()
+  static init(): WishlistDestroy {
+    return new WishlistDestroy()
   }
 }

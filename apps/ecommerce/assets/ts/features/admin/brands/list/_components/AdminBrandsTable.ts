@@ -12,7 +12,8 @@ export default class AdminBrandsTable extends BaseDatatable {
     super(TABLE_SELECTOR, URL, renderBrands, handleBrandClick, DATA_KEY)
   }
 
-  static init(): void {
-    new AdminBrandsTable()
+  static async init(): Promise<void> {
+    const instance = new AdminBrandsTable()
+    await instance.setup()
   }
 }

@@ -37,6 +37,12 @@ def _get_existing_hashes(collection: Any, id_prefix: str = "") -> dict[str, str]
     }
 
 
+def _format_price(price: float, discounted_price: float | None) -> str:
+    if discounted_price is not None and discounted_price > 0 and discounted_price < price:
+        return f"Price: {discounted_price} EUR (on sale, original price: {price} EUR)"
+    return f"Price: {price} EUR"
+
+
 def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
     (
         id_,
@@ -56,16 +62,11 @@ def _build_document(row: tuple[object, ...]) -> tuple[str, str] | None:
         return None
 
     price_f = cast(float, price)
-    discounted_f = cast(float | None, discounted_price)
 
     if not price_f or price_f <= 0:
         return None
 
-    if discounted_f is not None and discounted_f > 0 and discounted_f < price_f:
-        price_text = f"Price: {discounted_f} EUR (on sale, original price: {price_f} EUR)"
-    else:
-        price_text = f"Price: {price_f} EUR"
-
+    price_text = _format_price(price_f, cast(float | None, discounted_price))
     type_text = f"Type: {type_}. " if type_ else ""
     valid_subtypes = [str(s) for s in cast(list[object | None], subtypes or []) if s is not None]
     subtypes_text = f"Subtypes: {', '.join(valid_subtypes)}. " if valid_subtypes else ""

@@ -5,7 +5,7 @@ export default class WishlistToggle {
     bindToggle(selector)
   }
 
-  static init(): void {
-    new WishlistToggle('.product-detail__details-wishlist')
+  static init(): WishlistToggle {
+    return new WishlistToggle('.product-detail__details-wishlist')
   }
 }

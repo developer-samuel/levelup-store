@@ -19,8 +19,8 @@ export class Loading implements LoadingInstance {
     this.setup()
   }
 
-  static init(): void {
-    new Loading('.loading', 'loading--hidden', 300)
+  static init(): Loading {
+    return new Loading('.loading', 'loading--hidden', 300)
   }
 
   private setup(): void {

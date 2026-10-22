@@ -1,3 +1,3 @@
 import { Loading } from '@/ts/presentation/widgets/loading/_components/Loading'
 
-Loading.init()
+void Loading.init()

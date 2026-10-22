@@ -15,7 +15,7 @@ export default class AdminOrderStatusForm extends BaseForm {
     super(formSelector, alert, errors, handler, true)
   }
 
-  static init(): void {
-    new AdminOrderStatusForm('#admin-orders-status-form')
+  static init(): AdminOrderStatusForm {
+    return new AdminOrderStatusForm('#admin-orders-status-form')
   }
 }

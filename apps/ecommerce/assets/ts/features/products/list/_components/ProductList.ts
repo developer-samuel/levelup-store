@@ -33,7 +33,7 @@ export default class ProductList implements ProductListInstance {
     setupMobileFilter()
   }
 
-  static init(): void {
-    new ProductList('products-wrapper')
+  static init(): ProductList {
+    return new ProductList('products-wrapper')
   }
 }

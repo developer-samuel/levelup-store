@@ -19,8 +19,8 @@ export default class AdminDashboard {
     }
   }
 
-  static init(): void {
-    new AdminDashboard()
+  static init(): AdminDashboard {
+    return new AdminDashboard()
   }
 
   private parseChartData(el: HTMLElement): { ordersPerDay: number[]; ordersRatio: number[]; usersLast7Days: number[] } {

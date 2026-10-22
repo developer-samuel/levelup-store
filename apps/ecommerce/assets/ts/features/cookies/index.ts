@@ -1,3 +1,3 @@
 import CookieConsent from '@/ts/features/cookies/_components/CookieConsent'
 
-CookieConsent.init()
+void CookieConsent.init()

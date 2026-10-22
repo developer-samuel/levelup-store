@@ -24,6 +24,7 @@ from app.responses import success
 
 router = APIRouter()
 
+_SSE_CONTENT_TYPE = "text/event-stream"
 _SSE_HEADERS = {"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
 
 
@@ -110,21 +111,21 @@ async def reattach_chat(
     """
 
     if not settings.rabbitmq_url:
-        return StreamingResponse(_done_sse(), media_type="text/event-stream", headers=_SSE_HEADERS)
+        return StreamingResponse(_done_sse(), media_type=_SSE_CONTENT_TYPE, headers=_SSE_HEADERS)
 
     if not await is_processing_request(request_id):
         saved = await load_response(request_id)
 
         if saved:
             return StreamingResponse(
-                _replay_sse(saved), media_type="text/event-stream", headers=_SSE_HEADERS
+                _replay_sse(saved), media_type=_SSE_CONTENT_TYPE, headers=_SSE_HEADERS
             )
 
-        return StreamingResponse(_done_sse(), media_type="text/event-stream", headers=_SSE_HEADERS)
+        return StreamingResponse(_done_sse(), media_type=_SSE_CONTENT_TYPE, headers=_SSE_HEADERS)
 
     return StreamingResponse(
         _reattach_sse(conversation_id, request_id),
-        media_type="text/event-stream",
+        media_type=_SSE_CONTENT_TYPE,
         headers=_SSE_HEADERS,
     )
 

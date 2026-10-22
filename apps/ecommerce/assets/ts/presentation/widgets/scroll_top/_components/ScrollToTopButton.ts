@@ -13,7 +13,7 @@ export default class ScrollToTopButton {
     }
   }
 
-  static init(): void {
-    new ScrollToTopButton('#scroll-to-top')
+  static init(): ScrollToTopButton {
+    return new ScrollToTopButton('#scroll-to-top')
   }
 }

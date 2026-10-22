@@ -20,7 +20,8 @@ export default class AdminOrdersHistoryTable extends BaseDatatable {
     )
   }
 
-  static init(): void {
-    new AdminOrdersHistoryTable()
+  static async init(): Promise<void> {
+    const instance = new AdminOrdersHistoryTable()
+    await instance.setup()
   }
 }
