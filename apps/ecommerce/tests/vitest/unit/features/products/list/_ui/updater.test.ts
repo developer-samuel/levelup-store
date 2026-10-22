@@ -93,42 +93,41 @@ describe('updateProductList()', () => {
     },
   )
 
-  it('should replace old load-more with new one', () => {
-    const instance = makeInstance()
-    const oldLoadMore = document.createElement('div')
-
-    oldLoadMore.className = 'products__card-load-more'
-    oldLoadMore.textContent = 'old'
-
-    instance.productsWrapper.appendChild(oldLoadMore)
-
-    const returned = makeEl('<div class="products__card-load-more">new</div>')
+  it.each([
+    [
+      'replace old load-more with new one',
+      '<div class="products__card-load-more">old</div>',
+      '<div class="products__card-load-more">new</div>',
+      '.products__card-load-more',
+      'new',
+    ],
+    [
+      'append new load-more when none existed before',
+      '',
+      '<div class="products__card-load-more">load</div>',
+      '.products__card-load-more',
+      'load',
+    ],
+    [
+      'remove old load-more when returned wrapper has none',
+      '<div class="products__card-load-more">old</div>',
+      '<p>content</p>',
+      '.products__card-load-more',
+      null,
+    ],
+  ])('should %s', (_, existingHtml, returnedHtml, selector, expectedText) => {
+    const instance = makeInstance(existingHtml)
+    const returned = makeEl(returnedHtml)
 
     updateProductList(null, null, returned, null, 1, instance)
 
-    expect(instance.productsWrapper.querySelector('.products__card-load-more')?.textContent).toBe('new')
-  })
+    const el = instance.productsWrapper.querySelector(selector)
 
-  it('should append new load-more when none existed before', () => {
-    const instance = makeInstance()
-    const returned = makeEl('<div class="products__card-load-more">load</div>')
-
-    updateProductList(null, null, returned, null, 1, instance)
-
-    expect(instance.productsWrapper.querySelector('.products__card-load-more')).not.toBeNull()
-  })
-
-  it('should remove old load-more when returned wrapper has none', () => {
-    const instance = makeInstance()
-    const oldLoadMore = document.createElement('div')
-
-    oldLoadMore.className = 'products__card-load-more'
-
-    instance.productsWrapper.appendChild(oldLoadMore)
-
-    updateProductList(null, null, makeEl('<p>content</p>'), null, 1, instance)
-
-    expect(instance.productsWrapper.querySelector('.products__card-load-more')).toBeNull()
+    if (expectedText === null) {
+      expect(el).toBeNull()
+    } else {
+      expect(el?.textContent).toBe(expectedText)
+    }
   })
 
   it('should insertItemsBeforeNode with appendChild when beforeNode is null', () => {
