@@ -2,7 +2,7 @@ migrate:
   enabled: false # disabled: insufficient RAM on node
 app:
   image:
-    tag: "635d02c"
+    tag: "fe09163"
   # 0 = staging disabled (saves CPU/RAM on single-node cluster), 1 = staging enabled
   replicas: 0
 ingress:

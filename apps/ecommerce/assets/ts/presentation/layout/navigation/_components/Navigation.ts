@@ -42,8 +42,8 @@ export class Navigation implements NavigationInstance {
     setupObservers(this)
   }
 
-  static init(navSelector: string): void {
-    new Navigation(navSelector)
+  static init(navSelector: string): Navigation {
+    return new Navigation(navSelector)
   }
 
   private initListeners(): void {

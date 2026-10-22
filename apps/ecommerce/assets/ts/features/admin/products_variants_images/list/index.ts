@@ -1,3 +1,3 @@
 import AdminImagesTable from '@/ts/features/admin/products_variants_images/list/_components/AdminImagesTable'
 
-void AdminImagesTable.init()
+AdminImagesTable.init()
