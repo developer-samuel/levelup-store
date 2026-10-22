@@ -97,9 +97,7 @@ chromadb:
       memory: 2Gi
 
 otel:
-  enabled: false
-  endpoint: ""
-  protocol: "http/protobuf"
+  enabled: true
 
 broker:
   enabled: true

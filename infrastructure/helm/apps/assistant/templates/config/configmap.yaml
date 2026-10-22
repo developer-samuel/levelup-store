@@ -17,6 +17,8 @@ data:
   ASSISTANT_FALLBACK_MODEL: {{ .Values.app.assistantFallbackModel | quote }}
   ASSISTANT_PRIMARY_LIMIT: {{ .Values.app.assistantPrimaryLimit | quote }}
   ASSISTANT_FALLBACK_LIMIT: {{ .Values.app.assistantFallbackLimit | quote }}
+  ASSISTANT_EMBED_URL: {{ .Values.app.embedUrl | quote }}
+  ASSISTANT_EMBED_MODEL: {{ .Values.app.embedModel | quote }}
 
   # Ollama
   ASSISTANT_OLLAMA_HOST: {{ .Values.app.ollamaHost | quote }}
@@ -39,6 +41,5 @@ data:
   {{- if .Values.otel.enabled }}
   # Telemetry
   OTEL_SERVICE_NAME: "levelup-store-assistant"
-  OTEL_EXPORTER_OTLP_ENDPOINT: {{ .Values.otel.endpoint | quote }}
   OTEL_EXPORTER_OTLP_PROTOCOL: {{ .Values.otel.protocol | quote }}
   {{- end }}

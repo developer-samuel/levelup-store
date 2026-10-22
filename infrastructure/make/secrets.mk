@@ -142,6 +142,8 @@ define set_assistant_secrets
 		-p app.assistantAccessKey="$(ASSISTANT_ACCESS_KEY)" \
 		-p app.assistantModel="$(ASSISTANT_MODEL)" \
 		-p app.assistantFallbackModel="$(ASSISTANT_FALLBACK_MODEL)" \
+		-p app.embedUrl="$(ASSISTANT_EMBED_URL)" \
+		-p app.embedModel="$(ASSISTANT_EMBED_MODEL)" \
 		-p app.ollamaHost="$(ASSISTANT_OLLAMA_HOST)" \
 		-p app.ollamaModel="$(ASSISTANT_OLLAMA_MODEL)" \
 		-p app.ollamaEmbedModel="$(ASSISTANT_OLLAMA_EMBED_MODEL)" \

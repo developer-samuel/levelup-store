@@ -45,6 +45,15 @@ spec:
                 name: {{ include "levelup-store-assistant.fullname" . }}-config
             - secretRef:
                 name: {{ include "levelup-store-assistant.fullname" . }}-secret
+          env:
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            {{- if .Values.otel.enabled }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://$(HOST_IP):4318"
+            {{- end }}
           resources:
             {{- toYaml .Values.worker.resources | nindent 12 }}
           volumeMounts:
