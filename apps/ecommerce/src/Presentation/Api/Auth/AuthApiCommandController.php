@@ -77,7 +77,9 @@ final class AuthApiCommandController extends AbstractCrudCommandController
             $turnstileToken = is_string($raw) ? $raw : '';
 
             if (!$this->turnstile->verify($turnstileToken, (string) $request->getClientIp())) {
-                return HttpResponder::unprocessableEntity(['turnstile' => 'Bot verification failed. Please try again.']);
+                return HttpResponder::unprocessableEntity([
+                    'turnstile' => 'Bot verification failed. Please try again.',
+                ]);
             }
 
             $loginRequest = LoginRequest::fromHttpRequest(

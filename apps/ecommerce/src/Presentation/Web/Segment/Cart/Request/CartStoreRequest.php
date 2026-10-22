@@ -19,7 +19,8 @@ final class CartStoreRequest extends AbstractRequest
 {
     use CartStoreInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

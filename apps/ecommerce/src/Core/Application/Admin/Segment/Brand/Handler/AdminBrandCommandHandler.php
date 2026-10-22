@@ -34,7 +34,7 @@ final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
     /** @return array<string, mixed> */
     public function handleCreate(AdminBrandPayload $payload): array
     {
-        return $this->executeAdmin(function() use ($payload) {
+        return $this->executeAdmin(function () use ($payload) {
             $this->adminBrandCommand->createBrand($payload);
 
             return ApiResultFormatter::success('Brand created successfully.');
@@ -44,7 +44,7 @@ final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
     /** @return array<string, mixed> */
     public function handleUpdate(AdminBrandPayload $payload): array
     {
-        return $this->execute(function() use ($payload) {
+        return $this->execute(function () use ($payload) {
             $id = $this->adminBrandCommand->validateId($payload);
 
             $this->adminBrandCommand->updateBrand($id, $payload);
@@ -56,7 +56,7 @@ final class AdminBrandCommandHandler extends AbstractAdminFormCommandHandler
     /** @return array<string, mixed> */
     public function handleDestroy(int $brandId): array
     {
-        return $this->execute(function() use ($brandId) {
+        return $this->execute(function () use ($brandId) {
             $brand = $this->brandQuery->getBrandByIdOrFail($brandId);
 
             $this->adminBrandCommand->destroyBrand($brand);

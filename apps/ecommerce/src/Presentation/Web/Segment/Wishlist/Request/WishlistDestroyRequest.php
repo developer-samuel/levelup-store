@@ -17,7 +17,8 @@ final class WishlistDestroyRequest extends AbstractRequest
 {
     public int $variantId;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

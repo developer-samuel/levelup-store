@@ -15,7 +15,8 @@ final class UniqueBrandName extends Constraint
 {
     public string $message = 'This brand name is already taken.';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 

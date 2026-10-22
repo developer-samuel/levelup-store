@@ -19,7 +19,8 @@ final class ReviewDestroyRequest extends AbstractRequest
 {
     use ReviewDestroyInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

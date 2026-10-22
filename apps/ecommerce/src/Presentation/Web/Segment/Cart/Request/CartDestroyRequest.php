@@ -19,7 +19,8 @@ final class CartDestroyRequest extends AbstractRequest
 {
     use CartDestroyInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

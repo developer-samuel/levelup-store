@@ -32,7 +32,7 @@ final class ForgotPasswordCommandHandler extends AbstractCommandHandler implemen
     /** @return array<string, mixed> */
     public function handle(ForgotPasswordPayload $payload): array
     {
-        return $this->execute(function() use ($payload) {
+        return $this->execute(function () use ($payload) {
             $this->rateLimiter->track();
 
             $user = $this->userQuery->findUserByEmailOrFail($payload->email);

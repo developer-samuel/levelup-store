@@ -29,7 +29,7 @@ abstract class AbstractAdminFormCommandHandler extends AbstractCommandHandler
     */
     protected function executeAdmin(callable $callback): array
     {
-        return parent::execute(function() use ($callback) {
+        return parent::execute(function () use ($callback) {
             $this->securityPolicy->checkAdminAccess();
 
             return $callback();

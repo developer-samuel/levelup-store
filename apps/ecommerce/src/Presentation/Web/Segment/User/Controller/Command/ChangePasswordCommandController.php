@@ -38,7 +38,8 @@ final class ChangePasswordCommandController extends AbstractCrudCommandControlle
         );
     }
 
-    public function update(Request $request): Response {
+    public function update(Request $request): Response
+    {
         return $this->executeCommand(
             $request,
             ChangePasswordRequest::class,

@@ -13,7 +13,9 @@ use App\Core\Ports\Segment\User\Repository\UserVerificationTokenRepositoryContra
 use App\Infrastructure\Abstract\Repository\AbstractTokenRepository;
 
 /** @extends AbstractTokenRepository<UserVerificationToken> */
-final class UserVerificationTokenRepository extends AbstractTokenRepository implements UserVerificationTokenRepositoryContract
+final class UserVerificationTokenRepository
+    extends AbstractTokenRepository
+    implements UserVerificationTokenRepositoryContract
 {
     public function __construct(ManagerRegistry $registry)
     {

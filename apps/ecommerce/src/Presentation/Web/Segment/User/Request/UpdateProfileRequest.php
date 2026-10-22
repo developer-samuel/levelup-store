@@ -68,7 +68,12 @@ final class UpdateProfileRequest extends AbstractRequest
     #[Assert\Callback]
     public function validateOptionalAddressFields(ExecutionContextInterface $context): void
     {
-        AddressCheckFields::validateOptionalForType($context, $this->createAddress(AddressType::SHIPPING), AddressType::SHIPPING, $this->use_shipping ?? false);
+        AddressCheckFields::validateOptionalForType(
+            $context,
+            $this->createAddress(AddressType::SHIPPING),
+            AddressType::SHIPPING,
+            $this->use_shipping ?? false,
+        );
     }
 
     private function createAddress(AddressType $type): AddressObject

@@ -115,8 +115,11 @@ final readonly class AdminOrderCommandService implements AdminOrderCommandContra
         ];
     }
 
-    private function updateItemStatusAndStock(ProductVariantEan $ean, ProductVariantStock $stock, OrderStatus $status): void
-    {
+    private function updateItemStatusAndStock(
+        ProductVariantEan $ean,
+        ProductVariantStock $stock,
+        OrderStatus $status,
+    ): void {
         $stockChanged = $status === OrderStatus::COMPLETED || $status === OrderStatus::REFUNDED;
 
         match ($status) {

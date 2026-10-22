@@ -19,7 +19,9 @@ use App\Core\Ports\{
 
 use App\Shared\Utils\Formatter\ApiResultFormatter;
 
-final class OrderSuccessCleanupCommandHandler extends AbstractCommandHandler implements OrderSuccessCleanupCommandHandlerContract
+final class OrderSuccessCleanupCommandHandler
+    extends AbstractCommandHandler
+    implements OrderSuccessCleanupCommandHandlerContract
 {
     public function __construct(
         private readonly EntityPersistenceContract $entityPersistence,

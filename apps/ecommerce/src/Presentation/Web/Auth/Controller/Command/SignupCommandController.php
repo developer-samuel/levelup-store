@@ -50,7 +50,9 @@ final class SignupCommandController extends AbstractCrudCommandController
             $turnstileToken = $request->request->getString('cf-turnstile-response');
 
             if (!$this->turnstile->verify($turnstileToken, (string) $request->getClientIp())) {
-                return HttpResponder::unprocessableEntity(['turnstile' => 'Bot verification failed. Please try again.']);
+                return HttpResponder::unprocessableEntity([
+                    'turnstile' => 'Bot verification failed. Please try again.',
+                ]);
             }
 
             $signupRequest = SignupRequest::fromHttpRequest($request, $this->csrfTokenManager);

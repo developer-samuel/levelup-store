@@ -51,7 +51,8 @@ abstract class AbstractTask
     {
         if ($total > 0) {
             $this->logger->logSuccess(
-                '[' . DateTimeFormatter::format(new \DateTimeImmutable()) . sprintf('] Processed total %d items', $total),
+                '[' . DateTimeFormatter::format(new \DateTimeImmutable())
+                . sprintf('] Processed total %d items', $total),
             );
             return;
         }

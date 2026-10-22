@@ -56,7 +56,8 @@ final class AdminVariantEanCommandController extends AbstractAdminVariantCommand
             fn(AdminVariantEanStoreRequest $req): array => $this->handleCreateCommand(
                 $req,
                 fn(AdminVariantEanStoreRequest $r): AdminVariantEanPayload => $this->createPayload($r),
-                fn(AdminVariantEanPayload $payload): array                 => $this->adminVariantEanHandler->handleCreate($payload),
+                fn(AdminVariantEanPayload $payload): array
+                    => $this->adminVariantEanHandler->handleCreate($payload),
             ),
         );
     }
@@ -67,10 +68,12 @@ final class AdminVariantEanCommandController extends AbstractAdminVariantCommand
             $request,
             AdminVariantEanUpdateRequest::class,
             fn(AdminVariantEanUpdateRequest $req): array => $this->handleUpdateCommand(
-            $req,
-            fn(AdminVariantEanUpdateRequest $r, string $id): AdminVariantEanPayload => $this->createPayload($r, $id),
-            fn(AdminVariantEanPayload $payload): array                              => $this->adminVariantEanHandler->handleUpdate($payload),
-        ),
+                $req,
+                fn(AdminVariantEanUpdateRequest $r, string $id): AdminVariantEanPayload
+                    => $this->createPayload($r, $id),
+                fn(AdminVariantEanPayload $payload): array
+                    => $this->adminVariantEanHandler->handleUpdate($payload),
+            ),
         );
     }
 

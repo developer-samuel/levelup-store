@@ -37,7 +37,8 @@ final class AdminOrderStatusCommandController extends AbstractCrudCommandControl
         );
     }
 
-    public function update(Request $request): JsonResponse {
+    public function update(Request $request): JsonResponse
+    {
         return $this->executeCommand(
             $request,
             AdminOrderStatusRequest::class,

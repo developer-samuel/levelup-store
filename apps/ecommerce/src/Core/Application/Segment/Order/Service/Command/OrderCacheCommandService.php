@@ -21,7 +21,8 @@ final class OrderCacheCommandService implements OrderCacheCommandContract
 {
     private CacheProxyContract $cache;
 
-    public function __construct(CacheGatewayContract $cacheGateway) {
+    public function __construct(CacheGatewayContract $cacheGateway)
+    {
         $this->cache = $cacheGateway->getCache(OrderCachePool::ORDERS_USER->value);
     }
 

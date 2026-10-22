@@ -16,7 +16,9 @@ use App\Infrastructure\{
 };
 
 /** @extends AbstractRepository<ProductVariantRecommended> */
-final class ProductVariantRecommendedRepository extends AbstractRepository implements ProductVariantRecommendedRepositoryContract
+final class ProductVariantRecommendedRepository
+    extends AbstractRepository
+    implements ProductVariantRecommendedRepositoryContract
 {
     public function __construct(ManagerRegistry $registry)
     {
