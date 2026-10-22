@@ -3,6 +3,7 @@ from typing import cast
 
 import chromadb
 import chromadb.api
+import httpx
 import ollama
 from chromadb.api.types import Metadata, PyEmbeddings
 
@@ -52,7 +53,21 @@ def reset_collection() -> chromadb.Collection:
     return client.get_or_create_collection(CHROMA_COLLECTION_PRODUCTS)
 
 
+def _embed_via_api(text: str) -> list[float]:
+    response = httpx.post(
+        settings.assistant_embed_url,
+        headers={"Authorization": f"Bearer {settings.assistant_api_key}"},
+        json={"model": settings.assistant_embed_model, "input": text},
+        timeout=30,
+    )
+    response.raise_for_status()
+    return cast(list[float], response.json()["data"][0]["embedding"])
+
+
 def embed(text: str) -> list[float]:
+    if settings.assistant_type == "api":
+        return _embed_via_api(text)
+
     response = _get_ollama_client().embeddings(
         model=settings.assistant_ollama_embed_model, prompt=text
     )
