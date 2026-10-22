@@ -13,7 +13,8 @@ export default class AdminUsersTable extends BaseDatatable {
     super(TABLE_SELECTOR, URL, renderUsers as RenderRowsFn, handleUserClick, DATA_KEY)
   }
 
-  static init(): void {
-    new AdminUsersTable()
+  static async init(): Promise<void> {
+    const instance = new AdminUsersTable()
+    await instance.setup()
   }
 }

@@ -20,7 +20,8 @@ export default class AdminVariantsTable extends BaseDatatable {
     )
   }
 
-  static init(): void {
-    new AdminVariantsTable()
+  static async init(): Promise<void> {
+    const instance = new AdminVariantsTable()
+    await instance.setup()
   }
 }

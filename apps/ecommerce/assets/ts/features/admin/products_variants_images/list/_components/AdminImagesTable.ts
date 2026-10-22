@@ -19,7 +19,8 @@ export default class AdminImagesTable extends BaseDatatable {
     )
   }
 
-  static init(): void {
-    new AdminImagesTable()
+  static async init(): Promise<void> {
+    const instance = new AdminImagesTable()
+    await instance.setup()
   }
 }

@@ -23,8 +23,8 @@ export default class PriceRange {
     this.setupListeners()
   }
 
-  static init(): void {
-    new PriceRange('minPrice', 'maxPrice', 'minPrice-output', 'maxPrice-output')
+  static init(): PriceRange {
+    return new PriceRange('minPrice', 'maxPrice', 'minPrice-output', 'maxPrice-output')
   }
 
   private setupListeners(): void {

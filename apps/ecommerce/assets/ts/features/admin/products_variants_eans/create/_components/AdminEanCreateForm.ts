@@ -15,7 +15,7 @@ export default class AdminEanCreateForm extends BaseForm {
     super(formSelector, alert, errors, handler, true)
   }
 
-  static init(): void {
-    new AdminEanCreateForm('#admin-variant-eans-create-form')
+  static init(): AdminEanCreateForm {
+    return new AdminEanCreateForm('#admin-variant-eans-create-form')
   }
 }

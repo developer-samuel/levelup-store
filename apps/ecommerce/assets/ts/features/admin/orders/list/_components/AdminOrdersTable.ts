@@ -13,7 +13,8 @@ export default class AdminOrdersTable extends BaseDatatable {
     super(TABLE_SELECTOR, URL, renderOrders as RenderRowsFn, handleOrderClick, ORDERS_DATA_KEY)
   }
 
-  static init(): void {
-    new AdminOrdersTable()
+  static async init(): Promise<void> {
+    const instance = new AdminOrdersTable()
+    await instance.setup()
   }
 }

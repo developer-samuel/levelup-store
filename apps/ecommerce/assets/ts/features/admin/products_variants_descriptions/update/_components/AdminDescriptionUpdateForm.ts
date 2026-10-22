@@ -18,7 +18,7 @@ export default class AdminDescriptionUpdateForm extends BaseForm {
     super(formSelector, alert, errors, handler, true)
   }
 
-  static init(): void {
-    new AdminDescriptionUpdateForm('#admin-variant-descriptions-update-form')
+  static init(): AdminDescriptionUpdateForm {
+    return new AdminDescriptionUpdateForm('#admin-variant-descriptions-update-form')
   }
 }

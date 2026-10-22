@@ -1,3 +1,3 @@
 import AdminEanCreateForm from '@/ts/features/admin/products_variants_eans/create/_components/AdminEanCreateForm'
 
-AdminEanCreateForm.init()
+void AdminEanCreateForm.init()

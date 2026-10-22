@@ -18,7 +18,7 @@ export default class SignupForm extends BaseForm {
     super(formSelector, alert, errors, handler, true)
   }
 
-  static init(): void {
-    new SignupForm('#signup-form')
+  static init(): SignupForm {
+    return new SignupForm('#signup-form')
   }
 }

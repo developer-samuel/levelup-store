@@ -20,7 +20,8 @@ export default class AdminEansTable extends BaseDatatable {
     )
   }
 
-  static init(): void {
-    new AdminEansTable()
+  static async init(): Promise<void> {
+    const instance = new AdminEansTable()
+    await instance.setup()
   }
 }

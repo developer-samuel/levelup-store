@@ -5,7 +5,7 @@ export default class ReviewRating {
     bindToggle(selector)
   }
 
-  static init(): void {
-    new ReviewRating('.reviews__card-item-row-right')
+  static init(): ReviewRating {
+    return new ReviewRating('.reviews__card-item-row-right')
   }
 }

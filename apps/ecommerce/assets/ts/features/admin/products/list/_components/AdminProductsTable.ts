@@ -13,7 +13,8 @@ export default class AdminProductsTable extends BaseDatatable {
     super(TABLE_SELECTOR, URL, renderProducts as RenderRowsFn, handleProductClick, DATA_KEY)
   }
 
-  static init(): void {
-    new AdminProductsTable()
+  static async init(): Promise<void> {
+    const instance = new AdminProductsTable()
+    await instance.setup()
   }
 }

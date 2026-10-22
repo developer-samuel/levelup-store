@@ -7,7 +7,7 @@ export default class ReviewList {
     attachDestroyListener('.reviews__card-item-destroy', handleDeleteClick)
   }
 
-  static init(): void {
-    new ReviewList()
+  static init(): ReviewList {
+    return new ReviewList()
   }
 }

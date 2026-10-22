@@ -33,11 +33,9 @@ export default abstract class BaseDatatable {
     this.clickHandler = clickHandler
     this.dataKey = dataKey
     this.tbody = table.querySelector('tbody') ?? table.createTBody()
-
-    void this.init()
   }
 
-  protected async init(): Promise<void> {
+  async setup(): Promise<void> {
     this.dt = await setupDatatable(this.table, this.url, this.renderRows, this.clickHandler, this.dataKey)
 
     applyDatatableEnhancements(this.table)

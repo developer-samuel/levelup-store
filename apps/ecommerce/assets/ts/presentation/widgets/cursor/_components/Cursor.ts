@@ -27,8 +27,8 @@ export default class Cursor implements CursorInstance {
     this.setup()
   }
 
-  static init(): void {
-    new Cursor('.cursor')
+  static init(): Cursor {
+    return new Cursor('.cursor')
   }
 
   private setup(): void {

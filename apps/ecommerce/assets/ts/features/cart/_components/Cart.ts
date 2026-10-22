@@ -17,8 +17,8 @@ export default class Cart implements CartInstance {
     this.initListeners()
   }
 
-  static init(): void {
-    new Cart()
+  static init(): Cart {
+    return new Cart()
   }
 
   private initListeners(): void {

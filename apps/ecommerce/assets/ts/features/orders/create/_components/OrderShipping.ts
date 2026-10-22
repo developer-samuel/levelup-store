@@ -23,8 +23,8 @@ export default class OrderShipping {
     this.setup()
   }
 
-  static init(): void {
-    new OrderShipping('send-shipping', 'order-shipping-data')
+  static init(): OrderShipping {
+    return new OrderShipping('send-shipping', 'order-shipping-data')
   }
 
   private setup(): void {
