@@ -21,22 +21,6 @@ function hidePanel(instance: SearchInstance): void {
   }
 }
 
-function shouldShowPanel(hasText: boolean, hasQueryParam: boolean): boolean {
-  return hasText && !hasQueryParam
-}
-
-function shouldHidePanel(hasText: boolean): boolean {
-  return !hasText
-}
-
-function updatePanelVisibility(instance: SearchInstance, hasText: boolean, hasQueryParam: boolean): void {
-  if (shouldShowPanel(hasText, hasQueryParam)) {
-    showPanel(instance)
-  } else if (shouldHidePanel(hasText)) {
-    hidePanel(instance)
-  }
-}
-
 function updateMobileIcon(hasText: boolean, isMobile: boolean): void {
   const mobileIcon = query<HTMLElement>('.navigation__mobile-icon')
   if (mobileIcon) {
@@ -61,7 +45,11 @@ export function updateSearchUI(instance: SearchInstance): void {
   const isMobile = window.innerWidth < BREAKPOINT_LG
   const hasQueryParam = new URLSearchParams(window.location.search).has('query')
 
-  updatePanelVisibility(instance, hasText, hasQueryParam)
+  if (hasText && !hasQueryParam) {
+    showPanel(instance)
+  } else if (!hasText) {
+    hidePanel(instance)
+  }
   syncIcons(instance, hasText, isMobile)
 }
 

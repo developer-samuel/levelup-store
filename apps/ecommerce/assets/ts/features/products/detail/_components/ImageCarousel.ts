@@ -22,6 +22,7 @@ export default class ImageCarousel implements ImageCarouselInstance {
   prevTranslate: number
   animationID: number
   containerWidth: number
+  zoom: ZoomModal | null = null
 
   constructor() {
     const { track, thumbs } = getImageCarouselElements()
@@ -69,7 +70,7 @@ export default class ImageCarousel implements ImageCarouselInstance {
     const trigger = query('.product-detail__gallery-image-zoom')
     if (!trigger) return
 
-    new ZoomModal(trigger, () => {
+    this.zoom = new ZoomModal(trigger, () => {
       const activeImg = this.track.querySelectorAll('.product-detail__gallery-image-track-item img')[
         this.currentIndex
       ] as HTMLImageElement | undefined

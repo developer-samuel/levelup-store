@@ -1,3 +1,3 @@
 import AdminBrandCreateForm from '@/ts/features/admin/brands/create/_components/AdminBrandCreateForm'
 
-void AdminBrandCreateForm.init()
+AdminBrandCreateForm.init()
