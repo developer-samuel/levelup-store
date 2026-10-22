@@ -1,5 +1,5 @@
-export function mockNotyfAlert(): void {
-  vi.mock('@/ts/plugins/notyf/_components/NotyfAlert', () => ({
-    default: { success: vi.fn(), error: vi.fn() },
-  }))
-}
+vi.mock('@/ts/plugins/notyf/_components/NotyfAlert', () => ({
+  default: { success: vi.fn(), error: vi.fn() },
+}))
+
+export function mockNotyfAlert(): void {}

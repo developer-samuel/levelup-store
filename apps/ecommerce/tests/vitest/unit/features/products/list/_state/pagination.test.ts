@@ -36,23 +36,20 @@ describe('updatePaginationState()', () => {
     expect(instance.page).toBe(4)
   })
 
-  it('should fall back to instance.page when requestedPage is 0', () => {
-    const returned = makeProductListWrapper()
-    const instance = makeInstance(2)
+  it.each([
+    [2, 0],
+    [3, undefined],
+  ] as [number, number | undefined][])(
+    'should fall back to instance.page=%i when requestedPage is %s',
+    (instancePage, requestedPage) => {
+      const returned = makeProductListWrapper()
+      const instance = makeInstance(instancePage)
 
-    updatePaginationState(returned, 0, instance)
+      updatePaginationState(returned, requestedPage, instance)
 
-    expect(instance.page).toBe(2)
-  })
-
-  it('should fall back to instance.page when requestedPage is undefined', () => {
-    const returned = makeProductListWrapper()
-    const instance = makeInstance(3)
-
-    updatePaginationState(returned, undefined, instance)
-
-    expect(instance.page).toBe(3)
-  })
+      expect(instance.page).toBe(instancePage)
+    },
+  )
 
   it('should fall back to instance.maxPages when returnedWrapper has no totalPage', () => {
     const returned = makeProductListWrapper()
@@ -63,8 +60,8 @@ describe('updatePaginationState()', () => {
     expect(instance.maxPages).toBe(7)
   })
 
-  it('should set page to 1 when parsed currentPage is 0', () => {
-    const returned = makeProductListWrapper({ currentPage: '0' })
+  it.each([['0'], ['abc']])('should set page to 1 when parsed currentPage is %s', (currentPage) => {
+    const returned = makeProductListWrapper({ currentPage })
     const instance = makeInstance()
 
     updatePaginationState(returned, undefined, instance)
@@ -72,22 +69,13 @@ describe('updatePaginationState()', () => {
     expect(instance.page).toBe(1)
   })
 
-  it('should set maxPages to 1 when parsed totalPage is 0', () => {
-    const returned = makeProductListWrapper({ totalPage: '0' })
+  it.each([['0'], ['abc']])('should set maxPages to 1 when parsed totalPage is %s', (totalPage) => {
+    const returned = makeProductListWrapper({ totalPage })
     const instance = makeInstance()
 
     updatePaginationState(returned, undefined, instance)
 
     expect(instance.maxPages).toBe(1)
-  })
-
-  it('should set page to 1 when parsed currentPage is NaN', () => {
-    const returned = makeProductListWrapper({ currentPage: 'abc' })
-    const instance = makeInstance()
-
-    updatePaginationState(returned, undefined, instance)
-
-    expect(instance.page).toBe(1)
   })
 
   it('should update productsWrapper dataset currentPage', () => {
@@ -106,14 +94,5 @@ describe('updatePaginationState()', () => {
     updatePaginationState(returned, undefined, instance)
 
     expect(instance.productsWrapper.dataset.totalPage).toBe('10')
-  })
-
-  it('should set maxPages to 1 when parsed totalPage is NaN', () => {
-    const returned = makeProductListWrapper({ totalPage: 'abc' })
-    const instance = makeInstance()
-
-    updatePaginationState(returned, undefined, instance)
-
-    expect(instance.maxPages).toBe(1)
   })
 })

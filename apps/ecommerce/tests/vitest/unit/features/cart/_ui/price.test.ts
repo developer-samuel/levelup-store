@@ -19,39 +19,16 @@ describe('updateTotalPrice()', () => {
     expect(() => updateTotalPrice(cart, { totalPrice: 10 })).not.toThrow()
   })
 
-  it('should display integer price without decimals', () => {
+  it.each([
+    [20, '20 €'],
+    [19.9, '19.90 €'],
+    ['14.50', '14.50 €'],
+    [undefined, '0 €'],
+    ['abc', '0 €'],
+    ['5', '5 €'],
+  ] as [number | string | undefined, string][])('should display totalPrice=%s as %s', (input, expected) => {
     const cart = makeCart()
-    updateTotalPrice(cart, { totalPrice: 20 })
-    expect(cart.totalPrice?.textContent).toBe('20 €')
-  })
-
-  it('should display float price with 2 decimals', () => {
-    const cart = makeCart()
-    updateTotalPrice(cart, { totalPrice: 19.9 })
-    expect(cart.totalPrice?.textContent).toBe('19.90 €')
-  })
-
-  it('should parse string price', () => {
-    const cart = makeCart()
-    updateTotalPrice(cart, { totalPrice: '14.50' })
-    expect(cart.totalPrice?.textContent).toBe('14.50 €')
-  })
-
-  it('should display 0 € when totalPrice is undefined', () => {
-    const cart = makeCart()
-    updateTotalPrice(cart, {})
-    expect(cart.totalPrice?.textContent).toBe('0 €')
-  })
-
-  it('should display 0 € when totalPrice is unparseable string', () => {
-    const cart = makeCart()
-    updateTotalPrice(cart, { totalPrice: 'abc' })
-    expect(cart.totalPrice?.textContent).toBe('0 €')
-  })
-
-  it('should display integer string price without decimals', () => {
-    const cart = makeCart()
-    updateTotalPrice(cart, { totalPrice: '5' })
-    expect(cart.totalPrice?.textContent).toBe('5 €')
+    updateTotalPrice(cart, { totalPrice: input as number })
+    expect(cart.totalPrice?.textContent).toBe(expected)
   })
 })

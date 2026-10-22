@@ -23,35 +23,22 @@ describe('handleResize()', () => {
     expect(mockedToggle).not.toHaveBeenCalled()
   })
 
-  it('should call toggle with true when width changes to >= 1280', () => {
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1280)
-    const filter = document.createElement('div')
-    const lastWidth = { value: 768 }
+  it.each([
+    [768, 1280, true],
+    [1280, 768, false],
+    [1280, 1279, false],
+  ] as [number, number, boolean][])(
+    'should call toggle with $2 when width changes from $0 to $1',
+    (lastWidthVal, innerWidthVal, expected) => {
+      vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(innerWidthVal)
+      const filter = document.createElement('div')
+      const lastWidth = { value: lastWidthVal }
 
-    handleResize(filter, lastWidth)
+      handleResize(filter, lastWidth)
 
-    expect(mockedToggle).toHaveBeenCalledWith(filter, true)
-  })
-
-  it('should call toggle with false when width changes to < 1280', () => {
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(768)
-    const filter = document.createElement('div')
-    const lastWidth = { value: 1280 }
-
-    handleResize(filter, lastWidth)
-
-    expect(mockedToggle).toHaveBeenCalledWith(filter, false)
-  })
-
-  it('should call toggle with false when width changes to exactly 1279', () => {
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1279)
-    const filter = document.createElement('div')
-    const lastWidth = { value: 1280 }
-
-    handleResize(filter, lastWidth)
-
-    expect(mockedToggle).toHaveBeenCalledWith(filter, false)
-  })
+      expect(mockedToggle).toHaveBeenCalledWith(filter, expected)
+    },
+  )
 
   it('should update lastWidth after resize', () => {
     vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1024)

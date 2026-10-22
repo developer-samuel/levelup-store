@@ -24,35 +24,22 @@ describe('attachResizeListener()', () => {
     expect(() => attachResizeListener(null)).not.toThrow()
   })
 
-  it('should call toggle with true when innerWidth changes to >= 1280', () => {
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValueOnce(768).mockReturnValue(1280)
-    const filter = document.createElement('div')
+  it.each([
+    [768, 1280, true],
+    [1280, 768, false],
+    [1280, 1279, false],
+  ] as [number, number, boolean][])(
+    'should call toggle correctly when innerWidth changes from $0 to $1 (expected: $2)',
+    (from, to, expected) => {
+      vi.spyOn(window, 'innerWidth', 'get').mockReturnValueOnce(from).mockReturnValue(to)
+      const filter = document.createElement('div')
 
-    cleanup = attachResizeListener(filter)
-    window.dispatchEvent(new Event('resize'))
+      cleanup = attachResizeListener(filter)
+      window.dispatchEvent(new Event('resize'))
 
-    expect(mockedToggle).toHaveBeenCalledWith(filter, true)
-  })
-
-  it('should call toggle with false when innerWidth changes to < 1280', () => {
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValueOnce(1280).mockReturnValue(768)
-    const filter = document.createElement('div')
-
-    cleanup = attachResizeListener(filter)
-    window.dispatchEvent(new Event('resize'))
-
-    expect(mockedToggle).toHaveBeenCalledWith(filter, false)
-  })
-
-  it('should call toggle with false when innerWidth changes to exactly 1279', () => {
-    vi.spyOn(window, 'innerWidth', 'get').mockReturnValueOnce(1280).mockReturnValue(1279)
-    const filter = document.createElement('div')
-
-    cleanup = attachResizeListener(filter)
-    window.dispatchEvent(new Event('resize'))
-
-    expect(mockedToggle).toHaveBeenCalledWith(filter, false)
-  })
+      expect(mockedToggle).toHaveBeenCalledWith(filter, expected)
+    },
+  )
 
   it('should not call toggle when innerWidth does not change', () => {
     vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1280)
