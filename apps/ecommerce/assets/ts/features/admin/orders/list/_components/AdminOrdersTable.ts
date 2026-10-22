@@ -12,4 +12,8 @@ export default class AdminOrdersTable extends BaseDatatable {
   constructor() {
     super(TABLE_SELECTOR, URL, renderOrders as RenderRowsFn, handleOrderClick, ORDERS_DATA_KEY)
   }
+
+  static init(): void {
+    new AdminOrdersTable()
+  }
 }

@@ -38,7 +38,7 @@ final class SignupHandler extends AbstractCommandHandler implements SignupHandle
     /** @return array<string, mixed> */
     public function handle(SignupPayload $payload): array
     {
-        return $this->execute(function() use ($payload) {
+        return $this->execute(function () use ($payload) {
             $this->rateLimiter->track();
 
             $user = $this->signupCommand->signup($payload);

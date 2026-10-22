@@ -32,7 +32,7 @@ final class UpdateProfileHandler extends AbstractCommandHandler implements Updat
     /** @return array<string, mixed> */
     public function handle(ProfilePayload $payload): array
     {
-        return $this->execute(function() use ($payload) {
+        return $this->execute(function () use ($payload) {
             $user = $this->securityPolicy->checkIfEmailVerified();
 
             $this->profileCommand->updateProfile($user, $payload);

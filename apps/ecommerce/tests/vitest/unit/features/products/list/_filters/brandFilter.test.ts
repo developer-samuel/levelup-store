@@ -32,48 +32,18 @@ describe('setupBrandFilter()', () => {
     expect(mockedBindFilter).toHaveBeenCalledWith(ctx, 'input[name="brand[]"]', expect.any(Function))
   })
 
-  it('should return empty brand string when no checkboxes are checked', () => {
-    mockedQueryAll.mockReturnValueOnce([] as unknown as HtmlElList)
+  it.each([
+    [[], ''],
+    [[makeCheckbox('Nike'), makeCheckbox('Adidas')], 'nike,adidas'],
+    [[makeCheckbox('PUMA')], 'puma'],
+    [[makeCheckbox('New Balance')], 'new-balance'],
+    [[makeCheckbox('  Nike  ')], 'nike'],
+  ] as [HTMLInputElement[], string][])('should return brand=%s from checkboxes %s', (checkboxes, expected) => {
+    mockedQueryAll.mockReturnValueOnce(checkboxes as unknown as HtmlElList)
     setupBrandFilter(ctx)
 
     const result = getValueCallback()()
 
-    expect(result).toEqual({ brand: '' })
-  })
-
-  it('should return joined brand values from checked checkboxes', () => {
-    mockedQueryAll.mockReturnValueOnce([makeCheckbox('Nike'), makeCheckbox('Adidas')] as unknown as HtmlElList)
-    setupBrandFilter(ctx)
-
-    const result = getValueCallback()()
-
-    expect(result).toEqual({ brand: 'nike,adidas' })
-  })
-
-  it('should normalize brand values to lowercase', () => {
-    mockedQueryAll.mockReturnValueOnce([makeCheckbox('PUMA')] as unknown as HtmlElList)
-    setupBrandFilter(ctx)
-
-    const result = getValueCallback()()
-
-    expect(result).toEqual({ brand: 'puma' })
-  })
-
-  it('should replace spaces with dashes in brand values', () => {
-    mockedQueryAll.mockReturnValueOnce([makeCheckbox('New Balance')] as unknown as HtmlElList)
-    setupBrandFilter(ctx)
-
-    const result = getValueCallback()()
-
-    expect(result).toEqual({ brand: 'new-balance' })
-  })
-
-  it('should trim whitespace from brand values', () => {
-    mockedQueryAll.mockReturnValueOnce([makeCheckbox('  Nike  ')] as unknown as HtmlElList)
-    setupBrandFilter(ctx)
-
-    const result = getValueCallback()()
-
-    expect(result).toEqual({ brand: 'nike' })
+    expect(result).toEqual({ brand: expected })
   })
 })

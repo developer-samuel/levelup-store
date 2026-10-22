@@ -39,7 +39,7 @@ final class AdminOrderCommandHandler extends AbstractAdminFormCommandHandler
     /** @return array<string, mixed> */
     public function handle(AdminOrderStatusPayload $payload): array
     {
-        return $this->executeAdmin(function() use ($payload) {
+        return $this->executeAdmin(function () use ($payload) {
             $order = $this->orderFetchQuery->getOrderByCodeOrFail($payload->code);
 
             $this->assertStatusCanBeUpdated($order, $payload);

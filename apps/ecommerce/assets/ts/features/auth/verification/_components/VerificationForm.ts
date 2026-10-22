@@ -14,4 +14,8 @@ export default class VerificationForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, false)
   }
+
+  static init(): void {
+    new VerificationForm('#verification-form')
+  }
 }

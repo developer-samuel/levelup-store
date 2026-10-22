@@ -30,5 +30,3 @@ eventSource.onmessage = (event: MessageEvent<string>): void => {
     p.className = 'text-orange'
   }
 }
-
-export {}

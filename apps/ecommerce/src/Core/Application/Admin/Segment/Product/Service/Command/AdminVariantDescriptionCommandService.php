@@ -24,7 +24,9 @@ use App\Core\Ports\{
     Shared\Persistence\EntityPersistenceContract
 };
 
-final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCommandService implements AdminVariantDescriptionCommandContract
+final class AdminVariantDescriptionCommandService
+    extends AbstractAdminVariantCommandService
+    implements AdminVariantDescriptionCommandContract
 {
     public function __construct(
         private readonly ProductVariantDescriptionRepositoryContract $variantDescriptionRepository,
@@ -37,8 +39,10 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
         );
     }
 
-    public function createDescription(int $variantId, AdminVariantDescriptionPayload $payload): ProductVariantDescription
-    {
+    public function createDescription(
+        int $variantId,
+        AdminVariantDescriptionPayload $payload,
+    ): ProductVariantDescription {
         $variant = $this->resolveVariant($variantId);
 
         $position = $this->getNextDescriptionPosition($variantId);
@@ -50,8 +54,11 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
         return $description;
     }
 
-    public function updateDescription(int $descriptionId, int $variantId, AdminVariantDescriptionPayload $payload): ProductVariantDescription
-    {
+    public function updateDescription(
+        int $descriptionId,
+        int $variantId,
+        AdminVariantDescriptionPayload $payload,
+    ): ProductVariantDescription {
         $this->resolveVariant($variantId);
 
         $description = $this->getDescription($descriptionId);
@@ -73,8 +80,10 @@ final class AdminVariantDescriptionCommandService extends AbstractAdminVariantCo
         return $this->variantDescriptionRepository->getMaxPositionByVariantId($variantId) + 1;
     }
 
-    private function updateDescriptionEntity(ProductVariantDescription $description, AdminVariantDescriptionPayload $payload): void
-    {
+    private function updateDescriptionEntity(
+        ProductVariantDescription $description,
+        AdminVariantDescriptionPayload $payload,
+    ): void {
         $description->setTitle($payload->title)
             ->setBody($payload->body)
             ->setUpdatedAt();

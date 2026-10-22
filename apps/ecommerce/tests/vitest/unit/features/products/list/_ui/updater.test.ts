@@ -78,23 +78,20 @@ describe('updateProductList()', () => {
     expect(oldList.querySelector('li')?.textContent).toBe('new')
   })
 
-  it('should replaceWrapperContent when page <= 1 and no newList/oldList', () => {
-    const instance = makeInstance('<p>old</p>')
-    const returned = makeEl('<p class="new-item">new</p>')
+  it.each([
+    [1, 'new-item'],
+    [undefined, 'replaced'],
+  ] as [number | undefined, string][])(
+    'should replaceWrapperContent when requestedPage=%s and no newList/oldList',
+    (page, className) => {
+      const instance = makeInstance('<p>old</p>')
+      const returned = makeEl(`<p class="${className}">content</p>`)
 
-    updateProductList(null, null, returned, null, 1, instance)
+      updateProductList(null, null, returned, null, page, instance)
 
-    expect(instance.productsWrapper.querySelector('.new-item')).not.toBeNull()
-  })
-
-  it('should replaceWrapperContent when requestedPage is undefined', () => {
-    const instance = makeInstance('<p>old</p>')
-    const returned = makeEl('<p class="replaced">replaced</p>')
-
-    updateProductList(null, null, returned, null, undefined, instance)
-
-    expect(instance.productsWrapper.querySelector('.replaced')).not.toBeNull()
-  })
+      expect(instance.productsWrapper.querySelector(`.${className}`)).not.toBeNull()
+    },
+  )
 
   it('should replace old load-more with new one', () => {
     const instance = makeInstance()

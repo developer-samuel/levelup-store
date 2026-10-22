@@ -18,4 +18,8 @@ export default class AdminImagesTable extends BaseDatatable {
       DATA_KEY,
     )
   }
+
+  static init(): void {
+    new AdminImagesTable()
+  }
 }

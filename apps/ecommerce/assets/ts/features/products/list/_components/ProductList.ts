@@ -32,4 +32,8 @@ export default class ProductList implements ProductListInstance {
     attachScrollListener()
     setupMobileFilter()
   }
+
+  static init(): void {
+    new ProductList('products-wrapper')
+  }
 }

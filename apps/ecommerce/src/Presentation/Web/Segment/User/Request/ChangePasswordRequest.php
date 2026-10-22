@@ -25,7 +25,8 @@ final class ChangePasswordRequest extends AbstractRequest
     use TokenTrait;
     use ChangePasswordInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

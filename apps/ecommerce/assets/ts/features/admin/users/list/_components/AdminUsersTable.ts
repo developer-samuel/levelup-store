@@ -12,4 +12,8 @@ export default class AdminUsersTable extends BaseDatatable {
   constructor() {
     super(TABLE_SELECTOR, URL, renderUsers as RenderRowsFn, handleUserClick, DATA_KEY)
   }
+
+  static init(): void {
+    new AdminUsersTable()
+  }
 }

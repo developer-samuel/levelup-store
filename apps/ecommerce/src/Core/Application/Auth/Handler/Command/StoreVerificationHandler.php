@@ -33,7 +33,7 @@ final class StoreVerificationHandler extends AbstractCommandHandler implements S
     /** @return array<string, mixed> */
     public function handle(): array
     {
-        return $this->execute(function() {
+        return $this->execute(function () {
             $user = $this->getValidUser();
 
             $this->verificationCommand->createAndSaveTokenForUser($user);

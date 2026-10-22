@@ -22,7 +22,7 @@ abstract class AbstractRequest
 
     abstract protected function populateData(Request $request): void;
 
-    protected final function resolveCsrfTokenManager(): CsrfTokenManagerInterface
+    final protected function resolveCsrfTokenManager(): CsrfTokenManagerInterface
     {
         return $this->csrfTokenManager;
     }

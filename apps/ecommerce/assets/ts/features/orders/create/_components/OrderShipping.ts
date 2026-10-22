@@ -20,10 +20,14 @@ export default class OrderShipping {
     this.shippingData = shippingData
     this.inputs = shippingData.querySelectorAll('input')
 
-    this.init()
+    this.setup()
   }
 
-  private init(): void {
+  static init(): void {
+    new OrderShipping('send-shipping', 'order-shipping-data')
+  }
+
+  private setup(): void {
     attachOrderShippingChangeListener(this.checkbox, this.shippingData, this.inputs)
     handleShippingToggle(this.checkbox, this.shippingData, this.inputs)
   }

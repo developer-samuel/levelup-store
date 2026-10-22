@@ -19,7 +19,8 @@ final class AdminBrandUpdateRequest extends AbstractRequest
 {
     use AdminBrandUpdateInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

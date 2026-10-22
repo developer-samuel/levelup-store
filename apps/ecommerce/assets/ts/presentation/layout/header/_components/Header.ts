@@ -25,6 +25,10 @@ export class Header implements HeaderInstance {
     this.initListeners()
   }
 
+  static init(iconSelector: string, navigationSelector: string, searchPanelSelector: string): void {
+    new Header(iconSelector, navigationSelector, searchPanelSelector)
+  }
+
   private initListeners(): void {
     attachMobileIconListener(this.mobileIcon, this)
     attachScrollListener(this.headerMain)

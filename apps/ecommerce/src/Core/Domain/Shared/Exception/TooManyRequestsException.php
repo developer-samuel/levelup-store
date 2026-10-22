@@ -24,7 +24,10 @@ final class TooManyRequestsException extends \Exception
     private function buildMessage(int $retryAfterSeconds): string
     {
         return $retryAfterSeconds > 0
-            ? sprintf('Too many attempts, please try again in %s.', DateTimeFormatter::formatDuration($retryAfterSeconds))
+            ? sprintf(
+                'Too many attempts, please try again in %s.',
+                DateTimeFormatter::formatDuration($retryAfterSeconds),
+            )
             : 'Too many attempts, please try again in a moment.';
     }
 }

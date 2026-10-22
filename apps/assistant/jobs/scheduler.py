@@ -26,6 +26,6 @@ if __name__ == "__main__":
         try:
             ingest()
         except Exception as e:
-            logger.error("Ingest failed: %s", e)
+            logger.exception("Ingest failed: %s", e)
 
         time.sleep(_INTERVAL)

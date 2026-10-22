@@ -1,3 +1,3 @@
 export function hasAnyText(val: unknown): boolean {
-  return String(val ?? '').length > 0
+  return (typeof val === 'string' ? val : '').length > 0
 }

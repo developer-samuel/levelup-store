@@ -8,16 +8,24 @@ import { updateContent } from '@/ts/features/search/_ui/content'
 import { updateInstanceCloseIcons } from '@/ts/features/search/_ui/icons'
 import { show, hide, isVisible } from '@/ts/features/search/_ui/visibility'
 
+function showPanel(instance: SearchInstance): void {
+  if (!isVisible(instance.panel)) {
+    updateContent(instance.content, LOADING_HTML)
+    show(instance.panel)
+  }
+}
+
+function hidePanel(instance: SearchInstance): void {
+  if (isVisible(instance.panel)) {
+    hide(instance.panel)
+  }
+}
+
 function updatePanelVisibility(instance: SearchInstance, hasText: boolean, hasQueryParam: boolean): void {
   if (hasText && !hasQueryParam) {
-    if (!isVisible(instance.panel)) {
-      updateContent(instance.content, LOADING_HTML)
-      show(instance.panel)
-    }
+    showPanel(instance)
   } else if (!hasText) {
-    if (isVisible(instance.panel)) {
-      hide(instance.panel)
-    }
+    hidePanel(instance)
   }
 }
 

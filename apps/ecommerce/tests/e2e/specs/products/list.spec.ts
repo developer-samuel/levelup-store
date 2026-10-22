@@ -43,13 +43,13 @@ test.describe('Products List Page', () => {
   test('should load with category in URL', async () => {
     const href = await listPage.getSubtypeHref(0)
     if (!href) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
     const segment = href.split('/').filter(Boolean)[1]
     if (!segment) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -61,19 +61,19 @@ test.describe('Products List Page', () => {
   test('should load with category and type in URL', async () => {
     const count = await listPage.subtypeItems.count()
     if (count === 0) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
     const href = await listPage.getSubtypeHref(0)
     if (!href) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
     const segments = href.split('/').filter(Boolean)
     if (segments.length < 3) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -86,11 +86,11 @@ test.describe('Products List Page', () => {
 
   test('should update URL when sort changes', async () => {
     const options = await listPage.sortSelect.locator('option').all()
-    if (options.length < 2) test.skip()
+    if (options.length < 2) test.skip(true, 'Required test data not available in current dataset')
 
     const secondValue = await options[1]?.getAttribute('value')
     if (!secondValue) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -103,11 +103,11 @@ test.describe('Products List Page', () => {
 
   test('should reload products after sort change', async () => {
     const options = await listPage.sortSelect.locator('option').all()
-    if (options.length < 2) test.skip()
+    if (options.length < 2) test.skip(true, 'Required test data not available in current dataset')
 
     const secondValue = await options[1]?.getAttribute('value')
     if (!secondValue) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -125,14 +125,14 @@ test.describe('Products List Page', () => {
 
   test('should show load-more button when multiple pages exist', async () => {
     const totalPages = await listPage.getTotalPages()
-    if (totalPages <= 1) test.skip()
+    if (totalPages <= 1) test.skip(true, 'Required test data not available in current dataset')
 
     await expect(listPage.loadMoreBtn).toBeVisible()
   })
 
   test('should load next page on load-more click', async () => {
     const totalPages = await listPage.getTotalPages()
-    if (totalPages <= 1) test.skip()
+    if (totalPages <= 1) test.skip(true, 'Required test data not available in current dataset')
 
     const countBefore = await listPage.getProductCount()
 
@@ -145,7 +145,7 @@ test.describe('Products List Page', () => {
 
   test('should increment page counter after load-more click', async () => {
     const totalPages = await listPage.getTotalPages()
-    if (totalPages <= 1) test.skip()
+    if (totalPages <= 1) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.clickLoadMore()
 
@@ -156,7 +156,7 @@ test.describe('Products List Page', () => {
 
   test('should hide load-more button on last page', async () => {
     const totalPages = await listPage.getTotalPages()
-    if (totalPages !== 1) test.skip()
+    if (totalPages !== 1) test.skip(true, 'Required test data not available in current dataset')
 
     await expect(listPage.loadMoreContainer).toHaveClass(/products__card-load-more--hidden/)
   })
@@ -166,13 +166,13 @@ test.describe('Products List Page', () => {
   test('should navigate to subtype URL when subtype filter is clicked', async ({ page }) => {
     const count = await listPage.subtypeItems.count()
     if (count === 0) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
     const href = await listPage.getSubtypeHref(0)
     if (!href) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -184,13 +184,13 @@ test.describe('Products List Page', () => {
   test('should mark subtype as active after navigation', async ({ page }) => {
     const count = await listPage.subtypeItems.count()
     if (count === 0) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
     const href = await listPage.getSubtypeHref(0)
     if (!href) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -208,14 +208,14 @@ test.describe('Products List Page', () => {
   test('should reset page to 1 after subtype navigation', async () => {
     const totalPages = await listPage.getTotalPages()
     if (totalPages <= 1) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
     await listPage.clickLoadMore()
     const subtypeCount = await listPage.subtypeItems.count()
     if (subtypeCount === 0) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -230,7 +230,7 @@ test.describe('Products List Page', () => {
 
   test('should update URL when brand checkbox is checked', async () => {
     const count = await listPage.brandCheckboxes.count()
-    if (count === 0) test.skip()
+    if (count === 0) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.checkBrand(0)
 
@@ -241,7 +241,7 @@ test.describe('Products List Page', () => {
 
   test('should remove brand from URL when unchecked', async () => {
     const count = await listPage.brandCheckboxes.count()
-    if (count === 0) test.skip()
+    if (count === 0) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.checkBrand(0)
     await listPage.uncheckBrand(0)
@@ -255,7 +255,7 @@ test.describe('Products List Page', () => {
 
   test('should update URL with minPrice param', async () => {
     const visible = await listPage.minPriceInput.isVisible()
-    if (!visible) test.skip()
+    if (!visible) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.setMinPrice(PRICE_FILTER.min)
 
@@ -266,7 +266,7 @@ test.describe('Products List Page', () => {
 
   test('should update URL with maxPrice param', async () => {
     const visible = await listPage.maxPriceInput.isVisible()
-    if (!visible) test.skip()
+    if (!visible) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.setMaxPrice(PRICE_FILTER.max)
 
@@ -279,7 +279,7 @@ test.describe('Products List Page', () => {
 
   test('should show reset button when filters are active', async () => {
     const count = await listPage.brandCheckboxes.count()
-    if (count === 0) test.skip()
+    if (count === 0) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.checkBrand(0)
 
@@ -288,7 +288,7 @@ test.describe('Products List Page', () => {
 
   test('should clear brand filter params on reset click', async () => {
     const count = await listPage.brandCheckboxes.count()
-    if (count === 0) test.skip()
+    if (count === 0) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.checkBrand(0)
     await listPage.clickFilterReset()
@@ -298,7 +298,7 @@ test.describe('Products List Page', () => {
 
   test('should clear price filter params on reset click', async () => {
     const visible = await listPage.minPriceInput.isVisible()
-    if (!visible) test.skip()
+    if (!visible) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.setMinPrice('10')
     await listPage.clickFilterReset()
@@ -308,18 +308,18 @@ test.describe('Products List Page', () => {
 
   test('should preserve sort param after reset', async () => {
     const options = await listPage.sortSelect.locator('option').all()
-    if (options.length < 2) test.skip()
+    if (options.length < 2) test.skip(true, 'Required test data not available in current dataset')
 
     const secondValue = await options[1]?.getAttribute('value')
     if (!secondValue) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
     await listPage.selectSort(secondValue)
 
     const count = await listPage.brandCheckboxes.count()
-    if (count === 0) test.skip()
+    if (count === 0) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.checkBrand(0)
     await listPage.clickFilterReset()
@@ -333,7 +333,7 @@ test.describe('Products List Page', () => {
   test('should show no-results message when filters match nothing', async () => {
     const visible = await listPage.minPriceInput.isVisible()
     if (!visible) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -358,7 +358,7 @@ test.describe('Products List Page', () => {
     const mobileBtn = listPage.mobileFilterBtn
     const isMobileBtnVisible = await mobileBtn.isVisible()
     if (!isMobileBtnVisible) {
-      test.skip()
+      test.skip(true, 'Required test data not available in current dataset')
       return
     }
 
@@ -373,7 +373,7 @@ test.describe('Products List Page', () => {
 
   test('should preserve filter state in URL on reload', async ({ page }) => {
     const count = await listPage.subtypeItems.count()
-    if (count === 0) test.skip()
+    if (count === 0) test.skip(true, 'Required test data not available in current dataset')
 
     await listPage.clickSubtype(0)
 

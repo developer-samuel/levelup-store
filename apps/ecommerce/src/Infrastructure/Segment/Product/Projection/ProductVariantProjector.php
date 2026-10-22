@@ -33,7 +33,11 @@ final readonly class ProductVariantProjector implements ReindexableInterface
             return;
         }
 
-        $this->elasticsearch->indexDocument(ProductVariantProjection::NAME, $variant->getId(), $this->buildDocument($variant, $avgRating));
+        $this->elasticsearch->indexDocument(
+            ProductVariantProjection::NAME,
+            $variant->getId(),
+            $this->buildDocument($variant, $avgRating),
+        );
     }
 
     public function remove(ProductVariant $variant): void
@@ -52,7 +56,10 @@ final readonly class ProductVariantProjector implements ReindexableInterface
             $this->synonymRepository->findAll(),
         );
 
-        $this->elasticsearch->ensureIndexExists(ProductVariantProjection::NAME, ProductVariantProjection::mapping($synonyms));
+        $this->elasticsearch->ensureIndexExists(
+            ProductVariantProjection::NAME,
+            ProductVariantProjection::mapping($synonyms),
+        );
 
         $variants = $this->variantRepository->findAll();
 

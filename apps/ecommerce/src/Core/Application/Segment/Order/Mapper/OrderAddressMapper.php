@@ -94,8 +94,11 @@ final class OrderAddressMapper
     }
 
     /** @return AddressCamel|AddressSnake */
-    private static function mapAddress(OrderBilling|OrderShipping|null $address, string $expectedClass, CaseType $case): array
-    {
+    private static function mapAddress(
+        OrderBilling|OrderShipping|null $address,
+        string $expectedClass,
+        CaseType $case,
+    ): array {
         if (!$address instanceof $expectedClass) {
             /** @var AddressCamel|AddressSnake */
             return ArrayMapper::emptyByKeys(self::getKeysByCase($case));

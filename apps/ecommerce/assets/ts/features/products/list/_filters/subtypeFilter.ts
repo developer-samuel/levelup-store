@@ -18,7 +18,7 @@ export function setupSubtypeFilter(ctx: ProductListInstance): void {
       const subtype = rawSubtype.trim().toLowerCase().replace(/\s+/g, '-')
 
       const currentParams = parseQueryParams()
-      const subtypesArray = currentParams['subtype'] ? [...currentParams['subtype'].split(',')] : []
+      const subtypesArray = currentParams['subtype'] ? currentParams['subtype'].split(',') : []
 
       const index = subtypesArray.indexOf(subtype)
 

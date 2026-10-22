@@ -28,10 +28,10 @@ describe('queryAll()', () => {
     a.className = 'item'
     b.className = 'item'
     document.body.append(a, b)
-    expect(queryAll('.item').length).toBe(2)
+    expect(queryAll('.item')).toHaveLength(2)
   })
 
   it('should return empty NodeList when none found', () => {
-    expect(queryAll('.nonexistent').length).toBe(0)
+    expect(queryAll('.nonexistent')).toHaveLength(0)
   })
 })

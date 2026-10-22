@@ -8,7 +8,7 @@ function updateRatingCount(el: HTMLElement | null, delta: number): void {
   const text = el.querySelector<HTMLElement>('.reviews__card-item-row-right-rating-count')
   if (!text) return
 
-  const current = parseInt(text.textContent ?? '0', 10)
+  const current = Number.parseInt(text.textContent ?? '0', 10)
   text.textContent = String(Math.max(0, current + delta))
 }
 

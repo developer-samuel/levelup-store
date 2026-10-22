@@ -17,4 +17,8 @@ export class Dropdown implements DropdownInstance {
       document.addEventListener('click', (e) => handleDocumentClick(e, this))
     }
   }
+
+  static init(toggleSelector: string, dropdownSelector: string): void {
+    new Dropdown(toggleSelector, dropdownSelector)
+  }
 }

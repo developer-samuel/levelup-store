@@ -14,4 +14,8 @@ export default class ChangePasswordForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, false)
   }
+
+  static init(): void {
+    new ChangePasswordForm('#change-password-form')
+  }
 }

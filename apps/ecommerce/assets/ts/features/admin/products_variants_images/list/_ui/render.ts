@@ -17,7 +17,7 @@ export function renderImages(tbody: HTMLTableSectionElement, items: unknown[]): 
   const images = items as VariantImage[]
   renderDatatableRows(tbody, images, COLUMNS, {
     cellRenderers: {
-      path: (val: unknown) => createTableImage(storageUrl(String(val ?? ''))),
+      path: (val: unknown) => createTableImage(storageUrl(typeof val === 'string' ? val : '')),
     },
     emptyText: 'No images found',
   })

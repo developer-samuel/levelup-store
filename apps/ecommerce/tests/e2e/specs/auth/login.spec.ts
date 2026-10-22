@@ -87,7 +87,7 @@ test.describe('Login Page', () => {
     test.setTimeout(90_000)
 
     if (!TEST_USER.email || !TEST_USER.password) {
-      test.skip()
+      test.skip(true, 'TEST_USER credentials not configured in environment')
       return
     }
 

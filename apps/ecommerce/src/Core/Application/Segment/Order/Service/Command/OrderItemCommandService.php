@@ -25,7 +25,8 @@ use App\Core\Ports\{
 
 final readonly class OrderItemCommandService implements OrderItemCommandContract
 {
-    private const CART_STOCK_REMOVED_MSG = 'Your cart has been updated. Some products are no longer in stock and have been removed.';
+    private const CART_STOCK_REMOVED_MSG =
+        'Your cart has been updated. Some products are no longer in stock and have been removed.';
 
     public function __construct(
         private EntityPersistenceContract $entityPersistence,
@@ -149,7 +150,12 @@ final readonly class OrderItemCommandService implements OrderItemCommandContract
     }
 
     /** @param ProductVariantEan[] $availableEans */
-    private function reserveEansAndCreateItems(Order $order, ProductVariant $variant, array $availableEans, int $quantityToReserve): void
+    private function reserveEansAndCreateItems(
+        Order $order,
+        ProductVariant $variant,
+        array $availableEans,
+        int $quantityToReserve,
+    ): void
     {
         for ($i = 0; $i < $quantityToReserve; $i++) {
             $ean = $availableEans[$i];

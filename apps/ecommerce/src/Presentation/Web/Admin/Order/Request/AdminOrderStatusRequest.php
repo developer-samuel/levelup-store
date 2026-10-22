@@ -21,7 +21,8 @@ final class AdminOrderStatusRequest extends AbstractRequest
 {
     use AdminOrderStatusInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

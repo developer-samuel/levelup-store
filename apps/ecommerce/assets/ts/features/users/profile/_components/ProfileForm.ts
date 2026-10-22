@@ -14,4 +14,8 @@ export default class ProfileForm extends BaseForm {
 
     super(formSelector, alert, errors, handler, true)
   }
+
+  static init(): void {
+    new ProfileForm('#profile-form')
+  }
 }

@@ -19,4 +19,8 @@ export default class AdminEansTable extends BaseDatatable {
       DATA_KEY,
     )
   }
+
+  static init(): void {
+    new AdminEansTable()
+  }
 }

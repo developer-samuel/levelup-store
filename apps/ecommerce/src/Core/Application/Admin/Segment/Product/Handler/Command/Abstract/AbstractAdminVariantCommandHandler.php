@@ -48,7 +48,7 @@ abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormComma
     /** @return array<string, mixed> */
     public function handleCreate(object $payload): array
     {
-        return $this->executeAdmin(function() use ($payload) {
+        return $this->executeAdmin(function () use ($payload) {
             $variantId = $this->adminVariantValidationCommand->extractAndValidateVariantId($payload);
 
             $this->assertPayloadType($payload);
@@ -65,7 +65,7 @@ abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormComma
     */
     public function handleUpdate(object $payload): array
     {
-        return $this->execute(function() use ($payload) {
+        return $this->execute(function () use ($payload) {
             $id = $this->adminVariantValidationCommand->extractAndValidateId($payload);
             $variantId = $this->adminVariantValidationCommand->extractAndValidateVariantId($payload);
 
@@ -79,7 +79,7 @@ abstract class AbstractAdminVariantCommandHandler extends AbstractAdminFormComma
     /** @return array<string, mixed> */
     public function handleDestroy(int $id): array
     {
-        return $this->execute(function() use ($id) {
+        return $this->execute(function () use ($id) {
             $entity = $this->getEntityOrFail($id);
             $this->destroyEntity($entity);
 

@@ -89,12 +89,16 @@ async def stream_chat(
         asyncio.to_thread(fetch_top_ordered_products),
     ]
     if user_id:
-        gather_tasks.append(asyncio.to_thread(fetch_user_orders, user_id))
-        gather_tasks.append(asyncio.to_thread(fetch_user_cart, user_id))
-        gather_tasks.append(asyncio.to_thread(fetch_user_reviews, user_id))
-        gather_tasks.append(asyncio.to_thread(fetch_user_wishlist, user_id))
-        gather_tasks.append(asyncio.to_thread(fetch_user_name, user_id))
-        gather_tasks.append(asyncio.to_thread(fetch_user_order_profile, user_id))
+        gather_tasks.extend(
+            [
+                asyncio.to_thread(fetch_user_orders, user_id),
+                asyncio.to_thread(fetch_user_cart, user_id),
+                asyncio.to_thread(fetch_user_reviews, user_id),
+                asyncio.to_thread(fetch_user_wishlist, user_id),
+                asyncio.to_thread(fetch_user_name, user_id),
+                asyncio.to_thread(fetch_user_order_profile, user_id),
+            ]
+        )
 
     results = await asyncio.gather(*gather_tasks)
     rag_context = cast(str, results[0])

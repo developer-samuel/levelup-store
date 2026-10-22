@@ -19,7 +19,8 @@ final class ReviewRatingRequest extends AbstractRequest
 {
     use ReviewRatingInput;
 
-    public function __construct(CsrfTokenManagerInterface $csrfTokenManager) {
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
         parent::__construct($csrfTokenManager);
     }
 

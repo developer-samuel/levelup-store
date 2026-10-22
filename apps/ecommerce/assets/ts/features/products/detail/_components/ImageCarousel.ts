@@ -49,6 +49,10 @@ export default class ImageCarousel implements ImageCarouselInstance {
     slideTo(this, this.currentIndex, false)
   }
 
+  static init(): void {
+    new ImageCarousel()
+  }
+
   private initListeners(): void {
     if (this.total <= 1) return
 

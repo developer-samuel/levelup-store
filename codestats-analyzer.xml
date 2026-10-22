@@ -18,6 +18,7 @@
         <ext>scss</ext>
         <ext>md</ext>
         <ext>mmd</ext>
+        <ext>py</ext>
     </file_extensions>
     <ignored_dirs>
         <dir>.git</dir>

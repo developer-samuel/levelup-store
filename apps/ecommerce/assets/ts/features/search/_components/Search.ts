@@ -68,10 +68,14 @@ export default class Search implements SearchInstance {
     this.contentCache = null
     this.prevWidthRef = { value: window.innerWidth }
 
-    this.init()
+    this.setup()
   }
 
-  private init(): void {
+  static init(): void {
+    new Search()
+  }
+
+  private setup(): void {
     const setSearchTerm = (val: string): void => setSearchTermFlow(this, val)
     const updateUI = (val?: string): void => updateSearch(this, val ?? '')
     const performSearch = (): void => performSearchFlow(this)

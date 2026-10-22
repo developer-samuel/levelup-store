@@ -18,4 +18,8 @@ export default class AdminSubtypesTable extends BaseDatatable {
       DATA_KEY,
     )
   }
+
+  static init(): void {
+    new AdminSubtypesTable()
+  }
 }
