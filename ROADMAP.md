@@ -91,7 +91,7 @@
   - PodDisruptionBudget - guarantee minimum available replicas during node drain or rolling upgrades so services stay up
 - [ ] Packer - build a custom OCI machine image with k3s prerequisites baked in (packages, kernel params, SSH hardening) to reduce node bootstrap time
 - [ ] Kubernetes RBAC - define ServiceAccounts and RoleBindings per namespace so each workload has least-privilege access; add dedicated CI/CD service accounts for Argo CD and Jenkins with scoped permissions instead of relying on default service accounts
-- [ ] Coraza WAF - deploy Coraza as a Traefik middleware plugin with the OWASP Core Rule Set to block SQLi, XSS, path traversal and malicious bots at the ingress level before requests reach the application
+- [x] Coraza WAF - deploy Coraza as a Traefik middleware plugin with the OWASP Core Rule Set to block SQLi, XSS, path traversal and malicious bots at the ingress level before requests reach the application
 - [ ] Vault expansion - full Vault setup with policies, auth methods (Kubernetes, AppRole) and secret engines (KV v2, PKI for internal TLS, database dynamic credentials); currently running in dev mode with basic secrets only
 - [ ] Crossplane - Kubernetes-native infrastructure management; replace or complement Terraform by managing OCI resources (compute, networking, storage) as Kubernetes CRDs; enables GitOps-driven infrastructure alongside ArgoCD
 - [ ] Pyroscope - continuous profiling to catch CPU/memory hotspots in production

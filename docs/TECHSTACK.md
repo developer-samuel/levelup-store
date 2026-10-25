@@ -2,6 +2,8 @@
 
 This document covers the **platform-level** production infrastructure shared across all apps.
 
+For the full infrastructure stack with details see [Infrastructure Overview](infrastructure/OVERVIEW.md).
+
 ---
 
 ## Production Infrastructure
@@ -9,31 +11,23 @@ This document covers the **platform-level** production infrastructure shared acr
 The production stack runs on a single Oracle Cloud ARM VM, managed entirely via code.
 
 - **Cloud Provider:** Oracle Cloud Infrastructure (OCI) - ARM VM, VCN, Object Storage
-- **DNS:** Cloudflare (managed via Terraform)
-- **IaC:** Terraform (provisions OCI VM, VCN, networking, Cloudflare DNS records)
-- **Configuration Management:** Ansible (k3s install, SSH hardening, fail2ban)
+- **DNS + WAF + DDoS:** Cloudflare (`proxied = true`, managed via Terraform)
+- **IaC:** Terraform
+- **Configuration Management:** Ansible
 - **Container Orchestration:** k3s (lightweight Kubernetes)
-- **GitOps:** ArgoCD (watches `main` branch for production, `staging` branch for staging; auto-syncs Helm releases)
-- **CI/CD:** GitHub Actions (automated checks) + Jenkins (deployment pipeline - build, staging deploy, manual approval gate, production deploy)
-- **Package Management:** Helm (all services deployed as Helm charts)
-- **TLS:** cert-manager + Let's Encrypt (automatic certificate provisioning)
-- **Autoscaling (horizontal):** HPA (scales ecommerce and assistant pods based on CPU utilization)
-- **Autoscaling (event-driven):** KEDA (scales worker pods based on RabbitMQ queue depth)
-- **Backups:** Velero (daily K8s resource + PVC backups to OCI Object Storage)
-- **Observability:** OpenTelemetry + Tempo (distributed tracing), Loki (logs), Prometheus + Grafana (metrics)
-- **Runtime Security:** Falco (threat detection) + Kyverno (policy enforcement)
-- **HTTP Monitoring:** Blackbox Exporter (Prometheus-compatible endpoint health checks)
-- **Terraform Automation:** Atlantis (runs `terraform plan` on PRs touching `infrastructure/terraform/`)
-- **Image Registry:** GHCR (GitHub Container Registry - built and pushed by `deploy.yml`)
-- **Alerting:** AlertManager (Prometheus alert routing and notifications)
-- **Secrets at rest:** Sealed Secrets (encrypts K8s secrets in git via `kubeseal`, 30-day key rotation)
-- **Config reload:** Reloader (auto-restarts pods on ConfigMap/Secret changes)
-- **k3s upgrades:** System Upgrade Controller (automated k3s version upgrades via upgrade plan CR)
-- **Load Testing:** k6 (`infrastructure/k6/`) - simulates traffic on all ecommerce endpoints; run via `make k6-ecommerce`
-- **Rate limiting:** Traefik RateLimit middleware (300 req/min burst 100 per IP on ecommerce)
-- **Circuit breaker:** Traefik CircuitBreaker middleware (assistant: trips on >30% errors or p50 latency >10s)
-- **Security headers:** Traefik headers middleware (CSP, HSTS, X-Frame-Options on all ingress routes)
-- **WWW redirect:** Traefik redirectRegex middleware (www.domain → domain, ecommerce only)
+- **GitOps:** ArgoCD
+- **CI/CD:** GitHub Actions (automated) + Jenkins (manual deployment pipeline)
+- **Package Management:** Helm
+- **Image Registry:** GHCR
+- **TLS:** cert-manager + Let's Encrypt
+- **Autoscaling:** HPA (CPU), KEDA (RabbitMQ queue depth), VPA (resource recommendations)
+- **Backups:** Velero (daily K8s + PVC backups to OCI Object Storage)
+- **Observability:** OpenTelemetry + Tempo + Loki + Prometheus + Grafana + AlertManager
+- **Runtime Security:** Falco + Kyverno
+- **Secrets:** Sealed Secrets (at rest) + HashiCorp Vault + External Secrets Operator
+- **WAF (ingress):** Coraza (Traefik plugin) + OWASP Core Rule Set
+- **Terraform Automation:** Atlantis
+- **Load Testing:** k6
 
 ---
 

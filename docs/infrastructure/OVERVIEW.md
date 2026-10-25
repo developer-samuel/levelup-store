@@ -24,10 +24,12 @@ and orchestrated by k3s (lightweight Kubernetes).
 | Autoscaling (horizontal) | HPA (Horizontal Pod Autoscaler)             | Scales ecommerce and assistant pods based on CPU utilization                               |
 | Autoscaling (event)      | KEDA                                        | Scales worker pods based on RabbitMQ queue depth                                           |
 | Resource recommendations | VPA (Vertical Pod Autoscaler)               | Recommends CPU/memory requests for ecommerce and assistant pods                            |
-| CI/CD                    | Jenkins                                     | Manual deployment pipeline (`levelup-store-deploy`) - build, staging, approval, production |
+| CI/CD (manual)           | Jenkins                                     | Manual deployment pipeline (`levelup-store-deploy`) - build, staging, approval, production |
 | Observability            | OTel + Tempo + Loki + Prometheus + Grafana  | Traces, logs, metrics + alerting                                                           |
 | Alerting                 | AlertManager                                | Prometheus alert routing and notifications                                                 |
 | HTTP monitoring          | Blackbox Exporter                           | Prometheus-compatible endpoint health checks                                               |
+| WAF (edge)               | Cloudflare WAF + DDoS protection            | Filters malicious traffic at the Cloudflare edge before it reaches the server              |
+| WAF (ingress)            | Coraza (Traefik plugin) + OWASP CRS         | Second WAF layer inside the cluster; blocks SQLi, XSS, path traversal and malicious bots  |
 | Rate limiting            | Traefik RateLimit middleware                | 300 req/min (burst 100) per IP - protects against DoS, brute-force and scraping            |
 | Circuit breaker          | Traefik CircuitBreaker middleware           | Cuts off assistant traffic on high error rate or latency, keeps ecommerce unaffected       |
 | Access control           | Traefik IPAllowList + Tailscale             | Jenkins and ArgoCD restricted to Tailscale network only                                    |
@@ -52,6 +54,8 @@ and orchestrated by k3s (lightweight Kubernetes).
 | `ansible/`    | Playbooks and roles: k3s install, OS hardening, storage           |
 | `helm/`       | One subfolder per Helm release - values only, charts vendored     |
 | `kubernetes/` | ArgoCD Application manifests, cluster resources, Kyverno policies |
+| `k6/`         | Load test scripts for ecommerce endpoints - run via `make k6-ecommerce` |
+| `make/`       | Makefile modules split by domain (deploy, secrets, cluster, etc.) |
 
 > Run `tree infrastructure/` for the full current layout.
 
