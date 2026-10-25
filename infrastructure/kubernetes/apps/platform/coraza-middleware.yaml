@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: coraza-waf
+  namespace: kube-system
+spec:
+  plugin:
+    coraza-traefik:
+      Directives:
+        - Include @recommended-conf
+        - Include @crs-setup.conf.example
+        - Include @owasp_crs/*.conf
+        - SecRuleEngine On

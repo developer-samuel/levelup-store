@@ -52,10 +52,14 @@ Re-run after product catalog changes to keep the vector store up to date.
 | `ASSISTANT_FALLBACK_MODEL`     | `gemini-3.1-flash-lite`  |          | Fallback cloud model                                   |
 | `ASSISTANT_PRIMARY_LIMIT`      | `20`                     |          | Primary model request limit per window                 |
 | `ASSISTANT_FALLBACK_LIMIT`     | `30`                     |          | Fallback model request limit per window                |
+| `ASSISTANT_LIMIT_WINDOW`       | `18000`                  |          | Request limit window in seconds                        |
+| `ASSISTANT_EMBED_URL`          |                          |          | Optional embedding API endpoint                        |
+| `ASSISTANT_EMBED_MODEL`        | `text-embedding-004`     |          | Embedding model used by the API provider               |
 | `ASSISTANT_OLLAMA_HOST`        | `http://localhost:11434` |          | Ollama service URL                                     |
 | `ASSISTANT_OLLAMA_MODEL`       | `mistral:7b-instruct`    |          | LLM used for chat responses (Ollama)                   |
 | `ASSISTANT_OLLAMA_EMBED_MODEL` | `nomic-embed-text`       |          | Model used for generating embeddings                   |
 | `ASSISTANT_OLLAMA_LIMIT`       | `50`                     |          | Request limit per window (Ollama)                      |
+| `RABBITMQ_URL`                 |                          |          | Optional request queue URL (used for Ollama mode)      |
 | `ASSISTANT_ACCESS_KEY`         |                          |          | Access key for chat endpoints (leave empty to disable) |
 | `ECOMMERCE_URL`                |                          | yes      | Ecommerce store URL (used to generate product links)   |
 | `CHROMA_HOST`                  | `http://localhost:8010`  |          | ChromaDB service URL                                   |
@@ -69,6 +73,9 @@ Re-run after product catalog changes to keep the vector store up to date.
 | `MINIO_BUCKET`                 |                          |          | MinIO bucket name                                      |
 | `SUPPORT_EMAIL`                |                          |          | Support email shown in chat escalation responses       |
 | `SENTRY_DSN`                   |                          |          | Sentry DSN for error tracking (leave empty to disable) |
+| `OTEL_SERVICE_NAME`            | `levelup-store-assistant`|          | OpenTelemetry service name                             |
+| `OTEL_EXPORTER_OTLP_ENDPOINT`  |                          |          | OpenTelemetry OTLP collector endpoint                  |
+| `OTEL_EXPORTER_OTLP_PROTOCOL`  | `http/protobuf`          |          | OpenTelemetry exporter protocol                        |
 
 ## Commands
 
@@ -123,7 +130,7 @@ Chat endpoint is limited to **50 requests per 5 hours** per IP. Exceeding the li
 
 ## Conversation history
 
-Pass `conversation_id` from a previous response to continue a conversation. History is stored in Redis with configurable TTL (1 day for guests, 30 days for logged-in users):
+Pass `conversation_id` from a previous response to continue a conversation. Server-side history is stored in Redis with configurable TTL (1 day for guest conversations, 30 days when a user ID is supplied):
 
 ```json
 {"message": "Which one has the best reviews?", "conversation_id": "abc123..."}

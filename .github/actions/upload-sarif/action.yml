@@ -1,0 +1,20 @@
+name: Upload SARIF
+description: Upload a SARIF file to the GitHub Security tab
+
+inputs:
+  sarif-file:
+    description: Path to the SARIF file
+    required: true
+  category:
+    description: Category label for the Security tab
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Upload SARIF to GitHub Security tab
+      if: always()
+      uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+      with:
+        sarif_file: ${{ inputs.sarif-file }}
+        category: ${{ inputs.category }}

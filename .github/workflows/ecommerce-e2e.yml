@@ -72,34 +72,34 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: ./.github/actions/postgres
+      - uses: ./.github/actions/setup-postgres
         with:
           db-name: levelup_store
           db-port: '5432'
           db-password: secret
 
-      - uses: ./.github/actions/elasticsearch
+      - uses: ./.github/actions/setup-elasticsearch
         with:
           elasticsearch-port: '9200'
 
-      - uses: ./.github/actions/redis
+      - uses: ./.github/actions/setup-redis
         with:
           redis-port: '6379'
 
-      - uses: ./.github/actions/rabbitmq
+      - uses: ./.github/actions/setup-rabbitmq
         with:
           rabbitmq-port: '5672'
 
-      - uses: ./.github/actions/env
+      - uses: ./.github/actions/setup-env
         with:
           source: .env.test
 
-      - uses: ./.github/actions/php
+      - uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: pdo_pgsql, redis
 
-      - uses: ./.github/actions/node
+      - uses: ./.github/actions/setup-node
         with:
           node-version: ${{ env.NODE_VERSION }}
           install-flags: '--ignore-scripts'
@@ -118,7 +118,7 @@ jobs:
         run: pnpm --filter ecommerce exec playwright install --with-deps
 
       - name: Bootstrap
-        uses: ./.github/actions/bootstrap
+        uses: ./.github/actions/setup-app
         with:
           with-reindex: 'true'
 
@@ -129,7 +129,7 @@ jobs:
         run: ln -s $(pwd)/dist apps/ecommerce/public/dist
 
       - name: Launch PHP server
-        uses: ./.github/actions/launch
+        uses: ./.github/actions/launch-php-server
         with:
           health-check-path: /api/health
           port: '8008'

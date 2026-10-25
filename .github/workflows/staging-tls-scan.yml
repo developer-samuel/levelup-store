@@ -1,0 +1,79 @@
+name: 🔐 Staging TLS Scan
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tls:
+    name: 🔐 testssl.sh against staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Check out pinned testssl.sh
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: testssl/testssl.sh
+          ref: 97763a411c525720a5f9bd9d2cded416b10f210a # v3.2.4
+          path: testssl
+          persist-credentials: false
+
+      - name: Validate staging hostname
+        id: target
+        env:
+          APP_DOMAIN: ${{ vars.APP_DOMAIN }}
+        run: |
+          if [ -z "$APP_DOMAIN" ]; then
+            echo "::error::Set the APP_DOMAIN repository variable."
+            exit 1
+          fi
+          echo "host=staging.${APP_DOMAIN}" >> "$GITHUB_OUTPUT"
+
+      - name: Scan staging TLS configuration
+        id: scan
+        run: |
+          set +e
+          ./testssl/testssl.sh \
+            --quiet \
+            --warnings batch \
+            --severity HIGH \
+            --jsonfile "$RUNNER_TEMP/testssl.json" \
+            "${{ steps.target.outputs.host }}"
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload TLS scan report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: staging-tls-report
+          path: ${{ runner.temp }}/testssl.json
+          if-no-files-found: error
+
+      - name: Enforce TLS scan threshold
+        if: always()
+        env:
+          SCAN_STATUS: ${{ steps.scan.outputs.status }}
+        run: |
+          if [ "$SCAN_STATUS" != "0" ]; then
+            echo "::error::testssl.sh failed with exit code $SCAN_STATUS."
+            exit 1
+          fi
+
+          jq -e 'type == "array"' "$RUNNER_TEMP/testssl.json" >/dev/null
+
+          if jq -e 'any(.[]; .severity == "HIGH" or .severity == "CRITICAL")' "$RUNNER_TEMP/testssl.json" >/dev/null; then
+            echo "::error::Staging TLS scan reported HIGH or CRITICAL findings."
+            exit 1
+          fi

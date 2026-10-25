@@ -12,11 +12,16 @@
 - **Git** version control
 - **PostgreSQL** 17+ for shared data access (read-only from ecommerce DB)
 - **Redis** for conversation history and pub/sub streaming
-- **RabbitMQ** for AI request queue (`ai_requests`)
-- **Ollama** for LLM inference and embeddings
 - **ChromaDB** for vector store (RAG pipeline)
 
-> ⚠️ PostgreSQL, Redis, RabbitMQ, Ollama, and ChromaDB are all required for full functionality.
+### Choose an inference provider
+
+Configure one provider with `ASSISTANT_TYPE`; **Ollama and the external API provider are alternatives, not simultaneous requirements**:
+
+- **`ollama`** - Install Ollama, pull the configured LLM and embedding models, and set `ASSISTANT_OLLAMA_HOST`. RabbitMQ is optional; when configured, Ollama requests are queued through it.
+- **`api`** - Configure the external provider credentials, model and embedding endpoint. Ollama is not required, and requests stream directly without RabbitMQ.
+
+> ⚠️ PostgreSQL, Redis and ChromaDB are required for the full assistant experience. RabbitMQ is not required to process API-provider requests; it is only needed for queued Ollama processing.
 
 ---
 
@@ -34,7 +39,7 @@ These improve developer experience or enable optional features. Not required for
 ## 3. Notes
 
 - `Docker` is optional; all services can run locally if preferred
-- Ollama must have at least one model pulled before the assistant can respond
+- The selected inference provider and its model/embedding configuration must be available before the assistant can respond
 - Redis is required for SSE streaming - without it, real-time responses are unavailable
 - **For a comprehensive overview of the full [Tech Stack](TECHSTACK.md), architecture, and all Quality Assurance tools, please refer to the documentation.**
 

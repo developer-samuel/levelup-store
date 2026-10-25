@@ -7,7 +7,7 @@
 - **Layered Architecture** - Transport → Application → Infrastructure → External.
 - **RAG (Retrieval-Augmented Generation)** - Product catalog embedded into ChromaDB, retrieved at query time to ground LLM responses.
 - **Event-Driven Streaming** - Responses streamed via Redis pub/sub → SSE to the browser.
-- **Queue-Based Processing** - Heavy requests queued via RabbitMQ, processed by a dedicated AI worker.
+- **Provider-aware processing** - Ollama requests use RabbitMQ when configured and are processed by a dedicated AI worker; API-provider requests stream directly.
 
 ## 🧱 Assistant Backend Structure
 

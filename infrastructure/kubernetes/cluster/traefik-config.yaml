@@ -1,0 +1,14 @@
+# k3s-specific override for the built-in Traefik Helm chart.
+# Registers the Coraza WAF plugin so it can be referenced in Middleware resources.
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    experimental:
+      plugins:
+        coraza-traefik:
+          moduleName: github.com/corazawaf/coraza-traefik
+          version: v0.3.0
