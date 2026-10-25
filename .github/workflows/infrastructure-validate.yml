@@ -195,7 +195,6 @@ jobs:
         timeout-minutes: 10
         uses: bridgecrewio/checkov-action@7b1bd992e2c40a3404e3511944aeb8d014703d9a # v12
         with:
-          directory: .
           framework: terraform,kubernetes,helm,dockerfile
           output_format: sarif
           output_file_path: checkov.sarif
