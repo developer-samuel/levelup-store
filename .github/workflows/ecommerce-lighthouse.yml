@@ -3,15 +3,10 @@
 name: 🔦 Ecommerce Lighthouse
 
 on:
-  push:
+  workflow_run:
+    workflows: ["🚀 Deploy"]
+    types: [completed]
     branches: [main]
-    paths:
-      - 'apps/ecommerce/assets/**'
-      - 'apps/ecommerce/templates/**'
-      - 'apps/ecommerce/public/**'
-      - 'apps/ecommerce/src/Presentation/**'
-      - 'apps/ecommerce/vite.config.ts'
-      - 'pnpm-lock.yaml'
   workflow_dispatch:
 
 permissions:
@@ -24,6 +19,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Wait for ecommerce to be ready
+        run: |
+          URL="https://${{ vars.APP_DOMAIN }}/api/health"
+          for i in $(seq 1 60); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL")
+            echo "Attempt $i: HTTP $STATUS"
+            [ "$STATUS" = "200" ] && echo "✅ Ready." && exit 0
+            sleep 10
+          done
+          echo "❌ Did not respond with 200 after 10 minutes." && exit 1
 
       - name: Run Lighthouse CI
         id: lighthouse
