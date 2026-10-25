@@ -94,6 +94,10 @@ networkPolicy:
 sealedSecrets:
   enabled: true
 
+# External Secrets Operator (Vault) - enable after running vault-configure-apps
+externalSecrets:
+  enabled: false
+
 # PostgreSQL Backup
 pgBackup:
   enabled: false  # disabled: insufficient RAM on node
