@@ -202,6 +202,7 @@ jobs:
           config_file: .checkov.yaml
           soft_fail_on: LOW,MEDIUM
           soft_fail: false
+          download_external_modules: false
 
       - uses: ./.github/actions/upload-sarif
         with:

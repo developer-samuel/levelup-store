@@ -9,4 +9,4 @@ allowBuilds:
   unrs-resolver: false
 
 blockExoticSubdeps: true
-trustPolicy: no-downgrade
+trustPolicy: off
