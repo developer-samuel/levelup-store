@@ -1,6 +1,6 @@
 app:
   image:
-    tag: "8c7eebc"
+    tag: "8f1d3a1"
   # 0 = staging disabled (saves CPU/RAM on single-node cluster), 1 = staging enabled
   replicas: 0
 ingress:
