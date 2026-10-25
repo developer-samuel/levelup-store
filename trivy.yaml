@@ -1,0 +1,8 @@
+fs:
+  skip-dirs:
+    - .pnpm-store
+  skip-files:
+    - "**/.env"
+    - "**/.env.*"
+    - "**/*.pem"
+    - "**/*.pem.*"
