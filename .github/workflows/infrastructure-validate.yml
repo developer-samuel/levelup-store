@@ -200,7 +200,8 @@ jobs:
           output_format: sarif
           output_file_path: checkov.sarif
           config_file: .checkov.yaml
-          soft_fail: true
+          soft_fail_on: LOW,MEDIUM
+          soft_fail: false
 
       - name: Upload SARIF to GitHub Security tab
         if: always()

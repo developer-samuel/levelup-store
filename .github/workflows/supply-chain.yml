@@ -4,9 +4,9 @@ name: 🔗 Supply Chain Security
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
   pull_request:
-    branches: [main]
+    branches: [main, staging]
   schedule:
     - cron: '0 2 * * 1'   # Every Monday at 02:00 UTC
   workflow_dispatch:

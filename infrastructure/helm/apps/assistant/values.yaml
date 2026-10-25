@@ -100,7 +100,8 @@ otel:
   enabled: true
 
 broker:
-  enabled: true
+  # Enable for Ollama deployments: set broker.enabled=true and broker.rabbitmqUrl via ArgoCD to deploy the async worker.
+  enabled: false
 
 # Network Policy
 networkPolicy:
