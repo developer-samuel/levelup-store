@@ -11,3 +11,10 @@ framework:
   - kubernetes
   - helm
   - dockerfile
+
+skip-check:
+  # third-party charts (velero, argocd, kube-prometheus-stack) require broad RoleBindings
+  - CKV2_K8S_1
+  - CKV2_K8S_2
+  - CKV2_K8S_4
+  - CKV2_K8S_5
