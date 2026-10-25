@@ -65,7 +65,7 @@ See also: [Architecture](runtime/ARCHITECTURE.md)
 
 **Fail securely** - Invalid inputs are rejected via Pydantic validation before processing. Exceptions do not expose stack traces in production.
 
-**Economy of mechanism** - No custom cryptographic implementations. TLS and secrets management are handled by Traefik and HashiCorp Vault.
+**Economy of mechanism** - No custom cryptographic implementations. TLS is handled by Traefik and cert-manager; secrets use the configured Kubernetes/Argo CD path, with Vault available as an optional alternative.
 
 ---
 
