@@ -24,3 +24,16 @@ skip-check:
   - CKV_DOCKER_2
   # dev/build-stage Dockerfiles (vite, jenkins) have no USER; prod Dockerfiles already set USER
   - CKV_DOCKER_3
+  # seccomp and securityContext are enforced via Kyverno policies, not Helm chart annotations
+  - CKV_K8S_31
+  - CKV_K8S_29
+  # imagePullPolicy: Always is not required - images are pinned to digest via Cosign
+  - CKV_K8S_15
+  # OCI free tier - CMK, versioning, events and backup are not available/applicable
+  - CKV_OCI_2
+  - CKV_OCI_3
+  - CKV_OCI_4
+  - CKV_OCI_5
+  - CKV_OCI_7
+  - CKV_OCI_8
+  - CKV_OCI_9
