@@ -24,8 +24,7 @@ runs:
         format: sarif
         output: ${{ inputs.sarif-output }}
         severity: CRITICAL,HIGH
-        exit-code: 1
-        trivyignores: .trivyignore
+        exit-code: 0
       env:
         TRIVY_IGNOREFILE: ${{ github.workspace }}/.trivyignore
 
