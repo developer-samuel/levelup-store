@@ -122,6 +122,10 @@ limitRange:
     cpu: 10m
     memory: 32Mi
 
+# External Secrets Operator (Vault) - enable after running vault-configure-apps
+externalSecrets:
+  enabled: false
+
 # Resource Quota - total namespace ceiling (~10GB target, 12GB node)
 resourceQuota:
   requests:

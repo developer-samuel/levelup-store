@@ -6,31 +6,50 @@
 
 Run these manually to validate infrastructure changes before pushing. The pre-push hook runs them automatically when relevant files change.
 
-### Install validation tools
+---
+
+### Helm
 
 ```bash
-# ansible-lint
-sudo apt install ansible-lint
+helm lint infrastructure/helm/apps/ecommerce
+helm lint infrastructure/helm/apps/assistant
+```
 
-# kubeconform (offline Kubernetes manifest validation)
+---
+
+### Terraform
+
+```bash
+cd infrastructure/terraform/oracle && terraform validate
+```
+
+---
+
+### Ansible
+
+Requires `ansible-lint`:
+
+```bash
+sudo apt install ansible-lint
+```
+
+```bash
+# Must run from infrastructure/ansible/ - ansible.cfg sets roles_path
+cd infrastructure/ansible && ansible-lint
+```
+
+---
+
+### Kubernetes manifests
+
+Requires `kubeconform` (offline validation, no cluster needed):
+
+```bash
 curl -sSL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz -C /tmp
 sudo mv /tmp/kubeconform /usr/local/bin/
 ```
 
-### Run validation
-
 ```bash
-# Helm
-helm lint infrastructure/helm/apps/ecommerce
-helm lint infrastructure/helm/apps/assistant
-
-# Terraform
-cd infrastructure/terraform/oracle && terraform validate
-
-# Ansible (must run from infrastructure/ansible/ - ansible.cfg sets roles_path)
-cd infrastructure/ansible && ansible-lint
-
-# Kubernetes manifests (offline, no cluster needed)
 kubeconform -ignore-missing-schemas infrastructure/kubernetes/
 ```
 

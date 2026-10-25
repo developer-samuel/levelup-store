@@ -18,3 +18,62 @@ The following security measures apply across the entire monorepo:
 - **Supply chain security** via pinned GitHub Actions digests and OpenSSF Scorecard
 - **SAST** via CodeQL and Semgrep on every PR
 - **DAST** via OWASP ZAP on every push to main
+
+---
+
+## Local security scanning
+
+Run these locally before pushing to catch issues early. All tools also run automatically in CI.
+
+### Checkov (IaC - Terraform, Kubernetes, Helm, Dockerfile)
+
+```bash
+uv tool install checkov
+```
+
+```bash
+checkov -d . --config-file .checkov.yaml
+```
+
+> Exclusions and false positive suppressions configured in `.checkov.yaml`.
+
+### Trivy (container image & filesystem CVEs)
+
+```bash
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
+```
+
+```bash
+trivy fs .
+```
+
+> Exclusions configured in `trivy.yaml`.
+
+### Grype (dependency vulnerabilities)
+
+```bash
+curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sudo sh -s -- -b /usr/local/bin
+```
+
+```bash
+grype dir:.
+```
+
+### Semgrep (SAST)
+
+```bash
+uv tool install semgrep
+```
+
+```bash
+semgrep scan --config auto .
+```
+
+> SonarCloud and ZAP require a running server - run in CI only. Exclusions configured in `.semgrepignore`.
+
+---
+
+## Related docs
+
+- [Secret Scanning](SECRETS.md)
+- [Validation](VALIDATION.md)

@@ -7,3 +7,6 @@ allowBuilds:
   esbuild: false
   puppeteer: true
   unrs-resolver: false
+
+blockExoticSubdeps: true
+trustPolicy: off

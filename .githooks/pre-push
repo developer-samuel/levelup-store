@@ -95,6 +95,11 @@ if $run_workflows; then
   yamllint .github/workflows/
 fi
 
+if command -v gitleaks &>/dev/null; then
+  echo "🔑 Running Gitleaks secret scan..."
+  gitleaks detect --no-banner
+fi
+
 INFRA_HOOK="$(git rev-parse --show-toplevel)/.githooks/pre-push-infra"
 if [ -f "$INFRA_HOOK" ]; then
   bash "$INFRA_HOOK"
