@@ -55,31 +55,6 @@ kubeconform -ignore-missing-schemas infrastructure/kubernetes/
 
 ---
 
-### GitHub Actions workflows
-
-Requires `yamllint` (`pip install yamllint` or `sudo apt install yamllint`):
-
-```bash
-yamllint .github/workflows/
-```
-
----
-
-### Secret scanning
-
-Requires `gitleaks`:
-
-```bash
-curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks_$(uname -s)_$(uname -m).tar.gz | tar xz -C /tmp
-sudo mv /tmp/gitleaks /usr/local/bin/
-```
-
-```bash
-gitleaks detect --no-banner
-```
-
----
-
 ## Related docs
 
 - [Infrastructure Overview](OVERVIEW.md)
