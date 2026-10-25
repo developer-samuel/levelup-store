@@ -12,6 +12,11 @@ framework:
   - helm
   - dockerfile
 
+skip-path:
+  # third-party Helm chart dependencies are not committed to the repo
+  - infrastructure/helm/data
+  - infrastructure/helm/platform
+
 skip-check:
   # third-party charts (velero, argocd, kube-prometheus-stack) require broad RoleBindings
   - CKV2_K8S_1
