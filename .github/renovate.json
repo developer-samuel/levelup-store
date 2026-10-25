@@ -66,6 +66,11 @@
       "matchUpdateTypes": ["major"],
       "automerge": false,
       "labels": ["dependencies", "breaking-change"]
+    },
+    {
+      "description": "Wait 7 days before proposing updates to newly published versions",
+      "matchPackagePatterns": ["*"],
+      "minimumReleaseAge": "7 days"
     }
   ],
   "dockerfile": {

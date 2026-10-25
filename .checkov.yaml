@@ -20,3 +20,7 @@ skip-check:
   - CKV2_K8S_5
   # false positive: Helm renders charts without namespace values; ArgoCD sets the real namespace at deploy time
   - CKV_K8S_21
+  # app containers are managed by Kubernetes liveness/readiness probes, not Docker HEALTHCHECK
+  - CKV_DOCKER_2
+  # dev/build-stage Dockerfiles (vite, jenkins) have no USER; prod Dockerfiles already set USER
+  - CKV_DOCKER_3
