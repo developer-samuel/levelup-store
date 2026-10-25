@@ -37,14 +37,14 @@ jobs:
           cp .env.example .env
           echo "JWT_PASSPHRASE=dummy" >> .env
 
-      - uses: ./.github/actions/php
+      - uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
 
       - name: Export OpenAPI spec
         run: php bin/console nelmio:apidoc:dump --format=json --no-interaction > openapi.json
 
-      - uses: ./.github/actions/node
+      - uses: ./.github/actions/setup-node
 
       - name: Validate spec
         run: |
@@ -78,7 +78,7 @@ jobs:
           cp .env.example .env
           echo "JWT_PASSPHRASE=dummy" >> .env
 
-      - uses: ./.github/actions/php
+      - uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
 
@@ -91,7 +91,7 @@ jobs:
           ref: ${{ github.base_ref }}
           clean: false
 
-      - uses: ./.github/actions/php
+      - uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
 

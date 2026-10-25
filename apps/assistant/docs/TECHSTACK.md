@@ -15,7 +15,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Vector Store:** ChromaDB (RAG pipeline)
 - **Numerical Computing:** numpy (vector/embedding operations)
 - **Database Access:** psycopg2 (PostgreSQL - shared ecommerce DB)
-- **Async Messaging:** aio-pika (RabbitMQ - `ai_requests` queue)
+- **Async Messaging:** aio-pika (RabbitMQ `ai_requests` queue for Ollama mode; API-provider mode streams directly)
 - **Real-time Streaming:** Redis pub/sub (SSE responses)
 - **Conversation History:** Redis
 - **Rate Limiting:** SlowAPI
@@ -42,7 +42,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Version Control:** Git
 - **Database:** PostgreSQL (shared, read from ecommerce DB)
 - **Cache & Pub/Sub:** Redis (conversation history + SSE streaming)
-- **Message Broker:** RabbitMQ (`ai_requests` queue)
+- **Message Broker:** RabbitMQ (`ai_requests` queue for Ollama mode; optional for API-provider mode)
 - **LLM Runtime:** Ollama (local model inference + embeddings)
 - **Vector Store:** ChromaDB
 - **Error Monitoring:** Sentry

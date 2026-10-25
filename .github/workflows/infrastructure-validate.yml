@@ -200,11 +200,10 @@ jobs:
           output_format: sarif
           output_file_path: checkov.sarif
           config_file: .checkov.yaml
-          soft_fail: true
+          soft_fail_on: LOW,MEDIUM
+          soft_fail: false
 
-      - name: Upload SARIF to GitHub Security tab
-        if: always()
-        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+      - uses: ./.github/actions/upload-sarif
         with:
-          sarif_file: checkov.sarif
+          sarif-file: checkov.sarif
           category: checkov

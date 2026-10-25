@@ -45,9 +45,9 @@ Core variables to check / configure:
   `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`, `REDIS_URL`  
   Used for conversation history and SSE pub/sub streaming.
 
-- **RabbitMQ** ⚠️ *Must match ecommerce app credentials*  
+- **RabbitMQ** (optional; used for Ollama queue mode)
   `RABBITMQ_HOST`, `RABBITMQ_PORT`, `RABBITMQ_USER`, `RABBITMQ_PASS`, `RABBITMQ_VHOST`, `RABBITMQ_URL`  
-  Used for the `ai_requests` queue.
+  When configured with the Ollama provider, queues requests on `ai_requests`. API-provider requests stream directly and do not use this queue.
 
 - **CORS**  
   `CORS_ORIGINS`  

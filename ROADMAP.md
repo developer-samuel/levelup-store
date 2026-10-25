@@ -77,8 +77,22 @@
 - [ ] Analytics dashboard (sales, revenue, top products)
 - [ ] UI improvements and new features
 - [ ] Extract Admin into a standalone app
+- [ ] Admin role management - introduce granular admin roles (e.g. Editor for products/brands, Support for orders/returns, Moderator for reviews/banners) so different staff members have access only to the areas relevant to their work; role assigned per user in the admin user management panel
+- [ ] Admin permissions - each role grants access only to the specific admin areas and actions it needs; unauthorized areas are hidden from the UI and blocked at the API level
 
 ### Infrastructure
 
+- [ ] Multi-cluster deployment - split ecommerce and assistant onto separate k3s clusters; assistant cluster runs Ollama on a GPU node for local inference while ecommerce stays on the current ARM node; both clusters share the same Argo CD instance and Helm chart structure
+  - Taints & Tolerations - taint the GPU node so only Ollama workloads are scheduled on it; keep ecommerce and assistant API pods on CPU nodes
+  - Cilium - replace Flannel with Cilium (eBPF CNI) for L7 network policies, Hubble observability UI and improved cross-node networking performance
+  - Longhorn - distributed block storage across nodes so PVCs are not tied to a single node; replaces local-path provisioner
+  - MetalLB - bare-metal load balancer to distribute ingress traffic across multiple nodes instead of relying on a single Traefik instance
+  - Cluster Autoscaler - automatically provision and remove OCI compute instances based on pending pod demand
+  - PodDisruptionBudget - guarantee minimum available replicas during node drain or rolling upgrades so services stay up
+- [ ] Packer - build a custom OCI machine image with k3s prerequisites baked in (packages, kernel params, SSH hardening) to reduce node bootstrap time
+- [ ] Kubernetes RBAC - define ServiceAccounts and RoleBindings per namespace so each workload has least-privilege access; add dedicated CI/CD service accounts for Argo CD and Jenkins with scoped permissions instead of relying on default service accounts
+- [x] Coraza WAF - deploy Coraza as a Traefik middleware plugin with the OWASP Core Rule Set to block SQLi, XSS, path traversal and malicious bots at the ingress level before requests reach the application
+- [ ] Vault expansion - full Vault setup with policies, auth methods (Kubernetes, AppRole) and secret engines (KV v2, PKI for internal TLS, database dynamic credentials); currently running in dev mode with basic secrets only
+- [ ] Crossplane - Kubernetes-native infrastructure management; replace or complement Terraform by managing OCI resources (compute, networking, storage) as Kubernetes CRDs; enables GitOps-driven infrastructure alongside ArgoCD
 - [ ] Pyroscope - continuous profiling to catch CPU/memory hotspots in production
 - [ ] Failure testing - chaos engineering to validate resilience under pod failures, network partitions and slow dependencies

@@ -1,0 +1,32 @@
+name: Scan Trivy Image
+description: Scan a Docker image for CRITICAL and HIGH CVEs with Trivy; fails on findings
+
+inputs:
+  image-ref:
+    description: Docker image reference to scan
+    required: true
+  sarif-output:
+    description: Output SARIF file path
+    required: false
+    default: trivy-image.sarif
+  category:
+    description: Category label for the GitHub Security tab
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Scan image with Trivy
+      timeout-minutes: 10
+      uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+      with:
+        image-ref: ${{ inputs.image-ref }}
+        format: sarif
+        output: ${{ inputs.sarif-output }}
+        severity: CRITICAL,HIGH
+        exit-code: 1
+
+    - uses: ./.github/actions/upload-sarif
+      with:
+        sarif-file: ${{ inputs.sarif-output }}
+        category: ${{ inputs.category }}
