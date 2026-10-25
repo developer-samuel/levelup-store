@@ -14,3 +14,8 @@ venv/
 apps/ecommerce/var/log/
 apps/ecommerce/config/jwt/
 apps/ecommerce/router.php
+
+# False positives
+.github/
+scripts/
+infrastructure/kubernetes/policies/

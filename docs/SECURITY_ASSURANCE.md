@@ -32,11 +32,10 @@ uv tool install checkov
 ```
 
 ```bash
-checkov -d . --config-file .checkov.yaml \
-  --skip-path infrastructure/helm/.+/charts
+checkov -d . --config-file .checkov.yaml
 ```
 
-> **Note:** Third-party Helm chart dependencies (`charts/` subdirectories) are not committed to the repo - skipped explicitly above. False positives for third-party charts and dev Dockerfiles are suppressed via `skip-check` in `.checkov.yaml`.
+> Exclusions and false positive suppressions configured in `.checkov.yaml`.
 
 ### Trivy (container image & filesystem CVEs)
 
@@ -45,12 +44,10 @@ curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/inst
 ```
 
 ```bash
-trivy fs . \
-  --skip-dirs .pnpm-store \
-  --skip-files '**/.env,**/.env.*,**/*.pem,**/*.pem.*'
+trivy fs .
 ```
 
-> **Note:** `.env*` and `*.pem*` files contain local dev secrets (not real credentials). `.pnpm-store/` is a local package cache - all are intentionally excluded from scanning.
+> Exclusions configured in `trivy.yaml`.
 
 ### Grype (dependency vulnerabilities)
 
@@ -69,16 +66,10 @@ uv tool install semgrep
 ```
 
 ```bash
-semgrep scan --config auto \
-  --exclude '.github/' \
-  --exclude 'scripts/' \
-  --exclude 'infrastructure/kubernetes/policies/' \
-  .
+semgrep scan --config auto .
 ```
 
-> SonarCloud and ZAP require a running server - run in CI only.
->
-> **Note:** `.github/`, `scripts/` and `infrastructure/kubernetes/policies/` are excluded locally - they contain false positives (composite Actions using `inputs.*`, dev helper scripts, and Kyverno policy examples). CI runs the full scan without exclusions.
+> SonarCloud and ZAP require a running server - run in CI only. Exclusions configured in `.semgrepignore`.
 
 ---
 
