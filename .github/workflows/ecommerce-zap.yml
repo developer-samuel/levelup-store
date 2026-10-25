@@ -61,30 +61,30 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: ./.github/actions/postgres
+      - uses: ./.github/actions/setup-postgres
         with:
           db-name: levelup_store
           db-port: '5432'
           db-password: secret
 
-      - uses: ./.github/actions/redis
+      - uses: ./.github/actions/setup-redis
         with:
           redis-port: '6379'
 
-      - uses: ./.github/actions/env
+      - uses: ./.github/actions/setup-env
         with:
           source: .env.test
 
-      - uses: ./.github/actions/php
+      - uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: pdo_pgsql, redis
 
       - name: Bootstrap
-        uses: ./.github/actions/bootstrap
+        uses: ./.github/actions/setup-app
 
       - name: Launch PHP server
-        uses: ./.github/actions/launch
+        uses: ./.github/actions/launch-php-server
 
       - name: Run ZAP baseline scan
         uses: zaproxy/action-baseline@de8ad967d3548d44ef623df22cf95c3b0baf8b25 # v0.15.0
