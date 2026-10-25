@@ -311,12 +311,34 @@ HashiCorp Vault runs in the `vault` namespace and auto-unseals on every pod rest
 ### First-time setup (run once after initial deploy)
 
 ```bash
-make -C infrastructure vault-init    # initialize Vault, store unseal keys in K8s secret
-make -C infrastructure vault-unseal  # manual unseal (only needed before vault-init auto-unseal kicks in)
-make -C infrastructure vault-setup   # enable KV-v2, Kubernetes auth, ESO policy + apply ClusterSecretStore
+make -C infrastructure vault-init             # initialize Vault, store unseal keys in K8s secret
+make -C infrastructure vault-unseal           # manual unseal (only needed before vault-init auto-unseal kicks in)
+make -C infrastructure vault-setup            # enable KV-v2, Kubernetes auth, ESO policy + apply ClusterSecretStore
+make -C infrastructure vault-configure-apps   # create per-app policies and Kubernetes auth roles
 ```
 
-After `vault-setup`, the External Secrets Operator can read secrets from Vault via the `vault` ClusterSecretStore.
+After `vault-configure-apps`, apply the ExternalSecret manifests and write secrets to Vault:
+
+```bash
+kubectl apply -f infrastructure/kubernetes/vault/external-secret-ecommerce.yaml
+kubectl apply -f infrastructure/kubernetes/vault/external-secret-assistant.yaml
+
+# Write secrets interactively (see vault-write-ecommerce-secrets / vault-write-assistant-secrets targets)
+make -C infrastructure vault-write-ecommerce-secrets
+make -C infrastructure vault-write-assistant-secrets
+```
+
+Then enable ESO in Helm values to stop injecting secrets via ArgoCD params:
+
+```yaml
+# infrastructure/helm/apps/ecommerce/values.yaml
+externalSecrets:
+  enabled: true
+
+# infrastructure/helm/apps/assistant/values.yaml
+externalSecrets:
+  enabled: true
+```
 
 ### Ongoing
 

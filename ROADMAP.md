@@ -92,7 +92,10 @@
 - [ ] Packer - build a custom OCI machine image with k3s prerequisites baked in (packages, kernel params, SSH hardening) to reduce node bootstrap time
 - [ ] Kubernetes RBAC - define ServiceAccounts and RoleBindings per namespace so each workload has least-privilege access; add dedicated CI/CD service accounts for Argo CD and Jenkins with scoped permissions instead of relying on default service accounts
 - [x] Coraza WAF - deploy Coraza as a Traefik middleware plugin with the OWASP Core Rule Set to block SQLi, XSS, path traversal and malicious bots at the ingress level before requests reach the application
-- [ ] Vault expansion - full Vault setup with policies, auth methods (Kubernetes, AppRole) and secret engines (KV v2, PKI for internal TLS, database dynamic credentials); currently running in dev mode with basic secrets only
+- [x] Vault expansion - per-app KV v2 policies, Kubernetes auth roles and ExternalSecret manifests; ESO pulls secrets from Vault into K8s secrets
+- [ ] Vault AppRole auth for CI/CD pipelines
+- [ ] Vault PKI engine for internal mTLS between services
+- [ ] Vault dynamic PostgreSQL credentials with TTL
 - [ ] Crossplane - Kubernetes-native infrastructure management; replace or complement Terraform by managing OCI resources (compute, networking, storage) as Kubernetes CRDs; enables GitOps-driven infrastructure alongside ArgoCD
 - [ ] Pyroscope - continuous profiling to catch CPU/memory hotspots in production
 - [ ] Failure testing - chaos engineering to validate resilience under pod failures, network partitions and slow dependencies

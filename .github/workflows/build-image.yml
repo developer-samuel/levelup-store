@@ -198,7 +198,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Sign image
+      - name: Sign image with Fulcio (keyless)
         run: |
           cosign sign --yes \
             ${{ env.REGISTRY }}/${{ inputs.image }}@${{ needs.build.outputs.image-digest }}
