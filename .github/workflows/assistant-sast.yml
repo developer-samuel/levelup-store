@@ -47,9 +47,7 @@ jobs:
             --output semgrep-python.sarif \
             --error
 
-      - name: Upload SARIF to GitHub Security tab
-        if: always()
-        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
+      - uses: ./.github/actions/upload-sarif
         with:
-          sarif_file: semgrep-python.sarif
+          sarif-file: semgrep-python.sarif
           category: semgrep-python
