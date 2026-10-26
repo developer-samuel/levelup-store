@@ -67,7 +67,7 @@ def syncImageTags(String environment) {
             git config user.email "jenkins[bot]@noreply"
             git config credential.helper '!f() { echo username=\$GIT_USER; echo password=\$GIT_TOKEN; }; f'
             git fetch origin ${targetBranch}
-            git checkout -B ${targetBranch} origin/${targetBranch}
+            git checkout -f -B ${targetBranch} origin/${targetBranch}
         """
 
         if (updateEcommerce) {
