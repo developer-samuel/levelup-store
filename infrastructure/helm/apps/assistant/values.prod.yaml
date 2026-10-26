@@ -1,6 +1,6 @@
 app:
   image:
-    tag: "d6317d9"
+    tag: "5625b92"
 ingress:
   host: "" # set via make secrets
   waf: false
