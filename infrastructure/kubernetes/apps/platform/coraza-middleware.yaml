@@ -6,7 +6,7 @@ metadata:
 spec:
   plugin:
     coraza-traefik:
-      Directives:
+      directives:
         - Include @recommended-conf
         - Include @crs-setup.conf.example
         - Include @owasp_crs/*.conf
