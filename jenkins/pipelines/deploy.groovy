@@ -83,6 +83,7 @@ def syncImageTags(String environment) {
             git commit -m "chore: deploy ${env.IMAGE_TAG} to ${environment} [skip ci]"
             git fetch origin ${targetBranch}
             git restore .
+            rm -fr .git/rebase-merge .git/rebase-apply
             git rebase origin/${targetBranch}
             git push origin HEAD:${targetBranch}
         """
