@@ -68,6 +68,12 @@ Node 2 (`role=assistant`): AI assistant, ChromaDB, Ollama.
 
 ---
 
+## Disabled services
+
+The following services are disabled due to high resource requirements on the Free Tier node: Ollama, Jenkins, Falco, Coraza WAF.
+
+---
+
 ## Also see
 
 - [OVERVIEW.md](OVERVIEW.md) - full infrastructure overview
