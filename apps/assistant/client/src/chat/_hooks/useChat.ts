@@ -24,14 +24,15 @@ export function useChat({
     conversationId: initialConversationId,
     sessionLoaded,
   })
-  const { loading, queued, queuePosition, error, setError, rateLimitRetryAfter, failedMessage, send, stop } = useChatStream({
-    conversationId,
-    messages,
-    setMessages,
-    persist,
-    sessionLoaded,
-    onModelChange,
-  })
+  const { loading, queued, queuePosition, error, setError, rateLimitRetryAfter, failedMessage, send, stop } =
+    useChatStream({
+      conversationId,
+      messages,
+      setMessages,
+      persist,
+      sessionLoaded,
+      onModelChange,
+    })
 
   const reset = useCallback(async () => {
     await stop({ silent: true })

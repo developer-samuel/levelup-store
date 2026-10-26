@@ -23,8 +23,19 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
   const handleTranscript = useCallback((text: string) => setTranscript(text), [])
   const { listening, start, stop: stopMic, supported: micSupported } = useMicInput({ onTranscript: handleTranscript })
 
-  const { value, setValue, emojiOpen, setEmojiOpen, isOverLimit, textareaRef, insertEmoji, submit, onKeyDown, onFieldClick, onInput } =
-    useChatInput({ onSend, disabled, restoredValue, transcript })
+  const {
+    value,
+    setValue,
+    emojiOpen,
+    setEmojiOpen,
+    isOverLimit,
+    textareaRef,
+    insertEmoji,
+    submit,
+    onKeyDown,
+    onFieldClick,
+    onInput,
+  } = useChatInput({ onSend, disabled, restoredValue, transcript })
   const emojiWrapperRef = useEmojiPicker<HTMLDivElement>(() => setEmojiOpen(false))
 
   const handleMicClick = () => {
@@ -42,19 +53,15 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
       className={s.wrapper}
       onMouseDown={(e) => {
         const target = e.target as HTMLElement
-        if (target !== textareaRef.current && !target.closest('textarea') && !target.closest('[data-emoji-picker]')) e.preventDefault()
+        if (target !== textareaRef.current && !target.closest('textarea') && !target.closest('[data-emoji-picker]'))
+          e.preventDefault()
       }}
     >
       <div ref={emojiWrapperRef} className={s.actions}>
         {emojiOpen && <EmojiPicker onSelect={insertEmoji} anchorRef={emojiWrapperRef} />}
-        {micSupported && (
-          listening ? (
-            <button
-              className={s.micStopBtn}
-              onClick={handleMicClick}
-              type="button"
-              aria-label="Stop recording"
-            >
+        {micSupported &&
+          (listening ? (
+            <button className={s.micStopBtn} onClick={handleMicClick} type="button" aria-label="Stop recording">
               <span className={s.micStopDot} />
               Stop recording
             </button>
@@ -69,8 +76,7 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
             >
               {disabled ? <MicOff className={s.micBtnIcon} /> : <Mic className={s.micBtnIcon} />}
             </button>
-          )
-        )}
+          ))}
         <button
           data-emoji-toggle
           className={cn(s.emojiBtn, emojiOpen && s.emojiBtnActive, disabled && s.emojiBtnDisabled)}

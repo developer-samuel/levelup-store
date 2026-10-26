@@ -18,7 +18,7 @@ export function formatThinkingTime(seconds: number): string {
 export function collectImages(text: string): string[] {
   const re = /!\[[^\]]*\]\(([^)]+)\)/g
   const urls: string[] = []
-  
+
   let m: RegExpExecArray | null
 
   while ((m = re.exec(text)) !== null) {

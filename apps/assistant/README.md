@@ -54,7 +54,7 @@ Re-run after product catalog changes to keep the vector store up to date.
 | `ASSISTANT_FALLBACK_LIMIT`     | `30`                     |          | Fallback model request limit per window                |
 | `ASSISTANT_LIMIT_WINDOW`       | `18000`                  |          | Request limit window in seconds                        |
 | `ASSISTANT_EMBED_URL`          |                          |          | Optional embedding API endpoint                        |
-| `ASSISTANT_EMBED_MODEL`        | `text-embedding-004`     |          | Embedding model used by the API provider               |
+| `ASSISTANT_EMBED_MODEL`        | `gemini-embedding-2`     |          | Embedding model used by the API provider               |
 | `ASSISTANT_OLLAMA_HOST`        | `http://localhost:11434` |          | Ollama service URL                                     |
 | `ASSISTANT_OLLAMA_MODEL`       | `mistral:7b-instruct`    |          | LLM used for chat responses (Ollama)                   |
 | `ASSISTANT_OLLAMA_EMBED_MODEL` | `nomic-embed-text`       |          | Model used for generating embeddings                   |

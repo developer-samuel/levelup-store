@@ -7,9 +7,9 @@ import s from '@/chat/message/renderer/InlineParse.module.css'
 
 const COLOR_MAP: Record<string, string> = {
   'text-amber-400': '#fbbf24',
-  'text-red-500':   '#ef4444',
+  'text-red-500': '#ef4444',
   'text-green-500': '#22c55e',
-  'text-blue-500':  '#3b82f6',
+  'text-blue-500': '#3b82f6',
 }
 
 const PRICE_RE = /^([\d.]+)\s+EUR$/
@@ -18,7 +18,10 @@ function classToStyle(cls: string): CSSProperties {
   const style: CSSProperties = {}
 
   for (const [name, value] of Object.entries(COLOR_MAP)) {
-    if (cls.includes(name)) { style.color = value; break }
+    if (cls.includes(name)) {
+      style.color = value
+      break
+    }
   }
 
   return style
@@ -26,10 +29,16 @@ function classToStyle(cls: string): CSSProperties {
 
 export function inlineParse(text: string, onImageClick?: (url: string) => void): ReactNode[] {
   const ratingNode = renderRatingLine(text)
-  if (ratingNode) return [<span key="r" style={{ display: 'inline-flex', verticalAlign: 'middle' }}>{ratingNode}</span>]
+  if (ratingNode)
+    return [
+      <span key="r" style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
+        {ratingNode}
+      </span>,
+    ]
 
   const parts: ReactNode[] = []
-  const re = /(<span class="([^"]+)">(.+?)<\/span>|\*\*(.+?)\*\*|\*(.+?)\*|~~(.+?)~~|!\[([^\]]*)\]\(((?:[^)(]|\([^)]*\))+)\)|\[([^\]]+)\]\(((?:[^)(]|\([^)]*\))+)\)|Status:\s*(pending|confirmed|processed|shipped|delivered|completed|refunded)|Stock:\s*(\d+))/gi
+  const re =
+    /(<span class="([^"]+)">(.+?)<\/span>|\*\*(.+?)\*\*|\*(.+?)\*|~~(.+?)~~|!\[([^\]]*)\]\(((?:[^)(]|\([^)]*\))+)\)|\[([^\]]+)\]\(((?:[^)(]|\([^)]*\))+)\)|Status:\s*(pending|confirmed|processed|shipped|delivered|completed|refunded)|Stock:\s*(\d+))/gi
 
   let last = 0
   let match: RegExpExecArray | null
@@ -50,7 +59,10 @@ export function inlineParse(text: string, onImageClick?: (url: string) => void):
 
           if (pct > 0) {
             parts.push(
-              <span key={`badge${match.index}`} className="bg-red-100 text-red-600 text-xs px-1.5 py-0.5 rounded font-semibold ml-1">
+              <span
+                key={`badge${match.index}`}
+                className="bg-red-100 text-red-600 text-xs px-1.5 py-0.5 rounded font-semibold ml-1"
+              >
                 −{pct}%
               </span>,
             )
@@ -66,7 +78,11 @@ export function inlineParse(text: string, onImageClick?: (url: string) => void):
     }
 
     if (match[3]) {
-      parts.push(<span key={match.index} style={classToStyle(match[2]!)}>{match[3]}</span>)
+      parts.push(
+        <span key={match.index} style={classToStyle(match[2]!)}>
+          {match[3]}
+        </span>,
+      )
     } else if (match[4]) {
       parts.push(<strong key={match.index}>{match[4]}</strong>)
     } else if (match[5]) {
@@ -77,7 +93,11 @@ export function inlineParse(text: string, onImageClick?: (url: string) => void):
 
       if (priceMatch) pendingOriginalPrice = parseFloat(priceMatch[1]!)
 
-      parts.push(<s key={match.index} className={s.strikeThrough}>{strikeContent}</s>)
+      parts.push(
+        <s key={match.index} className={s.strikeThrough}>
+          {strikeContent}
+        </s>,
+      )
     } else if (match[8]) {
       const imgUrl = match[8]
 
@@ -87,7 +107,9 @@ export function inlineParse(text: string, onImageClick?: (url: string) => void):
           src={imgUrl}
           className="mt-1.5 mb-1.5 h-auto w-auto max-h-16 max-w-full cursor-pointer rounded object-cover"
           onClick={() => onImageClick?.(imgUrl)}
-          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+          onError={(e) => {
+            ;(e.currentTarget as HTMLImageElement).style.display = 'none'
+          }}
         />,
       )
     } else if (match[10]) {

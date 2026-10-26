@@ -23,14 +23,14 @@
   @apply absolute bottom-0 left-0 md:w-4 md:h-4 w-2.75 h-2.75 rounded-full border border-solid border-neutral/30;
 }
 
-.statusDot[data-status="loading"] {
+.statusDot[data-status='loading'] {
   @apply bg-neutral/30 animate-pulse;
 }
 
-.statusDot[data-status="online"] {
+.statusDot[data-status='online'] {
   @apply bg-green-400;
 }
 
-.statusDot[data-status="offline"] {
+.statusDot[data-status='offline'] {
   @apply bg-red-500;
 }

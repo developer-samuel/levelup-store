@@ -135,20 +135,34 @@ export function useStreamRestore({
       } finally {
         clearTimer()
         setMessages((prev) => {
-          const updated = prev.map((m) =>
-            m.streaming || m.thinking ? { ...m, streaming: false, thinking: false } : m,
-          )
+          const updated = prev.map((m) => (m.streaming || m.thinking ? { ...m, streaming: false, thinking: false } : m))
           persist(updated)
 
           return updated
         })
-        
+
         loadingRef.current = false
         setLoading(false)
         requestIdRef.current = null
       }
     })()
-  }, [sessionLoaded, messages, setMessages, conversationId, persist, setLoading, setError, loadingRef, activeStreamRef, requestIdRef, abortRef, timerRef, clearTimer, handleToken, handleDone])
+  }, [
+    sessionLoaded,
+    messages,
+    setMessages,
+    conversationId,
+    persist,
+    setLoading,
+    setError,
+    loadingRef,
+    activeStreamRef,
+    requestIdRef,
+    abortRef,
+    timerRef,
+    clearTimer,
+    handleToken,
+    handleDone,
+  ])
 
   return restoredRef
 }

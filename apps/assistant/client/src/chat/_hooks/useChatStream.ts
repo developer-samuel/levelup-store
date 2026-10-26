@@ -15,7 +15,14 @@ type UseChatStreamOptions = {
   onModelChange?: (model: string, fallback: boolean) => void
 }
 
-export function useChatStream({ conversationId, messages, setMessages, persist, sessionLoaded, onModelChange }: UseChatStreamOptions) {
+export function useChatStream({
+  conversationId,
+  messages,
+  setMessages,
+  persist,
+  sessionLoaded,
+  onModelChange,
+}: UseChatStreamOptions) {
   const [loading, setLoading] = useState(false)
   const [queued, setQueued] = useState(false)
   const [queuePosition, setQueuePosition] = useState<number | null>(null)
@@ -239,7 +246,7 @@ export function useChatStream({ conversationId, messages, setMessages, persist, 
             }
 
             if (chunk.data?.token) handleToken(assistantId, chunk)
-              
+
             if (chunk.data?.done) {
               doneReceivedRef.current = true
               handleDone(assistantId, chunk.data.cancelled)

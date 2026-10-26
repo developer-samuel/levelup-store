@@ -6,7 +6,7 @@ import s from '@/chat/message/renderer/table/RenderTable.module.css'
 
 type OnImageClick = (url: string) => void
 
-const capitalize = (s: string) => s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s
+const capitalize = (s: string) => (s.length > 0 ? s.charAt(0).toUpperCase() + s.slice(1) : s)
 const isLinkRow = (row: string[]) => row.slice(1).every((c) => /^\[.+\]\(.+\)$/.test(c.trim()))
 
 export function renderTable(lines: string[], i: number, onImageClick?: OnImageClick): [ReactNode, number] {
@@ -16,9 +16,17 @@ export function renderTable(lines: string[], i: number, onImageClick?: OnImageCl
     const cur = (lines[i] ?? '').trim()
 
     if (!cur.startsWith('|') || !cur.endsWith('|')) break
-    if (/^\|[-| :]+\|$/.test(cur)) { i++; continue }
+    if (/^\|[-| :]+\|$/.test(cur)) {
+      i++
+      continue
+    }
 
-    rows.push(cur.slice(1, -1).split('|').map((c) => c.trim()))
+    rows.push(
+      cur
+        .slice(1, -1)
+        .split('|')
+        .map((c) => c.trim()),
+    )
 
     i++
   }
@@ -35,7 +43,7 @@ export function renderTable(lines: string[], i: number, onImageClick?: OnImageCl
         <thead>
           <tr>
             {head?.map((cell, j) => (
-              <th key={j} className={`${s.th} ${s.thBorderBottom} ${j < (head.length - 1) ? s.thBorderRight : ''}`}>
+              <th key={j} className={`${s.th} ${s.thBorderBottom} ${j < head.length - 1 ? s.thBorderRight : ''}`}>
                 {inlineParse(cell, onImageClick)}
               </th>
             ))}
@@ -45,7 +53,7 @@ export function renderTable(lines: string[], i: number, onImageClick?: OnImageCl
           {body.map((row, j) => (
             <tr key={j}>
               {row.map((cell, k) => (
-                <td key={k} className={`${s.td} ${s.tdBorderBottom} ${k < (row.length - 1) ? s.tdBorderRight : ''}`}>
+                <td key={k} className={`${s.td} ${s.tdBorderBottom} ${k < row.length - 1 ? s.tdBorderRight : ''}`}>
                   {inlineParse(k > 0 ? capitalize(cell) : cell, onImageClick)}
                 </td>
               ))}
@@ -56,7 +64,7 @@ export function renderTable(lines: string[], i: number, onImageClick?: OnImageCl
           <tfoot>
             <tr>
               {foot.map((cell, k) => (
-                <td key={k} className={`${s.td} ${s.tfootBorderTop} ${k < (foot.length - 1) ? s.tdBorderRight : ''}`}>
+                <td key={k} className={`${s.td} ${s.tfootBorderTop} ${k < foot.length - 1 ? s.tdBorderRight : ''}`}>
                   {inlineParse(cell, onImageClick)}
                 </td>
               ))}

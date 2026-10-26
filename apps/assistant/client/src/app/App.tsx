@@ -21,7 +21,11 @@ export default function App() {
 
   return (
     <>
-      <button className={cn(s.trigger, visible ? s.triggerVisible : s.triggerHidden)} onClick={() => setOpen(true)} aria-label="Open chat">
+      <button
+        className={cn(s.trigger, visible ? s.triggerVisible : s.triggerHidden)}
+        onClick={() => setOpen(true)}
+        aria-label="Open chat"
+      >
         <MessageSquare className={s.triggerIcon} />
         <span className={s.statusDot} data-status={healthStatus} />
       </button>

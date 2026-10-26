@@ -36,7 +36,7 @@ export function Message({ message, speech }: Props) {
 
   const handleMouseEnter = () => {
     if (!timestamp || !bubbleRef.current) return
-    
+
     const rect = bubbleRef.current.getBoundingClientRect()
 
     setTooltipPos({
@@ -55,20 +55,19 @@ export function Message({ message, speech }: Props) {
             {isUser ? <User className={s.avatarIcon} /> : <Bot className={s.avatarIcon} />}
           </div>
 
-          <div
-            ref={wrapperRef}
-            className={cn(s.bubbleWrapper, isUser ? s.bubbleWrapperUser : s.bubbleWrapperAi)}
-          >
-            {timestamp && tooltipPos && createPortal(
-              <div
-                className={cn(s.timestamp, isUser && s.timestampUser)}
-                style={{ position: 'fixed', top: tooltipPos.top, left: tooltipPos.left }}
-              >
-                <span className={s.timestampDate}>{timestamp.date}</span>
-                <span className={s.timestampTime}>{timestamp.time}</span>
-              </div>,
-              document.body,
-            )}
+          <div ref={wrapperRef} className={cn(s.bubbleWrapper, isUser ? s.bubbleWrapperUser : s.bubbleWrapperAi)}>
+            {timestamp &&
+              tooltipPos &&
+              createPortal(
+                <div
+                  className={cn(s.timestamp, isUser && s.timestampUser)}
+                  style={{ position: 'fixed', top: tooltipPos.top, left: tooltipPos.left }}
+                >
+                  <span className={s.timestampDate}>{timestamp.date}</span>
+                  <span className={s.timestampTime}>{timestamp.time}</span>
+                </div>,
+                document.body,
+              )}
             <div
               ref={bubbleRef}
               onMouseEnter={handleMouseEnter}
@@ -94,10 +93,14 @@ export function Message({ message, speech }: Props) {
             {message.content && !message.streaming && (
               <button
                 className={cn(s.speakBtn, speaking && s.speakBtnActive)}
-                onClick={() => speaking ? stop() : speak(message.id, message.content!)}
+                onClick={() => (speaking ? stop() : speak(message.id, message.content!))}
                 title={speaking ? 'Stop' : 'Read aloud'}
               >
-                {speaking ? <Square size={14} className={s.speakIcon} /> : <Volume2 size={14} className={s.speakIcon} />}
+                {speaking ? (
+                  <Square size={14} className={s.speakIcon} />
+                ) : (
+                  <Volume2 size={14} className={s.speakIcon} />
+                )}
               </button>
             )}
           </div>

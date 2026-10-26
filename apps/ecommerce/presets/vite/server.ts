@@ -8,7 +8,7 @@ import {
   WATCH_USE_POLLING,
   WATCH_INTERVAL,
   WatchIgnoredPaths,
-} from './constants'
+} from './constants.ts'
 
 const server = {
   host: HOST,

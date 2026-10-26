@@ -6,7 +6,7 @@ async function renderChart(element: HTMLElement | null, options: ApexOptions): P
   if (!element) return
 
   const { default: ApexCharts } = await import('apexcharts')
-  
+
   void new ApexCharts(element, options).render()
 }
 
