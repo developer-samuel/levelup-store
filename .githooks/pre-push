@@ -65,7 +65,7 @@ if $run_ts || $run_ecommerce_scss; then
   PRETTIER_FILES=$(echo "$CHANGED" | grep -E "\.(ts|tsx|scss|css)$" | while read -r f; do [ -f "$f" ] && echo "$f"; done | tr '\n' ' ')
   if [ -n "$PRETTIER_FILES" ]; then
     echo "🔧 [all] Running Prettier..."
-    pnpm prettier --write --ignore-unknown --log-level warn $PRETTIER_FILES
+    pnpm --filter ecommerce prettier --write --ignore-unknown --log-level warn $PRETTIER_FILES
   fi
 fi
 
