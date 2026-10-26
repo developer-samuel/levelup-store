@@ -8,7 +8,7 @@ spec:
   valuesContent: |-
     image:
       repository: ghcr.io/developer-samuel/levelup-store-traefik
-      tag: latest
+      tag: 351d5cc
     providers:
       kubernetesIngress:
         publishedService:
