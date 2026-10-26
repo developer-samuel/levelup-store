@@ -33,7 +33,7 @@ pipeline {
         )
         choice(
             name: 'TARGET',
-            choices: ['all', 'ecommerce', 'assistant'],
+            choices: ['all', 'ecommerce', 'assistant', 'traefik'],
             description: 'Which app to build and deploy.'
         )
         choice(
@@ -76,11 +76,21 @@ pipeline {
                 }
 
                 stage('Assistant') {
-                    when { expression { env.ASSISTANT_CHANGED == 'true' && params.TARGET != 'ecommerce' } }
+                    when { expression { env.ASSISTANT_CHANGED == 'true' && params.TARGET != 'ecommerce' && params.TARGET != 'traefik' } }
                     steps {
                         script {
                             def deploy = load 'jenkins/pipelines/deploy.groovy'
                             deploy.buildAndPush('assistant')
+                        }
+                    }
+                }
+
+                stage('Traefik') {
+                    when { expression { env.TRAEFIK_CHANGED == 'true' && (params.TARGET == 'traefik' || params.TARGET == 'all') } }
+                    steps {
+                        script {
+                            def deploy = load 'jenkins/pipelines/deploy.groovy'
+                            deploy.buildAndPushTraefik()
                         }
                     }
                 }
