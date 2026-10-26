@@ -16,4 +16,4 @@ spec:
     experimental:
       localPlugins:
         coraza-traefik:
-          moduleName: github.com/corazawaf/coraza-traefik
+          moduleName: github.com/jcchavezs/coraza-http-wasm-traefik

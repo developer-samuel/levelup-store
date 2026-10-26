@@ -1,8 +1,9 @@
 FROM alpine:3.21 AS downloader
-RUN apk add --no-cache curl tar
-RUN mkdir -p /plugins-local/src/github.com/corazawaf/coraza-traefik && \
-    curl -fsSL https://github.com/corazawaf/coraza-traefik/archive/refs/tags/v0.3.0.tar.gz \
-    | tar xz --strip-components=1 -C /plugins-local/src/github.com/corazawaf/coraza-traefik
+RUN apk add --no-cache curl unzip
+RUN mkdir -p /plugins-local/src/github.com/jcchavezs/coraza-http-wasm-traefik && \
+    curl -fsSL https://github.com/jcchavezs/coraza-http-wasm-traefik/releases/download/v0.3.0/coraza-http-wasm-v0.3.0.zip \
+    -o /tmp/coraza.zip && \
+    unzip /tmp/coraza.zip -d /plugins-local/src/github.com/jcchavezs/coraza-http-wasm-traefik
 
-FROM rancher/mirrored-library-traefik:2.11.50
+FROM rancher/mirrored-library-traefik:3.7.16
 COPY --from=downloader /plugins-local /plugins-local
