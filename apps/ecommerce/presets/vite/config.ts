@@ -5,9 +5,7 @@ import { AssetPaths, BuildPaths, TestConfig } from './constants.ts'
 
 export const base = '/dist/ecommerce/'
 
-export const plugins = [
-  symfonyPlugin()
-]
+export const plugins = [symfonyPlugin()]
 
 export const resolve = {
   alias: {

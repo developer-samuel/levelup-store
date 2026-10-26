@@ -59,7 +59,9 @@
     border: 1px solid colors.$border-primary;
     border-radius: 1.25rem;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-3px);
