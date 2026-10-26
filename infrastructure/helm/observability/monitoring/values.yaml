@@ -65,7 +65,7 @@ kube-prometheus-stack:
 
     extraContainers: |
       - name: grafana-image-renderer
-        image: grafana/grafana-image-renderer:latest
+        image: grafana/grafana-image-renderer:v5.12.9
         ports:
           - name: renderer
             containerPort: 8081

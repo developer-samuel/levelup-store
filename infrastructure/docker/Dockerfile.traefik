@@ -1,0 +1,8 @@
+FROM alpine:3.21 AS downloader
+RUN apk add --no-cache curl tar
+RUN mkdir -p /plugins-local/src/github.com/corazawaf/coraza-traefik && \
+    curl -fsSL https://github.com/corazawaf/coraza-traefik/archive/refs/tags/v0.3.0.tar.gz \
+    | tar xz --strip-components=1 -C /plugins-local/src/github.com/corazawaf/coraza-traefik
+
+FROM rancher/mirrored-library-traefik:2.11.50
+COPY --from=downloader /plugins-local /plugins-local

@@ -74,7 +74,7 @@ assistant-docker-setup-run: assistant-install assistant-docker-build-run assista
 
 ## Build assistant production image locally (smoke test before push to main)
 assistant-build-prod:
-	docker build -f docker/Dockerfile.prod --target assistant -t levelup-store-assistant:prod-test .
+	docker build -f infrastructure/docker/Dockerfile.prod --target assistant -t levelup-store-assistant:prod-test .
 
 ## Verify assistant production image structure (run after assistant-build-prod)
 assistant-test-prod:

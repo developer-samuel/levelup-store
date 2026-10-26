@@ -3,4 +3,4 @@ app:
     tag: "5625b92"
 ingress:
   host: "" # set via make secrets
-  waf: false
+  waf: true

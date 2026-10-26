@@ -54,7 +54,7 @@ e2e-fix:
 
 ## Build ecommerce production image locally (smoke test before push to main)
 build-prod:
-	docker build -f docker/Dockerfile.prod --target ecommerce -t levelup-store-ecommerce:prod-test .
+	docker build -f infrastructure/docker/Dockerfile.prod --target ecommerce -t levelup-store-ecommerce:prod-test .
 
 ## Verify ecommerce production image has bin/console (run after build-prod)
 test-prod:

@@ -15,11 +15,11 @@ Everything is set up to make development smooth, automated, and maintainable.
 
 The project uses a shared root Dockerfile with per-app targets:
 
-| File                               | Target                                                                  | Purpose                                                       | Build context   |
-|------------------------------------|-------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| `docker/Dockerfile.prod`           | `ecommerce`                                                             | Production image - PHP-FPM + Nginx + compiled assets baked in | `.` (repo root) |
-| `docker/Dockerfile.prod`           | `assistant`                                                             | Production image - Python backend                             | `.` (repo root) |
-| `apps/ecommerce/docker/Dockerfile` | Local dev base image - PHP-FPM runtime only, app code is volume-mounted | `./apps/ecommerce/docker`                                     |                 |
+| File                                    | Target                                                                  | Purpose                                                       | Build context   |
+|-----------------------------------------|-------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| `infrastructure/docker/Dockerfile.prod` | `ecommerce`                                                             | Production image - PHP-FPM + Nginx + compiled assets baked in | `.` (repo root) |
+| `infrastructure/docker/Dockerfile.prod` | `assistant`                                                             | Production image - Python backend                             | `.` (repo root) |
+| `apps/ecommerce/docker/Dockerfile`      | Local dev base image - PHP-FPM runtime only, app code is volume-mounted | `./apps/ecommerce/docker`                                     |                 |
 
 Production-specific configs live in `docker/_prod/`:
 - `config/nginx/nginx.conf` - Nginx main config (non-root, temp paths under `/tmp`)
