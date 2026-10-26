@@ -59,16 +59,6 @@ def syncImageTags(String environment) {
     def updateAssistant = env.ASSISTANT_CHANGED == 'true' || params.TARGET == 'assistant' || params.TARGET == 'all'
     def updateTraefik = env.TRAEFIK_CHANGED == 'true' || params.TARGET == 'traefik' || params.TARGET == 'all'
 
-    if (updateEcommerce) {
-        sh "yq e '.app.image.tag = \"${env.IMAGE_TAG}\"' -i infrastructure/helm/apps/ecommerce/${valuesFile}"
-    }
-    if (updateAssistant) {
-        sh "yq e '.app.image.tag = \"${env.IMAGE_TAG}\"' -i infrastructure/helm/apps/assistant/${valuesFile}"
-    }
-    if (updateTraefik) {
-        sh "yq e '.spec.valuesContent |= sub(\"tag: .*\", \"tag: ${env.IMAGE_TAG}\")' -i infrastructure/kubernetes/cluster/traefik-config.yaml"
-    }
-
     def targetBranch = environment == 'production' ? 'main' : 'staging'
 
     withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
@@ -76,16 +66,27 @@ def syncImageTags(String environment) {
             git config user.name  "jenkins[bot]"
             git config user.email "jenkins[bot]@noreply"
             git config credential.helper '!f() { echo username=\$GIT_USER; echo password=\$GIT_TOKEN; }; f'
+            git fetch origin ${targetBranch}
+            git checkout -B ${targetBranch} origin/${targetBranch}
+        """
+
+        if (updateEcommerce) {
+            sh "yq e '.app.image.tag = \"${env.IMAGE_TAG}\"' -i infrastructure/helm/apps/ecommerce/${valuesFile}"
+        }
+        if (updateAssistant) {
+            sh "yq e '.app.image.tag = \"${env.IMAGE_TAG}\"' -i infrastructure/helm/apps/assistant/${valuesFile}"
+        }
+        if (updateTraefik) {
+            sh "yq e '.spec.valuesContent |= sub(\"tag: .*\", \"tag: ${env.IMAGE_TAG}\")' -i infrastructure/kubernetes/cluster/traefik-config.yaml"
+        }
+
+        sh """
             git add infrastructure/helm/apps/ecommerce/${valuesFile} \
                     infrastructure/helm/apps/assistant/${valuesFile} \
                     infrastructure/kubernetes/cluster/traefik-config.yaml
             git diff --cached --quiet && echo "No changes to commit" && exit 0
             git commit -m "chore: deploy ${env.IMAGE_TAG} to ${environment} [skip ci]"
-            git fetch origin ${targetBranch}
-            git restore .
-            rm -fr .git/rebase-merge .git/rebase-apply
-            git rebase origin/${targetBranch}
-            git push origin HEAD:${targetBranch}
+            git push origin ${targetBranch}
         """
     }
 }
