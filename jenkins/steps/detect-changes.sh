@@ -7,6 +7,7 @@ BASE=${BASE_REF:-HEAD~1}
 
 ECOMMERCE_CHANGED=false
 ASSISTANT_CHANGED=false
+TRAEFIK_CHANGED=false
 
 echo "Detecting changes against ${BASE}..."
 
@@ -23,8 +24,14 @@ if echo "${CHANGED_FILES}" | grep -E "^apps/assistant/" | grep -vE "(docs/|\.md$
     ASSISTANT_CHANGED=true
 fi
 
+if echo "${CHANGED_FILES}" | grep -qE "^infrastructure/docker/Dockerfile\.traefik$"; then
+    TRAEFIK_CHANGED=true
+fi
+
 echo "ECOMMERCE_CHANGED=${ECOMMERCE_CHANGED}"
 echo "ASSISTANT_CHANGED=${ASSISTANT_CHANGED}"
+echo "TRAEFIK_CHANGED=${TRAEFIK_CHANGED}"
 
 echo "ECOMMERCE_CHANGED=${ECOMMERCE_CHANGED}" > jenkins.env
 echo "ASSISTANT_CHANGED=${ASSISTANT_CHANGED}" >> jenkins.env
+echo "TRAEFIK_CHANGED=${TRAEFIK_CHANGED}" >> jenkins.env
