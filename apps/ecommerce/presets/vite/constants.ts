@@ -2,7 +2,7 @@ import path from 'path'
 
 // ── Paths ────────────────────────────────────────────────
 export const AssetPaths = Object.freeze({
-  ROOT: path.resolve(__dirname, '../../assets'),
+  ROOT: path.resolve(import.meta.dirname, '../../assets'),
 })
 
 export const BuildPaths = Object.freeze({
