@@ -65,7 +65,10 @@ if $run_ts || $run_ecommerce_scss; then
   PRETTIER_FILES=$(echo "$CHANGED" | grep -E "\.(ts|tsx|scss|css)$" | while read -r f; do [ -f "$f" ] && echo "$f"; done | tr '\n' ' ')
   if [ -n "$PRETTIER_FILES" ]; then
     echo "🔧 [all] Running Prettier..."
-    pnpm exec prettier --write --ignore-unknown --log-level warn $PRETTIER_FILES
+    ECOMMERCE_FILES=$(echo $PRETTIER_FILES | tr ' ' '\n' | grep "^apps/ecommerce/" | sed 's|apps/ecommerce/||g' | tr '\n' ' ')
+    ASSISTANT_FILES=$(echo $PRETTIER_FILES | tr ' ' '\n' | grep "^apps/assistant/" | sed 's|apps/assistant/client/||g' | tr '\n' ' ')
+    [ -n "$ECOMMERCE_FILES" ] && (cd apps/ecommerce && pnpm exec prettier --write --ignore-unknown --log-level warn $ECOMMERCE_FILES)
+    [ -n "$ASSISTANT_FILES" ] && (cd apps/assistant/client && pnpm exec prettier --write --ignore-unknown --log-level warn $ASSISTANT_FILES)
   fi
 fi
 
