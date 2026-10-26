@@ -49,16 +49,17 @@ export function ChatPanel({
   const [tooltipVisible, setTooltipVisible] = useState(false)
   const [{ model, ollama }, setModel] = useModel()
   const [isFallback, setIsFallback] = useState(false)
-  const { messages, loading, queued, queuePosition, error, rateLimitRetryAfter, failedMessage, send, reset, stop } = useChat({
-    conversationId,
-    isAuthenticated,
-    sessionLoaded,
-    onConversationReset,
-    onModelChange: (newModel, fallback) => {
-      setModel(newModel)
-      setIsFallback(fallback)
-    },
-  })
+  const { messages, loading, queued, queuePosition, error, rateLimitRetryAfter, failedMessage, send, reset, stop } =
+    useChat({
+      conversationId,
+      isAuthenticated,
+      sessionLoaded,
+      onConversationReset,
+      onModelChange: (newModel, fallback) => {
+        setModel(newModel)
+        setIsFallback(fallback)
+      },
+    })
 
   const countdown = useCountdown(rateLimitRetryAfter)
 
@@ -94,13 +95,15 @@ export function ChatPanel({
               <div className={cn(s.tooltip, tooltipVisible && s.tooltipVisible)}>
                 <p className={s.tooltipTitle}>{ollama ? 'Lightweight model notice' : 'Assistant info'}</p>
                 {model && <p className={s.tooltipModel}>Model: {model}</p>}
-                {ollama && <ul className={s.tooltipList}>
-                  <li>Responses may be slower due to hardware constraints</li>
-                  <li>Grammar and phrasing may not always be perfect</li>
-                  <li>Best results in English - other languages supported</li>
-                  <li>Thinking may take up to 5 minutes</li>
-                  <li>Queued requests expire after 15 minutes</li>
-                </ul>}
+                {ollama && (
+                  <ul className={s.tooltipList}>
+                    <li>Responses may be slower due to hardware constraints</li>
+                    <li>Grammar and phrasing may not always be perfect</li>
+                    <li>Best results in English - other languages supported</li>
+                    <li>Thinking may take up to 5 minutes</li>
+                    <li>Queued requests expire after 15 minutes</li>
+                  </ul>
+                )}
               </div>
             </div>
             {messages.length > 0 && (
@@ -124,9 +127,13 @@ export function ChatPanel({
             <div className={s.rateLimitText}>
               <p className={s.rateLimitTitle}>Request limit reached</p>
               <p className={s.rateLimitSubtitle}>
-                {countdown !== null && countdown > 0
-                  ? <>Please try again in <strong>{formatRetryAfter(countdown)}</strong>.</>
-                  : 'You can try again now.'}
+                {countdown !== null && countdown > 0 ? (
+                  <>
+                    Please try again in <strong>{formatRetryAfter(countdown)}</strong>.
+                  </>
+                ) : (
+                  'You can try again now.'
+                )}
               </p>
             </div>
           </div>

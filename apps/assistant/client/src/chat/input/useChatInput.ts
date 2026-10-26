@@ -31,7 +31,9 @@ export function useChatInput({ onSend, disabled, restoredValue, transcript }: Op
     if (!transcript) return
 
     setValue(transcript)
-    requestAnimationFrame(() => { if (textareaRef.current) resizeTextarea(textareaRef.current) })
+    requestAnimationFrame(() => {
+      if (textareaRef.current) resizeTextarea(textareaRef.current)
+    })
   }, [transcript])
 
   const insertEmoji = (emoji: string) => {
@@ -75,7 +77,7 @@ export function useChatInput({ onSend, disabled, restoredValue, transcript }: Op
 
   const onFieldClick = (e: MouseEvent) => {
     if ((e.target as HTMLElement).closest('button')) return
-    
+
     textareaRef.current?.focus()
   }
 

@@ -13,6 +13,6 @@ declare module '@emoji-mart/react' {
   }
 
   const Picker: ComponentType<PickerProps>
-  
+
   export default Picker
 }

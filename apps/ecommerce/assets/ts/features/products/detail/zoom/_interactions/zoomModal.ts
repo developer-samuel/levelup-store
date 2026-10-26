@@ -8,7 +8,13 @@ export function bindZoomModal(): void {
 
   if (!modal || !img || !close) return
 
-  const instance = { modal, img, close, visibleClass: 'visible', keydownHandler: null as ((e: KeyboardEvent) => void) | null }
+  const instance = {
+    modal,
+    img,
+    close,
+    visibleClass: 'visible',
+    keydownHandler: null as ((e: KeyboardEvent) => void) | null,
+  }
 
   const hide = (): void => {
     hideZoomModal(instance)

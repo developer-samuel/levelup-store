@@ -32,7 +32,9 @@ export function renderList(lines: string[], i: number, onImageClick?: OnImageCli
   return [
     <ul className={s.ul}>
       {items.map((item, j) => (
-        <li key={j} className={_liClass(item)}>{inlineParse(item, onImageClick)}</li>
+        <li key={j} className={_liClass(item)}>
+          {inlineParse(item, onImageClick)}
+        </li>
       ))}
     </ul>,
     i,
@@ -45,7 +47,7 @@ export function renderOrderedList(lines: string[], i: number, onImageClick?: OnI
   while (i < lines.length) {
     const cur = lines[i] ?? ''
     const next = lines[i + 1] ?? ''
-    
+
     if (/^\d+\. /.test(cur)) {
       items.push(cur.replace(/^\d+\. /, ''))
       i++
@@ -58,7 +60,9 @@ export function renderOrderedList(lines: string[], i: number, onImageClick?: OnI
 
   return [
     <ol className={s.ol}>
-      {items.map((item, j) => <li key={j}>{inlineParse(item, onImageClick)}</li>)}
+      {items.map((item, j) => (
+        <li key={j}>{inlineParse(item, onImageClick)}</li>
+      ))}
     </ol>,
     i,
   ]

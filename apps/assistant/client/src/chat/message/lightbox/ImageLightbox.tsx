@@ -16,12 +16,7 @@ export function ImageLightbox({ src, onClose }: Props) {
       <button className={s.close} onClick={onClose} aria-label="Close">
         <X size={20} />
       </button>
-      <img
-        className={s.image}
-        src={src}
-        alt=""
-        onClick={(e) => e.stopPropagation()}
-      />
+      <img className={s.image} src={src} alt="" onClick={(e) => e.stopPropagation()} />
     </div>,
     document.body,
   )

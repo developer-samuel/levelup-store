@@ -129,14 +129,14 @@
   @apply w-2 h-2 rounded-full shrink-0;
 }
 
-.statusDot[data-status="loading"] {
+.statusDot[data-status='loading'] {
   @apply bg-neutral/30 animate-pulse;
 }
 
-.statusDot[data-status="online"] {
+.statusDot[data-status='online'] {
   @apply bg-green-400;
 }
 
-.statusDot[data-status="offline"] {
+.statusDot[data-status='offline'] {
   @apply bg-red-500;
 }

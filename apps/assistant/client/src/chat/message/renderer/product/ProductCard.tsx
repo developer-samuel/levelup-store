@@ -27,17 +27,39 @@ function _parseBlock(lines: string[]): ProductData {
     const [, key, value] = kv
 
     switch (key!.toLowerCase().trim()) {
-      case 'product':      data.name        = value!; break
-      case 'brand':        data.brand       = value!; break
-      case 'category':     data.category    = value!; break
-      case 'original price': data.price     = value!; break
-      case 'sale price':   data.salePrice   = value!; break
-      case 'rating':       data.rating      = value!; break
-      case 'orders':       data.orders      = value!; break
-      case 'description':  data.description = value!; break
-      case 'stock':        data.stock       = value!; break
-      case 'url':          data.url         = value!; break
-      case 'image':        data.image       = value!; break
+      case 'product':
+        data.name = value!
+        break
+      case 'brand':
+        data.brand = value!
+        break
+      case 'category':
+        data.category = value!
+        break
+      case 'original price':
+        data.price = value!
+        break
+      case 'sale price':
+        data.salePrice = value!
+        break
+      case 'rating':
+        data.rating = value!
+        break
+      case 'orders':
+        data.orders = value!
+        break
+      case 'description':
+        data.description = value!
+        break
+      case 'stock':
+        data.stock = value!
+        break
+      case 'url':
+        data.url = value!
+        break
+      case 'image':
+        data.image = value!
+        break
     }
   }
 
@@ -63,7 +85,11 @@ function _starLabel(rating: string): ReactNode {
 
   return (
     <span className={s.meta} title={rating}>
-      <span className={s.stars}>{'★'.repeat(full)}{'☆'.repeat(Math.max(0, 5 - full))}</span> {rating}
+      <span className={s.stars}>
+        {'★'.repeat(full)}
+        {'☆'.repeat(Math.max(0, 5 - full))}
+      </span>{' '}
+      {rating}
     </span>
   )
 }
@@ -78,12 +104,16 @@ export function renderProductCard(
 
   while (i < lines.length) {
     const line = lines[i] ?? ''
-    
+
     if (blockLines.length > 0 && /^Product:\s+/i.test(line)) break
     if (blockLines.length > 0 && (line.trim() === '' || /^<br\s*\/?>$/i.test(line.trim()))) {
       const peek = lines[i + 1] ?? ''
-      if (/^Image:\s+/i.test(peek.trim())) { i++; continue }
-      i++; break
+      if (/^Image:\s+/i.test(peek.trim())) {
+        i++
+        continue
+      }
+      i++
+      break
     }
 
     blockLines.push(line)
@@ -105,7 +135,9 @@ export function renderProductCard(
           alt={d.name}
           className={s.image}
           onClick={() => onImageClick?.(d.image!)}
-          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+          onError={(e) => {
+            ;(e.currentTarget as HTMLImageElement).style.display = 'none'
+          }}
         />
       ) : (
         <div className={s.imagePlaceholder}>📦</div>
@@ -118,11 +150,7 @@ export function renderProductCard(
         ) : (
           <span className={s.name}>{d.name}</span>
         )}
-        {(d.brand || d.category) && (
-          <span className={s.meta}>
-            {[d.brand, d.category].filter(Boolean).join(' · ')}
-          </span>
-        )}
+        {(d.brand || d.category) && <span className={s.meta}>{[d.brand, d.category].filter(Boolean).join(' · ')}</span>}
         {d.description && <p className={s.description}>{d.description}</p>}
         {(d.price || d.salePrice) && (
           <div className={s.priceRow}>

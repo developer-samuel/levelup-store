@@ -7,7 +7,7 @@ export function updateContent(content: HTMLElement, html: string | null | undefi
 export function appendContent(content: HTMLElement, html: string): void {
   const temp = document.createElement('div')
   temp.innerHTML = html
-  
+
   while (temp.firstChild) {
     content.appendChild(temp.firstChild)
   }

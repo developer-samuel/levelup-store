@@ -48,7 +48,12 @@ export async function streamChat(
   const res = await fetch(`${API_BASE_URL}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...(API_KEY && { 'X-Api-Key': API_KEY }) },
-    body: JSON.stringify({ message, conversation_id: conversationId, request_id: requestId, ...(userId && { user_id: userId }) }),
+    body: JSON.stringify({
+      message,
+      conversation_id: conversationId,
+      request_id: requestId,
+      ...(userId && { user_id: userId }),
+    }),
     signal,
   })
 
@@ -60,7 +65,9 @@ export async function streamChat(
 
     if (res.status === 422) {
       const body = (await res.json().catch(() => ({}))) as { detail?: Array<{ msg?: string }> }
-      const msg = body.detail?.[0]?.msg?.replace('Value error, ', '') ?? "I'm unable to process that message. Please contact our support."
+      const msg =
+        body.detail?.[0]?.msg?.replace('Value error, ', '') ??
+        "I'm unable to process that message. Please contact our support."
       throw new Error(msg)
     }
 
@@ -91,7 +98,7 @@ export async function cancelChatRequest(requestId: string): Promise<void> {
     method: 'POST',
     headers: { ...(API_KEY && { 'X-Api-Key': API_KEY }) },
   })
-  
+
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`)
   }

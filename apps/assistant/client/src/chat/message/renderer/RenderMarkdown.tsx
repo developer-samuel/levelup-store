@@ -47,7 +47,9 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
       nodes.push(
         <div key={nodes.length} className={s.blockquoteCenter}>
           {items.map((item, j) => (
-            <span key={j} className={s.blockquoteCenterLine}>{inlineParse(item, onImageClick)}</span>
+            <span key={j} className={s.blockquoteCenterLine}>
+              {inlineParse(item, onImageClick)}
+            </span>
           ))}
         </div>,
       )
@@ -65,7 +67,9 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
       nodes.push(
         <blockquote key={nodes.length} className={s.blockquote}>
           {items.map((item, j) => (
-            <span key={j} className={s.blockquoteLine}>{inlineParse(item, onImageClick)}</span>
+            <span key={j} className={s.blockquoteLine}>
+              {inlineParse(item, onImageClick)}
+            </span>
           ))}
         </blockquote>,
       )
@@ -117,7 +121,6 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
     }
 
     if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
-
       const [node, next] = renderTable(lines, i, onImageClick)
       nodes.push(<span key={nodes.length}>{node}</span>)
       i = next
@@ -135,7 +138,11 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
     if (/^Product:\s+/i.test(line)) {
       const [node, next] = renderProductCard(lines, i, onImageClick)
 
-      if (node) { nodes.push(<div key={nodes.length}>{node}</div>); i = next; continue }
+      if (node) {
+        nodes.push(<div key={nodes.length}>{node}</div>)
+        i = next
+        continue
+      }
     }
 
     if (line.startsWith('♡')) {
@@ -149,7 +156,11 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
 
     const ratingNode = renderRatingLine(line)
     if (ratingNode) {
-      nodes.push(<span key={nodes.length} className={s.line}>{ratingNode}</span>)
+      nodes.push(
+        <span key={nodes.length} className={s.line}>
+          {ratingNode}
+        </span>,
+      )
       i++
 
       continue
@@ -158,19 +169,35 @@ export function renderMarkdown(text: string, onImageClick?: OnImageClick): React
     if (/^Status:\s*(pending|confirmed|processed|shipped|delivered|completed|refunded)/i.test(line)) {
       const node = renderOrderStatusLine(line)
 
-      if (node) { nodes.push(<span key={nodes.length}>{node}</span>); i++; continue }
+      if (node) {
+        nodes.push(<span key={nodes.length}>{node}</span>)
+        i++
+        continue
+      }
     }
 
     if (/^(pending|confirmed|processed|shipped|delivered|completed|refunded)$/i.test(line.trim())) {
       const node = renderOrderStatusLine(`Status: ${line.trim()}`)
 
-      if (node) { nodes.push(<span key={nodes.length}>{node}</span>); i++; continue }
+      if (node) {
+        nodes.push(<span key={nodes.length}>{node}</span>)
+        i++
+        continue
+      }
     }
 
     if (/^Stock:\s*\d+/i.test(line)) {
       const node = renderStockLevel(line)
 
-      if (node) { nodes.push(<span key={nodes.length} className={s.line}>{node}</span>); i++; continue }
+      if (node) {
+        nodes.push(
+          <span key={nodes.length} className={s.line}>
+            {node}
+          </span>,
+        )
+        i++
+        continue
+      }
     }
 
     nodes.push(

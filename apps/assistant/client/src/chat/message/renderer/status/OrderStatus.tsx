@@ -20,7 +20,7 @@ function _stepClass(status: Status, variant: StepVariant): string {
   const base = `${s.step} ${s[status]}`
 
   if (variant === 'current') return `${base} ${s.stepActive}`
-  if (variant === 'past')    return `${base} ${s.stepPast}`
+  if (variant === 'past') return `${base} ${s.stepPast}`
 
   return `${base} ${s.stepFuture}`
 }
@@ -32,13 +32,30 @@ function _timeline(current: Status): ReactNode {
     const deliveredIdx = FLOW.indexOf('delivered')
 
     FLOW.slice(0, deliveredIdx + 1).forEach((st, i) => {
-      if (i > 0) steps.push(<span key={`a${i}`} className={s.arrow}>↓</span>)
+      if (i > 0)
+        steps.push(
+          <span key={`a${i}`} className={s.arrow}>
+            ↓
+          </span>,
+        )
 
-      steps.push(<span key={st} className={_stepClass(st, 'past')}>{st}</span>)
+      steps.push(
+        <span key={st} className={_stepClass(st, 'past')}>
+          {st}
+        </span>,
+      )
     })
 
-    steps.push(<span key="ar" className={s.arrow}>↓</span>)
-    steps.push(<span key="refunded" className={`${s.step} ${s.refunded} ${s.stepActive}`}>refunded</span>)
+    steps.push(
+      <span key="ar" className={s.arrow}>
+        ↓
+      </span>,
+    )
+    steps.push(
+      <span key="refunded" className={`${s.step} ${s.refunded} ${s.stepActive}`}>
+        refunded
+      </span>,
+    )
 
     return steps
   }
@@ -46,10 +63,19 @@ function _timeline(current: Status): ReactNode {
   const currentIdx = FLOW.indexOf(current)
 
   FLOW.forEach((st, i) => {
-    if (i > 0) steps.push(<span key={`a${i}`} className={s.arrow}>↓</span>)
+    if (i > 0)
+      steps.push(
+        <span key={`a${i}`} className={s.arrow}>
+          ↓
+        </span>,
+      )
     const variant = i < currentIdx ? 'past' : i === currentIdx ? 'current' : 'future'
-    
-    steps.push(<span key={st} className={_stepClass(st, variant)}>{st}</span>)
+
+    steps.push(
+      <span key={st} className={_stepClass(st, variant)}>
+        {st}
+      </span>,
+    )
   })
 
   return steps

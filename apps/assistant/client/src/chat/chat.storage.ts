@@ -1,7 +1,7 @@
 import type { Message } from '@/chat/chat.types'
 
 const MESSAGES_PREFIX = 'levelup_chat_messages'
-const TTL_MS = 24 * 60 * 60 * 1000   // 24 hours
+const TTL_MS = 24 * 60 * 60 * 1000 // 24 hours
 
 type StoredData = {
   messages: Message[]
@@ -35,7 +35,7 @@ export function saveMessages(conversationId: string, msgs: Message[]): void {
     messages: msgs.filter((m) => !m.streaming || m.thinking || m.content.length > 0 || !!m.requestId),
     expiresAt: Date.now() + TTL_MS,
   }
-  
+
   localStorage.setItem(getKey(conversationId), JSON.stringify(data))
 }
 

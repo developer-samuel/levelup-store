@@ -23,13 +23,17 @@ export function useHealthStatus(): HealthStatus {
           setStatus('online')
         } else {
           setStatus('offline')
-          retryTimer = setTimeout(() => { void check() }, 3_000)
+          retryTimer = setTimeout(() => {
+            void check()
+          }, 3_000)
         }
       } catch {
         if (cancelled) return
 
         setStatus('offline')
-        retryTimer = setTimeout(() => { void check() }, 3_000)
+        retryTimer = setTimeout(() => {
+          void check()
+        }, 3_000)
       }
     }
 
@@ -37,7 +41,7 @@ export function useHealthStatus(): HealthStatus {
 
     return () => {
       cancelled = true
-      
+
       if (retryTimer) clearTimeout(retryTimer)
     }
   }, [])

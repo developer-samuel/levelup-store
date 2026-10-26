@@ -5,7 +5,7 @@ export function usePersistSelection(active: boolean) {
 
   useLayoutEffect(() => {
     if (!active) return
-    
+
     const sel = window.getSelection()
 
     if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {

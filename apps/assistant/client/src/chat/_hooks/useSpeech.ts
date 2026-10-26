@@ -32,7 +32,13 @@ function stripMarkdown(text: string): string {
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/<[^>]+>/g, '')
     .replace(/^\|[-| :]+\|$/gm, '')
-    .replace(/^\|.+\|$/gm, (row) => row.split('|').map((c) => c.trim()).filter(Boolean).join(', '))
+    .replace(/^\|.+\|$/gm, (row) =>
+      row
+        .split('|')
+        .map((c) => c.trim())
+        .filter(Boolean)
+        .join(', '),
+    )
     .replace(/^[-*+]\s+/gm, '')
     .replace(/^\d+\.\s+/gm, '')
     .replace(/^>\s+/gm, '')
@@ -77,69 +83,75 @@ export function useSpeech() {
     }, 10_000)
   }, [clearKeepAlive])
 
-  const speak = useCallback((id: string, text: string) => {
-    if (!window.speechSynthesis) return
+  const speak = useCallback(
+    (id: string, text: string) => {
+      if (!window.speechSynthesis) return
 
-    const session = ++sessionRef.current
+      const session = ++sessionRef.current
 
-    window.speechSynthesis.cancel()
-    clearKeepAlive()
+      window.speechSynthesis.cancel()
+      clearKeepAlive()
 
-    const detected = detectLang(text)
-    const lang = detected !== 'en' && !hasVoiceForLang(detected) ? 'en' : detected
-    const sentences = stripMarkdown(text)
-      .split(/\n+/)
-      .map((s) => s.trim())
-      .filter(Boolean)
+      const detected = detectLang(text)
+      const lang = detected !== 'en' && !hasVoiceForLang(detected) ? 'en' : detected
+      const sentences = stripMarkdown(text)
+        .split(/\n+/)
+        .map((s) => s.trim())
+        .filter(Boolean)
 
-    if (!sentences.length) return
+      if (!sentences.length) return
 
-    setSpeakingId(id)
-    startKeepAlive()
+      setSpeakingId(id)
+      startKeepAlive()
 
-    setTimeout(() => {
-      let current = 0
+      setTimeout(() => {
+        let current = 0
 
-      function speakNext() {
-        if (sessionRef.current !== session) return
+        function speakNext() {
+          if (sessionRef.current !== session) return
 
-        if (current >= sentences.length) {
-          setSpeakingId(null)
-          clearKeepAlive()
+          if (current >= sentences.length) {
+            setSpeakingId(null)
+            clearKeepAlive()
 
-          return
+            return
+          }
+
+          const utterance = new SpeechSynthesisUtterance(sentences[current++])
+
+          utterance.lang = lang
+
+          let done = false
+          let pollTimer: ReturnType<typeof setInterval> | null = null
+
+          const finish = () => {
+            if (done) return
+            done = true
+            if (pollTimer) clearInterval(pollTimer)
+            speakNext()
+          }
+
+          utterance.onend = finish
+          utterance.onerror = finish
+
+          window.speechSynthesis.speak(utterance)
+
+          let started = false
+
+          pollTimer = setInterval(() => {
+            if (window.speechSynthesis.speaking) {
+              started = true
+              return
+            }
+            if (started && !window.speechSynthesis.pending) finish()
+          }, 250)
         }
 
-        const utterance = new SpeechSynthesisUtterance(sentences[current++])
-
-        utterance.lang = lang
-
-        let done = false
-        let pollTimer: ReturnType<typeof setInterval> | null = null
-
-        const finish = () => {
-          if (done) return
-          done = true
-          if (pollTimer) clearInterval(pollTimer)
-          speakNext()
-        }
-
-        utterance.onend = finish
-        utterance.onerror = finish
-
-        window.speechSynthesis.speak(utterance)
-        
-        let started = false
-
-        pollTimer = setInterval(() => {
-          if (window.speechSynthesis.speaking) { started = true; return }
-          if (started && !window.speechSynthesis.pending) finish()
-        }, 250)
-      }
-
-      speakNext()
-    }, 100)
-  }, [startKeepAlive, clearKeepAlive])
+        speakNext()
+      }, 100)
+    },
+    [startKeepAlive, clearKeepAlive],
+  )
 
   const stop = useCallback(() => {
     sessionRef.current++
@@ -148,10 +160,13 @@ export function useSpeech() {
     clearKeepAlive()
   }, [clearKeepAlive])
 
-  useEffect(() => () => {
-    window.speechSynthesis?.cancel()
-    clearKeepAlive()
-  }, [clearKeepAlive])
+  useEffect(
+    () => () => {
+      window.speechSynthesis?.cancel()
+      clearKeepAlive()
+    },
+    [clearKeepAlive],
+  )
 
   return { speakingId, speak, stop }
 }
