@@ -64,6 +64,7 @@ ingress:
   path: /
   clusterIssuer: letsencrypt-prod
   stagingMiddleware: false
+  waf: true
 
 chromadb:
   enabled: true

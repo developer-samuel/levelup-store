@@ -44,6 +44,7 @@ ingress:
     traefik.ingress.kubernetes.io/router.tls: "true"
   # host: set via make secrets (APP_DOMAIN)
   stagingMiddleware: false
+  waf: true
   tls:
     enabled: true
     secretName: levelup-store-tls
