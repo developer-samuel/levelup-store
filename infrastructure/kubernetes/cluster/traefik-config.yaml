@@ -13,7 +13,7 @@ spec:
       kubernetesIngress:
         publishedService:
           enabled: true
-    experimental:
-      localPlugins:
-        coraza-traefik:
-          moduleName: github.com/jcchavezs/coraza-http-wasm-traefik
+    # experimental:
+    #   localPlugins:
+    #     coraza-traefik:
+    #       moduleName: github.com/jcchavezs/coraza-http-wasm-traefik
