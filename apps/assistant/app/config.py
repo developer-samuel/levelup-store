@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     assistant_limit_window: int = 18000  # 5 hours in seconds
     assistant_access_key: str = ""
     assistant_embed_url: str = ""
-    assistant_embed_model: str = "text-embedding-004"
+    assistant_embed_model: str = ""
 
     # Ollama
     assistant_ollama_host: str = "http://localhost:11434"
