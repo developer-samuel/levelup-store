@@ -67,7 +67,15 @@ graph TD
             SignAssistant[✍️ sign-assistant\ncosign keyless · Sigstore]:::security
         end
 
-        subgraph SyncJob["sync  (needs: both build-image workflows)"]
+        subgraph TraefikTrack["Traefik track  (build-image.yml)"]
+            BuildTraefik[🐳 build-traefik\ninfrastructure/docker/Dockerfile.traefik · amd64]:::build
+            GHCRTraefik[📦 push → GHCR\n*-traefik]:::registry
+            SbomTraefik[📋 sbom-traefik\nSyft + GitHub Attestation]:::sbom
+            ScanTraefik[🔒 scan-traefik\nTrivy CRITICAL+HIGH + SARIF]:::security
+            SignTraefik[✍️ sign-traefik\ncosign keyless · Sigstore]:::security
+        end
+
+        subgraph SyncJob["sync  (needs: all build-image workflows)"]
             ValuesUpdate[📝 Update image tags\nvalues.prod.yaml]:::gitops
             GitCommit[💾 git commit + push\nskip ci]:::gitops
         end
@@ -78,6 +86,7 @@ graph TD
     Push --> AssistantCIWorkflow
     Push --> BuildEcommerce
     Push --> BuildAssistant
+    Push --> BuildTraefik
 
     BuildEcommerce --> GHCREcommerce
     GHCREcommerce  --> SbomEcommerce
@@ -91,7 +100,14 @@ graph TD
     ScanAssistant  --> SignAssistant
     BuildAssistant --> SignAssistant
 
+    BuildTraefik --> GHCRTraefik
+    GHCRTraefik  --> SbomTraefik
+    GHCRTraefik  --> ScanTraefik
+    ScanTraefik  --> SignTraefik
+    BuildTraefik --> SignTraefik
+
     SignEcommerce --> SyncJob
     SignAssistant --> SyncJob
+    SignTraefik   --> SyncJob
 
     ValuesUpdate --> GitCommit
