@@ -4,10 +4,10 @@
   $val: backdrop-get-value($value);
 
   @if $val != none {
-    backdrop-filter: blur($val);
     -webkit-backdrop-filter: blur($val);
+    backdrop-filter: blur($val);
   } @else {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
