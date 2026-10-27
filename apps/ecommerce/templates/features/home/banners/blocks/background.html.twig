@@ -2,12 +2,27 @@
     <div class="home-page__banners-item">
         <div class="home-page__discount">
             <a href="{{ path('discounts') }}" class="home-page__discount-item">
-                <img
-                    id="discount-banner"
-                    src="{{ banner.image ? storage_url(banner.image) : asset('img/misc/image/no-image.webp') }}"
-                    alt="Banner"
-                    fetchpriority="high"
-                >
+                {% if banner.image %}
+                    {% set src = storage_url(banner.image) %}
+                    {% set base = src|split('.')|slice(0, -1)|join('.') %}
+                    {% set ext = '.' ~ src|split('.')|last %}
+                    <picture>
+                        <source media="(min-width: 1280px)" srcset="{{ src }}">
+                        <source media="(min-width: 1024px)" srcset="{{ base }}-1280x500{{ ext }}">
+                        <source media="(min-width: 640px)" srcset="{{ base }}-1024x650{{ ext }}">
+                        <img
+                            src="{{ base }}-640x560{{ ext }}"
+                            alt="Banner"
+                            fetchpriority="high"
+                        >
+                    </picture>
+                {% else %}
+                    <img
+                        src="{{ asset('img/misc/image/no-image.webp') }}"
+                        alt="Banner"
+                        fetchpriority="high"
+                    >
+                {% endif %}
             </a>
         </div>
     </div>
