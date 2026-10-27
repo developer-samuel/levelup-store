@@ -80,6 +80,7 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
         <button
           data-emoji-toggle
           className={cn(s.emojiBtn, emojiOpen && s.emojiBtnActive, disabled && s.emojiBtnDisabled)}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => !disabled && setEmojiOpen((v) => !v)}
           type="button"
           aria-label="Emoji"
