@@ -42,4 +42,3 @@ jobs:
           temporaryPublicStorage: true
           runs: 3
           budgetPath: apps/ecommerce/.lighthouse-budget.json
-
