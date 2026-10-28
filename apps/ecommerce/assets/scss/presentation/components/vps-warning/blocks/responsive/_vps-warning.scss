@@ -1,0 +1,21 @@
+@use '@/scss/abstracts/mixins/structure/resolution' as *;
+
+@include resolution(md, max) {
+  .vps-warning {
+    &__trigger {
+      right: 0.85em;
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
+
+    &__modal-body {
+      width: 100%;
+      padding: 1.5em 1em;
+    }
+
+    &__modal-text {
+      font-size: 14px;
+    }
+  }
+}

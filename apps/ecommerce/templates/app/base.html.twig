@@ -21,6 +21,7 @@
             {% import 'app/init/reviews.html.twig' as Reviews %}
             {% import 'app/init/zoom.html.twig' as Zoom %}
             {% import 'app/init/header.html.twig' as Header %}
+            {% import 'app/init/vps-warning.html.twig' as VpsWarning %}
             {% import 'app/init/ai-assistant.html.twig' as AiAssistant %}
             {% import 'app/init/scroll-to-top.html.twig' as ScrollToTop %}
             {% import 'app/init/footer.html.twig' as Footer %}
@@ -29,6 +30,7 @@
             {{ Reviews.render(app.request, variant|default(null)) }}
             {{ Zoom.render() }}
             {{ Header.render(showHeader) }}
+            {{ VpsWarning.render() }}
             {{ AiAssistant.render() }}
             {{ ScrollToTop.render() }}
 

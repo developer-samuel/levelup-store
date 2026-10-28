@@ -1,0 +1,73 @@
+@use '@/scss/abstracts/theme/z-index/layers' as z;
+@use '@/scss/abstracts/theme/colors/solid/index' as colors;
+@use '@/scss/abstracts/mixins/structure/flex' as *;
+@use '@/scss/abstracts/mixins/effects/transition' as *;
+
+.vps-warning {
+  &__trigger {
+    @include flex-center;
+    @include transition('ease');
+
+    position: fixed;
+    bottom: 12em;
+    right: 1.15em;
+    z-index: z.$ai-assistant;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.30);
+    background: colors.$warning;
+    color: colors.$neutral;
+    font-size: 20px;
+    line-height: 1;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+
+    &:hover {
+      background: colors.$warning-hover;
+    }
+  }
+
+  &__modal-body {
+    background: colors.$primary;
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 650px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__modal-title {
+    color: colors.$neutral;
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  &__modal-text {
+    color: colors.$neutral;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  &__modal-unavailable {
+    color: colors.$error;
+  }
+
+  &__modal-close {
+    @include transition('ease');
+
+    align-self: center;
+    padding: 0.5rem 1.5rem;
+    background: colors.$secondary;
+    color: colors.$primary;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background: colors.$secondary-hover;
+    }
+  }
+}
