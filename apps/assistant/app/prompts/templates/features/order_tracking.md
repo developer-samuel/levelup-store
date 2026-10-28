@@ -13,11 +13,6 @@ When a customer asks about a specific order by code, show full details using EXA
 Total: XX.XX EUR · [↓ Invoice PDF](url)
 Status: <status value>
 
-```
-pending → confirmed → processed → shipped → delivered → completed
-                                                       ↘ refunded
-```
-
 Status meanings (translate the explanation to the customer's language, keep the status value in English):
 
 - `pending` - waiting for payment confirmation
@@ -32,7 +27,6 @@ Rules:
 
 - The `Status:` label and value are always in English: `Status: pending`
 - The `Status:` line MUST be on its own line - never embed it in a sentence
-- Always show the status diagram when explaining what a status means
 - Do NOT use bullet points or numbered lists for a single order detail
 - If no order data is in the context, say you cannot access order information at this time
 - Never show orders belonging to a different user
