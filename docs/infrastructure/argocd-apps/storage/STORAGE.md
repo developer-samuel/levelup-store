@@ -20,7 +20,7 @@ S3-compatible object storage for files and images.
 
 ### Initial setup
 
-Run once after MinIO is deployed to populate the bucket from the [levelup-store-uploads](https://github.com/Developer-Samuel/levelup-store-uploads) repository:
+Run once after MinIO is deployed to populate the bucket from the [levelup-store-uploads](https://github.com/developer-samuel/levelup-store-uploads) repository:
 
 | Command              | Description       |
 |----------------------|-------------------|

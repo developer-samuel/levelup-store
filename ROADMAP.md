@@ -99,3 +99,12 @@
 - [ ] Crossplane - Kubernetes-native infrastructure management; replace or complement Terraform by managing OCI resources (compute, networking, storage) as Kubernetes CRDs; enables GitOps-driven infrastructure alongside ArgoCD
 - [ ] Pyroscope - continuous profiling to catch CPU/memory hotspots in production
 - [ ] Failure testing - chaos engineering to validate resilience under pod failures, network partitions and slow dependencies
+- [ ] kubent - scan cluster manifests for deprecated and removed Kubernetes APIs before upgrades; run in CI on infrastructure changes
+- [ ] Robusta - Kubernetes-native alerting and diagnostics; enriches Prometheus alerts with pod logs, events and resource state so on-call context is immediate
+- [ ] k3d - run lightweight k3s clusters inside Docker for local development and integration testing without touching the production cluster
+- [ ] K9s - terminal UI for real-time cluster inspection; navigate pods, logs and resources without typing kubectl commands
+- [ ] kubectx + kubens - fast context and namespace switching between clusters and namespaces from the terminal
+- [ ] Stern - multi-pod log tailing with label selectors and regex filtering; essential for tracing requests across replicas
+- [ ] Netshoot - network troubleshooting toolkit pod (curl, dig, tcpdump, iperf3); deploy on demand to diagnose DNS, connectivity and latency issues inside the cluster
+- [ ] Inspektor Gadget - eBPF-based toolset for deep inspection of kernel-level events (syscalls, network flows, file access) per pod without modifying workloads
+- [ ] Kubeshark - Kubernetes-aware network traffic analyzer; captures and decodes API calls between services for debugging and security audits

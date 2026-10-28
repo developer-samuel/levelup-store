@@ -80,6 +80,30 @@ FastAPI AI assistant with:
 
 ---
 
+## 📸 Screenshots
+
+**🛒 Ecommerce**
+
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/developer-samuel/levelup-store-screenshots/main/ecommerce/1.webp" alt="Ecommerce 1"></td>
+    <td><img src="https://raw.githubusercontent.com/developer-samuel/levelup-store-screenshots/main/ecommerce/2.webp" alt="Ecommerce 2"></td>
+  </tr>
+</table>
+
+**🤖 Assistant**
+
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/developer-samuel/levelup-store-screenshots/main/assistant/1.webp" alt="Assistant 1"></td>
+    <td><img src="https://raw.githubusercontent.com/developer-samuel/levelup-store-screenshots/main/assistant/2.webp" alt="Assistant 2"></td>
+  </tr>
+</table>
+
+📂 [View all screenshots](docs/SCREENSHOTS.md)
+
+---
+
 ## 🚀 Quick Start
 
 ```bash
@@ -89,6 +113,11 @@ make install
 
 → Ecommerce setup: [apps/ecommerce/docs/INSTALL.md](apps/ecommerce/docs/INSTALL.md)  
 → Assistant setup: [apps/assistant/docs/INSTALL.md](apps/assistant/docs/INSTALL.md)
+
+> **Demo product images** are not included in this repository. Run the uploads setup script to seed them for local development:
+> ```bash
+> bash apps/ecommerce/docker/scripts/bootstrap/uploads-setup.sh
+> ```
 
 ---
 
