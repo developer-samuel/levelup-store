@@ -39,6 +39,7 @@ final class CartItemRepositoryTest extends KernelTestCase
 
     protected function setUp(): void
     {
+        self::ensureKernelShutdown();
         self::bootKernel();
 
         $this->em = $this->getEntityManager();

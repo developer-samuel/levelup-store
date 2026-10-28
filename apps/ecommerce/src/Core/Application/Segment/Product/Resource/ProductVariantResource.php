@@ -16,7 +16,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
  *     variant_id: int,
  *     discount: float|null,
  *     price: float,
- *     discountPrice: float,
+ *     discountPrice: float|null,
  *     imagePath: string|null,
  *     name: string,
  *     url: string,
@@ -26,7 +26,7 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
  * @phpstan-type PriceData array{
  *     price: float,
  *     discount: ?float,
- *     discountPrice: float
+ *     discountPrice: float|null
  * }
 */
 final class ProductVariantResource
@@ -54,14 +54,12 @@ final class ProductVariantResource
     /** @return PriceData */
     public static function extractPrices(ProductVariant $variant): array
     {
-        $price = $variant->getPrice();
-        $discount = $variant->getDiscount()?->getPrice();
-        $discountPrice = $discount !== null ? $price - $discount : $price;
+        $priceData = ProductVariantPriceResource::extract($variant);
 
         return [
-            'price'         => $price,
-            'discount'      => $discount,
-            'discountPrice' => $discountPrice,
+            'price'         => $priceData['price'],
+            'discount'      => $priceData['discount'],
+            'discountPrice' => $priceData['discountPrice'],
         ];
     }
 }

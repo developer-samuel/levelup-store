@@ -25,7 +25,7 @@ use App\Core\Ports\{
  * @phpstan-type NormalizedPrices array{
  *     price: float,
  *     discount: ?float,
- *     discountPrice: float
+ *     discountPrice: float|null
  * }
  */
 final readonly class ProductVariantAssembler implements ProductVariantAssemblerContract
@@ -46,7 +46,7 @@ final readonly class ProductVariantAssembler implements ProductVariantAssemblerC
         return $this->createProductVariantObject($variant, $prices, $averageRating);
     }
 
-    /** @param array<string, float> $prices */
+    /** @param array{price: float, discount: float|null, discountPrice: float|null} $prices */
     private function createProductVariantObject(
         ProductVariant $variant,
         array $prices,
@@ -62,14 +62,14 @@ final readonly class ProductVariantAssembler implements ProductVariantAssemblerC
     /**
      * @param NormalizedPrices $prices
      *
-     * @return array<string, float>
+     * @return array{price: float, discount: float|null, discountPrice: float|null}
      */
     private function normalizePrices(array $prices): array
     {
         return [
             'price'         => (float) $prices['price'],
-            'discount'      => (float) ($prices['discount'] ?? 0.0),
-            'discountPrice' => (float) $prices['discountPrice'],
+            'discount'      => $prices['discount'] !== null ? (float) $prices['discount'] : null,
+            'discountPrice' => $prices['discountPrice'] !== null ? (float) $prices['discountPrice'] : null,
         ];
     }
 }

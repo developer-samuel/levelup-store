@@ -26,7 +26,7 @@ final class SecurityHeadersListener
         $headers->set('Cross-Origin-Embedder-Policy', 'credentialless');
         $headers->set('Cross-Origin-Resource-Policy', 'same-origin');
         $headers->set('X-Content-Type-Options', 'nosniff');
-        $headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
+        $headers->set('Permissions-Policy', 'camera=(), microphone=(self), geolocation=(), payment=()');
         $headers->remove('X-Powered-By');
     }
 }
