@@ -14,7 +14,9 @@ use App\Shared\Utils\Formatter\DateTimeFormatter;
 
 final class ProductVariantFactory
 {
-    /** @param array<string, float> $prices */
+    /**
+     * @param array{price: float, discount: float|null, discountPrice: float|null} $prices
+     */
     public function fromObject(
         ProductVariant $variant,
         array $prices,

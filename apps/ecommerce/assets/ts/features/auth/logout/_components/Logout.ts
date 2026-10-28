@@ -2,13 +2,13 @@ import { queryAll } from '@/ts/shared/utils/dom/query'
 import { bindLogoutEvents } from '@/ts/features/auth/logout/_interactions/logoutEvents'
 
 export default class Logout {
-  constructor(triggerClass: string) {
-    const triggers = queryAll<HTMLElement>(`.${triggerClass}`)
+  constructor(selector: string) {
+    const triggers = queryAll<HTMLElement>(selector)
 
     bindLogoutEvents(triggers)
   }
 
   static init(): Logout {
-    return new Logout('#logout-btn')
+    return new Logout('.logout-btn')
   }
 }

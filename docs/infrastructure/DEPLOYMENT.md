@@ -122,7 +122,7 @@ This must be done before seeding MinIO, as fixtures create product and variant r
 ## Seed MinIO uploads (one-time)
 
 After ArgoCD syncs MinIO for the first time, seed the bucket with initial upload assets from the
-[levelup-store-uploads](https://github.com/Developer-Samuel/levelup-store-uploads) repository.
+[levelup-store-uploads](https://github.com/developer-samuel/levelup-store-uploads) repository.
 
 ```bash
 make -C infrastructure minio-seed          # production

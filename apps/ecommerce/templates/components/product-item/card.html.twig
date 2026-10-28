@@ -25,7 +25,7 @@
             <div class="product-item__box-bottom">
                 <div class="product-item__box-price">
                     <span class="product-item__box-price-current">
-                        {{ product.discountPrice ? (product.price - product.discountPrice) : product.price }} €
+                        {{ product.discountPrice ?? product.price }} €
                     </span>
                     {% if product.discountPrice %}
                     <span class="product-item__box-price-old">

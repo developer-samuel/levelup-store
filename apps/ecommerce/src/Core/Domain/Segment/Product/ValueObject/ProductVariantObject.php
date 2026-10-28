@@ -9,7 +9,7 @@ final readonly class ProductVariantObject
     public function __construct(
         public int $variantId,
         public float $price,
-        public float $discountPrice,
+        public ?float $discountPrice,
         public string $imagePath,
         public string $name,
         public string $url,

@@ -314,12 +314,12 @@
     }
 
     &-item {
-      @include transition('linear');
+      @include transition('ease', 300);
       @include weights(600);
 
       padding: 0.5em 1em;
       background: transparent;
-      border: 2px solid colors.$secondary;
+      border: 1px solid colors.$secondary;
       border-radius: 1.5em;
       color: colors.$neutral;
       width: fit-content;
@@ -327,7 +327,9 @@
       cursor: pointer;
 
       &:not(&--active):hover {
-        @include rgba('secondary', 15);
+        @include rgba('secondary', 75);
+
+        color: colors.$primary;
       }
 
       &--active {

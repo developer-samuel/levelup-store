@@ -2,7 +2,7 @@
 set -e
 
 UPLOADS_DIR="/var/www/apps/ecommerce/public/uploads"
-UPLOADS_REPO="https://github.com/Developer-Samuel/levelup-store-uploads"
+UPLOADS_REPO="https://github.com/developer-samuel/levelup-store-uploads"
 
 echo "  ⬇  Cloning uploads repo..."
 TMP_DIR=$(mktemp -d)

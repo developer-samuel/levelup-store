@@ -53,8 +53,10 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
       className={s.wrapper}
       onMouseDown={(e) => {
         const target = e.target as HTMLElement
-        if (target !== textareaRef.current && !target.closest('textarea') && !target.closest('[data-emoji-picker]'))
+        if (target !== textareaRef.current && !target.closest('textarea') && !target.closest('[data-emoji-picker]')) {
           e.preventDefault()
+          if (!target.closest(`.${s.field}`)) textareaRef.current?.blur()
+        }
       }}
     >
       <div ref={emojiWrapperRef} className={s.actions}>
@@ -79,9 +81,9 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
           ))}
         <button
           data-emoji-toggle
-          className={cn(s.emojiBtn, emojiOpen && s.emojiBtnActive, disabled && s.emojiBtnDisabled)}
+          className={cn(s.emojiBtn, emojiOpen && s.emojiBtnActive, (disabled || listening) && s.emojiBtnDisabled)}
           onMouseDown={(e) => e.preventDefault()}
-          onClick={() => !disabled && setEmojiOpen((v) => !v)}
+          onClick={() => !disabled && !listening && setEmojiOpen((v) => !v)}
           type="button"
           aria-label="Emoji"
           title="Emoji"
@@ -90,18 +92,19 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
         </button>
       </div>
 
-      <div className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled)} onClick={onFieldClick}>
+      <div className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled, listening && s.fieldRecording)} onClick={onFieldClick}>
         <textarea
           ref={textareaRef}
           id="chat-input"
           rows={1}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => !listening && setValue(e.target.value)}
           onKeyDown={onKeyDown}
           onInput={onInput}
           placeholder={listening ? 'Listening…' : 'Ask me anything…'}
           disabled={disabled}
-          className={cn(s.textarea, disabled && 'cursor-default')}
+          readOnly={listening}
+          className={cn(s.textarea, disabled && 'cursor-default', listening && 'cursor-not-allowed')}
         />
         <div className={s.footer}>
           <div className={s.footerLeft}>

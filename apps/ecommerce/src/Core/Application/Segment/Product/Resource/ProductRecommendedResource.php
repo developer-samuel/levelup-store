@@ -50,16 +50,12 @@ final class ProductRecommendedResource
     /** @return PriceData */
     private static function getPriceData(ProductVariant $variant): array
     {
-        $discountEntity = $variant->getDiscount();
-
-        $price = $variant->getPrice();
-        $discountPrice = $discountEntity !== null ? $discountEntity->getPrice() : null;
-        $hasDiscount = $discountEntity !== null;
+        $priceData = ProductVariantPriceResource::extract($variant);
 
         return [
-            'price'         => $price,
-            'discountPrice' => $discountPrice,
-            'hasDiscount'   => $hasDiscount,
+            'price'         => $priceData['price'],
+            'discountPrice' => $priceData['discountPrice'],
+            'hasDiscount'   => $priceData['hasDiscount'],
         ];
     }
 
