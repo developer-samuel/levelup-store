@@ -1,3 +1,85 @@
+## [2.0.0] - 2026-10-28
+
+### 🏗️ Architecture
+
+- **Reorganized the repository as a monorepo** containing two independently deployable applications: `apps/ecommerce` (Symfony) and `apps/assistant` (FastAPI).
+
+### 🤖 AI Assistant
+
+- **Added a FastAPI AI assistant with a React, TypeScript and Tailwind CSS chat interface integrated into the ecommerce experience.**
+- Implemented product-knowledge retrieval-augmented generation (RAG) with ChromaDB and scheduled incremental ingestion every 15 minutes.
+- Added configurable model and embedding integrations for local Ollama and external API providers, including Gemini.
+- Added RabbitMQ-backed request queuing for Ollama mode; API-provider requests stream directly, with Redis pub/sub used for live SSE delivery and stream recovery.
+- Added Redis-backed server-side conversation history with separate one-day guest and 30-day user-associated TTLs, plus ecommerce context from account orders, cart, reviews and wishlist.
+- Added browser microphone transcription into the chat input, browser text-to-speech playback for assistant replies, an emoji picker and a new-chat/reset action.
+- Applied a shared per-IP chat limit across Ollama and API-provider modes, with Sentry error monitoring and OpenTelemetry tracing.
+- Added shared API-key validation and dedicated CORS configuration for assistant endpoints.
+
+### 🛍️ Ecommerce
+
+- Added reusable presets for shared ecommerce code and configuration: PHP assertions and utilities in `presets/server/kit`, test helpers in `presets/server/test`, and Vite/Vitest configuration in `presets/vite`.
+- Improved product discovery with configurable search synonyms, asynchronous paginated search and lazy loading.
+- Reworked the cart sidebar, zoom modal and overlay styles; sticky header now hides the user dropdown on scroll and handles overflow correctly across all breakpoints.
+- Added consistent custom scrollbar styles shared between the ecommerce storefront and the assistant chat interface.
+- Aligned the assistant chat UI visually with ecommerce modal and overlay conventions so both applications share a cohesive look and feel.
+- Scoped maximum-price filtering to the currently selected category.
+- Fixed product block layout to display ratings and reviews counts as separate values.
+- Added interactive OpenAPI documentation with Nelmio Swagger UI at `/api/dev/docs` in local, development and test environments.
+
+### ☁️ Infrastructure & DevOps
+
+- **Added an infrastructure-as-code deployment stack for Oracle Cloud Infrastructure (OCI)** using Terraform, Ansible and k3s, with Helm releases managed through Argo CD.
+- Added Helm-managed application and platform services for PostgreSQL, Redis, RabbitMQ, Elasticsearch, MinIO, Mercure and Ollama, with Argo CD App-of-Apps synchronization.
+- Added a shared production Dockerfile at `infrastructure/docker/Dockerfile.prod` for building the ecommerce and assistant images.
+- Added production and staging application manifests. Staging is disabled by default; ecommerce staging is configured to reuse services in the production namespace.
+- Automated deployments from pushes to `main` and `staging`: GitHub Actions detects changed apps, builds multi-platform images, publishes them to GHCR and updates the matching Helm values for Argo CD to sync.
+- Added a manual Jenkins pipeline to build and deploy selected apps or roll back to a chosen image tag in staging or production, with an approval gate for production.
+- Added Atlantis Terraform plans for infrastructure pull requests and automated validation for Terraform, Helm, Kubernetes, Ansible and container configuration.
+- Added autoscaling configuration with HPA and RabbitMQ-driven KEDA, and VPA resource recommendations for both applications.
+- Added runtime detection and policy enforcement with Falco and Kyverno, plus Traefik rate limiting, assistant circuit breaking, security headers and canonical-domain redirects.
+- Restricted Jenkins and Argo CD access to the Tailscale network and automated TLS provisioning with cert-manager and Let's Encrypt.
+- Expanded observability with Prometheus, Grafana, Loki, Tempo, OpenTelemetry, AlertManager and Blackbox Exporter; added Reloader for configuration-triggered restarts.
+- Added Velero Kubernetes resource and volume backups to OCI Object Storage, PostgreSQL backup uploads through `rclone`, and automated k3s upgrades through the System Upgrade Controller.
+- Added optional Vault and External Secrets Operator support; current application and service secrets can also be managed through Argo CD parameters and Kubernetes secrets.
+- Added Coraza WAF as a Traefik middleware plugin with the OWASP Core Rule Set; applied to ecommerce and assistant ingress chains to block SQLi, XSS, path traversal and malicious bots at the ingress level before requests reach the application.
+- Documented and diagrammed the single-node ARM deployment and its infrastructure workflows.
+
+### 🔐 Security & Supply Chain
+
+- Strengthened ecommerce authentication with token blacklisting on logout and refresh-token rotation.
+- Added release image security and provenance steps: generate and attest SPDX SBOMs, scan images with Trivy, and sign images with Cosign.
+- Expanded automated checks with CodeQL, Gitleaks, OSSF Scorecard, Trivy and Grype vulnerability scans, dependency review, OWASP ZAP, Checkov infrastructure scanning, and a weekly testssl.sh TLS audit against the staging environment.
+- Added comprehensive HTTP security response headers across ecommerce and assistant; ZAP and Checkov findings block CI (with per-project ignore rules for known false positives); Trivy and Grype run in report-only mode with findings uploaded to GitHub Security.
+- Restricted workflow token permissions and added timeouts to security-sensitive and long-running CI jobs.
+- Added a security assurance case, `GOVERNANCE.md` and `.github/CODE_OF_CONDUCT.md`, and clarified contribution and testing expectations.
+- Extended supply chain checks (Gitleaks secrets detection and OSSF Scorecard) to the `staging` branch in addition to `main`.
+- Expanded Kubernetes runtime monitoring, admission policy enforcement and infrastructure access restrictions.
+
+### 🧪 Testing, Quality & CI/CD
+
+- Expanded GitHub Actions into dedicated ecommerce, assistant, infrastructure, security, quality and deployment workflows with app-specific path filters and branch triggers.
+- Added automated smoke tests, OpenAPI linting with Redocly, Helm diff checks, infrastructure linting and Terraform/Helm/Kubernetes/Ansible validation.
+- Added assistant pytest coverage reporting, ecommerce PHP and frontend coverage, and SonarCloud analysis.
+- Added k6 load tests with p99 latency thresholds, Lighthouse performance budgets, bundle-size reports and accessibility audits.
+- Added scheduled Playwright end-to-end testing and recurring frontend, SAST and DAST audits.
+- Renamed GitHub Actions composite actions to verb-noun kebab-case convention for consistency.
+
+### 🛠️ Developer Experience & Automation
+
+- Split the root Makefile into four focused Docker, install, ecommerce and assistant modules, with shared commands for setup, permissions, structure generation and development.
+- Reorganized infrastructure commands into 38 domain-specific Make modules, including generated Argo CD lifecycle, status and debugging commands for platform services and workloads.
+- Added infrastructure bootstrap and dependency-management commands, cluster diagnostics, secret operations, port forwarding and k6 load-test targets.
+- Added reusable GitHub Actions workflows and composite actions to share build, environment setup and service bootstrapping across application pipelines.
+- Added Renovate configuration for automated dependency update pull requests across supported ecosystems.
+
+### 📚 Documentation
+
+- Reorganized and expanded shared and app-specific documentation with separate setup, development, architecture, quality and operations guides for the platform, ecommerce and assistant.
+- Added infrastructure guides for prerequisites, server setup, secrets, full bootstrap and deployment, validation, troubleshooting, port forwarding and command reference.
+- Added service-specific operational guides for Argo CD-managed workloads, databases, cache, messaging, storage, realtime, observability, scaling, backups and platform services.
+- Added and updated architecture, provisioning, deployment, GitOps, application integration and CI/CD diagrams.
+
+
 ## [1.4.1] - 2026-09-06
 
 ### 🐛 Fixes
