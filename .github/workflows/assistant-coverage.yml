@@ -82,4 +82,3 @@ jobs:
           files: apps/assistant/coverage.xml
           flags: pytest
           fail_ci_if_error: false
-

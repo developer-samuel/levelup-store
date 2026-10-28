@@ -1,0 +1,32 @@
+{% macro render() %}
+    {% if not vps_enabled %}
+        <button
+            id="vps-warning-trigger"
+            class="vps-warning__trigger"
+            aria-label="Some services are unavailable"
+            aria-haspopup="dialog"
+        >
+            ⚠
+        </button>
+
+        <div
+            id="vps-warning-modal"
+            class="modal vps-warning__modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="vps-warning-title"
+            hidden
+        >
+            <div class="vps-warning__modal-body">
+                <h2 id="vps-warning-title" class="vps-warning__modal-title">Some Services Unavailable</h2>
+                <p class="vps-warning__modal-text">
+                    The store is running on a PHP server only - several infrastructure services from the VPS cloud are currently offline.<br><br>
+                    Visibly affected features:<br>
+                    <strong class="vps-warning__modal-unavailable">AI Assistant</strong> and <strong class="vps-warning__modal-unavailable">PDF generation</strong>.<br><br>
+                    All other store functionality works as expected.
+                </p>
+                <button class="vps-warning__modal-close" aria-label="Close">Close</button>
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}

@@ -23,6 +23,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: main
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Prepend release notes to CHANGELOG.md
         env:

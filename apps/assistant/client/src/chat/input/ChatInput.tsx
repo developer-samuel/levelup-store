@@ -92,7 +92,10 @@ export function ChatInput({ onSend, onStop, loading, disabled, restoredValue }: 
         </button>
       </div>
 
-      <div className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled, listening && s.fieldRecording)} onClick={onFieldClick}>
+      <div
+        className={cn(s.field, isOverLimit && s.fieldError, disabled && s.fieldDisabled, listening && s.fieldRecording)}
+        onClick={onFieldClick}
+      >
         <textarea
           ref={textareaRef}
           id="chat-input"

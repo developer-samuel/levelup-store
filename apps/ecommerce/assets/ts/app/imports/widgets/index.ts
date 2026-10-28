@@ -10,4 +10,5 @@ export const widgetsModules: AppModule[] = [
     selector: '#login-page, #signup-page, #reset-password-page, #change-password-page',
     module: () => import('@/ts/presentation/widgets/password_toggle/index'),
   },
+  { selector: '#vps-warning-trigger', module: () => import('@/ts/presentation/widgets/vps_warning/index') },
 ]
